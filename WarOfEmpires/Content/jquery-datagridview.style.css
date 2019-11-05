@@ -1,0 +1,65 @@
+﻿/* Non-functional styling */
+
+.datagridview {
+    border: 1px solid #999999;
+}
+
+.datagridview-header, .datagridview-footer {
+    background: #eeeeee;
+}
+
+.datagridview-footer {
+    padding: 0.2rem;
+}
+
+.datagridview-header-cell {
+    padding-top: 0.2rem;
+    padding-bottom: 0.2rem;
+}
+
+.datagridview-row.datagridview-row-selected {
+    background: #aaccff;
+}
+
+.datagridview-row.datagridview-row-selecting {
+    background: #bbddff;
+}
+
+.datagridview-footer input, .datagridview-footer button {
+    padding-top: 0;
+    padding-bottom: 0;
+    border: 1px solid #999999;
+}
+
+.datagridview-footer button {
+    background: transparent;
+}
+
+.datagridview-footer input {
+    max-width: 3em;
+    text-align: center;
+}
+
+.datagridview-row {
+    background: #ffffff;
+}
+
+.datagridview-header-cell {
+    font-weight: bold;
+}
+
+.datagridview-header-drag {
+    background-color: #cccccc;
+}
+
+.datagridview-row > div, .datagridview-header-cell {
+    border-bottom: 1px solid #999999;
+    padding-left: 0.2rem;
+    padding-right: calc(0.2rem + 5px);
+}
+
+.datagridview-header-move-title {
+    padding: 0.2rem;
+    border: 1px solid #000000;
+    background-color: #ffffff;
+}

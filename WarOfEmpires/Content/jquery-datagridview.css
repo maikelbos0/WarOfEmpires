@@ -1,0 +1,99 @@
+﻿.datagridview {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.datagridview-content-container {
+    flex-grow: 1;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.datagridview-header {
+    flex-grow: 0;
+    position: -webkit-sticky; /* Safari */
+    position: sticky;
+    top: 0;
+    user-select: none;
+}
+
+.datagridview-header-move-title {
+    position: absolute;
+    display: inline-block;
+}
+
+.datagridview-body {
+    flex-grow: 1;
+}
+
+.datagridview-container-multiselect .datagridview-body {
+    user-select: none;
+}
+
+.datagridview-header, .datagridview-row, .datagridview-footer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+
+.datagridview-header-cell, .datagridview-row > div {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex-basis: 0;
+}
+
+.datagridview-header-cell {
+    position: relative;
+}
+
+.datagridview-header-drag {
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    height: 100%;
+    width: 5px;
+    cursor: col-resize;
+}
+
+.datagridview-footer {
+    justify-content: space-between;
+}
+
+.datagridview-footer > .datagridview-footer-element {
+    flex-basis: auto;
+}
+
+.datagridview-header-cell-sortable {
+    cursor: pointer;
+}
+
+.datagridview-sort-toggle, .datagridview-header-move-indicator {
+    display: inline-block;
+    width: 0;
+    vertical-align: middle;
+    margin-left: .3em;
+    margin-right: .3em;
+    border-right: .4em solid transparent;
+    border-left: .4em solid transparent;
+}
+
+.datagridview-sort-toggle-ascending, .datagridview-header-move-indicator {
+    border-top: 0;
+    border-bottom: .4em solid #000000;
+}
+
+.datagridview-sort-toggle-descending {
+    border-top: .4em solid #000000;
+    border-bottom: 0;
+}
+
+.datagridview-header-move-indicator {
+    position: absolute;
+    margin-left: -0.4em;
+    margin-top: 1px;
+}

@@ -1,0 +1,27 @@
+@model WarOfEmpires.Models.Security.DeactivateUserModel
+
+@{
+    ViewBag.Title = "Deactivate account";
+}
+
+<h2>Deactivate account</h2>
+
+<div class="row">
+    <div class="col-3"></div>
+
+    <div class="col-6">
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "html-only" })) {
+            @Html.ValidationSummary(true, null, new { @class = "site-validation-summary text-danger" })
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Password, new { @class = "site-required" })
+                @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Password, null, new { @class = "small form-text text-danger" })
+            </div>
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+        }
+    </div>
+
+    <div class="col-3"></div>
+</div>

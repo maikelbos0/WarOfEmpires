@@ -1,0 +1,8 @@
+using WarOfEmpires.Domain.Security;
+using System.Collections.Generic;
+
+namespace WarOfEmpires.Database.ReferenceEntities {
+    internal class UserEventTypeEntity : BaseReferenceEntity<UserEventType> {
+        public virtual ICollection<UserEvent> UserEvents { get; set; }
+    }
+}

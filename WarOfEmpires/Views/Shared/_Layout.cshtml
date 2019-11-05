@@ -1,0 +1,81 @@
+﻿@using Unity;
+@using WarOfEmpires;
+@using WarOfEmpires.Services;
+
+@{
+    var identityService = UnityConfig.Container.Resolve<IAuthenticationService>();
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - War of Empires</title>
+
+    @Scripts.Render("~/Scripts/jquery")
+    @Scripts.Render("~/Scripts/bootstrap")
+    @Scripts.Render("~/Scripts/app")
+
+    @Styles.Render("~/Content/css-bootstrap")
+    @Styles.Render("~/Content/css")
+</head>
+<body>
+    <div class="container site-container">
+        <nav class="navbar navbar-expand-sm site-navbar">
+            <a class="navbar-brand" href="#">War of Empires</a>
+
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    @Html.ActionLink("Home", "Index", "Home", null, new { @class = "nav-link" })
+                </li>
+
+                @if (identityService.IsAuthenticated) {
+                    @Html.ActionLink("Users", "Index", "User", null, new { @class = "nav-link" })
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbar-login-dropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            @identityService.GetUserName()
+                        </a>
+                        <div class="dropdown-menu site-dropdown-menu" aria-labelledby="navbar-login-dropdown">
+                            @Html.ActionLink("Change email address", "ChangeEmail", "Home", null, new { @class = "dropdown-item site-dropdown-item" })
+                            @Html.ActionLink("Change password", "ChangePassword", "Home", null, new { @class = "dropdown-item site-dropdown-item" })
+                            @Html.ActionLink("Change profile", "ChangeProfile", "Home", null, new { @class = "dropdown-item site-dropdown-item" })
+                            <div class="dropdown-divider site-dropdown-divider"></div>
+                            @Html.ActionLink("Deactivate account", "Deactivate", "Home", null, new { @class = "dropdown-item site-dropdown-item" })
+                            <div class="dropdown-divider site-dropdown-divider"></div>
+
+                            @using (Html.BeginForm("LogOut", "Home", FormMethod.Post, new { @class = "html-only d-inline" })) {
+                                <button type="submit" class="btn btn-link dropdown-item site-dropdown-item">Log out</button>
+                            }
+                        </div>
+                    </li>
+                }
+                else {
+                    @Html.ActionLink("Log in", "LogIn", "Home", null, new { @class = "nav-link" })
+                    @Html.ActionLink("Register", "Register", "Home", null, new { @class = "nav-link" })
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbar-authentication-dropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Options
+                        </a>
+                        <div class="dropdown-menu site-dropdown-menu" aria-labelledby="navbar-authentication-dropdown">
+                            @Html.ActionLink("Resend activation", "SendActivation", "Home", null, new { @class = "dropdown-item site-dropdown-item" })
+                            @Html.ActionLink("Forgot password", "ForgotPassword", "Home", null, new { @class = "dropdown-item site-dropdown-item" })
+                        </div>
+                    </li>
+                }
+            </ul>
+
+        </nav>
+    </div>
+
+    <div class="container site-container">
+        <div class="site-content">
+            @RenderBody()
+        </div>
+    </div>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
