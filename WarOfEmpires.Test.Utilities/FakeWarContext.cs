@@ -1,7 +1,8 @@
 using WarOfEmpires.Database;
 using System.Data.Entity;
-using Security = WarOfEmpires.Domain.Security;
 using Auditing = WarOfEmpires.Domain.Auditing;
+using Players = WarOfEmpires.Domain.Players;
+using Security = WarOfEmpires.Domain.Security;
 
 namespace WarOfEmpires.Test.Utilities {
     public sealed class FakeWarContext : IWarContext {
@@ -9,6 +10,7 @@ namespace WarOfEmpires.Test.Utilities {
         public int CallsToSaveChanges { get; private set; }
         public IDbSet<Auditing.CommandExecution> CommandExecutions { get ; set ; } = new FakeDbSet<Auditing.CommandExecution>();
         public IDbSet<Auditing.QueryExecution> QueryExecutions { get; set; } = new FakeDbSet<Auditing.QueryExecution>();
+        public IDbSet<Players.Player> Players { get; set; } = new FakeDbSet<Players.Player>();
 
         public void Dispose() {
             SaveChanges();

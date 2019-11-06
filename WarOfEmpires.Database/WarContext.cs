@@ -4,8 +4,9 @@ using WarOfEmpires.Utilities.Container;
 using System;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
-using Security = WarOfEmpires.Domain.Security;
 using Auditing = WarOfEmpires.Domain.Auditing;
+using Players = WarOfEmpires.Domain.Players;
+using Security = WarOfEmpires.Domain.Security;
 
 namespace WarOfEmpires.Database {
     [InterfaceInjectable]
@@ -30,10 +31,38 @@ namespace WarOfEmpires.Database {
         public IDbSet<Security.User> Users { get; set; }
         public IDbSet<Auditing.CommandExecution> CommandExecutions { get; set; }
         public IDbSet<Auditing.QueryExecution> QueryExecutions { get; set; }
+        public IDbSet<Players.Player> Players { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder) {
             base.OnModelCreating(modelBuilder);
 
+            OnAuditingModelCreating(modelBuilder);
+            OnPlayersModelCreating(modelBuilder);
+            OnSecurityModelCreating(modelBuilder);
+        }
+
+        private void OnPlayersModelCreating(DbModelBuilder modelBuilder) {
+            var players = modelBuilder.Entity<Players.Player>().ToTable("Players", "Players").HasKey(p => p.Id);
+
+            players.HasRequired(p => p.User).WithOptional();
+            players.Property(p => p.DisplayName).IsRequired().HasMaxLength(25);
+        }
+
+        private void OnAuditingModelCreating(DbModelBuilder modelBuilder) {
+            var commandExecutions = modelBuilder.Entity<Auditing.CommandExecution>().ToTable("CommandExecutions", "Auditing").HasKey(e => e.Id);
+
+            commandExecutions.Property(e => e.Date).IsRequired();
+            commandExecutions.Property(e => e.CommandType).IsRequired().HasMaxLength(255);
+            commandExecutions.Property(e => e.CommandData).IsRequired().IsMaxLength();
+
+            var queryExecutions = modelBuilder.Entity<Auditing.QueryExecution>().ToTable("QueryExecutions", "Auditing").HasKey(e => e.Id);
+
+            queryExecutions.Property(e => e.Date).IsRequired();
+            queryExecutions.Property(e => e.QueryType).IsRequired().HasMaxLength(255);
+            queryExecutions.Property(e => e.QueryData).IsRequired().IsMaxLength();
+        }
+
+        private void OnSecurityModelCreating(DbModelBuilder modelBuilder) {
             var userEventTypes = modelBuilder.Entity<UserEventTypeEntity>().ToTable("UserEventTypes", "Security").HasKey(t => t.Id);
 
             userEventTypes.HasMany(t => t.UserEvents).WithRequired().HasForeignKey(e => e.Type);
@@ -43,7 +72,7 @@ namespace WarOfEmpires.Database {
 
             userStatus.HasMany(t => t.Users).WithRequired().HasForeignKey(u => u.Status);
             userStatus.Property(t => t.Name).IsRequired();
-            
+
             var users = modelBuilder.Entity<Security.User>().ToTable("Users", "Security").HasKey(u => u.Id);
 
             users.HasMany(u => u.UserEvents).WithRequired(e => e.User);
@@ -62,18 +91,6 @@ namespace WarOfEmpires.Database {
             var userEvents = modelBuilder.Entity<Security.UserEvent>().ToTable("UserEvents", "Security").HasKey(e => e.Id);
 
             userEvents.Property(e => e.Type).HasColumnName("UserEventType_Id");
-
-            var commandExecutions = modelBuilder.Entity<Auditing.CommandExecution>().ToTable("CommandExecutions", "Auditing").HasKey(e => e.Id);
-
-            commandExecutions.Property(e => e.Date).IsRequired();
-            commandExecutions.Property(e => e.CommandType).IsRequired().HasMaxLength(255);
-            commandExecutions.Property(e => e.CommandData).IsRequired().IsMaxLength();
-
-            var queryExecutions = modelBuilder.Entity<Auditing.QueryExecution>().ToTable("QueryExecutions", "Auditing").HasKey(e => e.Id);
-
-            queryExecutions.Property(e => e.Date).IsRequired();
-            queryExecutions.Property(e => e.QueryType).IsRequired().HasMaxLength(255);
-            queryExecutions.Property(e => e.QueryData).IsRequired().IsMaxLength();
         }
 
         public void FixEfProviderServicesProblem() {

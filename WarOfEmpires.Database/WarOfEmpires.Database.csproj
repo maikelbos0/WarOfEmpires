@@ -54,6 +54,10 @@
     <Compile Include="Migrations\201911051753429_Security-Auditing.Designer.cs">
       <DependentUpon>201911051753429_Security-Auditing.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201911061951377_Players.cs" />
+    <Compile Include="Migrations\201911061951377_Players.Designer.cs">
+      <DependentUpon>201911061951377_Players.cs</DependentUpon>
+    </Compile>
     <Compile Include="ReferenceEntities\BaseReferenceEntity.cs" />
     <Compile Include="IWarContext.cs" />
     <Compile Include="Migrations\Configuration.cs" />
@@ -80,6 +84,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201911051753429_Security-Auditing.resx">
       <DependentUpon>201911051753429_Security-Auditing.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911061951377_Players.resx">
+      <DependentUpon>201911061951377_Players.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
