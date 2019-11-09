@@ -76,6 +76,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Decorators\AuditDecoratorTests.cs" />
+    <Compile Include="Players\RecruitCommandHandlerTests.cs" />
     <Compile Include="Players\RegisterPlayerCommandHandlerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security\ActivateUserCommandHandlerTests.cs" />
