@@ -1,0 +1,47 @@
+﻿@{
+    ViewBag.Title = "Players";
+}
+
+<h2>Players</h2>
+
+<div id="playersGrid">
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+        $('#playersGrid').datagridview({
+            columns: [
+                {
+                    data: 'Id',
+                    header: 'Id'
+                },
+                {
+                    data: 'DisplayName',
+                    header: 'Display name'
+                }
+            ]
+        });
+
+        function populate(metaData) {
+            $.ajax({
+                method: "POST",
+                url: "@Url.Action("GetPlayers")",
+                data: metaData,
+                success: function (d) {
+                    $('#playersGrid').datagridview(function () {
+                        this.populate(d.metaData, d.data);
+                    });
+                },
+                error: function () {
+                    toastr.error("An error occurred loading data; please contact support to resolve this issue.");
+                }
+            });
+        }
+
+        populate();
+
+        $('#playersGrid').on('datagridview.sorted datagridview.paged', function (event, metaData) {
+            populate(metaData);
+        });
+    </script>
+}
