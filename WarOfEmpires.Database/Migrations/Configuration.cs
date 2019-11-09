@@ -1,22 +1,23 @@
 namespace WarOfEmpires.Database.Migrations {
-    using WarOfEmpires.Database.ReferenceEntities;
-    using WarOfEmpires.Domain.Security;
     using System;
     using System.Data.Entity.Migrations;
     using System.Linq;
+    using WarOfEmpires.Database.ReferenceEntities;
+    using WarOfEmpires.Domain.Players;
+    using WarOfEmpires.Domain.Security;
 
     public sealed class Configuration : DbMigrationsConfiguration<WarContext> {
         protected override void Seed(WarContext context) {
             SeedEntityType<UserEventType, UserEventTypeEntity>(context);
             SeedEntityType<UserStatus, UserStatusEntity>(context);
 
-            AddOrUpdateUser(context, "example@test.com", "I am example", null, true);
-            AddOrUpdateUser(context, "anon@test.com", null, null, false);
-            AddOrUpdateUser(context, "you@test.com", "You", "Who are you?", false);
-            AddOrUpdateUser(context, "another@test.com", "Another", "One bites the dust", true);
+            AddOrUpdateUser(context, "example@test.com", "I am example");
+            AddOrUpdateUser(context, "anon@test.com", "Anon");
+            AddOrUpdateUser(context, "you@test.com", "You");
+            AddOrUpdateUser(context, "another@test.com", "Another");
 
             for (var i = 0; i < 100; i++) {
-                AddOrUpdateUser(context, $"user{i}@test.com", $"User {i}", (i % 3 == 0 ? null : $"Hello I am user number {i}"), i % 2 == 0);
+                AddOrUpdateUser(context, $"user{i}@test.com", $"User {i}");
             }
         }
 
@@ -31,7 +32,7 @@ namespace WarOfEmpires.Database.Migrations {
             context.SaveChanges();
         }
 
-        private void AddOrUpdateUser(WarContext context, string email, string displayName, string description, bool showEmail) {
+        private void AddOrUpdateUser(WarContext context, string email, string displayName) {
             var user = context.Users.SingleOrDefault(u => u.Email.Equals(email, StringComparison.InvariantCultureIgnoreCase));
 
             if (user == null) {
@@ -40,9 +41,17 @@ namespace WarOfEmpires.Database.Migrations {
             }
 
             user.Activate();
-            user.DisplayName = displayName;
-            user.Description = description;
-            user.ShowEmail = showEmail;
+            context.SaveChanges();
+
+            var player = context.Players.SingleOrDefault(p => p.Id == user.Id);
+
+            if (player == null) {
+                player = new Player(user.Id, displayName);
+                context.Players.Add(player);
+            }
+            else {
+                player.DisplayName = displayName;
+            }
 
             context.SaveChanges();
         }

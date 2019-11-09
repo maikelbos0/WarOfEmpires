@@ -142,24 +142,6 @@ namespace WarOfEmpires.Controllers {
                 });
         }
 
-        [Route("ChangeProfile")]
-        [HttpGet]
-        [Authorize]
-        public ActionResult ChangeProfile() {
-            return View(_messageService.Dispatch(new GetUserProfileQuery(_authenticationService.Identity)));
-        }
-
-        [Route("ChangeProfile")]
-        [HttpPost]
-        [Authorize]
-        public ActionResult ChangeProfile(UserProfileModel model) {
-            return ValidatedCommandResult(model, new ChangeUserProfileCommand(_authenticationService.Identity) {
-                DisplayName = model.DisplayName,
-                Description = model.Description,
-                ShowEmail = model.ShowEmail
-            }, "ProfileChanged");
-        }
-
         [Route("ChangeEmail")]
         [HttpGet]
         [Authorize]

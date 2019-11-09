@@ -6,6 +6,7 @@ using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 using System;
+using WarOfEmpires.Domain.Players;
 
 namespace WarOfEmpires.QueryHandlers.Tests.Security {
     [TestClass]
@@ -13,35 +14,22 @@ namespace WarOfEmpires.QueryHandlers.Tests.Security {
         private readonly FakeWarContext _context = new FakeWarContext();
 
         [TestMethod]
-        public void GetUserNameQueryHandler_Gives_DisplayName_If_Available() {
+        public void GetUserNameQueryHandler_Gives_DisplayName() {
             var handler = new GetUserNameQueryHandler(_context);
             var query = new GetUserNameQuery("test@test.com");
             var user = Substitute.For<User>();
+            var player = Substitute.For<Player>();
 
             user.Email.Returns("test@test.com");
-            user.DisplayName.Returns("Test name");
+            player.User.Returns(user);
+            player.DisplayName.Returns("Test name");
 
+            _context.Players.Add(player);
             _context.Users.Add(user);
 
             var result = handler.Execute(query);
 
             result.Should().Be("Test name");
-        }
-
-        [TestMethod]
-        public void GetUserNameQueryHandler_Gives_Email_If_DisplayName_Is_Not_Available() {
-            var handler = new GetUserNameQueryHandler(_context);
-            var query = new GetUserNameQuery("test@test.com");
-            var user = Substitute.For<User>();
-
-            user.Email.Returns("test@test.com");
-            user.DisplayName.Returns((string)null);
-
-            _context.Users.Add(user);
-
-            var result = handler.Execute(query);
-
-            result.Should().Be("test@test.com");
         }
 
         [TestMethod]

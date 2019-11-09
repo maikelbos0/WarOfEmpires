@@ -46,8 +46,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security\GetUserNameQuery.cs" />
     <Compile Include="Security\GetUserNewEmailQuery.cs" />
-    <Compile Include="Security\GetUserProfileQuery.cs" />
-    <Compile Include="Security\GetUsersQuery.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WarOfEmpires.Models\WarOfEmpires.Models.csproj">

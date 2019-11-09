@@ -80,8 +80,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security\GetUserNewEmailQueryHandlerTests.cs" />
     <Compile Include="Security\GetUserNameQueryHandlerTests.cs" />
-    <Compile Include="Security\GetUserProfileQueryHandlerTests.cs" />
-    <Compile Include="Security\GetUsersQueryHandlerTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WarOfEmpires.Database\WarOfEmpires.Database.csproj">

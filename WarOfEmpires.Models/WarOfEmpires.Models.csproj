@@ -48,13 +48,11 @@
     <Compile Include="Security\ChangeUserEmailModel.cs" />
     <Compile Include="Security\ChangeUserPasswordModel.cs" />
     <Compile Include="Security\DeactivateUserModel.cs" />
-    <Compile Include="Security\UserProfileModel.cs" />
     <Compile Include="Security\ResetUserPasswordModel.cs" />
     <Compile Include="Security\ForgotUserPasswordModel.cs" />
     <Compile Include="Security\SendUserActivationModel.cs" />
     <Compile Include="Security\LogInUserModel.cs" />
     <Compile Include="Security\RegisterUserModel.cs" />
-    <Compile Include="Security\UserViewModel.cs" />
     <Compile Include="ViewModel.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
