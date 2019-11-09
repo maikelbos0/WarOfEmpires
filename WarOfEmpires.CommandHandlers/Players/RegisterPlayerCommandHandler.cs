@@ -1,4 +1,5 @@
 ﻿using WarOfEmpires.Commands.Players;
+using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Repositories.Players;
 using WarOfEmpires.Repositories.Security;
 using WarOfEmpires.Utilities.Container;
@@ -15,7 +16,12 @@ namespace WarOfEmpires.CommandHandlers.Players {
         }
 
         public CommandResult<RegisterPlayerCommand> Execute(RegisterPlayerCommand command) {
-            throw new System.NotImplementedException();
+            var result = new CommandResult<RegisterPlayerCommand>();
+            var user = _userRepository.TryGetByEmail(command.Email);
+
+            _repository.Add(new Player(user.Id, command.DisplayName));
+
+            return result;
         }
     }
 }

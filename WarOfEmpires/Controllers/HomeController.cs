@@ -1,8 +1,9 @@
+using System.Web.Mvc;
+using WarOfEmpires.Commands.Players;
 using WarOfEmpires.Commands.Security;
 using WarOfEmpires.Models.Security;
 using WarOfEmpires.Queries.Security;
 using WarOfEmpires.Services;
-using System.Web.Mvc;
 
 namespace WarOfEmpires.Controllers {
     [RoutePrefix("Home")]
@@ -27,7 +28,10 @@ namespace WarOfEmpires.Controllers {
         [Route("Register")]
         [HttpPost]
         public ActionResult Register(RegisterUserModel model) {
-            return ValidatedCommandResult(model, new RegisterUserCommand(model.Email, model.Password), "Registered");
+            return ValidatedCommandResult(model, new RegisterUserCommand(model.Email, model.Password), () => {
+                _messageService.Dispatch(new RegisterPlayerCommand(model.Email, model.DisplayName));
+                return View("Registered");
+            });
         }
 
         [Route("Activate")]

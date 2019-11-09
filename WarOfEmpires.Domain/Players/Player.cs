@@ -6,8 +6,8 @@
         protected Player() {
         }
 
-        public Player(Security.User user, string displayName) {
-            User = user;
+        public Player(int id, string displayName) {
+            Id = id;
             DisplayName = displayName;
         }
     }

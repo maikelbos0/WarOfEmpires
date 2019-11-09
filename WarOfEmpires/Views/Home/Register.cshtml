@@ -15,7 +15,7 @@
 
             <div class="form-group">
                 @Html.LabelFor(m => m.Email, new { @class = "site-required" })
-                @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })                
+                @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
                 @Html.ValidationMessageFor(m => m.Email, null, new { @class = "small form-text text-danger" })
             </div>
 
@@ -29,6 +29,12 @@
                 @Html.LabelFor(m => m.ConfirmPassword, new { @class = "site-required" })
                 @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
                 @Html.ValidationMessageFor(m => m.ConfirmPassword, null, new { @class = "small form-text text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.DisplayName, new { @class = "site-required" })
+                @Html.TextBoxFor(m => m.DisplayName, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.DisplayName, null, new { @class = "small form-text text-danger" })
             </div>
 
             <button type="submit" class="btn btn-primary">Submit</button>
