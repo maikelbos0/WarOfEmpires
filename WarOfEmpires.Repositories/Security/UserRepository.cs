@@ -18,7 +18,11 @@ namespace WarOfEmpires.Repositories.Security {
         }
 
         public User GetActiveByEmail(string email) {
-            return _context.Users.Single(u => u.Email.Equals(email, StringComparison.InvariantCultureIgnoreCase) && u.Status == UserStatus.Active);
+            return GetByEmail(email, UserStatus.Active);
+        }
+
+        public User GetByEmail(string email, UserStatus status) {
+            return _context.Users.Single(u => u.Email.Equals(email, StringComparison.InvariantCultureIgnoreCase) && u.Status == status);
         }
 
         public void Add(User user) {

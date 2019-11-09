@@ -12,7 +12,7 @@ namespace WarOfEmpires.Repositories.Tests.Players {
 
         [TestInitialize]
         public void Initialize() {
-            _context.Players.Add(new Player(new User("first@test.com", "test"), "Test"));
+            _context.Players.Add(new Player(0, "Test"));
         }
 
         [TestMethod]
@@ -37,7 +37,7 @@ namespace WarOfEmpires.Repositories.Tests.Players {
         [TestMethod]
         public void PlayerRepository_Add_Succeeds() {
             var repository = new PlayerRepository(_context);
-            var player = new Player(new User("new@test.com", "test"), "New");
+            var player = new Player(0, "New");
 
             repository.Add(player);
 
@@ -48,7 +48,7 @@ namespace WarOfEmpires.Repositories.Tests.Players {
         public void PlayerRepository_Add_Saves() {
             var repository = new PlayerRepository(_context);
 
-            repository.Add(new Player(new User("new@test.com", "test"), "New"));
+            repository.Add(new Player(0, "New"));
 
             _context.CallsToSaveChanges.Should().Be(1);
         }

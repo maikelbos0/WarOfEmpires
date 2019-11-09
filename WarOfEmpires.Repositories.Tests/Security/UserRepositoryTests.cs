@@ -137,6 +137,63 @@ namespace WarOfEmpires.Repositories.Tests.Security {
         }
 
         [TestMethod]
+        public void UserRepository_GetByEmail_Succeeds() {
+            var repository = new UserRepository(_context);
+
+            var user = repository.GetByEmail("test@test.com", UserStatus.Active);
+
+            user.Should().NotBeNull();
+            user.Email.Should().Be("test@test.com");
+        }
+
+        [TestMethod]
+        public void UserRepository_GetByEmail_Is_Case_Insensitive() {
+            var repository = new UserRepository(_context);
+
+            var user = repository.GetByEmail("another@test.com", UserStatus.Active);
+
+            user.Should().NotBeNull();
+            user.Email.Should().Be("ANOTHER@TEST.COM");
+        }
+
+        [TestMethod]
+        public void UserRepository_GetByEmail_Is_Accent_Sensitive() {
+            var repository = new UserRepository(_context);
+
+            var user = repository.GetByEmail("áççënt@test.com", UserStatus.Active);
+
+            user.Should().NotBeNull();
+            user.Email.Should().Be("áççënt@test.com");
+        }
+
+        [TestMethod]
+        public void UserRepository_GetByEmail_Throws_Exception_For_Nonexistent_Email() {
+            var repository = new UserRepository(_context);
+
+            Action action = () => repository.GetByEmail("nobody@test.com", UserStatus.Active);
+
+            action.Should().Throw<InvalidOperationException>();
+        }
+
+        [TestMethod]
+        public void UserRepository_GetByEmail_Throws_Exception_For_Wrong_Status() {
+            var repository = new UserRepository(_context);
+
+            Action action = () => repository.GetByEmail("inactive@test.com", UserStatus.Active);
+
+            action.Should().Throw<InvalidOperationException>();
+        }
+
+        [TestMethod]
+        public void UserRepository_GetByEmail_Does_Not_Save() {
+            var repository = new UserRepository(_context);
+
+            repository.GetByEmail("test@test.com", UserStatus.Active);
+
+            _context.CallsToSaveChanges.Should().Be(0);
+        }
+
+        [TestMethod]
         public void UserRepository_Add_Succeeds() {
             var repository = new UserRepository(_context);
             var user = new User("new@test.com", "test");
