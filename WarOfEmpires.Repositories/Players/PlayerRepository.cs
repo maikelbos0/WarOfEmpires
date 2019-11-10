@@ -1,6 +1,9 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
 using WarOfEmpires.Database;
 using WarOfEmpires.Domain.Players;
+using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Utilities.Container;
 
 namespace WarOfEmpires.Repositories.Players {
@@ -14,6 +17,10 @@ namespace WarOfEmpires.Repositories.Players {
 
         public Player Get(int id) {
             return _context.Players.Single(p => p.Id == id);
+        }
+
+        public IEnumerable<Player> GetAll() {
+            return _context.Players.Include(p => p.User).Where(p => p.User.Status == UserStatus.Active).ToList();
         }
 
         public void Add(Player player) {

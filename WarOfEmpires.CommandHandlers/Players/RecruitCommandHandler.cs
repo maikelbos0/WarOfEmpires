@@ -14,7 +14,15 @@ namespace WarOfEmpires.CommandHandlers.Players {
         }
 
         public CommandResult<RecruitCommand> Execute(RecruitCommand command) {
-            throw new System.NotImplementedException();
+            var result = new CommandResult<RecruitCommand>();
+
+            foreach (var player in _repository.GetAll()) {
+                player.Recruit();
+            }
+
+            _repository.Update();
+
+            return result;
         }
     }
 }
