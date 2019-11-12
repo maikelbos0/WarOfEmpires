@@ -54,9 +54,13 @@
     <Compile Include="Auditing\QueryExecution.cs" />
     <Compile Include="Auditing\CommandExecution.cs" />
     <Compile Include="Entity.cs" />
+    <Compile Include="Events\EventService.cs" />
     <Compile Include="Events\IEvent.cs" />
+    <Compile Include="Events\IEventHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Events\ScheduledTask.cs" />
+    <Compile Include="Reflection\ClassFinder.cs" />
+    <Compile Include="Reflection\IClassFinder.cs" />
     <Compile Include="Security\Password.cs" />
     <Compile Include="Security\TemporaryPassword.cs" />
     <Compile Include="Security\User.cs" />

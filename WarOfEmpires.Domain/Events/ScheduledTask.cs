@@ -4,7 +4,7 @@ namespace WarOfEmpires.Domain.Events {
     public class ScheduledTask : AggregateRoot {
         public TimeSpan Interval { get; protected set; }
         public Type EventType { get; protected set; }
-        public bool IsPaused { get; protected set; }
+        public bool IsPaused { get; protected set; } = true;
         public DateTime? LastExecutionDate { get; protected set; }
         public DateTime? NextExecutionDate {
             get {
@@ -38,12 +38,14 @@ namespace WarOfEmpires.Domain.Events {
             }
         }
 
-        public void Execute() {
+        public bool Execute() {
             if (IsPaused || NextExecutionDate < DateTime.UtcNow) {
-                return;
+                return false;
             }
 
+            EventService.Service.Dispatch((IEvent)Activator.CreateInstance(EventType));
 
+            return true;
         }
     }
 }
