@@ -37,10 +37,11 @@ namespace WarOfEmpires.Database.Migrations {
 
             if (user == null) {
                 user = new User(email, new Random().Next().ToString());
+                user.Activate();
+
                 context.Users.Add(user);
             }
 
-            user.Activate();
             context.SaveChanges();
 
             var player = context.Players.SingleOrDefault(p => p.Id == user.Id);

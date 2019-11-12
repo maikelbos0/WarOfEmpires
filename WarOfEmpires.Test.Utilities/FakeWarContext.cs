@@ -1,6 +1,7 @@
 using WarOfEmpires.Database;
 using System.Data.Entity;
 using Auditing = WarOfEmpires.Domain.Auditing;
+using Events = WarOfEmpires.Domain.Events;
 using Players = WarOfEmpires.Domain.Players;
 using Security = WarOfEmpires.Domain.Security;
 
@@ -11,6 +12,7 @@ namespace WarOfEmpires.Test.Utilities {
         public IDbSet<Auditing.CommandExecution> CommandExecutions { get ; set ; } = new FakeDbSet<Auditing.CommandExecution>();
         public IDbSet<Auditing.QueryExecution> QueryExecutions { get; set; } = new FakeDbSet<Auditing.QueryExecution>();
         public IDbSet<Players.Player> Players { get; set; } = new FakeDbSet<Players.Player>();
+        public IDbSet<Events.ScheduledTask> ScheduledTasks { get; set; } = new FakeDbSet<Events.ScheduledTask>();
 
         public void Dispose() {
             SaveChanges();

@@ -5,6 +5,7 @@ using System;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using Auditing = WarOfEmpires.Domain.Auditing;
+using Events = WarOfEmpires.Domain.Events;
 using Players = WarOfEmpires.Domain.Players;
 using Security = WarOfEmpires.Domain.Security;
 
@@ -32,20 +33,15 @@ namespace WarOfEmpires.Database {
         public IDbSet<Auditing.CommandExecution> CommandExecutions { get; set; }
         public IDbSet<Auditing.QueryExecution> QueryExecutions { get; set; }
         public IDbSet<Players.Player> Players { get; set; }
+        public IDbSet<Events.ScheduledTask> ScheduledTasks { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder) {
             base.OnModelCreating(modelBuilder);
 
             OnAuditingModelCreating(modelBuilder);
+            OnEventsModelCreating(modelBuilder);
             OnPlayersModelCreating(modelBuilder);
             OnSecurityModelCreating(modelBuilder);
-        }
-
-        private void OnPlayersModelCreating(DbModelBuilder modelBuilder) {
-            var players = modelBuilder.Entity<Players.Player>().ToTable("Players", "Players").HasKey(p => p.Id);
-
-            players.HasRequired(p => p.User).WithOptional();
-            players.Property(p => p.DisplayName).IsRequired().HasMaxLength(25);
         }
 
         private void OnAuditingModelCreating(DbModelBuilder modelBuilder) {
@@ -62,6 +58,19 @@ namespace WarOfEmpires.Database {
             queryExecutions.Property(e => e.QueryData).IsRequired().IsMaxLength();
         }
 
+        private void OnEventsModelCreating(DbModelBuilder modelBuilder) {
+            var scheduledTasks = modelBuilder.Entity<Events.ScheduledTask>().ToTable("ScheduledTasks", "Events").HasKey(t => t.Id);
+
+            scheduledTasks.Property(e => e.EventType).IsRequired();
+        }
+
+        private void OnPlayersModelCreating(DbModelBuilder modelBuilder) {
+            var players = modelBuilder.Entity<Players.Player>().ToTable("Players", "Players").HasKey(p => p.Id);
+
+            players.HasRequired(p => p.User).WithOptional();
+            players.Property(p => p.DisplayName).IsRequired().HasMaxLength(25);
+        }
+        
         private void OnSecurityModelCreating(DbModelBuilder modelBuilder) {
             var userEventTypes = modelBuilder.Entity<UserEventTypeEntity>().ToTable("UserEventTypes", "Security").HasKey(t => t.Id);
 
