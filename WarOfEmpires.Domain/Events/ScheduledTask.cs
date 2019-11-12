@@ -34,15 +34,16 @@ namespace WarOfEmpires.Domain.Events {
             LastExecutionDate = DateTime.UtcNow.Date;
 
             while (NextExecutionDate < DateTime.UtcNow) {
-                LastExecutionDate += Interval;
+                LastExecutionDate = NextExecutionDate;
             }
         }
 
         public bool Execute() {
-            if (IsPaused || NextExecutionDate < DateTime.UtcNow) {
+            if (IsPaused || NextExecutionDate > DateTime.UtcNow) {
                 return false;
             }
 
+            LastExecutionDate = NextExecutionDate;
             EventService.Service.Dispatch((IEvent)Activator.CreateInstance(EventType));
 
             return true;
