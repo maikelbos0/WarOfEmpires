@@ -52,6 +52,8 @@
   <ItemGroup>
     <Compile Include="Auditing\CommandExecutionRepository.cs" />
     <Compile Include="Auditing\ICommandExecutionRepository.cs" />
+    <Compile Include="Events\ScheduledTaskRepository.cs" />
+    <Compile Include="Events\IScheduledTaskRepository.cs" />
     <Compile Include="Players\IPlayerRepository.cs" />
     <Compile Include="Players\PlayerRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

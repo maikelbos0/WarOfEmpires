@@ -2,11 +2,11 @@
 
 namespace WarOfEmpires.Domain.Events {
     public class ScheduledTask : AggregateRoot {
-        public TimeSpan Interval { get; protected set; }
-        public string EventType { get; protected set; }
-        public bool IsPaused { get; protected set; } = true;
-        public DateTime? LastExecutionDate { get; protected set; }
-        public DateTime? NextExecutionDate {
+        public virtual TimeSpan Interval { get; protected set; }
+        public virtual string EventType { get; protected set; }
+        public virtual bool IsPaused { get; protected set; } = true;
+        public virtual DateTime? LastExecutionDate { get; protected set; }
+        public virtual DateTime? NextExecutionDate {
             get {
                 return LastExecutionDate + Interval;
             }

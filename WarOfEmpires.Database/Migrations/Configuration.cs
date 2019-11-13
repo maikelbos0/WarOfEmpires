@@ -4,12 +4,13 @@ namespace WarOfEmpires.Database.Migrations {
     using System.Linq;
     using WarOfEmpires.Database.ReferenceEntities;
     using WarOfEmpires.Domain.Players;
-    using WarOfEmpires.Domain.Security;
+    using Events = WarOfEmpires.Domain.Events;
+    using Security = WarOfEmpires.Domain.Security;
 
     public sealed class Configuration : DbMigrationsConfiguration<WarContext> {
         protected override void Seed(WarContext context) {
-            SeedEntityType<UserEventType, UserEventTypeEntity>(context);
-            SeedEntityType<UserStatus, UserStatusEntity>(context);
+            SeedEntityType<Security.UserEventType, UserEventTypeEntity>(context);
+            SeedEntityType<Security.UserStatus, UserStatusEntity>(context);
 
             AddOrUpdateUser(context, "example@test.com", "I am example");
             AddOrUpdateUser(context, "anon@test.com", "Anon");
@@ -19,6 +20,8 @@ namespace WarOfEmpires.Database.Migrations {
             for (var i = 0; i < 100; i++) {
                 AddOrUpdateUser(context, $"user{i}@test.com", $"User {i}");
             }
+
+            AddOrUpdateScheduledTasks(context);
         }
 
         private void SeedEntityType<TEnum, TReferenceEntity>(WarContext context)
@@ -36,7 +39,7 @@ namespace WarOfEmpires.Database.Migrations {
             var user = context.Users.SingleOrDefault(u => u.Email.Equals(email, StringComparison.InvariantCultureIgnoreCase));
 
             if (user == null) {
-                user = new User(email, new Random().Next().ToString());
+                user = new Security.User(email, new Random().Next().ToString());
                 user.Activate();
 
                 context.Users.Add(user);
@@ -52,6 +55,17 @@ namespace WarOfEmpires.Database.Migrations {
             }
             else {
                 player.DisplayName = displayName;
+            }
+
+            context.SaveChanges();
+        }
+
+        private void AddOrUpdateScheduledTasks(WarContext context) {
+            var recruitTask = context.ScheduledTasks.SingleOrDefault(t => t.EventType == typeof(RecruitEvent).AssemblyQualifiedName);
+
+            if (recruitTask == null) {
+                recruitTask = Events.ScheduledTask.Create<RecruitEvent>(new TimeSpan(1, 0, 0));
+                context.ScheduledTasks.Add(recruitTask);
             }
 
             context.SaveChanges();

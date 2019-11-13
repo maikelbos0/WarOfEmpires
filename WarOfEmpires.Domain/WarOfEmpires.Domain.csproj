@@ -57,6 +57,7 @@
     <Compile Include="Events\EventService.cs" />
     <Compile Include="Events\IEvent.cs" />
     <Compile Include="Events\IEventHandler.cs" />
+    <Compile Include="Players\RecruitEvent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Events\ScheduledTask.cs" />
     <Compile Include="Reflection\ClassFinder.cs" />
