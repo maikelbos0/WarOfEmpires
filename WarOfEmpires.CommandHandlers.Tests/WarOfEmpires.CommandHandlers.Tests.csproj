@@ -76,6 +76,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Decorators\AuditDecoratorTests.cs" />
+    <Compile Include="Events\PauseScheduledTasksCommandHandlerTests.cs" />
+    <Compile Include="Events\UnpauseScheduledTasksCommandHandlerTests.cs" />
     <Compile Include="Players\RecruitCommandHandlerTests.cs" />
     <Compile Include="Players\RegisterPlayerCommandHandlerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
