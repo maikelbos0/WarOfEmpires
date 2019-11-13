@@ -14,7 +14,15 @@ namespace WarOfEmpires.CommandHandlers.Events {
         }
 
         public CommandResult<UnpauseScheduledTasksCommand> Execute(UnpauseScheduledTasksCommand command) {
-            throw new System.NotImplementedException();
+            var result = new CommandResult<UnpauseScheduledTasksCommand>();
+
+            foreach (var task in _repository.GetAll()) {
+                task.Unpause();
+            }
+
+            _repository.Update();
+
+            return result;
         }
     }
 }

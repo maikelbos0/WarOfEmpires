@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="Decorators\AuditAttribute.cs" />
     <Compile Include="Decorators\AuditDecorator.cs" />
+    <Compile Include="Events\GetScheduledTasksPausedQueryHandler.cs" />
     <Compile Include="IQueryHandler.cs" />
     <Compile Include="Players\GetPlayersQueryHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
