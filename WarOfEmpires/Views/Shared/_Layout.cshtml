@@ -41,6 +41,10 @@
                             @Html.ActionLink("Change email address", "ChangeEmail", "Home", null, new { @class = "dropdown-item site-dropdown-item" })
                             @Html.ActionLink("Change password", "ChangePassword", "Home", null, new { @class = "dropdown-item site-dropdown-item" })
                             <div class="dropdown-divider site-dropdown-divider"></div>
+                            @if (identityService.IsAdmin()) {
+                                @Html.ActionLink("Administration tools", "Index", "Administration", null, new { @class = "dropdown-item site-dropdown-item" })
+                                <div class="dropdown-divider site-dropdown-divider"></div>
+                            }
                             @Html.ActionLink("Deactivate account", "Deactivate", "Home", null, new { @class = "dropdown-item site-dropdown-item" })
                             <div class="dropdown-divider site-dropdown-divider"></div>
 

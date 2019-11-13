@@ -231,6 +231,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\UnityMvcActivator.cs" />
+    <Compile Include="Controllers\AdministrationController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PlayerController.cs" />
@@ -285,6 +286,7 @@
     <Content Include="Views\Home\ActivationFailed.cshtml" />
     <Content Include="Views\Home\EmailChangeConfirmed.cshtml" />
     <Content Include="Views\Home\EmailChangeFailed.cshtml" />
+    <Content Include="Views\Administration\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
