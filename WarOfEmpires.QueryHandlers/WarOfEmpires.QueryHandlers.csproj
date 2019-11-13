@@ -56,6 +56,7 @@
     <Compile Include="IQueryHandler.cs" />
     <Compile Include="Players\GetPlayersQueryHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Security\GetUserIsAdminQueryHandler.cs" />
     <Compile Include="Security\GetUserNewEmailQueryHandler.cs" />
     <Compile Include="Security\GetUserNameQueryHandler.cs" />
   </ItemGroup>

@@ -13,6 +13,11 @@ namespace WarOfEmpires.Test.Utilities {
             return Identity;
         }
 
+        public bool IsAdmin() {
+            // Not used for now
+            return false;
+        }
+
         public void SignIn(string identity) {
             Identity = identity;
         }

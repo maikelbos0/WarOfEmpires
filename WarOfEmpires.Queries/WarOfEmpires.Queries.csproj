@@ -45,6 +45,7 @@
     <Compile Include="IQuery.cs" />
     <Compile Include="Players\GetPlayersQuery.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Security\GetUserIsAdminQuery.cs" />
     <Compile Include="Security\GetUserNameQuery.cs" />
     <Compile Include="Security\GetUserNewEmailQuery.cs" />
   </ItemGroup>

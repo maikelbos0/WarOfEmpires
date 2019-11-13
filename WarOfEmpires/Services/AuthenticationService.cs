@@ -33,6 +33,14 @@ namespace WarOfEmpires.Services {
             return _messageService.Dispatch(new GetUserNameQuery(Identity));
         }
 
+        public bool IsAdmin() {
+            if (!IsAuthenticated) {
+                throw new InvalidOperationException("User is not authenticated");
+            }
+
+            return _messageService.Dispatch(new GetUserIsAdminQuery(Identity));
+        }
+
         public void SignIn(string identity) {
             FormsAuthentication.SetAuthCookie(identity, false);
         }

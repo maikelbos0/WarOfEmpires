@@ -6,6 +6,7 @@ using System.Text;
 namespace WarOfEmpires.Domain.Security {
     public class User : AggregateRoot {
         public virtual UserStatus Status { get; protected set; }
+        public virtual bool IsAdmin { get; protected set; }
         public virtual string Email { get; protected set; }
         public virtual int? ActivationCode { get; protected set; }
         public virtual Password Password { get; protected set; }
