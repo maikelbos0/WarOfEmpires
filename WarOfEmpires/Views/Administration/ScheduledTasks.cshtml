@@ -1,0 +1,23 @@
+﻿@model bool?
+
+<h3>Scheduled tasks</h3>
+
+<div class="row">
+    <div class="col-3"></div>
+
+    <div class="col-6">
+        @if (Model != true) {
+            using (Html.BeginForm("PauseScheduledTasks", "Administration")) {
+                <button type="submit" class="btn btn-primary">Pause</button>
+            }
+        }
+
+        @if (Model != false) {
+            using (Html.BeginForm("UnpauseScheduledTasks", "Administration")) {
+                <button type="submit" class="btn btn-primary">Unpause</button>
+            }
+        }
+    </div>
+
+    <div class="col-3"></div>
+</div>

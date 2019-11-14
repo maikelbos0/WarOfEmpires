@@ -1,7 +1,7 @@
 $(function () {
     $('body').on('submit', 'form:not(.html-only)', function () {
         // Find the panel to hold this partial; in case of modals or partials it could be different from site-content and we may need to add selectors
-        var panel = $(this).closest('.site-content');
+        var panel = $(this).closest('.site-content, .partial-content');
         var submitButtons = $(this).find('button[type="submit"]');
 
         if (panel.length === 0) {

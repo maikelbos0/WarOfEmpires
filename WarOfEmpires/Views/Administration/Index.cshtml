@@ -3,3 +3,9 @@
 }
 
 <h2>Administration tools</h2>
+
+<div id="tasks-container" class="partial-content">
+    @{
+        Html.RenderAction("ScheduledTasks");
+    }
+</div>

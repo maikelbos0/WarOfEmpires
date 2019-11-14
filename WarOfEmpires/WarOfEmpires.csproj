@@ -288,6 +288,7 @@
     <Content Include="Views\Home\EmailChangeConfirmed.cshtml" />
     <Content Include="Views\Home\EmailChangeFailed.cshtml" />
     <Content Include="Views\Administration\Index.cshtml" />
+    <Content Include="Views\Administration\ScheduledTasks.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
