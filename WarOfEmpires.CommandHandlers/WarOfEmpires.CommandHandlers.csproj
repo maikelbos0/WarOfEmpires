@@ -55,9 +55,11 @@
     <Compile Include="Decorators\AuditDecorator.cs" />
     <Compile Include="Decorators\AuditAttribute.cs" />
     <Compile Include="Events\PauseScheduledTasksCommandHandler.cs" />
+    <Compile Include="Events\RunScheduledTasksCommandHandler.cs" />
     <Compile Include="Events\UnpauseScheduledTasksCommandHandler.cs" />
     <Compile Include="ICommandHandler.cs" />
     <Compile Include="Players\RecruitCommandHandler.cs" />
+    <Compile Include="Players\RecruitEventHandler.cs" />
     <Compile Include="Players\RegisterPlayerCommandHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security\ActivateUserCommandHandler.cs" />

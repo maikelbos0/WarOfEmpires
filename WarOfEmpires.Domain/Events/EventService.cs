@@ -22,6 +22,7 @@ namespace WarOfEmpires.Domain.Events {
         public void Dispatch(IEvent domainEvent) {
             if (_handlerMap.TryGetValue(domainEvent.GetType(), out List<Type> handlerTypes)) {
                 foreach (var handlerType in handlerTypes) {
+                    // TODO: use Unity Container to resolve event handlers to make sure constructor arguments are injected when needed
                     dynamic handler = Activator.CreateInstance(handlerType);
                     handler.Handle((dynamic)domainEvent);
                 }

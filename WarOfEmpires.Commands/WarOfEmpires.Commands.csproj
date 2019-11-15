@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Events\PauseScheduledTasksCommand.cs" />
+    <Compile Include="Events\RunScheduledTasksCommand.cs" />
     <Compile Include="Events\UnpauseScheduledTasksCommand.cs" />
     <Compile Include="ICommand.cs" />
     <Compile Include="Players\RecruitCommand.cs" />
