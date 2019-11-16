@@ -24,12 +24,12 @@ namespace WarOfEmpires.Domain.Events {
             EventType = eventType;
         }
 
-        public void Pause() {
+        public virtual void Pause() {
             IsPaused = true;
             LastExecutionDate = null;
         }
 
-        public void Unpause() {
+        public virtual void Unpause() {
             IsPaused = false;
             LastExecutionDate = DateTime.UtcNow.Date;
 
@@ -38,7 +38,7 @@ namespace WarOfEmpires.Domain.Events {
             }
         }
 
-        public bool Execute() {
+        public virtual bool Execute() {
             if (IsPaused || NextExecutionDate > DateTime.UtcNow) {
                 return false;
             }
