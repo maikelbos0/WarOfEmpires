@@ -4,12 +4,21 @@
 
         public virtual string DisplayName { get; set; }
         public virtual Security.User User { get; protected set; }
-        public virtual int Peasants { get; set; } = 10;
-        public virtual int RecruitsPerDay { get; set; } = 1;
+        public virtual int RecruitsPerDay { get; protected set; } = 1;
         /// <summary>
         /// Current number of expected recruits / 24
         /// </summary>
-        public virtual int CurrentRecruitingEffort { get; set; } = 0;
+        public virtual int CurrentRecruitingEffort { get; protected set; } = 0;
+        public virtual int Peasants { get; protected set; } = 10;
+        public virtual int Farmers { get; protected set; }
+        public virtual int WoodWorkers { get; protected set; }
+        public virtual int StoneMasons { get; protected set; }
+        public virtual int OreMiners { get; protected set; }
+        public virtual int Gold { get; protected set; } = 10000;
+        public virtual int Food { get; protected set; }
+        public virtual int Wood { get; protected set; }
+        public virtual int Stone { get; protected set; }
+        public virtual int Ore { get; protected set; }
 
         protected Player() {
         }

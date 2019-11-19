@@ -70,6 +70,10 @@
     <Compile Include="Migrations\201911131329374_Users-IsAdmin.Designer.cs">
       <DependentUpon>201911131329374_Users-IsAdmin.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201911191808394_Players-Peasants-Resources.cs" />
+    <Compile Include="Migrations\201911191808394_Players-Peasants-Resources.Designer.cs">
+      <DependentUpon>201911191808394_Players-Peasants-Resources.cs</DependentUpon>
+    </Compile>
     <Compile Include="ReferenceEntities\BaseReferenceEntity.cs" />
     <Compile Include="IWarContext.cs" />
     <Compile Include="Migrations\Configuration.cs" />
@@ -108,6 +112,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201911131329374_Users-IsAdmin.resx">
       <DependentUpon>201911131329374_Users-IsAdmin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911191808394_Players-Peasants-Resources.resx">
+      <DependentUpon>201911191808394_Players-Peasants-Resources.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -8,47 +8,51 @@ namespace WarOfEmpires.Domain.Tests.Players {
         [TestMethod]
         public void Player_Recruit_Adds_To_CurrentRecruitingEffort() {
             var player = new Player(0, "Test");
-            player.RecruitsPerDay = 3;
+            var previousRecruitingEffort = player.CurrentRecruitingEffort;
 
             player.Recruit();
 
-            player.CurrentRecruitingEffort.Should().Be(3);
+            player.CurrentRecruitingEffort.Should().Be(previousRecruitingEffort + player.RecruitsPerDay);
         }
 
         [TestMethod]
         public void Player_Recruit_Adds_Peasants_When_Possible() {
             var player = new Player(0, "Test");
-            player.Peasants = 0;
-            player.CurrentRecruitingEffort = 23;
-            player.RecruitsPerDay = 3;
+            var previousPeasants = player.Peasants;
+
+            while (player.CurrentRecruitingEffort < 24) {
+                player.Recruit();
+            }
 
             player.Recruit();
 
-            player.Peasants.Should().Be(1);
+            player.Peasants.Should().Be(previousPeasants + 1);
         }
 
         [TestMethod]
         public void Player_Recruit_Adds_No_Peasants_When_Not_Possible() {
             var player = new Player(0, "Test");
-            player.Peasants = 0;
-            player.CurrentRecruitingEffort = 3;
-            player.RecruitsPerDay = 3;
+            var previousPeasants = player.Peasants;
 
             player.Recruit();
 
-            player.Peasants.Should().Be(0);
+            player.Peasants.Should().Be(previousPeasants);
         }
 
         [TestMethod]
         public void Player_Recruit_Gives_Correct_Effort_Remainder_When_Adding_Peasants() {
             var player = new Player(0, "Test");
-            player.Peasants = 0;
-            player.CurrentRecruitingEffort = 23;
-            player.RecruitsPerDay = 3;
+            var previousRecruitingEffort = player.CurrentRecruitingEffort;
+            var previousPeasants = player.Peasants;
 
-            player.Recruit();
+            // We don't have a way to increase recruiting yet
+            typeof(Player).GetProperty(nameof(Player.RecruitsPerDay)).SetValue(player, 9);
 
-            player.CurrentRecruitingEffort.Should().Be(2);
+            while (player.Peasants == previousPeasants) {
+                player.Recruit();
+            }
+
+            player.CurrentRecruitingEffort.Should().Be(previousRecruitingEffort + 3 % 24);
         }
     }
 }
