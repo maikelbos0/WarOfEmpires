@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="..\packages\MSTest.TestAdapter.2.0.0\build\net45\MSTest.TestAdapter.props" Condition="Exists('..\packages\MSTest.TestAdapter.2.0.0\build\net45\MSTest.TestAdapter.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
@@ -74,7 +74,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Container\InjectionRegistrarTests.cs" />
+    <Compile Include="Container\ContainerServiceTests.cs" />
+    <Compile Include="Events\EventServiceTests.cs" />
     <Compile Include="Mail\ConfirmEmailMailTemplateTests.cs" />
     <Compile Include="Mail\ActivationMailTemplateTests.cs" />
     <Compile Include="Mail\PasswordResetMailTemplateTests.cs" />
@@ -86,6 +87,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\WarOfEmpires.Domain\WarOfEmpires.Domain.csproj">
+      <Project>{E157B9C5-042F-4DC3-B2E2-A721ECA67CDC}</Project>
+      <Name>WarOfEmpires.Domain</Name>
+    </ProjectReference>
     <ProjectReference Include="..\WarOfEmpires.Test.Utilities\WarOfEmpires.Test.Utilities.csproj">
       <Project>{9C94C213-715E-4C3A-ABE9-608337808BC1}</Project>
       <Name>WarOfEmpires.Test.Utilities</Name>

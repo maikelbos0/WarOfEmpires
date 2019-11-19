@@ -1,6 +1,6 @@
 ﻿using WarOfEmpires.Commands.Players;
-using WarOfEmpires.Domain.Events;
 using WarOfEmpires.Domain.Players;
+using WarOfEmpires.Utilities.Events;
 
 namespace WarOfEmpires.CommandHandlers.Players {
     public sealed class RecruitEventHandler : IEventHandler<RecruitEvent> {

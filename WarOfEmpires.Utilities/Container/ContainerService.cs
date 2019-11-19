@@ -5,14 +5,15 @@ using System.Reflection;
 using Unity;
 
 namespace WarOfEmpires.Utilities.Container {
-    public sealed class InjectionRegistrar {
+    public sealed class ContainerService {
         private readonly IClassFinder _classFinder;
 
-        public InjectionRegistrar(IClassFinder classFinder) {
+        public ContainerService(IClassFinder classFinder) {
             _classFinder = classFinder;
         }
 
-        public void RegisterTypes(IUnityContainer container) {
+        public IUnityContainer GetContainer() {
+            var container = new UnityContainer();
             var mappedTypes = _classFinder.FindAllClasses()
                 .Where(type => Attribute.IsDefined(type, typeof(InterfaceInjectableAttribute)))
                 .Select(type => new {
@@ -60,6 +61,8 @@ namespace WarOfEmpires.Utilities.Container {
                     container.RegisterFactory(mappedType.Interface, action);
                 }
             }
+
+            return container;
         }
     }
 }

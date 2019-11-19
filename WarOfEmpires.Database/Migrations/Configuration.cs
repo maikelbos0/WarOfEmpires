@@ -16,6 +16,7 @@ namespace WarOfEmpires.Database.Migrations {
             AddOrUpdateUser(context, "anon@test.com", "Anon");
             AddOrUpdateUser(context, "you@test.com", "You");
             AddOrUpdateUser(context, "another@test.com", "Another");
+            AddOrUpdateUser(context, "singsongkat@live.com", "Shira");
 
             for (var i = 0; i < 100; i++) {
                 AddOrUpdateUser(context, $"user{i}@test.com", $"User {i}");

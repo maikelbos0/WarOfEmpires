@@ -1,26 +1,32 @@
-﻿using WarOfEmpires.CommandHandlers.Decorators;
+﻿using System;
+using WarOfEmpires.CommandHandlers.Decorators;
 using WarOfEmpires.Commands.Events;
+using WarOfEmpires.Domain.Events;
 using WarOfEmpires.Repositories.Events;
 using WarOfEmpires.Utilities.Container;
+using WarOfEmpires.Utilities.Events;
 
 namespace WarOfEmpires.CommandHandlers.Events {
     [InterfaceInjectable]
     [Audit]
     public sealed class RunScheduledTasksCommandHandler : ICommandHandler<RunScheduledTasksCommand> {
         private readonly ScheduledTaskRepository _repository;
+        private readonly IEventService _eventService;
 
-        public RunScheduledTasksCommandHandler(ScheduledTaskRepository repository) {
+        public RunScheduledTasksCommandHandler(ScheduledTaskRepository repository, IEventService eventService) {
             _repository = repository;
+            _eventService = eventService;
         }
 
         public CommandResult<RunScheduledTasksCommand> Execute(RunScheduledTasksCommand command) {
             var result = new CommandResult<RunScheduledTasksCommand>();
 
             foreach (var task in _repository.GetAll()) {
-                while (task.Execute()) { }
+                while (task.Execute()) {
+                    _eventService.Dispatch((IEvent)Activator.CreateInstance(Type.GetType(task.EventType)));
+                    _repository.Update();
+                }
             }
-
-            _repository.Update();
 
             return result;
         }

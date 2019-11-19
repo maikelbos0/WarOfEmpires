@@ -2,16 +2,14 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 using System;
+using Unity;
 using WarOfEmpires.Domain.Events;
-using WarOfEmpires.Domain.Reflection;
+using WarOfEmpires.Utilities.Events;
+using WarOfEmpires.Utilities.Reflection;
 
-namespace WarOfEmpires.Domain.Tests.Events {
+namespace WarOfEmpires.Utilities.Tests.Events {
     [TestClass]
     public sealed class EventServiceTests {
-        public static bool TestHandlerCalled { get; set; }
-        public static bool DoubleTestHandler1Called { get; set; }
-        public static bool DoubleTestHandler2Called { get; set; }
-
         public class TestEvent : IEvent { }
 
         public class TestEventHandler : IEventHandler<TestEvent> {
@@ -44,10 +42,15 @@ namespace WarOfEmpires.Domain.Tests.Events {
 
             return classFinder;
         }
+        public static bool TestHandlerCalled { get; set; }
+        public static bool DoubleTestHandler1Called { get; set; }
+        public static bool DoubleTestHandler2Called { get; set; }
+
+        private readonly IUnityContainer _container = new UnityContainer();
 
         [TestMethod]
         public void EventService_Dispatches_Event() {
-            var service = new EventService(GetClassFinder());
+            var service = new EventService(GetClassFinder(), _container);
 
             TestHandlerCalled = false;
 
@@ -58,7 +61,7 @@ namespace WarOfEmpires.Domain.Tests.Events {
 
         [TestMethod]
         public void EventService_Dispatches_Event_For_Multiple_Handlers() {
-            var service = new EventService(GetClassFinder());
+            var service = new EventService(GetClassFinder(), _container);
 
             DoubleTestHandler1Called = false;
             DoubleTestHandler2Called = false;
@@ -71,7 +74,7 @@ namespace WarOfEmpires.Domain.Tests.Events {
 
         [TestMethod]
         public void EventService_Dispatches_Correct_Event() {
-            var service = new EventService(GetClassFinder());
+            var service = new EventService(GetClassFinder(), _container);
 
             DoubleTestHandler1Called = false;
             DoubleTestHandler2Called = false;

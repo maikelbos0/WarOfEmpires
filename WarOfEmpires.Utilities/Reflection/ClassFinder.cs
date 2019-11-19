@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using WarOfEmpires.Utilities.Container;
 
 namespace WarOfEmpires.Utilities.Reflection {
+    [InterfaceInjectable]
     public sealed class ClassFinder : IClassFinder {
         public IEnumerable<Type> FindAllClasses() {
             // Ensure that all present solution assemblies are loaded

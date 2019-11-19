@@ -8,7 +8,7 @@ using Unity;
 
 namespace WarOfEmpires.Utilities.Tests.Container {
     [TestClass]
-    public sealed class InjectionRegistrarTests {
+    public sealed class ContainerServiceTests {
         public interface ITest1 { }
 
         [InterfaceInjectable]
@@ -73,6 +73,7 @@ namespace WarOfEmpires.Utilities.Tests.Container {
         }
 
         [InterfaceInjectable]
+        [TestDecorator5]
         public sealed class Test5 : ITest5<string> {
             public string GetValue() {
                 return "Success";
@@ -104,55 +105,47 @@ namespace WarOfEmpires.Utilities.Tests.Container {
 
 
         [TestMethod]
-        public void InjectionRegistrar_Registers_For_Matching_Interface() {
-            var container = new UnityContainer();
-            var registrar = new InjectionRegistrar(GetClassFinderFor<Test1>());
-
-            registrar.RegisterTypes(container);
+        public void ContainerService_Registers_For_Matching_Interface() {
+            var registrar = new ContainerService(GetClassFinderFor<Test1>());
+            var container = registrar.GetContainer();
 
             container.Resolve<ITest1>().Should().BeOfType<Test1>();
         }
 
         [TestMethod]
-        public void InjectionRegistrar_Registers_For_Single_Interface() {
-            var container = new UnityContainer();
-            var registrar = new InjectionRegistrar(GetClassFinderFor<Test2>());
-
-            registrar.RegisterTypes(container);
+        public void ContainerService_Registers_For_Single_Interface() {
+            var registrar = new ContainerService(GetClassFinderFor<Test2>());
+            var container = registrar.GetContainer();
 
             container.Resolve<ITest2<Test1>>().Should().BeOfType<Test2>();
         }
 
         [TestMethod]
-        public void InjectionRegistrar_Throws_Exception_For_Multiple_Interfaces() {
-            var container = new UnityContainer();
-            var registrar = new InjectionRegistrar(GetClassFinderFor<Test4>());
+        public void ContainerService_Throws_Exception_For_Multiple_Interfaces() {
+            var registrar = new ContainerService(GetClassFinderFor<Test4>());
 
             Action action = () => {
-                registrar.RegisterTypes(container);
+                registrar.GetContainer();
             };
 
             action.Should().Throw<InvalidOperationException>();
         }
 
         [TestMethod]
-        public void InjectionRegistrar_Throws_Exception_For_Multiple_Types_One_Interface() {
-            var container = new UnityContainer();
-            var registrar = new InjectionRegistrar(GetClassFinderFor(typeof(Test1), typeof(Test1b)));
+        public void ContainerService_Throws_Exception_For_Multiple_Types_One_Interface() {
+            var registrar = new ContainerService(GetClassFinderFor(typeof(Test1), typeof(Test1b)));
 
             Action action = () => {
-                registrar.RegisterTypes(container);
+                registrar.GetContainer();
             };
 
             action.Should().Throw<InvalidOperationException>();
         }
 
         [TestMethod]
-        public void InjectionRegistrar_Registers_Decorators() {
-            var container = new UnityContainer();
-            var registrar = new InjectionRegistrar(GetClassFinderFor<Test3a>());
-
-            registrar.RegisterTypes(container);
+        public void ContainerService_Registers_Decorators() {
+            var registrar = new ContainerService(GetClassFinderFor<Test3a>());
+            var container = registrar.GetContainer();
 
             var decorator = container.Resolve<ITest3<string>>();
 
@@ -162,11 +155,9 @@ namespace WarOfEmpires.Utilities.Tests.Container {
         }
 
         [TestMethod]
-        public void InjectionRegistrar_Registers_Chained_Decorators() {
-            var container = new UnityContainer();
-            var registrar = new InjectionRegistrar(GetClassFinderFor<Test3b>());
-
-            registrar.RegisterTypes(container);
+        public void ContainerService_Registers_Chained_Decorators() {
+            var registrar = new ContainerService(GetClassFinderFor<Test3b>());
+            var container = registrar.GetContainer();
 
             var decorator = container.Resolve<ITest3<int>>();
 
@@ -177,17 +168,14 @@ namespace WarOfEmpires.Utilities.Tests.Container {
         }
 
         [TestMethod]
-        public void InjectionRegistrar_Throw_Exception_For_Mismatched_Decorator() {
-            var container = new UnityContainer();
-            var registrar = new InjectionRegistrar(GetClassFinderFor<Test5>());
-
-            registrar.RegisterTypes(container);
+        public void ContainerService_Throw_Exception_For_Mismatched_Decorator() {
+            var registrar = new ContainerService(GetClassFinderFor<Test5>());
 
             Action action = () => {
-                registrar.RegisterTypes(container);
+                registrar.GetContainer();
             };
 
-            action.Should().Throw<InvalidOperationException>();
+            action.Should().Throw<ArgumentException>();
         }
     }
 }

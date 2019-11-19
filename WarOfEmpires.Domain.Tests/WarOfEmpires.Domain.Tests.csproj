@@ -68,7 +68,6 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Events\EventServiceTests.cs" />
     <Compile Include="Events\ScheduledTaskTests.cs" />
     <Compile Include="Players\PlayerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

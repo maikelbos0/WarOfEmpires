@@ -6,15 +6,7 @@ using WarOfEmpires.Domain.Events;
 namespace WarOfEmpires.Domain.Tests.Events {
     [TestClass]
     public sealed class ScheduledTaskTests {
-        public static bool TestHandlerCalled { get; set; }
-
         public class TestEvent : IEvent { }
-
-        public class TestEventHandler : IEventHandler<TestEvent> {
-            public void Handle(TestEvent domainEvent) {
-                TestHandlerCalled = true;
-            }
-        }
 
         public void MoveTaskDate(ScheduledTask task, TimeSpan time) {
             var property = typeof(ScheduledTask).GetProperty(nameof(ScheduledTask.LastExecutionDate));
@@ -55,10 +47,7 @@ namespace WarOfEmpires.Domain.Tests.Events {
         public void ScheduledTask_Execute_Does_Nothing_When_Paused() {
             var task = ScheduledTask.Create<TestEvent>(new TimeSpan(0, 5, 0));
 
-            TestHandlerCalled = false;
-
             task.Execute().Should().BeFalse();
-            TestHandlerCalled.Should().BeFalse();
         }
 
         [TestMethod]
@@ -66,10 +55,8 @@ namespace WarOfEmpires.Domain.Tests.Events {
             var task = ScheduledTask.Create<TestEvent>(new TimeSpan(0, 5, 0));
 
             task.Unpause();
-            TestHandlerCalled = false;
 
             task.Execute().Should().BeFalse();
-            TestHandlerCalled.Should().BeFalse();
         }
 
         [TestMethod]
@@ -78,11 +65,9 @@ namespace WarOfEmpires.Domain.Tests.Events {
 
             task.Unpause();
             MoveTaskDate(task, new TimeSpan(0, -5, 0));
-            TestHandlerCalled = false;
 
             task.Execute().Should().BeTrue();
             task.NextExecutionDate.Should().BeAfter(DateTime.UtcNow);
-            TestHandlerCalled.Should().BeTrue();
         }
 
         [TestMethod]

@@ -44,7 +44,6 @@ namespace WarOfEmpires.Domain.Events {
             }
 
             LastExecutionDate = NextExecutionDate;
-            EventService.Service.Dispatch((IEvent)Activator.CreateInstance(Type.GetType(EventType)));
 
             return true;
         }

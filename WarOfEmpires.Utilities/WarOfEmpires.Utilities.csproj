@@ -98,7 +98,10 @@
     <Compile Include="Container\Decorator.cs" />
     <Compile Include="Container\DecoratorAttribute.cs" />
     <Compile Include="Container\InterfaceInjectableAttribute.cs" />
-    <Compile Include="Container\InjectionRegistrar.cs" />
+    <Compile Include="Container\ContainerService.cs" />
+    <Compile Include="Events\EventService.cs" />
+    <Compile Include="Events\IEventHandler.cs" />
+    <Compile Include="Events\IEventService.cs" />
     <Compile Include="Mail\ActivationMailTemplate.cs" />
     <Compile Include="Mail\ActivationMailTemplateParameters.cs" />
     <Compile Include="Mail\ConfirmEmailMailTemplate.cs" />
@@ -119,6 +122,11 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\WarOfEmpires.Domain\WarOfEmpires.Domain.csproj">
+      <Project>{E157B9C5-042F-4DC3-B2E2-A721ECA67CDC}</Project>
+      <Name>WarOfEmpires.Domain</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

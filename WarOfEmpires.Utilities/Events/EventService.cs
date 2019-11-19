@@ -1,17 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using WarOfEmpires.Domain.Reflection;
+using Unity;
+using WarOfEmpires.Domain.Events;
+using WarOfEmpires.Utilities.Container;
+using WarOfEmpires.Utilities.Reflection;
 
-namespace WarOfEmpires.Domain.Events {
-    public sealed class EventService {
-        public static EventService Service => new EventService(new ClassFinder());
-
+namespace WarOfEmpires.Utilities.Events {
+    [InterfaceInjectable]
+    public sealed class EventService : IEventService {
+        private readonly IUnityContainer _container;
         private readonly IClassFinder _classFinder;
         private readonly Dictionary<Type, List<Type>> _handlerMap;
 
-        public EventService(IClassFinder classFinder) {
-            _classFinder = classFinder;     
+        public EventService(IClassFinder classFinder, IUnityContainer container) {
+            _classFinder = classFinder;
+            _container = container;
             _handlerMap = _classFinder
                 .FindAllClasses()
                 .SelectMany(t => t.GetInterfaces().Where(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IEventHandler<>)).Select(i => new { Type = t, Interface = i }))
@@ -22,8 +26,7 @@ namespace WarOfEmpires.Domain.Events {
         public void Dispatch(IEvent domainEvent) {
             if (_handlerMap.TryGetValue(domainEvent.GetType(), out List<Type> handlerTypes)) {
                 foreach (var handlerType in handlerTypes) {
-                    // TODO: use Unity Container to resolve event handlers to make sure constructor arguments are injected when needed
-                    dynamic handler = Activator.CreateInstance(handlerType);
+                    dynamic handler = _container.Resolve(handlerType);
                     handler.Handle((dynamic)domainEvent);
                 }
             }
