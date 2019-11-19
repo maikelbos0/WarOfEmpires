@@ -41,5 +41,26 @@
                 Peasants += newRecruits;
             }
         }
+
+        public void TrainWorkers(int farmers, int woodWorkers, int stoneMasons, int oreMiners) {
+            var trainedPeasants = farmers + woodWorkers + stoneMasons + oreMiners;
+
+            Farmers += farmers;
+            WoodWorkers += woodWorkers;
+            StoneMasons += StoneMasons;
+            OreMiners += oreMiners;
+
+            Peasants -= trainedPeasants;
+            Gold -= trainedPeasants * 250;
+        }
+
+        public void UntrainWorkers(int farmers, int woodWorkers, int stoneMasons, int oreMiners) {
+            Farmers -= farmers;
+            WoodWorkers -= woodWorkers;
+            StoneMasons -= StoneMasons;
+            OreMiners -= oreMiners;
+
+            Peasants += farmers + woodWorkers + stoneMasons + oreMiners;
+        }
     }
 }

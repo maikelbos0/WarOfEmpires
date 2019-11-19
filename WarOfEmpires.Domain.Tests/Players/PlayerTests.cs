@@ -54,5 +54,30 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
             player.CurrentRecruitingEffort.Should().Be(previousRecruitingEffort + 3 % 24);
         }
+
+        [TestMethod]
+        public void Player_TrainWorkers_Trains_Workers() {
+            throw new System.NotImplementedException();
+        }
+
+        [TestMethod]
+        public void Player_TrainWorkers_Removes_Peasants() {
+            throw new System.NotImplementedException();
+        }
+
+        [TestMethod]
+        public void Player_TrainWorkers_Removes_Gold() {
+            throw new System.NotImplementedException();
+        }
+
+        [TestMethod]
+        public void Player_UntrainWorkers_Untrains_Workers() {
+            throw new System.NotImplementedException();
+        }
+
+        [TestMethod]
+        public void Player_UntrainWorkers_Adds_Peasants() {
+            throw new System.NotImplementedException();
+        }
     }
 }
