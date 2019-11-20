@@ -57,27 +57,64 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_TrainWorkers_Trains_Workers() {
-            throw new System.NotImplementedException();
+            var player = new Player(0, "Test");
+            var previousFarmers = player.Farmers;
+            var previousWoodWorkers = player.WoodWorkers;
+            var previousStoneMasons = player.StoneMasons;
+            var previousOreMiners = player.OreMiners;
+
+            player.TrainWorkers(1, 2, 4, 8);
+
+            player.Farmers.Should().Be(previousFarmers + 1);
+            player.WoodWorkers.Should().Be(previousWoodWorkers + 2);
+            player.StoneMasons.Should().Be(previousStoneMasons + 4);
+            player.OreMiners.Should().Be(previousOreMiners + 8);
         }
 
         [TestMethod]
         public void Player_TrainWorkers_Removes_Peasants() {
-            throw new System.NotImplementedException();
+            var player = new Player(0, "Test");
+            var previousPeasants = player.Peasants;
+
+            player.TrainWorkers(1, 2, 4, 8);
+
+            player.Peasants.Should().Be(previousPeasants - 15);
         }
 
         [TestMethod]
         public void Player_TrainWorkers_Removes_Gold() {
-            throw new System.NotImplementedException();
+            var player = new Player(0, "Test");
+            var previousGold = player.Gold;
+
+            player.TrainWorkers(1, 2, 4, 8);
+
+            player.Gold.Should().Be(previousGold - 15 * 250);
         }
 
         [TestMethod]
         public void Player_UntrainWorkers_Untrains_Workers() {
-            throw new System.NotImplementedException();
+            var player = new Player(0, "Test");
+            var previousFarmers = player.Farmers;
+            var previousWoodWorkers = player.WoodWorkers;
+            var previousStoneMasons = player.StoneMasons;
+            var previousOreMiners = player.OreMiners;
+
+            player.UntrainWorkers(8, 4, 2, 1);
+
+            player.Farmers.Should().Be(previousFarmers - 8);
+            player.WoodWorkers.Should().Be(previousWoodWorkers - 4);
+            player.StoneMasons.Should().Be(previousStoneMasons - 2);
+            player.OreMiners.Should().Be(previousOreMiners - 1);
         }
 
         [TestMethod]
         public void Player_UntrainWorkers_Adds_Peasants() {
-            throw new System.NotImplementedException();
+            var player = new Player(0, "Test");
+            var previousPeasants = player.Peasants;
+
+            player.UntrainWorkers(8, 4, 2, 1);
+
+            player.Peasants.Should().Be(previousPeasants + 15);
         }
     }
 }

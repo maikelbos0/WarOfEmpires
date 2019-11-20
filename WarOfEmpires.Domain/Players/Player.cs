@@ -47,7 +47,7 @@
 
             Farmers += farmers;
             WoodWorkers += woodWorkers;
-            StoneMasons += StoneMasons;
+            StoneMasons += stoneMasons;
             OreMiners += oreMiners;
 
             Peasants -= trainedPeasants;
@@ -57,7 +57,7 @@
         public void UntrainWorkers(int farmers, int woodWorkers, int stoneMasons, int oreMiners) {
             Farmers -= farmers;
             WoodWorkers -= woodWorkers;
-            StoneMasons -= StoneMasons;
+            StoneMasons -= stoneMasons;
             OreMiners -= oreMiners;
 
             Peasants += farmers + woodWorkers + stoneMasons + oreMiners;
