@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using WarOfEmpires.Database;
@@ -15,8 +16,8 @@ namespace WarOfEmpires.Repositories.Players {
             _context = context;
         }
 
-        public Player Get(int id) {
-            return _context.Players.Single(p => p.Id == id);
+        public Player Get(string email) {
+            return _context.Players.Include(p => p.User).Single(p => p.User.Status == UserStatus.Active && p.User.Email.Equals(email, StringComparison.InvariantCultureIgnoreCase));
         }
 
         public IEnumerable<Player> GetAll() {

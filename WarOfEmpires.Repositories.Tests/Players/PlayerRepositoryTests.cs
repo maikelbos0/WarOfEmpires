@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
+using System;
 using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Repositories.Players;
@@ -20,6 +21,7 @@ namespace WarOfEmpires.Repositories.Tests.Players {
                 var player = Substitute.For<Player>();
 
                 user.Status.Returns(status);
+                user.Email.Returns($"test_{id}@test.com");
                 user.Id.Returns(id);
                 player.User.Returns(user);
                 player.Id.Returns(id++);
@@ -33,17 +35,54 @@ namespace WarOfEmpires.Repositories.Tests.Players {
         public void PlayerRepository_Get_Succeeds() {
             var repository = new PlayerRepository(_context);
 
-            var player = repository.Get(1);
+            var player = repository.Get("test_1@test.com");
 
             player.Should().NotBeNull();
             player.Id.Should().Be(1);
         }
 
         [TestMethod]
+        public void PlayerRepository_Get_Is_Case_Insensitive() {
+            var repository = new PlayerRepository(_context);
+
+            var player = repository.Get("TEST_1@TEST.COM");
+
+            player.Should().NotBeNull();
+            player.Id.Should().Be(1);
+        }
+
+        [TestMethod]
+        public void PlayerRepository_Get_Is_Accent_Sensitive() {
+            var repository = new PlayerRepository(_context);
+
+            Action action = () => repository.Get("tést_1@tëst.côm");
+
+            action.Should().Throw<InvalidOperationException>();
+        }
+
+        [TestMethod]
+        public void PlayerRepository_Get_Throws_Exception_For_Nonexistent_Email() {
+            var repository = new PlayerRepository(_context);
+
+            Action action = () => repository.Get("nobody@test.com");
+
+            action.Should().Throw<InvalidOperationException>();
+        }
+
+        [TestMethod]
+        public void PlayerRepository_Get_Throws_Exception_For_Wrong_Status() {
+            var repository = new PlayerRepository(_context);
+
+            Action action = () => repository.Get("test_2@test.com");
+
+            action.Should().Throw<InvalidOperationException>();
+        }
+
+        [TestMethod]
         public void PlayerRepository_Get_Does_Not_Save() {
             var repository = new PlayerRepository(_context);
 
-            repository.Get(1);
+            repository.Get("test_1@test.com");
 
             _context.CallsToSaveChanges.Should().Be(0);
         }

@@ -55,7 +55,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Players {
             result.Errors.Should().HaveCount(1);
             result.Errors[0].Expression.ToString().Should().Be("c => c.Farmers");
             result.Errors[0].Message.Should().Be("Farmers must be a valid number");
-            _player.DidNotReceive().UntrainWorkers(Arg.Any<int>(), Arg.Any<int>(), Arg.Any<int>(), Arg.Any<int>());
+            _player.DidNotReceiveWithAnyArgs().UntrainWorkers(default, default, default, default);
         }
 
         [TestMethod]
@@ -68,7 +68,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Players {
             result.Errors.Should().HaveCount(1);
             result.Errors[0].Expression.ToString().Should().Be("c => c.WoodWorkers");
             result.Errors[0].Message.Should().Be("Wood workers must be a valid number");
-            _player.DidNotReceive().UntrainWorkers(Arg.Any<int>(), Arg.Any<int>(), Arg.Any<int>(), Arg.Any<int>());
+            _player.DidNotReceiveWithAnyArgs().UntrainWorkers(default, default, default, default);
         }
 
         [TestMethod]
@@ -81,7 +81,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Players {
             result.Errors.Should().HaveCount(1);
             result.Errors[0].Expression.ToString().Should().Be("c => c.StoneMasons");
             result.Errors[0].Message.Should().Be("Stone masons must be a valid number");
-            _player.DidNotReceive().UntrainWorkers(Arg.Any<int>(), Arg.Any<int>(), Arg.Any<int>(), Arg.Any<int>());
+            _player.DidNotReceiveWithAnyArgs().UntrainWorkers(default, default, default, default);
         }
 
         [TestMethod]
@@ -94,7 +94,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Players {
             result.Errors.Should().HaveCount(1);
             result.Errors[0].Expression.ToString().Should().Be("c => c.OreMiners");
             result.Errors[0].Message.Should().Be("Ore miners must be a valid number");
-            _player.DidNotReceive().UntrainWorkers(Arg.Any<int>(), Arg.Any<int>(), Arg.Any<int>(), Arg.Any<int>());
+            _player.DidNotReceiveWithAnyArgs().UntrainWorkers(default, default, default, default);
         }
 
         [TestMethod]
@@ -107,7 +107,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Players {
             result.Errors.Should().HaveCount(1);
             result.Errors[0].Expression.ToString().Should().Be("c => c.Farmers");
             result.Errors[0].Message.Should().Be("You don't have that many farmers to untrain");
-            _player.DidNotReceive().UntrainWorkers(Arg.Any<int>(), Arg.Any<int>(), Arg.Any<int>(), Arg.Any<int>());
+            _player.DidNotReceiveWithAnyArgs().UntrainWorkers(default, default, default, default);
         }
 
         [TestMethod]
@@ -120,7 +120,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Players {
             result.Errors.Should().HaveCount(1);
             result.Errors[0].Expression.ToString().Should().Be("c => c.WoodWorkers");
             result.Errors[0].Message.Should().Be("You don't have that many wood workers to untrain");
-            _player.DidNotReceive().UntrainWorkers(Arg.Any<int>(), Arg.Any<int>(), Arg.Any<int>(), Arg.Any<int>());
+            _player.DidNotReceiveWithAnyArgs().UntrainWorkers(default, default, default, default);
         }
 
         [TestMethod]
@@ -133,7 +133,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Players {
             result.Errors.Should().HaveCount(1);
             result.Errors[0].Expression.ToString().Should().Be("c => c.StoneMasons");
             result.Errors[0].Message.Should().Be("You don't have that many stone masons to untrain");
-            _player.DidNotReceive().UntrainWorkers(Arg.Any<int>(), Arg.Any<int>(), Arg.Any<int>(), Arg.Any<int>());
+            _player.DidNotReceiveWithAnyArgs().UntrainWorkers(default, default, default, default);
         }
 
         [TestMethod]
@@ -146,7 +146,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Players {
             result.Errors.Should().HaveCount(1);
             result.Errors[0].Expression.ToString().Should().Be("c => c.OreMiners");
             result.Errors[0].Message.Should().Be("You don't have that many ore miners to untrain");
-            _player.DidNotReceive().UntrainWorkers(Arg.Any<int>(), Arg.Any<int>(), Arg.Any<int>(), Arg.Any<int>());
+            _player.DidNotReceiveWithAnyArgs().UntrainWorkers(default, default, default, default);
         }
 
         [TestMethod]
@@ -159,7 +159,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Players {
             result.Errors.Should().HaveCount(1);
             result.Errors[0].Expression.ToString().Should().Be("c => c.Farmers");
             result.Errors[0].Message.Should().Be("Farmers must be a valid number");
-            _player.DidNotReceive().UntrainWorkers(Arg.Any<int>(), Arg.Any<int>(), Arg.Any<int>(), Arg.Any<int>());
+            _player.DidNotReceiveWithAnyArgs().UntrainWorkers(default, default, default, default);
         }
 
         [TestMethod]
@@ -172,7 +172,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Players {
             result.Errors.Should().HaveCount(1);
             result.Errors[0].Expression.ToString().Should().Be("c => c.WoodWorkers");
             result.Errors[0].Message.Should().Be("Wood workers must be a valid number");
-            _player.DidNotReceive().UntrainWorkers(Arg.Any<int>(), Arg.Any<int>(), Arg.Any<int>(), Arg.Any<int>());
+            _player.DidNotReceiveWithAnyArgs().UntrainWorkers(default, default, default, default);
         }
 
         [TestMethod]
@@ -185,7 +185,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Players {
             result.Errors.Should().HaveCount(1);
             result.Errors[0].Expression.ToString().Should().Be("c => c.StoneMasons");
             result.Errors[0].Message.Should().Be("Stone masons must be a valid number");
-            _player.DidNotReceive().UntrainWorkers(Arg.Any<int>(), Arg.Any<int>(), Arg.Any<int>(), Arg.Any<int>());
+            _player.DidNotReceiveWithAnyArgs().UntrainWorkers(default, default, default, default);
         }
 
         [TestMethod]
@@ -198,7 +198,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Players {
             result.Errors.Should().HaveCount(1);
             result.Errors[0].Expression.ToString().Should().Be("c => c.OreMiners");
             result.Errors[0].Message.Should().Be("Ore miners must be a valid number");
-            _player.DidNotReceive().UntrainWorkers(Arg.Any<int>(), Arg.Any<int>(), Arg.Any<int>(), Arg.Any<int>());
+            _player.DidNotReceiveWithAnyArgs().UntrainWorkers(default, default, default, default);
         }
     }
 }
