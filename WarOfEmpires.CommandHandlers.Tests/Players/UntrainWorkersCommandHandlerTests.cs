@@ -35,12 +35,28 @@ namespace WarOfEmpires.CommandHandlers.Tests.Players {
             throw new System.NotImplementedException();
         }
 
-        /*
-         * TODO rewrite
         [TestMethod]
-        public void UntrainWorkersCommandHandler_Fails_For_Alphanumeric_WorkerCounts() {
+        public void UntrainWorkersCommandHandler_Fails_For_Alphanumeric_Farmers() {
             throw new System.NotImplementedException();
         }
+
+        [TestMethod]
+        public void UntrainWorkersCommandHandler_Fails_For_Alphanumeric_WoodWorkers() {
+            throw new System.NotImplementedException();
+        }
+
+        [TestMethod]
+        public void UntrainWorkersCommandHandler_Fails_For_Alphanumeric_StoneMasons() {
+            throw new System.NotImplementedException();
+        }
+
+        [TestMethod]
+        public void UntrainWorkersCommandHandler_Fails_For_Alphanumeric_OreMiners() {
+            throw new System.NotImplementedException();
+        }
+
+        /*
+         * TODO rewrite
 
         [DataTestMethod]
         [DataRow(11, 0, 0, 0, DisplayName = "Farmers")]

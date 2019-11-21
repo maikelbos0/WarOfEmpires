@@ -35,12 +35,12 @@ namespace WarOfEmpires.CommandHandlers.Tests.Players {
         [TestMethod]
         public void TrainWorkersCommandHandler_Succeeds() {
             var handler = new TrainWorkersCommandHandler(_repository);
-            var command = new TrainWorkersCommand("test@test.com", "2", "2", "2", "2");
+            var command = new TrainWorkersCommand("test@test.com", "0", "1", "2", "3");
 
             var result = handler.Execute(command);
 
             result.Success.Should().BeTrue();
-            _player.Received().TrainWorkers(2, 2, 2, 2);
+            _player.Received().TrainWorkers(0, 1, 2, 3);
         }
 
         [TestMethod]
@@ -102,32 +102,82 @@ namespace WarOfEmpires.CommandHandlers.Tests.Players {
         [DataRow(0, 0, 0, 11, DisplayName = "OreMiners")]
         [DataRow(3, 3, 3, 3, DisplayName = "All")]
         public void TrainWorkersCommandHandler_Fails_For_Too_High_WorkerCounts(int farmers, int woodWorkers, int stoneMasons, int oreMiners) {
-            throw new System.NotImplementedException();
+            var handler = new TrainWorkersCommandHandler(_repository);
+            var command = new TrainWorkersCommand("test@test.com", farmers.ToString(), woodWorkers.ToString(), stoneMasons.ToString(), oreMiners.ToString());
+
+            var result = handler.Execute(command);
+
+            result.Errors.Should().HaveCount(1);
+            result.Errors[0].Expression.ToString().Should().BeNull();
+            result.Errors[0].Message.Should().Be("You don't have that many peasants available to train");
+            _player.DidNotReceive().TrainWorkers(Arg.Any<int>(), Arg.Any<int>(), Arg.Any<int>(), Arg.Any<int>());
         }
 
         [TestMethod]
         public void TrainWorkersCommandHandler_Fails_For_Negative_Farmers() {
-            throw new System.NotImplementedException();
+            var handler = new TrainWorkersCommandHandler(_repository);
+            var command = new TrainWorkersCommand("test@test.com", "-2", "2", "2", "2");
+
+            var result = handler.Execute(command);
+
+            result.Errors.Should().HaveCount(1);
+            result.Errors[0].Expression.ToString().Should().Be("c => c.Farmers");
+            result.Errors[0].Message.Should().Be("Farmers must be a valid number");
+            _player.DidNotReceive().TrainWorkers(Arg.Any<int>(), Arg.Any<int>(), Arg.Any<int>(), Arg.Any<int>());
         }
 
         [TestMethod]
         public void TrainWorkersCommandHandler_Fails_For_Negative_WoodWorkers() {
-            throw new System.NotImplementedException();
+            var handler = new TrainWorkersCommandHandler(_repository);
+            var command = new TrainWorkersCommand("test@test.com", "2", "-2", "2", "2");
+
+            var result = handler.Execute(command);
+
+            result.Errors.Should().HaveCount(1);
+            result.Errors[0].Expression.ToString().Should().Be("c => c.WoodWorkers");
+            result.Errors[0].Message.Should().Be("Wood workers must be a valid number");
+            _player.DidNotReceive().TrainWorkers(Arg.Any<int>(), Arg.Any<int>(), Arg.Any<int>(), Arg.Any<int>());
         }
 
         [TestMethod]
         public void TrainWorkersCommandHandler_Fails_For_Negative_StoneMasons() {
-            throw new System.NotImplementedException();
+            var handler = new TrainWorkersCommandHandler(_repository);
+            var command = new TrainWorkersCommand("test@test.com", "2", "2", "-2", "2");
+
+            var result = handler.Execute(command);
+
+            result.Errors.Should().HaveCount(1);
+            result.Errors[0].Expression.ToString().Should().Be("c => c.StoneMasons");
+            result.Errors[0].Message.Should().Be("Stone masons must be a valid number");
+            _player.DidNotReceive().TrainWorkers(Arg.Any<int>(), Arg.Any<int>(), Arg.Any<int>(), Arg.Any<int>());
         }
 
         [TestMethod]
         public void TrainWorkersCommandHandler_Fails_For_Negative_OreMiners() {
-            throw new System.NotImplementedException();
+            var handler = new TrainWorkersCommandHandler(_repository);
+            var command = new TrainWorkersCommand("test@test.com", "2", "2", "2", "-2");
+
+            var result = handler.Execute(command);
+
+            result.Errors.Should().HaveCount(1);
+            result.Errors[0].Expression.ToString().Should().Be("c => c.OreMiners");
+            result.Errors[0].Message.Should().Be("Ore miners must be a valid number");
+            _player.DidNotReceive().TrainWorkers(Arg.Any<int>(), Arg.Any<int>(), Arg.Any<int>(), Arg.Any<int>());
         }
 
         [TestMethod]
         public void TrainWorkersCommandHandler_Fails_For_Too_Little_Gold() {
-            throw new System.NotImplementedException();
+            var handler = new TrainWorkersCommandHandler(_repository);
+            var command = new TrainWorkersCommand("test@test.com", "2", "2", "2", "-2");
+
+            _player.Gold.Returns(1000);
+
+            var result = handler.Execute(command);
+
+            result.Errors.Should().HaveCount(1);
+            result.Errors[0].Expression.ToString().Should().BeNull();
+            result.Errors[0].Message.Should().Be("You don't have enough gold to train these peasants");
+            _player.DidNotReceive().TrainWorkers(Arg.Any<int>(), Arg.Any<int>(), Arg.Any<int>(), Arg.Any<int>());
         }
     }
 }
