@@ -35,12 +35,14 @@ namespace WarOfEmpires.CommandHandlers.Tests.Players {
             throw new System.NotImplementedException();
         }
 
+        /*
+         * TODO rewrite
         [TestMethod]
         public void UntrainWorkersCommandHandler_Fails_For_Alphanumeric_WorkerCounts() {
             throw new System.NotImplementedException();
         }
 
-        [DataTestMethod()]
+        [DataTestMethod]
         [DataRow(11, 0, 0, 0, DisplayName = "Farmers")]
         [DataRow(0, 11, 0, 0, DisplayName = "WoodWorkers")]
         [DataRow(0, 0, 11, 0, DisplayName = "StoneMasons")]
@@ -50,7 +52,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Players {
             throw new System.NotImplementedException();
         }
 
-        [DataTestMethod()]
+        [DataTestMethod]
         [DataRow(11, 0, 0, 0, DisplayName = "Farmers")]
         [DataRow(0, 11, 0, 0, DisplayName = "WoodWorkers")]
         [DataRow(0, 0, 11, 0, DisplayName = "StoneMasons")]
@@ -59,5 +61,6 @@ namespace WarOfEmpires.CommandHandlers.Tests.Players {
         public void UntrainWorkersCommandHandler_Fails_For_Negative_WorkerCounts(int farmers, int woodWorkers, int stoneMasons, int oreMiners) {
             throw new System.NotImplementedException();
         }
+        */
     }
 }
