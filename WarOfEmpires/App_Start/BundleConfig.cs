@@ -16,6 +16,7 @@ namespace WarOfEmpires.App_Start {
 
             bundles.Add(new ScriptBundle("~/Scripts/app").Include(
                 "~/Scripts/application/jquery-ajaxform.js",
+                "~/Scripts/application/jquery-command.js",
                 "~/Scripts/application/jquery-datagridview-defaults.js",
                 "~/Scripts/application/jquery-htmlform.js",
                 "~/Scripts/application/jquery-password-strength.js",

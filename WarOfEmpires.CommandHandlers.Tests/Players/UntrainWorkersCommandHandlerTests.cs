@@ -46,6 +46,17 @@ namespace WarOfEmpires.CommandHandlers.Tests.Players {
         }
 
         [TestMethod]
+        public void UntrainWorkersCommandHandler_Allows_Empty_Workers() {
+            var handler = new UntrainWorkersCommandHandler(_repository);
+            var command = new UntrainWorkersCommand("test@test.com", "", "", "", "");
+
+            var result = handler.Execute(command);
+
+            result.Success.Should().BeTrue();
+            _player.Received().UntrainWorkers(0, 0, 0, 0);
+        }
+
+        [TestMethod]
         public void UntrainWorkersCommandHandler_Fails_For_Alphanumeric_Farmers() {
             var handler = new UntrainWorkersCommandHandler(_repository);
             var command = new UntrainWorkersCommand("test@test.com", "A", "2", "2", "2");

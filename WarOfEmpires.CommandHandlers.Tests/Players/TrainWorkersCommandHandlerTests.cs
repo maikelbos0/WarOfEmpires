@@ -44,6 +44,17 @@ namespace WarOfEmpires.CommandHandlers.Tests.Players {
         }
 
         [TestMethod]
+        public void TrainWorkersCommandHandler_Allows_Empty_Workers() {
+            var handler = new TrainWorkersCommandHandler(_repository);
+            var command = new TrainWorkersCommand("test@test.com", "", "", "", "");
+
+            var result = handler.Execute(command);
+
+            result.Success.Should().BeTrue();
+            _player.Received().TrainWorkers(0, 0, 0, 0);
+        }
+
+        [TestMethod]
         public void TrainWorkersCommandHandler_Fails_For_Alphanumeric_Farmers() {
             var handler = new TrainWorkersCommandHandler(_repository);
             var command = new TrainWorkersCommand("test@test.com", "A", "2", "2", "2");
@@ -108,7 +119,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Players {
             var result = handler.Execute(command);
 
             result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.ToString().Should().BeNull();
+            result.Errors[0].Expression.Should().BeNull();
             result.Errors[0].Message.Should().Be("You don't have that many peasants available to train");
             _player.DidNotReceiveWithAnyArgs().TrainWorkers(default, default, default, default);
         }
@@ -168,14 +179,14 @@ namespace WarOfEmpires.CommandHandlers.Tests.Players {
         [TestMethod]
         public void TrainWorkersCommandHandler_Fails_For_Too_Little_Gold() {
             var handler = new TrainWorkersCommandHandler(_repository);
-            var command = new TrainWorkersCommand("test@test.com", "2", "2", "2", "-2");
+            var command = new TrainWorkersCommand("test@test.com", "2", "2", "2", "2");
 
             _player.Gold.Returns(1000);
 
             var result = handler.Execute(command);
 
             result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.ToString().Should().BeNull();
+            result.Errors[0].Expression.Should().BeNull();
             result.Errors[0].Message.Should().Be("You don't have enough gold to train these peasants");
             _player.DidNotReceiveWithAnyArgs().TrainWorkers(default, default, default, default);
         }

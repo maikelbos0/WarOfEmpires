@@ -34,6 +34,15 @@
                     @Html.ActionLink("Players", "Index", "Player", null, new { @class = "nav-link" })
 
                     <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbar-empire-dropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Empire
+                        </a>
+                        <div class="dropdown-menu site-dropdown-menu" aria-labelledby="navbar-empire-dropdown">
+                            @Html.ActionLink("Workers", "Workers", "Player", null, new { @class = "dropdown-item site-dropdown-item" })
+                        </div>
+                    </li>
+
+                    <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbar-login-dropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             @identityService.GetUserName()
                         </a>

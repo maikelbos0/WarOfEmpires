@@ -1,0 +1,113 @@
+﻿@model WarOfEmpires.Models.Players.WorkerModel
+
+@{
+    ViewBag.Title = "Workers";
+}
+
+<h2>Workers</h2>
+
+<p>Here you can train or untrain your workers. You currently have <strong>0</strong> peasants available for training.</p>
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { data_success_message = "Your peasants were reassigned." })) {
+    @Html.ValidationSummary(true, null, new { @class = "site-validation-summary text-danger" })
+    @Html.HiddenFor(m => m.Command)
+
+    <div class="row">
+        <div class="col-4 col-form-label">
+        </div>
+        <div class="col-2 col-form-label">
+            <strong>Workers</strong>
+        </div>
+        <div class="col-2 col-form-label">
+            <strong>Production per worker</strong>
+        </div>
+        <div class="col-2 col-form-label">
+            <strong>Total production</strong>
+        </div>
+        <div class="col-2">
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-4 col-form-label">
+            Farmers
+        </div>
+        <div class="col-2 col-form-label">
+            0
+        </div>
+        <div class="col-2 col-form-label">
+            0
+        </div>
+        <div class="col-2">
+            0
+        </div>
+        <div class="col-2">
+            @Html.TextBoxFor(m => m.Farmers, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Farmers, null, new { @class = "small form-text text-danger" })
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-4 col-form-label">
+            Wood workers
+        </div>
+        <div class="col-2 col-form-label">
+            0
+        </div>
+        <div class="col-2 col-form-label">
+            0
+        </div>
+        <div class="col-2">
+            0
+        </div>
+        <div class="col-2">
+            @Html.TextBoxFor(m => m.WoodWorkers, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.WoodWorkers, null, new { @class = "small form-text text-danger" })
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-4 col-form-label">
+            Stone masons
+        </div>
+        <div class="col-2 col-form-label">
+            0
+        </div>
+        <div class="col-2 col-form-label">
+            0
+        </div>
+        <div class="col-2">
+            0
+        </div>
+        <div class="col-2">
+            @Html.TextBoxFor(m => m.StoneMasons, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.StoneMasons, null, new { @class = "small form-text text-danger" })
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-4 col-form-label">
+            Ore miners
+        </div>
+        <div class="col-2">
+            0
+        </div>
+        <div class="col-2">
+            0
+        </div>
+        <div class="col-2">
+            0
+        </div>
+        <div class="col-2">
+            @Html.TextBoxFor(m => m.OreMiners, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.OreMiners, null, new { @class = "small form-text text-danger" })
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <button type="submit" class="btn btn-primary" value="train">Train</button>
+            <button type="submit" class="btn btn-secondary" value="untrain">Untrain</button>
+        </div>
+    </div>
+}

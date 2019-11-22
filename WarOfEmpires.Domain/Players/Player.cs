@@ -1,6 +1,7 @@
 ﻿namespace WarOfEmpires.Domain.Players {
     public class Player : AggregateRoot {
         public const int RecruitingEffortStep = 24;
+        public const int WorkerTrainingCost = 250;
 
         public virtual string DisplayName { get; set; }
         public virtual Security.User User { get; protected set; }
@@ -42,7 +43,7 @@
             }
         }
 
-        public void TrainWorkers(int farmers, int woodWorkers, int stoneMasons, int oreMiners) {
+        public virtual void TrainWorkers(int farmers, int woodWorkers, int stoneMasons, int oreMiners) {
             var trainedPeasants = farmers + woodWorkers + stoneMasons + oreMiners;
 
             Farmers += farmers;
@@ -51,10 +52,10 @@
             OreMiners += oreMiners;
 
             Peasants -= trainedPeasants;
-            Gold -= trainedPeasants * 250;
+            Gold -= trainedPeasants * WorkerTrainingCost;
         }
 
-        public void UntrainWorkers(int farmers, int woodWorkers, int stoneMasons, int oreMiners) {
+        public virtual void UntrainWorkers(int farmers, int woodWorkers, int stoneMasons, int oreMiners) {
             Farmers -= farmers;
             WoodWorkers -= woodWorkers;
             StoneMasons -= stoneMasons;
