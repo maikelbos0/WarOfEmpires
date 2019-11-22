@@ -10,6 +10,11 @@ namespace WarOfEmpires.Models.Empires {
         public string StoneMasons { get; set; }
         [RegularExpression("^\\d{0,6}$", ErrorMessage = "Ore miners must be a valid number")]
         public string OreMiners { get; set; }
+        public int CurrentPeasants { get; set; }
+        public int CurrentFarmers { get; set; }
+        public int CurrentWoodWorkers { get; set; }
+        public int CurrentStoneMasons { get; set; }
+        public int CurrentOreMiners { get; set; }
         public string Command { get; set; }
     }
 }
