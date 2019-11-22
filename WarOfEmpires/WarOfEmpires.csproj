@@ -235,6 +235,7 @@
     <Compile Include="Attributes\AdminAuthorizeAttribute.cs" />
     <Compile Include="Controllers\AdministrationController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\EmpireController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PlayerController.cs" />
     <Compile Include="Extensions\ModelStateDictionaryExtensions.cs" />
@@ -290,7 +291,7 @@
     <Content Include="Views\Home\EmailChangeFailed.cshtml" />
     <Content Include="Views\Administration\Index.cshtml" />
     <Content Include="Views\Administration\ScheduledTasks.cshtml" />
-    <Content Include="Views\Player\Workers.cshtml" />
+    <Content Include="Views\Empire\Workers.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -81,8 +81,8 @@
     <Compile Include="Events\UnpauseScheduledTasksCommandHandlerTests.cs" />
     <Compile Include="Players\RecruitCommandHandlerTests.cs" />
     <Compile Include="Players\RegisterPlayerCommandHandlerTests.cs" />
-    <Compile Include="Players\TrainWorkersCommandHandlerTests.cs" />
-    <Compile Include="Players\UntrainWorkersCommandHandlerTests.cs" />
+    <Compile Include="Empires\TrainWorkersCommandHandlerTests.cs" />
+    <Compile Include="Empires\UntrainWorkersCommandHandlerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security\ActivateUserCommandHandlerTests.cs" />
     <Compile Include="Security\ChangeUserEmailCommandHandlerTests.cs" />

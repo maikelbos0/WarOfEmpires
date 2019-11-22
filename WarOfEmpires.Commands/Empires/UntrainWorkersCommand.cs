@@ -1,12 +1,12 @@
-﻿namespace WarOfEmpires.Commands.Players {
-    public sealed class TrainWorkersCommand : ICommand {
+﻿namespace WarOfEmpires.Commands.Empires {
+    public sealed class UntrainWorkersCommand : ICommand {
         public string Email { get; }
         public string Farmers { get; }
         public string WoodWorkers { get; }
         public string StoneMasons { get; }
         public string OreMiners { get; }
 
-        public TrainWorkersCommand(string email, string farmers, string woodWorkers, string stoneMasons, string oreMiners) {
+        public UntrainWorkersCommand(string email, string farmers, string woodWorkers, string stoneMasons, string oreMiners) {
             Email = email;
             Farmers = farmers;
             WoodWorkers = woodWorkers;

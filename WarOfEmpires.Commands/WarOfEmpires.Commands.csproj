@@ -47,8 +47,8 @@
     <Compile Include="ICommand.cs" />
     <Compile Include="Players\RecruitCommand.cs" />
     <Compile Include="Players\RegisterPlayerCommand.cs" />
-    <Compile Include="Players\UntrainWorkersCommand.cs" />
-    <Compile Include="Players\TrainWorkersCommand.cs" />
+    <Compile Include="Empires\UntrainWorkersCommand.cs" />
+    <Compile Include="Empires\TrainWorkersCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security\ActivateUserCommand.cs" />
     <Compile Include="Security\ChangeUserEmailCommand.cs" />

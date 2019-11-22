@@ -1,21 +1,20 @@
 ﻿using WarOfEmpires.CommandHandlers.Decorators;
-using WarOfEmpires.Commands.Players;
-using WarOfEmpires.Domain.Players;
+using WarOfEmpires.Commands.Empires;
 using WarOfEmpires.Repositories.Players;
 using WarOfEmpires.Utilities.Container;
 
-namespace WarOfEmpires.CommandHandlers.Players {
+namespace WarOfEmpires.CommandHandlers.Empires {
     [InterfaceInjectable]
     [Audit]
-    public sealed class TrainWorkersCommandHandler : ICommandHandler<TrainWorkersCommand> {
+    public sealed class UntrainWorkersCommandHandler : ICommandHandler<UntrainWorkersCommand> {
         public PlayerRepository _repository;
 
-        public TrainWorkersCommandHandler(PlayerRepository repository) {
+        public UntrainWorkersCommandHandler(PlayerRepository repository) {
             _repository = repository;
         }
 
-        public CommandResult<TrainWorkersCommand> Execute(TrainWorkersCommand command) {
-            var result = new CommandResult<TrainWorkersCommand>();
+        public CommandResult<UntrainWorkersCommand> Execute(UntrainWorkersCommand command) {
+            var result = new CommandResult<UntrainWorkersCommand>();
             var player = _repository.Get(command.Email);
             int farmers = 0;
             int woodWorkers = 0;
@@ -38,16 +37,24 @@ namespace WarOfEmpires.CommandHandlers.Players {
                 result.AddError(c => c.OreMiners, "Ore miners must be a valid number");
             }
 
-            if (farmers + woodWorkers + stoneMasons + oreMiners > player.Peasants) {
-                result.AddError("You don't have that many peasants available to train");
+            if (farmers > player.Farmers) {
+                result.AddError(c => c.Farmers, "You don't have that many farmers to untrain");
             }
 
-            if ((farmers + woodWorkers + stoneMasons + oreMiners) * Player.WorkerTrainingCost > player.Gold) {
-                result.AddError("You don't have enough gold to train these peasants");
+            if (woodWorkers > player.WoodWorkers) {
+                result.AddError(c => c.WoodWorkers, "You don't have that many wood workers to untrain");
+            }
+
+            if (stoneMasons > player.StoneMasons) {
+                result.AddError(c => c.StoneMasons, "You don't have that many stone masons to untrain");
+            }
+
+            if (oreMiners > player.OreMiners) {
+                result.AddError(c => c.OreMiners, "You don't have that many ore miners to untrain");
             }
 
             if (result.Success) {
-                player.TrainWorkers(farmers, woodWorkers, stoneMasons, oreMiners);
+                player.UntrainWorkers(farmers, woodWorkers, stoneMasons, oreMiners);
                 _repository.Update();
             }
 

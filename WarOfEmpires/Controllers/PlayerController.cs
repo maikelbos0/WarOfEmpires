@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
-using WarOfEmpires.Commands.Players;
 using WarOfEmpires.Models;
 using WarOfEmpires.Models.Players;
 using WarOfEmpires.Queries.Players;
@@ -35,30 +34,6 @@ namespace WarOfEmpires.Controllers {
                 metaData,
                 data
             });
-        }
-
-        [Route("Workers")]
-        [HttpGet]
-        public ActionResult Workers() {
-            return View(new WorkerModel());
-        }
-
-        [Route("Workers")]
-        [HttpPost]
-        public ActionResult Workers(WorkerModel model) {
-            switch (model.Command) {
-                case "train":
-                    return ValidatedCommandResult(model, 
-                        new TrainWorkersCommand(_authenticationService.Identity, model.Farmers, model.WoodWorkers, model.StoneMasons, model.OreMiners),
-                        "Workers");
-                case "untrain":
-                    return ValidatedCommandResult(model,
-                        new UntrainWorkersCommand(_authenticationService.Identity, model.Farmers, model.WoodWorkers, model.StoneMasons, model.OreMiners), 
-                        "Workers");
-                default:
-                    throw new InvalidOperationException($"Invalid operation '{model.Command}' found");
-
-            }
         }
     }
 }

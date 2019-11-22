@@ -44,7 +44,7 @@
   <ItemGroup>
     <Compile Include="DataGridViewMetaData.cs" />
     <Compile Include="Players\PlayerViewModel.cs" />
-    <Compile Include="Players\WorkerModel.cs" />
+    <Compile Include="Empires\WorkerModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security\ChangeUserEmailModel.cs" />
     <Compile Include="Security\ChangeUserPasswordModel.cs" />

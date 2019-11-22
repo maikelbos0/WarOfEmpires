@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace WarOfEmpires.Models.Players {
+namespace WarOfEmpires.Models.Empires {
     public sealed class WorkerModel {
         [RegularExpression("^\\d{0,6}$", ErrorMessage = "Farmers must be a valid number")]
         public string Farmers { get; set; }
