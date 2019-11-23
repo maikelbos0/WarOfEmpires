@@ -1,8 +1,11 @@
-﻿using WarOfEmpires.Database;
+﻿using System.Data.Entity;
+using System.Linq;
+using WarOfEmpires.Database;
 using WarOfEmpires.Models.Empires;
 using WarOfEmpires.Queries.Empires;
 using WarOfEmpires.QueryHandlers.Decorators;
 using WarOfEmpires.Utilities.Container;
+using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Empires {
     [InterfaceInjectable]
@@ -15,7 +18,17 @@ namespace WarOfEmpires.QueryHandlers.Empires {
         }
 
         public WorkerModel Execute(GetWorkersQuery query) {
-            throw new System.NotImplementedException();
+            var player = _context.Players
+                .Include(p => p.User)
+                .Single(p => EmailComparisonService.Equals(p.User.Email, query.Email));
+
+            return new WorkerModel() {
+                CurrentPeasants = player.Peasants,
+                CurrentFarmers = player.Farmers,
+                CurrentWoodWorkers = player.WoodWorkers,
+                CurrentStoneMasons = player.StoneMasons,
+                CurrentOreMiners = player.OreMiners
+            };
         }
     }
 }
