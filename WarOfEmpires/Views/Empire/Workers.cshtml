@@ -6,7 +6,7 @@
 
 <h2>Workers</h2>
 
-<p>Here you can train or untrain your workers. You currently have <strong>0</strong> peasants available for training.</p>
+<p>Here you can train or untrain your workers. You currently have <strong>@Model.CurrentPeasants</strong> peasants available for training.</p>
 
 @using (Html.BeginForm(null, null, FormMethod.Post, new { data_success_message = "Your peasants were reassigned." })) {
     @Html.ValidationSummary(true, null, new { @class = "site-validation-summary text-danger" })
@@ -33,7 +33,7 @@
             Farmers
         </div>
         <div class="col-2 col-form-label">
-            0
+            @Model.CurrentFarmers
         </div>
         <div class="col-2 col-form-label">
             0
@@ -52,7 +52,7 @@
             Wood workers
         </div>
         <div class="col-2 col-form-label">
-            0
+            @Model.CurrentWoodWorkers
         </div>
         <div class="col-2 col-form-label">
             0
@@ -71,7 +71,7 @@
             Stone masons
         </div>
         <div class="col-2 col-form-label">
-            0
+            @Model.CurrentStoneMasons
         </div>
         <div class="col-2 col-form-label">
             0
@@ -90,7 +90,7 @@
             Ore miners
         </div>
         <div class="col-2">
-            0
+            @Model.CurrentOreMiners
         </div>
         <div class="col-2">
             0

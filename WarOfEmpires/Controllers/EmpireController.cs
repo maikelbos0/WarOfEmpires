@@ -2,6 +2,7 @@
 using System.Web.Mvc;
 using WarOfEmpires.Commands.Empires;
 using WarOfEmpires.Models.Empires;
+using WarOfEmpires.Queries.Empires;
 using WarOfEmpires.Services;
 
 namespace WarOfEmpires.Controllers {
@@ -14,7 +15,7 @@ namespace WarOfEmpires.Controllers {
         [Route("Workers")]
         [HttpGet]
         public ActionResult Workers() {
-            return View(new WorkerModel());
+            return View(_messageService.Dispatch(new GetWorkersQuery(_authenticationService.Identity)));
         }
 
         [Route("Workers")]
@@ -24,11 +25,11 @@ namespace WarOfEmpires.Controllers {
                 case "train":
                     return ValidatedCommandResult(model,
                         new TrainWorkersCommand(_authenticationService.Identity, model.Farmers, model.WoodWorkers, model.StoneMasons, model.OreMiners),
-                        "Workers");
+                        () => Workers());
                 case "untrain":
                     return ValidatedCommandResult(model,
                         new UntrainWorkersCommand(_authenticationService.Identity, model.Farmers, model.WoodWorkers, model.StoneMasons, model.OreMiners),
-                        "Workers");
+                        () => Workers());
                 default:
                     throw new InvalidOperationException($"Invalid operation '{model.Command}' found");
 
