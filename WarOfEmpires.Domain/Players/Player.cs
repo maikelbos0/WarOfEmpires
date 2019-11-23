@@ -31,43 +31,43 @@
             DisplayName = displayName;
         }
 
-        public virtual int GetGoldPerWorkerPerTurn() {
+        public int GetGoldPerWorkerPerTurn() {
             return (int)(0.5 * BaseGoldProduction);
         }
 
-        public virtual int GetFoodPerWorkerPerTurn() {
+        public int GetFoodPerWorkerPerTurn() {
             return (int)(0.5 * BaseResourceProduction);
         }
 
-        public virtual int GetWoodPerWorkerPerTurn() {
+        public int GetWoodPerWorkerPerTurn() {
             return (int)(0.5 * BaseResourceProduction);
         }
 
-        public virtual int GetStonePerWorkerPerTurn() {
+        public int GetStonePerWorkerPerTurn() {
             return (int)(0.5 * BaseResourceProduction);
         }
 
-        public virtual int GetOrePerWorkerPerTurn() {
+        public int GetOrePerWorkerPerTurn() {
             return (int)(0.5 * BaseResourceProduction);
         }
 
-        public virtual int GetGoldPerTurn() {
+        public int GetGoldPerTurn() {
             return GetGoldPerWorkerPerTurn() * (Farmers + WoodWorkers + StoneMasons + OreMiners);
         }
 
-        public virtual int GetFoodPerTurn() {
+        public int GetFoodPerTurn() {
             return GetFoodPerWorkerPerTurn() * Farmers;
         }
 
-        public virtual int GetWoodPerTurn() {
+        public int GetWoodPerTurn() {
             return GetWoodPerWorkerPerTurn() * WoodWorkers;
         }
 
-        public virtual int GetStonePerTurn() {
+        public int GetStonePerTurn() {
             return GetStonePerWorkerPerTurn() * StoneMasons;
         }
 
-        public virtual int GetOrePerTurn() {
+        public int GetOrePerTurn() {
             return GetOrePerWorkerPerTurn() * OreMiners;
         }
 

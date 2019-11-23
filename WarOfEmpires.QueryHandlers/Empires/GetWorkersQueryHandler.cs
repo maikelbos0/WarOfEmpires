@@ -24,10 +24,20 @@ namespace WarOfEmpires.QueryHandlers.Empires {
 
             return new WorkerModel() {
                 CurrentPeasants = player.Peasants,
+                CurrentGoldPerWorkerPerTurn = player.GetGoldPerWorkerPerTurn(),
+                CurrentGoldPerTurn = player.GetGoldPerTurn(),
                 CurrentFarmers = player.Farmers,
+                CurrentFoodPerWorkerPerTurn = player.GetFoodPerWorkerPerTurn(),
+                CurrentFoodPerTurn = player.GetFoodPerTurn(),
                 CurrentWoodWorkers = player.WoodWorkers,
+                CurrentWoodPerWorkerPerTurn = player.GetWoodPerWorkerPerTurn(),
+                CurrentWoodPerTurn = player.GetWoodPerTurn(),
                 CurrentStoneMasons = player.StoneMasons,
-                CurrentOreMiners = player.OreMiners
+                CurrentStonePerWorkerPerTurn = player.GetStonePerWorkerPerTurn(),
+                CurrentStonePerTurn = player.GetStonePerTurn(),
+                CurrentOreMiners = player.OreMiners,
+                CurrentOrePerWorkerPerTurn = player.GetOrePerWorkerPerTurn(),
+                CurrentOrePerTurn = player.GetOrePerTurn()
             };
         }
     }
