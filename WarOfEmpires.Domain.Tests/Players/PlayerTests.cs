@@ -116,5 +116,50 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
             player.Peasants.Should().Be(previousPeasants + 15);
         }
+
+        [TestMethod]
+        public void Player_GetGoldPerTurn_Is_Correct() {
+            var player = new Player(0, "Test");
+
+            player.TrainWorkers(1, 2, 3, 4);
+
+            player.GetGoldPerTurn().Should().Be(2500);
+        }
+
+        [TestMethod]
+        public void Player_GetFoodPerTurn_Is_Correct() {
+            var player = new Player(0, "Test");
+
+            player.TrainWorkers(1, 2, 3, 4);
+
+            player.GetFoodPerTurn().Should().Be(10);
+        }
+
+        [TestMethod]
+        public void Player_GetWoodPerTurn_Is_Correct() {
+            var player = new Player(0, "Test");
+
+            player.TrainWorkers(1, 2, 3, 4);
+
+            player.GetWoodPerTurn().Should().Be(20);
+        }
+
+        [TestMethod]
+        public void Player_GetStonePerTurn_Is_Correct() {
+            var player = new Player(0, "Test");
+
+            player.TrainWorkers(1, 2, 3, 4);
+
+            player.GetStonePerTurn().Should().Be(30);
+        }
+
+        [TestMethod]
+        public void Player_GetOrePerTurn_Is_Correct() {
+            var player = new Player(0, "Test");
+
+            player.TrainWorkers(1, 2, 3, 4);
+
+            player.GetOrePerTurn().Should().Be(40);
+        }
     }
 }

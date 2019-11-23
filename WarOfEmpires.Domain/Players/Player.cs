@@ -2,6 +2,8 @@
     public class Player : AggregateRoot {
         public const int RecruitingEffortStep = 24;
         public const int WorkerTrainingCost = 250;
+        public const int BaseGoldProduction = 500;
+        public const int BaseResourceProduction = 20;
 
         public virtual string DisplayName { get; set; }
         public virtual Security.User User { get; protected set; }
@@ -27,6 +29,46 @@
         public Player(int id, string displayName) {
             Id = id;
             DisplayName = displayName;
+        }
+
+        public virtual int GetGoldPerWorkerPerTurn() {
+            return (int)(0.5 * BaseGoldProduction);
+        }
+
+        public virtual int GetFoodPerWorkerPerTurn() {
+            return (int)(0.5 * BaseResourceProduction);
+        }
+
+        public virtual int GetWoodPerWorkerPerTurn() {
+            return (int)(0.5 * BaseResourceProduction);
+        }
+
+        public virtual int GetStonePerWorkerPerTurn() {
+            return (int)(0.5 * BaseResourceProduction);
+        }
+
+        public virtual int GetOrePerWorkerPerTurn() {
+            return (int)(0.5 * BaseResourceProduction);
+        }
+
+        public virtual int GetGoldPerTurn() {
+            return GetGoldPerWorkerPerTurn() * (Farmers + WoodWorkers + StoneMasons + OreMiners);
+        }
+
+        public virtual int GetFoodPerTurn() {
+            return GetFoodPerWorkerPerTurn() * Farmers;
+        }
+
+        public virtual int GetWoodPerTurn() {
+            return GetWoodPerWorkerPerTurn() * WoodWorkers;
+        }
+
+        public virtual int GetStonePerTurn() {
+            return GetStonePerWorkerPerTurn() * StoneMasons;
+        }
+
+        public virtual int GetOrePerTurn() {
+            return GetOrePerWorkerPerTurn() * OreMiners;
         }
 
         /// <summary>
