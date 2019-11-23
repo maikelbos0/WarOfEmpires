@@ -4,6 +4,7 @@ namespace WarOfEmpires.Database.Migrations {
     using System.Linq;
     using WarOfEmpires.Database.ReferenceEntities;
     using WarOfEmpires.Domain.Players;
+    using WarOfEmpires.Utilities.Services;
     using Events = WarOfEmpires.Domain.Events;
     using Security = WarOfEmpires.Domain.Security;
 
@@ -37,7 +38,7 @@ namespace WarOfEmpires.Database.Migrations {
         }
 
         private void AddOrUpdateUser(WarContext context, string email, string displayName) {
-            var user = context.Users.SingleOrDefault(u => u.Email.Equals(email, StringComparison.InvariantCultureIgnoreCase));
+            var user = context.Users.SingleOrDefault(u => EmailComparisonService.Equals(u.Email, email));
 
             if (user == null) {
                 user = new Security.User(email, new Random().Next().ToString());

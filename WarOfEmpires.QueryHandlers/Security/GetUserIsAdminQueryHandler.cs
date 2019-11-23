@@ -1,8 +1,8 @@
+using System.Linq;
 using WarOfEmpires.Database;
 using WarOfEmpires.Queries.Security;
 using WarOfEmpires.Utilities.Container;
-using System;
-using System.Linq;
+using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Security {
     [InterfaceInjectable]
@@ -15,7 +15,7 @@ namespace WarOfEmpires.QueryHandlers.Security {
 
         public bool Execute(GetUserIsAdminQuery query) {
             var user = _context.Users
-                .Single(p => p.Email.Equals(query.Email, StringComparison.InvariantCultureIgnoreCase));
+                .Single(p => EmailComparisonService.Equals(p.Email, query.Email));
 
             return user.IsAdmin;
         }

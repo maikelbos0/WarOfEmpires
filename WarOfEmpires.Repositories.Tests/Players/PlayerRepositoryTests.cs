@@ -42,25 +42,6 @@ namespace WarOfEmpires.Repositories.Tests.Players {
         }
 
         [TestMethod]
-        public void PlayerRepository_Get_Is_Case_Insensitive() {
-            var repository = new PlayerRepository(_context);
-
-            var player = repository.Get("TEST_1@TEST.COM");
-
-            player.Should().NotBeNull();
-            player.Id.Should().Be(1);
-        }
-
-        [TestMethod]
-        public void PlayerRepository_Get_Is_Accent_Sensitive() {
-            var repository = new PlayerRepository(_context);
-
-            Action action = () => repository.Get("tést_1@tëst.côm");
-
-            action.Should().Throw<InvalidOperationException>();
-        }
-
-        [TestMethod]
         public void PlayerRepository_Get_Throws_Exception_For_Nonexistent_Email() {
             var repository = new PlayerRepository(_context);
 

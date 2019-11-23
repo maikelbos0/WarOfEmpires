@@ -117,6 +117,7 @@
     <Compile Include="Reflection\IClassFinder.cs" />
     <Compile Include="Serialization\ISerializer.cs" />
     <Compile Include="Serialization\Serializer.cs" />
+    <Compile Include="Services\EmailComparisonService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

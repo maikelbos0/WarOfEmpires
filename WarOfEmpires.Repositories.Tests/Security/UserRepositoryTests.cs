@@ -14,10 +14,7 @@ namespace WarOfEmpires.Repositories.Tests.Security {
         public void Initialize() {
             _context.Users.Add(new User("first@test.com", "test"));
             _context.Users.Add(new User("test@test.com", "test"));
-            _context.Users.Add(new User("ANOTHER@TEST.COM", "test"));
             _context.Users.Add(new User("wrong@test.com", "test"));
-            _context.Users.Add(new User("accent@test.com", "test"));
-            _context.Users.Add(new User("áççënt@test.com", "test"));
             _context.Users.Add(new User("inactive@test.com", "test"));
 
             var id = 1;
@@ -39,26 +36,6 @@ namespace WarOfEmpires.Repositories.Tests.Security {
 
             user.Should().NotBeNull();
             user.Email.Should().Be("test@test.com");
-        }
-
-        [TestMethod]
-        public void UserRepository_TryGetByEmail_Is_Case_Insensitive() {
-            var repository = new UserRepository(_context);
-
-            var user = repository.TryGetByEmail("another@test.com");
-
-            user.Should().NotBeNull();
-            user.Email.Should().Be("ANOTHER@TEST.COM");
-        }
-
-        [TestMethod]
-        public void UserRepository_TryGetByEmail_Is_Accent_Sensitive() {
-            var repository = new UserRepository(_context);
-
-            var user = repository.TryGetByEmail("áççënt@test.com");
-
-            user.Should().NotBeNull();
-            user.Email.Should().Be("áççënt@test.com");
         }
 
         [TestMethod]
@@ -87,26 +64,6 @@ namespace WarOfEmpires.Repositories.Tests.Security {
 
             user.Should().NotBeNull();
             user.Email.Should().Be("test@test.com");
-        }
-
-        [TestMethod]
-        public void UserRepository_GetActiveByEmail_Is_Case_Insensitive() {
-            var repository = new UserRepository(_context);
-
-            var user = repository.GetActiveByEmail("another@test.com");
-
-            user.Should().NotBeNull();
-            user.Email.Should().Be("ANOTHER@TEST.COM");
-        }
-
-        [TestMethod]
-        public void UserRepository_GetActiveByEmail_Is_Accent_Sensitive() {
-            var repository = new UserRepository(_context);
-
-            var user = repository.GetActiveByEmail("áççënt@test.com");
-
-            user.Should().NotBeNull();
-            user.Email.Should().Be("áççënt@test.com");
         }
 
         [TestMethod]
@@ -144,26 +101,6 @@ namespace WarOfEmpires.Repositories.Tests.Security {
 
             user.Should().NotBeNull();
             user.Email.Should().Be("test@test.com");
-        }
-
-        [TestMethod]
-        public void UserRepository_GetByEmail_Is_Case_Insensitive() {
-            var repository = new UserRepository(_context);
-
-            var user = repository.GetByEmail("another@test.com", UserStatus.Active);
-
-            user.Should().NotBeNull();
-            user.Email.Should().Be("ANOTHER@TEST.COM");
-        }
-
-        [TestMethod]
-        public void UserRepository_GetByEmail_Is_Accent_Sensitive() {
-            var repository = new UserRepository(_context);
-
-            var user = repository.GetByEmail("áççënt@test.com", UserStatus.Active);
-
-            user.Should().NotBeNull();
-            user.Email.Should().Be("áççënt@test.com");
         }
 
         [TestMethod]

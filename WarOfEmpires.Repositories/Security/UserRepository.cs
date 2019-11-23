@@ -1,8 +1,8 @@
+using System.Linq;
 using WarOfEmpires.Database;
 using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Utilities.Container;
-using System;
-using System.Linq;
+using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.Repositories.Security {
     [InterfaceInjectable]
@@ -14,7 +14,7 @@ namespace WarOfEmpires.Repositories.Security {
         }
 
         public User TryGetByEmail(string email) {
-            return _context.Users.SingleOrDefault(u => u.Email.Equals(email, StringComparison.InvariantCultureIgnoreCase));
+            return _context.Users.SingleOrDefault(u => EmailComparisonService.Equals(u.Email, email));
         }
 
         public User GetActiveByEmail(string email) {
@@ -22,7 +22,7 @@ namespace WarOfEmpires.Repositories.Security {
         }
 
         public User GetByEmail(string email, UserStatus status) {
-            return _context.Users.Single(u => u.Email.Equals(email, StringComparison.InvariantCultureIgnoreCase) && u.Status == status);
+            return _context.Users.Single(u => EmailComparisonService.Equals(u.Email, email) && u.Status == status);
         }
 
         public void Add(User user) {

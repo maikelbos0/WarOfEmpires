@@ -1,8 +1,8 @@
+using System.Linq;
 using WarOfEmpires.Database;
 using WarOfEmpires.Queries.Security;
 using WarOfEmpires.Utilities.Container;
-using System;
-using System.Linq;
+using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Security {
     [InterfaceInjectable]
@@ -15,7 +15,7 @@ namespace WarOfEmpires.QueryHandlers.Security {
 
         public string Execute(GetUserNewEmailQuery query) {
             var user = _context.Users
-                .Single(u => u.Email.Equals(query.Email, StringComparison.InvariantCultureIgnoreCase));
+                .Single(u => EmailComparisonService.Equals(u.Email, query.Email));
 
             return user.NewEmail;
         }
