@@ -1,0 +1,26 @@
+﻿.datagridview-footer-element > button {
+    color: #fff;
+    background-color: #6c757d;
+    border-color: #6c757d;
+    font-weight: 400;
+    border-radius: 0.25rem;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.datagridview-footer-element > button:not(:first-child) {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.datagridview-footer-element > button:not(:last-child) {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.datagridview-footer-element > button:hover {
+    background-color: #343a40;
+}
+
+.datagridview-footer-element > button:disabled {
+    opacity: 0.65;
+}
