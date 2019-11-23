@@ -44,6 +44,10 @@
     margin-bottom: 15px;
 }
 
+.site-spaced-small {
+    margin-top: 4px;
+}
+
 .site-control {
     width: 100%;
     line-height: 1.2em;

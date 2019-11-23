@@ -6,11 +6,11 @@
 
 <h2>Register</h2>
 
-<div class="row">
-    <div class="col-3"></div>
+@using (Html.BeginForm()) {
+    <div class="row">
+        <div class="col-3"></div>
 
-    <div class="col-6">
-        @using (Html.BeginForm()) {
+        <div class="col-6">
             @Html.ValidationSummary(true, null, new { @class = "site-validation-summary text-danger" })
 
             <div class="form-group">
@@ -36,10 +36,14 @@
                 @Html.TextBoxFor(m => m.DisplayName, new { @class = "form-control" })
                 @Html.ValidationMessageFor(m => m.DisplayName, null, new { @class = "small form-text text-danger" })
             </div>
+        </div>
 
-            <button type="submit" class="btn btn-primary">Submit</button>
-        }
+        <div class="col-3"></div>
     </div>
 
-    <div class="col-3"></div>
-</div>
+    <div class="row">
+        <div class="col-6"></div>
+        <div class="col-3"><button type="submit" class="btn btn-primary form-control">Submit</button></div>
+        <div class="col-3"></div>
+    </div>
+}
