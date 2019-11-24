@@ -22,6 +22,7 @@
         public virtual int Wood { get; protected set; }
         public virtual int Stone { get; protected set; }
         public virtual int Ore { get; protected set; }
+        public virtual int Tax { get; set; } = (int)(0.5m * BaseGoldProduction);
 
         protected Player() {
         }
@@ -31,24 +32,28 @@
             DisplayName = displayName;
         }
 
+        public decimal GetTaxRate() {
+            return (decimal)Tax / BaseGoldProduction;
+        }
+
         public int GetGoldPerWorkerPerTurn() {
-            return (int)(0.5 * BaseGoldProduction);
+            return (int)(GetTaxRate() * BaseGoldProduction);
         }
 
         public int GetFoodPerWorkerPerTurn() {
-            return (int)(0.5 * BaseResourceProduction);
+            return (int)((1 - GetTaxRate()) * BaseResourceProduction);
         }
 
         public int GetWoodPerWorkerPerTurn() {
-            return (int)(0.5 * BaseResourceProduction);
+            return (int)((1 - GetTaxRate()) * BaseResourceProduction);
         }
 
         public int GetStonePerWorkerPerTurn() {
-            return (int)(0.5 * BaseResourceProduction);
+            return (int)((1 - GetTaxRate()) * BaseResourceProduction);
         }
 
         public int GetOrePerWorkerPerTurn() {
-            return (int)(0.5 * BaseResourceProduction);
+            return (int)((1 - GetTaxRate()) * BaseResourceProduction);
         }
 
         public int GetGoldPerTurn() {

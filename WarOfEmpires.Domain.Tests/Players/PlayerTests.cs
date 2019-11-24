@@ -118,48 +118,62 @@ namespace WarOfEmpires.Domain.Tests.Players {
         }
 
         [TestMethod]
+        public void Player_GetTaxRate_Is_Correct() {
+            var player = new Player(0, "Test");
+
+            player.Tax = 100;
+
+            player.GetTaxRate().Should().Be(0.2m);
+        }
+
+        [TestMethod]
         public void Player_GetGoldPerTurn_Is_Correct() {
             var player = new Player(0, "Test");
 
+            player.Tax = 150;
             player.TrainWorkers(1, 2, 3, 4);
 
-            player.GetGoldPerTurn().Should().Be(2500);
+            player.GetGoldPerTurn().Should().Be(1500);
         }
 
         [TestMethod]
         public void Player_GetFoodPerTurn_Is_Correct() {
             var player = new Player(0, "Test");
 
+            player.Tax = 100;
             player.TrainWorkers(1, 2, 3, 4);
 
-            player.GetFoodPerTurn().Should().Be(10);
+            player.GetFoodPerTurn().Should().Be(16);
         }
 
         [TestMethod]
         public void Player_GetWoodPerTurn_Is_Correct() {
             var player = new Player(0, "Test");
 
+            player.Tax = 200;
             player.TrainWorkers(1, 2, 3, 4);
 
-            player.GetWoodPerTurn().Should().Be(20);
+            player.GetWoodPerTurn().Should().Be(24);
         }
 
         [TestMethod]
         public void Player_GetStonePerTurn_Is_Correct() {
             var player = new Player(0, "Test");
 
+            player.Tax = 300;
             player.TrainWorkers(1, 2, 3, 4);
 
-            player.GetStonePerTurn().Should().Be(30);
+            player.GetStonePerTurn().Should().Be(24);
         }
 
         [TestMethod]
         public void Player_GetOrePerTurn_Is_Correct() {
             var player = new Player(0, "Test");
 
+            player.Tax = 400;
             player.TrainWorkers(1, 2, 3, 4);
 
-            player.GetOrePerTurn().Should().Be(40);
+            player.GetOrePerTurn().Should().Be(16);
         }
     }
 }
