@@ -110,6 +110,17 @@
             }
         }
 
+        /// <summary>
+        /// Timed function to get the turn-based new resources and gold
+        /// </summary>
+        public void GatherResources() {
+            Gold += GetGoldPerTurn();
+            Food += GetFoodPerTurn();
+            Wood += GetWoodPerTurn();
+            Stone += GetStonePerTurn();
+            Ore += GetOrePerTurn();
+        }
+
         public virtual void TrainWorkers(int farmers, int woodWorkers, int stoneMasons, int oreMiners) {
             var trainedPeasants = farmers + woodWorkers + stoneMasons + oreMiners;
 

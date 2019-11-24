@@ -175,5 +175,26 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
             player.GetOrePerTurn().Should().Be(16);
         }
+
+        [TestMethod]
+        public void Player_GatherResources_Succeeds() {
+            var player = new Player(0, "Test");
+            player.TrainWorkers(1, 2, 3, 4);
+
+            var previousGold = player.Gold;
+            var previousFood = player.Food;
+            var previousWood = player.Wood;
+            var previousStone = player.Stone;
+            var previousOre = player.Ore;
+
+            player.Tax = 80;
+            player.GatherResources();
+
+            player.Gold.Should().Be(previousGold + player.GetGoldPerTurn());
+            player.Food.Should().Be(previousFood + player.GetFoodPerTurn());
+            player.Wood.Should().Be(previousWood + player.GetWoodPerTurn());
+            player.Stone.Should().Be(previousStone + player.GetStonePerTurn());
+            player.Ore.Should().Be(previousOre + player.GetOrePerTurn());
+        }
     }
 }

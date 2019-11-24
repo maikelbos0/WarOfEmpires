@@ -54,6 +54,8 @@
     <Compile Include="CommandResult.cs" />
     <Compile Include="Decorators\AuditDecorator.cs" />
     <Compile Include="Decorators\AuditAttribute.cs" />
+    <Compile Include="Empires\GatherResourcesCommandHandler.cs" />
+    <Compile Include="Empires\ResourceGatheringTaskTriggeredEventHandler.cs" />
     <Compile Include="Empires\SetTaxCommandHandler.cs" />
     <Compile Include="Events\PauseScheduledTasksCommandHandler.cs" />
     <Compile Include="Events\RunScheduledTasksCommandHandler.cs" />
