@@ -3,6 +3,7 @@ namespace WarOfEmpires.Database.Migrations {
     using System.Data.Entity.Migrations;
     using System.Linq;
     using WarOfEmpires.Database.ReferenceEntities;
+    using WarOfEmpires.Domain.Empires;
     using WarOfEmpires.Domain.Players;
     using WarOfEmpires.Utilities.Services;
     using Events = WarOfEmpires.Domain.Events;
@@ -63,11 +64,18 @@ namespace WarOfEmpires.Database.Migrations {
         }
 
         private void AddOrUpdateScheduledTasks(WarContext context) {
-            var recruitTask = context.ScheduledTasks.SingleOrDefault(t => t.EventType == typeof(RecruitEvent).AssemblyQualifiedName);
+            var recruitTask = context.ScheduledTasks.SingleOrDefault(t => t.EventType == typeof(RecruitTaskTriggeredEvent).AssemblyQualifiedName);
 
             if (recruitTask == null) {
-                recruitTask = Events.ScheduledTask.Create<RecruitEvent>(new TimeSpan(1, 0, 0));
+                recruitTask = Events.ScheduledTask.Create<RecruitTaskTriggeredEvent>(new TimeSpan(1, 0, 0));
                 context.ScheduledTasks.Add(recruitTask);
+            }
+
+            var resourceGatheringTask = context.ScheduledTasks.SingleOrDefault(t => t.EventType == typeof(ResourceGatheringTaskTriggeredEvent).AssemblyQualifiedName);
+
+            if (resourceGatheringTask == null) {
+                resourceGatheringTask = Events.ScheduledTask.Create<ResourceGatheringTaskTriggeredEvent>(new TimeSpan(0, 10, 0));
+                context.ScheduledTasks.Add(resourceGatheringTask);
             }
 
             context.SaveChanges();

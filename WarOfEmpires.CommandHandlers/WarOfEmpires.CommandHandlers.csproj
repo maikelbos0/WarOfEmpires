@@ -60,7 +60,7 @@
     <Compile Include="Events\UnpauseScheduledTasksCommandHandler.cs" />
     <Compile Include="ICommandHandler.cs" />
     <Compile Include="Players\RecruitCommandHandler.cs" />
-    <Compile Include="Players\RecruitEventHandler.cs" />
+    <Compile Include="Players\RecruitTaskTriggeredEventHandler.cs" />
     <Compile Include="Players\RegisterPlayerCommandHandler.cs" />
     <Compile Include="Empires\TrainWorkersCommandHandler.cs" />
     <Compile Include="Empires\UntrainWorkersCommandHandler.cs" />
