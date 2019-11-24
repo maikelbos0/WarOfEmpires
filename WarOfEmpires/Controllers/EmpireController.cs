@@ -35,5 +35,19 @@ namespace WarOfEmpires.Controllers {
 
             }
         }
+
+        [Route("_Tax")]
+        [HttpGet]
+        public ActionResult _Tax() {
+            return PartialView(_messageService.Dispatch(new GetTaxQuery(_authenticationService.Identity)));
+        }
+
+        [Route("_Tax")]
+        [HttpPost]
+        public ActionResult _Tax(TaxModel model) {
+            return ValidatedCommandResult(model,
+                new SetTaxCommand(_authenticationService.Identity, model.Tax),
+                () => _Tax());
+        }
     }
 }

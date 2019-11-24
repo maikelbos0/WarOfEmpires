@@ -292,6 +292,7 @@
     <Content Include="Views\Administration\Index.cshtml" />
     <Content Include="Views\Administration\ScheduledTasks.cshtml" />
     <Content Include="Views\Empire\Workers.cshtml" />
+    <Content Include="Views\Empire\_Tax.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

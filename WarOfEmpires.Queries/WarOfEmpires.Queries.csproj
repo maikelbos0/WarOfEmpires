@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Empires\GetTaxQuery.cs" />
     <Compile Include="Empires\GetWorkersQuery.cs" />
     <Compile Include="Events\GetScheduledTasksPausedQuery.cs" />
     <Compile Include="IQuery.cs" />

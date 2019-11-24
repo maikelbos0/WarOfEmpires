@@ -1,4 +1,5 @@
-﻿@model WarOfEmpires.Models.Empires.WorkerModel
+﻿@using WarOfEmpires.Models.Empires;
+@model WorkerModel
 
 @{
     ViewBag.Title = "Workers";
@@ -11,15 +12,13 @@
     workers are currently producing <strong>@Model.CurrentGoldPerTurn</strong> gold per turn.
 </p>
 
-<div class="row">
-    <div class="col-4 col-form-label">
-        Gold production per turn
-    </div>
-    <div class="col-8">
-        <!-- Example slider -->
-        <input type="range" min="0" max="100" class="form-control-range" />
-    </div>
+<div class="partial-content">
+    @{
+        Html.RenderAction("_Tax");
+    }
 </div>
+
+<h2>Workers</h2>
 
 @using (Html.BeginForm(null, null, FormMethod.Post, new { data_success_message = "Your peasants were reassigned." })) {
     @Html.ValidationSummary(true, null, new { @class = "site-validation-summary text-danger" })
