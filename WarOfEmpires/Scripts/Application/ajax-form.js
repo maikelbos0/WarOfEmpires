@@ -28,6 +28,9 @@ $(function () {
                     if (title) {
                         document.title = title + ' - War of Empires';
                     }
+
+                    // Assume resources header need to be refreshed
+                    ResourceManager.refresh();
                 },
                 error: function () {
                     toastr.error("An error occurred processing data; please try again.");

@@ -35,20 +35,20 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
 
         [TestMethod]
         public void GetWorkersQueryHandler_Returns_Correct_Peasants() {
-            var command = new GetWorkersQuery("test@test.com");
+            var query = new GetWorkersQuery("test@test.com");
             var handler = new GetWorkersQueryHandler(_context);
 
-            var result = handler.Execute(command);
+            var result = handler.Execute(query);
 
             result.CurrentPeasants.Should().Be(1);
         }
 
         [TestMethod]
         public void GetWorkersQueryHandler_Returns_Correct_Workers() {
-            var command = new GetWorkersQuery("test@test.com");
+            var query = new GetWorkersQuery("test@test.com");
             var handler = new GetWorkersQueryHandler(_context);
 
-            var result = handler.Execute(command);
+            var result = handler.Execute(query);
 
             result.CurrentFarmers.Should().Be(2);
             result.CurrentWoodWorkers.Should().Be(3);
@@ -58,10 +58,10 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
 
         [TestMethod]
         public void GetWorkersQueryHandler_Returns_Correct_Resources_Per_Turn() {
-            var command = new GetWorkersQuery("test@test.com");
+            var query = new GetWorkersQuery("test@test.com");
             var handler = new GetWorkersQueryHandler(_context);
 
-            var result = handler.Execute(command);
+            var result = handler.Execute(query);
 
             result.CurrentGoldPerWorkerPerTurn.Should().Be(250);
             result.CurrentGoldPerTurn.Should().Be(3500);

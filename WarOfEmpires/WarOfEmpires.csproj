@@ -173,11 +173,12 @@
     <Content Include="Content\toastr.css" />
     <Content Include="Content\toastr.min.css" />
     <Content Include="Global.asax" />
-    <Content Include="Scripts\Application\jquery-command.js" />
+    <Content Include="Scripts\Application\command.js" />
     <Content Include="Scripts\Application\jquery-datagridview-defaults.js" />
-    <Content Include="Scripts\Application\jquery-htmlform.js" />
-    <Content Include="Scripts\Application\jquery-ajaxform.js" />
-    <Content Include="Scripts\Application\jquery-password-strength.js" />
+    <Content Include="Scripts\Application\html-form.js" />
+    <Content Include="Scripts\Application\ajax-form.js" />
+    <Content Include="Scripts\Application\password-strength.js" />
+    <Content Include="Scripts\Application\resource-manager.js" />
     <Content Include="Scripts\Application\toastr-defaults.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
@@ -293,6 +294,7 @@
     <Content Include="Views\Administration\ScheduledTasks.cshtml" />
     <Content Include="Views\Empire\Workers.cshtml" />
     <Content Include="Views\Empire\Tax.cshtml" />
+    <Content Include="Views\Empire\_Resources.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -48,5 +48,11 @@ namespace WarOfEmpires.Controllers {
                 new SetTaxCommand(_authenticationService.Identity, model.Tax),
                 () => Tax());
         }
+
+        [Route("_Resources")]
+        [HttpGet]
+        public ActionResult _Resources() {
+            return PartialView(_messageService.Dispatch(new GetResourcesQuery(_authenticationService.Identity)));
+        }
     }
 }

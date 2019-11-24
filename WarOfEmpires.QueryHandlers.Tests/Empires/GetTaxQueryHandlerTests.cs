@@ -29,20 +29,20 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
 
         [TestMethod]
         public void GetTaxQueryHandler_Returns_Correct_Tax() {
-            var command = new GetTaxQuery("test@test.com");
+            var query = new GetTaxQuery("test@test.com");
             var handler = new GetTaxQueryHandler(_context);
 
-            var result = handler.Execute(command);
+            var result = handler.Execute(query);
 
             result.Tax.Should().Be("50");
         }
 
         [TestMethod]
         public void GetTaxQueryHandler_Returns_Correct_Resources_Per_Turn() {
-            var command = new GetTaxQuery("test@test.com");
+            var query = new GetTaxQuery("test@test.com");
             var handler = new GetTaxQueryHandler(_context);
 
-            var result = handler.Execute(command);
+            var result = handler.Execute(query);
 
             result.BaseGoldPerTurn.Should().Be(500);
             result.BaseFoodPerTurn.Should().Be(20);
