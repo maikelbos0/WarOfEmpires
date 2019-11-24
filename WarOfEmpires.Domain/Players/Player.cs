@@ -102,7 +102,7 @@
         public void Recruit() {
             CurrentRecruitingEffort += RecruitsPerDay;
 
-            if (CurrentRecruitingEffort > RecruitingEffortStep) {
+            if (CurrentRecruitingEffort >= RecruitingEffortStep) {
                 var newRecruits = CurrentRecruitingEffort / RecruitingEffortStep;
 
                 CurrentRecruitingEffort -= newRecruits * RecruitingEffortStep;

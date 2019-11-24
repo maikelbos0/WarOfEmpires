@@ -1,9 +1,9 @@
 ﻿using WarOfEmpires.CommandHandlers.Decorators;
-using WarOfEmpires.Commands.Players;
+using WarOfEmpires.Commands.Empires;
 using WarOfEmpires.Repositories.Players;
 using WarOfEmpires.Utilities.Container;
 
-namespace WarOfEmpires.CommandHandlers.Players {
+namespace WarOfEmpires.CommandHandlers.Empires {
     [InterfaceInjectable]
     [Audit]
     public sealed class RecruitCommandHandler : ICommandHandler<RecruitCommand> {

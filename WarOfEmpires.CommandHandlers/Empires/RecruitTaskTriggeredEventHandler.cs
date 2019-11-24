@@ -1,8 +1,8 @@
-﻿using WarOfEmpires.Commands.Players;
+﻿using WarOfEmpires.Commands.Empires;
 using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Utilities.Events;
 
-namespace WarOfEmpires.CommandHandlers.Players {
+namespace WarOfEmpires.CommandHandlers.Empires {
     public sealed class RecruitTaskTriggeredEventHandler : IEventHandler<RecruitTaskTriggeredEvent> {
         private readonly RecruitCommandHandler _recruitCommandHandler;
 

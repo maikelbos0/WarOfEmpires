@@ -20,7 +20,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
             var player = new Player(0, "Test");
             var previousPeasants = player.Peasants;
 
-            while (player.CurrentRecruitingEffort < 24) {
+            while (player.CurrentRecruitingEffort < 23) {
                 player.Recruit();
             }
 

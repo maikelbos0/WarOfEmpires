@@ -1,13 +1,13 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
-using WarOfEmpires.CommandHandlers.Players;
-using WarOfEmpires.Commands.Players;
+using WarOfEmpires.CommandHandlers.Empires;
+using WarOfEmpires.Commands.Empires;
 using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Repositories.Players;
 using WarOfEmpires.Test.Utilities;
 
-namespace WarOfEmpires.CommandHandlers.Tests.Players {
+namespace WarOfEmpires.CommandHandlers.Tests.Empires {
     [TestClass]
     public sealed class RecruitCommandHandlerTests {
         private readonly FakeWarContext _context = new FakeWarContext();
