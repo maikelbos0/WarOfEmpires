@@ -22,7 +22,7 @@
         public virtual int Wood { get; protected set; }
         public virtual int Stone { get; protected set; }
         public virtual int Ore { get; protected set; }
-        public virtual int Tax { get; set; } = (int)(0.5m * BaseGoldProduction);
+        public virtual int Tax { get; set; } = 50;
 
         protected Player() {
         }
@@ -33,27 +33,47 @@
         }
 
         public decimal GetTaxRate() {
-            return (decimal)Tax / BaseGoldProduction;
+            return (decimal)Tax / 100;
+        }
+
+        public int GetBaseGoldPerTurn() {
+            return BaseGoldProduction;
+        }
+
+        public int GetBaseFoodPerTurn() {
+            return BaseResourceProduction;
+        }
+
+        public int GetBaseWoodPerTurn() {
+            return BaseResourceProduction;
+        }
+
+        public int GetBaseStonePerTurn() {
+            return BaseResourceProduction;
+        }
+
+        public int GetBaseOrePerTurn() {
+            return BaseResourceProduction;
         }
 
         public int GetGoldPerWorkerPerTurn() {
-            return (int)(GetTaxRate() * BaseGoldProduction);
+            return (int)(GetTaxRate() * GetBaseGoldPerTurn());
         }
 
         public int GetFoodPerWorkerPerTurn() {
-            return (int)((1 - GetTaxRate()) * BaseResourceProduction);
+            return (int)((1 - GetTaxRate()) * GetBaseFoodPerTurn());
         }
 
         public int GetWoodPerWorkerPerTurn() {
-            return (int)((1 - GetTaxRate()) * BaseResourceProduction);
+            return (int)((1 - GetTaxRate()) * GetBaseWoodPerTurn());
         }
 
         public int GetStonePerWorkerPerTurn() {
-            return (int)((1 - GetTaxRate()) * BaseResourceProduction);
+            return (int)((1 - GetTaxRate()) * GetBaseStonePerTurn());
         }
 
         public int GetOrePerWorkerPerTurn() {
-            return (int)((1 - GetTaxRate()) * BaseResourceProduction);
+            return (int)((1 - GetTaxRate()) * GetBaseOrePerTurn());
         }
 
         public int GetGoldPerTurn() {

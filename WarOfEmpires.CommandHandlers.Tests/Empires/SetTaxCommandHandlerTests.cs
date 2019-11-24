@@ -32,8 +32,8 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
         [DataTestMethod]
         [DataRow("0", DisplayName = "Minimum")]
-        [DataRow("200", DisplayName = "Normal")]
-        [DataRow("500", DisplayName = "Maximum")]
+        [DataRow("50", DisplayName = "Normal")]
+        [DataRow("100", DisplayName = "Maximum")]
         public void SetTaxCommandHandler_Succeeds(string tax) {
             var command = new SetTaxCommand("test@test.com", tax);
             var handler = new SetTaxCommandHandler(_repository);
@@ -47,7 +47,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
         [DataTestMethod]
         [DataRow("A", DisplayName = "Alphanumeric")]
         [DataRow("-1", DisplayName = "Negative")]
-        [DataRow("501", DisplayName = "Too High")]
+        [DataRow("101", DisplayName = "Too High")]
         public void SetTaxCommandHandler_Fails_For_Invalid_Tax(string tax) {
             var command = new SetTaxCommand("test@test.com", tax);
             var handler = new SetTaxCommandHandler(_repository);

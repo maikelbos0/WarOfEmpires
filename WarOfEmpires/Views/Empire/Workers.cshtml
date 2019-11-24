@@ -1,5 +1,4 @@
-﻿@using WarOfEmpires.Models.Empires;
-@model WorkerModel
+﻿@model WarOfEmpires.Models.Empires.WorkerModel
 
 @{
     ViewBag.Title = "Workers";
@@ -12,17 +11,12 @@
     workers are currently producing <strong>@Model.CurrentGoldPerTurn</strong> gold per turn.
 </p>
 
-<div class="partial-content">
-    @{
-        Html.RenderAction("_Tax");
-    }
-</div>
-
-<h2>Workers</h2>
-
 @using (Html.BeginForm(null, null, FormMethod.Post, new { data_success_message = "Your peasants were reassigned." })) {
     @Html.ValidationSummary(true, null, new { @class = "site-validation-summary text-danger" })
     @Html.HiddenFor(m => m.Command)
+    @Html.HiddenFor(m => m.CurrentGoldPerTurn)
+    @Html.HiddenFor(m => m.CurrentGoldPerWorkerPerTurn)
+    @Html.HiddenFor(m => m.CurrentPeasants)
 
     <div class="row">
         <div class="col-4 col-form-label">
@@ -44,14 +38,14 @@
         <div class="col-4 col-form-label">
             Farmers
         </div>
-        <div class="col-2 col-form-label">
-            @Model.CurrentFarmers
-        </div>
-        <div class="col-2 col-form-label">
-            @Model.CurrentFoodPerWorkerPerTurn
+        <div class="col-2">
+            @Html.TextBoxFor(m => m.CurrentFarmers, new { @class = "form-control-plaintext", @readonly = "readonly", tabindex = -1 })
         </div>
         <div class="col-2">
-            @Model.CurrentFoodPerTurn
+            @Html.TextBoxFor(m => m.CurrentFoodPerWorkerPerTurn, new { @class = "form-control-plaintext", @readonly = "readonly", tabindex = -1 })
+        </div>
+        <div class="col-2">
+            @Html.TextBoxFor(m => m.CurrentFoodPerTurn, new { @class = "form-control-plaintext", @readonly = "readonly", tabindex = -1 })
         </div>
         <div class="col-2">
             @Html.TextBoxFor(m => m.Farmers, new { @class = "form-control" })
@@ -63,14 +57,14 @@
         <div class="col-4 col-form-label">
             Wood workers
         </div>
-        <div class="col-2 col-form-label">
-            @Model.CurrentWoodWorkers
-        </div>
-        <div class="col-2 col-form-label">
-            @Model.CurrentWoodPerWorkerPerTurn
+        <div class="col-2">
+            @Html.TextBoxFor(m => m.CurrentWoodWorkers, new { @class = "form-control-plaintext", @readonly = "readonly", tabindex = -1 })
         </div>
         <div class="col-2">
-            @Model.CurrentWoodPerTurn
+            @Html.TextBoxFor(m => m.CurrentWoodPerWorkerPerTurn, new { @class = "form-control-plaintext", @readonly = "readonly", tabindex = -1 })
+        </div>
+        <div class="col-2">
+            @Html.TextBoxFor(m => m.CurrentWoodPerTurn, new { @class = "form-control-plaintext", @readonly = "readonly", tabindex = -1 })
         </div>
         <div class="col-2">
             @Html.TextBoxFor(m => m.WoodWorkers, new { @class = "form-control" })
@@ -82,14 +76,14 @@
         <div class="col-4 col-form-label">
             Stone masons
         </div>
-        <div class="col-2 col-form-label">
-            @Model.CurrentStoneMasons
-        </div>
-        <div class="col-2 col-form-label">
-            @Model.CurrentStonePerWorkerPerTurn
+        <div class="col-2">
+            @Html.TextBoxFor(m => m.CurrentStoneMasons, new { @class = "form-control-plaintext", @readonly = "readonly", tabindex = -1 })
         </div>
         <div class="col-2">
-            @Model.CurrentStonePerTurn
+            @Html.TextBoxFor(m => m.CurrentStonePerWorkerPerTurn, new { @class = "form-control-plaintext", @readonly = "readonly", tabindex = -1 })
+        </div>
+        <div class="col-2">
+            @Html.TextBoxFor(m => m.CurrentStonePerTurn, new { @class = "form-control-plaintext", @readonly = "readonly", tabindex = -1 })
         </div>
         <div class="col-2">
             @Html.TextBoxFor(m => m.StoneMasons, new { @class = "form-control" })
@@ -102,13 +96,13 @@
             Ore miners
         </div>
         <div class="col-2">
-            @Model.CurrentOreMiners
+            @Html.TextBoxFor(m => m.CurrentOreMiners, new { @class = "form-control-plaintext", @readonly = "readonly", tabindex = -1 })
         </div>
         <div class="col-2">
-            @Model.CurrentOrePerWorkerPerTurn
+            @Html.TextBoxFor(m => m.CurrentOrePerWorkerPerTurn, new { @class = "form-control-plaintext", @readonly = "readonly", tabindex = -1 })
         </div>
         <div class="col-2">
-            @Model.CurrentOrePerTurn
+            @Html.TextBoxFor(m => m.CurrentOrePerTurn, new { @class = "form-control-plaintext", @readonly = "readonly", tabindex = -1 })
         </div>
         <div class="col-2">
             @Html.TextBoxFor(m => m.OreMiners, new { @class = "form-control" })

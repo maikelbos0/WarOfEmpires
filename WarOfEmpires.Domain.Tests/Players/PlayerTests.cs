@@ -121,7 +121,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
         public void Player_GetTaxRate_Is_Correct() {
             var player = new Player(0, "Test");
 
-            player.Tax = 100;
+            player.Tax = 20;
 
             player.GetTaxRate().Should().Be(0.2m);
         }
@@ -130,7 +130,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
         public void Player_GetGoldPerTurn_Is_Correct() {
             var player = new Player(0, "Test");
 
-            player.Tax = 150;
+            player.Tax = 30;
             player.TrainWorkers(1, 2, 3, 4);
 
             player.GetGoldPerTurn().Should().Be(1500);
@@ -140,7 +140,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
         public void Player_GetFoodPerTurn_Is_Correct() {
             var player = new Player(0, "Test");
 
-            player.Tax = 100;
+            player.Tax = 20;
             player.TrainWorkers(1, 2, 3, 4);
 
             player.GetFoodPerTurn().Should().Be(16);
@@ -150,7 +150,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
         public void Player_GetWoodPerTurn_Is_Correct() {
             var player = new Player(0, "Test");
 
-            player.Tax = 200;
+            player.Tax = 40;
             player.TrainWorkers(1, 2, 3, 4);
 
             player.GetWoodPerTurn().Should().Be(24);
@@ -160,7 +160,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
         public void Player_GetStonePerTurn_Is_Correct() {
             var player = new Player(0, "Test");
 
-            player.Tax = 300;
+            player.Tax = 60;
             player.TrainWorkers(1, 2, 3, 4);
 
             player.GetStonePerTurn().Should().Be(24);
@@ -170,7 +170,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
         public void Player_GetOrePerTurn_Is_Correct() {
             var player = new Player(0, "Test");
 
-            player.Tax = 400;
+            player.Tax = 80;
             player.TrainWorkers(1, 2, 3, 4);
 
             player.GetOrePerTurn().Should().Be(16);

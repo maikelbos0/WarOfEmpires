@@ -23,7 +23,17 @@ namespace WarOfEmpires.QueryHandlers.Empires {
                 .Single(p => EmailComparisonService.Equals(p.User.Email, query.Email));
 
             return new TaxModel() {
-                Tax = player.Tax.ToString()
+                Tax = player.Tax.ToString(),
+                BaseGoldPerTurn = player.GetBaseGoldPerTurn(),
+                BaseFoodPerTurn = player.GetBaseFoodPerTurn(),
+                BaseWoodPerTurn = player.GetBaseWoodPerTurn(),
+                BaseStonePerTurn = player.GetBaseStonePerTurn(),
+                BaseOrePerTurn = player.GetBaseOrePerTurn(),
+                CurrentGoldPerWorkerPerTurn = player.GetGoldPerWorkerPerTurn(),
+                CurrentFoodPerWorkerPerTurn = player.GetFoodPerWorkerPerTurn(),
+                CurrentWoodPerWorkerPerTurn = player.GetWoodPerWorkerPerTurn(),
+                CurrentStonePerWorkerPerTurn = player.GetStonePerWorkerPerTurn(),
+                CurrentOrePerWorkerPerTurn = player.GetOrePerWorkerPerTurn()
             };
         }
     }

@@ -27,7 +27,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
             player.WoodWorkers.Returns(3);
             player.StoneMasons.Returns(4);
             player.OreMiners.Returns(5);
-            player.Tax.Returns(250);
+            player.Tax.Returns(50);
 
             _context.Users.Add(user);
             _context.Players.Add(player);

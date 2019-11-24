@@ -19,12 +19,13 @@ namespace WarOfEmpires.CommandHandlers.Empires {
             var player = _repository.Get(command.Email);
             int tax;
 
-            if (!int.TryParse(command.Tax, out tax) || tax < 0 || tax > Player.BaseGoldProduction) {
+            if (!int.TryParse(command.Tax, out tax) || tax < 0 || tax > 100) {
                 result.AddError(c => c.Tax, "Tax must be a valid number");
             }
 
             if (result.Success) {
                 player.Tax = tax;
+                _repository.Update();
             }
 
             return result;

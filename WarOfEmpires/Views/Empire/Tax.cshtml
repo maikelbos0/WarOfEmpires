@@ -1,0 +1,101 @@
+﻿@model WarOfEmpires.Models.Empires.TaxModel
+
+@{
+    ViewBag.Title = "Workers";
+}
+
+<h2>Taxes</h2>
+
+<p>
+    Here you can set the tax rate for your workers. The higher the tax rate, the more gold you get per turn, but the less resources you get per turn.
+</p>
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { data_success_message = "Your tax rate was changed." })) {
+    @Html.ValidationSummary(true, null, new { @class = "site-validation-summary text-danger" })
+    @Html.HiddenFor(m => m.BaseGoldPerTurn)
+    @Html.HiddenFor(m => m.BaseFoodPerTurn)
+    @Html.HiddenFor(m => m.BaseWoodPerTurn)
+    @Html.HiddenFor(m => m.BaseStonePerTurn)
+    @Html.HiddenFor(m => m.BaseOrePerTurn)
+
+    <div class="row">
+        <div class="col-4 col-form-label">
+            Tax rate
+        </div>
+        <div class="col-4">
+            <input type="range" min="0" max="100" step="5" id="tax-slider" value="@Model.Tax" class="form-control form-control-range" />
+        </div>
+        <div class="col-2">
+            @Html.TextBoxFor(m => m.Tax, new { @class = "form-control", @readonly = "readonly" })
+            @Html.ValidationMessageFor(m => m.Tax, null, new { @class = "small form-text text-danger" })
+        </div>
+        <div class="col-2">
+            <button type="submit" class="btn btn-primary form-control">Set</button>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-8 col-form-label">
+            Gold production
+        </div>
+
+        <div class="col-2">
+            @Html.TextBoxFor(m => m.CurrentGoldPerWorkerPerTurn, new { @class = "form-control", @readonly = "readonly", tabindex = -1 })
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-8 col-form-label">
+            Food production
+        </div>
+
+        <div class="col-2">
+            @Html.TextBoxFor(m => m.CurrentFoodPerWorkerPerTurn, new { @class = "form-control", @readonly = "readonly", tabindex = -1 })
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-8 col-form-label">
+            Wood production
+        </div>
+
+        <div class="col-2">
+            @Html.TextBoxFor(m => m.CurrentWoodPerWorkerPerTurn, new { @class = "form-control", @readonly = "readonly", tabindex = -1 })
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-8 col-form-label">
+            Stone production
+        </div>
+
+        <div class="col-2">
+            @Html.TextBoxFor(m => m.CurrentStonePerWorkerPerTurn, new { @class = "form-control", @readonly = "readonly", tabindex = -1 })
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-8 col-form-label">
+            Ore production
+        </div>
+
+        <div class="col-2">
+            @Html.TextBoxFor(m => m.CurrentOrePerWorkerPerTurn, new { @class = "form-control", @readonly = "readonly", tabindex = -1 })
+        </div>
+    </div>
+}
+
+<script>
+    $(function () {
+        $('#tax-slider').on('input change', function () {
+            var tax = parseInt($(this).val());
+
+            $('#Tax').val(tax);
+            $('#CurrentGoldPerWorkerPerTurn').val(Math.floor(tax / 100 * @Model.BaseGoldPerTurn));
+            $('#CurrentFoodPerWorkerPerTurn').val(Math.floor((100 - tax) / 100 * @Model.BaseFoodPerTurn));
+            $('#CurrentWoodPerWorkerPerTurn').val(Math.floor((100 - tax) / 100 * @Model.BaseWoodPerTurn));
+            $('#CurrentStonePerWorkerPerTurn').val(Math.floor((100 - tax) / 100 * @Model.BaseStonePerTurn));
+            $('#CurrentOrePerWorkerPerTurn').val(Math.floor((100 - tax) / 100 * @Model.BaseOrePerTurn));
+        });
+    });
+</script>
