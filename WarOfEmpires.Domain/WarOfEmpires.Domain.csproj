@@ -53,6 +53,7 @@
     <Compile Include="AggregateRoot.cs" />
     <Compile Include="Auditing\QueryExecution.cs" />
     <Compile Include="Auditing\CommandExecution.cs" />
+    <Compile Include="Common\Resources.cs" />
     <Compile Include="Entity.cs" />
     <Compile Include="Events\IEvent.cs" />
     <Compile Include="Empires\ResourceGatheringTaskTriggeredEvent.cs" />
