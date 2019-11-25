@@ -1,9 +1,11 @@
-﻿namespace WarOfEmpires.Domain.Players {
+﻿using WarOfEmpires.Domain.Common;
+
+namespace WarOfEmpires.Domain.Players {
     public class Player : AggregateRoot {
         public const int RecruitingEffortStep = 24;
-        public const int WorkerTrainingCost = 250;
         public const int BaseGoldProduction = 500;
         public const int BaseResourceProduction = 20;
+        public static Resources WorkerTrainingCost = new Resources(gold: 250);
 
         public virtual string DisplayName { get; set; }
         public virtual Security.User User { get; protected set; }
@@ -17,11 +19,7 @@
         public virtual int WoodWorkers { get; protected set; }
         public virtual int StoneMasons { get; protected set; }
         public virtual int OreMiners { get; protected set; }
-        public virtual int Gold { get; protected set; } = 10000;
-        public virtual int Food { get; protected set; }
-        public virtual int Wood { get; protected set; }
-        public virtual int Stone { get; protected set; }
-        public virtual int Ore { get; protected set; }
+        public virtual Resources Resources { get; protected set; } = new Resources(10000, 0, 0, 0, 0);
         public virtual int Tax { get; set; } = 50;
 
         protected Player() {
@@ -114,11 +112,13 @@
         /// Timed function to get the turn-based new resources and gold
         /// </summary>
         public void GatherResources() {
-            Gold += GetGoldPerTurn();
-            Food += GetFoodPerTurn();
-            Wood += GetWoodPerTurn();
-            Stone += GetStonePerTurn();
-            Ore += GetOrePerTurn();
+            Resources += new Resources(
+                GetGoldPerTurn(),
+                GetFoodPerTurn(),
+                GetWoodPerTurn(),
+                GetStonePerTurn(),
+                GetOrePerTurn()
+            );
         }
 
         public virtual void TrainWorkers(int farmers, int woodWorkers, int stoneMasons, int oreMiners) {
@@ -130,7 +130,7 @@
             OreMiners += oreMiners;
 
             Peasants -= trainedPeasants;
-            Gold -= trainedPeasants * WorkerTrainingCost;
+            Resources -= trainedPeasants * WorkerTrainingCost;
         }
 
         public virtual void UntrainWorkers(int farmers, int woodWorkers, int stoneMasons, int oreMiners) {

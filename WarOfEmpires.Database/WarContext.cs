@@ -69,6 +69,11 @@ namespace WarOfEmpires.Database {
 
             players.HasRequired(p => p.User).WithOptional();
             players.Property(p => p.DisplayName).IsRequired().HasMaxLength(25);
+            players.Property(p => p.Resources.Gold).HasColumnName("Gold");
+            players.Property(p => p.Resources.Food).HasColumnName("Food");
+            players.Property(p => p.Resources.Wood).HasColumnName("Wood");
+            players.Property(p => p.Resources.Stone).HasColumnName("Stone");
+            players.Property(p => p.Resources.Ore).HasColumnName("Ore");
         }
         
         private void OnSecurityModelCreating(DbModelBuilder modelBuilder) {

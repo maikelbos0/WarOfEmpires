@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using WarOfEmpires.Domain.Common;
 using WarOfEmpires.Domain.Players;
 
 namespace WarOfEmpires.Domain.Tests.Players {
@@ -84,11 +85,11 @@ namespace WarOfEmpires.Domain.Tests.Players {
         [TestMethod]
         public void Player_TrainWorkers_Removes_Gold() {
             var player = new Player(0, "Test");
-            var previousGold = player.Gold;
+            var previousResources = player.Resources;
 
             player.TrainWorkers(1, 2, 4, 8);
 
-            player.Gold.Should().Be(previousGold - 15 * 250);
+            player.Resources.Should().Be(previousResources - 15 * Player.WorkerTrainingCost);
         }
 
         [TestMethod]
@@ -119,18 +120,19 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_GetTaxRate_Is_Correct() {
-            var player = new Player(0, "Test");
-
-            player.Tax = 20;
+            var player = new Player(0, "Test") {
+                Tax = 20
+            };
 
             player.GetTaxRate().Should().Be(0.2m);
         }
 
         [TestMethod]
         public void Player_GetGoldPerTurn_Is_Correct() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test") {
+                Tax = 30
+            };
 
-            player.Tax = 30;
             player.TrainWorkers(1, 2, 3, 4);
 
             player.GetGoldPerTurn().Should().Be(1500);
@@ -138,9 +140,10 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_GetFoodPerTurn_Is_Correct() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test") {
+                Tax = 20
+            };
 
-            player.Tax = 20;
             player.TrainWorkers(1, 2, 3, 4);
 
             player.GetFoodPerTurn().Should().Be(16);
@@ -148,9 +151,10 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_GetWoodPerTurn_Is_Correct() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test") {
+                Tax = 40
+            };
 
-            player.Tax = 40;
             player.TrainWorkers(1, 2, 3, 4);
 
             player.GetWoodPerTurn().Should().Be(24);
@@ -158,9 +162,10 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_GetStonePerTurn_Is_Correct() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test") {
+                Tax = 60
+            };
 
-            player.Tax = 60;
             player.TrainWorkers(1, 2, 3, 4);
 
             player.GetStonePerTurn().Should().Be(24);
@@ -168,9 +173,10 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_GetOrePerTurn_Is_Correct() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test") {
+                Tax = 80
+            };
 
-            player.Tax = 80;
             player.TrainWorkers(1, 2, 3, 4);
 
             player.GetOrePerTurn().Should().Be(16);
@@ -181,20 +187,18 @@ namespace WarOfEmpires.Domain.Tests.Players {
             var player = new Player(0, "Test");
             player.TrainWorkers(1, 2, 3, 4);
 
-            var previousGold = player.Gold;
-            var previousFood = player.Food;
-            var previousWood = player.Wood;
-            var previousStone = player.Stone;
-            var previousOre = player.Ore;
+            var previousResources = player.Resources;
 
             player.Tax = 80;
             player.GatherResources();
 
-            player.Gold.Should().Be(previousGold + player.GetGoldPerTurn());
-            player.Food.Should().Be(previousFood + player.GetFoodPerTurn());
-            player.Wood.Should().Be(previousWood + player.GetWoodPerTurn());
-            player.Stone.Should().Be(previousStone + player.GetStonePerTurn());
-            player.Ore.Should().Be(previousOre + player.GetOrePerTurn());
+            player.Resources.Should().Be(previousResources + new Resources(
+                player.GetGoldPerTurn(),
+                player.GetFoodPerTurn(),
+                player.GetWoodPerTurn(),
+                player.GetStonePerTurn(),
+                player.GetOrePerTurn()
+            ));
         }
     }
 }

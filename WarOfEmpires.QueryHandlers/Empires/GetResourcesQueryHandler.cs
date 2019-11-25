@@ -24,11 +24,11 @@ namespace WarOfEmpires.QueryHandlers.Empires {
                 .Single(p => EmailComparisonService.Equals(p.User.Email, query.Email));
 
             return new ResourcesViewModel() {
-                Gold = player.Gold,
-                Food = player.Food,
-                Wood = player.Wood,
-                Stone = player.Stone,
-                Ore = player.Ore
+                Gold = player.Resources.Gold,
+                Food = player.Resources.Food,
+                Wood = player.Resources.Wood,
+                Stone = player.Resources.Stone,
+                Ore = player.Resources.Ore
             };
         }
     }

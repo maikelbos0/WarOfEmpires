@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
+using WarOfEmpires.Domain.Common;
 using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Queries.Empires;
@@ -21,11 +22,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
             user.Email.Returns("test@test.com");
 
             player.User.Returns(user);
-            player.Gold.Returns(12000);
-            player.Food.Returns(1500);
-            player.Wood.Returns(2000);
-            player.Stone.Returns(500);
-            player.Ore.Returns(1000);
+            player.Resources.Returns(new Resources(12000, 1500, 2000, 500, 1000));
 
             _context.Users.Add(user);
             _context.Players.Add(player);

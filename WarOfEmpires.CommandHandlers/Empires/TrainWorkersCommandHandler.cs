@@ -42,7 +42,7 @@ namespace WarOfEmpires.CommandHandlers.Empires {
                 result.AddError("You don't have that many peasants available to train");
             }
 
-            if ((farmers + woodWorkers + stoneMasons + oreMiners) * Player.WorkerTrainingCost > player.Gold) {
+            if (!player.Resources.CanAfford((farmers + woodWorkers + stoneMasons + oreMiners) * Player.WorkerTrainingCost)) {
                 result.AddError("You don't have enough gold to train these peasants");
             }
 

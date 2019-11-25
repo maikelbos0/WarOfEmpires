@@ -9,7 +9,10 @@ namespace WarOfEmpires.Domain.Common {
         public int Stone { get; private set; }
         public int Ore { get; private set; }
 
-        public Resources(int gold, int food, int wood, int stone, int ore) {
+        private Resources() {
+        }
+
+        public Resources(int gold = 0, int food = 0, int wood = 0, int stone = 0, int ore = 0) {
             if (gold < 0) throw new ArgumentOutOfRangeException("gold", "Negative values are not allowed");
             if (food < 0) throw new ArgumentOutOfRangeException("food", "Negative values are not allowed");
             if (wood < 0) throw new ArgumentOutOfRangeException("wood", "Negative values are not allowed");

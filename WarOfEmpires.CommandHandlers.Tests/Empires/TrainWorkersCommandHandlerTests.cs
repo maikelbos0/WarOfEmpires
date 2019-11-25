@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 using WarOfEmpires.CommandHandlers.Empires;
 using WarOfEmpires.Commands.Empires;
+using WarOfEmpires.Domain.Common;
 using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Repositories.Players;
@@ -25,7 +26,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
             var player = Substitute.For<Player>();
             player.User.Returns(user);
             player.Peasants.Returns(10);
-            player.Gold.Returns(10000);
+            player.Resources.Returns(new Resources(gold: 10000));
 
             _context.Users.Add(user);
             _context.Players.Add(player);
@@ -181,7 +182,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
             var handler = new TrainWorkersCommandHandler(_repository);
             var command = new TrainWorkersCommand("test@test.com", "2", "2", "2", "2");
 
-            _player.Gold.Returns(1000);
+            _player.Resources.Returns(new Resources(gold: 1000));
 
             var result = handler.Execute(command);
 
