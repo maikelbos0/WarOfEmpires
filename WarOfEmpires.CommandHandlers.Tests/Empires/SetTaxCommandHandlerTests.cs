@@ -42,6 +42,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
             result.Success.Should().BeTrue();
             _player.Received().Tax = int.Parse(tax);
+            _context.CallsToSaveChanges.Should().Be(1);
         }
 
         [DataTestMethod]

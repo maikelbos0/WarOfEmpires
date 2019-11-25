@@ -42,6 +42,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Security {
 
             user.Received().RequestEmailChange("new@test.com");
             user.DidNotReceive().RequestEmailChangeFailed();
+            _context.CallsToSaveChanges.Should().Be(1);
         }
 
         [TestMethod]

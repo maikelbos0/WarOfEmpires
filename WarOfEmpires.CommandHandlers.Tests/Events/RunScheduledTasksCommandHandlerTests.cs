@@ -80,6 +80,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Events {
 
             _eventService.Events.Should().HaveCount(1);
             _eventService.Events.First().Should().BeOfType<TestEvent>();
+            _context.CallsToSaveChanges.Should().Be(1);
         }
     }
 }

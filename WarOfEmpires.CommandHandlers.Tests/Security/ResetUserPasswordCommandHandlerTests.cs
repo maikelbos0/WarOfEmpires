@@ -35,6 +35,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Security {
             result.Success.Should().BeTrue();
             user.Received().ResetPassword("test2");
             user.DidNotReceive().ResetPasswordFailed();
+            _context.CallsToSaveChanges.Should().Be(1);
         }
 
         [TestMethod]

@@ -51,6 +51,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Decorators {
             _context.CommandExecutions.First().Date.Should().BeCloseTo(DateTime.UtcNow, 1000);
             _context.CommandExecutions.First().CommandType.Should().Be("WarOfEmpires.CommandHandlers.Tests.Decorators.AuditDecoratorTests+TestCommand");
             _context.CommandExecutions.First().CommandData.Should().Be(_serializer.SerializeToJson(command));
+            _context.CallsToSaveChanges.Should().Be(1);
         }
 
         [TestMethod]

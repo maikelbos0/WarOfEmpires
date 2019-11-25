@@ -33,6 +33,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Security {
             result.Success.Should().BeTrue();
             user.Received().LogIn();
             user.DidNotReceive().LogInFailed();
+            _context.CallsToSaveChanges.Should().Be(1);
         }
 
         [TestMethod]

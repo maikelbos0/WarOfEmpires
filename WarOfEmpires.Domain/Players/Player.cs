@@ -97,7 +97,7 @@ namespace WarOfEmpires.Domain.Players {
         /// <summary>
         /// Hourly function to work out the new recruiting efford and possible new peasants
         /// </summary>
-        public void Recruit() {
+        public virtual void Recruit() {
             CurrentRecruitingEffort += RecruitsPerDay;
 
             if (CurrentRecruitingEffort >= RecruitingEffortStep) {
@@ -111,7 +111,7 @@ namespace WarOfEmpires.Domain.Players {
         /// <summary>
         /// Timed function to get the turn-based new resources and gold
         /// </summary>
-        public void GatherResources() {
+        public virtual void GatherResources() {
             Resources += new Resources(
                 GetGoldPerTurn(),
                 GetFoodPerTurn(),

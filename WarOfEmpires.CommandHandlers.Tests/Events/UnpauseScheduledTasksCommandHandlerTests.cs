@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using FluentAssertions;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 using WarOfEmpires.CommandHandlers.Events;
 using WarOfEmpires.Commands.Events;
@@ -27,6 +28,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Events {
             handler.Execute(command);
 
             task.Received().Unpause();
+            _context.CallsToSaveChanges.Should().Be(1);
         }
     }
 }

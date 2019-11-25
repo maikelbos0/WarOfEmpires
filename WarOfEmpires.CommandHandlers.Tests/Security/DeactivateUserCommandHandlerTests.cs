@@ -34,6 +34,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Security {
             result.Errors.Should().BeEmpty();
             user.Received().Deactivate();
             user.DidNotReceive().DeactivationFailed();
+            _context.CallsToSaveChanges.Should().Be(1);
         }
 
         [TestMethod]

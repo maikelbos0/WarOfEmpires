@@ -1,7 +1,9 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using FluentAssertions;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 using WarOfEmpires.CommandHandlers.Empires;
 using WarOfEmpires.Commands.Empires;
+using WarOfEmpires.Domain.Common;
 using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Repositories.Players;
@@ -38,6 +40,8 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
             foreach (var player in _context.Players) {
                 player.Received().GatherResources();
             }
+
+            _context.CallsToSaveChanges.Should().Be(1);
         }
     }
 }

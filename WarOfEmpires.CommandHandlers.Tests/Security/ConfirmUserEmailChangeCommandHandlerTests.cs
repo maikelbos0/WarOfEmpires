@@ -34,6 +34,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Security {
             result.Errors.Should().BeEmpty();
             user.Received().ChangeEmail();
             user.DidNotReceive().ChangeEmailFailed();
+            _context.CallsToSaveChanges.Should().Be(1);
         }
 
         [TestMethod]

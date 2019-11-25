@@ -43,6 +43,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
             result.Success.Should().BeTrue();
             _player.Received().UntrainWorkers(0, 1, 2, 3);
+            _context.CallsToSaveChanges.Should().Be(1);
         }
 
         [TestMethod]

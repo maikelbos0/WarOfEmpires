@@ -38,6 +38,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Players {
             result.Errors.Should().BeEmpty();
             player.Should().NotBeNull();
             player.DisplayName.Should().Be("My name");
+            _context.CallsToSaveChanges.Should().Be(1);
         }
     }
 }

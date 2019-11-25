@@ -38,6 +38,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Security {
             _mailClient.SentMessages.Should().HaveCount(1);
             _mailClient.SentMessages[0].Subject.Should().Be("Please activate your account");
             _mailClient.SentMessages[0].To.Should().Be("test@test.com");
+            _context.CallsToSaveChanges.Should().Be(1);
         }
 
         [TestMethod]

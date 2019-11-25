@@ -38,6 +38,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Security {
             user.Status.Should().Be(UserStatus.New);
             user.UserEvents.Should().HaveCount(1);
             user.UserEvents.Single().Type.Should().Be(UserEventType.Registered);
+            _context.CallsToSaveChanges.Should().Be(1);
         }
 
         [TestMethod]
