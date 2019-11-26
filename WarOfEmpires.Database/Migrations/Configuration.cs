@@ -3,15 +3,16 @@ namespace WarOfEmpires.Database.Migrations {
     using System.Data.Entity.Migrations;
     using System.Linq;
     using WarOfEmpires.Database.ReferenceEntities;
-    using WarOfEmpires.Domain.Empires;
     using WarOfEmpires.Domain.Players;
     using WarOfEmpires.Utilities.Services;
+    using Empires = WarOfEmpires.Domain.Empires;
     using Events = WarOfEmpires.Domain.Events;
     using Security = WarOfEmpires.Domain.Security;
 
     public sealed class Configuration : DbMigrationsConfiguration<WarContext> {
         protected override void Seed(WarContext context) {
             SeedEntityType<Security.UserEventType, UserEventTypeEntity>(context);
+            SeedEntityType<Empires.BuildingType, BuildingTypeEntity>(context);
             SeedEntityType<Security.UserStatus, UserStatusEntity>(context);
 
             AddOrUpdateUser(context, "example@test.com", "I am example");
@@ -71,10 +72,10 @@ namespace WarOfEmpires.Database.Migrations {
                 context.ScheduledTasks.Add(recruitTask);
             }
 
-            var resourceGatheringTask = context.ScheduledTasks.SingleOrDefault(t => t.EventType == typeof(ResourceGatheringTaskTriggeredEvent).AssemblyQualifiedName);
+            var resourceGatheringTask = context.ScheduledTasks.SingleOrDefault(t => t.EventType == typeof(Empires.ResourceGatheringTaskTriggeredEvent).AssemblyQualifiedName);
 
             if (resourceGatheringTask == null) {
-                resourceGatheringTask = Events.ScheduledTask.Create<ResourceGatheringTaskTriggeredEvent>(new TimeSpan(0, 10, 0));
+                resourceGatheringTask = Events.ScheduledTask.Create<Empires.ResourceGatheringTaskTriggeredEvent>(new TimeSpan(0, 10, 0));
                 context.ScheduledTasks.Add(resourceGatheringTask);
             }
 

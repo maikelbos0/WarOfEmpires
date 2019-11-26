@@ -11,7 +11,7 @@ namespace WarOfEmpires.Domain.Security {
 
         public UserEvent(User user, UserEventType type) {
             User = user;
-            Date = DateTime.UtcNow;            
+            Date = DateTime.UtcNow;
             Type = type;
         }
     }

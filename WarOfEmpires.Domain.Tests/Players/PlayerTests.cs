@@ -1,6 +1,8 @@
 ﻿using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Linq;
 using WarOfEmpires.Domain.Common;
+using WarOfEmpires.Domain.Empires;
 using WarOfEmpires.Domain.Players;
 
 namespace WarOfEmpires.Domain.Tests.Players {
@@ -199,6 +201,48 @@ namespace WarOfEmpires.Domain.Tests.Players {
                 player.GetStonePerTurn(),
                 player.GetOrePerTurn()
             ));
+        }
+
+        [TestMethod]
+        public void Player_UpgradeBuilding_Succeeds_For_New_BuildingType() {
+            var player = new Player(0, "Test");
+            var buildingDefinition = BuildingDefinitionFactory.Get(BuildingType.Farm);
+
+            player.TrainWorkers(0, 6, 3, 1);
+
+            // Just get enough resources for anything
+            for (var i = 0; i < 100000; i++) {
+                player.GatherResources();
+            }
+
+            var previousResources = player.Resources;
+
+            player.UpgradeBuilding(BuildingType.Farm);
+
+            player.Buildings.Single().Level.Should().Be(1);
+            player.Buildings.Single().Type.Should().Be(BuildingType.Farm);
+            player.Resources.Should().Be(previousResources - buildingDefinition.GetNextLevelCost(0));
+        }
+
+        [TestMethod]
+        public void Player_UpgradeBuilding_Succeeds_For_Existing_BuildingType() {
+            var player = new Player(0, "Test");
+            var buildingDefinition = BuildingDefinitionFactory.Get(BuildingType.Farm);
+
+            player.TrainWorkers(0, 6, 3, 1);
+            player.Buildings.Add(new Building(player, BuildingType.Farm, 1));
+
+            // Just get enough resources for anything
+            for (var i = 0; i < 100000; i++) {
+                player.GatherResources();
+            }
+
+            var previousResources = player.Resources;
+
+            player.UpgradeBuilding(BuildingType.Farm);
+
+            player.Buildings.Single().Level.Should().Be(2);
+            player.Resources.Should().Be(previousResources - buildingDefinition.GetNextLevelCost(1));
         }
     }
 }

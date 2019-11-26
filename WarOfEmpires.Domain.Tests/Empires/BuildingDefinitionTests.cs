@@ -5,10 +5,10 @@ using WarOfEmpires.Domain.Empires;
 
 namespace WarOfEmpires.Domain.Tests.Empires {
     [TestClass]
-    public sealed class BuildingTests {
+    public sealed class BuildingDefinitionTests {
         [TestMethod]
-        public void Building_Generates_Name_Correctly() {
-            var building = new Building(
+        public void BuildingDefinition_Generates_Name_Correctly() {
+            var building = new BuildingDefinition(
                 new ExpressionGenerator<string>((int level, int levelOffset) => $"Level {level}"),
                 new ExpressionGenerator<Resources>((int level, int levelOffset) => new Resources(gold: level * 20000))
             );
@@ -17,8 +17,8 @@ namespace WarOfEmpires.Domain.Tests.Empires {
         }
 
         [TestMethod]
-        public void Building_Generates_Costs_Correctly() {
-            var building = new Building(
+        public void BuildingDefinition_Generates_Costs_Correctly() {
+            var building = new BuildingDefinition(
                 new ExpressionGenerator<string>((int level, int levelOffset) => $"Level {level}"),
                 new ExpressionGenerator<Resources>((int level, int levelOffset) => new Resources(gold: level * 20000))
             );

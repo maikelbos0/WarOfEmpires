@@ -1,4 +1,7 @@
-﻿using WarOfEmpires.Domain.Common;
+﻿using System.Collections.Generic;
+using System.Linq;
+using WarOfEmpires.Domain.Common;
+using WarOfEmpires.Domain.Empires;
 
 namespace WarOfEmpires.Domain.Players {
     public class Player : AggregateRoot {
@@ -6,7 +9,7 @@ namespace WarOfEmpires.Domain.Players {
         public const int BaseGoldProduction = 500;
         public const int BaseResourceProduction = 20;
         public static Resources WorkerTrainingCost = new Resources(gold: 250);
-
+        
         public virtual string DisplayName { get; set; }
         public virtual Security.User User { get; protected set; }
         public virtual int RecruitsPerDay { get; protected set; } = 1;
@@ -21,6 +24,7 @@ namespace WarOfEmpires.Domain.Players {
         public virtual int OreMiners { get; protected set; }
         public virtual Resources Resources { get; protected set; } = new Resources(10000, 0, 0, 0, 0);
         public virtual int Tax { get; set; } = 50;
+        public virtual ICollection<Building> Buildings { get; protected set; } = new List<Building>();
 
         protected Player() {
         }
@@ -140,6 +144,21 @@ namespace WarOfEmpires.Domain.Players {
             OreMiners -= oreMiners;
 
             Peasants += farmers + woodWorkers + stoneMasons + oreMiners;
+        }
+
+        public virtual void UpgradeBuilding(BuildingType type) {
+            var definition = BuildingDefinitionFactory.Get(type);
+            var building = Buildings.SingleOrDefault(b => b.Type == type);
+
+            Resources -= definition.GetNextLevelCost(building?.Level ?? 0);
+
+            if (building == null) {
+                building = new Building(this, type, 1);
+                Buildings.Add(building);
+            }
+            else {
+                building.Level++;
+            }
         }
     }
 }

@@ -6,6 +6,7 @@ using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using Auditing = WarOfEmpires.Domain.Auditing;
 using Events = WarOfEmpires.Domain.Events;
+using Empires = WarOfEmpires.Domain.Empires;
 using Players = WarOfEmpires.Domain.Players;
 using Security = WarOfEmpires.Domain.Security;
 
@@ -65,17 +66,25 @@ namespace WarOfEmpires.Database {
         }
 
         private void OnPlayersModelCreating(DbModelBuilder modelBuilder) {
+            var buildingTypes = modelBuilder.Entity<BuildingTypeEntity>().ToTable("BuildingTypes", "Empires").HasKey(t => t.Id);
+
+            buildingTypes.HasMany(t => t.Buildings).WithRequired().HasForeignKey(b => b.Type);
+            buildingTypes.Property(t => t.Name).IsRequired();
+
             var players = modelBuilder.Entity<Players.Player>().ToTable("Players", "Players").HasKey(p => p.Id);
 
             players.HasRequired(p => p.User).WithOptional();
+            players.HasMany(p => p.Buildings).WithRequired(b => b.Player);
             players.Property(p => p.DisplayName).IsRequired().HasMaxLength(25);
             players.Property(p => p.Resources.Gold).HasColumnName("Gold");
             players.Property(p => p.Resources.Food).HasColumnName("Food");
             players.Property(p => p.Resources.Wood).HasColumnName("Wood");
             players.Property(p => p.Resources.Stone).HasColumnName("Stone");
             players.Property(p => p.Resources.Ore).HasColumnName("Ore");
+
+            var buildings = modelBuilder.Entity<Empires.Building>().ToTable("Buildings", "Empires").HasKey(b => b.Id);
         }
-        
+
         private void OnSecurityModelCreating(DbModelBuilder modelBuilder) {
             var userEventTypes = modelBuilder.Entity<UserEventTypeEntity>().ToTable("UserEventTypes", "Security").HasKey(t => t.Id);
 

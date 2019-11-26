@@ -78,9 +78,14 @@
     <Compile Include="Migrations\201911240720512_Players-Tax.Designer.cs">
       <DependentUpon>201911240720512_Players-Tax.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201911261826316_Players-Buildings.cs" />
+    <Compile Include="Migrations\201911261826316_Players-Buildings.Designer.cs">
+      <DependentUpon>201911261826316_Players-Buildings.cs</DependentUpon>
+    </Compile>
     <Compile Include="ReferenceEntities\BaseReferenceEntity.cs" />
     <Compile Include="IWarContext.cs" />
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="ReferenceEntities\BuildingTypeEntity.cs" />
     <Compile Include="WarContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReferenceEntities\ReferenceEntityExtensions.cs" />
@@ -122,6 +127,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201911240720512_Players-Tax.resx">
       <DependentUpon>201911240720512_Players-Tax.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911261826316_Players-Buildings.resx">
+      <DependentUpon>201911261826316_Players-Buildings.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -54,8 +54,9 @@
     <Compile Include="Auditing\QueryExecution.cs" />
     <Compile Include="Auditing\CommandExecution.cs" />
     <Compile Include="Common\Resources.cs" />
+    <Compile Include="Empires\BuildingDefinition.cs" />
+    <Compile Include="Empires\BuildingDefinitionFactory.cs" />
     <Compile Include="Empires\Building.cs" />
-    <Compile Include="Empires\BuildingFactory.cs" />
     <Compile Include="Empires\ExpressionGenerator.cs" />
     <Compile Include="Empires\BuildingType.cs" />
     <Compile Include="Entity.cs" />
