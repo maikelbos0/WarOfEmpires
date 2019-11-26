@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="Decorators\AuditAttribute.cs" />
     <Compile Include="Decorators\AuditDecorator.cs" />
+    <Compile Include="Empires\GetBuildingQueryHandler.cs" />
     <Compile Include="Empires\GetResourcesQueryHandler.cs" />
     <Compile Include="Empires\GetTaxQueryHandler.cs" />
     <Compile Include="Empires\GetWorkersQueryHandler.cs" />

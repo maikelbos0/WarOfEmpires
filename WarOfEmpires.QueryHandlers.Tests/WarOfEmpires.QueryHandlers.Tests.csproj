@@ -76,6 +76,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Decorators\AuditDecoratorTests.cs" />
+    <Compile Include="Empires\GetBuildingQueryHandlerTests.cs" />
     <Compile Include="Empires\GetResourcesQueryHandlerTests.cs" />
     <Compile Include="Empires\GetTaxQueryHandlerTests.cs" />
     <Compile Include="Empires\GetWorkersQueryHandlerTests.cs" />
