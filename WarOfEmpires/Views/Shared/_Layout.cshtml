@@ -40,6 +40,8 @@
                         <div class="dropdown-menu site-dropdown-menu" aria-labelledby="navbar-empire-dropdown">
                             @Html.ActionLink("Workers", "Workers", "Empire", null, new { @class = "dropdown-item site-dropdown-item" })
                             @Html.ActionLink("Tax rate", "Tax", "Empire", null, new { @class = "dropdown-item site-dropdown-item" })
+                            <div class="dropdown-divider site-dropdown-divider"></div>
+                            @Html.ActionLink("Resource buildings", "ResourceBuildings", "Empire", null, new { @class = "dropdown-item site-dropdown-item" })
                         </div>
                     </li>
 
@@ -57,7 +59,6 @@
                             }
                             @Html.ActionLink("Deactivate account", "Deactivate", "Home", null, new { @class = "dropdown-item site-dropdown-item" })
                             <div class="dropdown-divider site-dropdown-divider"></div>
-
                             @using (Html.BeginForm("LogOut", "Home", FormMethod.Post, new { @class = "html-only d-inline" })) {
                                 <button type="submit" class="btn btn-link dropdown-item site-dropdown-item">Log out</button>
                             }

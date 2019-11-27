@@ -1,0 +1,35 @@
+﻿@{
+    ViewBag.Title = "Resource buildings";
+}
+
+<h2>Resource buildings</h2>
+
+<p>
+    Here you can upgrade your farm, lumber yard, quarry and mine.
+</p>
+
+<div class="row">
+    <div class="col-3 partial-content">
+        @{
+            Html.RenderAction("_Building", "Empire", new { Type = "Farm" });
+        }
+    </div>
+
+    <div class="col-3 partial-content">
+        @{
+            Html.RenderAction("_Building", "Empire", new { Type = "Lumberyard" });
+        }
+    </div>
+
+    <div class="col-3 partial-content">
+        @{
+            Html.RenderAction("_Building", "Empire", new { Type = "Quarry" });
+        }
+    </div>
+
+    <div class="col-3 partial-content">
+        @{
+            Html.RenderAction("_Building", "Empire", new { Type = "Mine" });
+        }
+    </div>
+</div>

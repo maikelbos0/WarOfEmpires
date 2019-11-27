@@ -54,5 +54,17 @@ namespace WarOfEmpires.Controllers {
         public ActionResult _Resources() {
             return PartialView(_messageService.Dispatch(new GetResourcesQuery(_authenticationService.Identity)));
         }
+
+        [Route("ResourceBuildings")]
+        [HttpGet]
+        public ActionResult ResourceBuildings() {
+            return View();
+        }
+
+        [Route("_Building")]
+        [HttpGet]
+        public ActionResult _Building(string type) {
+            return PartialView(_messageService.Dispatch(new GetBuildingQuery(_authenticationService.Identity, type)));
+        }
     }
 }
