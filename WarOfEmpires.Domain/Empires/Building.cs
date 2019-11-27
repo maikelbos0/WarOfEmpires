@@ -11,7 +11,7 @@ namespace WarOfEmpires.Domain.Empires {
 
         public Building(Player player, BuildingType type, int level) {
             Player = player;
-            Type = Type;
+            Type = type;
             Level = level;
         }
     }

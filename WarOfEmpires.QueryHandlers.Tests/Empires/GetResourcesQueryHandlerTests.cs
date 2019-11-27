@@ -12,6 +12,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
     [TestClass]
     public sealed class GetResourcesQueryHandlerTests {
         private readonly FakeWarContext _context = new FakeWarContext();
+        private readonly ResourcesMap _resourcesMap = new ResourcesMap();
 
         public GetResourcesQueryHandlerTests() {
             var user = Substitute.For<User>();
@@ -31,7 +32,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
         [TestMethod]
         public void GetResourcesQueryHandler_Returns_Correct_Resources() {
             var query = new GetResourcesQuery("test@test.com");
-            var handler = new GetResourcesQueryHandler(_context);
+            var handler = new GetResourcesQueryHandler(_context, _resourcesMap);
 
             var result = handler.Execute(query);
 

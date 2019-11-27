@@ -20,12 +20,11 @@ namespace WarOfEmpires.QueryHandlers.Players {
 
         public List<PlayerViewModel> Execute(GetPlayersQuery query) {
             return _context.Players
-                .Include(p => p.User)
                 .Where(p => p.User.Status == UserStatus.Active)
-                .OrderBy(u => u.Id)
-                .Select(u => new PlayerViewModel() {
-                    Id = u.Id,
-                    DisplayName = u.DisplayName
+                .OrderBy(p => p.Id)
+                .Select(p => new PlayerViewModel() {
+                    Id = p.Id,
+                    DisplayName = p.DisplayName
                 })
                 .ToList();
         }

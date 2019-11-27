@@ -1,4 +1,3 @@
-using System.Data.Entity;
 using System.Linq;
 using WarOfEmpires.Database;
 using WarOfEmpires.Queries.Security;
@@ -16,7 +15,6 @@ namespace WarOfEmpires.QueryHandlers.Security {
 
         public string Execute(GetUserNameQuery query) {
             var player = _context.Players
-                .Include(p => p.User)
                 .Single(p => EmailComparisonService.Equals(p.User.Email, query.Email));
 
             return player.DisplayName;

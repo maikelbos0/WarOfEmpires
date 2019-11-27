@@ -1,5 +1,4 @@
-﻿using System.Data.Entity;
-using System.Linq;
+﻿using System.Linq;
 using WarOfEmpires.Database;
 using WarOfEmpires.Models.Empires;
 using WarOfEmpires.Queries.Empires;
@@ -19,7 +18,6 @@ namespace WarOfEmpires.QueryHandlers.Empires {
 
         public TaxModel Execute(GetTaxQuery query) {
             var player = _context.Players
-                .Include(p => p.User)
                 .Single(p => EmailComparisonService.Equals(p.User.Email, query.Email));
 
             return new TaxModel() {
