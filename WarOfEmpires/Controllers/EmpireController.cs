@@ -63,8 +63,17 @@ namespace WarOfEmpires.Controllers {
 
         [Route("_Building")]
         [HttpGet]
-        public ActionResult _Building(string type) {
-            return PartialView(_messageService.Dispatch(new GetBuildingQuery(_authenticationService.Identity, type)));
+        public ActionResult _Building(string buildingType) {
+            return PartialView(_messageService.Dispatch(new GetBuildingQuery(_authenticationService.Identity, buildingType)));
+        }
+
+        [Route("_Building")]
+        [HttpPost]
+        public ActionResult _Building(BuildingViewModel model) {
+            // Let the client know explicitly that everything was valid
+            Response?.AddHeader("X-IsValid", "true");
+
+            return PartialView("_Building", _messageService.Dispatch(new GetBuildingQuery(_authenticationService.Identity, model.BuildingType)));
         }
     }
 }

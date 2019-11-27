@@ -24,10 +24,11 @@ namespace WarOfEmpires.QueryHandlers.Empires {
             var buildingType = (BuildingType)Enum.Parse(typeof(BuildingType), query.BuildingType);
             var buildingDefinition = BuildingDefinitionFactory.Get(buildingType);
             var buildingLevel = _context.Players
-                .Single(p => EmailComparisonService.Equals(p.User.Email, query.Email))
+                .Single(p => EmailComparisonService.Equals(p.User.Email, query.Email))                
                 .Buildings.SingleOrDefault(b => b.Type == buildingType)?.Level ?? 0;
 
             return new BuildingViewModel() {
+                BuildingType = query.BuildingType,
                 Level = buildingLevel,
                 Name = buildingDefinition.GetName(buildingLevel),
                 UpdateCost = _resourcesMap.ToViewModel(buildingDefinition.GetNextLevelCost(buildingLevel))
