@@ -10,6 +10,7 @@ namespace WarOfEmpires.Domain.Tests.Empires {
         public void BuildingDefinition_Generates_Name_Correctly() {
             var building = new BuildingDefinition(
                 new ExpressionGenerator<string>((int level, int levelOffset) => $"Level {level}"),
+                new ExpressionGenerator<string>((int level, int levelOffset) => $"Description {level}"),
                 new ExpressionGenerator<Resources>((int level, int levelOffset) => new Resources(gold: level * 20000))
             );
 
@@ -17,9 +18,21 @@ namespace WarOfEmpires.Domain.Tests.Empires {
         }
 
         [TestMethod]
+        public void BuildingDefinition_Generates_Description_Correctly() {
+            var building = new BuildingDefinition(
+                new ExpressionGenerator<string>((int level, int levelOffset) => $"Level {level}"),
+                new ExpressionGenerator<string>((int level, int levelOffset) => $"Description {level}"),
+                new ExpressionGenerator<Resources>((int level, int levelOffset) => new Resources(gold: level * 20000))
+            );
+
+            building.GetDescription(5).Should().Be("Description 5");
+        }
+
+        [TestMethod]
         public void BuildingDefinition_Generates_Costs_Correctly() {
             var building = new BuildingDefinition(
                 new ExpressionGenerator<string>((int level, int levelOffset) => $"Level {level}"),
+                new ExpressionGenerator<string>((int level, int levelOffset) => $"Description {level}"),
                 new ExpressionGenerator<Resources>((int level, int levelOffset) => new Resources(gold: level * 20000))
             );
 

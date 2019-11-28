@@ -20,6 +20,7 @@ namespace WarOfEmpires.Domain.Empires {
 
             return new BuildingDefinition(
                 new ExpressionGenerator<string>((int level, int levelOffset) => $"Farm (level {level})"),
+                new ExpressionGenerator<string>((int level, int levelOffset) => $"Your farm increases food production by 25% for each level; your current bonus is {level * 25}%"),
                 farmCosts
             );
         }
@@ -32,6 +33,7 @@ namespace WarOfEmpires.Domain.Empires {
 
             return new BuildingDefinition(
                 new ExpressionGenerator<string>((int level, int levelOffset) => $"Lumberyard (level {level})"),
+                new ExpressionGenerator<string>((int level, int levelOffset) => $"Your lumberyard increases wood production by 25% for each level; your current bonus is {level * 25}%"),
                 farmCosts
             );
         }
@@ -44,6 +46,7 @@ namespace WarOfEmpires.Domain.Empires {
 
             return new BuildingDefinition(
                 new ExpressionGenerator<string>((int level, int levelOffset) => $"Quarry (level {level})"),
+                new ExpressionGenerator<string>((int level, int levelOffset) => $"Your quarry increases stone production by 25% for each level; your current bonus is {level * 25}%"),
                 farmCosts
             );
         }
@@ -56,6 +59,7 @@ namespace WarOfEmpires.Domain.Empires {
 
             return new BuildingDefinition(
                 new ExpressionGenerator<string>((int level, int levelOffset) => $"Mine (level {level})"),
+                new ExpressionGenerator<string>((int level, int levelOffset) => $"Your mine increases ore production by 25% for each level; your current bonus is {level * 25}%"),
                 farmCosts
             );
         }
