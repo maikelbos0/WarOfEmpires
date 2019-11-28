@@ -204,7 +204,24 @@ namespace WarOfEmpires.Domain.Tests.Players {
                 player.GetWoodPerTurn(),
                 player.GetStonePerTurn(),
                 player.GetOrePerTurn()
-            ));
+            ) - player.GetFoodCostPerTurn());
+        }
+
+        [TestMethod]
+        public void Player_GatherResources_Does_Nothing_When_Out_Of_Food() {
+            var player = new Player(0, "Test");
+            player.TrainWorkers(1, 2, 3, 4);
+            player.Tax = 85;
+
+            while (player.Resources.Food >= player.GetFoodCostPerTurn().Food) {
+                player.GatherResources();
+            }
+
+            var previousResources = player.Resources;
+
+            player.GatherResources();
+
+            player.Resources.Should().Be(previousResources - new Resources(food: previousResources.Food));
         }
 
         [TestMethod]
@@ -263,6 +280,13 @@ namespace WarOfEmpires.Domain.Tests.Players {
             player.Buildings.Add(new Building(player, BuildingType.Farm, 3));
 
             player.GetBuildingResourceMultiplier(BuildingType.Farm).Should().Be(1.75m);
+        }
+
+        [TestMethod]
+        public void Player_GetFoodCostPerTurn_Is_Correct_For_Peasants() {
+            var player = new Player(0, "Test");
+
+            player.GetFoodCostPerTurn().Should().Be(new Resources(food: 20));
         }
     }
 }

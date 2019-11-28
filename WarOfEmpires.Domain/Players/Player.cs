@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using WarOfEmpires.Domain.Common;
 using WarOfEmpires.Domain.Empires;
@@ -9,7 +10,8 @@ namespace WarOfEmpires.Domain.Players {
         public const int BaseGoldProduction = 500;
         public const int BaseResourceProduction = 20;
         public static Resources WorkerTrainingCost = new Resources(gold: 250);
-        
+        public static Resources PeasantFoodCost = new Resources(food: 2);
+
         public virtual string DisplayName { get; set; }
         public virtual Security.User User { get; protected set; }
         public virtual int RecruitsPerDay { get; protected set; } = 1;
@@ -22,7 +24,7 @@ namespace WarOfEmpires.Domain.Players {
         public virtual int WoodWorkers { get; protected set; }
         public virtual int StoneMasons { get; protected set; }
         public virtual int OreMiners { get; protected set; }
-        public virtual Resources Resources { get; protected set; } = new Resources(10000, 0, 0, 0, 0);
+        public virtual Resources Resources { get; protected set; } = new Resources(10000, 2000, 2000, 2000, 2000);
         public virtual int Tax { get; set; } = 50;
         public virtual ICollection<Building> Buildings { get; protected set; } = new List<Building>();
 
@@ -67,7 +69,7 @@ namespace WarOfEmpires.Domain.Players {
         }
 
         public int GetWoodPerWorkerPerTurn() {
-            return (int)((1 - GetTaxRate())  * GetBaseWoodPerTurn());
+            return (int)((1 - GetTaxRate()) * GetBaseWoodPerTurn());
         }
 
         public int GetStonePerWorkerPerTurn() {
@@ -98,6 +100,14 @@ namespace WarOfEmpires.Domain.Players {
             return GetOrePerWorkerPerTurn() * OreMiners;
         }
 
+        public Resources GetFoodCostPerTurn() {
+            var foodCost = new Resources();
+
+            foodCost += (Peasants + Farmers + WoodWorkers + StoneMasons + OreMiners) * PeasantFoodCost;
+
+            return foodCost;
+        }
+
         /// <summary>
         /// Hourly function to work out the new recruiting efford and possible new peasants
         /// </summary>
@@ -116,13 +126,27 @@ namespace WarOfEmpires.Domain.Players {
         /// Timed function to get the turn-based new resources and gold
         /// </summary>
         public virtual void GatherResources() {
-            Resources += new Resources(
-                GetGoldPerTurn(),
-                GetFoodPerTurn(),
-                GetWoodPerTurn(),
-                GetStonePerTurn(),
-                GetOrePerTurn()
-            );
+            var foodCost = GetFoodCostPerTurn();
+
+            if (Resources.CanAfford(foodCost)) {
+                Resources = Resources - foodCost + new Resources(
+                    GetGoldPerTurn(),
+                    GetFoodPerTurn(),
+                    GetWoodPerTurn(),
+                    GetStonePerTurn(),
+                    GetOrePerTurn()
+                );
+            }
+            else {
+                // Even though it's only food, we take into account it may eventually include other resources to prevent unexpected errors
+                Resources -= new Resources(
+                    Math.Min(foodCost.Gold, Resources.Gold),
+                    Math.Min(foodCost.Food, Resources.Food),
+                    Math.Min(foodCost.Wood, Resources.Wood),
+                    Math.Min(foodCost.Stone, Resources.Stone),
+                    Math.Min(foodCost.Ore, Resources.Ore)
+                );
+            }
         }
 
         public virtual void TrainWorkers(int farmers, int woodWorkers, int stoneMasons, int oreMiners) {
