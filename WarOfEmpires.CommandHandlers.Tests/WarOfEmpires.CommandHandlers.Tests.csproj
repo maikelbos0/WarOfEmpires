@@ -78,6 +78,7 @@
     <Compile Include="Decorators\AuditDecoratorTests.cs" />
     <Compile Include="Empires\GatherResourcesCommandHandlerTests.cs" />
     <Compile Include="Empires\SetTaxCommandHandlerTests.cs" />
+    <Compile Include="Empires\UpgradeBuildingCommandHandlerTests.cs" />
     <Compile Include="Events\PauseScheduledTasksCommandHandlerTests.cs" />
     <Compile Include="Events\RunScheduledTasksCommandHandlerTests.cs" />
     <Compile Include="Events\UnpauseScheduledTasksCommandHandlerTests.cs" />

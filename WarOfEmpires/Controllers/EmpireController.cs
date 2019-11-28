@@ -70,10 +70,9 @@ namespace WarOfEmpires.Controllers {
         [Route("_Building")]
         [HttpPost]
         public ActionResult _Building(BuildingViewModel model) {
-            // Let the client know explicitly that everything was valid
-            Response?.AddHeader("X-IsValid", "true");
-
-            return PartialView("_Building", _messageService.Dispatch(new GetBuildingQuery(_authenticationService.Identity, model.BuildingType)));
+            return ValidatedCommandResult(model,
+                new UpgradeBuildingCommand(_authenticationService.Identity, model.BuildingType),
+                () => _Building(model.BuildingType));
         }
     }
 }

@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="Empires\GatherResourcesCommand.cs" />
     <Compile Include="Empires\SetTaxCommand.cs" />
+    <Compile Include="Empires\UpgradeBuildingCommand.cs" />
     <Compile Include="Events\PauseScheduledTasksCommand.cs" />
     <Compile Include="Events\RunScheduledTasksCommand.cs" />
     <Compile Include="Events\UnpauseScheduledTasksCommand.cs" />
