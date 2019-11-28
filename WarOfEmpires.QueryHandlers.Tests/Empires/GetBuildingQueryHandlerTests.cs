@@ -43,7 +43,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
             result.Level.Should().Be(2);
             result.Name.Should().Be("Lumberyard (level 2)");
             result.Description.Should().Be("Your lumberyard increases wood production by 25% for each level; your current bonus is 50%");
-            result.UpdateCost.Gold.Should().Be(150000);
+            result.UpdateCost.Gold.Should().Be(50000);
         }
 
         [TestMethod]

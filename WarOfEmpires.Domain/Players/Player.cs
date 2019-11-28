@@ -9,12 +9,12 @@ namespace WarOfEmpires.Domain.Players {
         public const int RecruitingEffortStep = 24;
         public const int BaseGoldProduction = 500;
         public const int BaseResourceProduction = 20;
+        public static int[] BuildingRecruitingLevels = { 50000, 100000, 200000, 300000, 500000, 800000, 1200000, 2000000, 3000000, 5000000, 8000000, 12000000, 20000000, 30000000, 40000000, 50000000, 60000000, 70000000, 80000000, 90000000, 100000000, 110000000, 120000000, 130000000, 140000000, 150000000 };
         public static Resources WorkerTrainingCost = new Resources(gold: 250);
         public static Resources PeasantFoodCost = new Resources(food: 2);
 
         public virtual string DisplayName { get; set; }
         public virtual Security.User User { get; protected set; }
-        public virtual int RecruitsPerDay { get; protected set; } = 1;
         /// <summary>
         /// Current number of expected recruits / 24
         /// </summary>
@@ -112,7 +112,7 @@ namespace WarOfEmpires.Domain.Players {
         /// Hourly function to work out the new recruiting efford and possible new peasants
         /// </summary>
         public virtual void Recruit() {
-            CurrentRecruitingEffort += RecruitsPerDay;
+            CurrentRecruitingEffort += GetRecruitsPerDay();
 
             if (CurrentRecruitingEffort >= RecruitingEffortStep) {
                 var newRecruits = CurrentRecruitingEffort / RecruitingEffortStep;
@@ -187,6 +187,22 @@ namespace WarOfEmpires.Domain.Players {
 
         public decimal GetBuildingResourceMultiplier(BuildingType type) {
             return (100m + 25m * (Buildings.SingleOrDefault(b => b.Type == type)?.Level ?? 0)) / 100m;
+        }
+
+        public virtual int GetRecruitsPerDay() {
+            int recruiting = 0;
+
+            // Get total gold spent on buildings
+            // TODO filter out defenses when introduced
+            var totalBuildingGold = Buildings.Select(b => new {
+                Definition = BuildingDefinitionFactory.Get(b.Type),
+                b.Level
+            }).Sum(b => Enumerable.Range(0, b.Level - 1).Sum(l => b.Definition.GetNextLevelCost(l).Gold));
+
+            // Get recruiting for total gold spent
+            recruiting += BuildingRecruitingLevels.Where(g => g <= totalBuildingGold).Count();
+
+            return Math.Max(1, Math.Min(25, recruiting));
         }
     }
 }

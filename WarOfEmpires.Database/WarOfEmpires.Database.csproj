@@ -82,6 +82,10 @@
     <Compile Include="Migrations\201911261826316_Players-Buildings.Designer.cs">
       <DependentUpon>201911261826316_Players-Buildings.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201911281338107_Players-DynamicRecruiting.cs" />
+    <Compile Include="Migrations\201911281338107_Players-DynamicRecruiting.Designer.cs">
+      <DependentUpon>201911281338107_Players-DynamicRecruiting.cs</DependentUpon>
+    </Compile>
     <Compile Include="ReferenceEntities\BaseReferenceEntity.cs" />
     <Compile Include="IWarContext.cs" />
     <Compile Include="Migrations\Configuration.cs" />
@@ -130,6 +134,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201911261826316_Players-Buildings.resx">
       <DependentUpon>201911261826316_Players-Buildings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911281338107_Players-DynamicRecruiting.resx">
+      <DependentUpon>201911281338107_Players-DynamicRecruiting.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

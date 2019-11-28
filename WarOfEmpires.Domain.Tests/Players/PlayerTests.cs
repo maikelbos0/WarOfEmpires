@@ -15,7 +15,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
             player.Recruit();
 
-            player.CurrentRecruitingEffort.Should().Be(previousRecruitingEffort + player.RecruitsPerDay);
+            player.CurrentRecruitingEffort.Should().Be(previousRecruitingEffort + player.GetRecruitsPerDay());
         }
 
         [TestMethod]
@@ -48,8 +48,10 @@ namespace WarOfEmpires.Domain.Tests.Players {
             var previousRecruitingEffort = player.CurrentRecruitingEffort;
             var previousPeasants = player.Peasants;
 
-            // We don't have a way to increase recruiting yet
-            typeof(Player).GetProperty(nameof(Player.RecruitsPerDay)).SetValue(player, 9);
+            player.Buildings.Add(new Building(player, BuildingType.Farm, 8));
+            player.Buildings.Add(new Building(player, BuildingType.Lumberyard, 8));
+            player.Buildings.Add(new Building(player, BuildingType.Quarry, 8));
+            player.Buildings.Add(new Building(player, BuildingType.Mine, 8));
 
             while (player.Peasants == previousPeasants) {
                 player.Recruit();
@@ -287,6 +289,37 @@ namespace WarOfEmpires.Domain.Tests.Players {
             var player = new Player(0, "Test");
 
             player.GetFoodCostPerTurn().Should().Be(new Resources(food: 20));
+        }
+
+        [TestMethod]
+        public void Player_GetRecruitsPerDay_Succeeds() {
+            var player = new Player(0, "Test");
+
+            player.Buildings.Add(new Building(player, BuildingType.Farm, 4));
+            player.Buildings.Add(new Building(player, BuildingType.Lumberyard, 6));
+            player.Buildings.Add(new Building(player, BuildingType.Quarry, 2));
+            player.Buildings.Add(new Building(player, BuildingType.Mine, 2));
+
+            player.GetRecruitsPerDay().Should().Be(4);
+        }
+
+        [TestMethod]
+        public void Player_GetRecruitsPerDay_Minimum_Is_1() {
+            var player = new Player(0, "Test");
+
+            player.GetRecruitsPerDay().Should().Be(1);
+        }
+
+        [TestMethod]
+        public void Player_GetRecruitsPerDay_Maximum_Is_25() {
+            var player = new Player(0, "Test");
+
+            player.Buildings.Add(new Building(player, BuildingType.Farm, 100));
+            player.Buildings.Add(new Building(player, BuildingType.Lumberyard, 100));
+            player.Buildings.Add(new Building(player, BuildingType.Quarry, 100));
+            player.Buildings.Add(new Building(player, BuildingType.Mine, 100));
+
+            player.GetRecruitsPerDay().Should().Be(25);
         }
     }
 }
