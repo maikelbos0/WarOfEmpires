@@ -69,7 +69,7 @@ namespace WarOfEmpires.Controllers {
 
         [Route("_Building")]
         [HttpPost]
-        public ActionResult _Building(BuildingViewModel model) {
+        public ActionResult _Building(BuildingModel model) {
             return ValidatedCommandResult(model,
                 new UpgradeBuildingCommand(_authenticationService.Identity, model.BuildingType),
                 () => _Building(model.BuildingType));

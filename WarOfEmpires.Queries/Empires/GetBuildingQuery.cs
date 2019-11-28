@@ -1,7 +1,7 @@
 ﻿using WarOfEmpires.Models.Empires;
 
 namespace WarOfEmpires.Queries.Empires {    
-    public sealed class GetBuildingQuery : IQuery<BuildingViewModel> {
+    public sealed class GetBuildingQuery : IQuery<BuildingModel> {
         public string Email { get; }
         public string BuildingType { get; }
 

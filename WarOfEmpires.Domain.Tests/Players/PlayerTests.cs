@@ -300,7 +300,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
             player.Buildings.Add(new Building(player, BuildingType.Quarry, 2));
             player.Buildings.Add(new Building(player, BuildingType.Mine, 2));
 
-            player.GetRecruitsPerDay().Should().Be(4);
+            player.GetRecruitsPerDay().Should().Be(5);
         }
 
         [TestMethod]

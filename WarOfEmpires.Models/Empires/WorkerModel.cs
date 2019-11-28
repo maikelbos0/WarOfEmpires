@@ -25,6 +25,8 @@ namespace WarOfEmpires.Models.Empires {
         public int CurrentOreMiners { get; set; }
         public int CurrentOrePerWorkerPerTurn { get; set; }
         public int CurrentOrePerTurn { get; set; }
+        public int FoodCostPerTurn { get; set; }
+        public int RecruitsPerDay { get; set; }
         public string Command { get; set; }
     }
 }

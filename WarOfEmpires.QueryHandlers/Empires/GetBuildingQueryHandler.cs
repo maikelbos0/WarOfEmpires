@@ -11,7 +11,7 @@ using WarOfEmpires.Utilities.Services;
 namespace WarOfEmpires.QueryHandlers.Empires {
     [InterfaceInjectable]
     [Audit]
-    public sealed class GetBuildingQueryHandler : IQueryHandler<GetBuildingQuery, BuildingViewModel> {
+    public sealed class GetBuildingQueryHandler : IQueryHandler<GetBuildingQuery, BuildingModel> {
         private readonly IWarContext _context;
         private readonly ResourcesMap _resourcesMap;
 
@@ -20,14 +20,14 @@ namespace WarOfEmpires.QueryHandlers.Empires {
             _resourcesMap = resourcesMap;
         }
 
-        public BuildingViewModel Execute(GetBuildingQuery query) {
+        public BuildingModel Execute(GetBuildingQuery query) {
             var buildingType = (BuildingType)Enum.Parse(typeof(BuildingType), query.BuildingType);
             var buildingDefinition = BuildingDefinitionFactory.Get(buildingType);
             var buildingLevel = _context.Players
                 .Single(p => EmailComparisonService.Equals(p.User.Email, query.Email))
                 .Buildings.SingleOrDefault(b => b.Type == buildingType)?.Level ?? 0;
 
-            return new BuildingViewModel() {
+            return new BuildingModel() {
                 BuildingType = query.BuildingType,
                 Level = buildingLevel,
                 Name = buildingDefinition.GetName(buildingLevel),

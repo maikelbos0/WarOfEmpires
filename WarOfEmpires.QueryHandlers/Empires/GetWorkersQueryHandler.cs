@@ -35,7 +35,9 @@ namespace WarOfEmpires.QueryHandlers.Empires {
                 CurrentStonePerTurn = player.GetStonePerTurn(),
                 CurrentOreMiners = player.OreMiners,
                 CurrentOrePerWorkerPerTurn = player.GetOrePerWorkerPerTurn(),
-                CurrentOrePerTurn = player.GetOrePerTurn()
+                CurrentOrePerTurn = player.GetOrePerTurn(),
+                FoodCostPerTurn = player.GetFoodCostPerTurn().Food,
+                RecruitsPerDay = player.GetRecruitsPerDay()
             };
         }
     }

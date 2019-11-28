@@ -100,7 +100,7 @@ namespace WarOfEmpires.Domain.Players {
             return GetOrePerWorkerPerTurn() * OreMiners;
         }
 
-        public Resources GetFoodCostPerTurn() {
+        public virtual Resources GetFoodCostPerTurn() {
             var foodCost = new Resources();
 
             foodCost += (Peasants + Farmers + WoodWorkers + StoneMasons + OreMiners) * PeasantFoodCost;
@@ -197,7 +197,7 @@ namespace WarOfEmpires.Domain.Players {
             var totalBuildingGold = Buildings.Select(b => new {
                 Definition = BuildingDefinitionFactory.Get(b.Type),
                 b.Level
-            }).Sum(b => Enumerable.Range(0, b.Level - 1).Sum(l => b.Definition.GetNextLevelCost(l).Gold));
+            }).Sum(b => Enumerable.Range(0, b.Level).Sum(l => b.Definition.GetNextLevelCost(l).Gold));
 
             // Get recruiting for total gold spent
             recruiting += BuildingRecruitingLevels.Where(g => g <= totalBuildingGold).Count();

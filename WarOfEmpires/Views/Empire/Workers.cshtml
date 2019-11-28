@@ -7,9 +7,15 @@
 <h2>Workers</h2>
 
 <p>
-    Here you can train or untrain your workers. You currently have <strong>@Model.CurrentPeasants</strong> peasants available for training and your
-    workers are currently producing <strong>@Model.CurrentGoldPerTurn</strong> gold per turn.
+    Here you can train or untrain your workers to make sure you produce the resources you require.
 </p>
+
+<ul>
+    <li>Peasants available for training: @Model.CurrentPeasants</li>
+    <li>Gold production per turn: @Model.CurrentGoldPerTurn</li>
+    <li>Food cost per turn: @Model.FoodCostPerTurn</li>
+    <li>Recruits per day: @Model.RecruitsPerDay</li>
+</ul>
 
 @using (Html.BeginForm(null, null, FormMethod.Post, new { data_success_message = "Your peasants were reassigned." })) {
     @Html.ValidationSummary(true, null, new { @class = "site-validation-summary text-danger" })
@@ -17,6 +23,8 @@
     @Html.HiddenFor(m => m.CurrentGoldPerTurn)
     @Html.HiddenFor(m => m.CurrentGoldPerWorkerPerTurn)
     @Html.HiddenFor(m => m.CurrentPeasants)
+    @Html.HiddenFor(m => m.FoodCostPerTurn)
+    @Html.HiddenFor(m => m.RecruitsPerDay)
 
     <div class="row">
         <div class="col-4 col-form-label">

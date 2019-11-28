@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
+using WarOfEmpires.Domain.Common;
 using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Queries.Empires;
@@ -19,7 +20,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
             user.Id.Returns(1);
             user.Status.Returns(UserStatus.Active);
             user.Email.Returns("test@test.com");
-            
+
             player.User.Returns(user);
             player.Id.Returns(1);
             player.Peasants.Returns(1);
@@ -28,6 +29,8 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
             player.StoneMasons.Returns(4);
             player.OreMiners.Returns(5);
             player.Tax.Returns(50);
+            player.GetRecruitsPerDay().Returns(5);
+            player.GetFoodCostPerTurn().Returns(new Resources(food: 30));
 
             _context.Users.Add(user);
             _context.Players.Add(player);
@@ -73,6 +76,17 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
             result.CurrentStonePerTurn.Should().Be(40);
             result.CurrentOrePerWorkerPerTurn.Should().Be(10);
             result.CurrentOrePerTurn.Should().Be(50);
+        }
+
+        [TestMethod]
+        public void GetWorkersQueryHandler_Returns_Correct_Additional_Information() {
+            var query = new GetWorkersQuery("test@test.com");
+            var handler = new GetWorkersQueryHandler(_context);
+
+            var result = handler.Execute(query);
+
+            result.RecruitsPerDay.Should().Be(5);
+            result.FoodCostPerTurn.Should().Be(30);
         }
     }
 }
