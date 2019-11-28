@@ -43,19 +43,19 @@ namespace WarOfEmpires.Domain.Players {
         }
 
         public int GetBaseFoodPerTurn() {
-            return BaseResourceProduction;
+            return (int)(BaseResourceProduction * GetBuildingResourceMultiplier(BuildingType.Farm));
         }
 
         public int GetBaseWoodPerTurn() {
-            return BaseResourceProduction;
+            return (int)(BaseResourceProduction * GetBuildingResourceMultiplier(BuildingType.Lumberyard));
         }
 
         public int GetBaseStonePerTurn() {
-            return BaseResourceProduction;
+            return (int)(BaseResourceProduction * GetBuildingResourceMultiplier(BuildingType.Quarry));
         }
 
         public int GetBaseOrePerTurn() {
-            return BaseResourceProduction;
+            return (int)(BaseResourceProduction * GetBuildingResourceMultiplier(BuildingType.Mine));
         }
 
         public int GetGoldPerWorkerPerTurn() {
@@ -67,7 +67,7 @@ namespace WarOfEmpires.Domain.Players {
         }
 
         public int GetWoodPerWorkerPerTurn() {
-            return (int)((1 - GetTaxRate()) * GetBaseWoodPerTurn());
+            return (int)((1 - GetTaxRate())  * GetBaseWoodPerTurn());
         }
 
         public int GetStonePerWorkerPerTurn() {
@@ -159,6 +159,10 @@ namespace WarOfEmpires.Domain.Players {
             else {
                 building.Level++;
             }
+        }
+
+        public decimal GetBuildingResourceMultiplier(BuildingType type) {
+            return (100m + 25m * (Buildings.SingleOrDefault(b => b.Type == type)?.Level ?? 0)) / 100m;
         }
     }
 }

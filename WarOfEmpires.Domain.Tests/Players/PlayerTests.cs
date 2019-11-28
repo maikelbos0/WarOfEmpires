@@ -146,9 +146,10 @@ namespace WarOfEmpires.Domain.Tests.Players {
                 Tax = 20
             };
 
+            player.Buildings.Add(new Building(player, BuildingType.Farm, 4));
             player.TrainWorkers(1, 2, 3, 4);
 
-            player.GetFoodPerTurn().Should().Be(16);
+            player.GetFoodPerTurn().Should().Be(32);
         }
 
         [TestMethod]
@@ -157,9 +158,10 @@ namespace WarOfEmpires.Domain.Tests.Players {
                 Tax = 40
             };
 
+            player.Buildings.Add(new Building(player, BuildingType.Lumberyard, 6));
             player.TrainWorkers(1, 2, 3, 4);
 
-            player.GetWoodPerTurn().Should().Be(24);
+            player.GetWoodPerTurn().Should().Be(60);
         }
 
         [TestMethod]
@@ -168,9 +170,10 @@ namespace WarOfEmpires.Domain.Tests.Players {
                 Tax = 60
             };
 
+            player.Buildings.Add(new Building(player, BuildingType.Quarry, 8));
             player.TrainWorkers(1, 2, 3, 4);
 
-            player.GetStonePerTurn().Should().Be(24);
+            player.GetStonePerTurn().Should().Be(72);
         }
 
         [TestMethod]
@@ -179,9 +182,10 @@ namespace WarOfEmpires.Domain.Tests.Players {
                 Tax = 80
             };
 
+            player.Buildings.Add(new Building(player, BuildingType.Mine, 16));
             player.TrainWorkers(1, 2, 3, 4);
 
-            player.GetOrePerTurn().Should().Be(16);
+            player.GetOrePerTurn().Should().Be(80);
         }
 
         [TestMethod]
@@ -243,6 +247,22 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
             player.Buildings.Single().Level.Should().Be(2);
             player.Resources.Should().Be(previousResources - buildingDefinition.GetNextLevelCost(1));
+        }
+
+        [TestMethod]
+        public void Player_GetBuildingResourceMultiplier_Succeeds_For_Nonexistent_BuildingType() {
+            var player = new Player(0, "Test");
+
+            player.GetBuildingResourceMultiplier(BuildingType.Farm).Should().Be(1m);
+        }
+
+        [TestMethod]
+        public void Player_GetBuildingResourceMultiplier_Succeeds_For_Existing_BuildingType() {
+            var player = new Player(0, "Test");
+
+            player.Buildings.Add(new Building(player, BuildingType.Farm, 3));
+
+            player.GetBuildingResourceMultiplier(BuildingType.Farm).Should().Be(1.75m);
         }
     }
 }
