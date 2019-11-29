@@ -75,6 +75,8 @@ namespace WarOfEmpires.Database {
 
             players.HasRequired(p => p.User).WithOptional();
             players.HasMany(p => p.Buildings).WithRequired(b => b.Player);
+            players.HasMany(p => p.SentMessages).WithRequired(m => m.Sender).WillCascadeOnDelete(false);
+            players.HasMany(p => p.ReceivedMessages).WithRequired(m => m.Recipient);
             players.Property(p => p.DisplayName).IsRequired().HasMaxLength(25);
             players.Property(p => p.Resources.Gold).HasColumnName("Gold");
             players.Property(p => p.Resources.Food).HasColumnName("Food");
@@ -83,6 +85,10 @@ namespace WarOfEmpires.Database {
             players.Property(p => p.Resources.Ore).HasColumnName("Ore");
 
             var buildings = modelBuilder.Entity<Empires.Building>().ToTable("Buildings", "Empires").HasKey(b => b.Id);
+
+            var messages = modelBuilder.Entity<Players.Message>().ToTable("Messages", "Players").HasKey(m => m.Id);
+            messages.Property(m => m.Subject).IsRequired().HasMaxLength(100);
+            messages.Property(m => m.Body).IsMaxLength();
         }
 
         private void OnSecurityModelCreating(DbModelBuilder modelBuilder) {

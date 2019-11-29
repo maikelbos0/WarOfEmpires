@@ -1,0 +1,72 @@
+﻿@{
+    ViewBag.Title = "Messages";
+}
+
+<h2>Messages</h2>
+
+<div id="messagesGrid">
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+        function messageRenderer(cell, value, dataRow) {
+            cell.text(value || "").attr('title', value || "");
+
+            if (!dataRow.IsRead) {
+                cell.addClass("font-weight-bold");
+            }
+        }
+
+        $('#messagesGrid').datagridview({
+            columns: [
+                {
+                    data: 'Id',
+                    header: 'Id',
+                    width: 8,
+                    renderer: messageRenderer
+                },
+                {
+                    data: 'DateString',
+                    sortData: 'Date',
+                    header: 'Received',
+                    width: 18,
+                    renderer: messageRenderer
+                },
+                {
+                    data: 'Sender',
+                    header: 'Sender',
+                    width: 18,
+                    renderer: messageRenderer
+                },
+                {
+                    data: 'Subject',
+                    header: 'Subject',
+                    width: 56,
+                    renderer: messageRenderer
+                }
+            ]
+        });
+
+        function populate(metaData) {
+            $.ajax({
+                method: "POST",
+                url: "@Url.Action("GetReceivedMessages")",
+                data: metaData,
+                success: function (d) {
+                    $('#messagesGrid').datagridview(function () {
+                        this.populate(d.metaData, d.data);
+                    });
+                },
+                error: function () {
+                    toastr.error("An error occurred loading data; please contact support to resolve this issue.");
+                }
+            });
+        }
+
+        populate();
+
+        $('#messagesGrid').on('datagridview.sorted datagridview.paged', function (event, metaData) {
+            populate(metaData);
+        });
+    </script>
+}

@@ -33,6 +33,8 @@
                 @if (identityService.IsAuthenticated) {
                     @Html.ActionLink("Players", "Index", "Player", null, new { @class = "nav-link" })
 
+                    @Html.ActionLink("Messages", "Index", "Message", null, new { @class = "nav-link" })
+
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbar-empire-dropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Empire

@@ -27,6 +27,8 @@ namespace WarOfEmpires.Domain.Players {
         public virtual Resources Resources { get; protected set; } = new Resources(10000, 2000, 2000, 2000, 2000);
         public virtual int Tax { get; set; } = 50;
         public virtual ICollection<Building> Buildings { get; protected set; } = new List<Building>();
+        public virtual ICollection<Message> SentMessages { get; protected set; } = new List<Message>();
+        public virtual ICollection<Message> ReceivedMessages { get; protected set; } = new List<Message>();
 
         protected Player() {
         }

@@ -239,6 +239,7 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\EmpireController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MessageController.cs" />
     <Compile Include="Controllers\PlayerController.cs" />
     <Compile Include="Extensions\ModelStateDictionaryExtensions.cs" />
     <Compile Include="Global.asax.cs">
@@ -298,6 +299,7 @@
     <Content Include="Views\Empire\ResourceBuildings.cshtml" />
     <Content Include="Views\Empire\_Building.cshtml" />
     <Content Include="Views\Empire\_BuildingTotals.cshtml" />
+    <Content Include="Views\Message\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

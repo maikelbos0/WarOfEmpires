@@ -47,6 +47,7 @@
     <Compile Include="Empires\BuildingTotalsViewModel.cs" />
     <Compile Include="Empires\ResourcesViewModel.cs" />
     <Compile Include="Empires\TaxModel.cs" />
+    <Compile Include="Messages\ReceivedMessageViewModel.cs" />
     <Compile Include="Players\PlayerViewModel.cs" />
     <Compile Include="Empires\WorkerModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
