@@ -149,7 +149,7 @@
         },
         displayFull: function (footerElement, metaData, datagridview) {
             let rowStart = metaData.page * metaData.rowsPerPage + 1;
-            let rowEnd = (metaData.page + 1) * metaData.rowsPerPage;
+            let rowEnd = Math.min((metaData.page + 1) * metaData.rowsPerPage, metaData.totalRows);
 
             $(footerElement).append($('<div>').text("Page " + (metaData.page + 1) + " of " + metaData.totalPages + ", rows " + rowStart + " to " + rowEnd + " of " + metaData.totalRows));
         },
