@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Empires\GetBuildingQuery.cs" />
+    <Compile Include="Empires\GetBuildingTotalsQuery.cs" />
     <Compile Include="Empires\GetResourcesQuery.cs" />
     <Compile Include="Empires\GetTaxQuery.cs" />
     <Compile Include="Empires\GetWorkersQuery.cs" />

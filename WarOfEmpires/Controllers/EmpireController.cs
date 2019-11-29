@@ -74,5 +74,10 @@ namespace WarOfEmpires.Controllers {
                 new UpgradeBuildingCommand(_authenticationService.Identity, model.BuildingType),
                 () => _Building(model.BuildingType));
         }
+
+        [Route("_BuildingTotals")]
+        public ActionResult _BuildingTotals() {
+            return PartialView(_messageService.Dispatch(new GetBuildingTotalsQuery(_authenticationService.Identity)));
+        }
     }
 }

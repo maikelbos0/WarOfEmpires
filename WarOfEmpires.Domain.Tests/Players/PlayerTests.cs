@@ -321,5 +321,18 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
             player.GetRecruitsPerDay().Should().Be(25);
         }
+
+        [TestMethod]
+        public void Player_GetTotalGoldSpentOnBuildings_Succeeds() {
+            var player = new Player(0, "Test");
+
+            player.Buildings.Add(new Building(player, BuildingType.Farm, 4));
+            player.Buildings.Add(new Building(player, BuildingType.Lumberyard, 8));
+            player.Buildings.Add(new Building(player, BuildingType.Quarry, 2));
+            player.Buildings.Add(new Building(player, BuildingType.Mine, 2));
+
+            player.GetTotalGoldSpentOnBuildings().Should().Be(1480000);
+
+        }
     }
 }

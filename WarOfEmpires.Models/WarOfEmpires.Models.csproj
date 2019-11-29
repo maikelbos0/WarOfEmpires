@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="DataGridViewMetaData.cs" />
     <Compile Include="Empires\BuildingModel.cs" />
+    <Compile Include="Empires\BuildingTotalsViewModel.cs" />
     <Compile Include="Empires\ResourcesViewModel.cs" />
     <Compile Include="Empires\TaxModel.cs" />
     <Compile Include="Players\PlayerViewModel.cs" />

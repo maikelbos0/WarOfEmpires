@@ -191,18 +191,20 @@ namespace WarOfEmpires.Domain.Players {
 
         public virtual int GetRecruitsPerDay() {
             int recruiting = 0;
-
-            // Get total gold spent on buildings
-            // TODO filter out defenses when introduced
-            var totalBuildingGold = Buildings.Select(b => new {
-                Definition = BuildingDefinitionFactory.Get(b.Type),
-                b.Level
-            }).Sum(b => Enumerable.Range(0, b.Level).Sum(l => b.Definition.GetNextLevelCost(l).Gold));
+            int totalBuildingGold = GetTotalGoldSpentOnBuildings();
 
             // Get recruiting for total gold spent
             recruiting += BuildingRecruitingLevels.Where(g => g <= totalBuildingGold).Count();
 
             return Math.Max(1, Math.Min(25, recruiting));
+        }
+
+        public int GetTotalGoldSpentOnBuildings() {
+            // TODO filter out defenses when introduced
+            return Buildings.Select(b => new {
+                Definition = BuildingDefinitionFactory.Get(b.Type),
+                b.Level
+            }).Sum(b => Enumerable.Range(0, b.Level).Sum(l => b.Definition.GetNextLevelCost(l).Gold));
         }
     }
 }

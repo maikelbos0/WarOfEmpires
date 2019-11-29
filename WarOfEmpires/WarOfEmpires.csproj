@@ -297,6 +297,7 @@
     <Content Include="Views\Empire\_Resources.cshtml" />
     <Content Include="Views\Empire\ResourceBuildings.cshtml" />
     <Content Include="Views\Empire\_Building.cshtml" />
+    <Content Include="Views\Empire\_BuildingTotals.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
