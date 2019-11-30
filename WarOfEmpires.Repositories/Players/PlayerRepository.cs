@@ -20,6 +20,10 @@ namespace WarOfEmpires.Repositories.Players {
             return _context.Players.Include(p => p.User).Single(p => p.User.Status == UserStatus.Active && EmailComparisonService.Equals(p.User.Email, email));
         }
 
+        public Player Get(int id) {
+            return _context.Players.Include(p => p.User).Single(p => p.User.Status == UserStatus.Active && p.Id == id);
+        }
+
         public IEnumerable<Player> GetAll() {
             return _context.Players.Include(p => p.User).Where(p => p.User.Status == UserStatus.Active).ToList();
         }

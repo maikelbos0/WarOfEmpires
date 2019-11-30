@@ -32,6 +32,34 @@ namespace WarOfEmpires.Repositories.Tests.Players {
         }
 
         [TestMethod]
+        public void PlayerRepository_Get_By_Id_Succeeds() {
+            var repository = new PlayerRepository(_context);
+
+            var player = repository.Get(1);
+
+            player.Should().NotBeNull();
+            player.Id.Should().Be(1);
+        }
+
+        [TestMethod]
+        public void PlayerRepository_Get_By_Id_Throws_Exception_For_Nonexistent_Id() {
+            var repository = new PlayerRepository(_context);
+
+            Action action = () => repository.Get(-1);
+
+            action.Should().Throw<InvalidOperationException>();
+        }
+
+        [TestMethod]
+        public void PlayerRepository_Get_By_Id_Throws_Exception_For_Wrong_Status() {
+            var repository = new PlayerRepository(_context);
+
+            Action action = () => repository.Get(2);
+
+            action.Should().Throw<InvalidOperationException>();
+        }
+
+        [TestMethod]
         public void PlayerRepository_Get_Succeeds() {
             var repository = new PlayerRepository(_context);
 
