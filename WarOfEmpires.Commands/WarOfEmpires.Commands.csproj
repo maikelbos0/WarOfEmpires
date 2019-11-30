@@ -49,6 +49,7 @@
     <Compile Include="Events\UnpauseScheduledTasksCommand.cs" />
     <Compile Include="ICommand.cs" />
     <Compile Include="Empires\RecruitCommand.cs" />
+    <Compile Include="Messages\SendMessageCommand.cs" />
     <Compile Include="Players\RegisterPlayerCommand.cs" />
     <Compile Include="Empires\UntrainWorkersCommand.cs" />
     <Compile Include="Empires\TrainWorkersCommand.cs" />

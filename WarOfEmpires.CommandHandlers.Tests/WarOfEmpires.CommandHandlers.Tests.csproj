@@ -83,6 +83,7 @@
     <Compile Include="Events\RunScheduledTasksCommandHandlerTests.cs" />
     <Compile Include="Events\UnpauseScheduledTasksCommandHandlerTests.cs" />
     <Compile Include="Empires\RecruitCommandHandlerTests.cs" />
+    <Compile Include="Messages\SendMessageCommandHandlerTests.cs" />
     <Compile Include="Players\RegisterPlayerCommandHandlerTests.cs" />
     <Compile Include="Empires\TrainWorkersCommandHandlerTests.cs" />
     <Compile Include="Empires\UntrainWorkersCommandHandlerTests.cs" />
