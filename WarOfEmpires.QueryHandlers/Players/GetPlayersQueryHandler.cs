@@ -23,7 +23,8 @@ namespace WarOfEmpires.QueryHandlers.Players {
                 .OrderBy(p => p.Id)
                 .Select(p => new PlayerViewModel() {
                     Id = p.Id,
-                    DisplayName = p.DisplayName
+                    DisplayName = p.DisplayName,
+                    Population = p.Farmers + p.WoodWorkers + p.StoneMasons + p.OreMiners + p.Peasants
                 })
                 .ToList();
         }

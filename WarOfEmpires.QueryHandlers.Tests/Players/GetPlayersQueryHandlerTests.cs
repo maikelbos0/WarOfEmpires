@@ -24,6 +24,11 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
             player.User.Returns(user);
             player.Id.Returns(id);
             player.DisplayName.Returns(displayName);
+            player.Farmers.Returns(1);
+            player.WoodWorkers.Returns(2);
+            player.StoneMasons.Returns(3);
+            player.OreMiners.Returns(4);
+            player.Peasants.Returns(5);
 
             _context.Users.Add(user);
             _context.Players.Add(player);
@@ -44,19 +49,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
         }
 
         [TestMethod]
-        public void GetPlayersQueryHandler_Returns_Id() {
-            var handler = new GetPlayersQueryHandler(_context);
-            var query = new GetPlayersQuery();
-
-            AddPlayer(1, "test@test.com", "Test", UserStatus.Active);
-
-            var results = handler.Execute(query);
-
-            results.Single().Id.Should().Be(1);
-        }
-
-        [TestMethod]
-        public void GetPlayersQueryHandler_Returns_DisplayName() {
+        public void GetPlayersQueryHandler_Returns_Correct_Information() {
             var handler = new GetPlayersQueryHandler(_context);
             var query = new GetPlayersQuery();
 
@@ -64,7 +57,9 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
 
             var results = handler.Execute(query);
 
+            results.Single().Id.Should().Be(1);
             results.Single().DisplayName.Should().Be("Test display name");
+            results.Single().Population.Should().Be(15);
         }
     }
 }
