@@ -34,5 +34,11 @@ namespace WarOfEmpires.Controllers {
                 data
             });
         }
+
+        [Route("Details")]
+        [HttpGet]
+        public ActionResult Details(string id) {
+            return View(_messageService.Dispatch(new GetPlayerDetailsQuery(id)));
+        }
     }
 }

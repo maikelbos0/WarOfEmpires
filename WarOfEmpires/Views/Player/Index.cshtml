@@ -9,22 +9,29 @@
 
 @section Scripts{
     <script type="text/javascript">
+        function playerRenderer(cell, value, dataRow) {
+            cell.append($('<a>', { title: value, href: '@Url.Action("Details")?id=' + dataRow.Id }).text(value));
+        }
+
         $('#playersGrid').datagridview({
             columns: [
                 {
                     data: 'Id',
                     header: 'Id',
-                    width: 8
+                    width: 8,
+                    renderer: playerRenderer
                 },
                 {
                     data: 'DisplayName',
                     header: 'Display name',
-                    width: 80
+                    width: 80,
+                    renderer: playerRenderer
                 },
                 {
                     data: 'Population',
                     header: 'Population',
-                    width: 12
+                    width: 12,
+                    renderer: playerRenderer
                 }
             ]
         });

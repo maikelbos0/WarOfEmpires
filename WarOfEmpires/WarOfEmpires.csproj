@@ -300,6 +300,7 @@
     <Content Include="Views\Empire\_Building.cshtml" />
     <Content Include="Views\Empire\_BuildingTotals.cshtml" />
     <Content Include="Views\Message\Index.cshtml" />
+    <Content Include="Views\Player\Details.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
