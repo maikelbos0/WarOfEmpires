@@ -67,7 +67,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Messages {
 
             message.Should().NotBeNull();
             message.Sender.Should().Be("Sender");
-            message.Date.Should().BeCloseTo(DateTime.UtcNow);
+            message.Date.Should().BeCloseTo(DateTime.UtcNow, 1000);
             message.IsRead.Should().BeFalse();
             message.Subject.Should().Be("Testsubject");
         }

@@ -1,0 +1,45 @@
+﻿@model WarOfEmpires.Models.Messages.MessageModel
+
+@{
+    ViewBag.Title = "Send message";
+}
+
+<h2>Send message</h2>
+
+<p>
+    Send a message to another player below.
+</p>
+
+@using (Html.BeginForm()) {
+    @Html.HiddenFor(m => m.RecipientId)
+
+    <div class="row">
+        <div class="col-3 col-form-label">Recipient</div>
+
+        <div class="col-9">
+            @Html.TextBoxFor(m => m.Recipient, new { @class = "form-control-plaintext", @readonly = "readonly", tabindex = -1 })
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-3 col-form-label">@Html.LabelFor(m => m.Subject, new { @class = "site-required" })</div>
+
+        <div class="col-9">
+            @Html.TextBoxFor(m => m.Subject, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Subject, null, new { @class = "small form-text text-danger" })
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-3 col-form-label">@Html.LabelFor(m => m.Body)</div>
+
+        <div class="col-9">
+            @Html.TextAreaFor(m => m.Body, new { @class = "form-control", rows = 8 })
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-8"></div>
+        <div class="col-4"><button type="submit" class="btn btn-primary form-control">Send</button></div>
+    </div>
+}

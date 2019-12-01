@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Web.Mvc;
+using WarOfEmpires.Commands.Messages;
 using WarOfEmpires.Models;
 using WarOfEmpires.Models.Messages;
 using WarOfEmpires.Queries.Messages;
@@ -33,6 +34,20 @@ namespace WarOfEmpires.Controllers {
                 metaData,
                 data
             });
+        }
+
+        [Route("Send")]
+        [HttpGet]
+        public ActionResult Send(string recipientId) {
+            return View(_messageService.Dispatch(new GetMessageRecipientQuery(recipientId)));
+        }
+
+        [Route("Send")]
+        [HttpPost]
+        public ActionResult Send(MessageModel model) {
+            return ValidatedCommandResult(model,
+                new SendMessageCommand(_authenticationService.Identity, model.RecipientId, model.Subject, model.Body),
+                "Sent");
         }
     }
 }

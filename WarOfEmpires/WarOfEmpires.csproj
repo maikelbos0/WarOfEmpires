@@ -301,6 +301,8 @@
     <Content Include="Views\Empire\_BuildingTotals.cshtml" />
     <Content Include="Views\Message\Index.cshtml" />
     <Content Include="Views\Player\Details.cshtml" />
+    <Content Include="Views\Message\Send.cshtml" />
+    <Content Include="Views\Message\Sent.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

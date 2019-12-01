@@ -19,10 +19,6 @@ namespace WarOfEmpires.QueryHandlers.Messages {
         }
 
         public List<ReceivedMessageViewModel> Execute(GetReceivedMessagesQuery query) {
-            var player = _context.Players
-                .Single(p => EmailComparisonService.Equals(p.User.Email, query.Email));
-
-
             return _context.Players
                 .Single(p => EmailComparisonService.Equals(p.User.Email, query.Email))
                 .ReceivedMessages

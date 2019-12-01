@@ -19,7 +19,7 @@ namespace WarOfEmpires.Models.Security {
 
         [DisplayName("Display name")]
         [Required(ErrorMessage = "Display name is required")]
-        [MaxLength(25, ErrorMessage ="Display name can only be 25 characters long")]
+        [MaxLength(25, ErrorMessage = "Display name can only be 25 characters long")]
         public string DisplayName { get; set; }
     }
 }

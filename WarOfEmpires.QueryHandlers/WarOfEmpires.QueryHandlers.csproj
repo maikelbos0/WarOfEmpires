@@ -60,6 +60,7 @@
     <Compile Include="Empires\ResourcesMap.cs" />
     <Compile Include="Events\GetScheduledTasksPausedQueryHandler.cs" />
     <Compile Include="IQueryHandler.cs" />
+    <Compile Include="Messages\GetMessageRecipientQueryHandler.cs" />
     <Compile Include="Players\GetPlayerDetailsQueryHandler.cs" />
     <Compile Include="Players\GetPlayersQueryHandler.cs" />
     <Compile Include="Messages\GetReceivedMessagesQueryHandler.cs" />
