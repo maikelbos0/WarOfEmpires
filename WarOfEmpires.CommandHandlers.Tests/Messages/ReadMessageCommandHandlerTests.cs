@@ -15,8 +15,6 @@ namespace WarOfEmpires.CommandHandlers.Tests.Messages {
     public sealed class ReadMessageCommandHandlerTests {
         private readonly FakeWarContext _context = new FakeWarContext();
         private readonly PlayerRepository _repository;
-        private readonly Player _sender;
-        private readonly Player _recipient;
         private readonly Message _message;
 
         public ReadMessageCommandHandlerTests() {
@@ -28,29 +26,29 @@ namespace WarOfEmpires.CommandHandlers.Tests.Messages {
 
             _message = Substitute.For<Message>();
 
-            _sender = Substitute.For<Player>();
-            _sender.ReceivedMessages.Returns(new List<Message>());
-            _sender.SentMessages.Returns(new List<Message>() { _message });
-            _sender.User.Returns(senderUser);
+            var sender = Substitute.For<Player>();
+            sender.ReceivedMessages.Returns(new List<Message>());
+            sender.SentMessages.Returns(new List<Message>() { _message });
+            sender.User.Returns(senderUser);
 
             _context.Users.Add(senderUser);
-            _context.Players.Add(_sender);
+            _context.Players.Add(sender);
 
             var recipientUser = Substitute.For<User>();
             recipientUser.Email.Returns("recipient@test.com");
             recipientUser.Status.Returns(UserStatus.Active);
 
-            _recipient = Substitute.For<Player>();
-            _recipient.ReceivedMessages.Returns(new List<Message>() { _message });
-            _recipient.SentMessages.Returns(new List<Message>());
-            _recipient.User.Returns(recipientUser);
+            var recipient = Substitute.For<Player>();
+            recipient.ReceivedMessages.Returns(new List<Message>() { _message });
+            recipient.SentMessages.Returns(new List<Message>());
+            recipient.User.Returns(recipientUser);
 
             _message.Id.Returns(1);
-            _message.Sender.Returns(_sender);
-            _message.Recipient.Returns(_recipient);
+            _message.Sender.Returns(sender);
+            _message.Recipient.Returns(recipient);
 
             _context.Users.Add(recipientUser);
-            _context.Players.Add(_recipient);
+            _context.Players.Add(recipient);
         }
 
         [TestMethod]

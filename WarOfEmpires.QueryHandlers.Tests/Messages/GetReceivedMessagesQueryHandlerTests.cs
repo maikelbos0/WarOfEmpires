@@ -15,8 +15,6 @@ namespace WarOfEmpires.QueryHandlers.Tests.Messages {
     public sealed class GetReceivedMessagesQueryHandlerTests {
         private readonly FakeWarContext _context = new FakeWarContext();
 
-        public object Date { get; private set; }
-
         public Player AddPlayer(int id, string email, string displayName, UserStatus status) {
             var user = Substitute.For<User>();
             var player = Substitute.For<Player>();

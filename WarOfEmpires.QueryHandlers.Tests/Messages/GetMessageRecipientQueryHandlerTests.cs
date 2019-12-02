@@ -12,7 +12,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Messages {
     public sealed class GetMessageRecipientQueryHandlerTests {
         private readonly FakeWarContext _context = new FakeWarContext();
 
-        public void AddPlayer(int id, string email, string displayName) {
+        public void AddPlayer(int id, string displayName) {
             var player = Substitute.For<Player>();
 
             player.Id.Returns(id);
@@ -26,8 +26,8 @@ namespace WarOfEmpires.QueryHandlers.Tests.Messages {
             var handler = new GetMessageRecipientQueryHandler(_context);
             var query = new GetMessageRecipientQuery("2");
 
-            AddPlayer(1, "test1@test.com", "Test display name 1");
-            AddPlayer(2, "test2@test.com", "Test display name 2");
+            AddPlayer(1, "Test display name 1");
+            AddPlayer(2, "Test display name 2");
 
             var results = handler.Execute(query);
 
@@ -40,7 +40,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Messages {
             var handler = new GetMessageRecipientQueryHandler(_context);
             var query = new GetMessageRecipientQuery("A");
 
-            AddPlayer(1, "test1@test.com", "Test display name 1");
+            AddPlayer(1, "Test display name 1");
 
             Action action = () => handler.Execute(query);
 
@@ -52,7 +52,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Messages {
             var handler = new GetMessageRecipientQueryHandler(_context);
             var query = new GetMessageRecipientQuery("5");
 
-            AddPlayer(1, "test1@test.com", "Test display name 1");
+            AddPlayer(1, "Test display name 1");
 
             Action action = () => handler.Execute(query);
 
