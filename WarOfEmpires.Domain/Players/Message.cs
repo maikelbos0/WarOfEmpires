@@ -5,7 +5,7 @@ namespace WarOfEmpires.Domain.Players {
         public virtual Player Sender { get; protected set; }
         public virtual Player Recipient { get; protected set; }
         public virtual DateTime Date { get; protected set; }
-        public virtual bool IsRead { get; protected set; }
+        public virtual bool IsRead { get; set; }
         public virtual string Subject { get; protected set; }
         public virtual string Body { get; protected set; }
 

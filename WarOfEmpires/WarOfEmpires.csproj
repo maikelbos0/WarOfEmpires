@@ -303,6 +303,7 @@
     <Content Include="Views\Player\Details.cshtml" />
     <Content Include="Views\Message\Send.cshtml" />
     <Content Include="Views\Message\Sent.cshtml" />
+    <Content Include="Views\Message\ReceivedDetails.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

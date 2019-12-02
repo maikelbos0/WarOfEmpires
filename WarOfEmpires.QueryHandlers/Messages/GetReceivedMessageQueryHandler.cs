@@ -1,8 +1,10 @@
-﻿using WarOfEmpires.Database;
+﻿using System.Linq;
+using WarOfEmpires.Database;
 using WarOfEmpires.Models.Messages;
 using WarOfEmpires.Queries.Messages;
 using WarOfEmpires.QueryHandlers.Decorators;
 using WarOfEmpires.Utilities.Container;
+using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Messages {
     [InterfaceInjectable]
@@ -16,7 +18,18 @@ namespace WarOfEmpires.QueryHandlers.Messages {
         }
 
         public ReceivedMessageDetailsViewModel Execute(GetReceivedMessageQuery query) {
-            throw new System.NotImplementedException();
+            var messageId = int.Parse(query.MessageId);
+            var message = _context.Players
+                .Single(p => EmailComparisonService.Equals(p.User.Email, query.Email))
+                .ReceivedMessages.Single(m => m.Id == messageId);
+
+            return new ReceivedMessageDetailsViewModel() {
+                Sender = message.Sender.DisplayName,
+                Date = message.Date,
+                Subject = message.Subject,
+                Body = message.Body,
+                IsRead = message.IsRead
+            };
         }
     }
 }

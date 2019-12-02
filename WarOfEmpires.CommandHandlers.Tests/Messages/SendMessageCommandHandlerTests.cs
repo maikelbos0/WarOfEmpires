@@ -66,7 +66,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Messages {
 
             Action action = () => handler.Execute(command);
 
-            action.Should().Throw<InvalidOperationException>();
+            action.Should().Throw<FormatException>();
         }
 
         [TestMethod]

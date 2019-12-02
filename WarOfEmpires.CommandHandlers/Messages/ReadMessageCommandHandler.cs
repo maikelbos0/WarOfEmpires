@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using WarOfEmpires.CommandHandlers.Decorators;
 using WarOfEmpires.Commands.Messages;
 using WarOfEmpires.Repositories.Players;
@@ -15,7 +16,16 @@ namespace WarOfEmpires.CommandHandlers.Messages {
         }
 
         public CommandResult<ReadMessageCommand> Execute(ReadMessageCommand command) {
-            throw new NotImplementedException();
+            var result = new CommandResult<ReadMessageCommand>();
+            var player = _repository.Get(command.Email);
+            var messageId = int.Parse(command.MessageId);
+            var message = player.ReceivedMessages.Single(m => m.Id == messageId);
+
+            message.IsRead = true;
+
+            _repository.Update();
+
+            return result;
         }
     }
 }

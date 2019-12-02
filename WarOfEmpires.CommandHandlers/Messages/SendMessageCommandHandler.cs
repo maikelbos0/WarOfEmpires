@@ -18,13 +18,7 @@ namespace WarOfEmpires.CommandHandlers.Messages {
         public CommandResult<SendMessageCommand> Execute(SendMessageCommand command) {
             var result = new CommandResult<SendMessageCommand>();
             var sender = _repository.Get(command.SenderEmail);
-            int recipientId;
-
-            if (!int.TryParse(command.RecipientId, out recipientId)) {
-                throw new InvalidOperationException($"Value '{command.RecipientId}' is not a valid player ID");
-            }
-
-            var recipient = _repository.Get(recipientId);
+            var recipient = _repository.Get(int.Parse(command.RecipientId));
             var message = new Message(sender, recipient, command.Subject, command.Body);
 
             sender.SentMessages.Add(message);

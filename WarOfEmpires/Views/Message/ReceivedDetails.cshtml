@@ -1,0 +1,31 @@
+﻿@model WarOfEmpires.Models.Messages.ReceivedMessageDetailsViewModel
+
+@{
+    ViewBag.Title = $"Message";
+}
+
+<h2>Message</h2>
+
+<div class="row">
+    <div class="col-3">Sender</div>
+
+    <div class="col-9">@Model.Sender</div>
+</div>
+
+<div class="row">
+    <div class="col-3">Date received</div>
+
+    <div class="col-9">@Model.DateString</div>
+</div>
+
+<div class="row">
+    <div class="col-3">Subject</div>
+
+    <div class="col-9">@Model.Subject</div>
+</div>
+
+<div class="row">
+    <div class="col-3">Body</div>
+
+    <div class="col-9">@Model.Body</div>
+</div>

@@ -10,7 +10,7 @@
 @section Scripts{
     <script type="text/javascript">
         function messageRenderer(cell, value, dataRow) {
-            cell.text(value || "").attr('title', value || "");
+            cell.append($('<a>', { title: value, href: '@Url.Action("ReceivedDetails")?id=' + dataRow.Id }).text(value));
 
             if (!dataRow.IsRead) {
                 cell.addClass("font-weight-bold");

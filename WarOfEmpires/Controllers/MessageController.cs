@@ -49,5 +49,17 @@ namespace WarOfEmpires.Controllers {
                 new SendMessageCommand(_authenticationService.Identity, model.RecipientId, model.Subject, model.Body),
                 "Sent");
         }
+
+        [Route("ReceivedDetails")]
+        [HttpGet]
+        public ActionResult ReceivedDetails(string id) {
+            var model = _messageService.Dispatch(new GetReceivedMessageQuery(_authenticationService.Identity, id));
+
+            if (!model.IsRead) {
+                _messageService.Dispatch(new ReadMessageCommand(_authenticationService.Identity, id));
+            }
+
+            return View(model);
+        }
     }
 }
