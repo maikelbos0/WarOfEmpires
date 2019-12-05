@@ -48,9 +48,12 @@
     <Compile Include="Empires\GetWorkersQuery.cs" />
     <Compile Include="Events\GetScheduledTasksPausedQuery.cs" />
     <Compile Include="IQuery.cs" />
+    <Compile Include="Messages\GetSentMessageQuery.cs" />
     <Compile Include="Messages\GetReceivedMessageQuery .cs" />
     <Compile Include="Messages\GetMessageRecipientQuery.cs" />
+    <Compile Include="Messages\GetSentMessagesQuery.cs" />
     <Compile Include="Messages\GetReceivedMessagesQuery.cs" />
+    <Compile Include="Messages\GetReplyToMessageQuery.cs" />
     <Compile Include="Players\GetPlayerDetailsQuery.cs" />
     <Compile Include="Players\GetPlayersQuery.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

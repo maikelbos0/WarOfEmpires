@@ -85,6 +85,9 @@
     <Compile Include="Events\GetScheduledTasksPausedQueryHandlerTests.cs" />
     <Compile Include="Messages\GetMessageRecipientQueryHandlerTests.cs" />
     <Compile Include="Messages\GetReceivedMessageQueryHandlerTests.cs" />
+    <Compile Include="Messages\GetReplyToMessageQueryHandlerTests.cs" />
+    <Compile Include="Messages\GetSentMessageQueryHandlerTests.cs" />
+    <Compile Include="Messages\GetSentMessagesQueryHandlerTests.cs" />
     <Compile Include="Players\GetPlayerDetailsQueryHandlerTests.cs" />
     <Compile Include="Players\GetPlayersQueryHandlerTests.cs" />
     <Compile Include="Messages\GetReceivedMessagesQueryHandlerTests.cs" />

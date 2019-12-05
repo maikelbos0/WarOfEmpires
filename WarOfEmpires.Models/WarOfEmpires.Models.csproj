@@ -50,6 +50,8 @@
     <Compile Include="Messages\MessageModel.cs" />
     <Compile Include="Messages\ReceivedMessageDetailsViewModel.cs" />
     <Compile Include="Messages\ReceivedMessageViewModel.cs" />
+    <Compile Include="Messages\SentMessageDetailsViewModel.cs" />
+    <Compile Include="Messages\SentMessageViewModel.cs" />
     <Compile Include="Players\PlayerDetailsViewModel.cs" />
     <Compile Include="Players\PlayerViewModel.cs" />
     <Compile Include="Empires\WorkerModel.cs" />
