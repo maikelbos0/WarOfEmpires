@@ -91,3 +91,8 @@
 .site-password-meter-3 {
     background-color: #33ee33;
 }
+
+.site-user-text {
+    white-space: pre;
+    background-color: #ccccff;
+}
