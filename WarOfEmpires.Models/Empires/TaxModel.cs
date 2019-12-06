@@ -1,7 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace WarOfEmpires.Models.Empires {
     public sealed class TaxModel {
+        [DisplayName("Tax rate")]
         [RegularExpression("^\\d{1,2}$|^100$", ErrorMessage = "Tax must be a valid number")]
         public string Tax { get; set; }
         public int BaseGoldPerTurn { get; set; }

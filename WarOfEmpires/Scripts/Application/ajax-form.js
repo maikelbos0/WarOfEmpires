@@ -13,7 +13,7 @@ $(function () {
 
             $.ajax({
                 url: this.action,
-                type: this.method,
+                method: this.method,
                 data: form.serialize(),
                 success: function (result, status, jqXHR) {
                     if (jqXHR.getResponseHeader("X-IsValid") === "true" && form.data("success-message")) {
@@ -29,8 +29,9 @@ $(function () {
                         document.title = title + ' - War of Empires';
                     }
 
-                    // Assume resources header need to be refreshed
+                    // Assume headers need to be refreshed
                     ResourceManager.refresh();
+                    NotificationManager.refresh();
                 },
                 error: function () {
                     toastr.error("An error occurred processing data; please try again.");

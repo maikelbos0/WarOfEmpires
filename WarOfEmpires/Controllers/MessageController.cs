@@ -42,6 +42,13 @@ namespace WarOfEmpires.Controllers {
             return View(_messageService.Dispatch(new GetMessageRecipientQuery(recipientId)));
         }
 
+        [Route("Reply")]
+        [HttpGet]
+        public ActionResult Reply(string messageId) {
+            return View("Send", _messageService.Dispatch(new GetReplyToMessageQuery(_authenticationService.Identity, messageId)));
+        }
+
+        [Route("Reply")]
         [Route("Send")]
         [HttpPost]
         public ActionResult Send(MessageModel model) {
@@ -60,6 +67,31 @@ namespace WarOfEmpires.Controllers {
             }
 
             return View(model);
+        }
+
+        [Route("SentIndex")]
+        [HttpGet]
+        public ActionResult SentIndex() {
+            return View();
+        }
+
+        [Route("GetSentMessages")]
+        [HttpPost]
+        public ActionResult GetSentMessages(DataGridViewMetaData metaData) {
+            IEnumerable<SentMessageViewModel> data = _messageService.Dispatch(new GetSentMessagesQuery(_authenticationService.Identity));
+
+            data = _dataGridViewService.ApplyMetaData(data, ref metaData);
+
+            return Json(new {
+                metaData,
+                data
+            });
+        }
+
+        [Route("SentDetails")]
+        [HttpGet]
+        public ActionResult SentDetails(string id) {
+            return View(_messageService.Dispatch(new GetSentMessageQuery(_authenticationService.Identity, id)));
         }
     }
 }

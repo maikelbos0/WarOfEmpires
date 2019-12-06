@@ -18,6 +18,7 @@ namespace WarOfEmpires.App_Start {
                 "~/Scripts/application/ajax-form.js",
                 "~/Scripts/application/command.js",
                 "~/Scripts/application/html-form.js",
+                "~/Scripts/application/notification-manager.js",
                 "~/Scripts/application/password-strength.js",
                 "~/Scripts/application/resource-manager.js",
                 "~/Scripts/application/jquery-datagridview-defaults.js",

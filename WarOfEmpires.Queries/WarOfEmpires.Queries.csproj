@@ -54,6 +54,7 @@
     <Compile Include="Messages\GetSentMessagesQuery.cs" />
     <Compile Include="Messages\GetReceivedMessagesQuery.cs" />
     <Compile Include="Messages\GetReplyToMessageQuery.cs" />
+    <Compile Include="Players\GetNotificationsQuery.cs" />
     <Compile Include="Players\GetPlayerDetailsQuery.cs" />
     <Compile Include="Players\GetPlayersQuery.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

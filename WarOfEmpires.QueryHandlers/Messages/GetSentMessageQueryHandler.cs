@@ -23,6 +23,7 @@ namespace WarOfEmpires.QueryHandlers.Messages {
                 .SentMessages.Single(m => m.Id == messageId);
 
             return new SentMessageDetailsViewModel() {
+                Id = message.Id,
                 Recipient = message.Recipient.DisplayName,
                 Date = message.Date,
                 Subject = message.Subject,

@@ -177,6 +177,7 @@
     <Content Include="Scripts\Application\jquery-datagridview-defaults.js" />
     <Content Include="Scripts\Application\html-form.js" />
     <Content Include="Scripts\Application\ajax-form.js" />
+    <Content Include="Scripts\Application\notification-manager.js" />
     <Content Include="Scripts\Application\password-strength.js" />
     <Content Include="Scripts\Application\resource-manager.js" />
     <Content Include="Scripts\Application\toastr-defaults.js" />
@@ -304,6 +305,8 @@
     <Content Include="Views\Message\Send.cshtml" />
     <Content Include="Views\Message\Sent.cshtml" />
     <Content Include="Views\Message\ReceivedDetails.cshtml" />
+    <Content Include="Views\Message\SentIndex.cshtml" />
+    <Content Include="Views\Message\SentDetails.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

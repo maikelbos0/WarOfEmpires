@@ -33,7 +33,7 @@
                 @if (identityService.IsAuthenticated) {
                     @Html.ActionLink("Players", "Index", "Player", null, new { @class = "nav-link" })
 
-                    @Html.ActionLink("Messages", "Index", "Message", null, new { @class = "nav-link" })
+                    @Html.ActionLink("Messages", "Index", "Message", null, new { id="message-link", @class = "nav-link" })
 
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbar-empire-dropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -86,9 +86,6 @@
         </nav>
         @if (identityService.IsAuthenticated) {
             <div id="empire-resources" class="partial-content site-content-low">
-                @{
-                    Html.RenderAction("_Resources", "Empire");
-                }
             </div>
         }
     </div>
@@ -101,10 +98,14 @@
 
     @RenderSection("Scripts", required: false)
 
-    @* Global server-side variables used in scripts *@
+    @* Global server-side variables needed before running manager scripts  *@
     <script type="text/javascript">
         $(function () {
             ResourceManager.url = "@Url.Action("_Resources", "Empire")";
+            ResourceManager.refresh();
+
+            NotificationManager.url = "@Url.Action("_Notifications", "Player")";
+            NotificationManager.refresh();
         });
     </script>
 </body>

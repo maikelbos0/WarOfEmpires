@@ -1,7 +1,7 @@
 ﻿using System;
 
 namespace WarOfEmpires.Models.Messages {
-    public sealed class SentMessageDetailsViewModel {
+    public sealed class SentMessageDetailsViewModel : ViewModel {
         public string Recipient { get; set; }
         public DateTime Date { get; set; }
         public string DateString { get { return Date.ToString("yyyy-MM-dd HH:mm"); } }

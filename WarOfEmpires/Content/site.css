@@ -44,6 +44,14 @@
     text-decoration: underline;
 }
 
+.site-navbar a.notify {
+    color: #339933;
+}
+
+.site-navbar a.notify:hover {
+    color: #66cc66;
+}
+
 .site-spaced {
     margin-top: 15px;
     margin-bottom: 15px;

@@ -6,6 +6,8 @@
 
 <h2>@Model.DisplayName</h2>
 
+<p>@Html.ActionLink("Send message", "Send", "Message", new { RecipientId = Model.Id }, null)</p>
+
 <div class="row">
     <div class="col-3">
         Id:
@@ -32,5 +34,3 @@
         @Model.Population
     </div>
 </div>
-
-@Html.ActionLink("Send message", "Send", "Message", new { RecipientId = Model.Id }, null)

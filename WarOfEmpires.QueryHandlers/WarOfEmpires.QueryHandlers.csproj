@@ -65,6 +65,7 @@
     <Compile Include="Messages\GetReplyToMessageQueryHandler.cs" />
     <Compile Include="Messages\GetSentMessageQueryHandler.cs" />
     <Compile Include="Messages\GetSentMessagesQueryHandler.cs" />
+    <Compile Include="Players\GetNotificationsQueryHandler.cs" />
     <Compile Include="Players\GetPlayerDetailsQueryHandler.cs" />
     <Compile Include="Players\GetPlayersQueryHandler.cs" />
     <Compile Include="Messages\GetReceivedMessagesQueryHandler.cs" />

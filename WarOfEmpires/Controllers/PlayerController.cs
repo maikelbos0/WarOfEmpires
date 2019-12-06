@@ -40,5 +40,11 @@ namespace WarOfEmpires.Controllers {
         public ActionResult Details(string id) {
             return View(_messageService.Dispatch(new GetPlayerDetailsQuery(id)));
         }
+
+        [Route("_Notifications")]
+        [HttpPost]
+        public ActionResult _Notifications() {
+            return Json(_messageService.Dispatch(new GetNotificationsQuery(_authenticationService.Identity)));
+        }
     }
 }

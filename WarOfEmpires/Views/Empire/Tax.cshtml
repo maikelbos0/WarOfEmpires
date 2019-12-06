@@ -20,7 +20,7 @@
 
     <div class="row">
         <div class="col-4 col-form-label">
-            Tax rate
+            @Html.LabelFor(m => m.Tax)
         </div>
         <div class="col-4">
             <input type="range" min="0" max="100" step="5" id="tax-slider" value="@Model.Tax" class="form-control form-control-range" />

@@ -1,10 +1,10 @@
 ﻿@{
-    ViewBag.Title = "Messages";
+    ViewBag.Title = "Sent messages";
 }
 
-<h2>Messages</h2>
+<h2>Sent messages</h2>
 
-<p>@Html.ActionLink("Go to sent messages", "SentIndex")</p>
+<p>@Html.ActionLink("Go to received messages", "Index")</p>
 
 <div id="messagesGrid">
 </div>
@@ -12,7 +12,7 @@
 @section Scripts{
     <script type="text/javascript">
         function messageRenderer(cell, value, dataRow) {
-            cell.append($('<a>', { title: value, href: '@Url.Action("ReceivedDetails")?id=' + dataRow.Id }).text(value));
+            cell.append($('<a>', { title: value, href: '@Url.Action("SentDetails")?id=' + dataRow.Id }).text(value));
 
             if (!dataRow.IsRead) {
                 cell.addClass("font-weight-bold");
@@ -30,13 +30,13 @@
                 {
                     data: 'DateString',
                     sortData: 'Date',
-                    header: 'Received',
+                    header: 'Sent',
                     width: 18,
                     renderer: messageRenderer
                 },
                 {
-                    data: 'Sender',
-                    header: 'Sender',
+                    data: 'Recipient',
+                    header: 'Recipient',
                     width: 18,
                     renderer: messageRenderer
                 },
@@ -52,7 +52,7 @@
         function populate(metaData) {
             $.ajax({
                 method: "POST",
-                url: "@Url.Action("GetReceivedMessages")",
+                url: "@Url.Action("GetSentMessages")",
                 data: metaData,
                 success: function (d) {
                     $('#messagesGrid').datagridview(function () {
