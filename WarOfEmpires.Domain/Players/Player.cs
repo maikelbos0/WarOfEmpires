@@ -232,12 +232,12 @@ namespace WarOfEmpires.Domain.Players {
             var troops = archers + cavalry + footmen;
             var mercenaries = mercenaryArchers + mercenaryCavalry + mercenaryFootmen;
 
-            Archers -= archers;
-            MercenaryArchers -= mercenaryArchers;
-            Cavalry -= cavalry;
-            MercenaryCavalry -= mercenaryCavalry;
-            Footmen -= footmen;
-            MercenaryFootmen -= mercenaryFootmen;
+            Archers += archers;
+            MercenaryArchers += mercenaryArchers;
+            Cavalry += cavalry;
+            MercenaryCavalry += mercenaryCavalry;
+            Footmen += footmen;
+            MercenaryFootmen += mercenaryFootmen;
 
             Peasants -= troops;
             Resources -= (archers * ArcherTrainingCost

@@ -193,7 +193,9 @@ namespace WarOfEmpires.Domain.Tests.Players {
         [TestMethod]
         public void Player_GatherResources_Succeeds() {
             var player = new Player(0, "Test");
-            player.TrainWorkers(1, 2, 3, 4);
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(100000, 10000, 10000, 10000, 10000));
+            player.TrainWorkers(1, 2, 1, 2);
+            player.TrainTroops(0, 1, 0, 0, 0, 0);
 
             var previousResources = player.Resources;
 
@@ -210,12 +212,12 @@ namespace WarOfEmpires.Domain.Tests.Players {
         }
 
         [TestMethod]
-        public void Player_GatherResources_Does_Nothing_When_Out_Of_Food() {
+        public void Player_GatherResources_Does_Nothing_When_Out_Of_Food_Or_Gold() {
             var player = new Player(0, "Test");
             player.TrainWorkers(1, 2, 3, 4);
             player.Tax = 85;
 
-            while (player.Resources.Food >= player.GetUpkeepPerTurn().Food) {
+            while (player.Resources.CanAfford(player.GetUpkeepPerTurn())) {
                 player.GatherResources();
             }
 
@@ -227,16 +229,28 @@ namespace WarOfEmpires.Domain.Tests.Players {
         }
 
         [TestMethod]
+        public void Player_GatherResources_Disbands_Mercenaries_When_Out_Of_Food_Or_Gold() {
+            var player = new Player(0, "Test");
+            player.TrainWorkers(1, 2, 1, 2);
+            player.Tax = 85;
+
+            while (player.Resources.CanAfford(player.GetUpkeepPerTurn())) {
+                player.GatherResources();
+            }
+
+            player.TrainTroops(1, 1, 1, 1, 0, 0);
+
+            player.GatherResources();
+            player.MercenaryArchers.Should().Be(0);
+        }
+
+        [TestMethod]
         public void Player_UpgradeBuilding_Succeeds_For_New_BuildingType() {
             var player = new Player(0, "Test");
             var buildingDefinition = BuildingDefinitionFactory.Get(BuildingType.Farm);
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(100000, 10000, 10000, 10000, 10000));
 
             player.TrainWorkers(0, 6, 3, 1);
-
-            // Just get enough resources for anything
-            for (var i = 0; i < 100000; i++) {
-                player.GatherResources();
-            }
 
             var previousResources = player.Resources;
 
@@ -251,14 +265,10 @@ namespace WarOfEmpires.Domain.Tests.Players {
         public void Player_UpgradeBuilding_Succeeds_For_Existing_BuildingType() {
             var player = new Player(0, "Test");
             var buildingDefinition = BuildingDefinitionFactory.Get(BuildingType.Farm);
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(100000, 10000, 10000, 10000, 10000));
 
             player.TrainWorkers(0, 6, 3, 1);
             player.Buildings.Add(new Building(player, BuildingType.Farm, 1));
-
-            // Just get enough resources for anything
-            for (var i = 0; i < 100000; i++) {
-                player.GatherResources();
-            }
 
             var previousResources = player.Resources;
 
@@ -285,10 +295,12 @@ namespace WarOfEmpires.Domain.Tests.Players {
         }
 
         [TestMethod]
-        public void Player_GetFoodCostPerTurn_Is_Correct_For_Peasants() {
+        public void Player_GetUpkeepPerTurn_Succeeds() {
             var player = new Player(0, "Test");
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(100000, 10000, 10000, 10000, 10000));
+            player.TrainTroops(1, 1, 1, 1, 1, 1);
 
-            player.GetUpkeepPerTurn().Should().Be(new Resources(food: 20));
+            player.GetUpkeepPerTurn().Should().Be(new Resources(food: 44, gold: 750));
         }
 
         [TestMethod]
@@ -336,13 +348,28 @@ namespace WarOfEmpires.Domain.Tests.Players {
         }
 
         [TestMethod]
-        public void MyTestMethod() {
+        public void Player_TrainTroops_Trains_Troops() {
             throw new System.NotImplementedException();
-            /*
-             * TrainTroops
-             * UntrainTroops
-             * GetUpkeep
-             */
+        }
+
+        [TestMethod]
+        public void Player_TrainTroops_Removes_Peasants() {
+            throw new System.NotImplementedException();
+        }
+
+        [TestMethod]
+        public void Player_TrainTroops_Costs_Resources() {
+            throw new System.NotImplementedException();
+        }
+
+        [TestMethod]
+        public void Player_UntrainTroops_Removes_Troops() {
+            throw new System.NotImplementedException();
+        }
+
+        [TestMethod]
+        public void Player_UntrainTroops_Adds_Peasants() {
+            throw new System.NotImplementedException();
         }
     }
 }
