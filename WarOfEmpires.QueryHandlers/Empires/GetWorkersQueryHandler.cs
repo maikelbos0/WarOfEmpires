@@ -19,6 +19,7 @@ namespace WarOfEmpires.QueryHandlers.Empires {
         public WorkerModel Execute(GetWorkersQuery query) {
             var player = _context.Players
                 .Single(p => EmailComparisonService.Equals(p.User.Email, query.Email));
+            var upkeep = player.GetUpkeepPerTurn();
 
             return new WorkerModel() {
                 CurrentPeasants = player.Peasants,
@@ -36,7 +37,8 @@ namespace WarOfEmpires.QueryHandlers.Empires {
                 CurrentOreMiners = player.OreMiners,
                 CurrentOrePerWorkerPerTurn = player.GetOrePerWorkerPerTurn(),
                 CurrentOrePerTurn = player.GetOrePerTurn(),
-                FoodCostPerTurn = player.GetFoodCostPerTurn().Food,
+                FoodUpkeepPerTurn = upkeep.Food,
+                GoldUpkeepPerTurn = upkeep.Gold,
                 RecruitsPerDay = player.GetRecruitsPerDay()
             };
         }

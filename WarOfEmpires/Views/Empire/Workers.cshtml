@@ -13,7 +13,8 @@
 <ul>
     <li>Peasants available for training: @Model.CurrentPeasants</li>
     <li>Gold production per turn: @Model.CurrentGoldPerTurn</li>
-    <li>Food cost per turn: @Model.FoodCostPerTurn</li>
+    <li>Food upkeep per turn: @Model.FoodUpkeepPerTurn</li>
+    <li>Gold upkeep per turn: @Model.GoldUpkeepPerTurn</li>
     <li>Recruits per day: @Model.RecruitsPerDay</li>
 </ul>
 
@@ -23,7 +24,8 @@
     @Html.HiddenFor(m => m.CurrentGoldPerTurn)
     @Html.HiddenFor(m => m.CurrentGoldPerWorkerPerTurn)
     @Html.HiddenFor(m => m.CurrentPeasants)
-    @Html.HiddenFor(m => m.FoodCostPerTurn)
+    @Html.HiddenFor(m => m.FoodUpkeepPerTurn)
+    @Html.HiddenFor(m => m.GoldUpkeepPerTurn)
     @Html.HiddenFor(m => m.RecruitsPerDay)
 
     <div class="row">

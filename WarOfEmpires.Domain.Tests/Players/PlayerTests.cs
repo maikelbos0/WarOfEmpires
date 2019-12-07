@@ -206,7 +206,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
                 player.GetWoodPerTurn(),
                 player.GetStonePerTurn(),
                 player.GetOrePerTurn()
-            ) - player.GetFoodCostPerTurn());
+            ) - player.GetUpkeepPerTurn());
         }
 
         [TestMethod]
@@ -215,7 +215,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
             player.TrainWorkers(1, 2, 3, 4);
             player.Tax = 85;
 
-            while (player.Resources.Food >= player.GetFoodCostPerTurn().Food) {
+            while (player.Resources.Food >= player.GetUpkeepPerTurn().Food) {
                 player.GatherResources();
             }
 
@@ -288,7 +288,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
         public void Player_GetFoodCostPerTurn_Is_Correct_For_Peasants() {
             var player = new Player(0, "Test");
 
-            player.GetFoodCostPerTurn().Should().Be(new Resources(food: 20));
+            player.GetUpkeepPerTurn().Should().Be(new Resources(food: 20));
         }
 
         [TestMethod]
@@ -333,6 +333,16 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
             player.GetTotalGoldSpentOnBuildings().Should().Be(1480000);
 
+        }
+
+        [TestMethod]
+        public void MyTestMethod() {
+            throw new System.NotImplementedException();
+            /*
+             * TrainTroops
+             * UntrainTroops
+             * GetUpkeep
+             */
         }
     }
 }
