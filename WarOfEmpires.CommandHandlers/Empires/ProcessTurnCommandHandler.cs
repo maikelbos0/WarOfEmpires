@@ -6,18 +6,18 @@ using WarOfEmpires.Utilities.Container;
 namespace WarOfEmpires.CommandHandlers.Empires {
     [InterfaceInjectable]
     [Audit]
-    public sealed class GatherResourcesCommandHandler : ICommandHandler<GatherResourcesCommand> {
+    public sealed class ProcessTurnCommandHandler : ICommandHandler<ProcessTurnCommand> {
         public PlayerRepository _repository;
 
-        public GatherResourcesCommandHandler(PlayerRepository repository) {
+        public ProcessTurnCommandHandler(PlayerRepository repository) {
             _repository = repository;
         }
 
-        public CommandResult<GatherResourcesCommand> Execute(GatherResourcesCommand command) {
-            var result = new CommandResult<GatherResourcesCommand>();
+        public CommandResult<ProcessTurnCommand> Execute(ProcessTurnCommand command) {
+            var result = new CommandResult<ProcessTurnCommand>();
 
             foreach (var player in _repository.GetAll()) {
-                player.GatherResources();
+                player.ProcessTurn();
             }
 
             _repository.Update();

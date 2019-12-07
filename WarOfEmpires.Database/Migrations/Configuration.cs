@@ -72,11 +72,11 @@ namespace WarOfEmpires.Database.Migrations {
                 context.ScheduledTasks.Add(recruitTask);
             }
 
-            var resourceGatheringTask = context.ScheduledTasks.SingleOrDefault(t => t.EventType == typeof(Empires.ResourceGatheringTaskTriggeredEvent).AssemblyQualifiedName);
+            var turnTask = context.ScheduledTasks.SingleOrDefault(t => t.EventType == typeof(Empires.TurnTaskTriggeredEvent).AssemblyQualifiedName);
 
-            if (resourceGatheringTask == null) {
-                resourceGatheringTask = Events.ScheduledTask.Create<Empires.ResourceGatheringTaskTriggeredEvent>(new TimeSpan(0, 10, 0));
-                context.ScheduledTasks.Add(resourceGatheringTask);
+            if (turnTask == null) {
+                turnTask = Events.ScheduledTask.Create<Empires.TurnTaskTriggeredEvent>(new TimeSpan(0, 10, 0));
+                context.ScheduledTasks.Add(turnTask);
             }
 
             context.SaveChanges();

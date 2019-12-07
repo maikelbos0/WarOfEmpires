@@ -40,6 +40,7 @@ namespace WarOfEmpires.Domain.Players {
         public virtual int MercenaryCavalry { get; protected set; }
         public virtual int Footmen { get; protected set; }
         public virtual int MercenaryFootmen { get; protected set; }
+        public virtual int AttackTurns { get; protected set; } = 50;
         public virtual ICollection<Building> Buildings { get; protected set; } = new List<Building>();
         public virtual ICollection<Message> SentMessages { get; protected set; } = new List<Message>();
         public virtual ICollection<Message> ReceivedMessages { get; protected set; } = new List<Message>();
@@ -126,9 +127,6 @@ namespace WarOfEmpires.Domain.Players {
             return upkeep;
         }
 
-        /// <summary>
-        /// Hourly function to work out the new recruiting efford and possible new peasants
-        /// </summary>
         public virtual void Recruit() {
             CurrentRecruitingEffort += GetRecruitsPerDay();
 
@@ -140,11 +138,10 @@ namespace WarOfEmpires.Domain.Players {
             }
         }
 
-        /// <summary>
-        /// Timed function to get the turn-based new resources and gold
-        /// </summary>
-        public virtual void GatherResources() {
+        public virtual void ProcessTurn() {
             var upkeep = GetUpkeepPerTurn();
+
+            AttackTurns++;
 
             if (Resources.CanAfford(upkeep)) {
                 Resources = Resources - upkeep + new Resources(

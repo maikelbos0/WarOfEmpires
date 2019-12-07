@@ -11,18 +11,18 @@ using WarOfEmpires.Test.Utilities;
 
 namespace WarOfEmpires.CommandHandlers.Tests.Empires {
     [TestClass]
-    public sealed class GatherResourcesCommandHandlerTests {
+    public sealed class ProcessTurnCommandHandlerTests {
         private readonly FakeWarContext _context = new FakeWarContext();
         private readonly PlayerRepository _repository;
 
-        public GatherResourcesCommandHandlerTests() {
+        public ProcessTurnCommandHandlerTests() {
             _repository = new PlayerRepository(_context);
         }
 
         [TestMethod]
-        public void GatherResourcesCommandHandler_Calls_GatherResources_For_All_Active_Players() {
-            var handler = new GatherResourcesCommandHandler(_repository);
-            var command = new GatherResourcesCommand();
+        public void ProcessTurnCommandHandler_Calls_ProcessTurn_For_All_Active_Players() {
+            var handler = new ProcessTurnCommandHandler(_repository);
+            var command = new ProcessTurnCommand();
 
             for (var i = 0; i < 3; i++) {
                 var user = Substitute.For<User>();
@@ -38,7 +38,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
             handler.Execute(command);
 
             foreach (var player in _context.Players) {
-                player.Received().GatherResources();
+                player.Received().ProcessTurn();
             }
 
             _context.CallsToSaveChanges.Should().Be(1);

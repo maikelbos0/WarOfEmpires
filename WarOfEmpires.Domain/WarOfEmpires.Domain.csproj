@@ -61,7 +61,7 @@
     <Compile Include="Empires\BuildingType.cs" />
     <Compile Include="Entity.cs" />
     <Compile Include="Events\IEvent.cs" />
-    <Compile Include="Empires\ResourceGatheringTaskTriggeredEvent.cs" />
+    <Compile Include="Empires\TurnTaskTriggeredEvent.cs" />
     <Compile Include="Players\Message.cs" />
     <Compile Include="Players\RecruitTaskTriggeredEvent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

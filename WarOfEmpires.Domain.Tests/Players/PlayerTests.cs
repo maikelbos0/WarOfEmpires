@@ -191,56 +191,58 @@ namespace WarOfEmpires.Domain.Tests.Players {
         }
 
         [TestMethod]
-        public void Player_GatherResources_Succeeds() {
+        public void Player_ProcessTurn_Succeeds() {
             var player = new Player(0, "Test");
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(100000, 10000, 10000, 10000, 10000));
             player.TrainWorkers(1, 2, 1, 2);
             player.TrainTroops(0, 1, 0, 0, 0, 0);
 
+            var previousAttackTurns = player.AttackTurns;
             var previousResources = player.Resources;
 
             player.Tax = 80;
-            player.GatherResources();
+            player.ProcessTurn();
 
+            player.AttackTurns.Should().Be(previousAttackTurns + 1);
             player.Resources.Should().Be(previousResources + new Resources(
                 player.GetGoldPerTurn(),
                 player.GetFoodPerTurn(),
                 player.GetWoodPerTurn(),
                 player.GetStonePerTurn(),
                 player.GetOrePerTurn()
-            ) - player.GetUpkeepPerTurn());
+            ) - player.GetUpkeepPerTurn());            
         }
 
         [TestMethod]
-        public void Player_GatherResources_Does_Nothing_When_Out_Of_Food_Or_Gold() {
+        public void Player_ProcessTurn_Does_Not_Give_Resources_When_Out_Of_Food_Or_Gold() {
             var player = new Player(0, "Test");
             player.TrainWorkers(1, 2, 3, 4);
             player.Tax = 85;
 
             while (player.Resources.CanAfford(player.GetUpkeepPerTurn())) {
-                player.GatherResources();
+                player.ProcessTurn();
             }
 
             var previousResources = player.Resources;
 
-            player.GatherResources();
+            player.ProcessTurn();
 
             player.Resources.Should().Be(previousResources - new Resources(food: previousResources.Food));
         }
 
         [TestMethod]
-        public void Player_GatherResources_Disbands_Mercenaries_When_Out_Of_Food_Or_Gold() {
+        public void Player_ProcessTurn_Disbands_Mercenaries_When_Out_Of_Food_Or_Gold() {
             var player = new Player(0, "Test");
             player.TrainWorkers(1, 2, 1, 2);
             player.Tax = 85;
 
             while (player.Resources.CanAfford(player.GetUpkeepPerTurn())) {
-                player.GatherResources();
+                player.ProcessTurn();
             }
 
             player.TrainTroops(1, 1, 1, 1, 0, 0);
 
-            player.GatherResources();
+            player.ProcessTurn();
             player.MercenaryArchers.Should().Be(0);
         }
 
@@ -349,27 +351,64 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_TrainTroops_Trains_Troops() {
-            throw new System.NotImplementedException();
+            var player = new Player(0, "Test");
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(200000, 10000, 10000, 10000, 10000));
+
+            player.TrainTroops(1, 4, 2, 5, 3, 6);
+
+            player.Archers.Should().Be(1);
+            player.MercenaryArchers.Should().Be(4);
+            player.Cavalry.Should().Be(2);
+            player.MercenaryCavalry.Should().Be(5);
+            player.Footmen.Should().Be(3);
+            player.MercenaryFootmen.Should().Be(6);
         }
 
         [TestMethod]
         public void Player_TrainTroops_Removes_Peasants() {
-            throw new System.NotImplementedException();
+            var player = new Player(0, "Test");
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(200000, 10000, 10000, 10000, 10000));
+
+            player.TrainTroops(1, 4, 2, 5, 3, 6);
+
+            player.Peasants.Should().Be(4);
         }
 
         [TestMethod]
         public void Player_TrainTroops_Costs_Resources() {
-            throw new System.NotImplementedException();
+            var player = new Player(0, "Test");
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(200000, 10000, 10000, 10000, 10000));
+
+            player.TrainTroops(1, 4, 2, 5, 3, 6);
+
+            player.Resources.Should().Be(new Resources(95000 , 10000, 7500, 10000, 3500));
         }
 
         [TestMethod]
         public void Player_UntrainTroops_Removes_Troops() {
-            throw new System.NotImplementedException();
+            var player = new Player(0, "Test");
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(200000, 10000, 10000, 10000, 10000));
+
+            player.TrainTroops(2, 5, 3, 6, 4, 7);
+            player.UntrainTroops(1, 4, 2, 5, 3, 6);
+
+            player.Archers.Should().Be(1);
+            player.MercenaryArchers.Should().Be(1);
+            player.Cavalry.Should().Be(1);
+            player.MercenaryCavalry.Should().Be(1);
+            player.Footmen.Should().Be(1);
+            player.MercenaryFootmen.Should().Be(1);
         }
 
         [TestMethod]
         public void Player_UntrainTroops_Adds_Peasants() {
-            throw new System.NotImplementedException();
+            var player = new Player(0, "Test");
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(200000, 10000, 10000, 10000, 10000));
+
+            player.TrainTroops(2, 5, 3, 6, 4, 7);
+            player.UntrainTroops(1, 4, 2, 5, 3, 6);
+
+            player.Peasants.Should().Be(7);
         }
     }
 }

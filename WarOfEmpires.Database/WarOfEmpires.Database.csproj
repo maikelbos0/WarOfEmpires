@@ -98,6 +98,10 @@
     <Compile Include="Migrations\201912071419129_Players-Troops-Mercs.Designer.cs">
       <DependentUpon>201912071419129_Players-Troops-Mercs.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201912071611362_Players-AttackTurns.cs" />
+    <Compile Include="Migrations\201912071611362_Players-AttackTurns.Designer.cs">
+      <DependentUpon>201912071611362_Players-AttackTurns.cs</DependentUpon>
+    </Compile>
     <Compile Include="ReferenceEntities\BaseReferenceEntity.cs" />
     <Compile Include="IWarContext.cs" />
     <Compile Include="Migrations\Configuration.cs" />
@@ -158,6 +162,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201912071419129_Players-Troops-Mercs.resx">
       <DependentUpon>201912071419129_Players-Troops-Mercs.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201912071611362_Players-AttackTurns.resx">
+      <DependentUpon>201912071611362_Players-AttackTurns.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
