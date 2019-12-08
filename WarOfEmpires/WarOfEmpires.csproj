@@ -180,6 +180,7 @@
     <Content Include="Content\toastr.css" />
     <Content Include="Content\toastr.min.css" />
     <Content Include="Global.asax" />
+    <Content Include="Scripts\Application\building-totals-manager.js" />
     <Content Include="Scripts\Application\command.js" />
     <Content Include="Scripts\Application\jquery-datagridview-defaults.js" />
     <Content Include="Scripts\Application\html-form.js" />

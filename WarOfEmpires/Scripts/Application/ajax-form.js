@@ -32,6 +32,7 @@ $(function () {
                     // Assume headers need to be refreshed
                     ResourceManager.refresh();
                     NotificationManager.refresh();
+                    BuildingTotalsManager.refresh();
                 },
                 error: function () {
                     toastr.error("An error occurred processing data; please try again.");

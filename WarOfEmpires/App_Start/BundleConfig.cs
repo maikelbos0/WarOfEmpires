@@ -16,6 +16,7 @@ namespace WarOfEmpires.App_Start {
 
             bundles.Add(new ScriptBundle("~/Scripts/app").Include(
                 "~/Scripts/application/ajax-form.js",
+                "~/Scripts/application/building-totals-manager.js",
                 "~/Scripts/application/command.js",
                 "~/Scripts/application/html-form.js",
                 "~/Scripts/application/notification-manager.js",
