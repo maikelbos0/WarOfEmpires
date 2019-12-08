@@ -281,19 +281,19 @@ namespace WarOfEmpires.Domain.Tests.Players {
         }
 
         [TestMethod]
-        public void Player_GetBuildingResourceMultiplier_Succeeds_For_Nonexistent_BuildingType() {
+        public void Player_GetBuildingBonusMultiplier_Succeeds_For_Nonexistent_BuildingType() {
             var player = new Player(0, "Test");
 
-            player.GetBuildingResourceMultiplier(BuildingType.Farm).Should().Be(1m);
+            player.GetBuildingBonusMultiplier(BuildingType.Farm).Should().Be(1m);
         }
 
         [TestMethod]
-        public void Player_GetBuildingResourceMultiplier_Succeeds_For_Existing_BuildingType() {
+        public void Player_GetBuildingBonusMultiplier_Succeeds_For_Existing_BuildingType() {
             var player = new Player(0, "Test");
 
             player.Buildings.Add(new Building(player, BuildingType.Farm, 3));
 
-            player.GetBuildingResourceMultiplier(BuildingType.Farm).Should().Be(1.75m);
+            player.GetBuildingBonusMultiplier(BuildingType.Farm).Should().Be(1.75m);
         }
 
         [TestMethod]
@@ -409,6 +409,45 @@ namespace WarOfEmpires.Domain.Tests.Players {
             player.UntrainTroops(1, 4, 2, 5, 3, 6);
 
             player.Peasants.Should().Be(7);
+        }
+
+        [TestMethod]
+        public void Player_GetArcherStrength_Succeeds() {
+            var player = new Player(0, "Test");
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(200000, 10000, 10000, 10000, 10000));
+
+            player.TrainTroops(2, 5, 3, 6, 4, 7);
+
+            var result = player.GetArcherStrength();
+
+            result.Attack.Should().Be(210);
+            result.Defense.Should().Be(70);
+        }
+
+        [TestMethod]
+        public void Player_GetCavalryStrength_Succeeds() {
+            var player = new Player(0, "Test");
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(200000, 10000, 10000, 10000, 10000));
+
+            player.TrainTroops(2, 5, 3, 6, 4, 7);
+
+            var result = player.GetCavalryStrength();
+
+            result.Attack.Should().Be(180);
+            result.Defense.Should().Be(180);
+        }
+
+        [TestMethod]
+        public void Player_GetFootmanStrength_Succeeds() {
+            var player = new Player(0, "Test");
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(200000, 10000, 10000, 10000, 10000));
+
+            player.TrainTroops(2, 5, 3, 6, 4, 7);
+
+            var result = player.GetFootmenStrength();
+
+            result.Attack.Should().Be(110);
+            result.Defense.Should().Be(330);
         }
     }
 }

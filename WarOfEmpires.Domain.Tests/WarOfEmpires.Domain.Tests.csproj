@@ -73,6 +73,7 @@
     <Compile Include="Empires\ExpressionGeneratorTests.cs" />
     <Compile Include="Events\ScheduledTaskTests.cs" />
     <Compile Include="Players\PlayerTests.cs" />
+    <Compile Include="Players\TroopStrengthTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security\PasswordTests.cs" />
     <Compile Include="Security\TemporaryPasswordTests.cs" />

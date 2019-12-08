@@ -10,9 +10,15 @@ namespace WarOfEmpires.Domain.Players {
         public const int BaseGoldProduction = 500;
         public const int BaseResourceProduction = 20;
         public static int[] BuildingRecruitingLevels = { 50000, 100000, 200000, 300000, 500000, 800000, 1200000, 2000000, 3000000, 5000000, 8000000, 12000000, 20000000, 30000000, 40000000, 50000000, 60000000, 70000000, 80000000, 90000000, 100000000, 110000000, 120000000, 130000000, 140000000, 150000000 };
+        public const int BaseArcherAttack = 30;
+        public const int BaseArcherDefense = 10;
+        public const int BaseCavalryAttack = 20;
+        public const int BaseCavalryDefense = 20;
+        public const int BaseFootmanAttack = 10;
+        public const int BaseFootmanDefense = 30;
 
         public static Resources WorkerTrainingCost = new Resources(gold: 250);
-        public static Resources ArcherTrainingCost = new Resources(gold: 5000, wood: 1000, ore: 500);        
+        public static Resources ArcherTrainingCost = new Resources(gold: 5000, wood: 1000, ore: 500);
         public static Resources CavalryTrainingCost = new Resources(gold: 5000, ore: 1500);
         public static Resources FootmanTrainingCost = new Resources(gold: 5000, wood: 500, ore: 1000);
         public static Resources MercenaryTrainingCost = new Resources(gold: 5000);
@@ -62,19 +68,19 @@ namespace WarOfEmpires.Domain.Players {
         }
 
         public int GetBaseFoodPerTurn() {
-            return (int)(BaseResourceProduction * GetBuildingResourceMultiplier(BuildingType.Farm));
+            return (int)(BaseResourceProduction * GetBuildingBonusMultiplier(BuildingType.Farm));
         }
 
         public int GetBaseWoodPerTurn() {
-            return (int)(BaseResourceProduction * GetBuildingResourceMultiplier(BuildingType.Lumberyard));
+            return (int)(BaseResourceProduction * GetBuildingBonusMultiplier(BuildingType.Lumberyard));
         }
 
         public int GetBaseStonePerTurn() {
-            return (int)(BaseResourceProduction * GetBuildingResourceMultiplier(BuildingType.Quarry));
+            return (int)(BaseResourceProduction * GetBuildingBonusMultiplier(BuildingType.Quarry));
         }
 
         public int GetBaseOrePerTurn() {
-            return (int)(BaseResourceProduction * GetBuildingResourceMultiplier(BuildingType.Mine));
+            return (int)(BaseResourceProduction * GetBuildingBonusMultiplier(BuildingType.Mine));
         }
 
         public int GetGoldPerWorkerPerTurn() {
@@ -125,6 +131,39 @@ namespace WarOfEmpires.Domain.Players {
             upkeep += (MercenaryArchers + MercenaryCavalry + MercenaryFootmen) * MercenaryUpkeep;
 
             return upkeep;
+        }
+
+        public virtual TroopStrength GetArcherStrength() {
+            decimal archerBonus = 1;
+            decimal attackBonus = 1;
+            decimal defenseBonus = 1;
+
+            return new TroopStrength(
+                (int)(BaseArcherAttack * archerBonus * attackBonus * (Archers + MercenaryArchers)),
+                (int)(BaseArcherDefense * archerBonus * defenseBonus * (Archers + MercenaryArchers))
+            );
+        }
+
+        public virtual TroopStrength GetCavalryStrength() {
+            decimal cavalryBonus = 1;
+            decimal attackBonus = 1;
+            decimal defenseBonus = 1;
+
+            return new TroopStrength(
+                (int)(BaseCavalryAttack * cavalryBonus * attackBonus * (Cavalry + MercenaryCavalry)),
+                (int)(BaseCavalryDefense * cavalryBonus * defenseBonus * (Cavalry + MercenaryCavalry))
+            );
+        }
+
+        public virtual TroopStrength GetFootmenStrength() {
+            decimal footmanBonus = 1;
+            decimal attackBonus = 1;
+            decimal defenseBonus = 1;
+
+            return new TroopStrength(
+                (int)(BaseFootmanAttack * footmanBonus * attackBonus * (Footmen + MercenaryFootmen)),
+                (int)(BaseFootmanDefense * footmanBonus * defenseBonus * (Footmen + MercenaryFootmen))
+            );
         }
 
         public virtual void Recruit() {
@@ -203,7 +242,7 @@ namespace WarOfEmpires.Domain.Players {
             }
         }
 
-        public decimal GetBuildingResourceMultiplier(BuildingType type) {
+        public decimal GetBuildingBonusMultiplier(BuildingType type) {
             return (100m + 25m * (Buildings.SingleOrDefault(b => b.Type == type)?.Level ?? 0)) / 100m;
         }
 
@@ -240,7 +279,7 @@ namespace WarOfEmpires.Domain.Players {
             Resources -= (archers * ArcherTrainingCost
                 + cavalry * CavalryTrainingCost
                 + footmen * FootmanTrainingCost
-                + mercenaries * MercenaryTrainingCost);            
+                + mercenaries * MercenaryTrainingCost);
         }
 
         public void UntrainTroops(int archers, int mercenaryArchers, int cavalry, int mercenaryCavalry, int footmen, int mercenaryFootmen) {
