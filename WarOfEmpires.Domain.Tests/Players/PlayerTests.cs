@@ -210,7 +210,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
                 player.GetWoodPerTurn(),
                 player.GetStonePerTurn(),
                 player.GetOrePerTurn()
-            ) - player.GetUpkeepPerTurn());            
+            ) - player.GetUpkeepPerTurn());
         }
 
         [TestMethod]
@@ -381,7 +381,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
             player.TrainTroops(1, 4, 2, 5, 3, 6);
 
-            player.Resources.Should().Be(new Resources(95000 , 10000, 7500, 10000, 3500));
+            player.Resources.Should().Be(new Resources(95000, 10000, 7500, 10000, 3500));
         }
 
         [TestMethod]
@@ -414,40 +414,58 @@ namespace WarOfEmpires.Domain.Tests.Players {
         [TestMethod]
         public void Player_GetArcherStrength_Succeeds() {
             var player = new Player(0, "Test");
-            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(200000, 10000, 10000, 10000, 10000));
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(1000000, 100000, 100000, 100000, 100000));
 
+            player.UpgradeBuilding(BuildingType.Armoury);
+            player.UpgradeBuilding(BuildingType.Forge);
+            player.UpgradeBuilding(BuildingType.Forge);
+            player.UpgradeBuilding(BuildingType.ArcheryRange);
+            player.UpgradeBuilding(BuildingType.ArcheryRange);
+            player.UpgradeBuilding(BuildingType.ArcheryRange);
             player.TrainTroops(2, 5, 3, 6, 4, 7);
 
             var result = player.GetArcherStrength();
 
-            result.Attack.Should().Be(210);
-            result.Defense.Should().Be(70);
+            result.Attack.Should().Be(7 * (int)(30 * 1.5m * 1.75m));
+            result.Defense.Should().Be(7 * (int)(10 * 1.25m * 1.75m));
         }
 
         [TestMethod]
         public void Player_GetCavalryStrength_Succeeds() {
             var player = new Player(0, "Test");
-            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(200000, 10000, 10000, 10000, 10000));
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(1000000, 100000, 100000, 100000, 100000));
 
+            player.UpgradeBuilding(BuildingType.Armoury);
+            player.UpgradeBuilding(BuildingType.Forge);
+            player.UpgradeBuilding(BuildingType.Forge);
+            player.UpgradeBuilding(BuildingType.CavalryRange);
+            player.UpgradeBuilding(BuildingType.CavalryRange);
+            player.UpgradeBuilding(BuildingType.CavalryRange);
             player.TrainTroops(2, 5, 3, 6, 4, 7);
 
             var result = player.GetCavalryStrength();
 
-            result.Attack.Should().Be(180);
-            result.Defense.Should().Be(180);
+            result.Attack.Should().Be(9 * (int)(20 * 1.5m * 1.75m));
+            result.Defense.Should().Be(9 * (int)(20 * 1.25m * 1.75m));
         }
 
         [TestMethod]
         public void Player_GetFootmanStrength_Succeeds() {
             var player = new Player(0, "Test");
-            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(200000, 10000, 10000, 10000, 10000));
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(1000000, 100000, 100000, 100000, 100000));
 
+            player.UpgradeBuilding(BuildingType.Armoury);
+            player.UpgradeBuilding(BuildingType.Forge);
+            player.UpgradeBuilding(BuildingType.Forge);
+            player.UpgradeBuilding(BuildingType.FootmanRange);
+            player.UpgradeBuilding(BuildingType.FootmanRange);
+            player.UpgradeBuilding(BuildingType.FootmanRange);
             player.TrainTroops(2, 5, 3, 6, 4, 7);
 
             var result = player.GetFootmenStrength();
 
-            result.Attack.Should().Be(110);
-            result.Defense.Should().Be(330);
+            result.Attack.Should().Be(11 * (int)(10 * 1.5m * 1.75m));
+            result.Defense.Should().Be(11 * (int)(30 * 1.25m * 1.75m));
         }
     }
 }

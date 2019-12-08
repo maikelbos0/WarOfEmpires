@@ -10,10 +10,10 @@ namespace WarOfEmpires.Domain.Tests.Players {
         [DataRow(0, 0, DisplayName = "Empty")]
         [DataRow(100, 100, DisplayName = "Not empty")]
         public void TroopStrength_Constructor_Succeeds(int attack, int defense) {
-            var resources = new TroopStrength(attack, defense);
+            var troopStrength = new TroopStrength(attack, defense);
 
-            resources.Attack.Should().Be(attack);
-            resources.Defense.Should().Be(defense);
+            troopStrength.Attack.Should().Be(attack);
+            troopStrength.Defense.Should().Be(defense);
         }
 
         [DataTestMethod]
@@ -23,6 +23,15 @@ namespace WarOfEmpires.Domain.Tests.Players {
             Action action = () => new TroopStrength(attack, defense);
 
             action.Should().Throw<ArgumentOutOfRangeException>();
+        }
+        [TestMethod]
+
+        public void TroopStrength_Multiply_Operator_Works() {
+            // Use int * TroopStrength operator to test both overloads
+            var troopStrength = 15 * new TroopStrength(100, 200);
+
+            troopStrength.Attack.Should().Be(1500);
+            troopStrength.Defense.Should().Be(3000);
         }
     }
 }

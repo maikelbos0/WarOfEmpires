@@ -18,5 +18,13 @@ namespace WarOfEmpires.Domain.Players {
             yield return Attack;
             yield return Defense;
         }
+
+        public static TroopStrength operator *(TroopStrength a, int b) {
+            return new TroopStrength(a.Attack * b, a.Defense * b);
+        }
+
+        public static TroopStrength operator *(int a, TroopStrength b) {
+            return b * a;
+        }
     }
 }

@@ -133,37 +133,43 @@ namespace WarOfEmpires.Domain.Players {
             return upkeep;
         }
 
-        public virtual TroopStrength GetArcherStrength() {
-            decimal archerBonus = 1;
-            decimal attackBonus = 1;
-            decimal defenseBonus = 1;
+        public virtual TroopStrength GetStrengthPerArcher() {
+            var archerBonus = GetBuildingBonusMultiplier(BuildingType.ArcheryRange);
 
             return new TroopStrength(
-                (int)(BaseArcherAttack * archerBonus * attackBonus * (Archers + MercenaryArchers)),
-                (int)(BaseArcherDefense * archerBonus * defenseBonus * (Archers + MercenaryArchers))
+                (int)(BaseArcherAttack * archerBonus * GetBuildingBonusMultiplier(BuildingType.Forge)),
+                (int)(BaseArcherDefense * archerBonus * GetBuildingBonusMultiplier(BuildingType.Armoury))
             );
+        }
+
+        public virtual TroopStrength GetStrengthPerCavalry() {
+            var cavalryBonus = GetBuildingBonusMultiplier(BuildingType.CavalryRange);
+
+            return new TroopStrength(
+                (int)(BaseCavalryAttack * cavalryBonus * GetBuildingBonusMultiplier(BuildingType.Forge)),
+                (int)(BaseCavalryDefense * cavalryBonus * GetBuildingBonusMultiplier(BuildingType.Armoury))
+            );
+        }
+
+        public virtual TroopStrength GetStrengthPerFootman() {
+            var footmanBonus = GetBuildingBonusMultiplier(BuildingType.FootmanRange);
+
+            return new TroopStrength(
+                (int)(BaseFootmanAttack * footmanBonus * GetBuildingBonusMultiplier(BuildingType.Forge)),
+                (int)(BaseFootmanDefense * footmanBonus * GetBuildingBonusMultiplier(BuildingType.Armoury))
+            );
+        }
+
+        public virtual TroopStrength GetArcherStrength() {
+            return (Archers + MercenaryArchers) * GetStrengthPerArcher();
         }
 
         public virtual TroopStrength GetCavalryStrength() {
-            decimal cavalryBonus = 1;
-            decimal attackBonus = 1;
-            decimal defenseBonus = 1;
-
-            return new TroopStrength(
-                (int)(BaseCavalryAttack * cavalryBonus * attackBonus * (Cavalry + MercenaryCavalry)),
-                (int)(BaseCavalryDefense * cavalryBonus * defenseBonus * (Cavalry + MercenaryCavalry))
-            );
+            return (Cavalry + MercenaryCavalry) * GetStrengthPerCavalry();
         }
 
         public virtual TroopStrength GetFootmenStrength() {
-            decimal footmanBonus = 1;
-            decimal attackBonus = 1;
-            decimal defenseBonus = 1;
-
-            return new TroopStrength(
-                (int)(BaseFootmanAttack * footmanBonus * attackBonus * (Footmen + MercenaryFootmen)),
-                (int)(BaseFootmanDefense * footmanBonus * defenseBonus * (Footmen + MercenaryFootmen))
-            );
+            return (Footmen + MercenaryFootmen) * GetStrengthPerFootman();
         }
 
         public virtual void Recruit() {

@@ -79,5 +79,11 @@ namespace WarOfEmpires.Controllers {
         public ActionResult _BuildingTotals() {
             return PartialView(_messageService.Dispatch(new GetBuildingTotalsQuery(_authenticationService.Identity)));
         }
+
+        [Route("TroopBuildings")]
+        [HttpGet]
+        public ActionResult TroopBuildings() {
+            return View();
+        }
     }
 }
