@@ -296,7 +296,7 @@
     <Content Include="Views\Administration\ScheduledTasks.cshtml" />
     <Content Include="Views\Empire\Workers.cshtml" />
     <Content Include="Views\Empire\Tax.cshtml" />
-    <Content Include="Views\Empire\_Resources.cshtml" />
+    <Content Include="Views\Empire\_ResourceHeader.cshtml" />
     <Content Include="Views\Empire\ResourceBuildings.cshtml" />
     <Content Include="Views\Empire\_Building.cshtml" />
     <Content Include="Views\Empire\_BuildingTotals.cshtml" />

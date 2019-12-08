@@ -101,7 +101,7 @@
     @* Global server-side variables needed before running manager scripts  *@
     <script type="text/javascript">
         $(function () {
-            ResourceManager.url = "@Url.Action("_Resources", "Empire")";
+            ResourceManager.url = "@Url.Action("_ResourceHeader", "Empire")";
             ResourceManager.refresh();
 
             NotificationManager.url = "@Url.Action("_Notifications", "Player")";

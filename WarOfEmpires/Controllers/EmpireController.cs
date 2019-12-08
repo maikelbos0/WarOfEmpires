@@ -49,10 +49,10 @@ namespace WarOfEmpires.Controllers {
                 () => Tax());
         }
 
-        [Route("_Resources")]
+        [Route("_ResourceHeader")]
         [HttpGet]
-        public ActionResult _Resources() {
-            return PartialView(_messageService.Dispatch(new GetResourcesQuery(_authenticationService.Identity)));
+        public ActionResult _ResourceHeader() {
+            return PartialView(_messageService.Dispatch(new GetResourceHeaderQuery(_authenticationService.Identity)));
         }
 
         [Route("ResourceBuildings")]
