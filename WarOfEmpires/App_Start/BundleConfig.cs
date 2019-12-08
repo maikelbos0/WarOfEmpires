@@ -28,7 +28,8 @@ namespace WarOfEmpires.App_Start {
                 "~/Content/bootstrap.css"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                "~/Content/Site.css",
+                "~/Content/site.css",
+                "~/Content/site-icons.css",
                 "~/Content/toastr.css",
                 "~/Content/jquery-datagridview.css",
                 "~/Content/jquery-datagridview.style.css",
