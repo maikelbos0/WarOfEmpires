@@ -1,3 +1,7 @@
+let AjaxManager = {
+    onSuccess: []
+}
+
 $(function () {
     $('body').on('submit', 'form:not(.html-only)', function () {        
         let form = $(this);
@@ -29,10 +33,9 @@ $(function () {
                         document.title = title + ' - War of Empires';
                     }
 
-                    // Assume headers need to be refreshed
-                    ResourceManager.refresh();
-                    NotificationManager.refresh();
-                    BuildingTotalsManager.refresh();
+                    $.each(AjaxManager.onSuccess, function (i, func) {
+                        func();
+                    });
                 },
                 error: function () {
                     toastr.error("An error occurred processing data; please try again.");

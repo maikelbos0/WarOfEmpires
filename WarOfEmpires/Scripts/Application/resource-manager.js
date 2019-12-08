@@ -18,3 +18,8 @@
         }
     }
 }
+
+$(function () {
+    ResourceManager.refresh();
+    AjaxManager.onSuccess.push(ResourceManager.refresh);
+});

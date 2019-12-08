@@ -20,7 +20,6 @@ namespace WarOfEmpires.QueryHandlers.Players {
         public List<PlayerViewModel> Execute(GetPlayersQuery query) {
             return _context.Players
                 .Where(p => p.User.Status == UserStatus.Active)
-                .OrderBy(p => p.Id)
                 .Select(p => new PlayerViewModel() {
                     Id = p.Id,
                     DisplayName = p.DisplayName,

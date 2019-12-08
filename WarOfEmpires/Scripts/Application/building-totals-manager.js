@@ -12,9 +12,14 @@
                     totalsPanel.html(result);
                 },
                 error: function () {
-                    toastr.error("An error occurred loading buildnig totals; please refresh the page for accurate values.");
+                    toastr.error("An error occurred loading building totals; please refresh the page for accurate values.");
                 }
             });
         }
     }
 }
+
+$(function () {
+    BuildingTotalsManager.refresh();
+    AjaxManager.onSuccess.push(BuildingTotalsManager.refresh);
+});
