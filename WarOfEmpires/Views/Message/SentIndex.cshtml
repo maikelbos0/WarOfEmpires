@@ -65,7 +65,7 @@
             });
         }
 
-        populate();
+        populate(new DataGridViewMetaData('Date', true, 0, 25, 0));
 
         $('#messagesGrid').on('datagridview.sorted datagridview.paged', function (event, metaData) {
             populate(metaData);

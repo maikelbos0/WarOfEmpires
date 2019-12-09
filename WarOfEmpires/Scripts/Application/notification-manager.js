@@ -19,3 +19,8 @@
         }
     }
 }
+
+$(function () {
+    NotificationManager.refresh();
+    AjaxManager.onSuccess.push(NotificationManager.refresh);
+});

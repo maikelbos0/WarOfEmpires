@@ -44,6 +44,7 @@
                             @Html.ActionLink("Tax rate", "Tax", "Empire", null, new { @class = "dropdown-item site-dropdown-item" })
                             <div class="dropdown-divider site-dropdown-divider"></div>
                             @Html.ActionLink("Resource buildings", "ResourceBuildings", "Empire", null, new { @class = "dropdown-item site-dropdown-item" })
+                            @Html.ActionLink("Troop buildings", "TroopBuildings", "Empire", null, new { @class = "dropdown-item site-dropdown-item" })
                         </div>
                     </li>
 
@@ -100,13 +101,9 @@
 
     @* Global server-side variables needed before running manager scripts  *@
     <script type="text/javascript">
-        $(function () {
-            ResourceManager.url = "@Url.Action("_Resources", "Empire")";
-            ResourceManager.refresh();
-
-            NotificationManager.url = "@Url.Action("_Notifications", "Player")";
-            NotificationManager.refresh();
-        });
+        ResourceManager.url = "@Url.Action("_ResourceHeader", "Empire")";
+        NotificationManager.url = "@Url.Action("_Notifications", "Player")";
+        BuildingTotalsManager.url = "@Url.Action("_BuildingTotals", "Empire")";        
     </script>
 </body>
 </html>

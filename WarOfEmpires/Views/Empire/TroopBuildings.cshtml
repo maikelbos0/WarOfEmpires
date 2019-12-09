@@ -1,0 +1,46 @@
+﻿@{
+    ViewBag.Title = "Troop buildings";
+}
+
+<h2>Troop buildings</h2>
+
+<p>
+    Here you can upgrade your armoury, forge and other troop buildings.
+</p>
+
+<div id="empire-building-totals" class="partial-content">
+</div>
+
+<div class="row">
+    <div class="col-4 partial-content">
+        @{
+            Html.RenderAction("_Building", "Empire", new { BuildingType = "ArcheryRange" });
+        }
+    </div>
+
+    <div class="col-4 partial-content">
+        @{
+            Html.RenderAction("_Building", "Empire", new { BuildingType = "CavalryRange" });
+        }
+    </div>
+
+    <div class="col-4 partial-content">
+        @{
+            Html.RenderAction("_Building", "Empire", new { BuildingType = "FootmanRange" });
+        }
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-4 partial-content">
+        @{
+            Html.RenderAction("_Building", "Empire", new { BuildingType = "Forge" });
+        }
+    </div>
+
+    <div class="col-4 partial-content">
+        @{
+            Html.RenderAction("_Building", "Empire", new { BuildingType = "Armoury" });
+        }
+    </div>
+</div>

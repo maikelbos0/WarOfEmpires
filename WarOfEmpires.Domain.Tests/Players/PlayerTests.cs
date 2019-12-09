@@ -191,17 +191,19 @@ namespace WarOfEmpires.Domain.Tests.Players {
         }
 
         [TestMethod]
-        public void Player_GatherResources_Succeeds() {
+        public void Player_ProcessTurn_Succeeds() {
             var player = new Player(0, "Test");
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(100000, 10000, 10000, 10000, 10000));
             player.TrainWorkers(1, 2, 1, 2);
             player.TrainTroops(0, 1, 0, 0, 0, 0);
 
+            var previousAttackTurns = player.AttackTurns;
             var previousResources = player.Resources;
 
             player.Tax = 80;
-            player.GatherResources();
+            player.ProcessTurn();
 
+            player.AttackTurns.Should().Be(previousAttackTurns + 1);
             player.Resources.Should().Be(previousResources + new Resources(
                 player.GetGoldPerTurn(),
                 player.GetFoodPerTurn(),
@@ -212,35 +214,35 @@ namespace WarOfEmpires.Domain.Tests.Players {
         }
 
         [TestMethod]
-        public void Player_GatherResources_Does_Nothing_When_Out_Of_Food_Or_Gold() {
+        public void Player_ProcessTurn_Does_Not_Give_Resources_When_Out_Of_Food_Or_Gold() {
             var player = new Player(0, "Test");
             player.TrainWorkers(1, 2, 3, 4);
             player.Tax = 85;
 
             while (player.Resources.CanAfford(player.GetUpkeepPerTurn())) {
-                player.GatherResources();
+                player.ProcessTurn();
             }
 
             var previousResources = player.Resources;
 
-            player.GatherResources();
+            player.ProcessTurn();
 
             player.Resources.Should().Be(previousResources - new Resources(food: previousResources.Food));
         }
 
         [TestMethod]
-        public void Player_GatherResources_Disbands_Mercenaries_When_Out_Of_Food_Or_Gold() {
+        public void Player_ProcessTurn_Disbands_Mercenaries_When_Out_Of_Food_Or_Gold() {
             var player = new Player(0, "Test");
             player.TrainWorkers(1, 2, 1, 2);
             player.Tax = 85;
 
             while (player.Resources.CanAfford(player.GetUpkeepPerTurn())) {
-                player.GatherResources();
+                player.ProcessTurn();
             }
 
             player.TrainTroops(1, 1, 1, 1, 0, 0);
 
-            player.GatherResources();
+            player.ProcessTurn();
             player.MercenaryArchers.Should().Be(0);
         }
 
@@ -279,19 +281,19 @@ namespace WarOfEmpires.Domain.Tests.Players {
         }
 
         [TestMethod]
-        public void Player_GetBuildingResourceMultiplier_Succeeds_For_Nonexistent_BuildingType() {
+        public void Player_GetBuildingBonusMultiplier_Succeeds_For_Nonexistent_BuildingType() {
             var player = new Player(0, "Test");
 
-            player.GetBuildingResourceMultiplier(BuildingType.Farm).Should().Be(1m);
+            player.GetBuildingBonusMultiplier(BuildingType.Farm).Should().Be(1m);
         }
 
         [TestMethod]
-        public void Player_GetBuildingResourceMultiplier_Succeeds_For_Existing_BuildingType() {
+        public void Player_GetBuildingBonusMultiplier_Succeeds_For_Existing_BuildingType() {
             var player = new Player(0, "Test");
 
             player.Buildings.Add(new Building(player, BuildingType.Farm, 3));
 
-            player.GetBuildingResourceMultiplier(BuildingType.Farm).Should().Be(1.75m);
+            player.GetBuildingBonusMultiplier(BuildingType.Farm).Should().Be(1.75m);
         }
 
         [TestMethod]
@@ -349,27 +351,121 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_TrainTroops_Trains_Troops() {
-            throw new System.NotImplementedException();
+            var player = new Player(0, "Test");
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(200000, 10000, 10000, 10000, 10000));
+
+            player.TrainTroops(1, 4, 2, 5, 3, 6);
+
+            player.Archers.Should().Be(1);
+            player.MercenaryArchers.Should().Be(4);
+            player.Cavalry.Should().Be(2);
+            player.MercenaryCavalry.Should().Be(5);
+            player.Footmen.Should().Be(3);
+            player.MercenaryFootmen.Should().Be(6);
         }
 
         [TestMethod]
         public void Player_TrainTroops_Removes_Peasants() {
-            throw new System.NotImplementedException();
+            var player = new Player(0, "Test");
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(200000, 10000, 10000, 10000, 10000));
+
+            player.TrainTroops(1, 4, 2, 5, 3, 6);
+
+            player.Peasants.Should().Be(4);
         }
 
         [TestMethod]
         public void Player_TrainTroops_Costs_Resources() {
-            throw new System.NotImplementedException();
+            var player = new Player(0, "Test");
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(200000, 10000, 10000, 10000, 10000));
+
+            player.TrainTroops(1, 4, 2, 5, 3, 6);
+
+            player.Resources.Should().Be(new Resources(95000, 10000, 7500, 10000, 3500));
         }
 
         [TestMethod]
         public void Player_UntrainTroops_Removes_Troops() {
-            throw new System.NotImplementedException();
+            var player = new Player(0, "Test");
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(200000, 10000, 10000, 10000, 10000));
+
+            player.TrainTroops(2, 5, 3, 6, 4, 7);
+            player.UntrainTroops(1, 4, 2, 5, 3, 6);
+
+            player.Archers.Should().Be(1);
+            player.MercenaryArchers.Should().Be(1);
+            player.Cavalry.Should().Be(1);
+            player.MercenaryCavalry.Should().Be(1);
+            player.Footmen.Should().Be(1);
+            player.MercenaryFootmen.Should().Be(1);
         }
 
         [TestMethod]
         public void Player_UntrainTroops_Adds_Peasants() {
-            throw new System.NotImplementedException();
+            var player = new Player(0, "Test");
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(200000, 10000, 10000, 10000, 10000));
+
+            player.TrainTroops(2, 5, 3, 6, 4, 7);
+            player.UntrainTroops(1, 4, 2, 5, 3, 6);
+
+            player.Peasants.Should().Be(7);
+        }
+
+        [TestMethod]
+        public void Player_GetArcherStrength_Succeeds() {
+            var player = new Player(0, "Test");
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(1000000, 100000, 100000, 100000, 100000));
+
+            player.UpgradeBuilding(BuildingType.Armoury);
+            player.UpgradeBuilding(BuildingType.Forge);
+            player.UpgradeBuilding(BuildingType.Forge);
+            player.UpgradeBuilding(BuildingType.ArcheryRange);
+            player.UpgradeBuilding(BuildingType.ArcheryRange);
+            player.UpgradeBuilding(BuildingType.ArcheryRange);
+            player.TrainTroops(2, 5, 3, 6, 4, 7);
+
+            var result = player.GetArcherStrength();
+
+            result.Attack.Should().Be(7 * (int)(30 * 1.5m * 1.75m));
+            result.Defense.Should().Be(7 * (int)(10 * 1.25m * 1.75m));
+        }
+
+        [TestMethod]
+        public void Player_GetCavalryStrength_Succeeds() {
+            var player = new Player(0, "Test");
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(1000000, 100000, 100000, 100000, 100000));
+
+            player.UpgradeBuilding(BuildingType.Armoury);
+            player.UpgradeBuilding(BuildingType.Forge);
+            player.UpgradeBuilding(BuildingType.Forge);
+            player.UpgradeBuilding(BuildingType.CavalryRange);
+            player.UpgradeBuilding(BuildingType.CavalryRange);
+            player.UpgradeBuilding(BuildingType.CavalryRange);
+            player.TrainTroops(2, 5, 3, 6, 4, 7);
+
+            var result = player.GetCavalryStrength();
+
+            result.Attack.Should().Be(9 * (int)(20 * 1.5m * 1.75m));
+            result.Defense.Should().Be(9 * (int)(20 * 1.25m * 1.75m));
+        }
+
+        [TestMethod]
+        public void Player_GetFootmanStrength_Succeeds() {
+            var player = new Player(0, "Test");
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(1000000, 100000, 100000, 100000, 100000));
+
+            player.UpgradeBuilding(BuildingType.Armoury);
+            player.UpgradeBuilding(BuildingType.Forge);
+            player.UpgradeBuilding(BuildingType.Forge);
+            player.UpgradeBuilding(BuildingType.FootmanRange);
+            player.UpgradeBuilding(BuildingType.FootmanRange);
+            player.UpgradeBuilding(BuildingType.FootmanRange);
+            player.TrainTroops(2, 5, 3, 6, 4, 7);
+
+            var result = player.GetFootmenStrength();
+
+            result.Attack.Should().Be(11 * (int)(10 * 1.5m * 1.75m));
+            result.Defense.Should().Be(11 * (int)(30 * 1.25m * 1.75m));
         }
     }
 }

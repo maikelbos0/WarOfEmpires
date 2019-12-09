@@ -21,22 +21,22 @@
 
 <ul>
     @if (Model.UpdateCost.Gold > 0) {
-        <li>Gold: @Model.UpdateCost.Gold</li>
+        <li>@Model.UpdateCost.Gold <span class="si si-gold"></span></li>
     }
 
     @if (Model.UpdateCost.Food > 0) {
-        <li>Food: @Model.UpdateCost.Food</li>
+        <li>@Model.UpdateCost.Food <span class="si si-food"></span></li>
     }
 
     @if (Model.UpdateCost.Wood > 0) {
-        <li>Wood: @Model.UpdateCost.Wood</li>
+        <li>@Model.UpdateCost.Wood <span class="si si-wood"></span></li>
     }
 
     @if (Model.UpdateCost.Stone > 0) {
-        <li>Stone: @Model.UpdateCost.Stone</li>
+        <li>@Model.UpdateCost.Stone <span class="si si-stone"></span></li>
     }
 
     @if (Model.UpdateCost.Ore > 0) {
-        <li>Ore: @Model.UpdateCost.Ore</li>
+        <li>@Model.UpdateCost.Ore <span class="si si-ore"></span></li>
     }
 </ul>
