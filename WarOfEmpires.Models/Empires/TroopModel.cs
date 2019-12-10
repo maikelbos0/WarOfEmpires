@@ -6,19 +6,19 @@ namespace WarOfEmpires.Models.Empires {
         [DisplayName ("Archers")]
         [RegularExpression("^\\d{0,6}$", ErrorMessage = "Archers must be a valid number")]
         public string Archers { get; set; }
-        [DisplayName ("MercenaryArchers")]
+        [DisplayName ("Archer Mercenaries")]
         [RegularExpression("^\\d{0,6}$", ErrorMessage = "Archer mercenaries must be a valid number")]
         public string MercenaryArchers { get; set; }
         [DisplayName ("Cavalry")]
         [RegularExpression("^\\d{0,6}$", ErrorMessage = "Cavalry must be a valid number")]
         public string Cavalry { get; set; }
-        [DisplayName ("MercenaryCavalry")]
+        [DisplayName ("Cavalry Mercenaries")]
         [RegularExpression("^\\d{0,6}$", ErrorMessage = "Cavalry mercenaries must be a valid number")]
         public string MercenaryCavalry { get; set; }
         [DisplayName ("Footmen")]
         [RegularExpression("^\\d{0,6}$", ErrorMessage = "Footmen must be a valid number")]
         public string Footmen { get; set; }
-        [DisplayName ("MercenaryFootmen")]
+        [DisplayName ("Footman Mercenaries")]
         [RegularExpression("^\\d{0,6}$", ErrorMessage = "Footman mercenaries must be a valid number")]
         public string MercenaryFootmen { get; set; }
         public int CurrentPeasants { get; set; }

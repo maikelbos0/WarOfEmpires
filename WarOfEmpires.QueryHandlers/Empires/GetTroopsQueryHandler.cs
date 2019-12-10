@@ -25,9 +25,9 @@ namespace WarOfEmpires.QueryHandlers.Empires {
                 CurrentArchers = player.Archers,
                 CurrentMercenaryArchers = player.MercenaryArchers,
                 CurrentCavalry = player.Cavalry,
-                CurrentMercenaryCavalry=player.MercenaryCavalry,
+                CurrentMercenaryCavalry = player.MercenaryCavalry,
                 CurrentFootmen = player.Footmen,
-                CurrentMercenaryFootmen=player.MercenaryFootmen
+                CurrentMercenaryFootmen = player.MercenaryFootmen
             };
         }
     }

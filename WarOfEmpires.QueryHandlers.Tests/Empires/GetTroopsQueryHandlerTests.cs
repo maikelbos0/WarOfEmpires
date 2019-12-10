@@ -35,7 +35,6 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
         }
 
         [TestMethod]
-        // this method is also in the GetWorkersQueryHandlerTests
         public void GetTroopsQueryHandler_Returns_Correct_Peasants() {
             var query = new GetTroopsQuery("test@test.com");
             var handler = new GetTroopsQueryHandler(_context);
@@ -60,7 +59,6 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
             result.CurrentMercenaryFootmen.Should().Be(2);
         }
 
-        // add tests for troop strength if/when implemented
-        // upkeep is handled on the worker's pages
+        // TODO add tests for troop strength if/when implemented
     }
 }
