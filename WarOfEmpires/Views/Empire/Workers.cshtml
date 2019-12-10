@@ -17,7 +17,7 @@
     <li>Recruits per day: @Model.RecruitsPerDay</li>
 </ul>
 
-@using (Html.BeginForm(null, null, FormMethod.Post, new { data_success_message = "Your peasants were reassigned." })) {
+@using (Html.BeginForm(null, null, FormMethod.Post, new { data_success_message = "Your people were reassigned." })) {
     @Html.ValidationSummary(true, null, new { @class = "site-validation-summary text-danger" })
     @Html.HiddenFor(m => m.Command)
     @Html.HiddenFor(m => m.CurrentGoldPerTurn)

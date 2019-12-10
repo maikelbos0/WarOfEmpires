@@ -117,6 +117,39 @@ namespace WarOfEmpires.Domain.Players {
                 GetBuildingBonusMultiplier(BuildingType.Forge), GetBuildingBonusMultiplier(BuildingType.Armoury));
         }
 
+        public virtual Casualties KillArchers(int damage) {
+            var totalCasualties = damage / GetArcherInfo().GetDefensePerSoldier();
+            var mercenaryCasualties = Math.Min(totalCasualties, MercenaryArchers);
+            var soldierCasualties = Math.Min(totalCasualties - mercenaryCasualties, Archers);
+
+            MercenaryArchers -= mercenaryCasualties;
+            Archers -= soldierCasualties;
+            
+            return new Casualties(soldierCasualties, mercenaryCasualties);
+        }
+
+        public virtual Casualties KillCavalry(int damage) {
+            var totalCasualties = damage / GetCavalryInfo().GetDefensePerSoldier();
+            var mercenaryCasualties = Math.Min(totalCasualties, MercenaryCavalry);
+            var soldierCasualties = Math.Min(totalCasualties - mercenaryCasualties, Cavalry);
+
+            MercenaryCavalry -= mercenaryCasualties;
+            Cavalry -= soldierCasualties;
+
+            return new Casualties(soldierCasualties, mercenaryCasualties);
+        }
+
+        public virtual Casualties KillFootmen(int damage) {
+            var totalCasualties = damage / GetFootmanInfo().GetDefensePerSoldier();
+            var mercenaryCasualties = Math.Min(totalCasualties, MercenaryFootmen);
+            var soldierCasualties = Math.Min(totalCasualties - mercenaryCasualties, Footmen);
+
+            MercenaryFootmen -= mercenaryCasualties;
+            Footmen -= soldierCasualties;
+
+            return new Casualties(soldierCasualties, mercenaryCasualties);
+        }
+
         public virtual void Recruit() {
             CurrentRecruitingEffort += GetRecruitsPerDay();
 
