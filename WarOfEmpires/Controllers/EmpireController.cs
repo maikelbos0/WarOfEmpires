@@ -18,6 +18,30 @@ namespace WarOfEmpires.Controllers {
             return View(_messageService.Dispatch(new GetWorkersQuery(_authenticationService.Identity)));
         }
 
+        [Route("Troops")]
+        [HttpPost]
+        public ActionResult Troops(TroopModel model) {
+            switch (model.Command) {
+                case "train":
+                    return ValidatedCommandResult(model,
+                        new TrainTroopsCommand(_authenticationService.Identity, model.Archers, model.MercenaryArchers, model.Cavalry, model.MercenaryCavalry, model.Footmen, model.MercenaryFootmen),
+                        () => Troops());
+                case "untrain":
+                    return ValidatedCommandResult(model,
+                        new UntrainTroopsCommand(_authenticationService.Identity, model.Archers, model.MercenaryArchers, model.Cavalry, model.MercenaryCavalry, model.Footmen, model.MercenaryFootmen),
+                        () => Troops());
+                default:
+                    throw new InvalidOperationException($"Invalid operation '{model.Command}' found");
+
+            }
+        }
+
+        [Route("Troops")]
+        [HttpGet]
+        public ActionResult Troops() {
+            return View(_messageService.Dispatch(new GetTroopsQuery(_authenticationService.Identity)));
+        }
+
         [Route("Workers")]
         [HttpPost]
         public ActionResult Workers(WorkerModel model) {

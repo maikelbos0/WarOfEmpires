@@ -1,0 +1,117 @@
+﻿@model WarOfEmpires.Models.Empires.TroopModel
+
+@{
+    ViewBag.Title = "Troops";
+}
+
+<h2>Troops</h2>
+
+<p>
+    Here you can train or untrain your troops.
+</p>
+
+<ul>
+    <li>Peasants available for training: @Model.CurrentPeasants</li>
+</ul>
+
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { data_success_message = "Your people were reassigned." })) {
+    @Html.ValidationSummary(true, null, new { @class = "site-validation-summary text-danger" })
+    @Html.HiddenFor(m => m.Command)
+    @Html.HiddenFor(m => m.CurrentPeasants)
+
+<div class="row">
+    <div class="col-4 col-form-label">
+    </div>
+    <div class="col-2 col-form-label">
+        <strong>Soldiers</strong>
+    </div>
+    <div class="col-2 col-form-label">
+        <strong>Mercenaries</strong>
+    </div>
+    <div class="col-2 col-form-label">
+        <strong>Soldiers</strong>
+    </div>
+    <div class="col-2 col-form-label">
+        <strong>Mercenaries</strong>
+    </div>
+    <div class="col-2">
+    </div>
+</div>
+
+    <div class="row">
+        <div class="col-4 col-form-label">
+            @Html.LabelFor(m => m.Archers)
+        </div>
+        <div class="col-2">
+            @Html.TextBoxFor(m => m.CurrentArchers, new { @class = "form-control-plaintext", @readonly = "readonly", tabindex = -1 })
+        </div>
+        <div class="col-2">
+            @Html.TextBoxFor(m => m.CurrentMercenaryArchers, new { @class = "form-control-plaintext", @readonly = "readonly", tabindex = -1 })
+        </div>
+        <div class="col-2">
+            @Html.TextBoxFor(m => m.Archers, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Archers, null, new { @class = "small form-text text-danger" })
+        </div>
+        <div class="col-2">
+            @Html.TextBoxFor(m => m.MercenaryArchers, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.MercenaryArchers, null, new { @class = "small form-text text-danger" })
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-4 col-form-label">
+            @Html.LabelFor(m => m.Cavalry)
+        </div>
+        <div class="col-2">
+            @Html.TextBoxFor(m => m.CurrentCavalry, new { @class = "form-control-plaintext", @readonly = "readonly", tabindex = -1 })
+        </div>
+        <div class="col-2">
+            @Html.TextBoxFor(m => m.CurrentMercenaryCavalry, new { @class = "form-control-plaintext", @readonly = "readonly", tabindex = -1 })
+        </div>
+        <div class="col-2">
+            @Html.TextBoxFor(m => m.Cavalry, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Cavalry, null, new { @class = "small form-text text-danger" })
+        </div>
+        <div class="col-2">
+            @Html.TextBoxFor(m => m.MercenaryCavalry, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.MercenaryCavalry, null, new { @class = "small form-text text-danger" })
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-4 col-form-label">
+            @Html.LabelFor(m => m.Footmen)
+        </div>
+        <div class="col-2">
+            @Html.TextBoxFor(m => m.CurrentFootmen, new { @class = "form-control-plaintext", @readonly = "readonly", tabindex = -1 })
+        </div>
+        <div class="col-2">
+            @Html.TextBoxFor(m => m.CurrentMercenaryFootmen, new { @class = "form-control-plaintext", @readonly = "readonly", tabindex = -1 })
+        </div>
+        <div class="col-2">
+            @Html.TextBoxFor(m => m.Footmen, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Footmen, null, new { @class = "small form-text text-danger" })
+        </div>
+        <div class="col-2">
+            @Html.TextBoxFor(m => m.MercenaryFootmen, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.MercenaryFootmen, null, new { @class = "small form-text text-danger" })
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-10"></div>
+
+        <div class="col-2">
+            <button type="submit" class="btn btn-primary form-control" value="train">Train Troops</button>
+        </div>
+    </div>
+
+    <div class="row site-spaced-small">
+        <div class="col-10"></div>
+
+        <div class="col-2">
+            <button type="submit" class="btn btn-secondary form-control" value="untrain">Untrain Troops</button>
+        </div>
+    </div>
+}

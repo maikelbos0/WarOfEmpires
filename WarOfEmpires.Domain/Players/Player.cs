@@ -219,7 +219,7 @@ namespace WarOfEmpires.Domain.Players {
             }).Sum(b => Enumerable.Range(0, b.Level).Sum(l => b.Definition.GetNextLevelCost(l).Gold));
         }
 
-        public void TrainTroops(int archers, int mercenaryArchers, int cavalry, int mercenaryCavalry, int footmen, int mercenaryFootmen) {
+        public virtual void TrainTroops(int archers, int mercenaryArchers, int cavalry, int mercenaryCavalry, int footmen, int mercenaryFootmen) {
             var troops = archers + cavalry + footmen;
             var mercenaries = mercenaryArchers + mercenaryCavalry + mercenaryFootmen;
 
@@ -237,7 +237,7 @@ namespace WarOfEmpires.Domain.Players {
                 + mercenaries * MercenaryTrainingCost);
         }
 
-        public void UntrainTroops(int archers, int mercenaryArchers, int cavalry, int mercenaryCavalry, int footmen, int mercenaryFootmen) {
+        public virtual void UntrainTroops(int archers, int mercenaryArchers, int cavalry, int mercenaryCavalry, int footmen, int mercenaryFootmen) {
             Archers -= archers;
             MercenaryArchers -= mercenaryArchers;
             Cavalry -= cavalry;
