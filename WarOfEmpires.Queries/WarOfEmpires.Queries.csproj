@@ -45,6 +45,7 @@
     <Compile Include="Empires\GetBuildingTotalsQuery.cs" />
     <Compile Include="Empires\GetResourceHeaderQuery.cs" />
     <Compile Include="Empires\GetTaxQuery.cs" />
+    <Compile Include="Empires\GetTroopsQuery.cs" />
     <Compile Include="Empires\GetWorkersQuery.cs" />
     <Compile Include="Events\GetScheduledTasksPausedQuery.cs" />
     <Compile Include="IQuery.cs" />
