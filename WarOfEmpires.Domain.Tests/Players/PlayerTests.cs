@@ -244,6 +244,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
             player.ProcessTurn();
             player.MercenaryArchers.Should().Be(0);
+            player.MercenaryCavalry.Should().Be(0);
         }
 
         [TestMethod]

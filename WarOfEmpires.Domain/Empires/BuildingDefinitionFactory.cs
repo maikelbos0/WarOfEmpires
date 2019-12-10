@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using WarOfEmpires.Domain.Common;
 
 namespace WarOfEmpires.Domain.Empires {

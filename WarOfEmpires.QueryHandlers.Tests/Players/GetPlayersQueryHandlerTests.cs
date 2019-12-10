@@ -29,6 +29,12 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
             player.StoneMasons.Returns(3);
             player.OreMiners.Returns(4);
             player.Peasants.Returns(5);
+            player.Archers.Returns(15);
+            player.MercenaryArchers.Returns(5);
+            player.Cavalry.Returns(3);
+            player.MercenaryCavalry.Returns(1);
+            player.Footmen.Returns(3);
+            player.MercenaryFootmen.Returns(1);
 
             _context.Users.Add(user);
             _context.Players.Add(player);
@@ -37,7 +43,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
         [TestMethod]
         public void GetPlayersQueryHandler_Returns_All_Active_Players() {
             for (var i = 0; i < 9; i++) {
-                AddPlayer(i+1, $"test{i}@test.com", $"Test {i}", (UserStatus)(i % 3 + 1));
+                AddPlayer(i + 1, $"test{i}@test.com", $"Test {i}", (UserStatus)(i % 3 + 1));
             }
 
             var handler = new GetPlayersQueryHandler(_context);
