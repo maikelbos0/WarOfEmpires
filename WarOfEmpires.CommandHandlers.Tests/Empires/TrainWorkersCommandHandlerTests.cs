@@ -129,7 +129,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
         [TestMethod]
         public void TrainWorkersCommandHandler_Fails_For_Negative_Farmers() {
             var handler = new TrainWorkersCommandHandler(_repository);
-            var command = new TrainWorkersCommand("test@test.com", "-2", "2", "2", "2");
+            var command = new TrainWorkersCommand("test@test.com", "-7", "2", "2", "2");
 
             var result = handler.Execute(command);
 
@@ -142,7 +142,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
         [TestMethod]
         public void TrainWorkersCommandHandler_Fails_For_Negative_WoodWorkers() {
             var handler = new TrainWorkersCommandHandler(_repository);
-            var command = new TrainWorkersCommand("test@test.com", "2", "-2", "2", "2");
+            var command = new TrainWorkersCommand("test@test.com", "2", "-7", "2", "2");
 
             var result = handler.Execute(command);
 
@@ -155,7 +155,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
         [TestMethod]
         public void TrainWorkersCommandHandler_Fails_For_Negative_StoneMasons() {
             var handler = new TrainWorkersCommandHandler(_repository);
-            var command = new TrainWorkersCommand("test@test.com", "2", "2", "-2", "2");
+            var command = new TrainWorkersCommand("test@test.com", "2", "2", "-7", "2");
 
             var result = handler.Execute(command);
 
@@ -168,7 +168,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
         [TestMethod]
         public void TrainWorkersCommandHandler_Fails_For_Negative_OreMiners() {
             var handler = new TrainWorkersCommandHandler(_repository);
-            var command = new TrainWorkersCommand("test@test.com", "2", "2", "2", "-2");
+            var command = new TrainWorkersCommand("test@test.com", "2", "2", "2", "-7");
 
             var result = handler.Execute(command);
 

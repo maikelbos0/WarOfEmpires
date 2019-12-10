@@ -143,7 +143,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
         }
 
         [TestMethod]
-        public void Player_GetFoodPerTurn_Is_Correct() {
+        public void Player_GetFoodProduction_Is_Correct() {
             var player = new Player(0, "Test") {
                 Tax = 20
             };
@@ -151,11 +151,11 @@ namespace WarOfEmpires.Domain.Tests.Players {
             player.Buildings.Add(new Building(player, BuildingType.Farm, 4));
             player.TrainWorkers(1, 2, 3, 4);
 
-            player.GetFoodPerTurn().Should().Be(32);
+            player.GetFoodProduction().GetTotalProduction().Should().Be(32);
         }
 
         [TestMethod]
-        public void Player_GetWoodPerTurn_Is_Correct() {
+        public void Player_GetWoodProduction_Is_Correct() {
             var player = new Player(0, "Test") {
                 Tax = 40
             };
@@ -163,11 +163,11 @@ namespace WarOfEmpires.Domain.Tests.Players {
             player.Buildings.Add(new Building(player, BuildingType.Lumberyard, 6));
             player.TrainWorkers(1, 2, 3, 4);
 
-            player.GetWoodPerTurn().Should().Be(60);
+            player.GetWoodProduction().GetTotalProduction().Should().Be(60);
         }
 
         [TestMethod]
-        public void Player_GetStonePerTurn_Is_Correct() {
+        public void Player_GetStoneProduction_Is_Correct() {
             var player = new Player(0, "Test") {
                 Tax = 60
             };
@@ -175,11 +175,11 @@ namespace WarOfEmpires.Domain.Tests.Players {
             player.Buildings.Add(new Building(player, BuildingType.Quarry, 8));
             player.TrainWorkers(1, 2, 3, 4);
 
-            player.GetStonePerTurn().Should().Be(72);
+            player.GetStoneProduction().GetTotalProduction().Should().Be(72);
         }
 
         [TestMethod]
-        public void Player_GetOrePerTurn_Is_Correct() {
+        public void Player_GetOreProduction_Is_Correct() {
             var player = new Player(0, "Test") {
                 Tax = 80
             };
@@ -187,30 +187,59 @@ namespace WarOfEmpires.Domain.Tests.Players {
             player.Buildings.Add(new Building(player, BuildingType.Mine, 16));
             player.TrainWorkers(1, 2, 3, 4);
 
-            player.GetOrePerTurn().Should().Be(80);
+            player.GetOreProduction().GetTotalProduction().Should().Be(80);
         }
 
         [TestMethod]
-        public void Player_ProcessTurn_Succeeds() {
+        public void Player_ProcessTurn_Increases_Stamina() {
+            var player = new Player(0, "Test");
+            typeof(Player).GetProperty(nameof(Player.Stamina)).SetValue(player, 66);
+
+            player.ProcessTurn();
+
+            player.Stamina.Should().Be(67);
+        }
+
+        [TestMethod]
+        public void Player_ProcessTurn_Adds_Resources() {
             var player = new Player(0, "Test");
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(100000, 10000, 10000, 10000, 10000));
             player.TrainWorkers(1, 2, 1, 2);
             player.TrainTroops(0, 1, 0, 0, 0, 0);
 
-            var previousAttackTurns = player.AttackTurns;
             var previousResources = player.Resources;
 
             player.Tax = 80;
             player.ProcessTurn();
 
-            player.AttackTurns.Should().Be(previousAttackTurns + 1);
             player.Resources.Should().Be(previousResources + new Resources(
                 player.GetGoldPerTurn(),
-                player.GetFoodPerTurn(),
-                player.GetWoodPerTurn(),
-                player.GetStonePerTurn(),
-                player.GetOrePerTurn()
+                player.GetFoodProduction().GetTotalProduction(),
+                player.GetWoodProduction().GetTotalProduction(),
+                player.GetStoneProduction().GetTotalProduction(),
+                player.GetOreProduction().GetTotalProduction()
             ) - player.GetUpkeepPerTurn());
+        }
+
+        [TestMethod]
+        public void Player_ProcessTurn_Adds_AttackTurns() {
+            var player = new Player(0, "Test");
+
+            var previousAttackTurns = player.AttackTurns;
+
+            player.Tax = 80;
+            player.ProcessTurn();
+
+            player.AttackTurns.Should().Be(previousAttackTurns + 1);
+        }
+
+        [TestMethod]
+        public void Player_ProcessTurn_Does_Not_Increase_Stamina_When_Full() {
+            var player = new Player(0, "Test");
+
+            player.ProcessTurn();
+
+            player.Stamina.Should().Be(100);
         }
 
         [TestMethod]
@@ -228,6 +257,36 @@ namespace WarOfEmpires.Domain.Tests.Players {
             player.ProcessTurn();
 
             player.Resources.Should().Be(previousResources - new Resources(food: previousResources.Food));
+        }
+
+        [TestMethod]
+        public void Player_ProcessTurn_Gives_AttackTurns_When_Out_Of_Food_Or_Gold() {
+            var player = new Player(0, "Test");
+
+            while (player.Resources.CanAfford(player.GetUpkeepPerTurn())) {
+                player.ProcessTurn();
+            }
+
+            var previousAttackTurns = player.AttackTurns;
+
+            player.ProcessTurn();
+
+            player.AttackTurns.Should().Be(previousAttackTurns + 1);
+        }
+
+        [TestMethod]
+        public void Player_ProcessTurn_Increases_Stamina_When_Out_Of_Food_Or_Gold() {
+            var player = new Player(0, "Test");
+
+            while (player.Resources.CanAfford(player.GetUpkeepPerTurn())) {
+                player.ProcessTurn();
+            }
+
+            typeof(Player).GetProperty(nameof(Player.Stamina)).SetValue(player, 66);
+
+            player.ProcessTurn();
+
+            player.Stamina.Should().Be(67);
         }
 
         [TestMethod]
@@ -413,7 +472,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
         }
 
         [TestMethod]
-        public void Player_GetArcherStrength_Succeeds() {
+        public void Player_GetArcherInfo_Succeeds() {
             var player = new Player(0, "Test");
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(1000000, 100000, 100000, 100000, 100000));
 
@@ -425,14 +484,14 @@ namespace WarOfEmpires.Domain.Tests.Players {
             player.UpgradeBuilding(BuildingType.ArcheryRange);
             player.TrainTroops(2, 5, 3, 6, 4, 7);
 
-            var result = player.GetArcherStrength();
+            var result = player.GetArcherInfo();
 
-            result.Attack.Should().Be(7 * (int)(30 * 1.5m * 1.75m));
-            result.Defense.Should().Be(7 * (int)(10 * 1.25m * 1.75m));
+            result.GetTotalAttack().Should().Be(7 * (int)(30 * 1.5m * 1.75m));
+            result.GetTotalDefense().Should().Be(7 * (int)(10 * 1.25m * 1.75m));
         }
 
         [TestMethod]
-        public void Player_GetCavalryStrength_Succeeds() {
+        public void Player_GetCavalryInfo_Succeeds() {
             var player = new Player(0, "Test");
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(1000000, 100000, 100000, 100000, 100000));
 
@@ -444,14 +503,14 @@ namespace WarOfEmpires.Domain.Tests.Players {
             player.UpgradeBuilding(BuildingType.CavalryRange);
             player.TrainTroops(2, 5, 3, 6, 4, 7);
 
-            var result = player.GetCavalryStrength();
+            var result = player.GetCavalryInfo();
 
-            result.Attack.Should().Be(9 * (int)(20 * 1.5m * 1.75m));
-            result.Defense.Should().Be(9 * (int)(20 * 1.25m * 1.75m));
+            result.GetTotalAttack().Should().Be(9 * (int)(20 * 1.5m * 1.75m));
+            result.GetTotalDefense().Should().Be(9 * (int)(20 * 1.25m * 1.75m));
         }
 
         [TestMethod]
-        public void Player_GetFootmanStrength_Succeeds() {
+        public void Player_GetFootmanInfo_Succeeds() {
             var player = new Player(0, "Test");
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(1000000, 100000, 100000, 100000, 100000));
 
@@ -463,10 +522,10 @@ namespace WarOfEmpires.Domain.Tests.Players {
             player.UpgradeBuilding(BuildingType.FootmanRange);
             player.TrainTroops(2, 5, 3, 6, 4, 7);
 
-            var result = player.GetFootmenStrength();
+            var result = player.GetFootmanInfo();
 
-            result.Attack.Should().Be(11 * (int)(10 * 1.5m * 1.75m));
-            result.Defense.Should().Be(11 * (int)(30 * 1.25m * 1.75m));
+            result.GetTotalAttack().Should().Be(11 * (int)(10 * 1.5m * 1.75m));
+            result.GetTotalDefense().Should().Be(11 * (int)(30 * 1.25m * 1.75m));
         }
     }
 }

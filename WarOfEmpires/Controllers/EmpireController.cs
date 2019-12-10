@@ -32,7 +32,6 @@ namespace WarOfEmpires.Controllers {
                         () => Workers());
                 default:
                     throw new InvalidOperationException($"Invalid operation '{model.Command}' found");
-
             }
         }
 

@@ -23,15 +23,15 @@ namespace WarOfEmpires.QueryHandlers.Empires {
             return new TaxModel() {
                 Tax = player.Tax.ToString(),
                 BaseGoldPerTurn = player.GetBaseGoldPerTurn(),
-                BaseFoodPerTurn = player.GetBaseFoodPerTurn(),
-                BaseWoodPerTurn = player.GetBaseWoodPerTurn(),
-                BaseStonePerTurn = player.GetBaseStonePerTurn(),
-                BaseOrePerTurn = player.GetBaseOrePerTurn(),
+                BaseFoodPerTurn = player.GetFoodProduction().GetBaseProduction(),
+                BaseWoodPerTurn = player.GetWoodProduction().GetBaseProduction(),
+                BaseStonePerTurn = player.GetStoneProduction().GetBaseProduction(),
+                BaseOrePerTurn = player.GetOreProduction().GetBaseProduction(),
                 CurrentGoldPerWorkerPerTurn = player.GetGoldPerWorkerPerTurn(),
-                CurrentFoodPerWorkerPerTurn = player.GetFoodPerWorkerPerTurn(),
-                CurrentWoodPerWorkerPerTurn = player.GetWoodPerWorkerPerTurn(),
-                CurrentStonePerWorkerPerTurn = player.GetStonePerWorkerPerTurn(),
-                CurrentOrePerWorkerPerTurn = player.GetOrePerWorkerPerTurn()
+                CurrentFoodPerWorkerPerTurn = player.GetFoodProduction().GetProductionPerWorker(),
+                CurrentWoodPerWorkerPerTurn = player.GetWoodProduction().GetProductionPerWorker(),
+                CurrentStonePerWorkerPerTurn = player.GetStoneProduction().GetProductionPerWorker(),
+                CurrentOrePerWorkerPerTurn = player.GetOreProduction().GetProductionPerWorker()
             };
         }
     }

@@ -24,18 +24,22 @@ namespace WarOfEmpires.CommandHandlers.Empires {
 
             if (!string.IsNullOrEmpty(command.Farmers) && !int.TryParse(command.Farmers, out farmers) || farmers < 0) {
                 result.AddError(c => c.Farmers, "Farmers must be a valid number");
+                farmers = 0;
             }
 
             if (!string.IsNullOrEmpty(command.WoodWorkers) && !int.TryParse(command.WoodWorkers, out woodWorkers) || woodWorkers < 0) {
                 result.AddError(c => c.WoodWorkers, "Wood workers must be a valid number");
+                woodWorkers = 0;
             }
 
             if (!string.IsNullOrEmpty(command.StoneMasons) && !int.TryParse(command.StoneMasons, out stoneMasons) || stoneMasons < 0) {
                 result.AddError(c => c.StoneMasons, "Stone masons must be a valid number");
+                stoneMasons = 0;
             }
 
             if (!string.IsNullOrEmpty(command.OreMiners) && !int.TryParse(command.OreMiners, out oreMiners) || oreMiners < 0) {
                 result.AddError(c => c.OreMiners, "Ore miners must be a valid number");
+                oreMiners = 0;
             }
 
             if (farmers + woodWorkers + stoneMasons + oreMiners > player.Peasants) {

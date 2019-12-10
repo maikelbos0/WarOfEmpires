@@ -47,6 +47,7 @@ namespace WarOfEmpires.Domain.Players {
         public virtual int Footmen { get; protected set; }
         public virtual int MercenaryFootmen { get; protected set; }
         public virtual int AttackTurns { get; protected set; } = 50;
+        public virtual int Stamina { get; protected set; } = 100;
         public virtual ICollection<Building> Buildings { get; protected set; } = new List<Building>();
         public virtual ICollection<Message> SentMessages { get; protected set; } = new List<Message>();
         public virtual ICollection<Message> ReceivedMessages { get; protected set; } = new List<Message>();
@@ -67,60 +68,28 @@ namespace WarOfEmpires.Domain.Players {
             return BaseGoldProduction;
         }
 
-        public int GetBaseFoodPerTurn() {
-            return (int)(BaseResourceProduction * GetBuildingBonusMultiplier(BuildingType.Farm));
-        }
-
-        public int GetBaseWoodPerTurn() {
-            return (int)(BaseResourceProduction * GetBuildingBonusMultiplier(BuildingType.Lumberyard));
-        }
-
-        public int GetBaseStonePerTurn() {
-            return (int)(BaseResourceProduction * GetBuildingBonusMultiplier(BuildingType.Quarry));
-        }
-
-        public int GetBaseOrePerTurn() {
-            return (int)(BaseResourceProduction * GetBuildingBonusMultiplier(BuildingType.Mine));
-        }
-
         public int GetGoldPerWorkerPerTurn() {
             return (int)(GetTaxRate() * GetBaseGoldPerTurn());
-        }
-
-        public int GetFoodPerWorkerPerTurn() {
-            return (int)((1 - GetTaxRate()) * GetBaseFoodPerTurn());
-        }
-
-        public int GetWoodPerWorkerPerTurn() {
-            return (int)((1 - GetTaxRate()) * GetBaseWoodPerTurn());
-        }
-
-        public int GetStonePerWorkerPerTurn() {
-            return (int)((1 - GetTaxRate()) * GetBaseStonePerTurn());
-        }
-
-        public int GetOrePerWorkerPerTurn() {
-            return (int)((1 - GetTaxRate()) * GetBaseOrePerTurn());
         }
 
         public int GetGoldPerTurn() {
             return GetGoldPerWorkerPerTurn() * (Farmers + WoodWorkers + StoneMasons + OreMiners);
         }
 
-        public int GetFoodPerTurn() {
-            return GetFoodPerWorkerPerTurn() * Farmers;
+        public ProductionInfo GetFoodProduction() {
+            return new ProductionInfo(Farmers, GetBuildingBonusMultiplier(BuildingType.Farm), GetTaxRate());
         }
 
-        public int GetWoodPerTurn() {
-            return GetWoodPerWorkerPerTurn() * WoodWorkers;
+        public ProductionInfo GetWoodProduction() {
+            return new ProductionInfo(WoodWorkers, GetBuildingBonusMultiplier(BuildingType.Lumberyard), GetTaxRate());
         }
 
-        public int GetStonePerTurn() {
-            return GetStonePerWorkerPerTurn() * StoneMasons;
+        public ProductionInfo GetStoneProduction() {
+            return new ProductionInfo(StoneMasons, GetBuildingBonusMultiplier(BuildingType.Quarry), GetTaxRate());
         }
 
-        public int GetOrePerTurn() {
-            return GetOrePerWorkerPerTurn() * OreMiners;
+        public ProductionInfo GetOreProduction() {
+            return new ProductionInfo(OreMiners, GetBuildingBonusMultiplier(BuildingType.Mine), GetTaxRate());
         }
 
         public virtual Resources GetUpkeepPerTurn() {
@@ -133,43 +102,19 @@ namespace WarOfEmpires.Domain.Players {
             return upkeep;
         }
 
-        public virtual TroopStrength GetStrengthPerArcher() {
-            var archerBonus = GetBuildingBonusMultiplier(BuildingType.ArcheryRange);
-
-            return new TroopStrength(
-                (int)(BaseArcherAttack * archerBonus * GetBuildingBonusMultiplier(BuildingType.Forge)),
-                (int)(BaseArcherDefense * archerBonus * GetBuildingBonusMultiplier(BuildingType.Armoury))
-            );
+        public virtual TroopInfo GetArcherInfo() {
+            return new TroopInfo(Archers, MercenaryArchers, BaseArcherAttack, BaseArcherDefense, GetBuildingBonusMultiplier(BuildingType.ArcheryRange),
+                GetBuildingBonusMultiplier(BuildingType.Forge), GetBuildingBonusMultiplier(BuildingType.Armoury));
         }
 
-        public virtual TroopStrength GetStrengthPerCavalry() {
-            var cavalryBonus = GetBuildingBonusMultiplier(BuildingType.CavalryRange);
-
-            return new TroopStrength(
-                (int)(BaseCavalryAttack * cavalryBonus * GetBuildingBonusMultiplier(BuildingType.Forge)),
-                (int)(BaseCavalryDefense * cavalryBonus * GetBuildingBonusMultiplier(BuildingType.Armoury))
-            );
+        public virtual TroopInfo GetCavalryInfo() {
+            return new TroopInfo(Cavalry, MercenaryCavalry, BaseCavalryAttack, BaseCavalryDefense, GetBuildingBonusMultiplier(BuildingType.CavalryRange),
+                GetBuildingBonusMultiplier(BuildingType.Forge), GetBuildingBonusMultiplier(BuildingType.Armoury));
         }
 
-        public virtual TroopStrength GetStrengthPerFootman() {
-            var footmanBonus = GetBuildingBonusMultiplier(BuildingType.FootmanRange);
-
-            return new TroopStrength(
-                (int)(BaseFootmanAttack * footmanBonus * GetBuildingBonusMultiplier(BuildingType.Forge)),
-                (int)(BaseFootmanDefense * footmanBonus * GetBuildingBonusMultiplier(BuildingType.Armoury))
-            );
-        }
-
-        public virtual TroopStrength GetArcherStrength() {
-            return (Archers + MercenaryArchers) * GetStrengthPerArcher();
-        }
-
-        public virtual TroopStrength GetCavalryStrength() {
-            return (Cavalry + MercenaryCavalry) * GetStrengthPerCavalry();
-        }
-
-        public virtual TroopStrength GetFootmenStrength() {
-            return (Footmen + MercenaryFootmen) * GetStrengthPerFootman();
+        public virtual TroopInfo GetFootmanInfo() {
+            return new TroopInfo(Footmen, MercenaryFootmen, BaseFootmanAttack, BaseFootmanDefense, GetBuildingBonusMultiplier(BuildingType.FootmanRange),
+                GetBuildingBonusMultiplier(BuildingType.Forge), GetBuildingBonusMultiplier(BuildingType.Armoury));
         }
 
         public virtual void Recruit() {
@@ -188,13 +133,17 @@ namespace WarOfEmpires.Domain.Players {
 
             AttackTurns++;
 
+            if (Stamina < 100) {
+                Stamina++;
+            }
+
             if (Resources.CanAfford(upkeep)) {
                 Resources = Resources - upkeep + new Resources(
                     GetGoldPerTurn(),
-                    GetFoodPerTurn(),
-                    GetWoodPerTurn(),
-                    GetStonePerTurn(),
-                    GetOrePerTurn()
+                    GetFoodProduction().GetTotalProduction(),
+                    GetWoodProduction().GetTotalProduction(),
+                    GetStoneProduction().GetTotalProduction(),
+                    GetOreProduction().GetTotalProduction()
                 );
             }
             else {
