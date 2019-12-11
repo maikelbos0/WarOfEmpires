@@ -23,12 +23,9 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
             player.User.Returns(user);
             player.Id.Returns(1);
             player.Peasants.Returns(1);
-            player.Archers.Returns(7);
-            player.MercenaryArchers.Returns(6);
-            player.Cavalry.Returns(5);
-            player.MercenaryCavalry.Returns(4);
-            player.Footmen.Returns(3);
-            player.MercenaryFootmen.Returns(2);
+            player.Archers.Returns(new Troops(7, 6));
+            player.Cavalry.Returns(new Troops(5, 4));
+            player.Footmen.Returns(new Troops(3, 2));
 
             _context.Users.Add(user);
             _context.Players.Add(player);

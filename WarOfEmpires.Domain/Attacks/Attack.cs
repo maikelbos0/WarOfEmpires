@@ -5,9 +5,11 @@ using WarOfEmpires.Domain.Players;
 namespace WarOfEmpires.Domain.Attacks {
     // TODO Add collections for defended and attacked to Player
     // TODO Subclass this for different attack types
+    // TODO Write tests - for surrender, fatigue, check rounds
     public class Attack : Entity {
         public const int AttackerMinimumStamina = 70;
         public const int DefenderMinimumStamina = 30;
+        public const int StaminaRandomModifier = 10;
 
         public virtual Player Attacker { get; protected set; }
         public virtual Player Defender { get; protected set; }
@@ -42,59 +44,44 @@ namespace WarOfEmpires.Domain.Attacks {
                 return;
             }
 
-            var calculatedAttackerStamina = random.Next(attackerStamina - 10, attackerStamina + 10);
-            var calculatedDefenderStamina = random.Next(defenderStamina - 10, defenderStamina + 10);
+            var calculatedAttackerStamina = random.Next(attackerStamina - StaminaRandomModifier, attackerStamina + StaminaRandomModifier);
+            var calculatedDefenderStamina = random.Next(defenderStamina - StaminaRandomModifier, defenderStamina + StaminaRandomModifier);
 
-            defenderStamina -= AddRound(calculatedAttackerStamina, TroopType.Archers, true, Attacker.GetArcherInfo(), Defender);
-            attackerStamina -= AddRound(calculatedDefenderStamina, TroopType.Archers, false, Defender.GetArcherInfo(), Attacker);
+            AddRound(calculatedAttackerStamina, TroopType.Archers, true, Attacker.GetArcherInfo(), Defender);
+            AddRound(calculatedDefenderStamina, TroopType.Archers, false, Defender.GetArcherInfo(), Attacker);
 
-            defenderStamina -= AddRound(calculatedAttackerStamina, TroopType.Cavalry, true, Attacker.GetCavalryInfo(), Defender);
-            attackerStamina -= AddRound(calculatedDefenderStamina, TroopType.Cavalry, false, Defender.GetCavalryInfo(), Attacker);
+            AddRound(calculatedAttackerStamina, TroopType.Cavalry, true, Attacker.GetCavalryInfo(), Defender);
+            AddRound(calculatedDefenderStamina, TroopType.Cavalry, false, Defender.GetCavalryInfo(), Attacker);
 
-            defenderStamina -= AddRound(calculatedAttackerStamina, TroopType.Footmen, true, Attacker.GetFootmanInfo(), Defender);
-            attackerStamina -= AddRound(calculatedDefenderStamina, TroopType.Footmen, false, Defender.GetFootmanInfo(), Attacker);
+            AddRound(calculatedAttackerStamina, TroopType.Footmen, true, Attacker.GetFootmanInfo(), Defender);
+            AddRound(calculatedDefenderStamina, TroopType.Footmen, false, Defender.GetFootmanInfo(), Attacker);
             
             if (Attacker.Stamina - attackerStamina > Defender.Stamina - defenderStamina) {
-                Result = AttackResult.Defended;
-            }
-            else {
                 Result = AttackResult.Win;
             }
-
-            // Defender.Stamina = Math.Max(defenderStamina, 0);
-            // Attacker.Stamina = Math.Max(attackerStamina, 0);
-
-            // TODO get resources in player class?
-        }
-
-        public int AddRound(int stamina, TroopType troopType, bool isAggressor, TroopInfo attackerTroopInfo, Player defender) {
-            var damage = attackerTroopInfo.GetTotalAttack() * stamina * Turns / 100 / 100;
-
-            if (damage == 0) {
-                return 0;
+            else {
+                Result = AttackResult.Defended;
             }
 
-            var totalDefense = defender.GetArcherInfo().GetTotalDefense() + defender.GetCavalryInfo().GetTotalDefense() + defender.GetFootmanInfo().GetTotalDefense();
-            var archerDamage = defender.GetArcherInfo().GetTotalDefense() * damage / totalDefense;
-            var cavalryDamage = defender.GetCavalryInfo().GetTotalDefense() * damage / totalDefense;
-            var footmanDamage = defender.GetFootmanInfo().GetTotalDefense() * damage / totalDefense;
-            
-            // TODO Add stamina drain to kill
-            // TODO move damage calculation to defender?
+            // TODO Transfer resources
+        }
 
+        public void AddRound(int stamina, TroopType troopType, bool isAggressor, TroopInfo attackerTroopInfo, Player defender) {
+            // We first multiply and only last divide to get the most accurate values without resorting to decimals
+            var damage = attackerTroopInfo.GetTotalAttack() * stamina * Turns / 100; 
+
+            if (damage == 0) {
+                return;
+            }
+            
             Rounds.Add(new AttackRound(
                 this,
                 troopType,
                 isAggressor,
-                attackerTroopInfo.Soldiers + attackerTroopInfo.Mercenaries,
+                attackerTroopInfo.Troops.GetTotals(),
                 damage,
-                defender.KillArchers(archerDamage),
-                defender.KillCavalry(cavalryDamage),
-                defender.KillFootmen(footmanDamage)
+                defender.ProcessAttackDamage(damage)
             ));
-
-            // Return stamina loss
-            return damage / totalDefense * 100;
         }
     }
 }

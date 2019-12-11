@@ -24,12 +24,9 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
             var player = Substitute.For<Player>();
             player.User.Returns(user);
-            player.Archers.Returns(10);
-            player.MercenaryArchers.Returns(10);
-            player.Cavalry.Returns(10);
-            player.MercenaryCavalry.Returns(10);
-            player.Footmen.Returns(10);
-            player.MercenaryFootmen.Returns(10);
+            player.Archers.Returns(new Troops(10, 10));
+            player.Cavalry.Returns(new Troops(10, 10));
+            player.Footmen.Returns(new Troops(10, 10));
 
             _context.Users.Add(user);
             _context.Players.Add(player);

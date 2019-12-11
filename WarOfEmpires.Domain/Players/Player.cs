@@ -10,12 +10,14 @@ namespace WarOfEmpires.Domain.Players {
         public const int BaseGoldProduction = 500;
         public const int BaseResourceProduction = 20;
         public static int[] BuildingRecruitingLevels = { 50000, 100000, 200000, 300000, 500000, 800000, 1200000, 2000000, 3000000, 5000000, 8000000, 12000000, 20000000, 30000000, 40000000, 50000000, 60000000, 70000000, 80000000, 90000000, 100000000, 110000000, 120000000, 130000000, 140000000, 150000000 };
-        public const int BaseArcherAttack = 30;
-        public const int BaseArcherDefense = 10;
-        public const int BaseCavalryAttack = 20;
-        public const int BaseCavalryDefense = 20;
-        public const int BaseFootmanAttack = 10;
-        public const int BaseFootmanDefense = 30;
+        public const long BaseArcherAttack = 50;
+        public const long BaseArcherDefense = 30;
+        public const long BaseCavalryAttack = 45;
+        public const long BaseCavalryDefense = 35;
+        public const long BaseFootmanAttack = 40;
+        public const long BaseFootmanDefense = 40;
+        public const int AttackDamageModifier = 200;
+        public const int AttackStaminaDrainModifier = 2;
 
         public static Resources WorkerTrainingCost = new Resources(gold: 250);
         public static Resources ArcherTrainingCost = new Resources(gold: 5000, wood: 1000, ore: 500);
@@ -40,12 +42,9 @@ namespace WarOfEmpires.Domain.Players {
         public virtual int OreMiners { get; protected set; }
         public virtual Resources Resources { get; protected set; } = new Resources(10000, 2000, 2000, 2000, 2000);
         public virtual int Tax { get; set; } = 50;
-        public virtual int Archers { get; protected set; }
-        public virtual int MercenaryArchers { get; protected set; }
-        public virtual int Cavalry { get; protected set; }
-        public virtual int MercenaryCavalry { get; protected set; }
-        public virtual int Footmen { get; protected set; }
-        public virtual int MercenaryFootmen { get; protected set; }
+        public virtual Troops Archers { get; protected set; } = new Troops(0, 0);
+        public virtual Troops Cavalry { get; protected set; } = new Troops(0, 0);
+        public virtual Troops Footmen { get; protected set; } = new Troops(0, 0);
         public virtual int AttackTurns { get; protected set; } = 50;
         public virtual int Stamina { get; protected set; } = 100;
         public virtual ICollection<Building> Buildings { get; protected set; } = new List<Building>();
@@ -96,58 +95,40 @@ namespace WarOfEmpires.Domain.Players {
             var upkeep = new Resources();
 
             upkeep += (Peasants + Farmers + WoodWorkers + StoneMasons + OreMiners) * PeasantUpkeep;
-            upkeep += (Archers + Cavalry + Footmen) * SoldierUpkeep;
-            upkeep += (MercenaryArchers + MercenaryCavalry + MercenaryFootmen) * MercenaryUpkeep;
+            upkeep += (Archers.Soldiers + Cavalry.Soldiers + Footmen.Soldiers) * SoldierUpkeep;
+            upkeep += (Archers.Mercenaries + Cavalry.Mercenaries + Footmen.Mercenaries) * MercenaryUpkeep;
 
             return upkeep;
         }
 
         public virtual TroopInfo GetArcherInfo() {
-            return new TroopInfo(Archers, MercenaryArchers, BaseArcherAttack, BaseArcherDefense, GetBuildingBonusMultiplier(BuildingType.ArcheryRange),
+            return new TroopInfo(Archers, BaseArcherAttack, BaseArcherDefense, GetBuildingBonusMultiplier(BuildingType.ArcheryRange),
                 GetBuildingBonusMultiplier(BuildingType.Forge), GetBuildingBonusMultiplier(BuildingType.Armoury));
         }
 
         public virtual TroopInfo GetCavalryInfo() {
-            return new TroopInfo(Cavalry, MercenaryCavalry, BaseCavalryAttack, BaseCavalryDefense, GetBuildingBonusMultiplier(BuildingType.CavalryRange),
+            return new TroopInfo(Cavalry, BaseCavalryAttack, BaseCavalryDefense, GetBuildingBonusMultiplier(BuildingType.CavalryRange),
                 GetBuildingBonusMultiplier(BuildingType.Forge), GetBuildingBonusMultiplier(BuildingType.Armoury));
         }
 
         public virtual TroopInfo GetFootmanInfo() {
-            return new TroopInfo(Footmen, MercenaryFootmen, BaseFootmanAttack, BaseFootmanDefense, GetBuildingBonusMultiplier(BuildingType.FootmanRange),
+            return new TroopInfo(Footmen, BaseFootmanAttack, BaseFootmanDefense, GetBuildingBonusMultiplier(BuildingType.FootmanRange),
                 GetBuildingBonusMultiplier(BuildingType.Forge), GetBuildingBonusMultiplier(BuildingType.Armoury));
         }
 
-        public virtual Casualties KillArchers(int damage) {
-            var totalCasualties = damage / GetArcherInfo().GetDefensePerSoldier();
-            var mercenaryCasualties = Math.Min(totalCasualties, MercenaryArchers);
-            var soldierCasualties = Math.Min(totalCasualties - mercenaryCasualties, Archers);
+        // TODO Write tests
+        public virtual Casualties ProcessAttackDamage(long damage) {
+            var totalDefense = GetArcherInfo().GetTotalDefense() + GetCavalryInfo().GetTotalDefense() + GetFootmanInfo().GetTotalDefense();
+            var archerCasualties = Archers.GetTroopCasualties((int)(GetArcherInfo().GetTotalDefense() * damage / totalDefense / AttackDamageModifier / GetArcherInfo().GetDefensePerSoldier()));
+            var cavalryCasualties = Cavalry.GetTroopCasualties((int)(GetCavalryInfo().GetTotalDefense() * damage / totalDefense / AttackDamageModifier / GetCavalryInfo().GetDefensePerSoldier()));
+            var footmanCasualties = Footmen.GetTroopCasualties((int)(GetFootmanInfo().GetTotalDefense() * damage / totalDefense / AttackDamageModifier / GetFootmanInfo().GetDefensePerSoldier()));
 
-            MercenaryArchers -= mercenaryCasualties;
-            Archers -= soldierCasualties;
-            
-            return new Casualties(soldierCasualties, mercenaryCasualties);
-        }
+            Stamina = Math.Max(0, (int)(Stamina - damage * AttackStaminaDrainModifier / totalDefense));
+            Archers -= archerCasualties;
+            Cavalry -= cavalryCasualties;
+            Footmen -= footmanCasualties;
 
-        public virtual Casualties KillCavalry(int damage) {
-            var totalCasualties = damage / GetCavalryInfo().GetDefensePerSoldier();
-            var mercenaryCasualties = Math.Min(totalCasualties, MercenaryCavalry);
-            var soldierCasualties = Math.Min(totalCasualties - mercenaryCasualties, Cavalry);
-
-            MercenaryCavalry -= mercenaryCasualties;
-            Cavalry -= soldierCasualties;
-
-            return new Casualties(soldierCasualties, mercenaryCasualties);
-        }
-
-        public virtual Casualties KillFootmen(int damage) {
-            var totalCasualties = damage / GetFootmanInfo().GetDefensePerSoldier();
-            var mercenaryCasualties = Math.Min(totalCasualties, MercenaryFootmen);
-            var soldierCasualties = Math.Min(totalCasualties - mercenaryCasualties, Footmen);
-
-            MercenaryFootmen -= mercenaryCasualties;
-            Footmen -= soldierCasualties;
-
-            return new Casualties(soldierCasualties, mercenaryCasualties);
+            return new Casualties(archerCasualties, cavalryCasualties, footmanCasualties);
         }
 
         public virtual void Recruit() {
@@ -188,9 +169,9 @@ namespace WarOfEmpires.Domain.Players {
                     Math.Min(upkeep.Ore, Resources.Ore)
                 );
 
-                MercenaryArchers = 0;
-                MercenaryCavalry = 0;
-                MercenaryFootmen = 0;
+                Archers = new Troops(Archers.Soldiers, 0);
+                Cavalry = new Troops(Cavalry.Soldiers, 0);
+                Footmen = new Troops(Footmen.Soldiers, 0);
             }
         }
 
@@ -256,12 +237,9 @@ namespace WarOfEmpires.Domain.Players {
             var troops = archers + cavalry + footmen;
             var mercenaries = mercenaryArchers + mercenaryCavalry + mercenaryFootmen;
 
-            Archers += archers;
-            MercenaryArchers += mercenaryArchers;
-            Cavalry += cavalry;
-            MercenaryCavalry += mercenaryCavalry;
-            Footmen += footmen;
-            MercenaryFootmen += mercenaryFootmen;
+            Archers += new Troops(archers, mercenaryArchers);
+            Cavalry += new Troops(cavalry, mercenaryCavalry);
+            Footmen += new Troops(footmen, mercenaryFootmen);
 
             Peasants -= troops;
             Resources -= (archers * ArcherTrainingCost
@@ -271,12 +249,9 @@ namespace WarOfEmpires.Domain.Players {
         }
 
         public virtual void UntrainTroops(int archers, int mercenaryArchers, int cavalry, int mercenaryCavalry, int footmen, int mercenaryFootmen) {
-            Archers -= archers;
-            MercenaryArchers -= mercenaryArchers;
-            Cavalry -= cavalry;
-            MercenaryCavalry -= mercenaryCavalry;
-            Footmen -= footmen;
-            MercenaryFootmen -= mercenaryFootmen;
+            Archers -= new Troops(archers, mercenaryArchers);
+            Cavalry -= new Troops(cavalry, mercenaryCavalry);
+            Footmen -= new Troops(footmen, mercenaryFootmen);
 
             Peasants += archers + cavalry + footmen;
         }

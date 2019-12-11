@@ -22,12 +22,12 @@ namespace WarOfEmpires.QueryHandlers.Empires {
 
             return new TroopModel() {
                 CurrentPeasants = player.Peasants,
-                CurrentArchers = player.Archers,
-                CurrentMercenaryArchers = player.MercenaryArchers,
-                CurrentCavalry = player.Cavalry,
-                CurrentMercenaryCavalry = player.MercenaryCavalry,
-                CurrentFootmen = player.Footmen,
-                CurrentMercenaryFootmen = player.MercenaryFootmen
+                CurrentArchers = player.Archers.Soldiers,
+                CurrentMercenaryArchers = player.Archers.Mercenaries,
+                CurrentCavalry = player.Cavalry.Soldiers,
+                CurrentMercenaryCavalry = player.Cavalry.Mercenaries,
+                CurrentFootmen = player.Footmen.Soldiers,
+                CurrentMercenaryFootmen = player.Footmen.Mercenaries
             };
         }
     }

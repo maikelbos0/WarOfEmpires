@@ -1,18 +1,17 @@
 ﻿using System.Collections.Generic;
 
 namespace WarOfEmpires.Domain.Players {
+    // TODO Write tests
     public sealed class TroopInfo : ValueObject {
-        public int Soldiers { get; }
-        public int Mercenaries { get; }
-        public int BaseAttack { get; }
-        public int BaseDefense { get; }
+        public Troops Troops { get; }
+        public long BaseAttack { get; }
+        public long BaseDefense { get; }
         public decimal TroopBonusMultiplier { get; }
         public decimal ForgeBonusMultiplier { get; }
         public decimal ArmouryBonusMultiplier { get; }
 
-        public TroopInfo(int soldiers, int mercenaries, int baseAttack, int baseDefense, decimal troopBonusMultiplier, decimal forgeBonusMultiplier, decimal armouryBonusMultiplier) {
-            Soldiers = soldiers;
-            Mercenaries = mercenaries;
+        public TroopInfo(Troops troops, long baseAttack, long baseDefense, decimal troopBonusMultiplier, decimal forgeBonusMultiplier, decimal armouryBonusMultiplier) {
+            Troops = troops;
             BaseAttack = baseAttack;
             BaseDefense = baseDefense;
             TroopBonusMultiplier = troopBonusMultiplier;
@@ -20,26 +19,26 @@ namespace WarOfEmpires.Domain.Players {
             ArmouryBonusMultiplier = armouryBonusMultiplier;
         }
 
-        public int GetAttackPerSoldier() {
+        public long GetAttackPerSoldier() {
             return (int)(BaseAttack * TroopBonusMultiplier * ForgeBonusMultiplier);
 
         }
 
-        public int GetDefensePerSoldier() {
+        public long GetDefensePerSoldier() {
             return (int)(BaseDefense * TroopBonusMultiplier * ArmouryBonusMultiplier);
         }
 
-        public int GetTotalAttack() {
-            return GetAttackPerSoldier() * (Soldiers + Mercenaries);
+        public long GetTotalAttack() {
+            return GetAttackPerSoldier() * Troops.GetTotals();
         }
 
-        public int GetTotalDefense() {
-            return GetDefensePerSoldier() * (Soldiers + Mercenaries);
+        public long GetTotalDefense() {
+            return GetDefensePerSoldier() * Troops.GetTotals();
         }
 
         protected override IEnumerable<object> GetEqualityComponents() {
-            yield return Soldiers;
-            yield return Mercenaries;
+            yield return Troops.Soldiers;
+            yield return Troops.Mercenaries;
             yield return BaseAttack;
             yield return BaseDefense;
             yield return TroopBonusMultiplier;

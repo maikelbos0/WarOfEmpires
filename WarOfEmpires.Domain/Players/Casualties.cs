@@ -2,17 +2,23 @@
 
 namespace WarOfEmpires.Domain.Players {
     public sealed class Casualties : ValueObject {
-        public int Soldiers { get; }
-        public int Mercenaries { get; }
+        public Troops Archers { get; }
+        public Troops Cavalry { get; }
+        public Troops Footmen { get; }
 
-        public Casualties(int soldiers, int mercenaries) {
-            Soldiers = soldiers;
-            Mercenaries = mercenaries;
+        public Casualties(Troops archers, Troops cavalry, Troops footmen) {
+            Archers = archers;
+            Cavalry = cavalry;
+            Footmen = footmen;
         }
 
         protected override IEnumerable<object> GetEqualityComponents() {
-            yield return Soldiers;
-            yield return Mercenaries;
+            yield return Archers.Soldiers;
+            yield return Archers.Mercenaries;
+            yield return Cavalry.Soldiers;
+            yield return Cavalry.Mercenaries;
+            yield return Footmen.Soldiers;
+            yield return Footmen.Mercenaries;
         }
     }
 }

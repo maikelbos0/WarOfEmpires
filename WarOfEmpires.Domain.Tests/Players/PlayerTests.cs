@@ -302,8 +302,8 @@ namespace WarOfEmpires.Domain.Tests.Players {
             player.TrainTroops(1, 1, 1, 1, 0, 0);
 
             player.ProcessTurn();
-            player.MercenaryArchers.Should().Be(0);
-            player.MercenaryCavalry.Should().Be(0);
+            player.Archers.Mercenaries.Should().Be(0);
+            player.Cavalry.Mercenaries.Should().Be(0);
         }
 
         [TestMethod]
@@ -416,12 +416,9 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
             player.TrainTroops(1, 4, 2, 5, 3, 6);
 
-            player.Archers.Should().Be(1);
-            player.MercenaryArchers.Should().Be(4);
-            player.Cavalry.Should().Be(2);
-            player.MercenaryCavalry.Should().Be(5);
-            player.Footmen.Should().Be(3);
-            player.MercenaryFootmen.Should().Be(6);
+            player.Archers.Should().Be(new Troops(1, 4));
+            player.Cavalry.Should().Be(new Troops(2, 5));
+            player.Footmen.Should().Be(new Troops(3, 6));
         }
 
         [TestMethod]
@@ -452,12 +449,9 @@ namespace WarOfEmpires.Domain.Tests.Players {
             player.TrainTroops(2, 5, 3, 6, 4, 7);
             player.UntrainTroops(1, 4, 2, 5, 3, 6);
 
-            player.Archers.Should().Be(1);
-            player.MercenaryArchers.Should().Be(1);
-            player.Cavalry.Should().Be(1);
-            player.MercenaryCavalry.Should().Be(1);
-            player.Footmen.Should().Be(1);
-            player.MercenaryFootmen.Should().Be(1);
+            player.Archers.Should().Be(new Troops(1, 1));
+            player.Cavalry.Should().Be(new Troops(1, 1));
+            player.Footmen.Should().Be(new Troops(1, 1));
         }
 
         [TestMethod]
