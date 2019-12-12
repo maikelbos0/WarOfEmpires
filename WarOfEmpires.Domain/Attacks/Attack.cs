@@ -4,8 +4,7 @@ using WarOfEmpires.Domain.Players;
 
 namespace WarOfEmpires.Domain.Attacks {
     // TODO Add collections for defended and attacked to Player
-    // TODO Subclass this for different attack types
-    // TODO Write tests - for surrender, fatigue, check rounds
+    // TODO Rework this for different attack types
     public class Attack : Entity {
         public const int AttackerMinimumStamina = 70;
         public const int DefenderMinimumStamina = 30;
@@ -57,7 +56,7 @@ namespace WarOfEmpires.Domain.Attacks {
             AddRound(calculatedDefenderStamina, TroopType.Footmen, false, Defender.GetFootmanInfo(), Attacker);
             
             if (Attacker.Stamina - attackerStamina > Defender.Stamina - defenderStamina) {
-                Result = AttackResult.Win;
+                Result = AttackResult.Won;
             }
             else {
                 Result = AttackResult.Defended;
