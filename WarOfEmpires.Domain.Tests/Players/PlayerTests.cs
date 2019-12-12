@@ -521,5 +521,57 @@ namespace WarOfEmpires.Domain.Tests.Players {
             result.GetTotalAttack().Should().Be(11 * (int)(40 * 1.5m * 1.75m));
             result.GetTotalDefense().Should().Be(11 * (int)(40 * 1.25m * 1.75m));
         }
+
+        [TestMethod]
+        public void Player_ProcessAttackDamage_Reduces_Stamina() {
+            var player = new Player(0, "Test");
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
+
+            player.TrainTroops(150, 50, 150, 50, 150, 50);
+
+            var damage = player.GetArcherInfo().GetTotalDefense() + player.GetCavalryInfo().GetTotalDefense() + player.GetFootmanInfo().GetTotalDefense();
+
+            player.ProcessAttackDamage(damage * 10);
+
+            player.Stamina.Should().Be(80);
+        }
+
+        [TestMethod]
+        public void Player_ProcessAttackDamage_Reduces_Troops() {
+            var player = new Player(0, "Test");
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
+
+            player.TrainTroops(150, 50, 150, 50, 150, 50);
+
+            var damage = player.GetArcherInfo().GetTotalDefense() + player.GetCavalryInfo().GetTotalDefense() + player.GetFootmanInfo().GetTotalDefense();
+
+            player.ProcessAttackDamage(damage * 10);
+
+            player.Archers.Soldiers.Should().Be(150);
+            player.Archers.Mercenaries.Should().Be(40);
+            player.Cavalry.Soldiers.Should().Be(150);
+            player.Cavalry.Mercenaries.Should().Be(40);
+            player.Footmen.Soldiers.Should().Be(150);
+            player.Footmen.Mercenaries.Should().Be(40);
+        }
+
+        [TestMethod]
+        public void Player_ProcessAttackDamage_Returns_Casualties() {
+            var player = new Player(0, "Test");
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
+
+            player.TrainTroops(150, 50, 150, 50, 150, 50);
+
+            var damage = player.GetArcherInfo().GetTotalDefense() + player.GetCavalryInfo().GetTotalDefense() + player.GetFootmanInfo().GetTotalDefense();
+
+            var casualties = player.ProcessAttackDamage(damage * 10);
+
+            casualties.Archers.Soldiers.Should().Be(0);
+            casualties.Archers.Mercenaries.Should().Be(10);
+            casualties.Cavalry.Soldiers.Should().Be(0);
+            casualties.Cavalry.Mercenaries.Should().Be(10);
+            casualties.Footmen.Soldiers.Should().Be(0);
+            casualties.Footmen.Mercenaries.Should().Be(10);
+        }
     }
 }

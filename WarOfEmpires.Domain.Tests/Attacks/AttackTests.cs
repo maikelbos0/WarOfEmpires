@@ -7,6 +7,7 @@ using WarOfEmpires.Domain.Players;
 
 namespace WarOfEmpires.Domain.Tests.Attacks {
     [TestClass]
+    [Ignore]
     public sealed class AttackTests {
         [TestMethod]
         public void Attack_1() {
