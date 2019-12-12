@@ -103,6 +103,11 @@ namespace WarOfEmpires.Database {
 
             var attacks = modelBuilder.Entity<Attacks.Attack>().ToTable("Attacks", "Attacks").HasKey(a => a.Id);
             attacks.HasMany(a => a.Rounds).WithRequired(r => r.Attack);
+            attacks.Property(a => a.Resources.Gold).HasColumnName("Gold");
+            attacks.Property(a => a.Resources.Food).HasColumnName("Food");
+            attacks.Property(a => a.Resources.Wood).HasColumnName("Wood");
+            attacks.Property(a => a.Resources.Stone).HasColumnName("Stone");
+            attacks.Property(a => a.Resources.Ore).HasColumnName("Ore");
 
             var troopTypes = modelBuilder.Entity<TroopTypeEntity>().ToTable("TroopTypes", "Attacks").HasKey(t => t.Id);
             troopTypes.HasMany(t => t.AttackRounds).WithRequired().HasForeignKey(r => r.TroopType);

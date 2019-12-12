@@ -10,13 +10,13 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
     [TestClass]
     public sealed class AttackTests {
         [TestMethod]
-        public void Attack_Result_Is_Surrender_For_Defender_Low_Stamina() {
+        public void Attack_Result_Is_Surrendered_For_Defender_Low_Stamina() {
             var attacker = new Player(1, "Attacker");
             var defender = new Player(2, "Defender");
 
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(attacker, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(defender, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
-            
+
             attacker.TrainTroops(600, 200, 0, 0, 0, 0);
             defender.TrainTroops(600, 200, 0, 0, 0, 0);
 
@@ -77,6 +77,100 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
             attack.Execute();
 
             attack.Result.Should().Be(AttackResult.Defended);
+        }
+
+        [TestMethod]
+        public void Attack_Surrendered_Gives_Correct_Resources_To_Attacker() {
+            var attacker = new Player(1, "Attacker");
+            var defender = new Player(2, "Defender");
+
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(attacker, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(defender, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
+
+            attacker.TrainTroops(600, 200, 0, 0, 0, 0);
+            defender.TrainTroops(600, 200, 0, 0, 0, 0);
+
+            typeof(Player).GetProperty(nameof(Player.Stamina)).SetValue(defender, 29);
+
+            var expectedResources = (defender.Resources - new Resources(defender.Resources.Gold)) * 0.25m;
+            var previousDefenderResources = defender.Resources;
+            var previousAttackerResources = attacker.Resources;
+
+            var attack = new Attack(attacker, defender, 10);
+            attack.Execute();
+
+            attack.Resources.Should().Be(expectedResources);
+            defender.Resources.Should().Be(previousDefenderResources - expectedResources);
+            attacker.Resources.Should().Be(previousAttackerResources + expectedResources);
+        }
+
+        [TestMethod]
+        public void Attack_Won_Gives_Correct_Resources_To_Attacker() {
+            var attacker = new Player(1, "Attacker");
+            var defender = new Player(2, "Defender");
+
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(attacker, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(defender, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
+
+            attacker.TrainTroops(600, 200, 0, 0, 0, 0);
+            defender.TrainTroops(400, 100, 0, 0, 0, 0);
+
+            var expectedResources = (defender.Resources - new Resources(defender.Resources.Gold)) * 0.5m;
+            var previousDefenderResources = defender.Resources;
+            var previousAttackerResources = attacker.Resources;
+
+            var attack = new Attack(attacker, defender, 10);
+            attack.Execute();
+
+            attack.Resources.Should().Be(expectedResources);
+            defender.Resources.Should().Be(previousDefenderResources - expectedResources);
+            attacker.Resources.Should().Be(previousAttackerResources + expectedResources);
+        }
+
+        [TestMethod]
+        public void Attack_Fatigued_Gives_No_Resources_To_Attacker() {
+            var attacker = new Player(1, "Attacker");
+            var defender = new Player(2, "Defender");
+
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(attacker, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(defender, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
+
+            attacker.TrainTroops(600, 200, 0, 0, 0, 0);
+            defender.TrainTroops(600, 200, 0, 0, 0, 0);
+
+            typeof(Player).GetProperty(nameof(Player.Stamina)).SetValue(attacker, 69);
+
+            var previousDefenderResources = defender.Resources;
+            var previousAttackerResources = attacker.Resources;
+
+            var attack = new Attack(attacker, defender, 10);
+            attack.Execute();
+
+            attack.Resources.Should().Be(new Resources());
+            defender.Resources.Should().Be(previousDefenderResources);
+            attacker.Resources.Should().Be(previousAttackerResources);
+        }
+
+        [TestMethod]
+        public void Attack_Defended_Gives_No_Resources_To_Attacker() {
+            var attacker = new Player(1, "Attacker");
+            var defender = new Player(2, "Defender");
+
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(attacker, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(defender, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
+
+            attacker.TrainTroops(400, 100, 0, 0, 0, 0);
+            defender.TrainTroops(600, 200, 0, 0, 0, 0);
+
+            var previousDefenderResources = defender.Resources;
+            var previousAttackerResources = attacker.Resources;
+
+            var attack = new Attack(attacker, defender, 10);
+            attack.Execute();
+
+            attack.Resources.Should().Be(new Resources());
+            defender.Resources.Should().Be(previousDefenderResources);
+            attacker.Resources.Should().Be(previousAttackerResources);
         }
 
         [DataTestMethod]
@@ -191,84 +285,6 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
             rounds[4].IsAggressor.Should().BeTrue();
             rounds[5].TroopType.Should().Be(TroopType.Footmen);
             rounds[5].IsAggressor.Should().BeFalse();
-        }
-
-        [TestMethod]
-        [Ignore]
-        public void Attack_1() {
-            var attacker = new Player(1, "Attacker");
-            var defender = new Player(2, "Defender");
-
-            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(attacker, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
-            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(defender, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
-
-            attacker.TrainTroops(600, 200, 0, 0, 0, 0);
-            defender.TrainTroops(600, 200, 0, 0, 0, 0);
-
-            var attack = new Attack(attacker, defender, 10);
-            attack.Execute();
-
-            var results = new {
-                attack.Result,
-                AttackerStamina = attacker.Stamina,
-                DefenderStamina = defender.Stamina,
-                AttackerSoldierCasualties = attack.Rounds.Where(r => !r.IsAggressor).Sum(r => r.Casualties.Archers.Soldiers + r.Casualties.Cavalry.Soldiers + r.Casualties.Footmen.Soldiers),
-                DefenderSoldierCasualties = attack.Rounds.Where(r => r.IsAggressor).Sum(r => r.Casualties.Archers.Soldiers + r.Casualties.Cavalry.Soldiers + r.Casualties.Footmen.Soldiers),
-                AttackerMercenaryCasualties = attack.Rounds.Where(r => !r.IsAggressor).Sum(r => r.Casualties.Archers.Mercenaries + r.Casualties.Cavalry.Mercenaries + r.Casualties.Footmen.Mercenaries),
-                DefenderMercenaryCasualties = attack.Rounds.Where(r => r.IsAggressor).Sum(r => r.Casualties.Archers.Mercenaries + r.Casualties.Cavalry.Mercenaries + r.Casualties.Footmen.Mercenaries)
-            };
-        }
-
-        [TestMethod]
-        [Ignore]
-        public void Attack_2() {
-            var attacker = new Player(1, "Attacker");
-            var defender = new Player(2, "Defender");
-
-            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(attacker, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
-            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(defender, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
-
-            attacker.TrainTroops(0, 0, 600, 200, 0, 0);
-            defender.TrainTroops(0, 0, 600, 200, 0, 0);
-
-            var attack = new Attack(attacker, defender, 10);
-            attack.Execute();
-
-            var results = new {
-                attack.Result,
-                AttackerStamina = attacker.Stamina,
-                DefenderStamina = defender.Stamina,
-                AttackerSoldierCasualties = attack.Rounds.Where(r => !r.IsAggressor).Sum(r => r.Casualties.Archers.Soldiers + r.Casualties.Cavalry.Soldiers + r.Casualties.Footmen.Soldiers),
-                DefenderSoldierCasualties = attack.Rounds.Where(r => r.IsAggressor).Sum(r => r.Casualties.Archers.Soldiers + r.Casualties.Cavalry.Soldiers + r.Casualties.Footmen.Soldiers),
-                AttackerMercenaryCasualties = attack.Rounds.Where(r => !r.IsAggressor).Sum(r => r.Casualties.Archers.Mercenaries + r.Casualties.Cavalry.Mercenaries + r.Casualties.Footmen.Mercenaries),
-                DefenderMercenaryCasualties = attack.Rounds.Where(r => r.IsAggressor).Sum(r => r.Casualties.Archers.Mercenaries + r.Casualties.Cavalry.Mercenaries + r.Casualties.Footmen.Mercenaries)
-            };
-        }
-
-        [TestMethod]
-        [Ignore]
-        public void Attack_3() {
-            var attacker = new Player(1, "Attacker");
-            var defender = new Player(2, "Defender");
-
-            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(attacker, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
-            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(defender, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
-
-            attacker.TrainTroops(0, 0, 0, 0, 600, 200);
-            defender.TrainTroops(0, 0, 0, 0, 600, 200);
-
-            var attack = new Attack(attacker, defender, 10);
-            attack.Execute();
-
-            var results = new {
-                attack.Result,
-                AttackerStamina = attacker.Stamina,
-                DefenderStamina = defender.Stamina,
-                AttackerSoldierCasualties = attack.Rounds.Where(r => !r.IsAggressor).Sum(r => r.Casualties.Archers.Soldiers + r.Casualties.Cavalry.Soldiers + r.Casualties.Footmen.Soldiers),
-                DefenderSoldierCasualties = attack.Rounds.Where(r => r.IsAggressor).Sum(r => r.Casualties.Archers.Soldiers + r.Casualties.Cavalry.Soldiers + r.Casualties.Footmen.Soldiers),
-                AttackerMercenaryCasualties = attack.Rounds.Where(r => !r.IsAggressor).Sum(r => r.Casualties.Archers.Mercenaries + r.Casualties.Cavalry.Mercenaries + r.Casualties.Footmen.Mercenaries),
-                DefenderMercenaryCasualties = attack.Rounds.Where(r => r.IsAggressor).Sum(r => r.Casualties.Archers.Mercenaries + r.Casualties.Cavalry.Mercenaries + r.Casualties.Footmen.Mercenaries)
-            };
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using WarOfEmpires.Domain.Common;
 using WarOfEmpires.Domain.Players;
 
 namespace WarOfEmpires.Domain.Attacks {
@@ -8,12 +9,15 @@ namespace WarOfEmpires.Domain.Attacks {
         public const int AttackerMinimumStamina = 70;
         public const int DefenderMinimumStamina = 30;
         public const int StaminaRandomModifier = 10;
+        public const decimal SurrenderResourcesPerTurn = 0.025m;
+        public const decimal WonResourcesPerTurn = 0.05m;
 
         public virtual Player Attacker { get; protected set; }
         public virtual Player Defender { get; protected set; }
-        public virtual ICollection<AttackRound> Rounds { get; protected set; } = new List<AttackRound>();
         public virtual AttackResult Result { get; protected set; } = AttackResult.Undefined;
         public virtual int Turns { get; protected set; }
+        public virtual Resources Resources { get; protected set; } = new Resources();
+        public virtual ICollection<AttackRound> Rounds { get; protected set; } = new List<AttackRound>();
 
         private Attack() { }
 
@@ -28,40 +32,42 @@ namespace WarOfEmpires.Domain.Attacks {
         public void Execute() {
             if (Result != AttackResult.Undefined) throw new InvalidOperationException("An attack can not be executed more than once");
 
-            var random = new Random();
             var attackerStamina = Attacker.Stamina;
             var defenderStamina = Defender.Stamina;
 
             if (attackerStamina < AttackerMinimumStamina) {
                 Result = AttackResult.Fatigued;
-                return;
             }
-
-            if (defenderStamina < DefenderMinimumStamina) {
+            else if (defenderStamina < DefenderMinimumStamina) {
                 Result = AttackResult.Surrendered;
-                return;
-            }
-
-            var calculatedAttackerStamina = random.Next(attackerStamina - StaminaRandomModifier, attackerStamina + StaminaRandomModifier);
-            var calculatedDefenderStamina = random.Next(defenderStamina - StaminaRandomModifier, defenderStamina + StaminaRandomModifier);
-
-            AddRound(calculatedAttackerStamina, TroopType.Archers, true, Attacker.GetArcherInfo(), Defender);
-            AddRound(calculatedDefenderStamina, TroopType.Archers, false, Defender.GetArcherInfo(), Attacker);
-
-            AddRound(calculatedAttackerStamina, TroopType.Cavalry, true, Attacker.GetCavalryInfo(), Defender);
-            AddRound(calculatedDefenderStamina, TroopType.Cavalry, false, Defender.GetCavalryInfo(), Attacker);
-
-            AddRound(calculatedAttackerStamina, TroopType.Footmen, true, Attacker.GetFootmanInfo(), Defender);
-            AddRound(calculatedDefenderStamina, TroopType.Footmen, false, Defender.GetFootmanInfo(), Attacker);
-            
-            if (Attacker.Stamina - attackerStamina > Defender.Stamina - defenderStamina) {
-                Result = AttackResult.Won;
+                Resources = (Defender.Resources - new Resources(Defender.Resources.Gold)) * Turns * SurrenderResourcesPerTurn;
             }
             else {
-                Result = AttackResult.Defended;
+                var random = new Random();
+                var calculatedAttackerStamina = random.Next(attackerStamina - StaminaRandomModifier, attackerStamina + StaminaRandomModifier);
+                var calculatedDefenderStamina = random.Next(defenderStamina - StaminaRandomModifier, defenderStamina + StaminaRandomModifier);
+
+                AddRound(calculatedAttackerStamina, TroopType.Archers, true, Attacker.GetArcherInfo(), Defender);
+                AddRound(calculatedDefenderStamina, TroopType.Archers, false, Defender.GetArcherInfo(), Attacker);
+
+                AddRound(calculatedAttackerStamina, TroopType.Cavalry, true, Attacker.GetCavalryInfo(), Defender);
+                AddRound(calculatedDefenderStamina, TroopType.Cavalry, false, Defender.GetCavalryInfo(), Attacker);
+
+                AddRound(calculatedAttackerStamina, TroopType.Footmen, true, Attacker.GetFootmanInfo(), Defender);
+                AddRound(calculatedDefenderStamina, TroopType.Footmen, false, Defender.GetFootmanInfo(), Attacker);
+
+                if (Attacker.Stamina - attackerStamina > Defender.Stamina - defenderStamina) {
+                    Result = AttackResult.Won;
+                    Resources = (Defender.Resources - new Resources(Defender.Resources.Gold)) * Turns * WonResourcesPerTurn;
+                }
+                else {
+                    Result = AttackResult.Defended;
+                }
             }
 
-            // TODO Transfer resources
+            if (Result == AttackResult.Won || Result == AttackResult.Surrendered) {
+                Defender.TransferResourcesTo(Attacker, Resources);
+            }
         }
 
         public void AddRound(int stamina, TroopType troopType, bool isAggressor, TroopInfo attackerTroopInfo, Player defender) {

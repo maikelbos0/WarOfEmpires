@@ -60,7 +60,7 @@ namespace WarOfEmpires.Domain.Tests.Common {
         }
 
         [TestMethod]
-        public void Resources_Multiply_Operator_Works() {
+        public void Resources_Integer_Multiply_Operator_Works() {
             // Use int * Resources operator to test both overloads
             var resources = 15 * new Resources(10, 20, 30, 40, 50);
                        
@@ -69,6 +69,18 @@ namespace WarOfEmpires.Domain.Tests.Common {
             resources.Wood.Should().Be(450);
             resources.Stone.Should().Be(600);
             resources.Ore.Should().Be(750);
+        }
+
+        [TestMethod]
+        public void Resources_Decimal_Multiply_Operator_Works() {
+            // Use decimal * Resources operator to test both overloads
+            var resources = 0.35m * new Resources(10, 20, 30, 40, 50);
+
+            resources.Gold.Should().Be(3);
+            resources.Food.Should().Be(7);
+            resources.Wood.Should().Be(10);
+            resources.Stone.Should().Be(14);
+            resources.Ore.Should().Be(17);
         }
 
         [DataTestMethod]

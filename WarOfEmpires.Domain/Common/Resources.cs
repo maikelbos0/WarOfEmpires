@@ -57,5 +57,13 @@ namespace WarOfEmpires.Domain.Common {
         public static Resources operator *(int a, Resources b) {
             return b * a;
         }
+
+        public static Resources operator *(Resources a, decimal b) {
+            return new Resources((int)(a.Gold * b), (int)(a.Food * b), (int)(a.Wood * b), (int)(a.Stone * b), (int)(a.Ore * b));
+        }
+
+        public static Resources operator *(decimal a, Resources b) {
+            return b * a;
+        }
     }
 }

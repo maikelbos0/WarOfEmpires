@@ -110,6 +110,10 @@
     <Compile Include="Migrations\201912121257129_Attacks-Attacks.Designer.cs">
       <DependentUpon>201912121257129_Attacks-Attacks.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201912121535028_Attacks-Resources.cs" />
+    <Compile Include="Migrations\201912121535028_Attacks-Resources.Designer.cs">
+      <DependentUpon>201912121535028_Attacks-Resources.cs</DependentUpon>
+    </Compile>
     <Compile Include="ReferenceEntities\AttackResultEntity.cs" />
     <Compile Include="ReferenceEntities\BaseReferenceEntity.cs" />
     <Compile Include="IWarContext.cs" />
@@ -181,6 +185,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201912121257129_Attacks-Attacks.resx">
       <DependentUpon>201912121257129_Attacks-Attacks.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201912121535028_Attacks-Resources.resx">
+      <DependentUpon>201912121535028_Attacks-Resources.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

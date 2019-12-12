@@ -257,5 +257,10 @@ namespace WarOfEmpires.Domain.Players {
 
             Peasants += archers + cavalry + footmen;
         }
+
+        public virtual void TransferResourcesTo(Player player, Resources resources) {
+            Resources -= resources;
+            player.Resources += resources;
+        }
     }
 }
