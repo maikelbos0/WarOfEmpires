@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using WarOfEmpires.Domain.Attacks;
 using WarOfEmpires.Domain.Common;
 using WarOfEmpires.Domain.Empires;
 
@@ -50,6 +51,8 @@ namespace WarOfEmpires.Domain.Players {
         public virtual ICollection<Building> Buildings { get; protected set; } = new List<Building>();
         public virtual ICollection<Message> SentMessages { get; protected set; } = new List<Message>();
         public virtual ICollection<Message> ReceivedMessages { get; protected set; } = new List<Message>();
+        public virtual ICollection<Attack> ExecutedAttacks { get; protected set; } = new List<Attack>();
+        public virtual ICollection<Attack> ReceivedAttacks { get; protected set; } = new List<Attack>();
 
         protected Player() {
         }

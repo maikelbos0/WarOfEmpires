@@ -2,9 +2,9 @@
 
 namespace WarOfEmpires.Domain.Players {
     public sealed class Casualties : ValueObject {
-        public Troops Archers { get; }
-        public Troops Cavalry { get; }
-        public Troops Footmen { get; }
+        public Troops Archers { get; private set; }
+        public Troops Cavalry { get; private set; }
+        public Troops Footmen { get; private set; }
 
         public Casualties(Troops archers, Troops cavalry, Troops footmen) {
             Archers = archers;

@@ -4,6 +4,7 @@ using WarOfEmpires.Utilities.Container;
 using System;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
+using Attacks = WarOfEmpires.Domain.Attacks;
 using Auditing = WarOfEmpires.Domain.Auditing;
 using Events = WarOfEmpires.Domain.Events;
 using Empires = WarOfEmpires.Domain.Empires;
@@ -42,18 +43,17 @@ namespace WarOfEmpires.Database {
             OnAuditingModelCreating(modelBuilder);
             OnEventsModelCreating(modelBuilder);
             OnPlayersModelCreating(modelBuilder);
+            OnAttacksModelCreating(modelBuilder);
             OnSecurityModelCreating(modelBuilder);
         }
 
         private void OnAuditingModelCreating(DbModelBuilder modelBuilder) {
             var commandExecutions = modelBuilder.Entity<Auditing.CommandExecution>().ToTable("CommandExecutions", "Auditing").HasKey(e => e.Id);
-
             commandExecutions.Property(e => e.Date).IsRequired();
             commandExecutions.Property(e => e.CommandType).IsRequired().HasMaxLength(255);
             commandExecutions.Property(e => e.CommandData).IsRequired().IsMaxLength();
 
             var queryExecutions = modelBuilder.Entity<Auditing.QueryExecution>().ToTable("QueryExecutions", "Auditing").HasKey(e => e.Id);
-
             queryExecutions.Property(e => e.Date).IsRequired();
             queryExecutions.Property(e => e.QueryType).IsRequired().HasMaxLength(255);
             queryExecutions.Property(e => e.QueryData).IsRequired().IsMaxLength();
@@ -61,22 +61,21 @@ namespace WarOfEmpires.Database {
 
         private void OnEventsModelCreating(DbModelBuilder modelBuilder) {
             var scheduledTasks = modelBuilder.Entity<Events.ScheduledTask>().ToTable("ScheduledTasks", "Events").HasKey(t => t.Id);
-
             scheduledTasks.Property(e => e.EventType).IsRequired();
         }
 
         private void OnPlayersModelCreating(DbModelBuilder modelBuilder) {
             var buildingTypes = modelBuilder.Entity<BuildingTypeEntity>().ToTable("BuildingTypes", "Empires").HasKey(t => t.Id);
-
             buildingTypes.HasMany(t => t.Buildings).WithRequired().HasForeignKey(b => b.Type);
             buildingTypes.Property(t => t.Name).IsRequired();
 
             var players = modelBuilder.Entity<Players.Player>().ToTable("Players", "Players").HasKey(p => p.Id);
-
             players.HasRequired(p => p.User).WithOptional();
             players.HasMany(p => p.Buildings).WithRequired(b => b.Player);
             players.HasMany(p => p.SentMessages).WithRequired(m => m.Sender).WillCascadeOnDelete(false);
             players.HasMany(p => p.ReceivedMessages).WithRequired(m => m.Recipient);
+            players.HasMany(p => p.ExecutedAttacks).WithRequired(a => a.Attacker).WillCascadeOnDelete(false);
+            players.HasMany(p => p.ReceivedAttacks).WithRequired(a => a.Defender).WillCascadeOnDelete(false);
             players.Property(p => p.DisplayName).IsRequired().HasMaxLength(25);
             players.Property(p => p.Resources.Gold).HasColumnName("Gold");
             players.Property(p => p.Resources.Food).HasColumnName("Food");
@@ -97,19 +96,37 @@ namespace WarOfEmpires.Database {
             messages.Property(m => m.Body).IsMaxLength();
         }
 
+        private void OnAttacksModelCreating(DbModelBuilder modelBuilder) {
+            var attackResults = modelBuilder.Entity<AttackResultEntity>().ToTable("AttackResults", "Attacks").HasKey(r => r.Id);
+            attackResults.HasMany(r => r.Attacks).WithRequired().HasForeignKey(a => a.Result);
+            attackResults.Property(r => r.Name).IsRequired();
+
+            var attacks = modelBuilder.Entity<Attacks.Attack>().ToTable("Attacks", "Attacks").HasKey(a => a.Id);
+            attacks.HasMany(a => a.Rounds).WithRequired(r => r.Attack);
+
+            var troopTypes = modelBuilder.Entity<TroopTypeEntity>().ToTable("TroopTypes", "Attacks").HasKey(t => t.Id);
+            troopTypes.HasMany(t => t.AttackRounds).WithRequired().HasForeignKey(r => r.TroopType);
+            troopTypes.Property(t => t.Name).IsRequired();
+
+            var attackRounds = modelBuilder.Entity<Attacks.AttackRound>().ToTable("AttackRounds", "Attacks").HasKey(r => r.Id);
+            attackRounds.Property(r => r.Casualties.Archers.Soldiers).HasColumnName("Archers");
+            attackRounds.Property(r => r.Casualties.Archers.Mercenaries).HasColumnName("MercenaryArchers");
+            attackRounds.Property(r => r.Casualties.Cavalry.Soldiers).HasColumnName("Cavalry");
+            attackRounds.Property(r => r.Casualties.Cavalry.Mercenaries).HasColumnName("MercenaryCavalry");
+            attackRounds.Property(r => r.Casualties.Footmen.Soldiers).HasColumnName("Footmen");
+            attackRounds.Property(r => r.Casualties.Footmen.Mercenaries).HasColumnName("MercenaryFootmen");
+        }
+
         private void OnSecurityModelCreating(DbModelBuilder modelBuilder) {
             var userEventTypes = modelBuilder.Entity<UserEventTypeEntity>().ToTable("UserEventTypes", "Security").HasKey(t => t.Id);
-
             userEventTypes.HasMany(t => t.UserEvents).WithRequired().HasForeignKey(e => e.Type);
             userEventTypes.Property(t => t.Name).IsRequired();
 
             var userStatus = modelBuilder.Entity<UserStatusEntity>().ToTable("UserStatus", "Security").HasKey(s => s.Id);
-
             userStatus.HasMany(t => t.Users).WithRequired().HasForeignKey(u => u.Status);
             userStatus.Property(t => t.Name).IsRequired();
 
             var users = modelBuilder.Entity<Security.User>().ToTable("Users", "Security").HasKey(u => u.Id);
-
             users.HasMany(u => u.UserEvents).WithRequired(e => e.User);
             users.HasIndex(u => u.Email).IsUnique();
             users.Property(u => u.Status).HasColumnName("UserStatus_Id");
@@ -122,7 +139,6 @@ namespace WarOfEmpires.Database {
             users.Property(u => u.NewEmail).HasMaxLength(255);
 
             var userEvents = modelBuilder.Entity<Security.UserEvent>().ToTable("UserEvents", "Security").HasKey(e => e.Id);
-
             userEvents.Property(e => e.Type).HasColumnName("UserEventType_Id");
         }
 

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using WarOfEmpires.Domain.Players;
 
 namespace WarOfEmpires.Domain.Attacks {
-    // TODO Add collections for defended and attacked to Player
     // TODO Rework this for different attack types
     public class Attack : Entity {
         public const int AttackerMinimumStamina = 70;

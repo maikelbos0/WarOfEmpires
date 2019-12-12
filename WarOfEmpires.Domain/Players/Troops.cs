@@ -6,6 +6,8 @@ namespace WarOfEmpires.Domain.Players {
         public int Soldiers { get; private set; }
         public int Mercenaries { get; private set; }
 
+        private Troops() { }
+
         public Troops(int soldiers, int mercenaries) {
             if (soldiers < 0) throw new ArgumentOutOfRangeException("soldiers", "Negative values are not allowed");
             if (mercenaries < 0) throw new ArgumentOutOfRangeException("mercenaries", "Negative values are not allowed");

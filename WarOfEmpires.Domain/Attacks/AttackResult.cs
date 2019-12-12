@@ -1,5 +1,4 @@
 ﻿namespace WarOfEmpires.Domain.Attacks {
-    // TODO Add Entity in domain
     public enum AttackResult {
         Undefined = 1,
         Won = 2,

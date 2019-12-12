@@ -106,10 +106,16 @@
     <Compile Include="Migrations\201912101053396_Players-Stamina.Designer.cs">
       <DependentUpon>201912101053396_Players-Stamina.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201912121257129_Attacks-Attacks.cs" />
+    <Compile Include="Migrations\201912121257129_Attacks-Attacks.Designer.cs">
+      <DependentUpon>201912121257129_Attacks-Attacks.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ReferenceEntities\AttackResultEntity.cs" />
     <Compile Include="ReferenceEntities\BaseReferenceEntity.cs" />
     <Compile Include="IWarContext.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ReferenceEntities\BuildingTypeEntity.cs" />
+    <Compile Include="ReferenceEntities\TroopTypeEntity.cs" />
     <Compile Include="WarContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReferenceEntities\ReferenceEntityExtensions.cs" />
@@ -172,6 +178,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201912101053396_Players-Stamina.resx">
       <DependentUpon>201912101053396_Players-Stamina.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201912121257129_Attacks-Attacks.resx">
+      <DependentUpon>201912121257129_Attacks-Attacks.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
