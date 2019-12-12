@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 
 namespace WarOfEmpires.Domain.Players {
-    // TODO Write tests
     public sealed class TroopInfo : ValueObject {
         public Troops Troops { get; }
         public long BaseAttack { get; }
