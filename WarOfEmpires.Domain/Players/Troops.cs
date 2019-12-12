@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 
 namespace WarOfEmpires.Domain.Players {
-    // TODO Write tests
     public sealed class Troops : ValueObject {
         public int Soldiers { get; private set; }
         public int Mercenaries { get; private set; }
@@ -24,7 +23,6 @@ namespace WarOfEmpires.Domain.Players {
             return Soldiers + Mercenaries;
         }
 
-        // TODO Write tests especially
         public Troops GetTroopCasualties(int casualties) {
             var mercenaryCasualties = Math.Min(Mercenaries, casualties);
             var soldierCasualties = Math.Min(Soldiers, casualties - mercenaryCasualties);

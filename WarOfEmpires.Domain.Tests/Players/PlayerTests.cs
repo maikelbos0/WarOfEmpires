@@ -480,8 +480,8 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
             var result = player.GetArcherInfo();
 
-            result.GetTotalAttack().Should().Be(7 * (int)(30 * 1.5m * 1.75m));
-            result.GetTotalDefense().Should().Be(7 * (int)(10 * 1.25m * 1.75m));
+            result.GetTotalAttack().Should().Be(7 * (int)(50 * 1.5m * 1.75m));
+            result.GetTotalDefense().Should().Be(7 * (int)(30 * 1.25m * 1.75m));
         }
 
         [TestMethod]
@@ -499,8 +499,8 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
             var result = player.GetCavalryInfo();
 
-            result.GetTotalAttack().Should().Be(9 * (int)(20 * 1.5m * 1.75m));
-            result.GetTotalDefense().Should().Be(9 * (int)(20 * 1.25m * 1.75m));
+            result.GetTotalAttack().Should().Be(9 * (int)(45 * 1.5m * 1.75m));
+            result.GetTotalDefense().Should().Be(9 * (int)(35 * 1.25m * 1.75m));
         }
 
         [TestMethod]
@@ -518,8 +518,8 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
             var result = player.GetFootmanInfo();
 
-            result.GetTotalAttack().Should().Be(11 * (int)(10 * 1.5m * 1.75m));
-            result.GetTotalDefense().Should().Be(11 * (int)(30 * 1.25m * 1.75m));
+            result.GetTotalAttack().Should().Be(11 * (int)(40 * 1.5m * 1.75m));
+            result.GetTotalDefense().Should().Be(11 * (int)(40 * 1.25m * 1.75m));
         }
     }
 }
