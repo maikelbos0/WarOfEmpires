@@ -55,18 +55,18 @@ body {
     background-color: inherit !important;
 }
 
-    .site-navbar a:hover, .site-navbar button:hover {
-        color: var(--nav-menu-hover-color);
-        text-decoration: underline;
-    }
+.site-navbar a:hover, .site-navbar button:hover {
+    color: var(--nav-menu-hover-color);
+    text-decoration: underline;
+}
 
-    .site-navbar a.notify {
-        color: var(--nav-notify-color);
-    }
+.site-navbar a.notify {
+    color: var(--nav-notify-color);
+}
 
-        .site-navbar a.notify:hover {
-            color: var(--nav-notify-hover-color);
-        }
+.site-navbar a.notify:hover {
+    color: var(--nav-notify-hover-color);
+}
 
 .site-spaced {
     margin-top: 15px;
@@ -92,10 +92,10 @@ body {
     padding: 0;
 }
 
-    .site-validation-summary > ul > li {
-        list-style: none;
-        margin-bottom: 0.5rem;
-    }
+.site-validation-summary > ul > li {
+    list-style: none;
+    margin-bottom: 0.5rem;
+}
 
 .site-password-meter {
     text-align: center;
@@ -130,7 +130,7 @@ body {
     border-color: var(--btn-primary-color);
 }
 
-    .btn-primary:hover, .btn-primary:focus {
-        background-color: var(--btn-primary-hover-color);
-        border-color: var(--btn-primary-hover-color);
-    }
+.btn-primary:hover, .btn-primary:focus {
+    background-color: var(--btn-primary-hover-color);
+    border-color: var(--btn-primary-hover-color);
+}
