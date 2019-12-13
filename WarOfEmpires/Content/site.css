@@ -1,5 +1,16 @@
-﻿body {
-    background-color: #f3fcdc; /*pale lemon*/
+﻿:root {
+    --page-bg-color: #f3fcdc; /* pale lemon */
+    --nav-bg-color: #6184D8; /* blue */
+    --content-bg-color: #F5E0B7; /* apricot */
+    --nav-notify-color: #9CEC5B; /* garish green */
+    --nav-notify-hover-color: #66cc66; /* darker green */
+    --nav-menu-hover-color: #72b4e0; /* light blue */
+    --btn-primary-color: #533A71; /* dark purple */
+    --btn-primary-hover-color: #6184D8; /* blue */
+}
+
+body {
+    background-color: var(--page-bg-color);
 }
 
 .site-container {
@@ -7,20 +18,17 @@
 }
 
 .site-content {
-    /*background-color: #eeeeee;*/
-    background-color: #50C5B7; /*teal*/
+    background-color: var(--content-bg-color);
     padding: 15px;
 }
 
 .site-content-low {
-    /*background-color: #eeeeee;*/
-    background-color: #50C5B7; /*teal*/
+    background-color: var(--content-bg-color);
     padding: 0px 15px;
 }
 
 .site-navbar {
-    /*background-color: #ccccff;*/
-    background-color: #6184D8; /*blue*/
+    background-color: var(--nav-bg-color);
     padding: 15px;
 }
 
@@ -48,17 +56,16 @@
 }
 
     .site-navbar a:hover, .site-navbar button:hover {
-        color: #6666cc;
+        color: var(--nav-menu-hover-color);
         text-decoration: underline;
     }
 
     .site-navbar a.notify {
-        /*color: #339933;*/
-        color: #9CEC5B; /*garish green*/
+        color: var(--nav-notify-color);
     }
 
         .site-navbar a.notify:hover {
-            color: #66cc66;
+            color: var(--nav-notify-hover-color);
         }
 
 .site-spaced {
@@ -114,10 +121,16 @@
     background-color: #ccccff;
 }
 
-/*Colour theme colours:
-#533A71	Dark purple
-#6184D8 Blue
-#50C5B7	Teal
-#9CEC5B yellowgreen
-#F0F465 lemon
-*/
+.btn {
+    height: auto;
+}
+
+.btn-primary {
+    background-color: var(--btn-primary-color);
+    border-color: var(--btn-primary-color);
+}
+
+    .btn-primary:hover, .btn-primary:focus {
+        background-color: var(--btn-primary-hover-color);
+        border-color: var(--btn-primary-hover-color);
+    }
