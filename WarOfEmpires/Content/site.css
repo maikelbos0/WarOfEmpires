@@ -1,19 +1,26 @@
-﻿.site-container {
+﻿body {
+    background-color: #f3fcdc; /*pale lemon*/
+}
+
+.site-container {
     padding: 15px;
 }
 
 .site-content {
-    background-color: #eeeeee;
+    /*background-color: #eeeeee;*/
+    background-color: #50C5B7; /*teal*/
     padding: 15px;
 }
 
 .site-content-low {
-    background-color: #eeeeee;
+    /*background-color: #eeeeee;*/
+    background-color: #50C5B7; /*teal*/
     padding: 0px 15px;
 }
 
 .site-navbar {
-    background-color: #ccccff;
+    /*background-color: #ccccff;*/
+    background-color: #6184D8; /*blue*/
     padding: 15px;
 }
 
@@ -39,18 +46,20 @@
     text-decoration: none;
     background-color: inherit !important;
 }
-.site-navbar a:hover, .site-navbar button:hover {
-    color: #6666cc;
-    text-decoration: underline;
-}
 
-.site-navbar a.notify {
-    color: #339933;
-}
+    .site-navbar a:hover, .site-navbar button:hover {
+        color: #6666cc;
+        text-decoration: underline;
+    }
 
-.site-navbar a.notify:hover {
-    color: #66cc66;
-}
+    .site-navbar a.notify {
+        /*color: #339933;*/
+        color: #9CEC5B; /*garish green*/
+    }
+
+        .site-navbar a.notify:hover {
+            color: #66cc66;
+        }
 
 .site-spaced {
     margin-top: 15px;
@@ -76,10 +85,10 @@
     padding: 0;
 }
 
-.site-validation-summary > ul > li {
-    list-style: none;
-    margin-bottom: 0.5rem;
-}
+    .site-validation-summary > ul > li {
+        list-style: none;
+        margin-bottom: 0.5rem;
+    }
 
 .site-password-meter {
     text-align: center;
@@ -104,3 +113,11 @@
     white-space: pre;
     background-color: #ccccff;
 }
+
+/*Colour theme colours:
+#533A71	Dark purple
+#6184D8 Blue
+#50C5B7	Teal
+#9CEC5B yellowgreen
+#F0F465 lemon
+*/
