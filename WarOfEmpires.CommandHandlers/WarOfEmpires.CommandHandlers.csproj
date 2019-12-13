@@ -50,6 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attacks\AttackCommandHandler.cs" />
     <Compile Include="CommandError.cs" />
     <Compile Include="CommandResult.cs" />
     <Compile Include="Decorators\AuditDecorator.cs" />

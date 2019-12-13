@@ -65,9 +65,7 @@ namespace WarOfEmpires.Domain.Attacks {
                 }
             }
 
-            if (Result == AttackResult.Won || Result == AttackResult.Surrendered) {
-                Defender.TransferResourcesTo(Attacker, Resources);
-            }
+            Attacker.ProcessAttack(Defender, Resources, Turns);
         }
 
         public void AddRound(int stamina, TroopType troopType, bool isAggressor, TroopInfo attackerTroopInfo, Player defender) {

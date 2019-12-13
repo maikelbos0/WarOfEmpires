@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attacks\ExecuteAttackModel.cs" />
     <Compile Include="DataGridViewMetaData.cs" />
     <Compile Include="Empires\BuildingModel.cs" />
     <Compile Include="Empires\BuildingTotalsViewModel.cs" />
@@ -69,5 +70,6 @@
     <Compile Include="Security\RegisterUserModel.cs" />
     <Compile Include="ViewModel.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

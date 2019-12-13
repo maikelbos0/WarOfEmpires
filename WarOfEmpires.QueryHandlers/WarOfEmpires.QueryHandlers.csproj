@@ -50,6 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attacks\GetDefenderQueryHandler.cs" />
     <Compile Include="Decorators\AuditAttribute.cs" />
     <Compile Include="Decorators\AuditDecorator.cs" />
     <Compile Include="Empires\GetBuildingQueryHandler.cs" />

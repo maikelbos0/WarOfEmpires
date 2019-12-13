@@ -1,28 +1,28 @@
 ﻿using System.Linq;
 using WarOfEmpires.Database;
 using WarOfEmpires.Domain.Security;
-using WarOfEmpires.Models.Players;
-using WarOfEmpires.Queries.Players;
+using WarOfEmpires.Models.Attacks;
+using WarOfEmpires.Queries.Attacks;
 using WarOfEmpires.QueryHandlers.Decorators;
 using WarOfEmpires.Utilities.Container;
 
-namespace WarOfEmpires.QueryHandlers.Players {
+namespace WarOfEmpires.QueryHandlers.Attacks {
     [InterfaceInjectable]
     [Audit]
-    public sealed class GetPlayerDetailsQueryHandler : IQueryHandler<GetPlayerDetailsQuery, PlayerDetailsViewModel> {
+    public sealed class GetDefenderQueryHandler : IQueryHandler<GetDefenderQuery, ExecuteAttackModel> {
         private readonly IWarContext _context;
 
-        public GetPlayerDetailsQueryHandler(IWarContext context) {
+        public GetDefenderQueryHandler(IWarContext context) {
             _context = context;
         }
 
-        public PlayerDetailsViewModel Execute(GetPlayerDetailsQuery query) {
+        public ExecuteAttackModel Execute(GetDefenderQuery query) {
             var id = int.Parse(query.Id);
             var player = _context.Players
                 .Single(p => p.User.Status == UserStatus.Active && p.Id == id);
 
-            return new PlayerDetailsViewModel() {
-                Id = player.Id,
+            return new ExecuteAttackModel() {
+                DefenderId = player.Id,
                 DisplayName = player.DisplayName,
                 Population = player.Farmers + player.WoodWorkers + player.StoneMasons + player.OreMiners + player.Peasants
                     + player.Archers.Soldiers + player.Archers.Mercenaries

@@ -173,6 +173,25 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
             attacker.Resources.Should().Be(previousAttackerResources);
         }
 
+        [TestMethod]
+        public void Attack_Removes_Used_AttackTurns() {
+            var attacker = new Player(1, "Attacker");
+            var defender = new Player(2, "Defender");
+
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(attacker, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(defender, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
+
+            attacker.TrainTroops(600, 200, 0, 0, 0, 0);
+            defender.TrainTroops(600, 200, 0, 0, 0, 0);
+
+            var attackTurns = attacker.AttackTurns;
+
+            var attack = new Attack(attacker, defender, 10);
+            attack.Execute();
+
+            attacker.AttackTurns.Should().Be(attackTurns - 10);
+        }
+
         [DataTestMethod]
         [DataRow(-1, DisplayName = "Negative")]
         [DataRow(0, DisplayName = "Zero")]

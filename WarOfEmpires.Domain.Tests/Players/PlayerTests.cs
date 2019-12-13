@@ -573,5 +573,22 @@ namespace WarOfEmpires.Domain.Tests.Players {
             casualties.Footmen.Soldiers.Should().Be(0);
             casualties.Footmen.Mercenaries.Should().Be(10);
         }
+
+        [TestMethod]
+        public void Player_ProcessAttack_Succeeds() {
+            var attacker = new Player(0, "Test 1");
+            var defender = new Player(1, "Test 2");
+            var resources = new Resources(20000);
+
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(attacker, new Resources(100000));
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(defender, new Resources(100000));
+            typeof(Player).GetProperty(nameof(Player.AttackTurns)).SetValue(attacker, 25);
+
+            attacker.ProcessAttack(defender, resources, 10);
+
+            attacker.Resources.Should().Be(new Resources(120000));
+            defender.Resources.Should().Be(new Resources(80000));
+            attacker.AttackTurns.Should().Be(15);
+        }
     }
 }

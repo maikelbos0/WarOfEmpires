@@ -3,6 +3,7 @@ using WarOfEmpires.Extensions;
 using WarOfEmpires.Services;
 using System;
 using System.Web.Mvc;
+using WarOfEmpires.CommandHandlers;
 
 namespace WarOfEmpires.Controllers {
     public abstract class BaseController : Controller {
@@ -15,12 +16,19 @@ namespace WarOfEmpires.Controllers {
         }
 
         protected ActionResult ValidatedCommandResult<TCommand>(object model, TCommand command, string onValidViewName) where TCommand : ICommand {
-            return ValidatedCommandResult(model, command, () => View(onValidViewName));
+            return ValidatedCommandResult(model, command, (id) => View(onValidViewName));
         }
 
         protected ActionResult ValidatedCommandResult<TCommand>(object model, TCommand command, Func<ActionResult> onValid) where TCommand : ICommand {
+            return ValidatedCommandResult(model, command, (id) => onValid());
+        }
+
+        protected ActionResult ValidatedCommandResult<TCommand>(object model, TCommand command, Func<int?, ActionResult> onValid) where TCommand : ICommand {
+            CommandResult<TCommand> result = null;
+
             if (ModelState.IsValid) {
-                ModelState.Merge(model, _messageService.Dispatch(command));
+                result = _messageService.Dispatch(command);
+                ModelState.Merge(model, result);
             }
 
             if (ModelState.IsValid) {
@@ -30,7 +38,7 @@ namespace WarOfEmpires.Controllers {
                 // Let the client know explicitly that everything was valid
                 Response?.AddHeader("X-IsValid", "true");
 
-                return onValid();
+                return onValid(result?.ResultId);
             }
             else {
                 return View(model);

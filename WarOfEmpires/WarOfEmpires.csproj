@@ -309,6 +309,7 @@
     <Compile Include="App_Start\UnityMvcActivator.cs" />
     <Compile Include="Attributes\AdminAuthorizeAttribute.cs" />
     <Compile Include="Controllers\AdministrationController.cs" />
+    <Compile Include="Controllers\AttackController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\EmpireController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -382,6 +383,7 @@
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Empire\TroopBuildings.cshtml" />
     <Content Include="Views\Empire\Troops.cshtml" />
+    <Content Include="Views\Attack\Execute.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -421,6 +423,7 @@
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\index.d.ts" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

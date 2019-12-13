@@ -1,0 +1,55 @@
+﻿@model WarOfEmpires.Models.Attacks.ExecuteAttackModel
+
+@{
+    ViewBag.Title = "Attack " + Model.DisplayName;
+}
+
+<h2>Attack @Model.DisplayName</h2>
+
+<div class="row">
+    <div class="col-3">
+        Defender id
+    </div>
+    <div class="col-9">
+        @Model.DefenderId
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-3">
+        Display name
+    </div>
+    <div class="col-9">
+        @Model.DisplayName
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-3">
+        Population
+    </div>
+    <div class="col-9">
+        @Model.Population
+    </div>
+</div>
+
+@using (Html.BeginForm()) {
+    @Html.HiddenFor(m => m.DefenderId)
+
+    <div class="row">
+        <div class="col-3 col-form-label">@Html.LabelFor(m => m.Turns)</div>
+
+        <div class="col-3">
+            @Html.TextBoxFor(m => m.Turns, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Turns, null, new { @class = "small form-text text-danger" })
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-3"></div>
+
+        <div class="col-3">
+            <button type="submit" class="btn btn-primary form-control">Attack</button>
+        </div>
+    </div>
+}

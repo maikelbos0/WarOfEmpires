@@ -6,11 +6,15 @@
 
 <h2>@Model.DisplayName</h2>
 
-<p>@Html.ActionLink("Send message", "Send", "Message", new { RecipientId = Model.Id }, null)</p>
+<p>
+    @Html.ActionLink("Send message", "Send", "Message", new { RecipientId = Model.Id }, null)
+    |
+    @Html.ActionLink("Attack", "Execute", "Attack", new { Id = Model.Id }, null)
+</p>
 
 <div class="row">
     <div class="col-3">
-        Id:
+        Id
     </div>
     <div class="col-9">
         @Model.Id
@@ -19,7 +23,7 @@
 
 <div class="row">
     <div class="col-3">
-        Display name:
+        Display name
     </div>
     <div class="col-9">
         @Model.DisplayName
@@ -28,7 +32,7 @@
 
 <div class="row">
     <div class="col-3">
-        Population:
+        Population
     </div>
     <div class="col-9">
         @Model.Population
