@@ -41,7 +41,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attacks\GetAttackDetailsQuery.cs" />
     <Compile Include="Attacks\GetDefenderQuery.cs" />
+    <Compile Include="Attacks\GetExecutedAttacksQuery.cs" />
+    <Compile Include="Attacks\GetReceivedAttacksQuery.cs" />
     <Compile Include="Empires\GetBuildingQuery.cs" />
     <Compile Include="Empires\GetBuildingTotalsQuery.cs" />
     <Compile Include="Empires\GetResourceHeaderQuery.cs" />

@@ -42,7 +42,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attacks\AttackDetailsViewModel.cs" />
     <Compile Include="Attacks\ExecuteAttackModel.cs" />
+    <Compile Include="Attacks\ExecutedAttackViewModel.cs" />
+    <Compile Include="Attacks\ReceivedAttackViewModel.cs" />
     <Compile Include="DataGridViewMetaData.cs" />
     <Compile Include="Empires\BuildingModel.cs" />
     <Compile Include="Empires\BuildingTotalsViewModel.cs" />
