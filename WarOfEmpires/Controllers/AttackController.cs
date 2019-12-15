@@ -58,7 +58,8 @@ namespace WarOfEmpires.Controllers {
         [Route("Details")]
         [HttpGet]
         public ActionResult Details(string id) {
-            return View(_messageService.Dispatch(new GetAttackDetailsQuery(_authenticationService.Identity, id)));
+            // Explicitly name view so it works from Execute
+            return View("Details", _messageService.Dispatch(new GetAttackDetailsQuery(_authenticationService.Identity, id)));
         }
 
         [Route("Execute")]
