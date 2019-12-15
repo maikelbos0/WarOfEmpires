@@ -6,11 +6,7 @@
         public string TroopType { get; set; }
         public int Troops { get; set; }
         public long Damage { get; set; }
-        public int ArcherSoldierCasualties { get; set; }
-        public int ArcherMercenaryCasualties { get; set; }
-        public int CavalrySoldierCasualties { get; set; }
-        public int CavalryMercenaryCasualties { get; set; }
-        public int FootmanSoldierCasualties { get; set; }
-        public int FootmanMercenaryCasualties { get; set; }
+        public int SoldierCasualties { get; set; }
+        public int MercenaryCasualties { get; set; }
     }
 }

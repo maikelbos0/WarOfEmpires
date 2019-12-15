@@ -1,0 +1,53 @@
+﻿@model WarOfEmpires.Models.Attacks.AttackDetailsViewModel
+
+@{
+    ViewBag.Title = $"Attack details";
+}
+
+<h2>Attack details</h2>
+
+<div class="row">
+    <div class="col-3">Attacker</div>
+
+    <div class="col-9">@Model.Attacker</div>
+</div>
+
+<div class="row">
+    <div class="col-3">Defender</div>
+
+    <div class="col-9">@Model.Defender</div>
+</div>
+
+<div class="row">
+    <div class="col-3">Date</div>
+
+    <div class="col-9">@Model.DateString</div>
+</div>
+
+<div class="row">
+    <div class="col-3">Number of turns</div>
+
+    <div class="col-9">@Model.Turns</div>
+</div>
+
+<div class="row">
+    <div class="col-3">Result</div>
+
+    <div class="col-9">@Model.Result</div>
+</div>
+
+@foreach (var round in Model.Rounds) {
+    <p>
+        <strong>@round.Attacker</strong>'s @round.Troops @round.TroopType charge at the enemy and attack for @round.Damage damage.
+        <strong>@round.MercenaryCasualties mercenaries and @round.SoldierCasualties soldiers</strong> die as a result.
+    </p>
+}
+
+@if (@Model.Result == "Won" || @Model.Result == "Surrendered") {
+    <p>
+        <strong>
+            @Model.Attacker's troops are victorious and take @Model.Resources.Gold gold, @Model.Resources.Food food, @Model.Resources.Wood woord,
+            @Model.Resources.Stone stone and @Model.Resources.Ore ore as tribute.
+        </strong>
+    </p>
+}
