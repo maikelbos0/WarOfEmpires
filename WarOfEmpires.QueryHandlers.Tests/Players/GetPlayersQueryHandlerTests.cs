@@ -60,6 +60,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
 
             var results = handler.Execute(query);
 
+            results.Should().HaveCount(1);
             results.Single().Id.Should().Be(1);
             results.Single().DisplayName.Should().Be("Test display name");
             results.Single().Population.Should().Be(43);

@@ -4,6 +4,8 @@
     --content-bg-color: #F5E0B7; /* apricot */
     --nav-notify-color: #9CEC5B; /* garish green */
     --nav-notify-hover-color: #66cc66; /* darker green */
+    --nav-menu-border-color: #533A71; /* dark purple */
+    --nav-menu-color: #333399; /* dark blue */
     --nav-menu-hover-color: #72b4e0; /* light blue */
     --btn-primary-color: #533A71; /* dark purple */
     --btn-primary-hover-color: #6184D8; /* blue */
@@ -33,10 +35,10 @@ body {
 }
 
 .site-dropdown-menu {
-    background-color: #ddddee;
+    background-color: var(--nav-bg-color);
     padding: 0.5rem 0;
     margin: 0;
-    border: 1px solid #aaaaee;
+    border: 1px solid var(--nav-menu-border-color);
     border-radius: 0;
 }
 
@@ -45,11 +47,11 @@ body {
 }
 
 .site-dropdown-divider {
-    border-top: 1px solid #aaaaee;
+    border-top: 1px solid var(--nav-menu-border-color);
 }
 
 .site-navbar a, .site-navbar button {
-    color: #333399;
+    color: var(--nav-menu-color);
     font-weight: bold;
     text-decoration: none;
     background-color: inherit !important;

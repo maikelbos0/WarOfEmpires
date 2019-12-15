@@ -9,7 +9,7 @@ namespace WarOfEmpires.Domain.Attacks {
         public virtual long Damage { get; protected set; }
         public virtual Casualties Casualties { get; protected set; }
 
-        private AttackRound() { }
+        protected AttackRound() { }
 
         internal AttackRound(Attack attack, TroopType troopType, bool isAggressor, int troops, long damage, Casualties casualties) {
             Attack = attack;

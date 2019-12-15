@@ -1,9 +1,8 @@
 ﻿let NotificationManager = {
     url: null,
-    messageLink: $('#message-link'),
 
     refresh: function () {
-        let messageLink = $('#message-link');
+        let messageLink = $('#navbar-message-dropdown, #message-link');
 
         if (messageLink.length > 0) {
             $.ajax({

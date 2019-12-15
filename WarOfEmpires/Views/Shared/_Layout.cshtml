@@ -33,7 +33,25 @@
                 @if (identityService.IsAuthenticated) {
                     @Html.ActionLink("Players", "Index", "Player", null, new { @class = "nav-link" })
 
-                    @Html.ActionLink("Messages", "Index", "Message", null, new { id="message-link", @class = "nav-link" })
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbar-attack-dropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Attacks
+                        </a>
+                        <div class="dropdown-menu site-dropdown-menu" aria-labelledby="navbar-attack-dropdown">
+                            @Html.ActionLink("Received", "Index", "Attack", null, new { id = "attack-link", @class = "dropdown-item site-dropdown-item" })
+                            @Html.ActionLink("Executed", "ExecutedIndex", "Attack", null, new { @class = "dropdown-item site-dropdown-item" })
+                        </div>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbar-message-dropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Messages
+                        </a>
+                        <div class="dropdown-menu site-dropdown-menu" aria-labelledby="navbar-message-dropdown">
+                            @Html.ActionLink("Received", "Index", "Message", null, new { id = "message-link", @class = "dropdown-item site-dropdown-item" })
+                            @Html.ActionLink("Sent", "SentIndex", "Message", null, new { @class = "dropdown-item site-dropdown-item" })
+                        </div>
+                    </li>
 
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbar-empire-dropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

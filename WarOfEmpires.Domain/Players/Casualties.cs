@@ -6,6 +6,8 @@ namespace WarOfEmpires.Domain.Players {
         public Troops Cavalry { get; private set; }
         public Troops Footmen { get; private set; }
 
+        private Casualties() { }
+
         public Casualties(Troops archers, Troops cavalry, Troops footmen) {
             Archers = archers;
             Cavalry = cavalry;

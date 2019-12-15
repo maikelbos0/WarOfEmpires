@@ -12,6 +12,7 @@ namespace WarOfEmpires.Domain.Attacks {
         public const decimal SurrenderResourcesPerTurn = 0.025m;
         public const decimal WonResourcesPerTurn = 0.05m;
 
+        public DateTime Date { get; protected set; }
         public virtual Player Attacker { get; protected set; }
         public virtual Player Defender { get; protected set; }
         public virtual AttackResult Result { get; protected set; } = AttackResult.Undefined;
@@ -19,11 +20,12 @@ namespace WarOfEmpires.Domain.Attacks {
         public virtual Resources Resources { get; protected set; } = new Resources();
         public virtual ICollection<AttackRound> Rounds { get; protected set; } = new List<AttackRound>();
 
-        private Attack() { }
+        protected Attack() { }
 
         public Attack(Player attacker, Player defender, int turns) {
             if (turns < 1 || turns > 10) throw new ArgumentOutOfRangeException("turns", "Turns must be between 1 and 10");
 
+            Date = DateTime.UtcNow;
             Attacker = attacker;
             Defender = defender;
             Turns = turns;

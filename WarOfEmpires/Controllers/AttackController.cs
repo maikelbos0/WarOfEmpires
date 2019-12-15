@@ -1,5 +1,7 @@
-﻿using System.Web.Mvc;
+﻿using System.Collections.Generic;
+using System.Web.Mvc;
 using WarOfEmpires.Commands.Attacks;
+using WarOfEmpires.Models;
 using WarOfEmpires.Models.Attacks;
 using WarOfEmpires.Queries.Attacks;
 using WarOfEmpires.Services;
@@ -8,20 +10,49 @@ namespace WarOfEmpires.Controllers {
     [Authorize]
     [RoutePrefix("Attack")]
     public class AttackController : BaseController {
-        public AttackController(IAuthenticationService authenticationService, IMessageService messageService) : base(messageService, authenticationService) {
+        private readonly IDataGridViewService _dataGridViewService;
+
+        public AttackController(IAuthenticationService authenticationService, IMessageService messageService, IDataGridViewService dataGridViewService) : base(messageService, authenticationService) {
+            _dataGridViewService = dataGridViewService;
         }
 
         [Route]
         [Route("Index")]
         [HttpGet]
         public ActionResult Index() {
-            return View(_messageService.Dispatch(new GetExecutedAttacksQuery(_authenticationService.Identity)));
+            return View();
         }
 
-        [Route("ReceivedIndex")]
+        [Route("GetReceivedAttacks")]
+        [HttpPost]
+        public ActionResult GetReceivedAttacks(DataGridViewMetaData metaData) {
+            IEnumerable<ReceivedAttackViewModel> data = _messageService.Dispatch(new GetReceivedAttacksQuery(_authenticationService.Identity));
+
+            data = _dataGridViewService.ApplyMetaData(data, ref metaData);
+
+            return Json(new {
+                metaData,
+                data
+            });
+        }
+
+        [Route("ExecutedIndex")]
         [HttpGet]
-        public ActionResult ReceivedIndex() {
-            return View(_messageService.Dispatch(new GetReceivedAttacksQuery(_authenticationService.Identity)));
+        public ActionResult ExecutedIndex() {
+            return View();
+        }
+        
+        [Route("GetExecutedAttacks")]
+        [HttpPost]
+        public ActionResult GetExecutedAttacks(DataGridViewMetaData metaData) {
+            IEnumerable<ExecutedAttackViewModel> data = _messageService.Dispatch(new GetExecutedAttacksQuery(_authenticationService.Identity));
+
+            data = _dataGridViewService.ApplyMetaData(data, ref metaData);
+
+            return Json(new {
+                metaData,
+                data
+            });
         }
 
         [Route("Details")]
