@@ -20,28 +20,22 @@
         $('#messagesGrid').datagridview({
             columns: [
                 {
-                    data: 'Id',
-                    header: 'Id',
-                    width: 8,
-                    renderer: messageRenderer
-                },
-                {
                     data: 'DateString',
                     sortData: 'Date',
                     header: 'Received',
-                    width: 18,
+                    width: 15,
                     renderer: messageRenderer
                 },
                 {
                     data: 'Sender',
                     header: 'Sender',
-                    width: 18,
+                    width: 20,
                     renderer: messageRenderer
                 },
                 {
                     data: 'Subject',
                     header: 'Subject',
-                    width: 56,
+                    width: 65,
                     renderer: messageRenderer
                 }
             ]

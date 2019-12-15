@@ -58,6 +58,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Attacks {
             _defender.ReceivedAttacks.Add(attack);
             attack.Turns.Returns(turns);
             attack.Rounds.Returns(rounds);
+            attack.Result.Returns(AttackResult.Won);
 
             foreach (var casualties in attackerCasualties) {
                 var round = Substitute.For<AttackRound>();
@@ -116,6 +117,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Attacks {
             results.Single().DefenderMercenaryCasualties.Should().Be(53);
             results.Single().AttackerSoldierCasualties.Should().Be(9);
             results.Single().AttackerMercenaryCasualties.Should().Be(45);
+            results.Single().Result.Should().Be("Won");
         }
     }
 }

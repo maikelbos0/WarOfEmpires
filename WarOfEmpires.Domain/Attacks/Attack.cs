@@ -12,7 +12,7 @@ namespace WarOfEmpires.Domain.Attacks {
         public const decimal SurrenderResourcesPerTurn = 0.025m;
         public const decimal WonResourcesPerTurn = 0.05m;
 
-        public DateTime Date { get; protected set; }
+        public virtual DateTime Date { get; protected set; }
         public virtual Player Attacker { get; protected set; }
         public virtual Player Defender { get; protected set; }
         public virtual AttackResult Result { get; protected set; } = AttackResult.Undefined;

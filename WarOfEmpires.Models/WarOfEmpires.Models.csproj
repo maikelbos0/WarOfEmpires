@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attacks\AttackDetailsViewModel.cs" />
+    <Compile Include="Attacks\AttackRoundDetailsViewModel.cs" />
     <Compile Include="Attacks\ExecuteAttackModel.cs" />
     <Compile Include="Attacks\ExecutedAttackViewModel.cs" />
     <Compile Include="Attacks\ReceivedAttackViewModel.cs" />

@@ -20,52 +20,52 @@
         $('#attacksGrid').datagridview({
             columns: [
                 {
-                    data: 'Id',
-                    header: 'Id',
-                    width: 6,
-                    renderer: attackRenderer
-                },
-                {
                     data: 'DateString',
                     sortData: 'Date',
                     header: 'Date',
-                    width: 18,
+                    width: 15,
                     renderer: attackRenderer
                 },
                 {
                     data: 'Turns',
                     header: 'Turns',
-                    width: 6,
+                    width: 10,
                     renderer: attackRenderer
                 },
                 {
                     data: 'DefenderSoldierCasualties',
                     header: 'Soldiers lost',
-                    width: 12,
+                    width: 10,
                     renderer: attackRenderer
                 },
                 {
                     data: 'DefenderMercenaryCasualties',
                     header: 'Mercenaries lost',
-                    width: 12,
+                    width: 10,
                     renderer: attackRenderer
                 },
                 {
                     data: 'Attacker',
                     header: 'Attacker',
-                    width: 22,
+                    width: 20,
                     renderer: attackRenderer
                 },
                 {
                     data: 'AttackerSoldierCasualties',
                     header: 'Soldiers lost',
-                    width: 12,
+                    width: 10,
                     renderer: attackRenderer
                 },
                 {
                     data: 'AttackerMercenaryCasualties',
                     header: 'Mercenaries lost',
-                    width: 12,
+                    width: 10,
+                    renderer: attackRenderer
+                },
+                {
+                    data: 'Result',
+                    header: 'Result',
+                    width: 15,
                     renderer: attackRenderer
                 }
             ]
