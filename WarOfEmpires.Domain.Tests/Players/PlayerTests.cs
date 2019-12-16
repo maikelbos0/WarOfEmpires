@@ -373,8 +373,9 @@ namespace WarOfEmpires.Domain.Tests.Players {
             player.Buildings.Add(new Building(player, BuildingType.Lumberyard, 6));
             player.Buildings.Add(new Building(player, BuildingType.Quarry, 2));
             player.Buildings.Add(new Building(player, BuildingType.Mine, 2));
+            player.Buildings.Add(new Building(player, BuildingType.Defences, 3));
 
-            player.GetRecruitsPerDay().Should().Be(5);
+            player.GetRecruitsPerDay().Should().Be(8);
         }
 
         [TestMethod]
@@ -392,6 +393,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
             player.Buildings.Add(new Building(player, BuildingType.Lumberyard, 100));
             player.Buildings.Add(new Building(player, BuildingType.Quarry, 100));
             player.Buildings.Add(new Building(player, BuildingType.Mine, 100));
+            player.Buildings.Add(new Building(player, BuildingType.Defences, 25));
 
             player.GetRecruitsPerDay().Should().Be(25);
         }
@@ -406,7 +408,15 @@ namespace WarOfEmpires.Domain.Tests.Players {
             player.Buildings.Add(new Building(player, BuildingType.Mine, 2));
 
             player.GetTotalGoldSpentOnBuildings().Should().Be(1480000);
+        }
 
+        [TestMethod]
+        public void Player_GetTotalGoldSpentOnBuildings_Ignores_Defences() {
+            var player = new Player(0, "Test");
+
+            player.Buildings.Add(new Building(player, BuildingType.Defences, 10));
+
+            player.GetTotalGoldSpentOnBuildings().Should().Be(0);
         }
 
         [TestMethod]
