@@ -58,8 +58,14 @@ namespace WarOfEmpires.Controllers {
         [Route("Details")]
         [HttpGet]
         public ActionResult Details(string id) {
+            var model = _messageService.Dispatch(new GetAttackDetailsQuery(_authenticationService.Identity, id));
+
+            if (!model.IsRead) {
+                _messageService.Dispatch(new ReadAttackCommand(_authenticationService.Identity, id));
+            }
+
             // Explicitly name view so it works from Execute
-            return View("Details", _messageService.Dispatch(new GetAttackDetailsQuery(_authenticationService.Identity, id)));
+            return View("Details", model);
         }
 
         [Route("Execute")]

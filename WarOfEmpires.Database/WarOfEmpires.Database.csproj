@@ -118,6 +118,10 @@
     <Compile Include="Migrations\201912151449341_Attacks-Date.Designer.cs">
       <DependentUpon>201912151449341_Attacks-Date.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201912161642508_Attacks-IsRead.cs" />
+    <Compile Include="Migrations\201912161642508_Attacks-IsRead.Designer.cs">
+      <DependentUpon>201912161642508_Attacks-IsRead.cs</DependentUpon>
+    </Compile>
     <Compile Include="ReferenceEntities\AttackResultEntity.cs" />
     <Compile Include="ReferenceEntities\BaseReferenceEntity.cs" />
     <Compile Include="IWarContext.cs" />
@@ -195,6 +199,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201912151449341_Attacks-Date.resx">
       <DependentUpon>201912151449341_Attacks-Date.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201912161642508_Attacks-IsRead.resx">
+      <DependentUpon>201912161642508_Attacks-IsRead.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

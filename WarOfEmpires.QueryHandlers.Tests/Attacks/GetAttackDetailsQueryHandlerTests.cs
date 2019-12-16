@@ -29,6 +29,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Attacks {
 
             attack.Id.Returns(1);
             attack.Date.Returns(new DateTime(2019, 1, 1));
+            attack.IsRead.Returns(false);
             attack.Attacker.Returns(_attacker);
             attack.Defender.Returns(_defender);
             _attacker.ExecutedAttacks.Add(attack);
@@ -87,6 +88,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Attacks {
             result.Attacker.Should().Be("Attacker 1");
             result.Defender.Should().Be("Defender 1");
             result.Date.Should().Be(new DateTime(2019, 1, 1));
+            result.IsRead.Should().BeFalse();
             result.Turns.Should().Be(10);
             result.Result.Should().Be("Won");
             result.Resources.Gold.Should().Be(1);
@@ -124,6 +126,16 @@ namespace WarOfEmpires.QueryHandlers.Tests.Attacks {
             var result = handler.Execute(query);
 
             result.Should().NotBeNull();
+        }
+
+        [TestMethod]
+        public void GetAttackDetailsQueryHandler_IsRead_Is_Always_True_For_Attacker() {
+            var handler = new GetAttackDetailsQueryHandler(_context, new ResourcesMap());
+            var query = new GetAttackDetailsQuery("attacker@test.com", "1");
+
+            var result = handler.Execute(query);
+
+            result.IsRead.Should().BeTrue();
         }
 
         [TestMethod]

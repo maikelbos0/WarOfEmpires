@@ -5,6 +5,7 @@ using WarOfEmpires.Models.Empires;
 namespace WarOfEmpires.Models.Attacks {
     public sealed class AttackDetailsViewModel : ViewModel {
         public DateTime Date { get; set; }
+        public bool IsRead { get; set; }
         public string DateString { get { return Date.ToString("yyyy-MM-dd HH:mm"); } }
         public string Attacker { get; set; }
         public string Defender { get; set; }

@@ -13,6 +13,7 @@ namespace WarOfEmpires.Domain.Attacks {
         public const decimal WonResourcesPerTurn = 0.05m;
 
         public virtual DateTime Date { get; protected set; }
+        public virtual bool IsRead { get; set; }
         public virtual Player Attacker { get; protected set; }
         public virtual Player Defender { get; protected set; }
         public virtual AttackResult Result { get; protected set; } = AttackResult.Undefined;
@@ -26,6 +27,7 @@ namespace WarOfEmpires.Domain.Attacks {
             if (turns < 1 || turns > 10) throw new ArgumentOutOfRangeException("turns", "Turns must be between 1 and 10");
 
             Date = DateTime.UtcNow;
+            IsRead = false;
             Attacker = attacker;
             Defender = defender;
             Turns = turns;

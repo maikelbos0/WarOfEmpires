@@ -12,9 +12,9 @@
         function attackRenderer(cell, value, dataRow) {
             cell.append($('<a>', { title: value, href: '@Url.Action("Details")?id=' + dataRow.Id }).text(value));
 
-            /*if (!dataRow.IsRead) {
+            if (!dataRow.IsRead) {
                 cell.addClass("font-weight-bold");
-            }*/
+            }
         }
 
         $('#attacksGrid').datagridview({

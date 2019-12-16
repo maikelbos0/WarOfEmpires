@@ -21,7 +21,8 @@ namespace WarOfEmpires.QueryHandlers.Players {
                 .Single(p => EmailComparisonService.Equals(p.User.Email, query.Email));
 
             return new NotificationsViewModel() {
-                HasNewMessages = player.ReceivedMessages.Any(m => !m.IsRead)
+                HasNewMessages = player.ReceivedMessages.Any(m => !m.IsRead),
+                HasNewAttacks = player.ReceivedAttacks.Any(a => !a.IsRead)
             };
         }
     }

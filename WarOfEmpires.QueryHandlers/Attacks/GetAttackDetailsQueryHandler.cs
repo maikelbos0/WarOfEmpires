@@ -24,6 +24,7 @@ namespace WarOfEmpires.QueryHandlers.Attacks {
             var attack = _context.Players
                 .Single(p => EmailComparisonService.Equals(p.User.Email, query.Email))
                 .ReceivedAttacks.SingleOrDefault(a => a.Id == attackId);
+            var isRead = attack?.IsRead ?? true;
 
             if (attack == null) {
                 attack = _context.Players
@@ -34,6 +35,7 @@ namespace WarOfEmpires.QueryHandlers.Attacks {
             return new AttackDetailsViewModel() {
                 Id = attack.Id,
                 Date = attack.Date,
+                IsRead = isRead,
                 Attacker = attack.Attacker.DisplayName,
                 Defender = attack.Defender.DisplayName,
                 Turns = attack.Turns,

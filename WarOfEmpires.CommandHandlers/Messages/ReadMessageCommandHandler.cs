@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using WarOfEmpires.CommandHandlers.Decorators;
 using WarOfEmpires.Commands.Messages;
 using WarOfEmpires.Repositories.Players;

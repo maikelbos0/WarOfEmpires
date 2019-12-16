@@ -2,14 +2,16 @@
     url: null,
 
     refresh: function () {
-        let messageLink = $('#navbar-message-dropdown, #message-link');
+        let messageElements = $('#navbar-message-dropdown, #message-link');
+        let attackElements = $('#navbar-attack-dropdown, #attack-link');
 
-        if (messageLink.length > 0) {
+        if (messageElements.length > 0) {
             $.ajax({
                 url: NotificationManager.url,
                 method: "POST",
                 success: function (result) {
-                    messageLink.toggleClass("notify", result.HasNewMessages);
+                    messageElements.toggleClass("notify", result.HasNewMessages);
+                    attackElements.toggleClass("notify", result.HasNewAttacks);
                 },
                 error: function () {
                     toastr.error("An error occurred loading notitications; please refresh the page for accurate values.");

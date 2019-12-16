@@ -76,6 +76,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attacks\AttackCommandHandlerTests.cs" />
+    <Compile Include="Attacks\ReadAttackCommandHandlerTests.cs" />
     <Compile Include="Decorators\AuditDecoratorTests.cs" />
     <Compile Include="Empires\ProcessTurnCommandHandlerTests.cs" />
     <Compile Include="Empires\SetTaxCommandHandlerTests.cs" />

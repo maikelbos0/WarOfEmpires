@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attacks\AttackCommandHandler.cs" />
+    <Compile Include="Attacks\ReadAttackCommandHandler.cs" />
     <Compile Include="CommandError.cs" />
     <Compile Include="CommandResult.cs" />
     <Compile Include="Decorators\AuditDecorator.cs" />

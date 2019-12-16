@@ -11,5 +11,6 @@ namespace WarOfEmpires.Models.Attacks {
         public int AttackerMercenaryCasualties { get; set; }
         public int Turns { get; set; }
         public string Result { get; set; }
+        public bool IsRead { get; set; }
     }
 }
