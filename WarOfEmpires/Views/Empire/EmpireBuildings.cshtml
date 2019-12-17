@@ -1,0 +1,22 @@
+﻿@{
+    ViewBag.Title = "Empire buildings";
+}
+
+<h2>Empire buildings</h2>
+
+<p>
+    Here you can upgrade your defences as well as your housing for peasants and troops.
+</p>
+
+<div id="empire-building-totals" class="partial-content">
+</div>
+
+<p>Defence upgrades do not count towards the totals spent on buildings but instead add 1 recruit for each level.</p>
+
+<div class="row">
+    <div class="col-4 partial-content">
+        @{
+            Html.RenderAction("_Building", "Empire", new { BuildingType = "Defences" });
+        }
+    </div>
+</div>

@@ -108,5 +108,11 @@ namespace WarOfEmpires.Controllers {
         public ActionResult TroopBuildings() {
             return View();
         }
+
+        [Route("EmpireBuildings")]
+        [HttpGet]
+        public ActionResult EmpireBuildings() {
+            return View();
+        }
     }
 }

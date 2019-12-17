@@ -387,6 +387,7 @@
     <Content Include="Views\Attack\Index.cshtml" />
     <Content Include="Views\Attack\ExecutedIndex.cshtml" />
     <Content Include="Views\Attack\Details.cshtml" />
+    <Content Include="Views\Empire\EmpireBuildings.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
