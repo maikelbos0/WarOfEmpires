@@ -1,14 +1,19 @@
 ﻿:root {
-    --page-bg-color: #f3fcdc; /* pale lemon */
-    --nav-bg-color: #6184D8; /* blue */
+    --btn-primary-color: #533A71; /* dark purple */
+    --btn-primary-hover-color: #6184D8; /* blue */
     --content-bg-color: #F5E0B7; /* apricot */
-    --nav-notify-color: #9CEC5B; /* garish green */
-    --nav-notify-hover-color: #66cc66; /* darker green */
+    --msg-bg-color: #f3fcdc; /* pale lemon */
+    --nav-bg-color: #6184D8; /* blue */
     --nav-menu-border-color: #533A71; /* dark purple */
     --nav-menu-color: #333399; /* dark blue */
     --nav-menu-hover-color: #72b4e0; /* light blue */
-    --btn-primary-color: #533A71; /* dark purple */
-    --btn-primary-hover-color: #6184D8; /* blue */
+    --nav-notify-color: #9CEC5B; /* garish green */
+    --nav-notify-hover-color: #66cc66; /* darker green */
+    --page-bg-color: #f3fcdc; /* pale lemon */
+    --pw-meter-border-color: #ced4da; /* light grey */
+    --pw-meter-1-color: #ee8833; /* orange */
+    --pw-meter-2-color: #eeee33; /* yellow */
+    --pw-meter-3-color: #33ee33; /* green */
 }
 
 body {
@@ -101,26 +106,26 @@ body {
 
 .site-password-meter {
     text-align: center;
-    border: 1px solid #ced4da;
+    border: 1px solid var(--pw-meter-border-color);
     border-radius: 0.25rem;
     width: 100%;
 }
 
 .site-password-meter-1 {
-    background-color: #ee8833;
+    background-color: var(--pw-meter-1-color);
 }
 
 .site-password-meter-2 {
-    background-color: #eeee33;
+    background-color: var(--pw-meter-2-color);
 }
 
 .site-password-meter-3 {
-    background-color: #33ee33;
+    background-color: var(--pw-meter-3-color);
 }
 
 .site-user-text {
     white-space: pre;
-    background-color: #ccccff;
+    background-color: var(--msg-bg-color);
 }
 
 .btn {
