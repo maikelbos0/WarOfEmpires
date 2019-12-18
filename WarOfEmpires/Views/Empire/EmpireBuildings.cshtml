@@ -19,4 +19,16 @@
             Html.RenderAction("_Building", "Empire", new { BuildingType = "Defences" });
         }
     </div>
+
+    <div class="col-4 partial-content">
+        @{
+            Html.RenderAction("_Building", "Empire", new { BuildingType = "Barracks" });
+        }
+    </div>
+
+    <div class="col-4 partial-content">
+        @{
+            Html.RenderAction("_Building", "Empire", new { BuildingType = "Huts" });
+        }
+    </div>
 </div>

@@ -8,7 +8,11 @@ namespace WarOfEmpires.Domain.Tests.Empires {
         [TestMethod]
         public void BuildingDefinitionFactory_Has_Definitions_For_All_BuildingTypes() {
             foreach (BuildingType type in Enum.GetValues(typeof(BuildingType))) {
-                BuildingDefinitionFactory.Get(type);                
+                var building = BuildingDefinitionFactory.Get(type);
+
+                building.GetDescription(1);
+                building.GetName(1);
+                building.GetNextLevelCost(1);
             }
         }
     }

@@ -16,6 +16,8 @@ namespace WarOfEmpires.Domain.Empires {
             _buildings.Add(BuildingType.CavalryRange, GenerateCavalryRange());
             _buildings.Add(BuildingType.FootmanRange, GenerateFootmanRange());
             _buildings.Add(BuildingType.Defences, GenerateDefences());
+            _buildings.Add(BuildingType.Huts, GenerateHuts());
+            _buildings.Add(BuildingType.Barracks, GenerateBarracks());
         }
 
         private static BuildingDefinition GenerateFarm() {
@@ -221,6 +223,28 @@ namespace WarOfEmpires.Domain.Empires {
             return new BuildingDefinition(
                 names,
                 new ExpressionGenerator<string>((int level, int levelOffset) => $"Your defences protect against castle attacks and increase your recruiting by 1 peasant for each level; your current bonus is {level}"),
+                costs
+            );
+        }
+
+        private static BuildingDefinition GenerateHuts() {
+            var costs = new ExpressionGenerator<Resources>((int level, int levelOffset) => new Resources(gold: 5000 + 5000 * level, wood: 500 + 500 * level, stone: 250 + 250 * level, ore: 100 + 100 * level));
+            costs.Add(20, new Resources(gold: 100000, wood: 10000, stone: 5000, ore: 2000));
+
+            return new BuildingDefinition(
+                new ExpressionGenerator<string>((int level, int levelOffset) => $"Peasant huts (level {level})"),
+                new ExpressionGenerator<string>((int level, int levelOffset) => $"Your peasant huts provide the housing for your workers and peasants; each hut houses 10 peasants and your current capacity is {level * 10}"),
+                costs
+            );
+        }
+
+        private static BuildingDefinition GenerateBarracks() {
+            var costs = new ExpressionGenerator<Resources>((int level, int levelOffset) => new Resources(gold: 5000 + 5000 * level, wood: 250 + 250 * level, stone: 500 + 500 * level, ore: 100 + 100 * level));
+            costs.Add(20, new Resources(gold: 100000, wood: 5000, stone: 10000, ore: 2000));
+
+            return new BuildingDefinition(
+                new ExpressionGenerator<string>((int level, int levelOffset) => $"Baracks (level {level})"),
+                new ExpressionGenerator<string>((int level, int levelOffset) => $"Your barracks provide the housing for your troops; each barracks houses 10 troops and your current capacity is {level * 10}"),
                 costs
             );
         }

@@ -60,6 +60,9 @@ namespace WarOfEmpires.Domain.Players {
         public Player(int id, string displayName) {
             Id = id;
             DisplayName = displayName;
+
+            Buildings.Add(new Building(this, BuildingType.Barracks, 2));
+            Buildings.Add(new Building(this, BuildingType.Huts, 2));
         }
 
         public decimal GetTaxRate() {

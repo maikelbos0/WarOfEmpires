@@ -9,6 +9,8 @@
         ArcheryRange = 7,
         CavalryRange = 8,
         FootmanRange = 9,
-        Defences = 10
+        Defences = 10,
+        Huts = 11,
+        Barracks = 12
     }
 }
