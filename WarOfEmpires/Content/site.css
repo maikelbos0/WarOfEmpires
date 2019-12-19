@@ -2,7 +2,7 @@
     --btn-primary-color: #533A71; /* dark purple */
     --btn-primary-hover-color: #6184D8; /* blue */
     --content-bg-color: #F5E0B7; /* apricot */
-    --msg-bg-color: #f3fcdc; /* pale lemon */
+    --msg-bg-color: #66cc66; /* darker green */
     --nav-bg-color: #6184D8; /* blue */
     --nav-menu-border-color: #533A71; /* dark purple */
     --nav-menu-color: #333399; /* dark blue */
@@ -124,8 +124,10 @@ body {
 }
 
 .site-user-text {
-    white-space: pre;
+    white-space: pre-wrap;
     background-color: var(--msg-bg-color);
+    padding: 5px;
+    margin-top: 5px;
 }
 
 .btn {
