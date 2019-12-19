@@ -7,11 +7,11 @@ using System.Linq;
 namespace WarOfEmpires.Services {
     [InterfaceInjectable]
     public sealed class DataGridViewService : IDataGridViewService {
-        private IEnumerable<TViewModel> Sort<TViewModel>(IEnumerable<TViewModel> query, DataGridViewMetaData metaData) where TViewModel : ViewModel {
-            Func<TViewModel, object> orderBy = null;
+        private IEnumerable<TEntityViewModel> Sort<TEntityViewModel>(IEnumerable<TEntityViewModel> query, DataGridViewMetaData metaData) where TEntityViewModel : EntityViewModel {
+            Func<TEntityViewModel, object> orderBy = null;
 
             if (metaData.sortColumn != null) {
-                var property = typeof(TViewModel).GetProperty(metaData.sortColumn);
+                var property = typeof(TEntityViewModel).GetProperty(metaData.sortColumn);
 
                 if (property != null) {
                     orderBy = i => property.GetValue(i);
@@ -30,11 +30,11 @@ namespace WarOfEmpires.Services {
             }
         }
 
-        private IEnumerable<TViewModel> Page<TViewModel>(IEnumerable<TViewModel> query, DataGridViewMetaData metaData) where TViewModel : ViewModel {
+        private IEnumerable<TViewModel> Page<TViewModel>(IEnumerable<TViewModel> query, DataGridViewMetaData metaData) where TViewModel : EntityViewModel {
             return query.Skip(metaData.page * metaData.rowsPerPage).Take(metaData.rowsPerPage);
         }
 
-        private DataGridViewMetaData GetMetaData<TViewModel>(IEnumerable<TViewModel> query, DataGridViewMetaData metaData) where TViewModel : ViewModel {
+        private DataGridViewMetaData GetMetaData<TViewModel>(IEnumerable<TViewModel> query, DataGridViewMetaData metaData) where TViewModel : EntityViewModel {
             return new DataGridViewMetaData() {
                 sortColumn = metaData.sortColumn,
                 sortDescending = metaData.sortDescending,
@@ -44,7 +44,7 @@ namespace WarOfEmpires.Services {
             };
         }
 
-        public IEnumerable<TViewModel> ApplyMetaData<TViewModel>(IEnumerable<TViewModel> query, ref DataGridViewMetaData metaData) where TViewModel : ViewModel {
+        public IEnumerable<TViewModel> ApplyMetaData<TViewModel>(IEnumerable<TViewModel> query, ref DataGridViewMetaData metaData) where TViewModel : EntityViewModel {
             metaData = GetMetaData(query, metaData);
 
             return Page(Sort(query, metaData), metaData);

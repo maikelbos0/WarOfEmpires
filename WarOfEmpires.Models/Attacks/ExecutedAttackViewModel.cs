@@ -1,7 +1,7 @@
 ﻿using System;
 
 namespace WarOfEmpires.Models.Attacks {
-    public sealed class ExecutedAttackViewModel : ViewModel {
+    public sealed class ExecutedAttackViewModel : EntityViewModel {
         public DateTime Date { get; set; }
         public string DateString { get { return Date.ToString("yyyy-MM-dd HH:mm"); } }
         public int AttackerSoldierCasualties { get; set; }

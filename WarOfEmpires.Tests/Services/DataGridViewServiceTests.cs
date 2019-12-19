@@ -8,7 +8,7 @@ using System.Linq;
 namespace WarOfEmpires.Tests.Services {
     [TestClass]
     public sealed class DataGridViewServiceTests {
-        public class TestViewModel : ViewModel {
+        public class TestViewModel : EntityViewModel {
             public string Name { get; set; }
         }
 

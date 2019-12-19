@@ -50,6 +50,7 @@
     <Compile Include="DataGridViewMetaData.cs" />
     <Compile Include="Empires\BuildingModel.cs" />
     <Compile Include="Empires\BuildingTotalsViewModel.cs" />
+    <Compile Include="Empires\HousingTotalsViewModel.cs" />
     <Compile Include="Empires\ResourceHeaderViewModel.cs" />
     <Compile Include="Empires\ResourcesViewModel.cs" />
     <Compile Include="Empires\TaxModel.cs" />
@@ -72,7 +73,7 @@
     <Compile Include="Security\SendUserActivationModel.cs" />
     <Compile Include="Security\LogInUserModel.cs" />
     <Compile Include="Security\RegisterUserModel.cs" />
-    <Compile Include="ViewModel.cs" />
+    <Compile Include="EntityViewModel.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

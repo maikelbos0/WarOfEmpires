@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using WarOfEmpires.Models.Empires;
 
 namespace WarOfEmpires.Models.Attacks {
-    public sealed class AttackDetailsViewModel : ViewModel {
+    public sealed class AttackDetailsViewModel : EntityViewModel {
         public DateTime Date { get; set; }
         public bool IsRead { get; set; }
         public string DateString { get { return Date.ToString("yyyy-MM-dd HH:mm"); } }
