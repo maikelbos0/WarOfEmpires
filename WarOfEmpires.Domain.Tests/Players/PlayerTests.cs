@@ -313,6 +313,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(100000, 10000, 10000, 10000, 10000));
 
             player.TrainWorkers(0, 6, 3, 1);
+            player.Buildings.Clear();
 
             var previousResources = player.Resources;
 
@@ -330,6 +331,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(100000, 10000, 10000, 10000, 10000));
 
             player.TrainWorkers(0, 6, 3, 1);
+            player.Buildings.Clear();
             player.Buildings.Add(new Building(player, BuildingType.Farm, 1));
 
             var previousResources = player.Resources;

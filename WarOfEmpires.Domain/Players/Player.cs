@@ -61,8 +61,14 @@ namespace WarOfEmpires.Domain.Players {
             Id = id;
             DisplayName = displayName;
 
-            Buildings.Add(new Building(this, BuildingType.Barracks, 2));
-            Buildings.Add(new Building(this, BuildingType.Huts, 2));
+            foreach (var building in GetStartingBuildings()) {
+                Buildings.Add(building);
+            }
+        }
+
+        public IEnumerable<Building> GetStartingBuildings() {
+            yield return new Building(this, BuildingType.Barracks, 2);
+            yield return new Building(this, BuildingType.Huts, 2);
         }
 
         public decimal GetTaxRate() {
@@ -234,13 +240,17 @@ namespace WarOfEmpires.Domain.Players {
         }
 
         public int GetTotalGoldSpentOnBuildings() {
-            return Buildings
+            var startingBuildings = GetStartingBuildings().ToDictionary(b => b.Type, b => b.Level);
+            var buildingTotals = Buildings
                 .Where(b => b.Type != BuildingType.Defences)
                 .Select(b => new {
                     Definition = BuildingDefinitionFactory.Get(b.Type),
+                    StartingLevel = startingBuildings.ContainsKey(b.Type) ? startingBuildings[b.Type] : 0,
                     b.Level
                 })
-                .Sum(b => Enumerable.Range(0, b.Level).Sum(l => b.Definition.GetNextLevelCost(l).Gold));
+                .Sum(b => Enumerable.Range(b.StartingLevel, b.Level - b.StartingLevel).Sum(l => b.Definition.GetNextLevelCost(l).Gold));
+
+            return buildingTotals;
         }
 
         public virtual void TrainTroops(int archers, int mercenaryArchers, int cavalry, int mercenaryCavalry, int footmen, int mercenaryFootmen) {
