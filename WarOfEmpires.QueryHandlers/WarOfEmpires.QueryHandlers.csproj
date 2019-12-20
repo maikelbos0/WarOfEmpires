@@ -58,6 +58,7 @@
     <Compile Include="Decorators\AuditDecorator.cs" />
     <Compile Include="Empires\GetBuildingQueryHandler.cs" />
     <Compile Include="Empires\GetBuildingTotalsQueryHandler.cs" />
+    <Compile Include="Empires\GetHousingTotalsQueryHandler.cs" />
     <Compile Include="Empires\GetResourceHeaderQueryHandler.cs" />
     <Compile Include="Empires\GetTaxQueryHandler.cs" />
     <Compile Include="Empires\GetTroopsQueryHandler.cs" />

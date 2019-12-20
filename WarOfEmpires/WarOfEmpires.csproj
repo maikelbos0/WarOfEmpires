@@ -182,6 +182,7 @@
     <Content Include="Global.asax" />
     <Content Include="Scripts\Application\building-totals-manager.js" />
     <Content Include="Scripts\Application\command.js" />
+    <Content Include="Scripts\Application\housing-totals-manager.js" />
     <Content Include="Scripts\Application\jquery-datagridview-defaults.js" />
     <Content Include="Scripts\Application\html-form.js" />
     <Content Include="Scripts\Application\ajax-form.js" />
@@ -388,6 +389,7 @@
     <Content Include="Views\Attack\ExecutedIndex.cshtml" />
     <Content Include="Views\Attack\Details.cshtml" />
     <Content Include="Views\Empire\EmpireBuildings.cshtml" />
+    <Content Include="Views\Empire\_HousingTotals.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

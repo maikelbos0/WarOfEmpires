@@ -35,7 +35,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
         }
 
         [TestMethod]
-        public void GetBuildingQueryHandler_Returns_Correct_Values_For_Existing_Building() {
+        public void GetBuildingTotalsQueryHandler_Returns_Correct_Values_For_Existing_Building() {
             var handler = new GetBuildingTotalsQueryHandler(_context);
             var query = new GetBuildingTotalsQuery("test@test.com");
 

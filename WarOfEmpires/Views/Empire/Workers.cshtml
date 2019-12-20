@@ -17,6 +17,9 @@
     <li>Recruits per day: @Model.RecruitsPerDay</li>
 </ul>
 
+<div id="empire-housing-totals" class="partial-content">
+</div>
+
 @using (Html.BeginForm(null, null, FormMethod.Post, new { data_success_message = "Your people were reassigned." })) {
     @Html.ValidationSummary(true, null, new { @class = "site-validation-summary text-danger" })
     @Html.HiddenFor(m => m.Command)

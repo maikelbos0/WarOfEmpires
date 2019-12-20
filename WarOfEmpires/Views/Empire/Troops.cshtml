@@ -14,30 +14,32 @@
     <li>Peasants available for training: @Model.CurrentPeasants</li>
 </ul>
 
+<div id="empire-housing-totals" class="partial-content">
+</div>
 
 @using (Html.BeginForm(null, null, FormMethod.Post, new { data_success_message = "Your people were reassigned." })) {
     @Html.ValidationSummary(true, null, new { @class = "site-validation-summary text-danger" })
     @Html.HiddenFor(m => m.Command)
     @Html.HiddenFor(m => m.CurrentPeasants)
 
-<div class="row">
-    <div class="col-4 col-form-label">
+    <div class="row">
+        <div class="col-4 col-form-label">
+        </div>
+        <div class="col-2 col-form-label">
+            <strong>Soldiers</strong>
+        </div>
+        <div class="col-2 col-form-label">
+            <strong>Mercenaries</strong>
+        </div>
+        <div class="col-2 col-form-label">
+            <strong>Soldiers</strong>
+        </div>
+        <div class="col-2 col-form-label">
+            <strong>Mercenaries</strong>
+        </div>
+        <div class="col-2">
+        </div>
     </div>
-    <div class="col-2 col-form-label">
-        <strong>Soldiers</strong>
-    </div>
-    <div class="col-2 col-form-label">
-        <strong>Mercenaries</strong>
-    </div>
-    <div class="col-2 col-form-label">
-        <strong>Soldiers</strong>
-    </div>
-    <div class="col-2 col-form-label">
-        <strong>Mercenaries</strong>
-    </div>
-    <div class="col-2">
-    </div>
-</div>
 
     <div class="row">
         <div class="col-4 col-form-label">

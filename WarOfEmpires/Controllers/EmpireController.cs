@@ -114,5 +114,10 @@ namespace WarOfEmpires.Controllers {
         public ActionResult EmpireBuildings() {
             return View();
         }
+
+        [Route("_HousingTotals")]
+        public ActionResult _HousingTotals() {
+            return PartialView(_messageService.Dispatch(new GetHousingTotalsQuery(_authenticationService.Identity)));
+        }
     }
 }
