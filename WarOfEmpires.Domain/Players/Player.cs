@@ -226,12 +226,20 @@ namespace WarOfEmpires.Domain.Players {
             return (100m + 25m * (Buildings.SingleOrDefault(b => b.Type == type)?.Level ?? 0)) / 100m;
         }
 
+        public virtual int GetBarracksCapacity() {
+            var barracksLevel = Buildings.SingleOrDefault(b => b.Type == BuildingType.Barracks)?.Level ?? 0;
+
+            return barracksLevel * 10 - Archers.GetTotals() - Cavalry.GetTotals() - Footmen.GetTotals();
+        }
+
+        public virtual int GetHutCapacity() {
+            var hutLevel = Buildings.SingleOrDefault(b => b.Type == BuildingType.Huts)?.Level ?? 0;
+
+            return hutLevel * 10 - Peasants - Farmers - WoodWorkers - StoneMasons - OreMiners;
+        }
+
         public virtual int GetHousingCapacity() {
-            var barracksCapacity = (Buildings.SingleOrDefault(b => b.Type == BuildingType.Barracks)?.Level ?? 0) * 10
-                - Archers.GetTotals() - Cavalry.GetTotals() - Footmen.GetTotals();
-            var hutCapacity = (Buildings.SingleOrDefault(b => b.Type == BuildingType.Huts)?.Level ?? 0) * 10
-                - Peasants - Farmers - WoodWorkers - StoneMasons - OreMiners;
-            var housingCapacity = barracksCapacity + hutCapacity;
+            var housingCapacity = GetBarracksCapacity() + GetHutCapacity();
 
             if (housingCapacity < 0) {
                 return 0;
@@ -262,7 +270,7 @@ namespace WarOfEmpires.Domain.Players {
             }
         }
 
-        public virtual int GetRecruitsPerDay() {            
+        public virtual int GetRecruitsPerDay() {
             var housingCapacity = GetHousingCapacity();
             var recruiting = GetTheoreticalRecruitsPerDay();
 

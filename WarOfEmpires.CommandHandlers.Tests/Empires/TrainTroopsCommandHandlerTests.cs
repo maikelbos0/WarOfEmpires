@@ -25,6 +25,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
             user.Status.Returns(UserStatus.Active);
 
             var player = Substitute.For<Player>();
+            player.GetBarracksCapacity().Returns(20);
             player.User.Returns(user);
             player.Peasants.Returns(30);
             player.Resources.Returns(new Resources(gold: 500000, wood: 50000, ore: 100000));
@@ -37,12 +38,12 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
         [TestMethod]
         public void TrainTroopsCommandHandler_Succeeds() {
             var handler = new TrainTroopsCommandHandler(_repository);
-            var command = new TrainTroopsCommand("test@test.com", "12", "5", "10", "3", "5", "1");
+            var command = new TrainTroopsCommand("test@test.com", "5", "3", "4", "2", "4", "1");
 
             var result = handler.Execute(command);
 
             result.Success.Should().BeTrue();
-            _player.Received().TrainTroops(12, 5, 10, 3, 5, 1);
+            _player.Received().TrainTroops(5, 3, 4, 2, 4, 1);
             _context.CallsToSaveChanges.Should().Be(1);
         }
 
@@ -55,6 +56,21 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
             result.Success.Should().BeTrue();
             _player.Received().TrainTroops(0, 0, 0, 0, 0, 0);
+        }
+
+        [TestMethod]
+        public void TrainTroopsCommandHandler_Fails_For_Too_Little_Barracks_Room() {
+            _player.Peasants.Returns(30);
+
+            var handler = new TrainTroopsCommandHandler(_repository);
+            var command = new TrainTroopsCommand("test@test.com", "8", "2", "8", "2", "8", "2");
+
+            var result = handler.Execute(command);
+
+            result.Errors.Should().HaveCount(1);
+            result.Errors[0].Expression.Should().BeNull();
+            result.Errors[0].Message.Should().Be("You don't have enough barracks available to train that many troops");
+            _player.DidNotReceiveWithAnyArgs().TrainTroops(default, default, default, default, default, default);
         }
 
         [TestMethod]
@@ -141,6 +157,8 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
         [DataRow(0, 0, 0, 0, 31, 0, DisplayName = "Footmen")]
         [DataRow(11, 0, 11, 0, 11, 0, DisplayName = "All")]
         public void TrainTroopsCommandHandler_Fails_For_Too_High_TroopCounts(int archers, int mercenaryArchers, int cavalry, int mercenaryCavalry, int footmen, int mercenaryFootmen) {
+            _player.GetBarracksCapacity().Returns(40);
+
             var handler = new TrainTroopsCommandHandler(_repository);
             var command = new TrainTroopsCommand("test@test.com", archers.ToString(), mercenaryArchers.ToString(), cavalry.ToString(), mercenaryCavalry.ToString(), footmen.ToString(), mercenaryFootmen.ToString());
 

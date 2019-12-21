@@ -27,6 +27,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
             player.User.Returns(user);
             player.Peasants.Returns(10);
             player.Resources.Returns(new Resources(gold: 10000));
+            player.GetHutCapacity().Returns(20);
 
             _context.Users.Add(user);
             _context.Players.Add(player);
@@ -54,6 +55,21 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
             result.Success.Should().BeTrue();
             _player.Received().TrainWorkers(0, 0, 0, 0);
+        }
+
+        [TestMethod]
+        public void TrainWorkersCommandHandler_Fails_For_Too_Little_Huts_Room() {
+            _player.Peasants.Returns(30);
+
+            var handler = new TrainWorkersCommandHandler(_repository);
+            var command = new TrainWorkersCommand("test@test.com", "7", "7", "7", "7");
+
+            var result = handler.Execute(command);
+
+            result.Errors.Should().HaveCount(1);
+            result.Errors[0].Expression.Should().BeNull();
+            result.Errors[0].Message.Should().Be("You don't have enough huts available to train that many workers");
+            _player.DidNotReceiveWithAnyArgs().TrainWorkers(default, default, default, default);
         }
 
         [TestMethod]
