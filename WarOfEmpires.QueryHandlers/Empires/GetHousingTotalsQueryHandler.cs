@@ -23,11 +23,10 @@ namespace WarOfEmpires.QueryHandlers.Empires {
 
             return new HousingTotalsViewModel() {
                 BarracksCapacity = player.Buildings.SingleOrDefault(b => b.Type == BuildingType.Barracks).Level * 10,
-                BarracksOccupancy = player.Archers.Soldiers + player.Archers.Mercenaries
-                    + player.Cavalry.Soldiers + player.Cavalry.Mercenaries
-                    + player.Footmen.Soldiers + player.Footmen.Mercenaries,
+                BarracksOccupancy = player.Archers.GetTotals() + player.Cavalry.GetTotals() + player.Footmen.GetTotals(),
                 HutCapacity = player.Buildings.SingleOrDefault(b => b.Type == BuildingType.Huts).Level * 10,
-                HutOccupancy = player.Peasants + player.Farmers + player.WoodWorkers + player.StoneMasons + player.OreMiners
+                HutOccupancy = player.Peasants + player.Farmers + player.WoodWorkers + player.StoneMasons + player.OreMiners,
+                HasHousingShortage = player.GetTheoreticalRecruitsPerDay() > player.GetHousingCapacity()
             };
         }
     }

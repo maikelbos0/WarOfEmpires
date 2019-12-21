@@ -36,13 +36,15 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
             player.WoodWorkers.Returns(12);
             player.StoneMasons.Returns(2);
             player.OreMiners.Returns(1);
+            player.GetHousingCapacity().Returns(4);
+            player.GetTheoreticalRecruitsPerDay().Returns(5);
 
             _context.Users.Add(user);
             _context.Players.Add(player);
         }
 
         [TestMethod]
-        public void GetBuildingQueryHandler_Returns_Correct_Values_For_Existing_Building() {
+        public void GetHousingTotalsQueryHandler_Returns_Correct_Values() {
             var handler = new GetHousingTotalsQueryHandler(_context);
             var query = new GetHousingTotalsQuery("test@test.com");
 
@@ -52,6 +54,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
             result.BarracksOccupancy.Should().Be(48);
             result.HutCapacity.Should().Be(40);
             result.HutOccupancy.Should().Be(27);
+            result.HasHousingShortage.Should().BeTrue();
         }
     }
 }

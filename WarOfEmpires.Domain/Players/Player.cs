@@ -27,8 +27,8 @@ namespace WarOfEmpires.Domain.Players {
         public static Resources MercenaryTrainingCost = new Resources(gold: 5000);
 
         public static Resources PeasantUpkeep = new Resources(food: 2);
-        public static Resources SoldierUpkeep = new Resources(food: 5);
-        public static Resources MercenaryUpkeep = new Resources(gold: 250, food: 5);
+        public static Resources SoldierUpkeep = new Resources(food: 2);
+        public static Resources MercenaryUpkeep = new Resources(gold: 250, food: 2);
 
         public virtual string DisplayName { get; set; }
         public virtual Security.User User { get; protected set; }
@@ -226,17 +226,22 @@ namespace WarOfEmpires.Domain.Players {
             return (100m + 25m * (Buildings.SingleOrDefault(b => b.Type == type)?.Level ?? 0)) / 100m;
         }
 
-        public virtual int GetRecruitsPerDay() {
-            var barracksCapacity = (Buildings.SingleOrDefault(b => b.Type == BuildingType.Barracks)?.Level ?? 0) * 10;
-            if (barracksCapacity <= Archers.GetTotals() + Cavalry.GetTotals() + Footmen.GetTotals()) {
+        public virtual int GetHousingCapacity() {
+            var barracksCapacity = (Buildings.SingleOrDefault(b => b.Type == BuildingType.Barracks)?.Level ?? 0) * 10
+                - Archers.GetTotals() - Cavalry.GetTotals() - Footmen.GetTotals();
+            var hutCapacity = (Buildings.SingleOrDefault(b => b.Type == BuildingType.Huts)?.Level ?? 0) * 10
+                - Peasants - Farmers - WoodWorkers - StoneMasons - OreMiners;
+            var housingCapacity = barracksCapacity + hutCapacity;
+
+            if (housingCapacity < 0) {
                 return 0;
             }
-
-            var hutCapacity = (Buildings.SingleOrDefault(b => b.Type == BuildingType.Huts)?.Level ?? 0) * 10;
-            if (hutCapacity <= Peasants + Farmers + WoodWorkers + StoneMasons + OreMiners) {
-                return 0;
+            else {
+                return housingCapacity;
             }
+        }
 
+        public virtual int GetTheoreticalRecruitsPerDay() {
             var recruiting = 0;
             var totalBuildingGold = GetTotalGoldSpentOnBuildings();
 
@@ -246,7 +251,22 @@ namespace WarOfEmpires.Domain.Players {
             // Get recruiting for defences
             recruiting += Buildings.SingleOrDefault(b => b.Type == BuildingType.Defences)?.Level ?? 0;
 
-            return Math.Max(1, Math.Min(25, recruiting));
+            if (recruiting > 25) {
+                return 25;
+            }
+            else if (recruiting < 1) {
+                return 1;
+            }
+            else {
+                return recruiting;
+            }
+        }
+
+        public virtual int GetRecruitsPerDay() {            
+            var housingCapacity = GetHousingCapacity();
+            var recruiting = GetTheoreticalRecruitsPerDay();
+
+            return Math.Min(housingCapacity, recruiting);
         }
 
         public int GetTotalGoldSpentOnBuildings() {

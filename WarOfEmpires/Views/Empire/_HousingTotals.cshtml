@@ -1,6 +1,6 @@
 ﻿@model WarOfEmpires.Models.Empires.HousingTotalsViewModel
 
-<ul>
+<ul class="@(Model.HasHousingShortage ? "text-danger" : "")">
     <li>Your barracks have room for @Model.BarracksCapacity occupants and are currently housing @Model.BarracksOccupancy troops</li>
     <li>Your peasant huts have room for @Model.HutCapacity occupants and are currently housing @Model.HutOccupancy workers and peasants</li>
 </ul>

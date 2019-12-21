@@ -4,5 +4,6 @@
         public int HutOccupancy { get; set; }
         public int BarracksCapacity { get; set; }
         public int BarracksOccupancy { get; set; }
+        public bool HasHousingShortage { get; set; }
     }
 }

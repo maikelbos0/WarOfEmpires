@@ -22,7 +22,8 @@ namespace WarOfEmpires.QueryHandlers.Players {
 
             return new NotificationsViewModel() {
                 HasNewMessages = player.ReceivedMessages.Any(m => !m.IsRead),
-                HasNewAttacks = player.ReceivedAttacks.Any(a => !a.IsRead)
+                HasNewAttacks = player.ReceivedAttacks.Any(a => !a.IsRead),
+                HasHousingShortage = player.GetTheoreticalRecruitsPerDay() > player.GetHousingCapacity()
             };
         }
     }

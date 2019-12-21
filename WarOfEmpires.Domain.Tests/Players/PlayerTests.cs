@@ -364,11 +364,11 @@ namespace WarOfEmpires.Domain.Tests.Players {
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(100000, 10000, 10000, 10000, 10000));
             player.TrainTroops(1, 1, 1, 1, 1, 1);
 
-            player.GetUpkeepPerTurn().Should().Be(new Resources(food: 44, gold: 750));
+            player.GetUpkeepPerTurn().Should().Be(new Resources(food: 26, gold: 750));
         }
 
         [TestMethod]
-        public void Player_GetRecruitsPerDay_Succeeds() {
+        public void Player_GetTheoreticalRecruitsPerDay_Succeeds() {
             var player = new Player(0, "Test");
 
             player.Buildings.Add(new Building(player, BuildingType.Farm, 4));
@@ -377,18 +377,18 @@ namespace WarOfEmpires.Domain.Tests.Players {
             player.Buildings.Add(new Building(player, BuildingType.Mine, 2));
             player.Buildings.Add(new Building(player, BuildingType.Defences, 3));
 
-            player.GetRecruitsPerDay().Should().Be(8);
+            player.GetTheoreticalRecruitsPerDay().Should().Be(8);
         }
 
         [TestMethod]
-        public void Player_GetRecruitsPerDay_Minimum_Is_1() {
+        public void Player_GetTheoreticalRecruitsPerDay_Minimum_Is_1() {
             var player = new Player(0, "Test");
 
-            player.GetRecruitsPerDay().Should().Be(1);
+            player.GetTheoreticalRecruitsPerDay().Should().Be(1);
         }
 
         [TestMethod]
-        public void Player_GetRecruitsPerDay_Maximum_Is_25() {
+        public void Player_GetTheoreticalRecruitsPerDay_Maximum_Is_25() {
             var player = new Player(0, "Test");
 
             player.Buildings.Add(new Building(player, BuildingType.Farm, 100));
@@ -397,25 +397,58 @@ namespace WarOfEmpires.Domain.Tests.Players {
             player.Buildings.Add(new Building(player, BuildingType.Mine, 100));
             player.Buildings.Add(new Building(player, BuildingType.Defences, 25));
 
-            player.GetRecruitsPerDay().Should().Be(25);
+            player.GetTheoreticalRecruitsPerDay().Should().Be(25);
         }
 
         [TestMethod]
-        public void Player_GetRecruitsPerDay_Is_0_When_Barracks_Are_Full() {
+        public void Player_GetHousingCapacity_Succeeds() {
             var player = new Player(0, "Test");
 
-            typeof(Player).GetProperty(nameof(Player.Archers)).SetValue(player, new Troops(20, 0));
+            typeof(Player).GetProperty(nameof(Player.Archers)).SetValue(player, new Troops(19, 0));
+            typeof(Player).GetProperty(nameof(Player.Peasants)).SetValue(player, 10);
 
-            player.GetRecruitsPerDay().Should().Be(0);
+            player.GetHousingCapacity().Should().Be(11);
         }
 
         [TestMethod]
-        public void Player_GetRecruitsPerDay_Is_0_When_Huts_Are_Full() {
+        public void Player_GetHousingCapacity_Succeeds_For_Crowded_Barracks() {
             var player = new Player(0, "Test");
 
+            typeof(Player).GetProperty(nameof(Player.Archers)).SetValue(player, new Troops(6, 1));
+            typeof(Player).GetProperty(nameof(Player.Cavalry)).SetValue(player, new Troops(6, 1));
+            typeof(Player).GetProperty(nameof(Player.Footmen)).SetValue(player, new Troops(6, 1));
+            typeof(Player).GetProperty(nameof(Player.Peasants)).SetValue(player, 10);
+
+            player.GetHousingCapacity().Should().Be(9);
+        }
+
+        [TestMethod]
+        public void Player_GetHousingCapacity_Succeeds_For_Crowded_Huts() {
+            var player = new Player(0, "Test");
+
+            typeof(Player).GetProperty(nameof(Player.Peasants)).SetValue(player, 5);
+            typeof(Player).GetProperty(nameof(Player.Farmers)).SetValue(player, 4);
+            typeof(Player).GetProperty(nameof(Player.WoodWorkers)).SetValue(player, 4);
+            typeof(Player).GetProperty(nameof(Player.StoneMasons)).SetValue(player, 4);
+            typeof(Player).GetProperty(nameof(Player.OreMiners)).SetValue(player, 4);
+
+            player.GetHousingCapacity().Should().Be(19);
+        }
+
+        [TestMethod]
+        public void Player_GetRecruitsPerDay_Is_Maxed_By_Barracks_And_Huts_Capacity() {
+            var player = new Player(0, "Test");
+
+            player.Buildings.Add(new Building(player, BuildingType.Farm, 4));
+            player.Buildings.Add(new Building(player, BuildingType.Lumberyard, 6));
+            player.Buildings.Add(new Building(player, BuildingType.Quarry, 2));
+            player.Buildings.Add(new Building(player, BuildingType.Mine, 2));
+            player.Buildings.Add(new Building(player, BuildingType.Defences, 3));
+
+            typeof(Player).GetProperty(nameof(Player.Archers)).SetValue(player, new Troops(19, 0));
             typeof(Player).GetProperty(nameof(Player.Peasants)).SetValue(player, 20);
 
-            player.GetRecruitsPerDay().Should().Be(0);
+            player.GetRecruitsPerDay().Should().Be(1);
         }
 
         [TestMethod]
