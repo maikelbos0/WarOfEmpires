@@ -216,9 +216,38 @@ namespace WarOfEmpires.Domain.Empires {
             costs.Add(3, new Resources(gold: 200000, wood: 20000, stone: 10000, ore: 5000));
             costs.Add(4, new Resources(gold: 300000, wood: 30000, stone: 15000, ore: 7500));
             costs.Add(5, new Resources(gold: 500000, wood: 40000, stone: 40000, ore: 10000));
-            costs.Add(6, new Resources(gold: 1000000, wood: 50000, stone: 100000, ore: 20000));
+            costs.Add(6, new Resources(gold: 800000, wood: 50000, stone: 100000, ore: 20000));
+            costs.Add(7, new Resources(gold: 1200000, wood: 80000, stone: 200000, ore: 30000));
+            costs.Add(8, new Resources(gold: 2000000, wood: 120000, stone: 300000, ore: 50000));
+            costs.Add(9, new Resources(gold: 3000000, wood: 200000, stone: 500000, ore: 80000));
+            costs.Add(10, new Resources(gold: 5000000, wood: 300000, stone: 800000, ore: 120000));
+            costs.Add(11, new Resources(gold: 8000000, wood: 500000, stone: 1200000, ore: 200000));
+            costs.Add(12, new Resources(gold: 12000000, wood: 800000, stone: 2000000, ore: 300000));
+            costs.Add(13, new Resources(gold: 20000000, wood: 1200000, stone: 3000000, ore: 500000));
+            costs.Add(14, new Resources(gold: 30000000, wood: 2000000, stone: 5000000, ore: 800000));
+            costs.Add(15, (int level, int levelOffset) => new Resources(
+               gold: 60000000 + 30000000 * levelOffset,
+               wood: 3000000 + 1000000 * levelOffset,
+               stone: 5000000 + 2000000 * levelOffset,
+               ore: 1200000 + 400000 * levelOffset
+           ));
 
-            var names = new ExpressionGenerator<string>("Camp");
+            var names = new ExpressionGenerator<string>("Tent");
+            names.Add(1, "Armed Camp");
+            names.Add(2, "Stockade");
+            names.Add(3, "Fort");
+            names.Add(4, "Walled Fort");
+            names.Add(5, "Walled Fort with Moat");
+            names.Add(6, "Keep");
+            names.Add(7, "Keep with Wall");
+            names.Add(8, "Keep with Wall and Moat");
+            names.Add(9, "Castle");
+            names.Add(10, "Castle with Wall");
+            names.Add(11, "Castle with Wall and Moat");
+            names.Add(12, "Fortress");
+            names.Add(13, "Fortress with Wall");
+            names.Add(14, "Fortress with Wall and Moat");
+            names.Add(15, (int level, int levelOffset) => $"Citadel (level {levelOffset + 1})");
 
             return new BuildingDefinition(
                 names,
