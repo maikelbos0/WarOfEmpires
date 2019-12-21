@@ -227,8 +227,18 @@ namespace WarOfEmpires.Domain.Players {
         }
 
         public virtual int GetRecruitsPerDay() {
-            int recruiting = 0;
-            int totalBuildingGold = GetTotalGoldSpentOnBuildings();
+            var barracksCapacity = (Buildings.SingleOrDefault(b => b.Type == BuildingType.Barracks)?.Level ?? 0) * 10;
+            if (barracksCapacity <= Archers.GetTotals() + Cavalry.GetTotals() + Footmen.GetTotals()) {
+                return 0;
+            }
+
+            var hutCapacity = (Buildings.SingleOrDefault(b => b.Type == BuildingType.Huts)?.Level ?? 0) * 10;
+            if (hutCapacity <= Peasants + Farmers + WoodWorkers + StoneMasons + OreMiners) {
+                return 0;
+            }
+
+            var recruiting = 0;
+            var totalBuildingGold = GetTotalGoldSpentOnBuildings();
 
             // Get recruiting for total gold spent
             recruiting += BuildingRecruitingLevels.Where(g => g <= totalBuildingGold).Count();

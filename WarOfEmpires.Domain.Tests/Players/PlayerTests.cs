@@ -401,6 +401,24 @@ namespace WarOfEmpires.Domain.Tests.Players {
         }
 
         [TestMethod]
+        public void Player_GetRecruitsPerDay_Is_0_When_Barracks_Are_Full() {
+            var player = new Player(0, "Test");
+
+            typeof(Player).GetProperty(nameof(Player.Archers)).SetValue(player, new Troops(20, 0));
+
+            player.GetRecruitsPerDay().Should().Be(0);
+        }
+
+        [TestMethod]
+        public void Player_GetRecruitsPerDay_Is_0_When_Huts_Are_Full() {
+            var player = new Player(0, "Test");
+
+            typeof(Player).GetProperty(nameof(Player.Peasants)).SetValue(player, 20);
+
+            player.GetRecruitsPerDay().Should().Be(0);
+        }
+
+        [TestMethod]
         public void Player_GetTotalGoldSpentOnBuildings_Succeeds() {
             var player = new Player(0, "Test");
 
