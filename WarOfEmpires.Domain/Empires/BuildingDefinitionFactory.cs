@@ -37,7 +37,8 @@ namespace WarOfEmpires.Domain.Empires {
             return new BuildingDefinition(
                 new ExpressionGenerator<string>((int level, int levelOffset) => $"Farm (level {level})"),
                 new ExpressionGenerator<string>((int level, int levelOffset) => $"Your farm increases food production by 25% for each level; your current bonus is {level * 25}%"),
-                costs
+                costs,
+                new ExpressionGenerator<int>((int currentLevel, int levelOffset) => currentLevel * 25)
             );
         }
 
@@ -58,7 +59,8 @@ namespace WarOfEmpires.Domain.Empires {
             return new BuildingDefinition(
                 new ExpressionGenerator<string>((int level, int levelOffset) => $"Lumberyard (level {level})"),
                 new ExpressionGenerator<string>((int level, int levelOffset) => $"Your lumberyard increases wood production by 25% for each level; your current bonus is {level * 25}%"),
-                costs
+                costs,
+                new ExpressionGenerator<int>((int currentLevel, int levelOffset) => currentLevel * 25)
             );
         }
 
@@ -79,7 +81,8 @@ namespace WarOfEmpires.Domain.Empires {
             return new BuildingDefinition(
                 new ExpressionGenerator<string>((int level, int levelOffset) => $"Quarry (level {level})"),
                 new ExpressionGenerator<string>((int level, int levelOffset) => $"Your quarry increases stone production by 25% for each level; your current bonus is {level * 25}%"),
-                costs
+                costs,
+                new ExpressionGenerator<int>((int currentLevel, int levelOffset) => currentLevel * 25)
             );
         }
 
@@ -100,7 +103,8 @@ namespace WarOfEmpires.Domain.Empires {
             return new BuildingDefinition(
                 new ExpressionGenerator<string>((int level, int levelOffset) => $"Mine (level {level})"),
                 new ExpressionGenerator<string>((int level, int levelOffset) => $"Your mine increases ore production by 25% for each level; your current bonus is {level * 25}%"),
-                costs
+                costs,
+                new ExpressionGenerator<int>((int currentLevel, int levelOffset) => currentLevel * 25)
             );
         }
 
@@ -121,7 +125,8 @@ namespace WarOfEmpires.Domain.Empires {
             return new BuildingDefinition(
                 new ExpressionGenerator<string>((int level, int levelOffset) => $"Forge (level {level})"),
                 new ExpressionGenerator<string>((int level, int levelOffset) => $"Your forge increases your troops' attack strength by 25% for each level; your current bonus is {level * 25}%"),
-                costs
+                costs,
+                new ExpressionGenerator<int>((int currentLevel, int levelOffset) => currentLevel * 10)
             );
         }
 
@@ -142,7 +147,8 @@ namespace WarOfEmpires.Domain.Empires {
             return new BuildingDefinition(
                 new ExpressionGenerator<string>((int level, int levelOffset) => $"Armoury (level {level})"),
                 new ExpressionGenerator<string>((int level, int levelOffset) => $"Your armoury increases your troops' defensive strength by 25% for each level; your current bonus is {level * 25}%"),
-                costs
+                costs,
+                new ExpressionGenerator<int>((int currentLevel, int levelOffset) => currentLevel * 10)
             );
         }
 
@@ -163,7 +169,8 @@ namespace WarOfEmpires.Domain.Empires {
             return new BuildingDefinition(
                 new ExpressionGenerator<string>((int level, int levelOffset) => $"Archery range (level {level})"),
                 new ExpressionGenerator<string>((int level, int levelOffset) => $"Your archery range increases your archers' strength by 25% for each level; your current bonus is {level * 25}%"),
-                costs
+                costs,
+                new ExpressionGenerator<int>((int currentLevel, int levelOffset) => currentLevel * 10)
             );
         }
 
@@ -184,7 +191,8 @@ namespace WarOfEmpires.Domain.Empires {
             return new BuildingDefinition(
                 new ExpressionGenerator<string>((int level, int levelOffset) => $"Cavalry range (level {level})"),
                 new ExpressionGenerator<string>((int level, int levelOffset) => $"Your cavalry range increases your cavalry's strength by 25% for each level; your current bonus is {level * 25}%"),
-                costs
+                costs,
+                new ExpressionGenerator<int>((int currentLevel, int levelOffset) => currentLevel * 10)
             );
         }
 
@@ -205,7 +213,8 @@ namespace WarOfEmpires.Domain.Empires {
             return new BuildingDefinition(
                 new ExpressionGenerator<string>((int level, int levelOffset) => $"Footmen range (level {level})"),
                 new ExpressionGenerator<string>((int level, int levelOffset) => $"Your footmen range increases your footmen's strength by 25% for each level; your current bonus is {level * 25}%"),
-                costs
+                costs,
+                new ExpressionGenerator<int>((int currentLevel, int levelOffset) => currentLevel * 10)
             );
         }
 
@@ -252,7 +261,8 @@ namespace WarOfEmpires.Domain.Empires {
             return new BuildingDefinition(
                 names,
                 new ExpressionGenerator<string>((int level, int levelOffset) => $"Your defences protect against castle attacks and increase your recruiting by 1 peasant for each level; your current bonus is {level}"),
-                costs
+                costs,
+                new ExpressionGenerator<int>((int currentLevel, int levelOffset) => currentLevel * 1)
             );
         }
 
@@ -263,7 +273,8 @@ namespace WarOfEmpires.Domain.Empires {
             return new BuildingDefinition(
                 new ExpressionGenerator<string>((int level, int levelOffset) => $"Peasant huts (level {level})"),
                 new ExpressionGenerator<string>((int level, int levelOffset) => $"Your peasant huts provide the housing for your workers and peasants; each hut houses 10 peasants and your current capacity is {level * 10}"),
-                costs
+                costs,
+                new ExpressionGenerator<int>((int currentLevel, int levelOffset) => currentLevel * 10)
             );
         }
 
@@ -274,7 +285,8 @@ namespace WarOfEmpires.Domain.Empires {
             return new BuildingDefinition(
                 new ExpressionGenerator<string>((int level, int levelOffset) => $"Baracks (level {level})"),
                 new ExpressionGenerator<string>((int level, int levelOffset) => $"Your barracks provide the housing for your troops; each barracks houses 10 troops and your current capacity is {level * 10}"),
-                costs
+                costs,
+                new ExpressionGenerator<int>((int currentLevel, int levelOffset) => currentLevel * 10)
             );
         }
 

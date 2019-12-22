@@ -228,20 +228,22 @@ namespace WarOfEmpires.Domain.Players {
             }
         }
 
+        public int GetBuildingBonus(BuildingType type) {
+            var definition = BuildingDefinitionFactory.Get(type);
+
+            return definition.GetBonus(Buildings.SingleOrDefault(b => b.Type == type)?.Level ?? 0);
+        }
+
         public decimal GetBuildingBonusMultiplier(BuildingType type) {
-            return (100m + 25m * (Buildings.SingleOrDefault(b => b.Type == type)?.Level ?? 0)) / 100m;
+            return (100m + GetBuildingBonus(type)) / 100m;
         }
 
         public virtual int GetBarracksCapacity() {
-            var barracksLevel = Buildings.SingleOrDefault(b => b.Type == BuildingType.Barracks)?.Level ?? 0;
-
-            return barracksLevel * 10 - Archers.GetTotals() - Cavalry.GetTotals() - Footmen.GetTotals();
+            return GetBuildingBonus(BuildingType.Barracks) - Archers.GetTotals() - Cavalry.GetTotals() - Footmen.GetTotals();
         }
 
         public virtual int GetHutCapacity() {
-            var hutLevel = Buildings.SingleOrDefault(b => b.Type == BuildingType.Huts)?.Level ?? 0;
-
-            return hutLevel * 10 - Peasants - Farmers - WoodWorkers - StoneMasons - OreMiners;
+            return GetBuildingBonus(BuildingType.Huts) - Peasants - Farmers - WoodWorkers - StoneMasons - OreMiners;
         }
 
         public virtual int GetHousingCapacity() {
@@ -263,7 +265,7 @@ namespace WarOfEmpires.Domain.Players {
             recruiting += BuildingRecruitingLevels.Where(g => g <= totalBuildingGold).Count();
 
             // Get recruiting for defences
-            recruiting += Buildings.SingleOrDefault(b => b.Type == BuildingType.Defences)?.Level ?? 0;
+            recruiting += GetBuildingBonus(BuildingType.Defences);
 
             if (recruiting > 25) {
                 return 25;
@@ -328,7 +330,7 @@ namespace WarOfEmpires.Domain.Players {
             CheckUpkeep();
         }
 
-        // TODO make sur this function is called whenever resources get added
+        // TODO make sure this function is called whenever resources get added
         public virtual void CheckUpkeep() {
             if (HasUpkeepRunOut && Resources.CanAfford(GetUpkeepPerTurn())) {
                 HasUpkeepRunOut = false;
