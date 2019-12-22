@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 using System.Collections.Generic;
 using WarOfEmpires.Domain.Attacks;
+using WarOfEmpires.Domain.Common;
 using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Queries.Players;
@@ -25,6 +26,9 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
 
             _player = Substitute.For<Player>();
             _player.User.Returns(user);
+            _player.GetUpkeepPerTurn().Returns(new Resources(gold: 1000, food: 100));
+            _player.Resources.Returns(new Resources(gold: 30000, food: 1000));
+            _player.GetResourcesPerTurn().Returns(new Resources(gold: 1000, food: 100));
 
             _context.Users.Add(user);
             _context.Players.Add(_player);
@@ -108,6 +112,42 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
             var results = handler.Execute(query);
 
             results.HasHousingShortage.Should().BeFalse();
+        }
+
+        [TestMethod]
+        public void GetNotificationsQueryHandler_HasUpkeepShortage_Is_True_If_Gold_Runs_Out_In_8_Hours() {
+            _player.GetResourcesPerTurn().Returns(new Resources(gold: 200, food: 100));
+
+            var handler = new GetNotificationsQueryHandler(_context);
+            var query = new GetNotificationsQuery("test@test.com");
+
+            var results = handler.Execute(query);
+
+            results.HasUpkeepShortage.Should().BeTrue();
+        }
+
+        [TestMethod]
+        public void GetNotificationsQueryHandler_HasUpkeepShortage_Is_True_If_Food_Runs_Out_In_8_Hours() {
+            _player.GetResourcesPerTurn().Returns(new Resources(gold: 1000, food: 20));
+
+            var handler = new GetNotificationsQueryHandler(_context);
+            var query = new GetNotificationsQuery("test@test.com");
+
+            var results = handler.Execute(query);
+
+            results.HasUpkeepShortage.Should().BeTrue();
+        }
+
+        [TestMethod]
+        public void GetNotificationsQueryHandler_HasUpkeepShortage_Is_False_If_Enough_Resources() {
+            _player.GetResourcesPerTurn().Returns(new Resources(gold: 1000, food: 100));
+
+            var handler = new GetNotificationsQueryHandler(_context);
+            var query = new GetNotificationsQuery("test@test.com");
+
+            var results = handler.Execute(query);
+
+            results.HasUpkeepShortage.Should().BeFalse();
         }
     }
 }

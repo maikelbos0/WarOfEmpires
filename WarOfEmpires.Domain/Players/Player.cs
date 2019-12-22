@@ -153,6 +153,16 @@ namespace WarOfEmpires.Domain.Players {
             }
         }
 
+        public virtual Resources GetResourcesPerTurn() {
+            return new Resources(
+                GetGoldPerTurn(),
+                GetFoodProduction().GetTotalProduction(),
+                GetWoodProduction().GetTotalProduction(),
+                GetStoneProduction().GetTotalProduction(),
+                GetOreProduction().GetTotalProduction()
+            );
+        }
+
         public virtual void ProcessTurn() {
             var upkeep = GetUpkeepPerTurn();
 
@@ -163,13 +173,7 @@ namespace WarOfEmpires.Domain.Players {
             }
 
             if (Resources.CanAfford(upkeep)) {
-                Resources = Resources - upkeep + new Resources(
-                    GetGoldPerTurn(),
-                    GetFoodProduction().GetTotalProduction(),
-                    GetWoodProduction().GetTotalProduction(),
-                    GetStoneProduction().GetTotalProduction(),
-                    GetOreProduction().GetTotalProduction()
-                );
+                Resources = Resources - upkeep + GetResourcesPerTurn();
             }
             else {
                 Resources -= new Resources(
