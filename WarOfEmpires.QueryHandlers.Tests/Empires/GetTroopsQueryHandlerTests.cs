@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
+using WarOfEmpires.Domain.Common;
 using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Queries.Empires;
@@ -26,6 +27,10 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
             player.Archers.Returns(new Troops(7, 6));
             player.Cavalry.Returns(new Troops(5, 4));
             player.Footmen.Returns(new Troops(3, 2));
+            player.GetUpkeepPerTurn().Returns(new Resources(gold: 500, food: 30));
+            player.Resources.Returns(new Resources(gold: 1000, food: 100));
+            player.GetResourcesPerTurn().Returns(new Resources(gold: 400, food: 20));
+            player.HasUpkeepRunOut.Returns(true);
 
             _context.Users.Add(user);
             _context.Players.Add(player);
@@ -54,6 +59,17 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
             result.CurrentMercenaryCavalry.Should().Be(4);
             result.CurrentFootmen.Should().Be(3);
             result.CurrentMercenaryFootmen.Should().Be(2);
+        }
+
+        [TestMethod]
+        public void GetTroopsQueryHandler_Returns_Correct_Additional_Information() {
+            var query = new GetTroopsQuery("test@test.com");
+            var handler = new GetTroopsQueryHandler(_context);
+
+            var result = handler.Execute(query);
+
+            result.WillUpkeepRunOut.Should().BeTrue();
+            result.HasUpkeepRunOut.Should().BeTrue();
         }
 
         // TODO add tests for troop strength if/when implemented

@@ -31,6 +31,9 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
             player.Tax.Returns(50);
             player.GetRecruitsPerDay().Returns(5);
             player.GetUpkeepPerTurn().Returns(new Resources(gold: 500, food: 30));
+            player.Resources.Returns(new Resources(gold: 1000, food: 100));
+            player.GetResourcesPerTurn().Returns(new Resources(gold: 400, food: 20));
+            player.HasUpkeepRunOut.Returns(true);
 
             _context.Users.Add(user);
             _context.Players.Add(player);
@@ -88,6 +91,8 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
             result.RecruitsPerDay.Should().Be(5);
             result.FoodUpkeepPerTurn.Should().Be(30);
             result.GoldUpkeepPerTurn.Should().Be(500);
+            result.WillUpkeepRunOut.Should().BeTrue();
+            result.HasUpkeepRunOut.Should().BeTrue();
         }
     }
 }

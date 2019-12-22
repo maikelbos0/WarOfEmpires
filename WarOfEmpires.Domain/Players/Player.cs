@@ -48,6 +48,7 @@ namespace WarOfEmpires.Domain.Players {
         public virtual Troops Footmen { get; protected set; } = new Troops(0, 0);
         public virtual int AttackTurns { get; protected set; } = 50;
         public virtual int Stamina { get; protected set; } = 100;
+        public virtual bool HasUpkeepRunOut { get; protected set; } = false;
         public virtual ICollection<Building> Buildings { get; protected set; } = new List<Building>();
         public virtual ICollection<Message> SentMessages { get; protected set; } = new List<Message>();
         public virtual ICollection<Message> ReceivedMessages { get; protected set; } = new List<Message>();
@@ -187,6 +188,7 @@ namespace WarOfEmpires.Domain.Players {
                 Archers = new Troops(Archers.Soldiers, 0);
                 Cavalry = new Troops(Cavalry.Soldiers, 0);
                 Footmen = new Troops(Footmen.Soldiers, 0);
+                HasUpkeepRunOut = true;
             }
         }
 
@@ -322,6 +324,15 @@ namespace WarOfEmpires.Domain.Players {
             Resources += gainedResources;
             defender.Resources -= gainedResources;
             AttackTurns -= attackTurns;
+
+            CheckUpkeep();
+        }
+
+        // TODO make sur this function is called whenever resources get added
+        public virtual void CheckUpkeep() {
+            if (HasUpkeepRunOut && Resources.CanAfford(GetUpkeepPerTurn())) {
+                HasUpkeepRunOut = false;
+            }
         }
     }
 }

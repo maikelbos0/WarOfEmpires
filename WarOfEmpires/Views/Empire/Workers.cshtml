@@ -15,6 +15,13 @@
     <li>Gold production per turn: @Model.CurrentGoldPerTurn <span class="si si-gold" /></li>
     <li>Upkeep per turn: @Model.GoldUpkeepPerTurn <span class="si si-gold"></span> @Model.FoodUpkeepPerTurn <span class="si si-food"></span></li>
     <li>Recruits per day: @Model.RecruitsPerDay</li>
+
+    @if (Model.HasUpkeepRunOut) {
+        <li class="text-danger">You aren't able to afford the upkeep costs; your workers have stopped working and your mercenaries have left your empire</li>
+    }
+    else if (Model.WillUpkeepRunOut) {
+        <li class="text-danger">You will run out of the food and gold required for upkeep in the next 8 hours; if you run out, your workers will stop working and your mercenaries will leave your empire</li>
+    }
 </ul>
 
 <div id="empire-housing-totals" class="partial-content">
@@ -29,6 +36,8 @@
     @Html.HiddenFor(m => m.FoodUpkeepPerTurn)
     @Html.HiddenFor(m => m.GoldUpkeepPerTurn)
     @Html.HiddenFor(m => m.RecruitsPerDay)
+    @Html.HiddenFor(m => m.WillUpkeepRunOut)
+    @Html.HiddenFor(m => m.HasUpkeepRunOut)
 
     <div class="row">
         <div class="col-4 col-form-label">

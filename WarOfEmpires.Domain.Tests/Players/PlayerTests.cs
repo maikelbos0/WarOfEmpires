@@ -257,6 +257,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
             player.ProcessTurn();
 
             player.Resources.Should().Be(previousResources - new Resources(food: previousResources.Food));
+            player.HasUpkeepRunOut.Should().BeTrue();
         }
 
         [TestMethod]
@@ -652,6 +653,31 @@ namespace WarOfEmpires.Domain.Tests.Players {
             attacker.Resources.Should().Be(new Resources(120000));
             defender.Resources.Should().Be(new Resources(80000));
             attacker.AttackTurns.Should().Be(15);
+        }
+
+        [TestMethod]
+        public void Player_CheckUpkeep_Resets_HasUpkeepRunOut_When_Enough() {
+            var player = new Player(0, "Test");
+            var defender = new Player(1, "Test 2");
+
+            typeof(Player).GetProperty(nameof(Player.HasUpkeepRunOut)).SetValue(player, true);
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(defender, new Resources(gold: 100000, food: 10000));
+
+            player.ProcessAttack(defender, player.GetUpkeepPerTurn(), 1);
+            player.HasUpkeepRunOut.Should().BeFalse();
+        }
+
+        [TestMethod]
+        public void Player_CheckUpkeepDoes_Not_Reset_HasUpkeepRunOut_When_Not_Enough() {
+            var player = new Player(0, "Test");
+            var defender = new Player(1, "Test 2");
+
+            typeof(Player).GetProperty(nameof(Player.HasUpkeepRunOut)).SetValue(player, true);
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources());
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(defender, new Resources(gold: 100000, food: 10000));
+
+            player.ProcessAttack(defender, player.GetUpkeepPerTurn() - new Resources(food: 1), 1);
+            player.HasUpkeepRunOut.Should().BeTrue();
         }
     }
 }

@@ -28,6 +28,8 @@ namespace WarOfEmpires.Models.Empires {
         public int CurrentMercenaryCavalry { get; set; }
         public int CurrentFootmen { get; set; }
         public int CurrentMercenaryFootmen { get; set; }
+        public bool WillUpkeepRunOut { get; set; }
+        public bool HasUpkeepRunOut { get; set; }
         public string Command { get; set; }
     }
 }

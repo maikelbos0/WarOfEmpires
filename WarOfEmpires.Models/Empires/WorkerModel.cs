@@ -33,6 +33,8 @@ namespace WarOfEmpires.Models.Empires {
         public int GoldUpkeepPerTurn { get; set; }
         public int FoodUpkeepPerTurn { get; set; }
         public int RecruitsPerDay { get; set; }
+        public bool WillUpkeepRunOut { get; set; }
+        public bool HasUpkeepRunOut { get; set; }
         public string Command { get; set; }
     }
 }

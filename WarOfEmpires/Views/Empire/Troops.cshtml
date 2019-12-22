@@ -12,6 +12,13 @@
 
 <ul>
     <li>Peasants available for training: @Model.CurrentPeasants</li>
+
+    @if (Model.HasUpkeepRunOut) {
+        <li class="text-danger">You aren't able to afford the upkeep costs; your workers have stopped working and your mercenaries have left your empire</li>
+    }
+    else if (Model.WillUpkeepRunOut) {
+        <li class="text-danger">You will run out of the food and gold required for upkeep in the next 8 hours; if you run out, your workers will stop working and your mercenaries will leave your empire</li>
+    }
 </ul>
 
 <div id="empire-housing-totals" class="partial-content">
