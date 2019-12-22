@@ -87,7 +87,7 @@
     <Compile Include="Empires\GetTaxQueryHandlerTests.cs" />
     <Compile Include="Empires\GetTroopsQueryHandlerTests.cs" />
     <Compile Include="Empires\GetWorkersQueryHandlerTests.cs" />
-    <Compile Include="Empires\ResourcesMapTests.cs" />
+    <Compile Include="Common\ResourcesMapTests.cs" />
     <Compile Include="Events\GetScheduledTasksPausedQueryHandlerTests.cs" />
     <Compile Include="Messages\GetMessageRecipientQueryHandlerTests.cs" />
     <Compile Include="Messages\GetReceivedMessageQueryHandlerTests.cs" />

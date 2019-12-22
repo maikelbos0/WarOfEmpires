@@ -9,15 +9,15 @@ using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Queries.Attacks;
 using WarOfEmpires.QueryHandlers.Attacks;
-using WarOfEmpires.QueryHandlers.Empires;
+using WarOfEmpires.QueryHandlers.Common;
 using WarOfEmpires.Test.Utilities;
 
 namespace WarOfEmpires.QueryHandlers.Tests.Attacks {
     [TestClass]
     public sealed class GetAttackDetailsQueryHandlerTests {
         private readonly FakeWarContext _context = new FakeWarContext();
-        private Player _attacker;
-        private Player _defender;
+        private readonly Player _attacker;
+        private readonly Player _defender;
 
         public GetAttackDetailsQueryHandlerTests() {
             _attacker = AddPlayer(1, "attacker@test.com", "Attacker 1");

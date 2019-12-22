@@ -63,7 +63,7 @@
     <Compile Include="Empires\GetTaxQueryHandler.cs" />
     <Compile Include="Empires\GetTroopsQueryHandler.cs" />
     <Compile Include="Empires\GetWorkersQueryHandler.cs" />
-    <Compile Include="Empires\ResourcesMap.cs" />
+    <Compile Include="Common\ResourcesMap.cs" />
     <Compile Include="Events\GetScheduledTasksPausedQueryHandler.cs" />
     <Compile Include="IQueryHandler.cs" />
     <Compile Include="Messages\GetMessageRecipientQueryHandler.cs" />

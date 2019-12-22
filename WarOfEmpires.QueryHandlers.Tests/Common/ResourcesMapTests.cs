@@ -1,9 +1,9 @@
 ﻿using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using WarOfEmpires.Domain.Common;
-using WarOfEmpires.QueryHandlers.Empires;
+using WarOfEmpires.QueryHandlers.Common;
 
-namespace WarOfEmpires.QueryHandlers.Tests.Empires {
+namespace WarOfEmpires.QueryHandlers.Tests.Common {
     [TestClass]
     public sealed class ResourcesMapTests {
         [TestMethod]

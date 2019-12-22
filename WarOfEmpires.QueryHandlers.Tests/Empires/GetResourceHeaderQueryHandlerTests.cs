@@ -5,6 +5,7 @@ using WarOfEmpires.Domain.Common;
 using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Queries.Empires;
+using WarOfEmpires.QueryHandlers.Common;
 using WarOfEmpires.QueryHandlers.Empires;
 using WarOfEmpires.Test.Utilities;
 

@@ -1,7 +1,7 @@
 ﻿using WarOfEmpires.Domain.Common;
 using WarOfEmpires.Models.Empires;
 
-namespace WarOfEmpires.QueryHandlers.Empires {
+namespace WarOfEmpires.QueryHandlers.Common {
     public sealed class ResourcesMap {
         public ResourcesViewModel ToViewModel(Resources resources) {
             return new ResourcesViewModel() {

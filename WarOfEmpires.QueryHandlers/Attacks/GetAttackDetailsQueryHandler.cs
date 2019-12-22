@@ -3,7 +3,7 @@ using WarOfEmpires.Database;
 using WarOfEmpires.Models.Attacks;
 using WarOfEmpires.Queries.Attacks;
 using WarOfEmpires.QueryHandlers.Decorators;
-using WarOfEmpires.QueryHandlers.Empires;
+using WarOfEmpires.QueryHandlers.Common;
 using WarOfEmpires.Utilities.Container;
 using WarOfEmpires.Utilities.Services;
 
