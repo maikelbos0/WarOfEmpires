@@ -54,6 +54,7 @@
     <Compile Include="Attacks\AttackResult.cs" />
     <Compile Include="Attacks\AttackRound.cs" />
     <Compile Include="Attacks\Attack.cs" />
+    <Compile Include="Empires\SequenceGeneratorFactory.cs" />
     <Compile Include="Players\Casualties.cs" />
     <Compile Include="Attacks\TroopType.cs" />
     <Compile Include="Auditing\QueryExecution.cs" />
