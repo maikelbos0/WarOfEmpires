@@ -1,0 +1,37 @@
+﻿@model WarOfEmpires.Models.Empires.BuildingUpgradesViewModel
+
+@{
+    ViewBag.Title = $"{Model.Name} - Upgrades";
+}
+
+<h2>@Model.Name - Upgrades</h2>
+
+<p>Here you can see the cost and bonus you'll get for upgrading your @Model.Name.</p>
+
+<table class="site-table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Gold</th>
+            <th>Food</th>
+            <th>Wood</th>
+            <th>Stone</th>
+            <th>Ore</th>
+            <th>Bonus</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var upgrade in Model.Upgrades) {
+        <tr>
+            <td>@upgrade.Name</td>
+            <td>@upgrade.Resources.Gold</td>
+            <td>@upgrade.Resources.Food</td>
+            <td>@upgrade.Resources.Wood</td>
+            <td>@upgrade.Resources.Stone</td>
+            <td>@upgrade.Resources.Ore</td>
+            <td>@upgrade.Bonus</td>
+        </tr>
+        }
+    </tbody>
+</table>

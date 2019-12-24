@@ -82,6 +82,7 @@
     <Compile Include="Decorators\AuditDecoratorTests.cs" />
     <Compile Include="Empires\GetBuildingQueryHandlerTests.cs" />
     <Compile Include="Empires\GetBuildingTotalsQueryHandlerTests.cs" />
+    <Compile Include="Empires\GetBuildingUpgradesQueryHandlerTests.cs" />
     <Compile Include="Empires\GetHousingTotalsQueryHandlerTests.cs" />
     <Compile Include="Empires\GetResourceHeaderQueryHandlerTests.cs" />
     <Compile Include="Empires\GetTaxQueryHandlerTests.cs" />

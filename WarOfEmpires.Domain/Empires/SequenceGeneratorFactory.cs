@@ -1,6 +1,12 @@
-﻿namespace WarOfEmpires.Domain.Empires {
+﻿using WarOfEmpires.Domain.Common;
+
+namespace WarOfEmpires.Domain.Empires {
     public static class SequenceGeneratorFactory {
-        private static readonly int[] _seed = { 2, 3, 5, 8, 13 };
+        private static readonly int[] _seed = { 2, 3, 5, 8, 12 };
+
+        public static ExpressionGenerator<Resources>.GeneratorFunction GetGeneratorFunction(Resources multiplier) {
+            return (int level, int levelOffset) => GetValue(level) * multiplier;
+        }
 
         public static ExpressionGenerator<int>.GeneratorFunction GetGeneratorFunction(int multiplier) {
             return (int level, int levelOffset) => GetValue(level) * multiplier;

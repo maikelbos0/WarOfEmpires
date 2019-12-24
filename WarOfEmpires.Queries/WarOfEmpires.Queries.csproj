@@ -47,6 +47,7 @@
     <Compile Include="Attacks\GetReceivedAttacksQuery.cs" />
     <Compile Include="Empires\GetBuildingQuery.cs" />
     <Compile Include="Empires\GetBuildingTotalsQuery.cs" />
+    <Compile Include="Empires\GetBuildingUpgradesQuery.cs" />
     <Compile Include="Empires\GetHousingTotalsQuery.cs" />
     <Compile Include="Empires\GetResourceHeaderQuery.cs" />
     <Compile Include="Empires\GetTaxQuery.cs" />

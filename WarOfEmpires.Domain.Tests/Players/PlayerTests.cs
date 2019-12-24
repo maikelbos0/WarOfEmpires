@@ -50,8 +50,8 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
             player.Buildings.Add(new Building(player, BuildingType.Farm, 8));
             player.Buildings.Add(new Building(player, BuildingType.Lumberyard, 8));
-            player.Buildings.Add(new Building(player, BuildingType.Quarry, 8));
-            player.Buildings.Add(new Building(player, BuildingType.Mine, 8));
+            player.Buildings.Add(new Building(player, BuildingType.Quarry, 7));
+            player.Buildings.Add(new Building(player, BuildingType.Mine, 7));
 
             while (player.Peasants == previousPeasants) {
                 player.Recruit();
@@ -392,11 +392,11 @@ namespace WarOfEmpires.Domain.Tests.Players {
         public void Player_GetTheoreticalRecruitsPerDay_Maximum_Is_25() {
             var player = new Player(0, "Test");
 
-            player.Buildings.Add(new Building(player, BuildingType.Farm, 100));
-            player.Buildings.Add(new Building(player, BuildingType.Lumberyard, 100));
-            player.Buildings.Add(new Building(player, BuildingType.Quarry, 100));
-            player.Buildings.Add(new Building(player, BuildingType.Mine, 100));
-            player.Buildings.Add(new Building(player, BuildingType.Defences, 25));
+            player.Buildings.Add(new Building(player, BuildingType.Farm, 15));
+            player.Buildings.Add(new Building(player, BuildingType.Lumberyard, 15));
+            player.Buildings.Add(new Building(player, BuildingType.Quarry, 15));
+            player.Buildings.Add(new Building(player, BuildingType.Mine, 15));
+            player.Buildings.Add(new Building(player, BuildingType.Defences, 15));
 
             player.GetTheoreticalRecruitsPerDay().Should().Be(25);
         }
@@ -461,7 +461,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
             player.Buildings.Add(new Building(player, BuildingType.Quarry, 2));
             player.Buildings.Add(new Building(player, BuildingType.Mine, 2));
 
-            player.GetTotalGoldSpentOnBuildings().Should().Be(1480000);
+            player.GetTotalGoldSpentOnBuildings().Should().Be(1580000);
         }
 
         [TestMethod]

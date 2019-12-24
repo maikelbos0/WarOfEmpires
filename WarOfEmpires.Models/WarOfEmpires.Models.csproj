@@ -50,6 +50,8 @@
     <Compile Include="DataGridViewMetaData.cs" />
     <Compile Include="Empires\BuildingModel.cs" />
     <Compile Include="Empires\BuildingTotalsViewModel.cs" />
+    <Compile Include="Empires\BuildingUpgradesViewModel.cs" />
+    <Compile Include="Empires\BuildingUpgradeViewModel.cs" />
     <Compile Include="Empires\HousingTotalsViewModel.cs" />
     <Compile Include="Empires\ResourceHeaderViewModel.cs" />
     <Compile Include="Empires\ResourcesViewModel.cs" />

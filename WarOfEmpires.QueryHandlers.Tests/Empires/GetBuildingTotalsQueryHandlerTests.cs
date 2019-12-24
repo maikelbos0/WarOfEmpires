@@ -41,7 +41,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
 
             var result = handler.Execute(query);
 
-            result.TotalGoldSpent.Should().Be(1480000);
+            result.TotalGoldSpent.Should().Be(1580000);
             result.NextRecruitingLevel.Should().Be(2000000);
         }
     }

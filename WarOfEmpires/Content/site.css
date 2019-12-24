@@ -143,3 +143,7 @@ body {
     background-color: var(--btn-primary-hover-color);
     border-color: var(--btn-primary-hover-color);
 }
+
+.site-table {
+    width: 100%;
+}
