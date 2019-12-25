@@ -18,6 +18,11 @@ namespace WarOfEmpires.Domain.Empires {
             _buildings.Add(BuildingType.Defences, GenerateDefences());
             _buildings.Add(BuildingType.Huts, GenerateHuts());
             _buildings.Add(BuildingType.Barracks, GenerateBarracks());
+            _buildings.Add(BuildingType.GoldBank, GenerateGoldBank());
+            _buildings.Add(BuildingType.FoodBank, GenerateFoodBank());
+            _buildings.Add(BuildingType.WoodBank, GenerateWoodBank());
+            _buildings.Add(BuildingType.StoneBank, GenerateStoneBank());
+            _buildings.Add(BuildingType.OreBank, GenerateOreBank());
         }
 
         private static BuildingDefinition GenerateFarm() {
@@ -146,6 +151,81 @@ namespace WarOfEmpires.Domain.Empires {
                 new ExpressionGenerator<string>((int level, int levelOffset) => $"Your barracks provide the housing for your troops; each barracks houses 10 troops and your current capacity is {level * 10}"),
                 costs,
                 new ExpressionGenerator<int>((int currentLevel, int levelOffset) => currentLevel * 10)
+            );
+        }
+        
+        private static BuildingDefinition GenerateGoldBank() {
+            var descriptions = new ExpressionGenerator<string>("Your gold bank allows you to safely store gold away from attackers");
+            descriptions.Add(1, SequenceGeneratorFactory.GetGeneratorFunction((value) => $"Your gold bank allows you to safely store gold away from attackers; your current capacity is {value * 25000} gold"));
+
+            var bonuses = new ExpressionGenerator<int>(0);
+            bonuses.Add(1, SequenceGeneratorFactory.GetGeneratorFunction(25000));
+
+            return new BuildingDefinition(
+                new ExpressionGenerator<string>((int level, int levelOffset) => $"Gold bank (level {level})"),
+                descriptions,
+                new ExpressionGenerator<Resources>(SequenceGeneratorFactory.GetGeneratorFunction(new Resources(gold: 10000, wood: 250, stone: 1000, ore: 500))),
+                bonuses
+            );
+        }
+
+        private static BuildingDefinition GenerateFoodBank() {
+            var descriptions = new ExpressionGenerator<string>("Your food bank allows you to safely store food away from attackers");
+            descriptions.Add(1, SequenceGeneratorFactory.GetGeneratorFunction((value) => $"Your food bank allows you to safely store food away from attackers; your current capacity is {value * 10000} food"));
+
+            var bonuses = new ExpressionGenerator<int>(0);
+            bonuses.Add(1, SequenceGeneratorFactory.GetGeneratorFunction(10000));
+
+            return new BuildingDefinition(
+                new ExpressionGenerator<string>((int level, int levelOffset) => $"Food bank (level {level})"),
+                descriptions,
+                new ExpressionGenerator<Resources>(SequenceGeneratorFactory.GetGeneratorFunction(new Resources(gold: 10000, wood: 500, stone: 1000, ore: 250))),
+                bonuses
+            );
+        }
+
+        private static BuildingDefinition GenerateWoodBank() {
+            var descriptions = new ExpressionGenerator<string>("Your wood bank allows you to safely store wood away from attackers");
+            descriptions.Add(1, SequenceGeneratorFactory.GetGeneratorFunction((value) => $"Your wood bank allows you to safely store wood away from attackers; your current capacity is {value * 10000} wood"));
+
+            var bonuses = new ExpressionGenerator<int>(0);
+            bonuses.Add(1, SequenceGeneratorFactory.GetGeneratorFunction(10000));
+
+            return new BuildingDefinition(
+                new ExpressionGenerator<string>((int level, int levelOffset) => $"Wood bank (level {level})"),
+                descriptions,
+                new ExpressionGenerator<Resources>(SequenceGeneratorFactory.GetGeneratorFunction(new Resources(gold: 10000, wood: 500, stone: 1000, ore: 250))),
+                bonuses
+            );
+        }
+
+        private static BuildingDefinition GenerateStoneBank() {
+            var descriptions = new ExpressionGenerator<string>("Your stone bank allows you to safely store stone away from attackers");
+            descriptions.Add(1, SequenceGeneratorFactory.GetGeneratorFunction((value) => $"Your stone bank allows you to safely store stone away from attackers; your current capacity is {value * 10000} stone"));
+
+            var bonuses = new ExpressionGenerator<int>(0);
+            bonuses.Add(1, SequenceGeneratorFactory.GetGeneratorFunction(10000));
+
+            return new BuildingDefinition(
+                new ExpressionGenerator<string>((int level, int levelOffset) => $"Stone bank (level {level})"),
+                descriptions,
+                new ExpressionGenerator<Resources>(SequenceGeneratorFactory.GetGeneratorFunction(new Resources(gold: 10000, wood: 500, stone: 1000, ore: 250))),
+                bonuses
+            );
+        }
+
+        private static BuildingDefinition GenerateOreBank() {
+            var descriptions = new ExpressionGenerator<string>("Your ore bank allows you to safely store ore away from attackers");
+            descriptions.Add(1, SequenceGeneratorFactory.GetGeneratorFunction((value) => $"Your ore bank allows you to safely store ore away from attackers; your current capacity is {value * 10000} ore"));
+
+            var bonuses = new ExpressionGenerator<int>(0);
+            bonuses.Add(1, SequenceGeneratorFactory.GetGeneratorFunction(10000));
+
+            return new BuildingDefinition(
+                new ExpressionGenerator<string>((int level, int levelOffset) => $"Ore bank (level {level})"),
+                descriptions,
+                new ExpressionGenerator<Resources>(SequenceGeneratorFactory.GetGeneratorFunction(new Resources(gold: 10000, wood: 500, stone: 1000, ore: 250))),
+                bonuses
             );
         }
 

@@ -125,5 +125,11 @@ namespace WarOfEmpires.Controllers {
         public ActionResult BuildingUpgrades(string buildingType) {
             return View(_messageService.Dispatch(new GetBuildingUpgradesQuery(_authenticationService.Identity, buildingType)));
         }
+
+        [Route("BankBuildings")]
+        [HttpGet]
+        public ActionResult BankBuildings() {
+            return View();
+        }
     }
 }

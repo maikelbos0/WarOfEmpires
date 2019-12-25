@@ -11,6 +11,11 @@
         FootmanRange = 9,
         Defences = 10,
         Huts = 11,
-        Barracks = 12
+        Barracks = 12,
+        GoldBank = 13,
+        FoodBank = 14,
+        WoodBank = 15,
+        StoneBank = 16,
+        OreBank = 17
     }
 }

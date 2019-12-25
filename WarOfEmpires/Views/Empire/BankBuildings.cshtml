@@ -1,0 +1,46 @@
+﻿@{
+    ViewBag.Title = "Bank buildings";
+}
+
+<h2>Bank buildings</h2>
+
+<p>
+    Here you can upgrade your gold and resource banks to hide your resources from enemies.
+</p>
+
+<div id="empire-building-totals" class="partial-content">
+</div>
+
+<div class="row">
+    <div class="col-4 partial-content">
+        @{
+            Html.RenderAction("_Building", "Empire", new { BuildingType = "FoodBank" });
+        }
+    </div>
+
+    <div class="col-4 partial-content">
+        @{
+            Html.RenderAction("_Building", "Empire", new { BuildingType = "WoodBank" });
+        }
+    </div>
+
+    <div class="col-4 partial-content">
+        @{
+            Html.RenderAction("_Building", "Empire", new { BuildingType = "GoldBank" });
+        }
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-4 partial-content">
+        @{
+            Html.RenderAction("_Building", "Empire", new { BuildingType = "StoneBank" });
+        }
+    </div>
+
+    <div class="col-4 partial-content">
+        @{
+            Html.RenderAction("_Building", "Empire", new { BuildingType = "OreBank" });
+        }
+    </div>
+</div>
