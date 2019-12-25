@@ -25,12 +25,12 @@
         @foreach (var upgrade in Model.Upgrades) {
         <tr>
             <td>@upgrade.Name</td>
-            <td>@upgrade.Resources.Gold</td>
-            <td>@upgrade.Resources.Food</td>
-            <td>@upgrade.Resources.Wood</td>
-            <td>@upgrade.Resources.Stone</td>
-            <td>@upgrade.Resources.Ore</td>
-            <td>@upgrade.Bonus</td>
+            <td>@upgrade.Resources.Gold.ToString(StringFormat.Integer)</td>
+            <td>@upgrade.Resources.Food.ToString(StringFormat.Integer)</td>
+            <td>@upgrade.Resources.Wood.ToString(StringFormat.Integer)</td>
+            <td>@upgrade.Resources.Stone.ToString(StringFormat.Integer)</td>
+            <td>@upgrade.Resources.Ore.ToString(StringFormat.Integer)</td>
+            <td>@upgrade.Bonus.ToString(StringFormat.Integer)</td>
         </tr>
         }
     </tbody>

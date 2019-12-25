@@ -21,13 +21,13 @@
 <div class="row">
     <div class="col-3">Date</div>
 
-    <div class="col-9">@Model.DateString</div>
+    <div class="col-9">@Model.Date.ToString(StringFormat.Date)</div>
 </div>
 
 <div class="row">
     <div class="col-3">Number of turns</div>
 
-    <div class="col-9">@Model.Turns</div>
+    <div class="col-9">@Model.Turns.ToString(StringFormat.Integer)</div>
 </div>
 
 <div class="row">
@@ -38,16 +38,17 @@
 
 @foreach (var round in Model.Rounds) {
     <p>
-        <strong>@round.Attacker</strong>'s @round.Troops @round.TroopType charge at the enemy and attack for @round.Damage damage.
-        <strong>@round.MercenaryCasualties mercenaries and @round.SoldierCasualties soldiers</strong> die as a result.
+        <strong>@round.Attacker</strong>'s @round.Troops.ToString(StringFormat.Integer) @round.TroopType charge at the enemy and attack for @round.Damage.ToString(StringFormat.Integer) damage.
+        <strong>@round.MercenaryCasualties.ToString(StringFormat.Integer) mercenaries and @round.SoldierCasualties.ToString(StringFormat.Integer) soldiers</strong> die as a result.
     </p>
 }
 
 @if (@Model.Result == "Won" || @Model.Result == "Surrendered") {
     <p>
         <strong>
-            @Model.Attacker's troops are victorious and take @Model.Resources.Gold gold, @Model.Resources.Food food, @Model.Resources.Wood woord,
-            @Model.Resources.Stone stone and @Model.Resources.Ore ore as tribute.
+            @Model.Attacker's troops are victorious and take @Model.Resources.Gold.ToString(StringFormat.Integer) gold, @Model.Resources.Food.ToString(StringFormat.Integer) food,
+            @Model.Resources.Wood.ToString(StringFormat.Integer) wood, @Model.Resources.Stone.ToString(StringFormat.Integer) stone and
+            @Model.Resources.Ore.ToString(StringFormat.Integer) ore as tribute.
         </strong>
     </p>
 }

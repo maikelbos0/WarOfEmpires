@@ -77,6 +77,11 @@
     <Compile Include="Security\RegisterUserModel.cs" />
     <Compile Include="EntityViewModel.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\WarOfEmpires.Utilities\WarOfEmpires.Utilities.csproj">
+      <Project>{D4E722C8-0CD3-47C9-A479-CA3FA83FA225}</Project>
+      <Name>WarOfEmpires.Utilities</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

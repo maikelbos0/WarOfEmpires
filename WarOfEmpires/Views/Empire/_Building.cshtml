@@ -21,22 +21,22 @@
 
 <ul>
     @if (Model.UpdateCost.Gold > 0) {
-        <li>@Model.UpdateCost.Gold <span class="si si-gold"></span></li>
+        <li>@Model.UpdateCost.Gold.ToString(StringFormat.Integer) <span class="si si-gold"></span></li>
     }
 
     @if (Model.UpdateCost.Food > 0) {
-        <li>@Model.UpdateCost.Food <span class="si si-food"></span></li>
+        <li>@Model.UpdateCost.Food.ToString(StringFormat.Integer) <span class="si si-food"></span></li>
     }
 
     @if (Model.UpdateCost.Wood > 0) {
-        <li>@Model.UpdateCost.Wood <span class="si si-wood"></span></li>
+        <li>@Model.UpdateCost.Wood.ToString(StringFormat.Integer) <span class="si si-wood"></span></li>
     }
 
     @if (Model.UpdateCost.Stone > 0) {
-        <li>@Model.UpdateCost.Stone <span class="si si-stone"></span></li>
+        <li>@Model.UpdateCost.Stone.ToString(StringFormat.Integer) <span class="si si-stone"></span></li>
     }
 
     @if (Model.UpdateCost.Ore > 0) {
-        <li>@Model.UpdateCost.Ore <span class="si si-ore"></span></li>
+        <li>@Model.UpdateCost.Ore.ToString(StringFormat.Integer) <span class="si si-ore"></span></li>
     }
 </ul>

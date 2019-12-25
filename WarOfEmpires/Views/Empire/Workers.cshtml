@@ -12,8 +12,8 @@
 
 <ul>
     <li>Peasants available for training: @Model.CurrentPeasants</li>
-    <li>Gold production per turn: @Model.CurrentGoldPerTurn <span class="si si-gold" /></li>
-    <li>Upkeep per turn: @Model.GoldUpkeepPerTurn <span class="si si-gold"></span> @Model.FoodUpkeepPerTurn <span class="si si-food"></span></li>
+    <li>Gold production per turn: @Model.CurrentGoldPerTurn.ToString(StringFormat.Integer) <span class="si si-gold" /></li>
+    <li>Upkeep per turn: @Model.GoldUpkeepPerTurn.ToString(StringFormat.Integer) <span class="si si-gold"></span> @Model.FoodUpkeepPerTurn.ToString(StringFormat.Integer) <span class="si si-food"></span></li>
     <li>Recruits per day: @Model.RecruitsPerDay</li>
 
     @if (Model.HasUpkeepRunOut) {

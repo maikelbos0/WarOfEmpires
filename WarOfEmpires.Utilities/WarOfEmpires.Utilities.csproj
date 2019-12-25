@@ -102,6 +102,7 @@
     <Compile Include="Events\EventService.cs" />
     <Compile Include="Events\IEventHandler.cs" />
     <Compile Include="Events\IEventService.cs" />
+    <Compile Include="Formatting\StringFormat.cs" />
     <Compile Include="Mail\ActivationMailTemplate.cs" />
     <Compile Include="Mail\ActivationMailTemplateParameters.cs" />
     <Compile Include="Mail\ConfirmEmailMailTemplate.cs" />
