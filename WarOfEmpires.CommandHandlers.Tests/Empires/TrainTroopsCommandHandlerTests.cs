@@ -25,7 +25,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
             user.Status.Returns(UserStatus.Active);
 
             var player = Substitute.For<Player>();
-            player.GetBarracksCapacity().Returns(20);
+            player.GetAvailableBarracksCapacity().Returns(20);
             player.User.Returns(user);
             player.Peasants.Returns(30);
             player.Resources.Returns(new Resources(gold: 500000, wood: 50000, ore: 100000));
@@ -157,7 +157,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
         [DataRow(0, 0, 0, 0, 31, 0, DisplayName = "Footmen")]
         [DataRow(11, 0, 11, 0, 11, 0, DisplayName = "All")]
         public void TrainTroopsCommandHandler_Fails_For_Too_High_TroopCounts(int archers, int mercenaryArchers, int cavalry, int mercenaryCavalry, int footmen, int mercenaryFootmen) {
-            _player.GetBarracksCapacity().Returns(40);
+            _player.GetAvailableBarracksCapacity().Returns(40);
 
             var handler = new TrainTroopsCommandHandler(_repository);
             var command = new TrainTroopsCommand("test@test.com", archers.ToString(), mercenaryArchers.ToString(), cavalry.ToString(), mercenaryCavalry.ToString(), footmen.ToString(), mercenaryFootmen.ToString());

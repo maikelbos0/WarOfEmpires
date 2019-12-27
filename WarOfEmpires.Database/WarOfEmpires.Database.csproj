@@ -126,6 +126,10 @@
     <Compile Include="Migrations\201912221219297_Players-Upkeep.Designer.cs">
       <DependentUpon>201912221219297_Players-Upkeep.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201912271846429_Players-BankedResources.cs" />
+    <Compile Include="Migrations\201912271846429_Players-BankedResources.Designer.cs">
+      <DependentUpon>201912271846429_Players-BankedResources.cs</DependentUpon>
+    </Compile>
     <Compile Include="ReferenceEntities\AttackResultEntity.cs" />
     <Compile Include="ReferenceEntities\BaseReferenceEntity.cs" />
     <Compile Include="IWarContext.cs" />
@@ -209,6 +213,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201912221219297_Players-Upkeep.resx">
       <DependentUpon>201912221219297_Players-Upkeep.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201912271846429_Players-BankedResources.resx">
+      <DependentUpon>201912271846429_Players-BankedResources.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

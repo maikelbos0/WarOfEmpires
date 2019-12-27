@@ -26,7 +26,7 @@ namespace WarOfEmpires.QueryHandlers.Empires {
                 BarracksOccupancy = player.Archers.GetTotals() + player.Cavalry.GetTotals() + player.Footmen.GetTotals(),
                 HutCapacity = player.Buildings.SingleOrDefault(b => b.Type == BuildingType.Huts).Level * 10,
                 HutOccupancy = player.Peasants + player.Farmers + player.WoodWorkers + player.StoneMasons + player.OreMiners,
-                HasHousingShortage = player.GetTheoreticalRecruitsPerDay() > player.GetHousingCapacity()
+                HasHousingShortage = player.GetTheoreticalRecruitsPerDay() > player.GetAvailableHousingCapacity()
             };
         }
     }

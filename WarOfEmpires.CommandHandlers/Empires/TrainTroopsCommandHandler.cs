@@ -58,7 +58,7 @@ namespace WarOfEmpires.CommandHandlers.Empires {
                 result.AddError("You don't have that many peasants available to train");
             }
 
-            if (archers + cavalry + footmen + mercenaryArchers + mercenaryCavalry + mercenaryFootmen > player.GetBarracksCapacity()) {
+            if (archers + cavalry + footmen + mercenaryArchers + mercenaryCavalry + mercenaryFootmen > player.GetAvailableBarracksCapacity()) {
                 result.AddError("You don't have enough barracks available to train that many troops");
             }
 

@@ -90,7 +90,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
 
         [TestMethod]
         public void GetNotificationsQueryHandler_HasHousingShortate_Is_True_For_Shortage() {
-            _player.GetHousingCapacity().Returns(4);
+            _player.GetAvailableHousingCapacity().Returns(4);
             _player.GetTheoreticalRecruitsPerDay().Returns(5);
 
             var handler = new GetNotificationsQueryHandler(_context);
@@ -103,7 +103,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
 
         [TestMethod]
         public void GetNotificationsQueryHandler_HasHousingShortate_Is_False_For_Enough_Room() {
-            _player.GetHousingCapacity().Returns(5);
+            _player.GetAvailableHousingCapacity().Returns(5);
             _player.GetTheoreticalRecruitsPerDay().Returns(5);
 
             var handler = new GetNotificationsQueryHandler(_context);

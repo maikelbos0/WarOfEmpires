@@ -42,6 +42,7 @@ namespace WarOfEmpires.Domain.Players {
         public virtual int StoneMasons { get; protected set; }
         public virtual int OreMiners { get; protected set; }
         public virtual Resources Resources { get; protected set; } = new Resources(10000, 2000, 2000, 2000, 2000);
+        public virtual Resources BankedResources { get; protected set; } = new Resources();
         public virtual int Tax { get; set; } = 50;
         public virtual Troops Archers { get; protected set; } = new Troops(0, 0);
         public virtual Troops Cavalry { get; protected set; } = new Troops(0, 0);
@@ -154,6 +155,20 @@ namespace WarOfEmpires.Domain.Players {
             }
         }
 
+        public virtual Resources GetBankCapacity() {
+            return new Resources(
+                GetBuildingBonus(BuildingType.GoldBank),
+                GetBuildingBonus(BuildingType.FoodBank),
+                GetBuildingBonus(BuildingType.WoodBank),
+                GetBuildingBonus(BuildingType.StoneBank),
+                GetBuildingBonus(BuildingType.OreBank)
+            );
+        }
+
+        public virtual Resources GetAvailableBankCapacity() {
+            return GetBankCapacity() - BankedResources;
+        }
+
         public virtual Resources GetResourcesPerTurn() {
             return new Resources(
                 GetGoldPerTurn(),
@@ -238,16 +253,16 @@ namespace WarOfEmpires.Domain.Players {
             return (100m + GetBuildingBonus(type)) / 100m;
         }
 
-        public virtual int GetBarracksCapacity() {
+        public virtual int GetAvailableBarracksCapacity() {
             return GetBuildingBonus(BuildingType.Barracks) - Archers.GetTotals() - Cavalry.GetTotals() - Footmen.GetTotals();
         }
 
-        public virtual int GetHutCapacity() {
+        public virtual int GetAvailableHutCapacity() {
             return GetBuildingBonus(BuildingType.Huts) - Peasants - Farmers - WoodWorkers - StoneMasons - OreMiners;
         }
 
-        public virtual int GetHousingCapacity() {
-            var housingCapacity = GetBarracksCapacity() + GetHutCapacity();
+        public virtual int GetAvailableHousingCapacity() {
+            var housingCapacity = GetAvailableBarracksCapacity() + GetAvailableHutCapacity();
 
             if (housingCapacity < 0) {
                 return 0;
@@ -279,7 +294,7 @@ namespace WarOfEmpires.Domain.Players {
         }
 
         public virtual int GetRecruitsPerDay() {
-            var housingCapacity = GetHousingCapacity();
+            var housingCapacity = GetAvailableHousingCapacity();
             var recruiting = GetTheoreticalRecruitsPerDay();
 
             return Math.Min(housingCapacity, recruiting);

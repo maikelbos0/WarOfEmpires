@@ -27,7 +27,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
             player.User.Returns(user);
             player.Peasants.Returns(10);
             player.Resources.Returns(new Resources(gold: 10000));
-            player.GetHutCapacity().Returns(20);
+            player.GetAvailableHutCapacity().Returns(20);
 
             _context.Users.Add(user);
             _context.Players.Add(player);

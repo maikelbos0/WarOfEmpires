@@ -402,17 +402,17 @@ namespace WarOfEmpires.Domain.Tests.Players {
         }
 
         [TestMethod]
-        public void Player_GetHousingCapacity_Succeeds() {
+        public void Player_GetAvailableHousingCapacity_Succeeds() {
             var player = new Player(0, "Test");
 
             typeof(Player).GetProperty(nameof(Player.Archers)).SetValue(player, new Troops(19, 0));
             typeof(Player).GetProperty(nameof(Player.Peasants)).SetValue(player, 10);
 
-            player.GetHousingCapacity().Should().Be(11);
+            player.GetAvailableHousingCapacity().Should().Be(11);
         }
 
         [TestMethod]
-        public void Player_GetHousingCapacity_Succeeds_For_Crowded_Barracks() {
+        public void Player_GetAvailableHousingCapacity_Succeeds_For_Crowded_Barracks() {
             var player = new Player(0, "Test");
 
             typeof(Player).GetProperty(nameof(Player.Archers)).SetValue(player, new Troops(6, 1));
@@ -420,11 +420,11 @@ namespace WarOfEmpires.Domain.Tests.Players {
             typeof(Player).GetProperty(nameof(Player.Footmen)).SetValue(player, new Troops(6, 1));
             typeof(Player).GetProperty(nameof(Player.Peasants)).SetValue(player, 10);
 
-            player.GetHousingCapacity().Should().Be(9);
+            player.GetAvailableHousingCapacity().Should().Be(9);
         }
 
         [TestMethod]
-        public void Player_GetHousingCapacity_Succeeds_For_Crowded_Huts() {
+        public void Player_GetAvailableHousingCapacity_Succeeds_For_Crowded_Huts() {
             var player = new Player(0, "Test");
 
             typeof(Player).GetProperty(nameof(Player.Peasants)).SetValue(player, 5);
@@ -433,7 +433,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
             typeof(Player).GetProperty(nameof(Player.StoneMasons)).SetValue(player, 4);
             typeof(Player).GetProperty(nameof(Player.OreMiners)).SetValue(player, 4);
 
-            player.GetHousingCapacity().Should().Be(19);
+            player.GetAvailableHousingCapacity().Should().Be(19);
         }
 
         [TestMethod]
@@ -678,6 +678,40 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
             player.ProcessAttack(defender, player.GetUpkeepPerTurn() - new Resources(food: 1), 1);
             player.HasUpkeepRunOut.Should().BeTrue();
+        }
+
+        [TestMethod]
+        public void Player_GetBankCapacity_Succeeds_For_No_Bank_Buildings() {
+            var player = new Player(0, "Test");
+
+            player.GetBankCapacity().Should().Be(new Resources());
+        }
+
+        [TestMethod]
+        public void Player_GetBankCapacity_Succeeds_For_Available_Bank_Buildings() {
+            var player = new Player(0, "Test");
+
+            player.Buildings.Add(new Building(player, BuildingType.GoldBank, 1));
+            player.Buildings.Add(new Building(player, BuildingType.FoodBank, 2));
+            player.Buildings.Add(new Building(player, BuildingType.WoodBank, 3));
+            player.Buildings.Add(new Building(player, BuildingType.StoneBank, 4));
+            player.Buildings.Add(new Building(player, BuildingType.OreBank, 5));
+
+            player.GetBankCapacity().Should().Be(new Resources(50000, 30000, 50000, 80000, 120000));
+        }
+
+        [TestMethod]
+        public void Player_GetAvailableBankCapacity_Succeeds() {
+            var player = new Player(0, "Test");
+
+            typeof(Player).GetProperty(nameof(Player.BankedResources)).SetValue(player, new Resources(5000, 4000, 3000, 2000, 1000));
+            player.Buildings.Add(new Building(player, BuildingType.GoldBank, 1));
+            player.Buildings.Add(new Building(player, BuildingType.FoodBank, 2));
+            player.Buildings.Add(new Building(player, BuildingType.WoodBank, 3));
+            player.Buildings.Add(new Building(player, BuildingType.StoneBank, 4));
+            player.Buildings.Add(new Building(player, BuildingType.OreBank, 5));
+
+            player.GetAvailableBankCapacity().Should().Be(new Resources(45000, 26000, 47000, 78000, 119000));
         }
     }
 }

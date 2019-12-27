@@ -36,7 +36,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
             player.WoodWorkers.Returns(12);
             player.StoneMasons.Returns(2);
             player.OreMiners.Returns(1);
-            player.GetHousingCapacity().Returns(4);
+            player.GetAvailableHousingCapacity().Returns(4);
             player.GetTheoreticalRecruitsPerDay().Returns(5);
 
             _context.Users.Add(user);

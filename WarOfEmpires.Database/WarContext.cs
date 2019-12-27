@@ -82,6 +82,11 @@ namespace WarOfEmpires.Database {
             players.Property(p => p.Resources.Wood).HasColumnName("Wood");
             players.Property(p => p.Resources.Stone).HasColumnName("Stone");
             players.Property(p => p.Resources.Ore).HasColumnName("Ore");
+            players.Property(p => p.BankedResources.Gold).HasColumnName("BankedGold");
+            players.Property(p => p.BankedResources.Food).HasColumnName("BankedFood");
+            players.Property(p => p.BankedResources.Wood).HasColumnName("BankedWood");
+            players.Property(p => p.BankedResources.Stone).HasColumnName("BankedStone");
+            players.Property(p => p.BankedResources.Ore).HasColumnName("BankedOre");
             players.Property(p => p.Archers.Soldiers).HasColumnName("Archers");
             players.Property(p => p.Archers.Mercenaries).HasColumnName("MercenaryArchers");
             players.Property(p => p.Cavalry.Soldiers).HasColumnName("Cavalry");
