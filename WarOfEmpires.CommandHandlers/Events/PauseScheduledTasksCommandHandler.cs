@@ -17,7 +17,9 @@ namespace WarOfEmpires.CommandHandlers.Events {
             var result = new CommandResult<PauseScheduledTasksCommand>();
 
             foreach (var task in _repository.GetAll()) {
-                task.Pause();
+                if (!task.IsPaused) {
+                    task.Pause();
+                }
             }
 
             _repository.Update();

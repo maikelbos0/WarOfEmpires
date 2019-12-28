@@ -82,6 +82,13 @@ namespace WarOfEmpires.Database.Migrations {
                 context.ScheduledTasks.Add(turnTask);
             }
 
+            var bankTurnTask = context.ScheduledTasks.SingleOrDefault(t => t.EventType == typeof(Empires.BankTurnTaskTriggeredEvent).AssemblyQualifiedName);
+
+            if (bankTurnTask == null) {
+                bankTurnTask = Events.ScheduledTask.Create<Empires.BankTurnTaskTriggeredEvent>(new TimeSpan(4, 0, 0));
+                context.ScheduledTasks.Add(bankTurnTask);
+            }
+
             context.SaveChanges();
         }
     }

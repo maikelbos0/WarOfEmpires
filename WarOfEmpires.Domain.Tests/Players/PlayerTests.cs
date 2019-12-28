@@ -743,5 +743,15 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
             player.GetBankableResources().Should().Be(new Resources(6000, 5000, 4000, 3000, 2000));
         }
+
+        [TestMethod]
+        public void Player_AddBankTurn_Adds_BankTurn() {
+            var player = new Player(0, "Test");
+            var previousBankTurns = player.BankTurns;
+
+            player.AddBankTurn();
+
+            player.BankTurns.Should().Be(previousBankTurns + 1);
+        }
     }
 }

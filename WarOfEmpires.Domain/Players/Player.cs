@@ -48,6 +48,7 @@ namespace WarOfEmpires.Domain.Players {
         public virtual Troops Cavalry { get; protected set; } = new Troops(0, 0);
         public virtual Troops Footmen { get; protected set; } = new Troops(0, 0);
         public virtual int AttackTurns { get; protected set; } = 50;
+        public virtual int BankTurns { get; protected set; } = 6;
         public virtual int Stamina { get; protected set; } = 100;
         public virtual bool HasUpkeepRunOut { get; protected set; } = false;
         public virtual ICollection<Building> Buildings { get; protected set; } = new List<Building>();
@@ -144,17 +145,6 @@ namespace WarOfEmpires.Domain.Players {
             return new Casualties(archerCasualties, cavalryCasualties, footmanCasualties);
         }
 
-        public virtual void Recruit() {
-            CurrentRecruitingEffort += GetRecruitsPerDay();
-
-            if (CurrentRecruitingEffort >= RecruitingEffortStep) {
-                var newRecruits = CurrentRecruitingEffort / RecruitingEffortStep;
-
-                CurrentRecruitingEffort -= newRecruits * RecruitingEffortStep;
-                Peasants += newRecruits;
-            }
-        }
-
         public virtual Resources GetBankCapacity() {
             return new Resources(
                 GetBuildingBonus(BuildingType.GoldBank),
@@ -189,6 +179,21 @@ namespace WarOfEmpires.Domain.Players {
                 GetStoneProduction().GetTotalProduction(),
                 GetOreProduction().GetTotalProduction()
             );
+        }
+
+        public virtual void AddBankTurn() {
+            BankTurns++;
+        }
+
+        public virtual void Recruit() {
+            CurrentRecruitingEffort += GetRecruitsPerDay();
+
+            if (CurrentRecruitingEffort >= RecruitingEffortStep) {
+                var newRecruits = CurrentRecruitingEffort / RecruitingEffortStep;
+
+                CurrentRecruitingEffort -= newRecruits * RecruitingEffortStep;
+                Peasants += newRecruits;
+            }
         }
 
         public virtual void ProcessTurn() {
