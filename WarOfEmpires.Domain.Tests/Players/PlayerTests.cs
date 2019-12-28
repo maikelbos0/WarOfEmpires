@@ -713,5 +713,35 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
             player.GetAvailableBankCapacity().Should().Be(new Resources(45000, 26000, 47000, 78000, 119000));
         }
+
+        [TestMethod]
+        public void Player_GetBankableResources_Succeeds_With_More_Resources_Than_Capacity() {
+            var player = new Player(0, "Test");
+
+            typeof(Player).GetProperty(nameof(Player.BankedResources)).SetValue(player, new Resources(5000, 4000, 3000, 2000, 1000));
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(60000, 50000, 40000, 30000, 20000));
+            player.Buildings.Add(new Building(player, BuildingType.GoldBank, 1));
+            player.Buildings.Add(new Building(player, BuildingType.FoodBank, 1));
+            player.Buildings.Add(new Building(player, BuildingType.WoodBank, 1));
+            player.Buildings.Add(new Building(player, BuildingType.StoneBank, 1));
+            player.Buildings.Add(new Building(player, BuildingType.OreBank, 1));
+
+            player.GetBankableResources().Should().Be(new Resources(45000, 16000, 17000, 18000, 19000));
+        }
+
+        [TestMethod]
+        public void Player_GetBankableResources_Succeeds_With_More_Capacity_Than_Resources() {
+            var player = new Player(0, "Test");
+
+            typeof(Player).GetProperty(nameof(Player.BankedResources)).SetValue(player, new Resources(5000, 4000, 3000, 2000, 1000));
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(6000, 5000, 4000, 3000, 2000));
+            player.Buildings.Add(new Building(player, BuildingType.GoldBank, 1));
+            player.Buildings.Add(new Building(player, BuildingType.FoodBank, 1));
+            player.Buildings.Add(new Building(player, BuildingType.WoodBank, 1));
+            player.Buildings.Add(new Building(player, BuildingType.StoneBank, 1));
+            player.Buildings.Add(new Building(player, BuildingType.OreBank, 1));
+
+            player.GetBankableResources().Should().Be(new Resources(6000, 5000, 4000, 3000, 2000));
+        }
     }
 }

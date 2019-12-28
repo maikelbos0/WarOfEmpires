@@ -48,6 +48,7 @@
     <Compile Include="Attacks\ExecutedAttackViewModel.cs" />
     <Compile Include="Attacks\ReceivedAttackViewModel.cs" />
     <Compile Include="DataGridViewMetaData.cs" />
+    <Compile Include="Empires\BankedResourcesViewModel.cs" />
     <Compile Include="Empires\BuildingModel.cs" />
     <Compile Include="Empires\BuildingTotalsViewModel.cs" />
     <Compile Include="Empires\BuildingUpgradesViewModel.cs" />

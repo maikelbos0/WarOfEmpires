@@ -1,0 +1,118 @@
+﻿@model WarOfEmpires.Models.Empires.BankedResourcesViewModel
+
+@{
+    ViewBag.Title = "Banking";
+}
+
+<h2>Banking</h2>
+
+<p>
+    Here you can bank your gold and resources to hide them from your enemies.
+</p>
+
+<div class="row">
+    <div class="col-4">
+    </div>
+    <div class="col-2">
+        <strong>Capacity</strong>
+    </div>
+    <div class="col-2">
+        <strong>Banked</strong>
+    </div>
+    <div class="col-2">
+        <strong>Available capacity</strong>
+    </div>
+    <div class="col-2">
+        <strong>Bankable resources</strong>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-4">
+        <strong>Gold</strong>
+    </div>
+    <div class="col-2">
+        @Model.Capacity.Gold.ToString(StringFormat.Integer)
+    </div>
+    <div class="col-2">
+        @Model.BankedResources.Gold.ToString(StringFormat.Integer)
+    </div>
+    <div class="col-2">
+        @Model.AvailableCapacity.Gold.ToString(StringFormat.Integer)
+    </div>
+    <div class="col-2">
+        <strong>@Model.BankableResources.Gold.ToString(StringFormat.Integer)</strong>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-4">
+        <strong>Food</strong>
+    </div>
+    <div class="col-2">
+        @Model.Capacity.Food.ToString(StringFormat.Integer)
+    </div>
+    <div class="col-2">
+        @Model.BankedResources.Food.ToString(StringFormat.Integer)
+    </div>
+    <div class="col-2">
+        @Model.AvailableCapacity.Food.ToString(StringFormat.Integer)
+    </div>
+    <div class="col-2">
+        <strong>@Model.BankableResources.Food.ToString(StringFormat.Integer)</strong>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-4">
+        <strong>Wood</strong>
+    </div>
+    <div class="col-2">
+        @Model.Capacity.Wood.ToString(StringFormat.Integer)
+    </div>
+    <div class="col-2">
+        @Model.BankedResources.Wood.ToString(StringFormat.Integer)
+    </div>
+    <div class="col-2">
+        @Model.AvailableCapacity.Wood.ToString(StringFormat.Integer)
+    </div>
+    <div class="col-2">
+        <strong>@Model.BankableResources.Wood.ToString(StringFormat.Integer)</strong>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-4">
+        <strong>Stone</strong>
+    </div>
+    <div class="col-2">
+        @Model.Capacity.Stone.ToString(StringFormat.Integer)
+    </div>
+    <div class="col-2">
+        @Model.BankedResources.Stone.ToString(StringFormat.Integer)
+    </div>
+    <div class="col-2">
+        @Model.AvailableCapacity.Stone.ToString(StringFormat.Integer)
+    </div>
+    <div class="col-2">
+        <strong>@Model.BankableResources.Stone.ToString(StringFormat.Integer)</strong>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-4">
+        <strong>Ore</strong>
+    </div>
+    <div class="col-2">
+        @Model.Capacity.Ore.ToString(StringFormat.Integer)
+    </div>
+    <div class="col-2">
+        @Model.BankedResources.Ore.ToString(StringFormat.Integer)
+    </div>
+    <div class="col-2">
+        @Model.AvailableCapacity.Ore.ToString(StringFormat.Integer)
+    </div>
+    <div class="col-2">
+        <strong>@Model.BankableResources.Ore.ToString(StringFormat.Integer)</strong>
+    </div>
+</div>

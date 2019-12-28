@@ -56,6 +56,7 @@
     <Compile Include="Attacks\GetReceivedAttacksQueryHandler.cs" />
     <Compile Include="Decorators\AuditAttribute.cs" />
     <Compile Include="Decorators\AuditDecorator.cs" />
+    <Compile Include="Empires\GetBankedResourcesQueryHandler.cs" />
     <Compile Include="Empires\GetBuildingQueryHandler.cs" />
     <Compile Include="Empires\GetBuildingTotalsQueryHandler.cs" />
     <Compile Include="Empires\GetBuildingUpgradesQueryHandler.cs" />

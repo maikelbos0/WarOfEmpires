@@ -131,5 +131,11 @@ namespace WarOfEmpires.Controllers {
         public ActionResult BankBuildings() {
             return View();
         }
+
+        [Route("Banking")]
+        [HttpGet]
+        public ActionResult Banking() {
+            return View(_messageService.Dispatch(new GetBankedResourcesQuery(_authenticationService.Identity)));
+        }
     }
 }

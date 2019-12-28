@@ -392,6 +392,7 @@
     <Content Include="Views\Empire\_HousingTotals.cshtml" />
     <Content Include="Views\Empire\BuildingUpgrades.cshtml" />
     <Content Include="Views\Empire\BankBuildings.cshtml" />
+    <Content Include="Views\Empire\Banking.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -80,6 +80,7 @@
     <Compile Include="Attacks\GetExecutedAttacksQueryHandlerTests.cs" />
     <Compile Include="Attacks\GetReceivedAttacksQueryHandlerTests.cs" />
     <Compile Include="Decorators\AuditDecoratorTests.cs" />
+    <Compile Include="Empires\GetBankedResourcesQueryHandlerTests.cs" />
     <Compile Include="Empires\GetBuildingQueryHandlerTests.cs" />
     <Compile Include="Empires\GetBuildingTotalsQueryHandlerTests.cs" />
     <Compile Include="Empires\GetBuildingUpgradesQueryHandlerTests.cs" />

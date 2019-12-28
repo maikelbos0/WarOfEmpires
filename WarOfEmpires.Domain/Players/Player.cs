@@ -169,6 +169,18 @@ namespace WarOfEmpires.Domain.Players {
             return GetBankCapacity() - BankedResources;
         }
 
+        public virtual Resources GetBankableResources() {
+            var availableCapacity = GetAvailableBankCapacity();
+
+            return new Resources(
+                Math.Min(availableCapacity.Gold, Resources.Gold),
+                Math.Min(availableCapacity.Food, Resources.Food),
+                Math.Min(availableCapacity.Wood, Resources.Wood),
+                Math.Min(availableCapacity.Stone, Resources.Stone),
+                Math.Min(availableCapacity.Ore, Resources.Ore)
+            );
+        }
+
         public virtual Resources GetResourcesPerTurn() {
             return new Resources(
                 GetGoldPerTurn(),
