@@ -1,5 +1,5 @@
 ﻿using WarOfEmpires.Commands.Empires;
-using WarOfEmpires.Domain.Players;
+using WarOfEmpires.Domain.Empires;
 using WarOfEmpires.Utilities.Events;
 
 namespace WarOfEmpires.CommandHandlers.Empires {

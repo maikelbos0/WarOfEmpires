@@ -71,7 +71,7 @@
     <Compile Include="Empires\TurnTaskTriggeredEvent.cs" />
     <Compile Include="Players\Message.cs" />
     <Compile Include="Players\ProductionInfo.cs" />
-    <Compile Include="Players\RecruitTaskTriggeredEvent.cs" />
+    <Compile Include="Empires\RecruitTaskTriggeredEvent.cs" />
     <Compile Include="Players\TroopInfo.cs" />
     <Compile Include="Players\Troops.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -68,10 +68,10 @@ namespace WarOfEmpires.Database.Migrations {
         }
 
         private void AddOrUpdateScheduledTasks(WarContext context) {
-            var recruitTask = context.ScheduledTasks.SingleOrDefault(t => t.EventType == typeof(RecruitTaskTriggeredEvent).AssemblyQualifiedName);
+            var recruitTask = context.ScheduledTasks.SingleOrDefault(t => t.EventType == typeof(Empires.RecruitTaskTriggeredEvent).AssemblyQualifiedName);
 
             if (recruitTask == null) {
-                recruitTask = Events.ScheduledTask.Create<RecruitTaskTriggeredEvent>(new TimeSpan(1, 0, 0));
+                recruitTask = Events.ScheduledTask.Create<Empires.RecruitTaskTriggeredEvent>(new TimeSpan(1, 0, 0));
                 context.ScheduledTasks.Add(recruitTask);
             }
 
