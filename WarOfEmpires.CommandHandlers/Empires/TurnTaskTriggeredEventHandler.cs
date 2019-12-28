@@ -4,14 +4,14 @@ using WarOfEmpires.Utilities.Events;
 
 namespace WarOfEmpires.CommandHandlers.Empires {
     public sealed class TurnTaskTriggeredEventHandler : IEventHandler<TurnTaskTriggeredEvent> {
-        private readonly ProcessTurnCommandHandler _processTurnCommandHandler;
+        private readonly ICommandHandler<ProcessTurnCommand> _commandHandler;
 
-        public TurnTaskTriggeredEventHandler(ProcessTurnCommandHandler processTurnCommandHandler) {
-            _processTurnCommandHandler = processTurnCommandHandler;
+        public TurnTaskTriggeredEventHandler(ICommandHandler<ProcessTurnCommand> commandHandler) {
+            _commandHandler = commandHandler;
         }
 
         public void Handle(TurnTaskTriggeredEvent domainEvent) {
-            _processTurnCommandHandler.Execute(new ProcessTurnCommand());
+            _commandHandler.Execute(new ProcessTurnCommand());
         }
     }
 }

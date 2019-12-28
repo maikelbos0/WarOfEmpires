@@ -4,14 +4,14 @@ using WarOfEmpires.Utilities.Events;
 
 namespace WarOfEmpires.CommandHandlers.Empires {
     public sealed class RecruitTaskTriggeredEventHandler : IEventHandler<RecruitTaskTriggeredEvent> {
-        private readonly RecruitCommandHandler _recruitCommandHandler;
+        private readonly ICommandHandler<RecruitCommand> _commandHandler;
 
-        public RecruitTaskTriggeredEventHandler(RecruitCommandHandler recruitCommandHandler) {
-            _recruitCommandHandler = recruitCommandHandler;
+        public RecruitTaskTriggeredEventHandler(ICommandHandler<RecruitCommand> commandHandler) {
+            _commandHandler = commandHandler;
         }
 
         public void Handle(RecruitTaskTriggeredEvent domainEvent) {
-            _recruitCommandHandler.Execute(new RecruitCommand());
+            _commandHandler.Execute(new RecruitCommand());
         }
     }
 }

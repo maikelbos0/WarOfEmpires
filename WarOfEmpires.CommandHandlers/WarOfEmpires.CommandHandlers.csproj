@@ -56,6 +56,8 @@
     <Compile Include="CommandResult.cs" />
     <Compile Include="Decorators\AuditDecorator.cs" />
     <Compile Include="Decorators\AuditAttribute.cs" />
+    <Compile Include="Empires\AddBankTurnCommandHandler.cs" />
+    <Compile Include="Empires\BankTurnTaskTriggeredEventHandler.cs" />
     <Compile Include="Empires\ProcessTurnCommandHandler.cs" />
     <Compile Include="Empires\TrainTroopsCommandHandler.cs" />
     <Compile Include="Empires\TurnTaskTriggeredEventHandler.cs" />
