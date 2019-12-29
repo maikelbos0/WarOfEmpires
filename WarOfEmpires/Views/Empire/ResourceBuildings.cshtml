@@ -12,25 +12,27 @@
 </div>
 
 <div class="row">
-    <div class="col-3 partial-content">
+    <div class="col-6 partial-content">
         @{
             Html.RenderAction("_Building", "Empire", new { BuildingType = "Farm" });
         }
     </div>
 
-    <div class="col-3 partial-content">
+    <div class="col-6 partial-content">
         @{
             Html.RenderAction("_Building", "Empire", new { BuildingType = "Lumberyard" });
         }
     </div>
+</div>
 
-    <div class="col-3 partial-content">
+<div class="row">
+    <div class="col-6 partial-content">
         @{
             Html.RenderAction("_Building", "Empire", new { BuildingType = "Quarry" });
         }
     </div>
 
-    <div class="col-3 partial-content">
+    <div class="col-6 partial-content">
         @{
             Html.RenderAction("_Building", "Empire", new { BuildingType = "Mine" });
         }
