@@ -11,7 +11,7 @@
 </p>
 
 <ul>
-    <li>Peasants available for training: @Model.CurrentPeasants</li>
+    <li>Peasants available for training: @Model.CurrentPeasants.ToString(StringFormat.Integer)</li>
 
     @if (Model.HasUpkeepRunOut) {
         <li class="text-danger">You aren't able to afford the upkeep costs; your workers have stopped working and your mercenaries have left your empire</li>
@@ -28,6 +28,12 @@
     @Html.ValidationSummary(true, null, new { @class = "site-validation-summary text-danger" })
     @Html.HiddenFor(m => m.Command)
     @Html.HiddenFor(m => m.CurrentPeasants)
+    @Html.HiddenFor(m => m.CurrentArchers)
+    @Html.HiddenFor(m => m.CurrentMercenaryArchers)
+    @Html.HiddenFor(m => m.CurrentCavalry)
+    @Html.HiddenFor(m => m.CurrentMercenaryCavalry)
+    @Html.HiddenFor(m => m.CurrentFootmen)
+    @Html.HiddenFor(m => m.CurrentMercenaryFootmen)
 
     <div class="row">
         <div class="col-4 col-form-label">
@@ -51,10 +57,10 @@
             @Html.LabelFor(m => m.Archers)
         </div>
         <div class="col-2">
-            @Html.TextBoxFor(m => m.CurrentArchers, new { @class = "form-control-plaintext", @readonly = "readonly", tabindex = -1 })
+            @Model.CurrentArchers.ToString(StringFormat.Integer)
         </div>
         <div class="col-2">
-            @Html.TextBoxFor(m => m.CurrentMercenaryArchers, new { @class = "form-control-plaintext", @readonly = "readonly", tabindex = -1 })
+            @Model.CurrentMercenaryArchers.ToString(StringFormat.Integer)
         </div>
         <div class="col-2">
             @Html.TextBoxFor(m => m.Archers, new { @class = "form-control" })
@@ -71,10 +77,10 @@
             @Html.LabelFor(m => m.Cavalry)
         </div>
         <div class="col-2">
-            @Html.TextBoxFor(m => m.CurrentCavalry, new { @class = "form-control-plaintext", @readonly = "readonly", tabindex = -1 })
+            @Model.CurrentCavalry.ToString(StringFormat.Integer)
         </div>
         <div class="col-2">
-            @Html.TextBoxFor(m => m.CurrentMercenaryCavalry, new { @class = "form-control-plaintext", @readonly = "readonly", tabindex = -1 })
+            @Model.CurrentMercenaryCavalry.ToString(StringFormat.Integer)
         </div>
         <div class="col-2">
             @Html.TextBoxFor(m => m.Cavalry, new { @class = "form-control" })
@@ -91,10 +97,10 @@
             @Html.LabelFor(m => m.Footmen)
         </div>
         <div class="col-2">
-            @Html.TextBoxFor(m => m.CurrentFootmen, new { @class = "form-control-plaintext", @readonly = "readonly", tabindex = -1 })
+            @Model.CurrentFootmen.ToString(StringFormat.Integer)
         </div>
         <div class="col-2">
-            @Html.TextBoxFor(m => m.CurrentMercenaryFootmen, new { @class = "form-control-plaintext", @readonly = "readonly", tabindex = -1 })
+            @Model.CurrentMercenaryFootmen.ToString(StringFormat.Integer)
         </div>
         <div class="col-2">
             @Html.TextBoxFor(m => m.Footmen, new { @class = "form-control" })

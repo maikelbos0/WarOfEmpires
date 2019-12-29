@@ -11,10 +11,10 @@
 </p>
 
 <ul>
-    <li>Peasants available for training: @Model.CurrentPeasants</li>
+    <li>Peasants available for training: @Model.CurrentPeasants.ToString(StringFormat.Integer)</li>
     <li>Gold production per turn: @Model.CurrentGoldPerTurn.ToString(StringFormat.Integer) <span class="si si-gold" /></li>
     <li>Upkeep per turn: @Model.GoldUpkeepPerTurn.ToString(StringFormat.Integer) <span class="si si-gold"></span> @Model.FoodUpkeepPerTurn.ToString(StringFormat.Integer) <span class="si si-food"></span></li>
-    <li>Recruits per day: @Model.RecruitsPerDay</li>
+    <li>Recruits per day: @Model.RecruitsPerDay.ToString(StringFormat.Integer)</li>
 
     @if (Model.HasUpkeepRunOut) {
         <li class="text-danger">You aren't able to afford the upkeep costs; your workers have stopped working and your mercenaries have left your empire</li>
@@ -38,6 +38,18 @@
     @Html.HiddenFor(m => m.RecruitsPerDay)
     @Html.HiddenFor(m => m.WillUpkeepRunOut)
     @Html.HiddenFor(m => m.HasUpkeepRunOut)
+    @Html.HiddenFor(m => m.CurrentFarmers)
+    @Html.HiddenFor(m => m.CurrentFoodPerWorkerPerTurn)
+    @Html.HiddenFor(m => m.CurrentFoodPerTurn)
+    @Html.HiddenFor(m => m.CurrentWoodWorkers)
+    @Html.HiddenFor(m => m.CurrentWoodPerWorkerPerTurn)
+    @Html.HiddenFor(m => m.CurrentWoodPerTurn)
+    @Html.HiddenFor(m => m.CurrentStoneMasons)
+    @Html.HiddenFor(m => m.CurrentStonePerWorkerPerTurn)
+    @Html.HiddenFor(m => m.CurrentStonePerTurn)
+    @Html.HiddenFor(m => m.CurrentOreMiners)
+    @Html.HiddenFor(m => m.CurrentOrePerWorkerPerTurn)
+    @Html.HiddenFor(m => m.CurrentOrePerTurn)
 
     <div class="row">
         <div class="col-4 col-form-label">
@@ -60,13 +72,13 @@
             @Html.LabelFor(m => m.Farmers)
         </div>
         <div class="col-2">
-            @Html.TextBoxFor(m => m.CurrentFarmers, new { @class = "form-control-plaintext", @readonly = "readonly", tabindex = -1 })
+            @Model.CurrentFarmers.ToString(StringFormat.Integer)
         </div>
         <div class="col-2">
-            @Html.TextBoxFor(m => m.CurrentFoodPerWorkerPerTurn, new { @class = "form-control-plaintext", @readonly = "readonly", tabindex = -1 })
+            @Model.CurrentFoodPerWorkerPerTurn.ToString(StringFormat.Integer)
         </div>
         <div class="col-2">
-            @Html.TextBoxFor(m => m.CurrentFoodPerTurn, new { @class = "form-control-plaintext", @readonly = "readonly", tabindex = -1 })
+            @Model.CurrentFoodPerTurn.ToString(StringFormat.Integer)
         </div>
         <div class="col-2">
             @Html.TextBoxFor(m => m.Farmers, new { @class = "form-control" })
@@ -79,13 +91,13 @@
             @Html.LabelFor(m => m.WoodWorkers)
         </div>
         <div class="col-2">
-            @Html.TextBoxFor(m => m.CurrentWoodWorkers, new { @class = "form-control-plaintext", @readonly = "readonly", tabindex = -1 })
+            @Model.CurrentWoodWorkers.ToString(StringFormat.Integer)
         </div>
         <div class="col-2">
-            @Html.TextBoxFor(m => m.CurrentWoodPerWorkerPerTurn, new { @class = "form-control-plaintext", @readonly = "readonly", tabindex = -1 })
+            @Model.CurrentWoodPerWorkerPerTurn.ToString(StringFormat.Integer)
         </div>
         <div class="col-2">
-            @Html.TextBoxFor(m => m.CurrentWoodPerTurn, new { @class = "form-control-plaintext", @readonly = "readonly", tabindex = -1 })
+            @Model.CurrentWoodPerTurn.ToString(StringFormat.Integer)
         </div>
         <div class="col-2">
             @Html.TextBoxFor(m => m.WoodWorkers, new { @class = "form-control" })
@@ -98,13 +110,13 @@
             @Html.LabelFor(m => m.StoneMasons)
         </div>
         <div class="col-2">
-            @Html.TextBoxFor(m => m.CurrentStoneMasons, new { @class = "form-control-plaintext", @readonly = "readonly", tabindex = -1 })
+            @Model.CurrentStoneMasons.ToString(StringFormat.Integer)
         </div>
         <div class="col-2">
-            @Html.TextBoxFor(m => m.CurrentStonePerWorkerPerTurn, new { @class = "form-control-plaintext", @readonly = "readonly", tabindex = -1 })
+            @Model.CurrentStonePerWorkerPerTurn.ToString(StringFormat.Integer)
         </div>
         <div class="col-2">
-            @Html.TextBoxFor(m => m.CurrentStonePerTurn, new { @class = "form-control-plaintext", @readonly = "readonly", tabindex = -1 })
+            @Model.CurrentStonePerTurn.ToString(StringFormat.Integer)
         </div>
         <div class="col-2">
             @Html.TextBoxFor(m => m.StoneMasons, new { @class = "form-control" })
@@ -117,13 +129,13 @@
             @Html.LabelFor(m => m.OreMiners)
         </div>
         <div class="col-2">
-            @Html.TextBoxFor(m => m.CurrentOreMiners, new { @class = "form-control-plaintext", @readonly = "readonly", tabindex = -1 })
+            @Model.CurrentOreMiners.ToString(StringFormat.Integer)
         </div>
         <div class="col-2">
-            @Html.TextBoxFor(m => m.CurrentOrePerWorkerPerTurn, new { @class = "form-control-plaintext", @readonly = "readonly", tabindex = -1 })
+            @Model.CurrentOrePerWorkerPerTurn.ToString(StringFormat.Integer)
         </div>
         <div class="col-2">
-            @Html.TextBoxFor(m => m.CurrentOrePerTurn, new { @class = "form-control-plaintext", @readonly = "readonly", tabindex = -1 })
+            @Model.CurrentOrePerTurn.ToString(StringFormat.Integer)
         </div>
         <div class="col-2">
             @Html.TextBoxFor(m => m.OreMiners, new { @class = "form-control" })

@@ -12,12 +12,13 @@
 
 @using (Html.BeginForm()) {
     @Html.HiddenFor(m => m.RecipientId)
+    @Html.HiddenFor(m => m.Recipient)
 
     <div class="row">
         <div class="col-3 col-form-label">Recipient</div>
 
-        <div class="col-9">
-            @Html.TextBoxFor(m => m.Recipient, new { @class = "form-control-plaintext", @readonly = "readonly", tabindex = -1 })
+        <div class="col-9 col-form-label">
+            @Model.Recipient
         </div>
     </div>
 
