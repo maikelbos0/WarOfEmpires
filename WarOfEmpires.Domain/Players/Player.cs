@@ -171,6 +171,14 @@ namespace WarOfEmpires.Domain.Players {
             );
         }
 
+        public virtual void Bank() {
+            var toBank = GetBankableResources();
+
+            BankTurns--;
+            Resources -= toBank;
+            BankedResources += toBank;
+        }
+
         public virtual Resources GetResourcesPerTurn() {
             return new Resources(
                 GetGoldPerTurn(),

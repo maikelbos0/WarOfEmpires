@@ -753,5 +753,25 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
             player.BankTurns.Should().Be(previousBankTurns + 1);
         }
+
+        [TestMethod]
+        public void Player_Bank_Succeeds() {
+            var player = new Player(0, "Test");
+            var previousBankTurns = player.BankTurns;
+
+            typeof(Player).GetProperty(nameof(Player.BankedResources)).SetValue(player, new Resources(25000, 10000, 10000, 10000, 10000));
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(35000, 5000, 15000, 5000, 15000));
+            player.Buildings.Add(new Building(player, BuildingType.GoldBank, 1));
+            player.Buildings.Add(new Building(player, BuildingType.FoodBank, 1));
+            player.Buildings.Add(new Building(player, BuildingType.WoodBank, 1));
+            player.Buildings.Add(new Building(player, BuildingType.StoneBank, 1));
+            player.Buildings.Add(new Building(player, BuildingType.OreBank, 1));
+
+            player.Bank();
+
+            player.BankTurns.Should().Be(previousBankTurns - 1);
+            player.Resources.Should().Be(new Resources(10000, 0, 5000, 0, 5000));
+            player.BankedResources.Should().Be(new Resources(50000, 15000, 20000, 15000, 20000));
+        }
     }
 }

@@ -137,5 +137,13 @@ namespace WarOfEmpires.Controllers {
         public ActionResult Banking() {
             return View(_messageService.Dispatch(new GetBankedResourcesQuery(_authenticationService.Identity)));
         }
+
+        [Route("Banking")]
+        [HttpPost]
+        public ActionResult Banking(BankedResourcesViewModel model) {
+            return ValidatedCommandResult(model,
+                new BankCommand(_authenticationService.Identity),
+                () => Banking());
+        }
     }
 }
