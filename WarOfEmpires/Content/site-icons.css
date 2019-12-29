@@ -29,3 +29,7 @@
 .si.si-attack::after {
     background: url('Icons/high-shot.svg');
 }
+
+.si.si-bank::after {
+    background: url('Icons/locked-chest.svg');
+}

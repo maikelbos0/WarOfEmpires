@@ -11,7 +11,7 @@ namespace WarOfEmpires.QueryHandlers.Empires {
     [InterfaceInjectable]
     [Audit]
     public sealed class GetResourceHeaderQueryHandler : IQueryHandler<GetResourceHeaderQuery, ResourceHeaderViewModel> {
-        private readonly IWarContext _context;
+        private readonly IWarContext _context;  
         private readonly ResourcesMap _resourcesMap;
 
         public GetResourceHeaderQueryHandler(IWarContext context, ResourcesMap resourcesMap) {
@@ -25,7 +25,8 @@ namespace WarOfEmpires.QueryHandlers.Empires {
 
             return new ResourceHeaderViewModel() {
                 Resources = _resourcesMap.ToViewModel(player.Resources),
-                AttackTurns = player.AttackTurns
+                AttackTurns = player.AttackTurns,
+                BankTurns = player.BankTurns
             };
         }
     }

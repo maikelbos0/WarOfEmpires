@@ -26,6 +26,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
             player.User.Returns(user);
             player.Resources.Returns(new Resources(12000, 1500, 2000, 500, 1000));
             player.AttackTurns.Returns(55);
+            player.BankTurns.Returns(5);
 
             _context.Users.Add(user);
             _context.Players.Add(player);
@@ -44,6 +45,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
             result.Resources.Stone.Should().Be(500);
             result.Resources.Ore.Should().Be(1000);
             result.AttackTurns.Should().Be(55);
+            result.BankTurns.Should().Be(5);
         }
     }
 }
