@@ -261,6 +261,31 @@ namespace WarOfEmpires.Domain.Tests.Players {
         }
 
         [TestMethod]
+        public void Player_ProcessTurn_Does_Not_Give_Resources_When_Out_Of_Food_Or_Gold_Banked() {
+            var player = new Player(0, "Test");
+            player.TrainWorkers(1, 2, 3, 4);
+            player.Tax = 85;            
+
+            while (player.CanAfford(player.GetUpkeepPerTurn())) {
+                player.ProcessTurn();
+            }
+
+            player.Buildings.Add(new Building(player, BuildingType.GoldBank, 10));
+            player.Buildings.Add(new Building(player, BuildingType.FoodBank, 10));
+            player.Buildings.Add(new Building(player, BuildingType.WoodBank, 10));
+            player.Buildings.Add(new Building(player, BuildingType.StoneBank, 10));
+            player.Buildings.Add(new Building(player, BuildingType.OreBank, 10));
+            player.Bank();
+
+            var previousResources = player.BankedResources;
+
+            player.ProcessTurn();
+
+            player.BankedResources.Should().Be(previousResources - new Resources(food: previousResources.Food));
+            player.HasUpkeepRunOut.Should().BeTrue();
+        }
+
+        [TestMethod]
         public void Player_ProcessTurn_Gives_AttackTurns_When_Out_Of_Food_Or_Gold() {
             var player = new Player(0, "Test");
 
@@ -772,6 +797,55 @@ namespace WarOfEmpires.Domain.Tests.Players {
             player.BankTurns.Should().Be(previousBankTurns - 1);
             player.Resources.Should().Be(new Resources(10000, 0, 5000, 0, 5000));
             player.BankedResources.Should().Be(new Resources(50000, 15000, 20000, 15000, 20000));
+        }
+
+        [TestMethod]
+        public void Player_SpendResources_Spends_Resources_First() {
+            var player = new Player(0, "Test");
+
+            typeof(Player).GetProperty(nameof(Player.BankedResources)).SetValue(player, new Resources(10000, 10000, 10000, 10000, 10000));
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(10000, 10000, 10000, 10000, 10000));
+
+            player.SpendResources(new Resources(10000, 5000, 5000, 5000, 5000));
+            player.Resources.Should().Be(new Resources(0, 5000, 5000, 5000, 5000));
+            player.BankedResources.Should().Be(new Resources(10000, 10000, 10000, 10000, 10000));
+        }
+
+        [TestMethod]
+        public void Player_SpendResources_Spends_BankedResources_Second() {
+            var player = new Player(0, "Test");
+
+            typeof(Player).GetProperty(nameof(Player.BankedResources)).SetValue(player, new Resources(10000, 10000, 10000, 10000, 10000));
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(10000, 10000, 10000, 10000, 10000));
+
+            player.SpendResources(new Resources(20000, 15000, 15000, 15000, 15000));
+            player.Resources.Should().Be(new Resources());
+            player.BankedResources.Should().Be(new Resources(0, 5000, 5000, 5000, 5000));
+        }
+
+        [TestMethod]
+        public void Player_CanAfford_Succeeds_When_Enough() {
+            var player = new Player(0, "Test");
+
+            typeof(Player).GetProperty(nameof(Player.BankedResources)).SetValue(player, new Resources(10000, 10000, 10000, 10000, 10000));
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(10000, 10000, 10000, 10000, 10000));
+
+            player.CanAfford(new Resources(20000, 20000, 20000, 20000, 20000)).Should().BeTrue();
+        }
+
+        [DataTestMethod]
+        [DataRow(20001, 0, 0, 0, 0, DisplayName = "Gold")]
+        [DataRow(0, 20001, 0, 0, 0, DisplayName = "Food")]
+        [DataRow(0, 0, 20001, 0, 0, DisplayName = "Wood")]
+        [DataRow(0, 0, 0, 20001, 0, DisplayName = "Stone")]
+        [DataRow(0, 0, 0, 0, 20001, DisplayName = "Ore")]
+        public void Player_CanAfford_Succeeds_When_Not_Enough(int gold, int food, int wood, int stone, int ore) {
+            var player = new Player(0, "Test");
+
+            typeof(Player).GetProperty(nameof(Player.BankedResources)).SetValue(player, new Resources(10000, 10000, 10000, 10000, 10000));
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(10000, 10000, 10000, 10000, 10000));
+
+            player.CanAfford(new Resources(gold, food, wood, stone, ore));
         }
     }
 }

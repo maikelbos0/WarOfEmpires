@@ -24,7 +24,7 @@ namespace WarOfEmpires.QueryHandlers.Empires {
                 .Single(p => EmailComparisonService.Equals(p.User.Email, query.Email));
 
             return new ResourceHeaderViewModel() {
-                Resources = _resourcesMap.ToViewModel(player.Resources),
+                Resources = _resourcesMap.ToViewModel(player.GetTotalResources()),
                 AttackTurns = player.AttackTurns,
                 BankTurns = player.BankTurns
             };

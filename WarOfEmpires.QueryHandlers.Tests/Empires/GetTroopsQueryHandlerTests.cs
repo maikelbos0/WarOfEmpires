@@ -28,7 +28,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
             player.Cavalry.Returns(new Troops(5, 4));
             player.Footmen.Returns(new Troops(3, 2));
             player.GetUpkeepPerTurn().Returns(new Resources(gold: 500, food: 30));
-            player.Resources.Returns(new Resources(gold: 1000, food: 100));
+            player.GetTotalResources().Returns(new Resources(gold: 1000, food: 100));
             player.GetResourcesPerTurn().Returns(new Resources(gold: 400, food: 20));
             player.HasUpkeepRunOut.Returns(true);
 

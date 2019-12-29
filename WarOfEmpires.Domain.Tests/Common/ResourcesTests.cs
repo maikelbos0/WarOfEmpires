@@ -63,7 +63,7 @@ namespace WarOfEmpires.Domain.Tests.Common {
         public void Resources_Integer_Multiply_Operator_Works() {
             // Use int * Resources operator to test both overloads
             var resources = 15 * new Resources(10, 20, 30, 40, 50);
-                       
+
             resources.Gold.Should().Be(150);
             resources.Food.Should().Be(300);
             resources.Wood.Should().Be(450);
@@ -98,6 +98,31 @@ namespace WarOfEmpires.Domain.Tests.Common {
             var resources = new Resources(1000, 1000, 1000, 1000, 1000);
 
             resources.CanAfford(new Resources(gold, food, wood, stone, ore)).Should().Be(result);
+        }
+
+        [TestMethod]
+        public void Resources_SubtractSafe_Works_For_Too_High_Resources() {
+            var resources = new Resources(5000, 4000, 3000, 2000, 1000);
+            Resources remainder;
+
+            resources.SubtractSafe(new Resources(5500, 5500, 5500, 5500, 5500), out remainder).Should().Be(new Resources());
+            remainder.Should().Be(new Resources(500, 1500, 2500, 3500, 4500));
+        }
+
+        [TestMethod]
+        public void Resources_SubtractSafe_Works_For_Affordable_Resources() {
+            var resources = new Resources(5000, 4000, 3000, 2000, 1000);
+            Resources remainder;
+
+            resources.SubtractSafe(new Resources(500, 500, 500, 500, 500), out remainder).Should().Be(new Resources(4500, 3500, 2500, 1500, 500));
+            remainder.Should().Be(new Resources());
+        }
+
+        [TestMethod]
+        public void Resources_SubtractSafe_Can_Discard_Remainder() {
+            var resources = new Resources(5000, 4000, 3000, 2000, 1000);
+
+            resources.SubtractSafe(new Resources(5500, 5500, 5500, 5500, 5500)).Should().Be(new Resources());
         }
     }
 }

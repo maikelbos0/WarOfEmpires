@@ -40,7 +40,7 @@ namespace WarOfEmpires.QueryHandlers.Empires {
                 FoodUpkeepPerTurn = upkeep.Food,
                 GoldUpkeepPerTurn = upkeep.Gold,
                 RecruitsPerDay = player.GetRecruitsPerDay(),
-                WillUpkeepRunOut = !(player.Resources + player.GetResourcesPerTurn() * 48).CanAfford(player.GetUpkeepPerTurn() * 48),
+                WillUpkeepRunOut = !(player.GetTotalResources() + player.GetResourcesPerTurn() * 48).CanAfford(player.GetUpkeepPerTurn() * 48),
                 HasUpkeepRunOut = player.HasUpkeepRunOut
             };
         }

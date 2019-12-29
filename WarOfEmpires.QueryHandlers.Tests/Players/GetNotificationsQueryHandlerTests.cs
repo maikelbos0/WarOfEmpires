@@ -27,7 +27,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
             _player = Substitute.For<Player>();
             _player.User.Returns(user);
             _player.GetUpkeepPerTurn().Returns(new Resources(gold: 1000, food: 100));
-            _player.Resources.Returns(new Resources(gold: 30000, food: 1000));
+            _player.GetTotalResources().Returns(new Resources(gold: 30000, food: 1000));
             _player.GetResourcesPerTurn().Returns(new Resources(gold: 1000, food: 100));
 
             _context.Users.Add(user);

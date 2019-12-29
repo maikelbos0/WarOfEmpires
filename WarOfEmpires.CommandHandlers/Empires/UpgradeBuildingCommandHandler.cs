@@ -23,7 +23,7 @@ namespace WarOfEmpires.CommandHandlers.Empires {
             var buildingDefinition = BuildingDefinitionFactory.Get(buildingType);
             var buildingLevel = player.Buildings.SingleOrDefault(b => b.Type == buildingType)?.Level ?? 0;
 
-            if (!player.Resources.CanAfford(buildingDefinition.GetNextLevelCost(buildingLevel))) {
+            if (!player.CanAfford(buildingDefinition.GetNextLevelCost(buildingLevel))) {
                 result.AddError($"You don't have enough resources to upgrade your {buildingDefinition.GetName(buildingLevel)}");
             }
 

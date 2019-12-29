@@ -26,7 +26,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
             var player = Substitute.For<Player>();
             player.User.Returns(user);
             player.Peasants.Returns(10);
-            player.Resources.Returns(new Resources(gold: 10000));
+            player.CanAfford(Arg.Any<Resources>()).Returns(true);
             player.GetAvailableHutCapacity().Returns(20);
 
             _context.Users.Add(user);
@@ -195,11 +195,11 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
         }
 
         [TestMethod]
-        public void TrainWorkersCommandHandler_Fails_For_Too_Little_Gold() {
+        public void TrainWorkersCommandHandler_Fails_For_Too_Little_Resources() {
+            _player.CanAfford(Arg.Any<Resources>()).Returns(false);
+
             var handler = new TrainWorkersCommandHandler(_repository);
             var command = new TrainWorkersCommand("test@test.com", "2", "2", "2", "2");
-
-            _player.Resources.Returns(new Resources(gold: 1000));
 
             var result = handler.Execute(command);
 

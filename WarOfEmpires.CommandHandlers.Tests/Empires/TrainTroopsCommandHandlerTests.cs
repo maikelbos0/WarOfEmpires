@@ -28,7 +28,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
             player.GetAvailableBarracksCapacity().Returns(20);
             player.User.Returns(user);
             player.Peasants.Returns(30);
-            player.Resources.Returns(new Resources(gold: 500000, wood: 50000, ore: 100000));
+            player.CanAfford(Arg.Any<Resources>()).Returns(true);
 
             _context.Users.Add(user);
             _context.Players.Add(player);
@@ -249,41 +249,11 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
         }
 
         [TestMethod]
-        public void TrainTroopsCommandHandler_Fails_For_Too_Little_Gold() {
+        public void TrainTroopsCommandHandler_Fails_For_Too_Little_Resources() {
+            _player.CanAfford(Arg.Any<Resources>()).Returns(false);
+
             var handler = new TrainTroopsCommandHandler(_repository);
             var command = new TrainTroopsCommand("test@test.com", "2", "2", "2", "2", "2", "2");
-
-            _player.Resources.Returns(new Resources(gold: 1000, wood: 3000, ore: 6000));
-
-            var result = handler.Execute(command);
-
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.Should().BeNull();
-            result.Errors[0].Message.Should().Be("You don't have enough resources to train these troops");
-            _player.DidNotReceiveWithAnyArgs().TrainTroops(default, default, default, default, default, default);
-        }
-
-        [TestMethod]
-        public void TrainTroopsCommandHandler_Fails_For_Too_Little_Wood() {
-            var handler = new TrainTroopsCommandHandler(_repository);
-            var command = new TrainTroopsCommand("test@test.com", "2", "2", "2", "2", "2", "2");
-
-            _player.Resources.Returns(new Resources(gold: 60000, wood: 1000, ore: 6000));
-
-            var result = handler.Execute(command);
-
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.Should().BeNull();
-            result.Errors[0].Message.Should().Be("You don't have enough resources to train these troops");
-            _player.DidNotReceiveWithAnyArgs().TrainTroops(default, default, default, default, default, default);
-        }
-
-        [TestMethod]
-        public void TrainTroopsCommandHandler_Fails_For_Too_Little_Ore() {
-            var handler = new TrainTroopsCommandHandler(_repository);
-            var command = new TrainTroopsCommand("test@test.com", "2", "2", "2", "2", "2", "2");
-
-            _player.Resources.Returns(new Resources(gold: 60000, wood: 3000, ore: 1000));
 
             var result = handler.Execute(command);
 

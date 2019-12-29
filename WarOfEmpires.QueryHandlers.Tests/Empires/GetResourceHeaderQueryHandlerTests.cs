@@ -24,7 +24,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
             user.Email.Returns("test@test.com");
 
             player.User.Returns(user);
-            player.Resources.Returns(new Resources(12000, 1500, 2000, 500, 1000));
+            player.GetTotalResources().Returns(new Resources(12000, 1500, 2000, 500, 1000));
             player.AttackTurns.Returns(55);
             player.BankTurns.Returns(5);
 

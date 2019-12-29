@@ -62,7 +62,7 @@ namespace WarOfEmpires.CommandHandlers.Empires {
                 result.AddError("You don't have enough barracks available to train that many troops");
             }
 
-            if (!player.Resources.CanAfford((archers * Player.ArcherTrainingCost) + (cavalry * Player.CavalryTrainingCost) + (footmen * Player.FootmanTrainingCost) + ((mercenaryArchers + mercenaryCavalry + mercenaryFootmen) * Player.MercenaryTrainingCost))) {
+            if (!player.CanAfford((archers * Player.ArcherTrainingCost) + (cavalry * Player.CavalryTrainingCost) + (footmen * Player.FootmanTrainingCost) + ((mercenaryArchers + mercenaryCavalry + mercenaryFootmen) * Player.MercenaryTrainingCost))) {
                 result.AddError("You don't have enough resources to train these troops");
             }
 

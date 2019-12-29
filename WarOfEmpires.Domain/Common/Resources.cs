@@ -42,6 +42,26 @@ namespace WarOfEmpires.Domain.Common {
                 && Ore >= r.Ore;
         }
 
+        public Resources SubtractSafe(Resources value) {
+            Resources remainder;
+
+            return SubtractSafe(value, out remainder);
+        }
+
+        public Resources SubtractSafe(Resources value, out Resources remainder) {
+            var safeValue = new Resources(
+                Math.Min(Gold, value.Gold),
+                Math.Min(Food, value.Food),
+                Math.Min(Wood, value.Wood),
+                Math.Min(Stone, value.Stone),
+                Math.Min(Ore, value.Ore)
+            );
+
+             remainder = value - safeValue;
+
+            return this - safeValue;
+        }
+
         public static Resources operator +(Resources a, Resources b) {
             return new Resources(a.Gold + b.Gold, a.Food + b.Food, a.Wood + b.Wood, a.Stone + b.Stone, a.Ore + b.Ore);
         }

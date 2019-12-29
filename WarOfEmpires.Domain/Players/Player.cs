@@ -213,17 +213,15 @@ namespace WarOfEmpires.Domain.Players {
                 Stamina++;
             }
 
-            if (Resources.CanAfford(upkeep)) {
-                Resources = Resources - upkeep + GetResourcesPerTurn();
+            if (CanAfford(upkeep)) {
+                SpendResources(upkeep);
+                Resources += GetResourcesPerTurn();
             }
             else {
-                Resources -= new Resources(
-                    Math.Min(upkeep.Gold, Resources.Gold),
-                    Math.Min(upkeep.Food, Resources.Food),
-                    Math.Min(upkeep.Wood, Resources.Wood),
-                    Math.Min(upkeep.Stone, Resources.Stone),
-                    Math.Min(upkeep.Ore, Resources.Ore)
-                );
+                Resources remainder;
+
+                Resources = Resources.SubtractSafe(upkeep, out remainder);
+                BankedResources = BankedResources.SubtractSafe(remainder);
 
                 Archers = new Troops(Archers.Soldiers, 0);
                 Cavalry = new Troops(Cavalry.Soldiers, 0);
@@ -241,7 +239,7 @@ namespace WarOfEmpires.Domain.Players {
             OreMiners += oreMiners;
 
             Peasants -= trainedPeasants;
-            Resources -= trainedPeasants * WorkerTrainingCost;
+            SpendResources(trainedPeasants * WorkerTrainingCost);
         }
 
         public virtual void UntrainWorkers(int farmers, int woodWorkers, int stoneMasons, int oreMiners) {
@@ -257,7 +255,7 @@ namespace WarOfEmpires.Domain.Players {
             var definition = BuildingDefinitionFactory.Get(type);
             var building = Buildings.SingleOrDefault(b => b.Type == type);
 
-            Resources -= definition.GetNextLevelCost(building?.Level ?? 0);
+            SpendResources(definition.GetNextLevelCost(building?.Level ?? 0));
 
             if (building == null) {
                 building = new Building(this, type, 1);
@@ -348,7 +346,7 @@ namespace WarOfEmpires.Domain.Players {
             Footmen += new Troops(footmen, mercenaryFootmen);
 
             Peasants -= troops;
-            Resources -= (archers * ArcherTrainingCost
+            SpendResources(archers * ArcherTrainingCost
                 + cavalry * CavalryTrainingCost
                 + footmen * FootmanTrainingCost
                 + mercenaries * MercenaryTrainingCost);
@@ -372,9 +370,24 @@ namespace WarOfEmpires.Domain.Players {
 
         // TODO make sure this function is called whenever resources get added
         public virtual void CheckUpkeep() {
-            if (HasUpkeepRunOut && Resources.CanAfford(GetUpkeepPerTurn())) {
+            if (HasUpkeepRunOut && CanAfford(GetUpkeepPerTurn())) {
                 HasUpkeepRunOut = false;
             }
+        }
+
+        public virtual Resources GetTotalResources() {
+            return Resources + BankedResources;
+        }
+
+        public virtual bool CanAfford(Resources resources) {
+            return GetTotalResources().CanAfford(resources);
+        }
+
+        public virtual void SpendResources(Resources resources) {
+            Resources remainder;
+
+            Resources = Resources.SubtractSafe(resources, out remainder);
+            BankedResources -= remainder;
         }
     }
 }

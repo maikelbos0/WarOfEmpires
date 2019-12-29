@@ -50,7 +50,7 @@ namespace WarOfEmpires.CommandHandlers.Empires {
                 result.AddError("You don't have enough huts available to train that many workers");
             }
 
-            if (!player.Resources.CanAfford((farmers + woodWorkers + stoneMasons + oreMiners) * Player.WorkerTrainingCost)) {
+            if (!player.CanAfford((farmers + woodWorkers + stoneMasons + oreMiners) * Player.WorkerTrainingCost)) {
                 result.AddError("You don't have enough gold to train these peasants");
             }
 

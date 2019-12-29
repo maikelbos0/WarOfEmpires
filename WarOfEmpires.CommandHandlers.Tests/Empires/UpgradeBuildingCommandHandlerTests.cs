@@ -28,7 +28,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
             var player = Substitute.For<Player>();
             player.User.Returns(user);
-            player.Resources.Returns(new Resources(50000, 0, 5000, 2000, 1000));
+            player.CanAfford(Arg.Any<Resources>()).Returns(true);
             player.Buildings.Returns(new List<Building>() {
                 new Building(player, BuildingType.Farm, 2),
                 new Building(player, BuildingType.Lumberyard, 1)
@@ -75,6 +75,8 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
         [TestMethod]
         public void UpgradeBuildingCommandHandler_Fails_For_Too_Little_Resources() {
+            _player.CanAfford(Arg.Any<Resources>()).Returns(false);
+
             var handler = new UpgradeBuildingCommandHandler(_repository);
             var command = new UpgradeBuildingCommand("test@test.com", "Farm");
 
