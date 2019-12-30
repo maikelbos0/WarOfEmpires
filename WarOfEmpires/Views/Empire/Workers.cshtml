@@ -75,10 +75,10 @@
             @Model.CurrentFarmers.ToString(StringFormat.Integer)
         </div>
         <div class="col-2">
-            @Model.CurrentFoodPerWorkerPerTurn.ToString(StringFormat.Integer)
+            @Model.CurrentFoodPerWorkerPerTurn.ToString(StringFormat.Integer) <span class="si si-food"></span>
         </div>
         <div class="col-2">
-            @Model.CurrentFoodPerTurn.ToString(StringFormat.Integer)
+            @Model.CurrentFoodPerTurn.ToString(StringFormat.Integer) <span class="si si-food"></span>
         </div>
         <div class="col-2">
             @Html.TextBoxFor(m => m.Farmers, new { @class = "form-control" })
@@ -94,10 +94,10 @@
             @Model.CurrentWoodWorkers.ToString(StringFormat.Integer)
         </div>
         <div class="col-2">
-            @Model.CurrentWoodPerWorkerPerTurn.ToString(StringFormat.Integer)
+            @Model.CurrentWoodPerWorkerPerTurn.ToString(StringFormat.Integer) <span class="si si-wood"></span>
         </div>
         <div class="col-2">
-            @Model.CurrentWoodPerTurn.ToString(StringFormat.Integer)
+            @Model.CurrentWoodPerTurn.ToString(StringFormat.Integer) <span class="si si-wood"></span>
         </div>
         <div class="col-2">
             @Html.TextBoxFor(m => m.WoodWorkers, new { @class = "form-control" })
@@ -113,10 +113,10 @@
             @Model.CurrentStoneMasons.ToString(StringFormat.Integer)
         </div>
         <div class="col-2">
-            @Model.CurrentStonePerWorkerPerTurn.ToString(StringFormat.Integer)
+            @Model.CurrentStonePerWorkerPerTurn.ToString(StringFormat.Integer) <span class="si si-stone"></span>
         </div>
         <div class="col-2">
-            @Model.CurrentStonePerTurn.ToString(StringFormat.Integer)
+            @Model.CurrentStonePerTurn.ToString(StringFormat.Integer) <span class="si si-stone"></span>
         </div>
         <div class="col-2">
             @Html.TextBoxFor(m => m.StoneMasons, new { @class = "form-control" })
@@ -132,10 +132,10 @@
             @Model.CurrentOreMiners.ToString(StringFormat.Integer)
         </div>
         <div class="col-2">
-            @Model.CurrentOrePerWorkerPerTurn.ToString(StringFormat.Integer)
+            @Model.CurrentOrePerWorkerPerTurn.ToString(StringFormat.Integer) <span class="si si-ore"></span>
         </div>
         <div class="col-2">
-            @Model.CurrentOrePerTurn.ToString(StringFormat.Integer)
+            @Model.CurrentOrePerTurn.ToString(StringFormat.Integer) <span class="si si-ore"></span>
         </div>
         <div class="col-2">
             @Html.TextBoxFor(m => m.OreMiners, new { @class = "form-control" })
