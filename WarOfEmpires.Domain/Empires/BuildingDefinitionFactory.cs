@@ -108,26 +108,26 @@ namespace WarOfEmpires.Domain.Empires {
 
         private static BuildingDefinition GenerateDefences() {
             var names = new ExpressionGenerator<string>("Tent");
-            names.Add(1, "Armed Camp");
+            names.Add(1, "Armed camp");
             names.Add(2, "Stockade");
             names.Add(3, "Fort");
-            names.Add(4, "Walled Fort");
-            names.Add(5, "Walled Fort with Moat");
+            names.Add(4, "Walled fort");
+            names.Add(5, "Walled fort with moat");
             names.Add(6, "Keep");
-            names.Add(7, "Keep with Wall");
-            names.Add(8, "Keep with Wall and Moat");
+            names.Add(7, "Keep with wall");
+            names.Add(8, "Keep with wall and moat");
             names.Add(9, "Castle");
-            names.Add(10, "Castle with Wall");
-            names.Add(11, "Castle with Wall and Moat");
+            names.Add(10, "Castle with wall");
+            names.Add(11, "Castle with wall and moat");
             names.Add(12, "Fortress");
-            names.Add(13, "Fortress with Wall");
-            names.Add(14, "Fortress with Wall and Moat");
+            names.Add(13, "Fortress with wall");
+            names.Add(14, "Fortress with wall and moat");
             names.Add(15, (int level, int levelOffset) => $"Citadel (level {levelOffset + 1})");
 
             return new BuildingDefinition(
                 names,
                 new ExpressionGenerator<string>((int level, int levelOffset) => $"Your defences protect against castle attacks and increase your recruiting by 1 peasant for each level; your current bonus is {level}"),
-                new ExpressionGenerator<Resources>(SequenceGeneratorFactory.GetGeneratorFunction(new Resources(gold: 2000, wood: 1000, stone: 2000, ore: 500))),
+                new ExpressionGenerator<Resources>(SequenceGeneratorFactory.GetGeneratorFunction(new Resources(gold: 20000, wood: 1000, stone: 2000, ore: 500))),
                 new ExpressionGenerator<int>((int currentLevel, int levelOffset) => currentLevel * 1)
             );
         }
@@ -147,7 +147,7 @@ namespace WarOfEmpires.Domain.Empires {
             var costs = new ExpressionGenerator<Resources>((int level, int levelOffset) => new Resources(gold: 2500 + 2500 * level, wood: 100 + 100 * level, stone: 250 + 250 * level, ore: 50 + 50 * level));
 
             return new BuildingDefinition(
-                new ExpressionGenerator<string>((int level, int levelOffset) => $"Baracks (level {level})"),
+                new ExpressionGenerator<string>((int level, int levelOffset) => $"Barracks (level {level})"),
                 new ExpressionGenerator<string>((int level, int levelOffset) => $"Your barracks provide the housing for your troops; each barracks houses 10 troops and your current capacity is {level * 10}"),
                 costs,
                 new ExpressionGenerator<int>((int currentLevel, int levelOffset) => currentLevel * 10)
