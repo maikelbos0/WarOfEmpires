@@ -24,7 +24,8 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
             user.Email.Returns("test@test.com");
 
             player.User.Returns(user);
-            player.GetTotalResources().Returns(new Resources(12000, 1500, 2000, 500, 1000));
+            player.Resources.Returns(new Resources(12000, 1500, 2000, 500, 1000));
+            player.BankedResources.Returns(new Resources(40000, 100, 20000, 500, 2000));
             player.AttackTurns.Returns(55);
             player.BankTurns.Returns(5);
 
@@ -44,6 +45,13 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
             result.Resources.Wood.Should().Be(2000);
             result.Resources.Stone.Should().Be(500);
             result.Resources.Ore.Should().Be(1000);
+
+            result.BankedResources.Gold.Should().Be(40000);
+            result.BankedResources.Food.Should().Be(100);
+            result.BankedResources.Wood.Should().Be(20000);
+            result.BankedResources.Stone.Should().Be(500);
+            result.BankedResources.Ore.Should().Be(2000);
+
             result.AttackTurns.Should().Be(55);
             result.BankTurns.Should().Be(5);
         }
