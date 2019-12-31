@@ -23,7 +23,7 @@
             @Html.LabelFor(m => m.Tax)
         </div>
         <div class="col-4">
-            <input type="range" min="0" max="100" step="5" id="tax-slider" value="@Model.Tax" class="form-control form-control-range" />
+            <input type="range" min="0" max="100" step="5" id="tax-slider" value="@Model.Tax" />
         </div>
         <div class="col-2">
             @Html.TextBoxFor(m => m.Tax, new { @class = "form-control", @readonly = "readonly" })

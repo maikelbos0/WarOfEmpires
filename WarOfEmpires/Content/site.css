@@ -14,6 +14,10 @@
     --pw-meter-1-color: #ee8833; /* orange */
     --pw-meter-2-color: #eeee33; /* yellow */
     --pw-meter-3-color: #33ee33; /* green */
+    --slider-thumb-bg-color: #6184D8; /* blue */
+    --slider-thumb-border-color: #333399; /* dark blue */
+    --slider-track-bg-color: #333399; /* dark blue */
+    --slider-track-focus-color: #533A71; /* dark purple */
     --text-highlighted-color: #dd5500; /* dark orange */
     --text-muted-color: #777777; /* dark grey */
 }
@@ -156,4 +160,55 @@ body {
 
 .site-resources-banked {
     color: var(--text-muted-color);
+}
+
+/* TODO: See this link for tips on the slider formatting https://css-tricks.com/styling-cross-browser-compatible-range-inputs-css/ */
+
+input[type=range] {
+    -webkit-appearance: none;
+    width: 100%;
+    background: transparent;
+}
+
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    border: 0px;
+    height: calc(1.5em + 0.75rem + 2px);
+    width: 1em;
+    border-radius: 3px;
+    background: var(--slider-thumb-bg-color);
+    cursor: pointer;
+}
+
+input[type=range]::-moz-range-thumb { 
+    /* TODO: this one is placed too high, seems to be about the range element itself*/
+    border: 0px solid;
+    height: calc(1.5em + 0.75rem + 2px);
+    width: 1em;
+    border-radius: 3px;
+    background: var(--slider-thumb-bg-color);
+    cursor: pointer;
+}
+
+/* All the same stuff for IE */
+input[type=range]::-ms-thumb {
+    border: 1px solid #533A71;
+    height: calc(1.5em + 0.75rem + 2px);
+    width: 1em;
+    border-radius: 3px;
+    background: #533A71;
+    cursor: pointer;
+}
+
+input[type=range]:focus{
+    outline: none;
+}
+
+
+input[type=range]::-ms-track {
+    width: 100%;
+    cursor: pointer;
+    background: transparent;
+    border-color: transparent;
+    color: transparent;
 }
