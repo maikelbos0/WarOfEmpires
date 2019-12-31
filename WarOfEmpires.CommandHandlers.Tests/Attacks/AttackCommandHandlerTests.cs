@@ -101,7 +101,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Attacks {
 
         [DataTestMethod]
         [DataRow("Raid", typeof(Raid), DisplayName = "Raid")]
-        [DataRow("CastleAttack", typeof(CastleAttack), DisplayName = "Castle attack")]
+        [DataRow("Assault", typeof(Assault), DisplayName = "Assault")]
         public void AttackCommandHandler_Resolves_Type_Parameter_To_Correct_Type(string typeParameter, Type attackType) {
             var handler = new AttackCommandHandler(_repository);
             var command = new AttackCommand(typeParameter, "test@test.com", "2", "10");

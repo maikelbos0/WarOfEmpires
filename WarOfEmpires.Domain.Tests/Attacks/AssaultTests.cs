@@ -6,9 +6,9 @@ using WarOfEmpires.Domain.Players;
 
 namespace WarOfEmpires.Domain.Tests.Attacks {
     [TestClass]
-    public sealed class CastleAttackTests {
+    public sealed class AssaultTests {
         [TestMethod]
-        public void CastleAttack_Result_Is_Surrendered_For_Defender_Low_Stamina() {
+        public void Assault_Result_Is_Surrendered_For_Defender_Low_Stamina() {
             var attacker = new Player(1, "Attacker");
             var defender = new Player(2, "Defender");
 
@@ -20,19 +20,19 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
 
             typeof(Player).GetProperty(nameof(Player.Stamina)).SetValue(defender, 29);
 
-            var attack = new CastleAttack(attacker, defender, 10);
+            var attack = new Assault(attacker, defender, 10);
             attack.Execute();
 
             attack.Result.Should().Be(AttackResult.Surrendered);
         }
 
         [TestMethod]
-        public void CastleAttack_Result_Is_Not_Surrendered_For_High_Defences_Low_Stamina() {
+        public void Assault_Result_Is_Not_Surrendered_For_High_Defences_Low_Stamina() {
             throw new System.NotImplementedException();
         }
 
         [TestMethod]
-        public void CastleAttack_Surrendered_Gives_Correct_Resources_To_Attacker() {
+        public void Assault_Surrendered_Gives_Correct_Resources_To_Attacker() {
             var attacker = new Player(1, "Attacker");
             var defender = new Player(2, "Defender");
 
@@ -48,7 +48,7 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
             var previousDefenderResources = defender.Resources;
             var previousAttackerResources = attacker.Resources;
 
-            var attack = new CastleAttack(attacker, defender, 10);
+            var attack = new Assault(attacker, defender, 10);
             attack.Execute();
 
             attack.Resources.Should().Be(expectedResources);
@@ -57,7 +57,7 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
         }
 
         [TestMethod]
-        public void CastleAttack_Won_Gives_Correct_Resources_To_Attacker() {
+        public void Assault_Won_Gives_Correct_Resources_To_Attacker() {
             var attacker = new Player(1, "Attacker");
             var defender = new Player(2, "Defender");
 
@@ -71,7 +71,7 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
             var previousDefenderResources = defender.Resources;
             var previousAttackerResources = attacker.Resources;
 
-            var attack = new CastleAttack(attacker, defender, 10);
+            var attack = new Assault(attacker, defender, 10);
             attack.Execute();
 
             attack.Resources.Should().Be(expectedResources);

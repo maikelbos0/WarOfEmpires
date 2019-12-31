@@ -2,11 +2,11 @@
 using WarOfEmpires.Domain.Players;
 
 namespace WarOfEmpires.Domain.Attacks {
-    public class CastleAttack : Attack {
-        protected CastleAttack() { }
+    public class Assault : Attack {
+        protected Assault() { }
 
-        public CastleAttack(Player attacker, Player defender, int turns) : base(attacker, defender, turns) {
-            Type = AttackType.CastleAttack;
+        public Assault(Player attacker, Player defender, int turns) : base(attacker, defender, turns) {
+            Type = AttackType.Assault;
         }
 
         public override long CalculateDamage(int stamina, TroopInfo attackerTroopInfo, Player defender) {

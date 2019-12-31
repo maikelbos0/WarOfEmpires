@@ -24,11 +24,11 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
         }
 
         [TestMethod]
-        public void AttackFactory_Returns_CastleAttack_Correctly() {
-            var attack = AttackFactory.Get(AttackType.CastleAttack, null, null, 10);
+        public void AttackFactory_Returns_Assault_Correctly() {
+            var attack = AttackFactory.Get(AttackType.Assault, null, null, 10);
 
-            attack.Type.Should().Be(AttackType.CastleAttack);
-            attack.Should().BeOfType<CastleAttack>();
+            attack.Type.Should().Be(AttackType.Assault);
+            attack.Should().BeOfType<Assault>();
         }
     }
 }

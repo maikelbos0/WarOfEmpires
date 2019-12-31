@@ -126,7 +126,7 @@ namespace WarOfEmpires.Domain.Empires {
 
             return new BuildingDefinition(
                 names,
-                new ExpressionGenerator<string>((int level, int levelOffset) => $"Your defences protect against castle attacks and increase your recruiting by 1 peasant for each level; your current bonus is {level}"),
+                new ExpressionGenerator<string>((int level, int levelOffset) => $"Your defences protect against assaults and increase your recruiting by 1 peasant for each level; your current bonus is {level}"),
                 new ExpressionGenerator<Resources>(SequenceGeneratorFactory.GetGeneratorFunction(new Resources(gold: 20000, wood: 1000, stone: 2000, ore: 500))),
                 new ExpressionGenerator<int>((int currentLevel, int levelOffset) => currentLevel * 1)
             );
