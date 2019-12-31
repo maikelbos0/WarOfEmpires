@@ -134,7 +134,16 @@
     <Compile Include="Migrations\201912281524296_Players-BankTurns.Designer.cs">
       <DependentUpon>201912281524296_Players-BankTurns.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201912311345087_Attacks-Type.cs" />
+    <Compile Include="Migrations\201912311345087_Attacks-Type.Designer.cs">
+      <DependentUpon>201912311345087_Attacks-Type.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201912311549472_Attacks-Type-Entity.cs" />
+    <Compile Include="Migrations\201912311549472_Attacks-Type-Entity.Designer.cs">
+      <DependentUpon>201912311549472_Attacks-Type-Entity.cs</DependentUpon>
+    </Compile>
     <Compile Include="ReferenceEntities\AttackResultEntity.cs" />
+    <Compile Include="ReferenceEntities\AttackTypeEntity.cs" />
     <Compile Include="ReferenceEntities\BaseReferenceEntity.cs" />
     <Compile Include="IWarContext.cs" />
     <Compile Include="Migrations\Configuration.cs" />
@@ -223,6 +232,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201912281524296_Players-BankTurns.resx">
       <DependentUpon>201912281524296_Players-BankTurns.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201912311345087_Attacks-Type.resx">
+      <DependentUpon>201912311345087_Attacks-Type.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201912311549472_Attacks-Type-Entity.resx">
+      <DependentUpon>201912311549472_Attacks-Type-Entity.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

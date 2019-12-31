@@ -17,6 +17,7 @@ namespace WarOfEmpires.Database.Migrations {
             SeedEntityType<Security.UserStatus, UserStatusEntity>(context);
             SeedEntityType<Attacks.TroopType, TroopTypeEntity>(context);
             SeedEntityType<Attacks.AttackResult, AttackResultEntity>(context);
+            SeedEntityType<Attacks.AttackType, AttackTypeEntity>(context);
 
             AddOrUpdateUser(context, "example@test.com", "I am example");
             AddOrUpdateUser(context, "anon@test.com", "Anon");

@@ -4,8 +4,7 @@ using WarOfEmpires.Domain.Common;
 using WarOfEmpires.Domain.Players;
 
 namespace WarOfEmpires.Domain.Attacks {
-    // TODO Rework this for different attack types
-    public class Attack : Entity {
+    public abstract class Attack : Entity {
         public const int AttackerMinimumStamina = 70;
         public const int DefenderMinimumStamina = 30;
         public const int StaminaRandomModifier = 10;
@@ -19,6 +18,7 @@ namespace WarOfEmpires.Domain.Attacks {
         public virtual AttackResult Result { get; protected set; } = AttackResult.Undefined;
         public virtual int Turns { get; protected set; }
         public virtual Resources Resources { get; protected set; } = new Resources();
+        public virtual AttackType Type { get; protected set; }
         public virtual ICollection<AttackRound> Rounds { get; protected set; } = new List<AttackRound>();
 
         protected Attack() { }
@@ -44,7 +44,7 @@ namespace WarOfEmpires.Domain.Attacks {
             }
             else if (defenderStamina < DefenderMinimumStamina) {
                 Result = AttackResult.Surrendered;
-                Resources = (Defender.Resources - new Resources(Defender.Resources.Gold)) * Turns * SurrenderResourcesPerTurn;
+                Resources = GetBaseResources() * Turns * SurrenderResourcesPerTurn;
             }
             else {
                 var random = new Random();
@@ -62,7 +62,7 @@ namespace WarOfEmpires.Domain.Attacks {
 
                 if (Attacker.Stamina - attackerStamina > Defender.Stamina - defenderStamina) {
                     Result = AttackResult.Won;
-                    Resources = (Defender.Resources - new Resources(Defender.Resources.Gold)) * Turns * WonResourcesPerTurn;
+                    Resources = GetBaseResources() * Turns * WonResourcesPerTurn;                    
                 }
                 else {
                     Result = AttackResult.Defended;
@@ -73,8 +73,7 @@ namespace WarOfEmpires.Domain.Attacks {
         }
 
         public void AddRound(int stamina, TroopType troopType, bool isAggressor, TroopInfo attackerTroopInfo, Player defender) {
-            // We first multiply and only last divide to get the most accurate values without resorting to decimals
-            var damage = attackerTroopInfo.GetTotalAttack() * stamina * Turns / 100; 
+            var damage = CalculateDamage(stamina, attackerTroopInfo, defender);
 
             if (damage == 0) {
                 return;
@@ -89,5 +88,8 @@ namespace WarOfEmpires.Domain.Attacks {
                 defender.ProcessAttackDamage(damage)
             ));
         }
+
+        public abstract Resources GetBaseResources();
+        public abstract long CalculateDamage(int stamina, TroopInfo attackerTroopInfo, Player defender);
     }
 }

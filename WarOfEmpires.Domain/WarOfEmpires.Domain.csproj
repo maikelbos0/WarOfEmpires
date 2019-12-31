@@ -51,9 +51,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AggregateRoot.cs" />
+    <Compile Include="Attacks\AttackFactory.cs" />
     <Compile Include="Attacks\AttackResult.cs" />
     <Compile Include="Attacks\AttackRound.cs" />
     <Compile Include="Attacks\Attack.cs" />
+    <Compile Include="Attacks\AttackType.cs" />
+    <Compile Include="Attacks\CastleAttack.cs" />
+    <Compile Include="Attacks\Raid.cs" />
     <Compile Include="Empires\BankTurnTaskTriggeredEvent.cs" />
     <Compile Include="Empires\SequenceGeneratorFactory.cs" />
     <Compile Include="Players\Casualties.cs" />

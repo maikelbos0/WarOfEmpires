@@ -9,24 +9,7 @@ using WarOfEmpires.Domain.Players;
 namespace WarOfEmpires.Domain.Tests.Attacks {
     [TestClass]
     public sealed class AttackTests {
-        [TestMethod]
-        public void Attack_Result_Is_Surrendered_For_Defender_Low_Stamina() {
-            var attacker = new Player(1, "Attacker");
-            var defender = new Player(2, "Defender");
-
-            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(attacker, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
-            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(defender, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
-
-            attacker.TrainTroops(600, 200, 0, 0, 0, 0);
-            defender.TrainTroops(600, 200, 0, 0, 0, 0);
-
-            typeof(Player).GetProperty(nameof(Player.Stamina)).SetValue(defender, 29);
-
-            var attack = new Attack(attacker, defender, 10);
-            attack.Execute();
-
-            attack.Result.Should().Be(AttackResult.Surrendered);
-        }
+        // All tests here apply to all attack types
 
         [TestMethod]
         public void Attack_Result_Is_Fatigued_For_Attacker_Low_Stamina() {
@@ -41,7 +24,7 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
 
             typeof(Player).GetProperty(nameof(Player.Stamina)).SetValue(attacker, 69);
 
-            var attack = new Attack(attacker, defender, 10);
+            var attack = new Raid(attacker, defender, 10);
             attack.Execute();
 
             attack.Result.Should().Be(AttackResult.Fatigued);
@@ -57,7 +40,7 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
             attacker.TrainTroops(600, 200, 0, 0, 0, 0);
             defender.TrainTroops(400, 100, 0, 0, 0, 0);
 
-            var attack = new Attack(attacker, defender, 10);
+            var attack = new Raid(attacker, defender, 10);
             attack.Execute();
 
             attack.Result.Should().Be(AttackResult.Won);
@@ -73,58 +56,10 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
             attacker.TrainTroops(400, 100, 0, 0, 0, 0);
             defender.TrainTroops(600, 200, 0, 0, 0, 0);
 
-            var attack = new Attack(attacker, defender, 10);
+            var attack = new Raid(attacker, defender, 10);
             attack.Execute();
 
             attack.Result.Should().Be(AttackResult.Defended);
-        }
-
-        [TestMethod]
-        public void Attack_Surrendered_Gives_Correct_Resources_To_Attacker() {
-            var attacker = new Player(1, "Attacker");
-            var defender = new Player(2, "Defender");
-
-            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(attacker, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
-            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(defender, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
-
-            attacker.TrainTroops(600, 200, 0, 0, 0, 0);
-            defender.TrainTroops(600, 200, 0, 0, 0, 0);
-
-            typeof(Player).GetProperty(nameof(Player.Stamina)).SetValue(defender, 29);
-
-            var expectedResources = (defender.Resources - new Resources(defender.Resources.Gold)) * 0.25m;
-            var previousDefenderResources = defender.Resources;
-            var previousAttackerResources = attacker.Resources;
-
-            var attack = new Attack(attacker, defender, 10);
-            attack.Execute();
-
-            attack.Resources.Should().Be(expectedResources);
-            defender.Resources.Should().Be(previousDefenderResources - expectedResources);
-            attacker.Resources.Should().Be(previousAttackerResources + expectedResources);
-        }
-
-        [TestMethod]
-        public void Attack_Won_Gives_Correct_Resources_To_Attacker() {
-            var attacker = new Player(1, "Attacker");
-            var defender = new Player(2, "Defender");
-
-            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(attacker, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
-            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(defender, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
-
-            attacker.TrainTroops(600, 200, 0, 0, 0, 0);
-            defender.TrainTroops(400, 100, 0, 0, 0, 0);
-
-            var expectedResources = (defender.Resources - new Resources(defender.Resources.Gold)) * 0.5m;
-            var previousDefenderResources = defender.Resources;
-            var previousAttackerResources = attacker.Resources;
-
-            var attack = new Attack(attacker, defender, 10);
-            attack.Execute();
-
-            attack.Resources.Should().Be(expectedResources);
-            defender.Resources.Should().Be(previousDefenderResources - expectedResources);
-            attacker.Resources.Should().Be(previousAttackerResources + expectedResources);
         }
 
         [TestMethod]
@@ -143,7 +78,7 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
             var previousDefenderResources = defender.Resources;
             var previousAttackerResources = attacker.Resources;
 
-            var attack = new Attack(attacker, defender, 10);
+            var attack = new Raid(attacker, defender, 10);
             attack.Execute();
 
             attack.Resources.Should().Be(new Resources());
@@ -165,7 +100,7 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
             var previousDefenderResources = defender.Resources;
             var previousAttackerResources = attacker.Resources;
 
-            var attack = new Attack(attacker, defender, 10);
+            var attack = new Raid(attacker, defender, 10);
             attack.Execute();
 
             attack.Resources.Should().Be(new Resources());
@@ -186,7 +121,7 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
 
             var attackTurns = attacker.AttackTurns;
 
-            var attack = new Attack(attacker, defender, 10);
+            var attack = new Raid(attacker, defender, 10);
             attack.Execute();
 
             attacker.AttackTurns.Should().Be(attackTurns - 10);
@@ -197,7 +132,7 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
         [DataRow(0, DisplayName = "Zero")]
         [DataRow(11, DisplayName = "Too many")]
         public void Attack_Constructor_Throws_Exception_For_Invalid_Turns(int turns) {
-            Action action = () => new Attack(null, null, turns);
+            Action action = () => new Raid(null, null, turns);
 
             action.Should().Throw<ArgumentOutOfRangeException>();
         }
@@ -213,7 +148,7 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
             attacker.TrainTroops(600, 200, 0, 0, 0, 0);
             defender.TrainTroops(600, 200, 0, 0, 0, 0);
 
-            var attack = new Attack(attacker, defender, 10);
+            var attack = new Raid(attacker, defender, 10);
             attack.Execute();
 
             var rounds = attack.Rounds.ToList();
@@ -235,7 +170,7 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
             attacker.TrainTroops(600, 200, 0, 0, 0, 0);
             defender.TrainTroops(200, 50, 200, 50, 200, 50);
 
-            var attack = new Attack(attacker, defender, 10);
+            var attack = new Raid(attacker, defender, 10);
             attack.Execute();
 
             var rounds = attack.Rounds.ToList();
@@ -261,7 +196,7 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
             attacker.TrainTroops(300, 100, 300, 100, 0, 0);
             defender.TrainTroops(0, 0, 300, 100, 300, 100);
 
-            var attack = new Attack(attacker, defender, 10);
+            var attack = new Raid(attacker, defender, 10);
             attack.Execute();
 
             var rounds = attack.Rounds.ToList();
@@ -287,7 +222,7 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
             attacker.TrainTroops(200, 50, 200, 50, 200, 50);
             defender.TrainTroops(200, 50, 200, 50, 200, 50);
 
-            var attack = new Attack(attacker, defender, 10);
+            var attack = new Raid(attacker, defender, 10);
             attack.Execute();
 
             var rounds = attack.Rounds.ToList();

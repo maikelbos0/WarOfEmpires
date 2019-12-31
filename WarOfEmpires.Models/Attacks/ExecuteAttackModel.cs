@@ -7,6 +7,10 @@ namespace WarOfEmpires.Models.Attacks {
         public string DisplayName { get; set; }
         public int Population { get; set; }
 
+        [DisplayName("Attack type")]
+        [Required(ErrorMessage = "Attack type is required")]
+        public string AttackType { get; set; }
+
         [DisplayName("Number of turns")]
         [Required(ErrorMessage = "Number of turns is required")]
         [RegularExpression("^([1-9]|10)$", ErrorMessage = "Number of turns must be a valid number between 1 and 10")]

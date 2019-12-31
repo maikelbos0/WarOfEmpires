@@ -52,7 +52,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Attacks {
         [TestMethod]
         public void AttackCommandHandler_Succeeds() {
             var handler = new AttackCommandHandler(_repository);
-            var command = new AttackCommand("test@test.com", "2", "10");
+            var command = new AttackCommand("Raid", "test@test.com", "2", "10");
 
             var result = handler.Execute(command);
 
@@ -66,7 +66,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Attacks {
         [TestMethod]
         public void AttackCommandHandler_Throws_Exception_For_Alphanumeric_Defender() {
             var handler = new AttackCommandHandler(_repository);
-            var command = new AttackCommand("test@test.com", "A", "10");
+            var command = new AttackCommand("Raid", "test@test.com", "A", "10");
 
             Action action = () => handler.Execute(command);
 
@@ -78,7 +78,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Attacks {
         [TestMethod]
         public void AttackCommandHandler_Throws_Exception_For_Nonexistent_Defender() {
             var handler = new AttackCommandHandler(_repository);
-            var command = new AttackCommand("test@test.com", "5", "10");
+            var command = new AttackCommand("Raid", "test@test.com", "5", "10");
 
             Action action = () => handler.Execute(command);
 
@@ -88,9 +88,33 @@ namespace WarOfEmpires.CommandHandlers.Tests.Attacks {
         }
 
         [TestMethod]
+        public void AttackCommandHandler_Throws_Exception_For_Nonexistent_Type() {
+            var handler = new AttackCommandHandler(_repository);
+            var command = new AttackCommand("wrong", "test@test.com", "5", "10");
+
+            Action action = () => handler.Execute(command);
+
+            action.Should().Throw<ArgumentException>();
+            _attacker.ExecutedAttacks.Should().BeEmpty();
+            _defender.ReceivedAttacks.Should().BeEmpty();
+        }
+
+        [DataTestMethod]
+        [DataRow("Raid", typeof(Raid), DisplayName = "Raid")]
+        [DataRow("CastleAttack", typeof(CastleAttack), DisplayName = "Castle attack")]
+        public void AttackCommandHandler_Resolves_Type_Parameter_To_Correct_Type(string typeParameter, Type attackType) {
+            var handler = new AttackCommandHandler(_repository);
+            var command = new AttackCommand(typeParameter, "test@test.com", "2", "10");
+
+            handler.Execute(command);
+
+            _attacker.ExecutedAttacks.Single().Should().BeOfType(attackType);
+        }
+
+        [TestMethod]
         public void AttackCommandHandler_Fails_For_AlphaNumeric_Turns() {
             var handler = new AttackCommandHandler(_repository);
-            var command = new AttackCommand("test@test.com", "2", "A");
+            var command = new AttackCommand("Raid", "test@test.com", "2", "A");
 
             var result = handler.Execute(command);
 
@@ -104,7 +128,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Attacks {
         [TestMethod]
         public void AttackCommandHandler_Fails_For_Too_Few_Turns_Available() {
             var handler = new AttackCommandHandler(_repository);
-            var command = new AttackCommand("test@test.com", "2", "10");
+            var command = new AttackCommand("Raid", "test@test.com", "2", "10");
 
             _attacker.AttackTurns.Returns(9);
 
@@ -120,7 +144,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Attacks {
         [TestMethod]
         public void AttackCommandHandler_Fails_For_Less_Than_One_Turn() {
             var handler = new AttackCommandHandler(_repository);
-            var command = new AttackCommand("test@test.com", "2", "0");
+            var command = new AttackCommand("Raid", "test@test.com", "2", "0");
 
             var result = handler.Execute(command);
 
@@ -134,7 +158,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Attacks {
         [TestMethod]
         public void AttackCommandHandler_Fails_For_More_Than_Ten_Turns() {
             var handler = new AttackCommandHandler(_repository);
-            var command = new AttackCommand("test@test.com", "2", "11");
+            var command = new AttackCommand("Raid", "test@test.com", "2", "11");
 
             var result = handler.Execute(command);
 

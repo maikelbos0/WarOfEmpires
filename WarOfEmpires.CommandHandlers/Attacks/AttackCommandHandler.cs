@@ -1,4 +1,5 @@
-﻿using WarOfEmpires.CommandHandlers.Decorators;
+﻿using System;
+using WarOfEmpires.CommandHandlers.Decorators;
 using WarOfEmpires.Commands.Attacks;
 using WarOfEmpires.Domain.Attacks;
 using WarOfEmpires.Repositories.Players;
@@ -16,11 +17,11 @@ namespace WarOfEmpires.CommandHandlers.Attacks {
 
         public CommandResult<AttackCommand> Execute(AttackCommand command) {
             var result = new CommandResult<AttackCommand>();
+            var type = (AttackType)Enum.Parse(typeof(AttackType), command.AttackType);
             var attacker = _repository.Get(command.AttackerEmail);
             var defender = _repository.Get(int.Parse(command.DefenderId));
-            int turns = 0;
 
-            if (!int.TryParse(command.Turns, out turns) || turns < 1 || turns > 10) {
+            if (!int.TryParse(command.Turns, out int turns) || turns < 1 || turns > 10) {
                 result.AddError(c => c.Turns, "Turns must be a valid number");
             }
 
@@ -29,7 +30,7 @@ namespace WarOfEmpires.CommandHandlers.Attacks {
             }
 
             if (result.Success) {
-                var attack = new Attack(attacker, defender, turns);
+                var attack = AttackFactory.Get(type, attacker, defender, turns);
 
                 attack.Execute();
                 attacker.ExecutedAttacks.Add(attack);
