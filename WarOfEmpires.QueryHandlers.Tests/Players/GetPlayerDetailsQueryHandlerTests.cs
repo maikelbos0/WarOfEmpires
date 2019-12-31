@@ -45,11 +45,11 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
             AddPlayer(1, "test1@test.com", "Test display name 1", UserStatus.Active);
             AddPlayer(2, "test2@test.com", "Test display name 2", UserStatus.Active);
 
-            var results = handler.Execute(query);
+            var result = handler.Execute(query);
 
-            results.Id.Should().Be(2);
-            results.DisplayName.Should().Be("Test display name 2");
-            results.Population.Should().Be(43);
+            result.Id.Should().Be(2);
+            result.DisplayName.Should().Be("Test display name 2");
+            result.Population.Should().Be(43);
         }
 
         [TestMethod]
