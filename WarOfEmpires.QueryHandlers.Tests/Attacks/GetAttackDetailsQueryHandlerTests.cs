@@ -30,6 +30,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Attacks {
             attack.Id.Returns(1);
             attack.Date.Returns(new DateTime(2019, 1, 1));
             attack.IsRead.Returns(false);
+            attack.Type.Returns(AttackType.Raid);
             attack.Attacker.Returns(_attacker);
             attack.Defender.Returns(_defender);
             _attacker.ExecutedAttacks.Add(attack);
@@ -90,6 +91,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Attacks {
             result.Date.Should().Be(new DateTime(2019, 1, 1));
             result.IsRead.Should().BeFalse();
             result.Turns.Should().Be(10);
+            result.Type.Should().Be("Raid");
             result.Result.Should().Be("Won");
             result.Resources.Gold.Should().Be(1);
             result.Resources.Food.Should().Be(2);

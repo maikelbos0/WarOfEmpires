@@ -35,6 +35,7 @@ namespace WarOfEmpires.QueryHandlers.Attacks {
             return new AttackDetailsViewModel() {
                 Id = attack.Id,
                 Date = attack.Date,
+                Type = attack.Type.ToString(),
                 IsRead = isRead,
                 Attacker = attack.Attacker.DisplayName,
                 Defender = attack.Defender.DisplayName,

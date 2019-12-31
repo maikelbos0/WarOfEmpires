@@ -52,6 +52,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Attacks {
 
             attack.Id.Returns(++_attackId);
             attack.Date.Returns(new DateTime(2019, 1, 1));
+            attack.Type.Returns(AttackType.Raid);
             attack.Attacker.Returns(_attacker);
             attack.Defender.Returns(defender);
             _attacker.ExecutedAttacks.Add(attack);
@@ -88,9 +89,9 @@ namespace WarOfEmpires.QueryHandlers.Tests.Attacks {
             var handler = new GetExecutedAttacksQueryHandler(_context);
             var query = new GetExecutedAttacksQuery("test@test.com");
 
-            var results = handler.Execute(query);
+            var result = handler.Execute(query);
 
-            results.Should().HaveCount(3);
+            result.Should().HaveCount(3);
         }
 
         [TestMethod]
@@ -106,18 +107,19 @@ namespace WarOfEmpires.QueryHandlers.Tests.Attacks {
             var handler = new GetExecutedAttacksQueryHandler(_context);
             var query = new GetExecutedAttacksQuery("test@test.com");
 
-            var results = handler.Execute(query);
+            var result = handler.Execute(query);
 
-            results.Should().HaveCount(1);
-            results.Single().Id.Should().Be(1);
-            results.Single().Date.Should().Be(new DateTime(2019, 1, 1));
-            results.Single().Turns.Should().Be(7);
-            results.Single().Defender.Should().Be("Defender 1");
-            results.Single().DefenderSoldierCasualties.Should().Be(6);
-            results.Single().DefenderMercenaryCasualties.Should().Be(53);
-            results.Single().AttackerSoldierCasualties.Should().Be(9);
-            results.Single().AttackerMercenaryCasualties.Should().Be(45);
-            results.Single().Result.Should().Be("Won");
+            result.Should().HaveCount(1);
+            result.Single().Id.Should().Be(1);
+            result.Single().Date.Should().Be(new DateTime(2019, 1, 1));
+            result.Single().Turns.Should().Be(7);
+            result.Single().Type.Should().Be("Raid");
+            result.Single().Defender.Should().Be("Defender 1");
+            result.Single().DefenderSoldierCasualties.Should().Be(6);
+            result.Single().DefenderMercenaryCasualties.Should().Be(53);
+            result.Single().AttackerSoldierCasualties.Should().Be(9);
+            result.Single().AttackerMercenaryCasualties.Should().Be(45);
+            result.Single().Result.Should().Be("Won");
         }
     }
 }

@@ -25,6 +25,7 @@ namespace WarOfEmpires.QueryHandlers.Attacks {
                     Id = a.Id,
                     Date = a.Date,
                     Turns = a.Turns,
+                    Type = a.Type.ToString(),
                     Attacker = a.Attacker.DisplayName,
                     DefenderSoldierCasualties = a.Rounds.Where(r => r.IsAggressor).Sum(r => r.Casualties.Archers.Soldiers + r.Casualties.Cavalry.Soldiers + r.Casualties.Footmen.Soldiers),
                     DefenderMercenaryCasualties = a.Rounds.Where(r => r.IsAggressor).Sum(r => r.Casualties.Archers.Mercenaries + r.Casualties.Cavalry.Mercenaries + r.Casualties.Footmen.Mercenaries),

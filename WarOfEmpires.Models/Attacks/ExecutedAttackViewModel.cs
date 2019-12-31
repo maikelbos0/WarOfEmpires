@@ -4,6 +4,7 @@ using WarOfEmpires.Utilities.Formatting;
 namespace WarOfEmpires.Models.Attacks {
     public sealed class ExecutedAttackViewModel : EntityViewModel {
         public DateTime Date { get; set; }
+        public string Type { get; set; }
         public string DateString { get { return Date.ToString(StringFormat.Date); } }
         public int AttackerSoldierCasualties { get; set; }
         public string AttackerSoldierCasualtiesString { get { return AttackerSoldierCasualties.ToString(StringFormat.Integer); } }
