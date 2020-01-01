@@ -73,7 +73,7 @@ namespace WarOfEmpires.Domain.Attacks {
         }
 
         public void AddRound(int stamina, TroopType troopType, bool isAggressor, TroopInfo attackerTroopInfo, Player defender) {
-            var damage = CalculateDamage(stamina, attackerTroopInfo, defender);
+            var damage = CalculateDamage(stamina, isAggressor, attackerTroopInfo, defender);
 
             if (damage == 0) {
                 return;
@@ -90,6 +90,6 @@ namespace WarOfEmpires.Domain.Attacks {
         }
 
         public abstract Resources GetBaseResources();
-        public abstract long CalculateDamage(int stamina, TroopInfo attackerTroopInfo, Player defender);
+        public abstract long CalculateDamage(int stamina, bool isAggressor, TroopInfo attackerTroopInfo, Player defender);
     }
 }

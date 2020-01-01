@@ -1,7 +1,9 @@
 ﻿using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NSubstitute;
 using WarOfEmpires.Domain.Attacks;
 using WarOfEmpires.Domain.Common;
+using WarOfEmpires.Domain.Empires;
 using WarOfEmpires.Domain.Players;
 
 namespace WarOfEmpires.Domain.Tests.Attacks {
@@ -72,6 +74,23 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
             attack.Resources.Should().Be(expectedResources);
             defender.Resources.Should().Be(previousDefenderResources - expectedResources);
             attacker.Resources.Should().Be(previousAttackerResources + expectedResources);
+        }
+
+        [DataTestMethod]
+        [DataRow(65, false, 5, 1000, 3250, DisplayName = "Defender 5 turns")]
+        [DataRow(65, true, 5, 1000, 3250, DisplayName = "Attacker 5 turns")]
+        [DataRow(95, false, 10, 2000, 19000, DisplayName = "Defender 10 turns")]
+        [DataRow(95, true, 10, 2000, 19000, DisplayName = "Attacker 10 turns")]
+        public void Raid_CalculateDamage_Is_Correct(int stamina, bool isAggressor, int turns, int troopAttackDamage, int expectedDamage) {
+            var attacker = new Player(1, "Attacker");
+            var defender = new Player(2, "Defender");
+            var attack = new Raid(attacker, defender, turns);
+            var troopInfo = Substitute.For<TroopInfo>();
+
+            defender.Buildings.Add(new Building(defender, BuildingType.Defences, 5));
+            troopInfo.GetTotalAttack().Returns(troopAttackDamage);
+
+            attack.CalculateDamage(stamina, isAggressor, troopInfo, defender).Should().Be(expectedDamage);
         }
     }
 }

@@ -1,7 +1,9 @@
 ﻿using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NSubstitute;
 using WarOfEmpires.Domain.Attacks;
 using WarOfEmpires.Domain.Common;
+using WarOfEmpires.Domain.Empires;
 using WarOfEmpires.Domain.Players;
 
 namespace WarOfEmpires.Domain.Tests.Attacks {
@@ -24,11 +26,6 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
             attack.Execute();
 
             attack.Result.Should().Be(AttackResult.Surrendered);
-        }
-
-        [TestMethod]
-        public void Assault_Result_Is_Not_Surrendered_For_High_Defences_Low_Stamina() {
-            throw new System.NotImplementedException();
         }
 
         [TestMethod]
@@ -77,6 +74,23 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
             attack.Resources.Should().Be(expectedResources);
             defender.Resources.Should().Be(previousDefenderResources - expectedResources);
             attacker.Resources.Should().Be(previousAttackerResources + expectedResources);
+        }
+
+        [DataTestMethod]
+        [DataRow(65, false, 0, 5, 1000, 3250, DisplayName = "Defender 5 turns")]
+        [DataRow(65, true, 0, 5, 1000, 3250, DisplayName = "Attacker 5 turns")]
+        [DataRow(95, false, 5, 10, 2000, 19000, DisplayName = "Defender 10 turns with defences")]
+        [DataRow(95, true, 5, 10, 2000, 9500, DisplayName = "Attacker 10 turns with defences")]
+        public void Assault_CalculateDamage_Is_Correct(int stamina, bool isAggressor, int defenceLevel, int turns, int troopAttackDamage, int expectedDamage) {
+            var attacker = new Player(1, "Attacker");
+            var defender = new Player(2, "Defender");
+            var attack = new Assault(attacker, defender, turns);
+            var troopInfo = Substitute.For<TroopInfo>();
+
+            defender.Buildings.Add(new Building(defender, BuildingType.Defences, defenceLevel));
+            troopInfo.GetTotalAttack().Returns(troopAttackDamage);
+
+            attack.CalculateDamage(stamina, isAggressor, troopInfo, defender).Should().Be(expectedDamage);
         }
     }
 }
