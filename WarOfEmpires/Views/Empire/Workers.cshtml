@@ -12,8 +12,9 @@
 
 <ul>
     <li>Peasants available for training: @Model.CurrentPeasants.ToString(StringFormat.Integer)</li>
+    <li>Worker training cost: @Model.WorkerTrainingCost.Gold.ToString(StringFormat.Integer) <span class="si si-gold"></span></li>
     <li>Gold production per turn: @Model.CurrentGoldPerTurn.ToString(StringFormat.Integer) <span class="si si-gold" /></li>
-    <li>Upkeep per turn: @Model.GoldUpkeepPerTurn.ToString(StringFormat.Integer) <span class="si si-gold"></span> @Model.FoodUpkeepPerTurn.ToString(StringFormat.Integer) <span class="si si-food"></span></li>
+    <li>Upkeep per turn: @Model.UpkeepPerTurn.Gold.ToString(StringFormat.Integer) <span class="si si-gold"></span> @Model.UpkeepPerTurn.Food.ToString(StringFormat.Integer) <span class="si si-food"></span></li>
     <li>Recruits per day: @Model.RecruitsPerDay.ToString(StringFormat.Integer)</li>
 
     @if (Model.HasUpkeepRunOut) {
@@ -33,8 +34,9 @@
     @Html.HiddenFor(m => m.CurrentGoldPerTurn)
     @Html.HiddenFor(m => m.CurrentGoldPerWorkerPerTurn)
     @Html.HiddenFor(m => m.CurrentPeasants)
-    @Html.HiddenFor(m => m.FoodUpkeepPerTurn)
-    @Html.HiddenFor(m => m.GoldUpkeepPerTurn)
+    @Html.HiddenFor(m => m.UpkeepPerTurn.Food)
+    @Html.HiddenFor(m => m.UpkeepPerTurn.Gold)
+    @Html.HiddenFor(m => m.WorkerTrainingCost.Gold)
     @Html.HiddenFor(m => m.RecruitsPerDay)
     @Html.HiddenFor(m => m.WillUpkeepRunOut)
     @Html.HiddenFor(m => m.HasUpkeepRunOut)

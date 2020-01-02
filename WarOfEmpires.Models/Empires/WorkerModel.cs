@@ -30,8 +30,8 @@ namespace WarOfEmpires.Models.Empires {
         public int CurrentOreMiners { get; set; }
         public int CurrentOrePerWorkerPerTurn { get; set; }
         public int CurrentOrePerTurn { get; set; }
-        public int GoldUpkeepPerTurn { get; set; }
-        public int FoodUpkeepPerTurn { get; set; }
+        public ResourcesViewModel UpkeepPerTurn { get; set; }
+        public ResourcesViewModel WorkerTrainingCost { get; set; }
         public int RecruitsPerDay { get; set; }
         public bool WillUpkeepRunOut { get; set; }
         public bool HasUpkeepRunOut { get; set; }
