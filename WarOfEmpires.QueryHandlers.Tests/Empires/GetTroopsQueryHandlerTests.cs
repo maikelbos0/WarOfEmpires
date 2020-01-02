@@ -31,6 +31,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
             player.GetTotalResources().Returns(new Resources(gold: 1000, food: 100));
             player.GetResourcesPerTurn().Returns(new Resources(gold: 400, food: 20));
             player.HasUpkeepRunOut.Returns(true);
+            player.Stamina.Returns(100);
 
             _context.Users.Add(user);
             _context.Players.Add(player);
@@ -70,6 +71,14 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
 
             result.WillUpkeepRunOut.Should().BeTrue();
             result.HasUpkeepRunOut.Should().BeTrue();
+        }
+
+        [TestMethod]
+        public void GetTroopsQueryHandler_Returns_Correct_Stamina() {
+            var query = new GetTroopsQuery("test@test.com");
+            var handler = new GetTroopsQueryHandler(_context);
+            var result = handler.Execute(query);
+            result.CurrentStamina.Should().Be(100);
         }
 
         // TODO add tests for troop strength if/when implemented

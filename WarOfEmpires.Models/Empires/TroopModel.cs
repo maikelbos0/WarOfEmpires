@@ -3,24 +3,27 @@ using System.ComponentModel.DataAnnotations;
 
 namespace WarOfEmpires.Models.Empires {
     public sealed class TroopModel {
-        [DisplayName ("Archers")]
+        [DisplayName("Archers")]
         [RegularExpression("^\\d{0,6}$", ErrorMessage = "Archers must be a valid number")]
         public string Archers { get; set; }
-        [DisplayName ("Archer Mercenaries")]
+        [DisplayName("Archer Mercenaries")]
         [RegularExpression("^\\d{0,6}$", ErrorMessage = "Archer mercenaries must be a valid number")]
         public string MercenaryArchers { get; set; }
-        [DisplayName ("Cavalry")]
+        [DisplayName("Cavalry")]
         [RegularExpression("^\\d{0,6}$", ErrorMessage = "Cavalry must be a valid number")]
         public string Cavalry { get; set; }
-        [DisplayName ("Cavalry Mercenaries")]
+        [DisplayName("Cavalry Mercenaries")]
         [RegularExpression("^\\d{0,6}$", ErrorMessage = "Cavalry mercenaries must be a valid number")]
         public string MercenaryCavalry { get; set; }
-        [DisplayName ("Footmen")]
+        [DisplayName("Footmen")]
         [RegularExpression("^\\d{0,6}$", ErrorMessage = "Footmen must be a valid number")]
         public string Footmen { get; set; }
-        [DisplayName ("Footman Mercenaries")]
+        [DisplayName("Footman Mercenaries")]
         [RegularExpression("^\\d{0,6}$", ErrorMessage = "Footman mercenaries must be a valid number")]
         public string MercenaryFootmen { get; set; }
+        [DisplayName("Stamina")]
+        [RegularExpression("^\\d{0,6}$", ErrorMessage = "Stamina must be a valid number")]
+        public string Stamina { get; set; }
         public int CurrentPeasants { get; set; }
         public int CurrentArchers { get; set; }
         public int CurrentMercenaryArchers { get; set; }
@@ -31,5 +34,6 @@ namespace WarOfEmpires.Models.Empires {
         public bool WillUpkeepRunOut { get; set; }
         public bool HasUpkeepRunOut { get; set; }
         public string Command { get; set; }
+        public int CurrentStamina { get; set; }
     }
 }

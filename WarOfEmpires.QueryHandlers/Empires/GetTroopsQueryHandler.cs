@@ -29,7 +29,8 @@ namespace WarOfEmpires.QueryHandlers.Empires {
                 CurrentFootmen = player.Footmen.Soldiers,
                 CurrentMercenaryFootmen = player.Footmen.Mercenaries,
                 WillUpkeepRunOut = !(player.GetTotalResources() + player.GetResourcesPerTurn() * 48).CanAfford(player.GetUpkeepPerTurn() * 48),
-                HasUpkeepRunOut = player.HasUpkeepRunOut
+                HasUpkeepRunOut = player.HasUpkeepRunOut,
+                CurrentStamina = player.Stamina
             };
         }
     }
