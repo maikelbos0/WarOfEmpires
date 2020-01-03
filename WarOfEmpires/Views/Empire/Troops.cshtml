@@ -12,6 +12,22 @@
 
 <ul>
     <li>Peasants available for training: @Model.CurrentPeasants.ToString(StringFormat.Integer)</li>
+    <li>
+        Archer training cost: @Model.ArcherTrainingCost.Gold.ToString(StringFormat.Integer) <span class="si si-gold"></span>
+        @Model.ArcherTrainingCost.Wood.ToString(StringFormat.Integer) <span class="si si-wood"></span>
+        @Model.ArcherTrainingCost.Ore.ToString(StringFormat.Integer) <span class="si si-ore"></span>
+    </li>
+    <li>
+        Cavalry training cost: @Model.CavalryTrainingCost.Gold.ToString(StringFormat.Integer) <span class="si si-gold"></span>
+        @Model.CavalryTrainingCost.Wood.ToString(StringFormat.Integer) <span class="si si-wood"></span>
+        @Model.CavalryTrainingCost.Ore.ToString(StringFormat.Integer) <span class="si si-ore"></span>
+    </li>
+    <li>
+        Footman training cost: @Model.FootmanTrainingCost.Gold.ToString(StringFormat.Integer) <span class="si si-gold"></span>
+        @Model.FootmanTrainingCost.Wood.ToString(StringFormat.Integer) <span class="si si-wood"></span>
+        @Model.FootmanTrainingCost.Ore.ToString(StringFormat.Integer) <span class="si si-ore"></span>
+    </li>
+    <li>Mercenary training cost: @Model.MercenaryTrainingCost.Gold.ToString(StringFormat.Integer) <span class="si si-gold"></span></li>
 
     @if (Model.HasUpkeepRunOut) {
         <li class="text-danger">You aren't able to afford the upkeep costs; your workers have stopped working and your mercenaries have left your empire</li>
