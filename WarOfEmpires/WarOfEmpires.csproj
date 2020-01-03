@@ -396,6 +396,7 @@
     <Content Include="Views\Empire\BankBuildings.cshtml" />
     <Content Include="Views\Empire\Banking.cshtml" />
     <Content Include="Views\Shared\_DisplayResources.cshtml" />
+    <Content Include="Views\Shared\_HiddenResources.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -11,5 +11,17 @@ namespace WarOfEmpires.Extensions {
 
             return html.Partial("_DisplayResources", model);
         }
+
+        public static MvcHtmlString HiddenFor<TModel>(this HtmlHelper<TModel> html, Expression<Func<TModel, ResourcesViewModel>> expression) {
+            var model = expression.Compile().Invoke(html.ViewData.Model);
+            var name = ExpressionHelper.GetExpressionText(expression);
+            var viewData = new ViewDataDictionary(html.ViewData) {
+                TemplateInfo = new TemplateInfo {
+                    HtmlFieldPrefix = name
+                }
+            };
+
+            return html.Partial("_HiddenResources", model, viewData);
+        }
     }
 }
