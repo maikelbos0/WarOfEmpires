@@ -4,7 +4,8 @@ using WarOfEmpires.Domain.Players;
 
 namespace WarOfEmpires.Domain.Attacks {
     public class Assault : Attack {
-        public const int DefenceModifier = 5;
+        public const int DefenceDamageModifier = 5;
+        public const int DefenceSurrenderModifier = 10;
 
         protected Assault() { }
 
@@ -18,7 +19,7 @@ namespace WarOfEmpires.Domain.Attacks {
             if (isAggressor) {
                 // This multiplier makes sure damage goes down the higher the defence bonus of the defender
                 // It's a limit function from 1 that approaches 0 as the bonus goes up
-                multiplier = 1.0 / (defender.GetBuildingBonus(BuildingType.Defences) + DefenceModifier) * DefenceModifier;
+                multiplier = 1.0 / (defender.GetBuildingBonus(BuildingType.Defences) + DefenceDamageModifier) * DefenceDamageModifier;
             }
 
             return (int)(multiplier * attackerTroopInfo.GetTotalAttack() * Turns * stamina / 100.0);
@@ -26,6 +27,12 @@ namespace WarOfEmpires.Domain.Attacks {
 
         public override Resources GetBaseResources() {
             return new Resources(Defender.Resources.Gold);
+        }
+
+        public override bool IsSurrender() {
+            var multiplier = 1.0 * (Defender.GetBuildingBonus(BuildingType.Defences) + DefenceSurrenderModifier) / DefenceSurrenderModifier;
+
+            return multiplier * Defender.Stamina < DefenderMinimumStamina;
         }
     }
 }

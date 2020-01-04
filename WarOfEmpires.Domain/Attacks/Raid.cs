@@ -16,5 +16,9 @@ namespace WarOfEmpires.Domain.Attacks {
         public override Resources GetBaseResources() {
             return Defender.Resources - new Resources(Defender.Resources.Gold);
         }
+
+        public override bool IsSurrender() {
+            return Defender.Stamina < DefenderMinimumStamina;
+        }
     }
 }

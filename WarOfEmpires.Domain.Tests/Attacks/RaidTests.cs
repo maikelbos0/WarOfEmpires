@@ -92,5 +92,17 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
 
             attack.CalculateDamage(stamina, isAggressor, troopInfo, defender).Should().Be(expectedDamage);
         }
+
+        [DataTestMethod]
+        [DataRow(29, true, DisplayName ="Surrender")]
+        [DataRow(30, false, DisplayName = "Not surrender")]
+        public void Raid_IsSurrender_Is_Correct(int stamina, bool expectedResult) {
+            var defender = Substitute.For<Player>();
+            var attack = new Raid(null, defender, 10);
+
+            defender.Stamina.Returns(stamina);
+
+            attack.IsSurrender().Should().Be(expectedResult);
+        }
     }
 }

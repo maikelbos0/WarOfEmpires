@@ -42,7 +42,7 @@ namespace WarOfEmpires.Domain.Attacks {
             if (attackerStamina < AttackerMinimumStamina) {
                 Result = AttackResult.Fatigued;
             }
-            else if (defenderStamina < DefenderMinimumStamina) {
+            else if (IsSurrender()) {
                 Result = AttackResult.Surrendered;
                 Resources = GetBaseResources() * Turns * SurrenderResourcesPerTurn;
             }
@@ -91,5 +91,6 @@ namespace WarOfEmpires.Domain.Attacks {
 
         public abstract Resources GetBaseResources();
         public abstract long CalculateDamage(int stamina, bool isAggressor, TroopInfo attackerTroopInfo, Player defender);
+        public abstract bool IsSurrender();
     }
 }

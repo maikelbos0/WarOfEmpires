@@ -92,5 +92,24 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
 
             attack.CalculateDamage(stamina, isAggressor, troopInfo, defender).Should().Be(expectedDamage);
         }
+
+        [DataTestMethod]
+        [DataRow(29, 0, true, DisplayName = "Surrender without defences")]
+        [DataRow(30, 0, false, DisplayName = "Not surrender without defences")]
+        [DataRow(19, 5, true, DisplayName = "Surrender defences level 5")]
+        [DataRow(20, 5, false, DisplayName = "Not surrender defences level 5")]
+        [DataRow(14, 10, true, DisplayName = "Surrender defences level 10")]
+        [DataRow(15, 10, false, DisplayName = "Not surrender defences level 10")]
+        [DataRow(11, 15, true, DisplayName = "Surrender defences level 15")]
+        [DataRow(12, 15, false, DisplayName = "Not surrender defences level 15")]
+        public void Assault_IsSurrender_Is_Correct(int stamina, int defenceLevel, bool expectedResult) {
+            var defender = new Player(1, "Defender");
+            var attack = new Assault(null, defender, 10);
+
+            defender.Buildings.Add(new Building(defender, BuildingType.Defences, defenceLevel));
+            typeof(Player).GetProperty(nameof(Player.Stamina)).SetValue(defender, stamina);
+
+            attack.IsSurrender().Should().Be(expectedResult);
+        }
     }
 }
