@@ -18,7 +18,7 @@ namespace WarOfEmpires.Domain.Attacks {
         }
 
         public override bool IsSurrender() {
-            return Defender.Stamina < DefenderMinimumStamina;
+            return Defender.Stamina * GetArmyStrengthModifier() < DefenderMinimumStamina;
         }
     }
 }

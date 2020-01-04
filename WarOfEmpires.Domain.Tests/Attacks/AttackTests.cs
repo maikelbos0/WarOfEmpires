@@ -240,5 +240,53 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
             rounds[5].TroopType.Should().Be(TroopType.Footmen);
             rounds[5].IsAggressor.Should().BeFalse();
         }
+
+        [TestMethod]
+        public void Attack_GetArmyStrengthModifier_Works_Small_Defender() {
+            var attacker = new Player(1, "Attacker");
+            var defender = new Player(2, "Defender");
+
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(attacker, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(defender, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
+
+            attacker.TrainTroops(600, 130, 10, 15, 20, 25);
+            defender.TrainTroops(400, 130, 10, 15, 20, 25);
+
+            var attack = new Raid(attacker, defender, 10);
+
+            attack.GetArmyStrengthModifier().Should().Be(0.75m);
+        }
+
+        [TestMethod]
+        public void Attack_GetArmyStrengthModifier_Works_Medium_Defender() {
+            var attacker = new Player(1, "Attacker");
+            var defender = new Player(2, "Defender");
+
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(attacker, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(defender, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
+
+            attacker.TrainTroops(600, 130, 10, 15, 20, 25);
+            defender.TrainTroops(600, 130, 10, 15, 20, 25);
+
+            var attack = new Raid(attacker, defender, 10);
+
+            attack.GetArmyStrengthModifier().Should().Be(1.0m);
+        }
+
+        [TestMethod]
+        public void Attack_GetArmyStrengthModifier_Works_Big_Defender() {
+            var attacker = new Player(1, "Attacker");
+            var defender = new Player(2, "Defender");
+
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(attacker, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(defender, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
+
+            attacker.TrainTroops(600, 130, 10, 15, 20, 25);
+            defender.TrainTroops(760, 130, 10, 15, 20, 25);
+
+            var attack = new Raid(attacker, defender, 10);
+
+            attack.GetArmyStrengthModifier().Should().Be(1.2m);
+        }
     }
 }

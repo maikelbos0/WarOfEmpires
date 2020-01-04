@@ -30,9 +30,9 @@ namespace WarOfEmpires.Domain.Attacks {
         }
 
         public override bool IsSurrender() {
-            var multiplier = 1.0 * (Defender.GetBuildingBonus(BuildingType.Defences) + DefenceSurrenderModifier) / DefenceSurrenderModifier;
+            var multiplier = 1.0m * (Defender.GetBuildingBonus(BuildingType.Defences) + DefenceSurrenderModifier) / DefenceSurrenderModifier;
 
-            return multiplier * Defender.Stamina < DefenderMinimumStamina;
+            return Defender.Stamina * multiplier * GetArmyStrengthModifier() < DefenderMinimumStamina;
         }
     }
 }

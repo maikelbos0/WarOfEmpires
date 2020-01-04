@@ -38,13 +38,14 @@ namespace WarOfEmpires.Domain.Attacks {
 
             var attackerStamina = Attacker.Stamina;
             var defenderStamina = Defender.Stamina;
+            var armyStrengthModifier = GetArmyStrengthModifier();
 
             if (attackerStamina < AttackerMinimumStamina) {
                 Result = AttackResult.Fatigued;
             }
             else if (IsSurrender()) {
                 Result = AttackResult.Surrendered;
-                Resources = GetBaseResources() * Turns * SurrenderResourcesPerTurn;
+                Resources = GetBaseResources() * Turns * SurrenderResourcesPerTurn * armyStrengthModifier;
             }
             else {
                 var random = new Random();
@@ -62,7 +63,7 @@ namespace WarOfEmpires.Domain.Attacks {
 
                 if (Attacker.Stamina - attackerStamina > Defender.Stamina - defenderStamina) {
                     Result = AttackResult.Won;
-                    Resources = GetBaseResources() * Turns * WonResourcesPerTurn;                    
+                    Resources = GetBaseResources() * Turns * WonResourcesPerTurn * armyStrengthModifier;
                 }
                 else {
                     Result = AttackResult.Defended;
@@ -87,6 +88,13 @@ namespace WarOfEmpires.Domain.Attacks {
                 damage,
                 defender.ProcessAttackDamage(damage)
             ));
+        }
+
+        public decimal GetArmyStrengthModifier() {
+            var defenderTroops = Defender.Archers.GetTotals() + Defender.Cavalry.GetTotals() + Defender.Footmen.GetTotals();
+            var attackerTroops = Attacker.Archers.GetTotals() + Attacker.Cavalry.GetTotals() + Attacker.Footmen.GetTotals();
+
+            return 1.0m * defenderTroops / attackerTroops;
         }
 
         public abstract Resources GetBaseResources();
