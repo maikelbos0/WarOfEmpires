@@ -37,17 +37,17 @@ namespace WarOfEmpires.Domain.Attacks {
             if (Result != AttackResult.Undefined) throw new InvalidOperationException("An attack can not be executed more than once");
 
             var attackerStamina = Attacker.Stamina;
-            var defenderStamina = Defender.Stamina;
-            var armyStrengthModifier = GetArmyStrengthModifier();
+            var defenderStamina = Defender.Stamina;            
 
-            if (attackerStamina < AttackerMinimumStamina) {
+            if (attackerStamina < AttackerMinimumStamina || Attacker.Archers.GetTotals() + Attacker.Cavalry.GetTotals() + Attacker.Footmen.GetTotals() == 0) {
                 Result = AttackResult.Fatigued;
             }
             else if (IsSurrender()) {
                 Result = AttackResult.Surrendered;
-                Resources = GetBaseResources() * Turns * SurrenderResourcesPerTurn * armyStrengthModifier;
+                Resources = GetBaseResources() * Turns * SurrenderResourcesPerTurn * GetArmyStrengthModifier();
             }
             else {
+                var armyStrengthModifier = GetArmyStrengthModifier();
                 var random = new Random();
                 var calculatedAttackerStamina = random.Next(attackerStamina - StaminaRandomModifier, attackerStamina + StaminaRandomModifier);
                 var calculatedDefenderStamina = random.Next(defenderStamina - StaminaRandomModifier, defenderStamina + StaminaRandomModifier);

@@ -19,3 +19,7 @@
 @if (Model.Ore > 0) {
     @Model.Ore.ToString(StringFormat.Integer) <span class="si si-ore"></span>
 }
+
+@if (Model.Gold == 0 && Model.Food == 0 && Model.Wood == 0 && Model.Stone == 0 && Model.Ore == 0) {
+    @:nothing
+}

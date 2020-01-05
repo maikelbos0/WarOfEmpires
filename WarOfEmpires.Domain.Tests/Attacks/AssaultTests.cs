@@ -29,6 +29,21 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
         }
 
         [TestMethod]
+        public void Assault_Result_Is_Surrendered_For_Defender_Without_Troops() {
+            var attacker = new Player(1, "Attacker");
+            var defender = new Player(2, "Defender");
+
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(attacker, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
+
+            attacker.TrainTroops(600, 200, 0, 0, 0, 0);
+
+            var attack = new Assault(attacker, defender, 10);
+            attack.Execute();
+
+            attack.Result.Should().Be(AttackResult.Surrendered);
+        }
+
+        [TestMethod]
         public void Assault_Surrendered_Gives_Correct_Resources_To_Attacker() {
             var attacker = new Player(1, "Attacker");
             var defender = new Player(2, "Defender");

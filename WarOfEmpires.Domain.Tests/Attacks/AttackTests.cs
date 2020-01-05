@@ -12,6 +12,22 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
         // All tests here apply to all attack types
 
         [TestMethod]
+        public void Assault_Result_Is_Fatigued_for_Attacker_Without_Troops() {
+            var attacker = new Player(1, "Attacker");
+            var defender = new Player(2, "Defender");
+
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(attacker, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(defender, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
+
+            defender.TrainTroops(600, 200, 0, 0, 0, 0);
+
+            var attack = new Raid(attacker, defender, 10);
+            attack.Execute();
+
+            attack.Result.Should().Be(AttackResult.Fatigued);
+        }
+
+        [TestMethod]
         public void Attack_Result_Is_Fatigued_For_Attacker_Low_Stamina() {
             var attacker = new Player(1, "Attacker");
             var defender = new Player(2, "Defender");
