@@ -305,6 +305,9 @@ namespace WarOfEmpires.Domain.Players {
             // Get recruiting for defences
             recruiting += GetBuildingBonus(BuildingType.Defences);
 
+            // Adjust for havnig not enough soldiers
+            recruiting -= GetSoldierRecruitsPenalty();
+
             if (recruiting > 25) {
                 return 25;
             }
@@ -313,6 +316,25 @@ namespace WarOfEmpires.Domain.Players {
             }
             else {
                 return recruiting;
+            }
+        }
+
+        public virtual int GetSoldierRecruitsPenalty() {
+            var soldiers = Archers.Soldiers + Cavalry.Soldiers + Footmen.Soldiers;
+            var peasants = Peasants + Farmers + WoodWorkers + StoneMasons + OreMiners;
+            var ratio = 1.0m * soldiers / (soldiers + peasants);
+
+            if (ratio >= 0.5m) {
+                return 0;
+            }
+            else if (ratio >= 0.45m) {
+                return 1;
+            }
+            else if (ratio >= 0.4m) {
+                return 2;
+            }
+            else {
+                return 3;
             }
         }
 

@@ -34,6 +34,7 @@ namespace WarOfEmpires.Models.Empires {
         public ResourcesViewModel MercenaryTrainingCost { get; set; }
         public bool WillUpkeepRunOut { get; set; }
         public bool HasUpkeepRunOut { get; set; }
+        //TODO HasSoldierShortage
         public string Command { get; set; }
     }
 }
