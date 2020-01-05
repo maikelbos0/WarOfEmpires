@@ -10,6 +10,7 @@ namespace WarOfEmpires.Domain.Attacks {
         public const int StaminaRandomModifier = 10;
         public const decimal SurrenderResourcesPerTurn = 0.025m;
         public const decimal WonResourcesPerTurn = 0.05m;
+        public const decimal MinimumResourceArmyModifier = 0.5m;
 
         public virtual DateTime Date { get; protected set; }
         public virtual bool IsRead { get; set; }
@@ -44,10 +45,11 @@ namespace WarOfEmpires.Domain.Attacks {
             }
             else if (IsSurrender()) {
                 Result = AttackResult.Surrendered;
-                Resources = GetBaseResources() * Turns * SurrenderResourcesPerTurn * GetArmyStrengthModifier();
+                Resources = GetBaseResources() * Turns * SurrenderResourcesPerTurn * GetArmyStrengthModifier(MinimumResourceArmyModifier);
             }
             else {
-                var armyStrengthModifier = GetArmyStrengthModifier();
+                // Measure army strength before the fighting happens
+                var armyStrengthModifier = GetArmyStrengthModifier(MinimumResourceArmyModifier);
                 var random = new Random();
                 var calculatedAttackerStamina = random.Next(attackerStamina - StaminaRandomModifier, attackerStamina + StaminaRandomModifier);
                 var calculatedDefenderStamina = random.Next(defenderStamina - StaminaRandomModifier, defenderStamina + StaminaRandomModifier);
@@ -90,11 +92,11 @@ namespace WarOfEmpires.Domain.Attacks {
             ));
         }
 
-        public decimal GetArmyStrengthModifier() {
+        public decimal GetArmyStrengthModifier(decimal minimum = 0) {
             var defenderTroops = Defender.Archers.GetTotals() + Defender.Cavalry.GetTotals() + Defender.Footmen.GetTotals();
             var attackerTroops = Attacker.Archers.GetTotals() + Attacker.Cavalry.GetTotals() + Attacker.Footmen.GetTotals();
 
-            return 1.0m * defenderTroops / attackerTroops;
+            return Math.Max(minimum, 1.0m * defenderTroops / attackerTroops);
         }
 
         public abstract Resources GetBaseResources();
