@@ -149,5 +149,29 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
 
             result.HasUpkeepShortage.Should().BeFalse();
         }
+
+        [TestMethod]
+        public void GetNotificationsQueryHandler_HasSoldierShortage_Is_True_If_A_Troop_Penalty_Exists() {
+            _player.GetSoldierRecruitsPenalty().Returns(1);
+
+            var handler = new GetNotificationsQueryHandler(_context);
+            var query = new GetNotificationsQuery("test@test.com");
+
+            var result = handler.Execute(query);
+
+            result.HasSoldierShortage.Should().BeTrue();
+        }
+
+        [TestMethod]
+        public void GetNotificationsQueryHandler_HasSoldierShortage_Is_False_A_Troop_Penalty_Does_Not_Exist() {
+            _player.GetSoldierRecruitsPenalty().Returns(0);
+
+            var handler = new GetNotificationsQueryHandler(_context);
+            var query = new GetNotificationsQuery("test@test.com");
+
+            var result = handler.Execute(query);
+
+            result.HasSoldierShortage.Should().BeFalse();
+        }
     }
 }

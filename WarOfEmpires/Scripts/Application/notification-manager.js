@@ -7,6 +7,7 @@
         let empireElements = $('#navbar-empire-dropdown');
         let housingElements = $('#empire-buildings-link');
         let upkeepElements = $('#worker-link');
+        let troopElements = $('#troops-link');
 
         if (messageElements.length > 0) {
             $.ajax({
@@ -15,9 +16,10 @@
                 success: function (result) {
                     messageElements.toggleClass("notify", result.HasNewMessages);
                     attackElements.toggleClass("notify", result.HasNewAttacks);
-                    empireElements.toggleClass("notify", result.HasHousingShortage || result.HasUpkeepShortage);
+                    empireElements.toggleClass("notify", result.HasHousingShortage || result.HasUpkeepShortage || result.HasSoldierShortage);
                     housingElements.toggleClass("notify", result.HasHousingShortage);
                     upkeepElements.toggleClass("notify", result.HasUpkeepShortage);
+                    troopElements.toggleClass("notify", result.HasSoldierShortage);
                 },
                 error: function () {
                     toastr.error("An error occurred loading notitications; please refresh the page for accurate values.");

@@ -37,7 +37,8 @@ namespace WarOfEmpires.QueryHandlers.Empires {
                 FootmanTrainingCost = _resourcesMap.ToViewModel(Player.FootmanTrainingCost),
                 MercenaryTrainingCost = _resourcesMap.ToViewModel(Player.MercenaryTrainingCost),
                 WillUpkeepRunOut = !(player.GetTotalResources() + player.GetResourcesPerTurn() * 48).CanAfford(player.GetUpkeepPerTurn() * 48),
-                HasUpkeepRunOut = player.HasUpkeepRunOut
+                HasUpkeepRunOut = player.HasUpkeepRunOut,
+                HasSoldierShortage = player.GetSoldierRecruitsPenalty() > 0
             };
         }
     }
