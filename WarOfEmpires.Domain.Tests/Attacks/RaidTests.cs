@@ -29,6 +29,21 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
         }
 
         [TestMethod]
+        public void Raid_Result_Is_Surrendered_For_Defender_Without_Troops() {
+            var attacker = new Player(1, "Attacker");
+            var defender = new Player(2, "Defender");
+
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(attacker, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
+
+            attacker.TrainTroops(600, 200, 0, 0, 0, 0);
+
+            var attack = new Raid(attacker, defender, 10);
+            attack.Execute();
+
+            attack.Result.Should().Be(AttackResult.Surrendered);
+        }
+
+        [TestMethod]
         public void Raid_Surrendered_Gives_Correct_Resources_To_Attacker() {
             var attacker = new Player(1, "Attacker");
             var defender = new Player(2, "Defender");
@@ -64,7 +79,7 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
             attacker.TrainTroops(600, 200, 0, 0, 0, 0);
             defender.TrainTroops(400, 100, 0, 0, 0, 0);
 
-            var expectedResources = (defender.Resources - new Resources(defender.Resources.Gold)) * 0.5m;
+            var expectedResources = (defender.Resources - new Resources(defender.Resources.Gold)) * 0.5m * (500m / 800m);
             var previousDefenderResources = defender.Resources;
             var previousAttackerResources = attacker.Resources;
 
@@ -91,6 +106,39 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
             troopInfo.GetTotalAttack().Returns(troopAttackDamage);
 
             attack.CalculateDamage(stamina, isAggressor, troopInfo, defender).Should().Be(expectedDamage);
+        }
+
+        [DataTestMethod]
+        [DataRow(29, true, DisplayName = "Surrender")]
+        [DataRow(30, false, DisplayName = "Not surrender")]
+        public void Raid_IsSurrender_Is_Correct(int stamina, bool expectedResult) {
+            var attacker = new Player(1, "Attacker");
+            var defender = new Player(2, "Defender");
+            var attack = new Raid(attacker, defender, 10);
+
+            typeof(Player).GetProperty(nameof(Player.Stamina)).SetValue(defender, stamina);
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(attacker, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(defender, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
+
+            attacker.TrainTroops(600, 200, 0, 0, 0, 0);
+            defender.TrainTroops(600, 200, 0, 0, 0, 0);
+
+            attack.IsSurrender().Should().Be(expectedResult);
+        }
+
+        [TestMethod]
+        public void Raid_IsSurrender_Is_Affected_By_Troop_Size() {
+            var attacker = new Player(1, "Attacker");
+            var defender = new Player(2, "Defender");
+            var attack = new Raid(attacker, defender, 10);
+
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(attacker, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(defender, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
+
+            attacker.TrainTroops(600, 200, 0, 0, 0, 0);
+            defender.TrainTroops(150, 25, 0, 0, 0, 0);
+
+            attack.IsSurrender().Should().BeTrue();
         }
     }
 }

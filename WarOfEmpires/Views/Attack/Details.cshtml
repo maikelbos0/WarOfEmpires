@@ -52,9 +52,7 @@
 @if (@Model.Result == "Won" || @Model.Result == "Surrendered") {
     <p>
         <strong>
-            @Model.Attacker's troops are victorious and take @Model.Resources.Gold.ToString(StringFormat.Integer) gold, @Model.Resources.Food.ToString(StringFormat.Integer) food,
-            @Model.Resources.Wood.ToString(StringFormat.Integer) wood, @Model.Resources.Stone.ToString(StringFormat.Integer) stone and
-            @Model.Resources.Ore.ToString(StringFormat.Integer) ore as tribute.
+            @Model.Attacker's troops are victorious and take as tribute: @Html.DisplayFor(m => m.Resources)
         </strong>
     </p>
 }

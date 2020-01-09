@@ -5,6 +5,7 @@ using WarOfEmpires.Domain.Common;
 using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Queries.Empires;
+using WarOfEmpires.QueryHandlers.Common;
 using WarOfEmpires.QueryHandlers.Empires;
 using WarOfEmpires.Test.Utilities;
 
@@ -42,7 +43,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
         [TestMethod]
         public void GetWorkersQueryHandler_Returns_Correct_Peasants() {
             var query = new GetWorkersQuery("test@test.com");
-            var handler = new GetWorkersQueryHandler(_context);
+            var handler = new GetWorkersQueryHandler(_context, new ResourcesMap());
 
             var result = handler.Execute(query);
 
@@ -52,7 +53,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
         [TestMethod]
         public void GetWorkersQueryHandler_Returns_Correct_Workers() {
             var query = new GetWorkersQuery("test@test.com");
-            var handler = new GetWorkersQueryHandler(_context);
+            var handler = new GetWorkersQueryHandler(_context, new ResourcesMap());
 
             var result = handler.Execute(query);
 
@@ -65,7 +66,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
         [TestMethod]
         public void GetWorkersQueryHandler_Returns_Correct_Resources_Per_Turn() {
             var query = new GetWorkersQuery("test@test.com");
-            var handler = new GetWorkersQueryHandler(_context);
+            var handler = new GetWorkersQueryHandler(_context, new ResourcesMap());
 
             var result = handler.Execute(query);
 
@@ -84,13 +85,14 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
         [TestMethod]
         public void GetWorkersQueryHandler_Returns_Correct_Additional_Information() {
             var query = new GetWorkersQuery("test@test.com");
-            var handler = new GetWorkersQueryHandler(_context);
+            var handler = new GetWorkersQueryHandler(_context, new ResourcesMap());
 
             var result = handler.Execute(query);
 
             result.RecruitsPerDay.Should().Be(5);
-            result.FoodUpkeepPerTurn.Should().Be(30);
-            result.GoldUpkeepPerTurn.Should().Be(500);
+            result.UpkeepPerTurn.Food.Should().Be(30);
+            result.UpkeepPerTurn.Gold.Should().Be(500);
+            result.WorkerTrainingCost.Gold.Should().Be(250);
             result.WillUpkeepRunOut.Should().BeTrue();
             result.HasUpkeepRunOut.Should().BeTrue();
         }

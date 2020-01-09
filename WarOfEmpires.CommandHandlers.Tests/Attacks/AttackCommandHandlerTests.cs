@@ -32,6 +32,9 @@ namespace WarOfEmpires.CommandHandlers.Tests.Attacks {
             _attacker.User.Returns(attackerUser);
             _attacker.ExecutedAttacks.Returns(new List<Attack>());
             _attacker.AttackTurns.Returns(20);
+            _attacker.Archers.Returns(new Troops(15, 5));
+            _attacker.Cavalry.Returns(new Troops(15, 5));
+            _attacker.Footmen.Returns(new Troops(15, 5));
 
             _context.Users.Add(attackerUser);
             _context.Players.Add(_attacker);
@@ -44,6 +47,9 @@ namespace WarOfEmpires.CommandHandlers.Tests.Attacks {
             _defender.Id.Returns(2);
             _defender.User.Returns(defenderUser);
             _defender.ReceivedAttacks.Returns(new List<Attack>());
+            _defender.Archers.Returns(new Troops(15, 5));
+            _defender.Cavalry.Returns(new Troops(15, 5));
+            _defender.Footmen.Returns(new Troops(15, 5));
 
             _context.Users.Add(defenderUser);
             _context.Players.Add(_defender);

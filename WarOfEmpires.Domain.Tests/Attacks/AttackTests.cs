@@ -12,6 +12,22 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
         // All tests here apply to all attack types
 
         [TestMethod]
+        public void Assault_Result_Is_Fatigued_for_Attacker_Without_Troops() {
+            var attacker = new Player(1, "Attacker");
+            var defender = new Player(2, "Defender");
+
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(attacker, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(defender, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
+
+            defender.TrainTroops(600, 200, 0, 0, 0, 0);
+
+            var attack = new Raid(attacker, defender, 10);
+            attack.Execute();
+
+            attack.Result.Should().Be(AttackResult.Fatigued);
+        }
+
+        [TestMethod]
         public void Attack_Result_Is_Fatigued_For_Attacker_Low_Stamina() {
             var attacker = new Player(1, "Attacker");
             var defender = new Player(2, "Defender");
@@ -60,6 +76,52 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
             attack.Execute();
 
             attack.Result.Should().Be(AttackResult.Defended);
+        }
+
+        [TestMethod]
+        public void Attack_Surrendered_Gives_Correct_Minimum_Resources_To_Attacker() {
+            var attacker = new Player(1, "Attacker");
+            var defender = new Player(2, "Defender");
+
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(attacker, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(defender, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
+
+            attacker.TrainTroops(600, 200, 0, 0, 0, 0);
+
+            var expectedResources = new Resources(defender.Resources.Gold) * 0.25m * 0.5m;
+            var previousDefenderResources = defender.Resources;
+            var previousAttackerResources = attacker.Resources;
+
+            var attack = new Assault(attacker, defender, 10);
+            attack.Execute();
+
+            attack.Resources.Should().Be(expectedResources);
+            defender.Resources.Should().Be(previousDefenderResources - expectedResources);
+            attacker.Resources.Should().Be(previousAttackerResources + expectedResources);
+        }
+
+        [TestMethod]
+        public void Attack_Won_Gives_Correct_Minimum_Resources_To_Attacker() {
+            var attacker = new Player(1, "Attacker");
+            var defender = new Player(2, "Defender");
+
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(attacker, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(defender, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
+            typeof(Player).GetProperty(nameof(Player.Stamina)).SetValue(attacker, 70);
+
+            attacker.TrainTroops(600, 200, 0, 0, 0, 0);
+            defender.TrainTroops(300, 75, 0, 0, 0, 0);
+
+            var expectedResources = new Resources(defender.Resources.Gold) * 0.5m * 0.5m;
+            var previousDefenderResources = defender.Resources;
+            var previousAttackerResources = attacker.Resources;
+
+            var attack = new Assault(attacker, defender, 10);
+            attack.Execute();
+
+            attack.Resources.Should().Be(expectedResources);
+            defender.Resources.Should().Be(previousDefenderResources - expectedResources);
+            attacker.Resources.Should().Be(previousAttackerResources + expectedResources);
         }
 
         [TestMethod]
@@ -239,6 +301,69 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
             rounds[4].IsAggressor.Should().BeTrue();
             rounds[5].TroopType.Should().Be(TroopType.Footmen);
             rounds[5].IsAggressor.Should().BeFalse();
+        }
+
+        [TestMethod]
+        public void Attack_GetArmyStrengthModifier_Minimum_Works() {
+            var attacker = new Player(1, "Attacker");
+            var defender = new Player(2, "Defender");
+
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(attacker, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(defender, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
+
+            attacker.TrainTroops(600, 130, 10, 15, 20, 25);
+
+            var attack = new Raid(attacker, defender, 10);
+
+            attack.GetArmyStrengthModifier(0.5m).Should().Be(0.5m);
+        }
+
+        [TestMethod]
+        public void Attack_GetArmyStrengthModifier_Works_Small_Defender() {
+            var attacker = new Player(1, "Attacker");
+            var defender = new Player(2, "Defender");
+
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(attacker, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(defender, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
+
+            attacker.TrainTroops(600, 130, 10, 15, 20, 25);
+            defender.TrainTroops(400, 130, 10, 15, 20, 25);
+
+            var attack = new Raid(attacker, defender, 10);
+
+            attack.GetArmyStrengthModifier().Should().Be(0.75m);
+        }
+
+        [TestMethod]
+        public void Attack_GetArmyStrengthModifier_Works_Medium_Defender() {
+            var attacker = new Player(1, "Attacker");
+            var defender = new Player(2, "Defender");
+
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(attacker, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(defender, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
+
+            attacker.TrainTroops(600, 130, 10, 15, 20, 25);
+            defender.TrainTroops(600, 130, 10, 15, 20, 25);
+
+            var attack = new Raid(attacker, defender, 10);
+
+            attack.GetArmyStrengthModifier().Should().Be(1.0m);
+        }
+
+        [TestMethod]
+        public void Attack_GetArmyStrengthModifier_Works_Big_Defender() {
+            var attacker = new Player(1, "Attacker");
+            var defender = new Player(2, "Defender");
+
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(attacker, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(defender, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
+
+            attacker.TrainTroops(600, 130, 10, 15, 20, 25);
+            defender.TrainTroops(760, 130, 10, 15, 20, 25);
+
+            var attack = new Raid(attacker, defender, 10);
+
+            attack.GetArmyStrengthModifier().Should().Be(1.2m);
         }
     }
 }

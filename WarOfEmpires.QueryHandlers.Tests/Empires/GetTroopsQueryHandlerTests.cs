@@ -5,6 +5,7 @@ using WarOfEmpires.Domain.Common;
 using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Queries.Empires;
+using WarOfEmpires.QueryHandlers.Common;
 using WarOfEmpires.QueryHandlers.Empires;
 using WarOfEmpires.Test.Utilities;
 
@@ -40,7 +41,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
         [TestMethod]
         public void GetTroopsQueryHandler_Returns_Correct_Peasants() {
             var query = new GetTroopsQuery("test@test.com");
-            var handler = new GetTroopsQueryHandler(_context);
+            var handler = new GetTroopsQueryHandler(_context, new ResourcesMap());
 
             var result = handler.Execute(query);
 
@@ -50,7 +51,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
         [TestMethod]
         public void GetTroopsQueryHandler_Returns_Correct_Troops() {
             var query = new GetTroopsQuery("test@test.com");
-            var handler = new GetTroopsQueryHandler(_context);
+            var handler = new GetTroopsQueryHandler(_context, new ResourcesMap());
 
             var result = handler.Execute(query);
 
@@ -65,10 +66,20 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
         [TestMethod]
         public void GetTroopsQueryHandler_Returns_Correct_Additional_Information() {
             var query = new GetTroopsQuery("test@test.com");
-            var handler = new GetTroopsQueryHandler(_context);
+            var handler = new GetTroopsQueryHandler(_context, new ResourcesMap());
 
             var result = handler.Execute(query);
 
+            result.ArcherTrainingCost.Gold.Should().Be(5000);
+            result.ArcherTrainingCost.Wood.Should().Be(1000);
+            result.ArcherTrainingCost.Ore.Should().Be(500);
+            result.CavalryTrainingCost.Gold.Should().Be(5000);
+            result.CavalryTrainingCost.Wood.Should().Be(0);
+            result.CavalryTrainingCost.Ore.Should().Be(1500);
+            result.FootmanTrainingCost.Gold.Should().Be(5000);
+            result.FootmanTrainingCost.Wood.Should().Be(500);
+            result.FootmanTrainingCost.Ore.Should().Be(1000);
+            result.MercenaryTrainingCost.Gold.Should().Be(5000);
             result.WillUpkeepRunOut.Should().BeTrue();
             result.HasUpkeepRunOut.Should().BeTrue();
         }

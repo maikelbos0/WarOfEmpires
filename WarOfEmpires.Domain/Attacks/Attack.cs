@@ -10,6 +10,7 @@ namespace WarOfEmpires.Domain.Attacks {
         public const int StaminaRandomModifier = 10;
         public const decimal SurrenderResourcesPerTurn = 0.025m;
         public const decimal WonResourcesPerTurn = 0.05m;
+        public const decimal MinimumResourceArmyModifier = 0.5m;
 
         public virtual DateTime Date { get; protected set; }
         public virtual bool IsRead { get; set; }
@@ -37,16 +38,18 @@ namespace WarOfEmpires.Domain.Attacks {
             if (Result != AttackResult.Undefined) throw new InvalidOperationException("An attack can not be executed more than once");
 
             var attackerStamina = Attacker.Stamina;
-            var defenderStamina = Defender.Stamina;
+            var defenderStamina = Defender.Stamina;            
 
-            if (attackerStamina < AttackerMinimumStamina) {
+            if (attackerStamina < AttackerMinimumStamina || Attacker.Archers.GetTotals() + Attacker.Cavalry.GetTotals() + Attacker.Footmen.GetTotals() == 0) {
                 Result = AttackResult.Fatigued;
             }
-            else if (defenderStamina < DefenderMinimumStamina) {
+            else if (IsSurrender()) {
                 Result = AttackResult.Surrendered;
-                Resources = GetBaseResources() * Turns * SurrenderResourcesPerTurn;
+                Resources = GetBaseResources() * Turns * SurrenderResourcesPerTurn * GetArmyStrengthModifier(MinimumResourceArmyModifier);
             }
             else {
+                // Measure army strength before the fighting happens
+                var armyStrengthModifier = GetArmyStrengthModifier(MinimumResourceArmyModifier);
                 var random = new Random();
                 var calculatedAttackerStamina = random.Next(attackerStamina - StaminaRandomModifier, attackerStamina + StaminaRandomModifier);
                 var calculatedDefenderStamina = random.Next(defenderStamina - StaminaRandomModifier, defenderStamina + StaminaRandomModifier);
@@ -62,7 +65,7 @@ namespace WarOfEmpires.Domain.Attacks {
 
                 if (Attacker.Stamina - attackerStamina > Defender.Stamina - defenderStamina) {
                     Result = AttackResult.Won;
-                    Resources = GetBaseResources() * Turns * WonResourcesPerTurn;                    
+                    Resources = GetBaseResources() * Turns * WonResourcesPerTurn * armyStrengthModifier;
                 }
                 else {
                     Result = AttackResult.Defended;
@@ -89,7 +92,15 @@ namespace WarOfEmpires.Domain.Attacks {
             ));
         }
 
+        public decimal GetArmyStrengthModifier(decimal minimum = 0) {
+            var defenderTroops = Defender.Archers.GetTotals() + Defender.Cavalry.GetTotals() + Defender.Footmen.GetTotals();
+            var attackerTroops = Attacker.Archers.GetTotals() + Attacker.Cavalry.GetTotals() + Attacker.Footmen.GetTotals();
+
+            return Math.Max(minimum, 1.0m * defenderTroops / attackerTroops);
+        }
+
         public abstract Resources GetBaseResources();
         public abstract long CalculateDamage(int stamina, bool isAggressor, TroopInfo attackerTroopInfo, Player defender);
+        public abstract bool IsSurrender();
     }
 }
