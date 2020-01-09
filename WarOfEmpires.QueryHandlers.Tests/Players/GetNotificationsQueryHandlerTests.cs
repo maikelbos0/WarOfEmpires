@@ -47,9 +47,9 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
             var handler = new GetNotificationsQueryHandler(_context);
             var query = new GetNotificationsQuery("test@test.com");
             
-            var results = handler.Execute(query);
+            var result = handler.Execute(query);
 
-            results.HasNewMessages.Should().BeTrue();
+            result.HasNewMessages.Should().BeTrue();
         }
 
         [TestMethod]
@@ -59,9 +59,9 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
             var handler = new GetNotificationsQueryHandler(_context);
             var query = new GetNotificationsQuery("test@test.com");
 
-            var results = handler.Execute(query);
+            var result = handler.Execute(query);
 
-            results.HasNewMessages.Should().BeFalse();
+            result.HasNewMessages.Should().BeFalse();
         }
 
         [TestMethod]
@@ -71,9 +71,9 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
             var handler = new GetNotificationsQueryHandler(_context);
             var query = new GetNotificationsQuery("test@test.com");
 
-            var results = handler.Execute(query);
+            var result = handler.Execute(query);
 
-            results.HasNewAttacks.Should().BeTrue();
+            result.HasNewAttacks.Should().BeTrue();
         }
 
         [TestMethod]
@@ -83,9 +83,9 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
             var handler = new GetNotificationsQueryHandler(_context);
             var query = new GetNotificationsQuery("test@test.com");
 
-            var results = handler.Execute(query);
+            var result = handler.Execute(query);
 
-            results.HasNewAttacks.Should().BeFalse();
+            result.HasNewAttacks.Should().BeFalse();
         }
 
         [TestMethod]
@@ -96,9 +96,9 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
             var handler = new GetNotificationsQueryHandler(_context);
             var query = new GetNotificationsQuery("test@test.com");
 
-            var results = handler.Execute(query);
+            var result = handler.Execute(query);
 
-            results.HasHousingShortage.Should().BeTrue();
+            result.HasHousingShortage.Should().BeTrue();
         }
 
         [TestMethod]
@@ -109,9 +109,9 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
             var handler = new GetNotificationsQueryHandler(_context);
             var query = new GetNotificationsQuery("test@test.com");
 
-            var results = handler.Execute(query);
+            var result = handler.Execute(query);
 
-            results.HasHousingShortage.Should().BeFalse();
+            result.HasHousingShortage.Should().BeFalse();
         }
 
         [TestMethod]
@@ -121,9 +121,9 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
             var handler = new GetNotificationsQueryHandler(_context);
             var query = new GetNotificationsQuery("test@test.com");
 
-            var results = handler.Execute(query);
+            var result = handler.Execute(query);
 
-            results.HasUpkeepShortage.Should().BeTrue();
+            result.HasUpkeepShortage.Should().BeTrue();
         }
 
         [TestMethod]
@@ -133,9 +133,9 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
             var handler = new GetNotificationsQueryHandler(_context);
             var query = new GetNotificationsQuery("test@test.com");
 
-            var results = handler.Execute(query);
+            var result = handler.Execute(query);
 
-            results.HasUpkeepShortage.Should().BeTrue();
+            result.HasUpkeepShortage.Should().BeTrue();
         }
 
         [TestMethod]
@@ -145,9 +145,9 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
             var handler = new GetNotificationsQueryHandler(_context);
             var query = new GetNotificationsQuery("test@test.com");
 
-            var results = handler.Execute(query);
+            var result = handler.Execute(query);
 
-            results.HasUpkeepShortage.Should().BeFalse();
+            result.HasUpkeepShortage.Should().BeFalse();
         }
     }
 }

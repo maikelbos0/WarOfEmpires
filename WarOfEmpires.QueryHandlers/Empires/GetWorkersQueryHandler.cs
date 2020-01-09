@@ -1,7 +1,9 @@
 ﻿using System.Linq;
 using WarOfEmpires.Database;
+using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Models.Empires;
 using WarOfEmpires.Queries.Empires;
+using WarOfEmpires.QueryHandlers.Common;
 using WarOfEmpires.QueryHandlers.Decorators;
 using WarOfEmpires.Utilities.Container;
 using WarOfEmpires.Utilities.Services;
@@ -11,15 +13,16 @@ namespace WarOfEmpires.QueryHandlers.Empires {
     [Audit]
     public sealed class GetWorkersQueryHandler : IQueryHandler<GetWorkersQuery, WorkerModel> {
         private readonly IWarContext _context;
+        private readonly ResourcesMap _resourcesMap;
 
-        public GetWorkersQueryHandler(IWarContext context) {
+        public GetWorkersQueryHandler(IWarContext context, ResourcesMap resourcesMap) {
             _context = context;
+            _resourcesMap = resourcesMap;
         }
 
         public WorkerModel Execute(GetWorkersQuery query) {
             var player = _context.Players
                 .Single(p => EmailComparisonService.Equals(p.User.Email, query.Email));
-            var upkeep = player.GetUpkeepPerTurn();
 
             return new WorkerModel() {
                 CurrentPeasants = player.Peasants,
@@ -37,8 +40,8 @@ namespace WarOfEmpires.QueryHandlers.Empires {
                 CurrentOreMiners = player.OreMiners,
                 CurrentOrePerWorkerPerTurn = player.GetOreProduction().GetProductionPerWorker(),
                 CurrentOrePerTurn = player.GetOreProduction().GetTotalProduction(),
-                FoodUpkeepPerTurn = upkeep.Food,
-                GoldUpkeepPerTurn = upkeep.Gold,
+                UpkeepPerTurn = _resourcesMap.ToViewModel(player.GetUpkeepPerTurn()),
+                WorkerTrainingCost = _resourcesMap.ToViewModel(Player.WorkerTrainingCost),
                 RecruitsPerDay = player.GetRecruitsPerDay(),
                 WillUpkeepRunOut = !(player.GetTotalResources() + player.GetResourcesPerTurn() * 48).CanAfford(player.GetUpkeepPerTurn() * 48),
                 HasUpkeepRunOut = player.HasUpkeepRunOut

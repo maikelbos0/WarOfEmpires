@@ -317,6 +317,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MessageController.cs" />
     <Compile Include="Controllers\PlayerController.cs" />
+    <Compile Include="Extensions\HtmlHelperExtensions.cs" />
     <Compile Include="Extensions\ModelStateDictionaryExtensions.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -394,6 +395,8 @@
     <Content Include="Views\Empire\BuildingUpgrades.cshtml" />
     <Content Include="Views\Empire\BankBuildings.cshtml" />
     <Content Include="Views\Empire\Banking.cshtml" />
+    <Content Include="Views\Shared\_DisplayResources.cshtml" />
+    <Content Include="Views\Shared\_HiddenResources.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

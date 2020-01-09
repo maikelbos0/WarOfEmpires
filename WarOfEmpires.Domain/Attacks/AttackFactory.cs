@@ -7,8 +7,8 @@ namespace WarOfEmpires.Domain.Attacks {
             switch (type) {
                 case AttackType.Raid:
                     return new Raid(attacker, defender, turns);
-                case AttackType.CastleAttack:
-                    return new CastleAttack(attacker, defender, turns);
+                case AttackType.Assault:
+                    return new Assault(attacker, defender, turns);
                 default:
                     throw new NotImplementedException();
             }

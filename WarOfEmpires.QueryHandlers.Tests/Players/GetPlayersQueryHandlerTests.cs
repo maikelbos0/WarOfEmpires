@@ -46,9 +46,9 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
             var handler = new GetPlayersQueryHandler(_context);
             var query = new GetPlayersQuery();
 
-            var results = handler.Execute(query);
+            var result = handler.Execute(query);
 
-            results.Should().HaveCount(3);
+            result.Should().HaveCount(3);
         }
 
         [TestMethod]
@@ -58,12 +58,12 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
 
             AddPlayer(1, "test@test.com", "Test display name", UserStatus.Active);
 
-            var results = handler.Execute(query);
+            var result = handler.Execute(query);
 
-            results.Should().HaveCount(1);
-            results.Single().Id.Should().Be(1);
-            results.Single().DisplayName.Should().Be("Test display name");
-            results.Single().Population.Should().Be(43);
+            result.Should().HaveCount(1);
+            result.Single().Id.Should().Be(1);
+            result.Single().DisplayName.Should().Be("Test display name");
+            result.Single().Population.Should().Be(43);
         }
     }
 }

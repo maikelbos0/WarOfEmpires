@@ -45,13 +45,17 @@ namespace WarOfEmpires.Domain.Tests.Players {
         [TestMethod]
         public void Player_Recruit_Gives_Correct_Effort_Remainder_When_Adding_Peasants() {
             var player = new Player(0, "Test");
-            var previousRecruitingEffort = player.CurrentRecruitingEffort;
-            var previousPeasants = player.Peasants;
 
             player.Buildings.Add(new Building(player, BuildingType.Farm, 8));
             player.Buildings.Add(new Building(player, BuildingType.Lumberyard, 8));
             player.Buildings.Add(new Building(player, BuildingType.Quarry, 7));
             player.Buildings.Add(new Building(player, BuildingType.Mine, 7));
+
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(100000, 10000, 10000, 10000, 10000));
+            player.TrainTroops(2, 0, 2, 0, 2, 0);
+
+            var previousRecruitingEffort = player.CurrentRecruitingEffort;
+            var previousPeasants = player.Peasants;
 
             while (player.Peasants == previousPeasants) {
                 player.Recruit();
@@ -403,7 +407,23 @@ namespace WarOfEmpires.Domain.Tests.Players {
             player.Buildings.Add(new Building(player, BuildingType.Mine, 2));
             player.Buildings.Add(new Building(player, BuildingType.Defences, 3));
 
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(100000, 10000, 10000, 10000, 10000));
+            player.TrainTroops(2, 0, 2, 0, 2, 0);
+
             player.GetTheoreticalRecruitsPerDay().Should().Be(8);
+        }
+
+        [TestMethod]
+        public void Player_GetTheoreticalRecruitsPerDay_Uses_Soldier_Penalty() {
+            var player = new Player(0, "Test");
+
+            player.Buildings.Add(new Building(player, BuildingType.Farm, 4));
+            player.Buildings.Add(new Building(player, BuildingType.Lumberyard, 6));
+            player.Buildings.Add(new Building(player, BuildingType.Quarry, 2));
+            player.Buildings.Add(new Building(player, BuildingType.Mine, 2));
+            player.Buildings.Add(new Building(player, BuildingType.Defences, 3));
+
+            player.GetTheoreticalRecruitsPerDay().Should().Be(5);
         }
 
         [TestMethod]
@@ -422,6 +442,9 @@ namespace WarOfEmpires.Domain.Tests.Players {
             player.Buildings.Add(new Building(player, BuildingType.Quarry, 15));
             player.Buildings.Add(new Building(player, BuildingType.Mine, 15));
             player.Buildings.Add(new Building(player, BuildingType.Defences, 15));
+
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(100000, 10000, 10000, 10000, 10000));
+            player.TrainTroops(2, 0, 2, 0, 2, 0);
 
             player.GetTheoreticalRecruitsPerDay().Should().Be(25);
         }
@@ -846,6 +869,21 @@ namespace WarOfEmpires.Domain.Tests.Players {
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(10000, 10000, 10000, 10000, 10000));
 
             player.CanAfford(new Resources(gold, food, wood, stone, ore));
+        }
+
+        [DataTestMethod]
+        [DataRow(20, 0, 0, DisplayName = "All soldiers")]
+        [DataRow(10, 10, 0, DisplayName = "Perfectly balanced")]
+        [DataRow(9, 11, 1, DisplayName = "Just too few")]
+        [DataRow(8, 12, 2, DisplayName = "Too few")]
+        [DataRow(7, 13, 3, DisplayName = "Way too few")]
+        public void Player_GetSoldierRecruitsPenalty_Succeeds(int soldiers, int peasants, int expectedResult) {
+            var player = new Player(0, "Test");
+
+            typeof(Player).GetProperty(nameof(Player.Archers)).SetValue(player, new Troops(soldiers, 50));
+            typeof(Player).GetProperty(nameof(Player.Peasants)).SetValue(player, peasants);
+
+            player.GetSoldierRecruitsPenalty().Should().Be(expectedResult);
         }
     }
 }

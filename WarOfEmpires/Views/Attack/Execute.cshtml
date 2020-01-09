@@ -30,14 +30,14 @@
     <div class="row">
         <div class="col-3">@Html.LabelFor(m => m.AttackType)</div>
 
-        <div class="col-3">
+        <div class="col-9">
             <div class="form-check">
                 @Html.RadioButtonFor(m => m.AttackType, "Raid", new { id = "AttackType-Raid", @class = "form-check-input", @checked = "checked" })
-                <label class="form-check-label" for="AttackType-Raid">Raid</label>
+                <label class="form-check-label" for="AttackType-Raid">Raid <span class="text-muted">- charge your opponent's workers and try to take their resources</span></label>
             </div>
             <div class="form-check">
-                @Html.RadioButtonFor(m => m.AttackType, "CastleAttack", new { id = "AttackType-CastleAttack", @class = "form-check-input" })
-                <label class="form-check-label" for="AttackType-CastleAttack">Castle attack</label>
+                @Html.RadioButtonFor(m => m.AttackType, "Assault", new { id = "AttackType-Assault", @class = "form-check-input" })
+                <label class="form-check-label" for="AttackType-Assault">Assault <span class="text-muted">- charge your opponent's defences and try to take their gold</span></label>
             </div>
             @Html.ValidationMessageFor(m => m.AttackType, null, new { @class = "small form-text text-danger" })
         </div>

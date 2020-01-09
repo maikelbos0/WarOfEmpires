@@ -70,7 +70,7 @@
   <ItemGroup>
     <Compile Include="Attacks\AttackFactoryTests.cs" />
     <Compile Include="Attacks\AttackTests.cs" />
-    <Compile Include="Attacks\CastleAttackTests.cs" />
+    <Compile Include="Attacks\AssaultTests.cs" />
     <Compile Include="Attacks\RaidTests.cs" />
     <Compile Include="Common\ResourcesTests.cs" />
     <Compile Include="Empires\BuildingDefinitionFactoryTests.cs" />

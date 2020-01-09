@@ -29,10 +29,10 @@ namespace WarOfEmpires.QueryHandlers.Tests.Messages {
             AddPlayer(1, "Test display name 1");
             AddPlayer(2, "Test display name 2");
 
-            var results = handler.Execute(query);
+            var result = handler.Execute(query);
 
-            results.RecipientId.Should().Be("2");
-            results.Recipient.Should().Be("Test display name 2");
+            result.RecipientId.Should().Be("2");
+            result.Recipient.Should().Be("Test display name 2");
         }
 
         [TestMethod]

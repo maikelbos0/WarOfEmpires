@@ -20,7 +20,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Decorators {
 
         public sealed class TestQueryHandler : IQueryHandler<TestQuery, string> {
             public string Execute(TestQuery query) {
-                return "Results";
+                return "Result";
             }
         }
 
@@ -54,7 +54,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Decorators {
 
             var result = decorator.Execute(query);
 
-            result.Should().Be("Results");
+            result.Should().Be("Result");
         }
     }
 }

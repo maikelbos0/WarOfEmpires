@@ -56,7 +56,7 @@
     <Compile Include="Attacks\AttackRound.cs" />
     <Compile Include="Attacks\Attack.cs" />
     <Compile Include="Attacks\AttackType.cs" />
-    <Compile Include="Attacks\CastleAttack.cs" />
+    <Compile Include="Attacks\Assault.cs" />
     <Compile Include="Attacks\Raid.cs" />
     <Compile Include="Empires\BankTurnTaskTriggeredEvent.cs" />
     <Compile Include="Empires\SequenceGeneratorFactory.cs" />

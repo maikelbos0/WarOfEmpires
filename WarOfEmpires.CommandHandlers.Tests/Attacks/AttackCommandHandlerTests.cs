@@ -32,6 +32,9 @@ namespace WarOfEmpires.CommandHandlers.Tests.Attacks {
             _attacker.User.Returns(attackerUser);
             _attacker.ExecutedAttacks.Returns(new List<Attack>());
             _attacker.AttackTurns.Returns(20);
+            _attacker.Archers.Returns(new Troops(15, 5));
+            _attacker.Cavalry.Returns(new Troops(15, 5));
+            _attacker.Footmen.Returns(new Troops(15, 5));
 
             _context.Users.Add(attackerUser);
             _context.Players.Add(_attacker);
@@ -44,6 +47,9 @@ namespace WarOfEmpires.CommandHandlers.Tests.Attacks {
             _defender.Id.Returns(2);
             _defender.User.Returns(defenderUser);
             _defender.ReceivedAttacks.Returns(new List<Attack>());
+            _defender.Archers.Returns(new Troops(15, 5));
+            _defender.Cavalry.Returns(new Troops(15, 5));
+            _defender.Footmen.Returns(new Troops(15, 5));
 
             _context.Users.Add(defenderUser);
             _context.Players.Add(_defender);
@@ -101,7 +107,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Attacks {
 
         [DataTestMethod]
         [DataRow("Raid", typeof(Raid), DisplayName = "Raid")]
-        [DataRow("CastleAttack", typeof(CastleAttack), DisplayName = "Castle attack")]
+        [DataRow("Assault", typeof(Assault), DisplayName = "Assault")]
         public void AttackCommandHandler_Resolves_Type_Parameter_To_Correct_Type(string typeParameter, Type attackType) {
             var handler = new AttackCommandHandler(_repository);
             var command = new AttackCommand(typeParameter, "test@test.com", "2", "10");

@@ -1,9 +1,11 @@
 ﻿.si:after {
     display: inline-block;
-    vertical-align: middle;
+    vertical-align: top;
+    margin-top: 2px;
     height: 20px;
     width: 20px;
     content: "";
+    background-size: contain;
 }
 
 .si.si-gold::after {

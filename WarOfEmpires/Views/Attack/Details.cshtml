@@ -25,6 +25,12 @@
 </div>
 
 <div class="row">
+    <div class="col-3">Attack type</div>
+
+    <div class="col-9">@Model.Type</div>
+</div>
+
+<div class="row">
     <div class="col-3">Number of turns</div>
 
     <div class="col-9">@Model.Turns.ToString(StringFormat.Integer)</div>
@@ -46,9 +52,7 @@
 @if (@Model.Result == "Won" || @Model.Result == "Surrendered") {
     <p>
         <strong>
-            @Model.Attacker's troops are victorious and take @Model.Resources.Gold.ToString(StringFormat.Integer) gold, @Model.Resources.Food.ToString(StringFormat.Integer) food,
-            @Model.Resources.Wood.ToString(StringFormat.Integer) wood, @Model.Resources.Stone.ToString(StringFormat.Integer) stone and
-            @Model.Resources.Ore.ToString(StringFormat.Integer) ore as tribute.
+            @Model.Attacker's troops are victorious and take as tribute: @Html.DisplayFor(m => m.Resources)
         </strong>
     </p>
 }

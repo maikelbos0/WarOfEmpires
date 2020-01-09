@@ -1,13 +1,16 @@
 ﻿using System.Collections.Generic;
 
 namespace WarOfEmpires.Domain.Players {
-    public sealed class TroopInfo : ValueObject {
+    public class TroopInfo : ValueObject {
         public Troops Troops { get; }
         public long BaseAttack { get; }
         public long BaseDefense { get; }
         public decimal TroopBonusMultiplier { get; }
         public decimal ForgeBonusMultiplier { get; }
         public decimal ArmouryBonusMultiplier { get; }
+
+        protected TroopInfo() {
+        }
 
         public TroopInfo(Troops troops, long baseAttack, long baseDefense, decimal troopBonusMultiplier, decimal forgeBonusMultiplier, decimal armouryBonusMultiplier) {
             Troops = troops;
@@ -27,7 +30,7 @@ namespace WarOfEmpires.Domain.Players {
             return (int)(BaseDefense * TroopBonusMultiplier * ArmouryBonusMultiplier);
         }
 
-        public long GetTotalAttack() {
+        public virtual long GetTotalAttack() {
             return GetAttackPerSoldier() * Troops.GetTotals();
         }
 

@@ -12,8 +12,9 @@
 
 <ul>
     <li>Peasants available for training: @Model.CurrentPeasants.ToString(StringFormat.Integer)</li>
+    <li>Worker training cost: @Html.DisplayFor(m => m.WorkerTrainingCost)</li>
     <li>Gold production per turn: @Model.CurrentGoldPerTurn.ToString(StringFormat.Integer) <span class="si si-gold" /></li>
-    <li>Upkeep per turn: @Model.GoldUpkeepPerTurn.ToString(StringFormat.Integer) <span class="si si-gold"></span> @Model.FoodUpkeepPerTurn.ToString(StringFormat.Integer) <span class="si si-food"></span></li>
+    <li>Upkeep per turn: @Html.DisplayFor(m => m.UpkeepPerTurn)</li>
     <li>Recruits per day: @Model.RecruitsPerDay.ToString(StringFormat.Integer)</li>
 
     @if (Model.HasUpkeepRunOut) {
@@ -33,8 +34,8 @@
     @Html.HiddenFor(m => m.CurrentGoldPerTurn)
     @Html.HiddenFor(m => m.CurrentGoldPerWorkerPerTurn)
     @Html.HiddenFor(m => m.CurrentPeasants)
-    @Html.HiddenFor(m => m.FoodUpkeepPerTurn)
-    @Html.HiddenFor(m => m.GoldUpkeepPerTurn)
+    @Html.HiddenFor(m => m.UpkeepPerTurn)
+    @Html.HiddenFor(m => m.WorkerTrainingCost)
     @Html.HiddenFor(m => m.RecruitsPerDay)
     @Html.HiddenFor(m => m.WillUpkeepRunOut)
     @Html.HiddenFor(m => m.HasUpkeepRunOut)
@@ -71,13 +72,13 @@
         <div class="col-4 col-form-label">
             @Html.LabelFor(m => m.Farmers)
         </div>
-        <div class="col-2">
+        <div class="col-2 col-form-label">
             @Model.CurrentFarmers.ToString(StringFormat.Integer)
         </div>
-        <div class="col-2">
+        <div class="col-2 col-form-label">
             @Model.CurrentFoodPerWorkerPerTurn.ToString(StringFormat.Integer) <span class="si si-food"></span>
         </div>
-        <div class="col-2">
+        <div class="col-2 col-form-label">
             @Model.CurrentFoodPerTurn.ToString(StringFormat.Integer) <span class="si si-food"></span>
         </div>
         <div class="col-2">
@@ -90,13 +91,13 @@
         <div class="col-4 col-form-label">
             @Html.LabelFor(m => m.WoodWorkers)
         </div>
-        <div class="col-2">
+        <div class="col-2 col-form-label">
             @Model.CurrentWoodWorkers.ToString(StringFormat.Integer)
         </div>
-        <div class="col-2">
+        <div class="col-2 col-form-label">
             @Model.CurrentWoodPerWorkerPerTurn.ToString(StringFormat.Integer) <span class="si si-wood"></span>
         </div>
-        <div class="col-2">
+        <div class="col-2 col-form-label">
             @Model.CurrentWoodPerTurn.ToString(StringFormat.Integer) <span class="si si-wood"></span>
         </div>
         <div class="col-2">
@@ -109,13 +110,13 @@
         <div class="col-4 col-form-label">
             @Html.LabelFor(m => m.StoneMasons)
         </div>
-        <div class="col-2">
+        <div class="col-2 col-form-label">
             @Model.CurrentStoneMasons.ToString(StringFormat.Integer)
         </div>
-        <div class="col-2">
+        <div class="col-2 col-form-label">
             @Model.CurrentStonePerWorkerPerTurn.ToString(StringFormat.Integer) <span class="si si-stone"></span>
         </div>
-        <div class="col-2">
+        <div class="col-2 col-form-label">
             @Model.CurrentStonePerTurn.ToString(StringFormat.Integer) <span class="si si-stone"></span>
         </div>
         <div class="col-2">
@@ -128,13 +129,13 @@
         <div class="col-4 col-form-label">
             @Html.LabelFor(m => m.OreMiners)
         </div>
-        <div class="col-2">
+        <div class="col-2 col-form-label">
             @Model.CurrentOreMiners.ToString(StringFormat.Integer)
         </div>
-        <div class="col-2">
+        <div class="col-2 col-form-label">
             @Model.CurrentOrePerWorkerPerTurn.ToString(StringFormat.Integer) <span class="si si-ore"></span>
         </div>
-        <div class="col-2">
+        <div class="col-2 col-form-label">
             @Model.CurrentOrePerTurn.ToString(StringFormat.Integer) <span class="si si-ore"></span>
         </div>
         <div class="col-2">

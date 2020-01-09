@@ -12,6 +12,10 @@
 
 <ul>
     <li>Peasants available for training: @Model.CurrentPeasants.ToString(StringFormat.Integer)</li>
+    <li>Archer training cost: @Html.DisplayFor(m => m.ArcherTrainingCost)</li>
+    <li>Cavalry training cost: @Html.DisplayFor(m => m.CavalryTrainingCost)</li>
+    <li>Footman training cost: @Html.DisplayFor(m => m.FootmanTrainingCost)</li>
+    <li>Mercenary training cost: @Html.DisplayFor(m => m.MercenaryTrainingCost)</li>
 
     @if (Model.HasUpkeepRunOut) {
         <li class="text-danger">You aren't able to afford the upkeep costs; your workers have stopped working and your mercenaries have left your empire</li>
@@ -34,6 +38,10 @@
     @Html.HiddenFor(m => m.CurrentMercenaryCavalry)
     @Html.HiddenFor(m => m.CurrentFootmen)
     @Html.HiddenFor(m => m.CurrentMercenaryFootmen)
+    @Html.HiddenFor(m => m.ArcherTrainingCost)
+    @Html.HiddenFor(m => m.CavalryTrainingCost)
+    @Html.HiddenFor(m => m.FootmanTrainingCost)
+    @Html.HiddenFor(m => m.MercenaryTrainingCost)
 
     <div class="row">
         <div class="col-4 col-form-label">
@@ -56,10 +64,10 @@
         <div class="col-4 col-form-label">
             @Html.LabelFor(m => m.Archers)
         </div>
-        <div class="col-2">
+        <div class="col-2 col-form-label">
             @Model.CurrentArchers.ToString(StringFormat.Integer)
         </div>
-        <div class="col-2">
+        <div class="col-2 col-form-label">
             @Model.CurrentMercenaryArchers.ToString(StringFormat.Integer)
         </div>
         <div class="col-2">
@@ -76,10 +84,10 @@
         <div class="col-4 col-form-label">
             @Html.LabelFor(m => m.Cavalry)
         </div>
-        <div class="col-2">
+        <div class="col-2 col-form-label">
             @Model.CurrentCavalry.ToString(StringFormat.Integer)
         </div>
-        <div class="col-2">
+        <div class="col-2 col-form-label">
             @Model.CurrentMercenaryCavalry.ToString(StringFormat.Integer)
         </div>
         <div class="col-2">
@@ -96,10 +104,10 @@
         <div class="col-4 col-form-label">
             @Html.LabelFor(m => m.Footmen)
         </div>
-        <div class="col-2">
+        <div class="col-2 col-form-label">
             @Model.CurrentFootmen.ToString(StringFormat.Integer)
         </div>
-        <div class="col-2">
+        <div class="col-2 col-form-label">
             @Model.CurrentMercenaryFootmen.ToString(StringFormat.Integer)
         </div>
         <div class="col-2">
