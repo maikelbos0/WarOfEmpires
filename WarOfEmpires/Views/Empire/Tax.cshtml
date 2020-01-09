@@ -23,7 +23,7 @@
             @Html.LabelFor(m => m.Tax)
         </div>
         <div class="col-4">
-            <input type="range" min="0" max="100" step="5" id="tax-slider" value="@Model.Tax" />
+            <div id="tax-rangeslider" data-range-start="0" data-step-size="5" data-step-count="20" data-value="@Model.Tax"></div>
         </div>
         <div class="col-2">
             @Html.TextBoxFor(m => m.Tax, new { @class = "form-control", @readonly = "readonly" })
@@ -85,10 +85,10 @@
     </div>
 }
 
-<script>
+<script type="text/javascript">
     $(function () {
-        $('#tax-slider').on('input change', function () {
-            var tax = parseInt($(this).val());
+        $('#tax-rangeslider').rangeslider();
+        $('#tax-rangeslider').on('rangeslider.valueChanged', function (event, tax) {
 
             $('#Tax').val(tax);
             $('#CurrentGoldPerWorkerPerTurn').val(Math.floor(tax / 100 * @Model.BaseGoldPerTurn));
