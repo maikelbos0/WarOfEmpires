@@ -176,6 +176,10 @@
     <Content Include="Content\jquery-datagridview.style-custom.css" />
     <Content Include="Content\jquery-datagridview.style.css" />
     <Content Include="Content\jquery-datagridview.style.min.css" />
+    <Content Include="Content\jquery-rangeslider.css" />
+    <Content Include="Content\jquery-rangeslider.min.css" />
+    <Content Include="Content\jquery-rangeslider.style.css" />
+    <Content Include="Content\jquery-rangeslider.style.min.css" />
     <Content Include="Content\site-icons.css" />
     <Content Include="Content\site.css" />
     <Content Include="Content\toastr.css" />
@@ -224,6 +228,8 @@
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-datagridview.js" />
     <Content Include="Scripts\jquery-datagridview.min.js" />
+    <Content Include="Scripts\jquery-rangeslider.js" />
+    <Content Include="Scripts\jquery-rangeslider.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
