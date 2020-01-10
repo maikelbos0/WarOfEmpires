@@ -23,6 +23,10 @@
     else if (Model.WillUpkeepRunOut) {
         <li class="text-danger">You will run out of the food and gold required for upkeep in the next 8 hours; if you run out, your workers will stop working and your mercenaries will leave your empire</li>
     }
+
+    @if (Model.HasSoldierShortage) {
+        <li class="text-danger">You don't have enough soldiers to protect your empire; train more of your peasants to be soldiers to stop scaring off new recruits</li>
+    }
 </ul>
 
 <div id="empire-housing-totals" class="partial-content">
