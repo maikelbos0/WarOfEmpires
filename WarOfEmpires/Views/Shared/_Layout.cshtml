@@ -13,6 +13,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - War of Empires</title>
 
+    <link rel="icon" type="image/png" sizes="16x16" href="~/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="~/favicon-32x32.png">
+
     @Scripts.Render("~/Scripts/jquery")
     @Scripts.Render("~/Scripts/bootstrap")
     @Scripts.Render("~/Scripts/app")
@@ -23,13 +26,9 @@
 <body>
     <div class="container site-container">
         <nav class="navbar navbar-expand-sm site-navbar">
-            <a class="navbar-brand" href="#">War of Empires</a>
+            @Html.ActionLink("War of Empires", "Index", "Home", null, new { @class = "navbar-brand" })
 
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    @Html.ActionLink("Home", "Index", "Home", null, new { @class = "nav-link" })
-                </li>
-
                 @if (identityService.IsAuthenticated) {
                     @Html.ActionLink("Players", "Index", "Player", null, new { @class = "nav-link" })
 
