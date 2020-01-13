@@ -148,5 +148,11 @@ namespace WarOfEmpires.Controllers {
                 new BankCommand(_authenticationService.Identity),
                 () => Banking());
         }
+
+        [Route("SpecialtyBuildings")]
+        [HttpGet]
+        public ActionResult SpecialtyBuildings() {
+            return View();
+        }
     }
 }

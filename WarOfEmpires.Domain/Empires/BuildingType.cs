@@ -16,6 +16,7 @@
         FoodBank = 14,
         WoodBank = 15,
         StoneBank = 16,
-        OreBank = 17
+        OreBank = 17,
+        SiegeFactory = 18
     }
 }

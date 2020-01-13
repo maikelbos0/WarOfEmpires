@@ -1,0 +1,20 @@
+﻿@{
+    ViewBag.Title = "Specialty buildings";
+}
+
+<h2>Specialty buildings</h2>
+
+<p>
+    Here you can upgrade specialty buildings such as your siege factory and market.
+</p>
+
+<div id="empire-building-totals" class="partial-content">
+</div>
+
+<div class="row">
+    <div class="col-4 partial-content">
+        @{
+            Html.RenderAction("_Building", "Empire", new { BuildingType = "SiegeFactory" });
+        }
+    </div>
+</div>

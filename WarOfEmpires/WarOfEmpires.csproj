@@ -164,6 +164,7 @@
     <Content Include="Content\bootstrap-reboot.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Icons\axe-sword.svg" />
     <Content Include="Content\Icons\high-shot.svg" />
     <Content Include="Content\Icons\locked-chest.svg" />
     <Content Include="Content\Icons\ore.svg" />
@@ -184,6 +185,8 @@
     <Content Include="Content\site.css" />
     <Content Include="Content\toastr.css" />
     <Content Include="Content\toastr.min.css" />
+    <Content Include="favicon-16x16.png" />
+    <Content Include="favicon-32x32.png" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\Application\building-totals-manager.js" />
     <Content Include="Scripts\Application\command.js" />
@@ -403,6 +406,7 @@
     <Content Include="Views\Empire\Banking.cshtml" />
     <Content Include="Views\Shared\_DisplayResources.cshtml" />
     <Content Include="Views\Shared\_HiddenResources.cshtml" />
+    <Content Include="Views\Empire\SpecialtyBuildings.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
