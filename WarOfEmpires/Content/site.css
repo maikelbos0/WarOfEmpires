@@ -188,5 +188,3 @@ body {
     top: calc(50% - var(--rangeslider-track-height) / 2);
     height: var(--rangeslider-track-height);
 }
-
-

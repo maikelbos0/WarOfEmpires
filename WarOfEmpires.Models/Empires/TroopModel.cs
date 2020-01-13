@@ -40,5 +40,7 @@ namespace WarOfEmpires.Models.Empires {
         public bool HasSoldierShortage { get; set; }
         public string Command { get; set; }
         public int CurrentStamina { get; set; }
+        public int StaminaToFull { get; set; }
+        public int HealMaxAfford { get; set; }
     }
 }

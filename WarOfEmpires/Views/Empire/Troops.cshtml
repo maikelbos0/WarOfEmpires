@@ -48,17 +48,22 @@
     @Html.HiddenFor(m => m.MercenaryTrainingCost)
     @Html.HiddenFor(m => m.CurrentStamina)
 
-<div class="row">
-    <div class="col-4 col-form-label">
-        @Html.LabelFor(m => m.Stamina)
+    <div class="row">
+        <div class="col-4 col-form-label">
+            @Html.LabelFor(m => m.Stamina)
+        </div>
+        <div class="col-2 col-form-label">
+            @Model.CurrentStamina.ToString(StringFormat.Integer)
+        </div>
+        <div class="col-2">
+            @Html.TextBoxFor(m => m.StaminaToFull, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.StaminaToFull, null, new { @class = "small form-text text-danger" })
+        </div>
+        @*TODO: Make the text selected, for quicker entry of the desired stamina to heal*@
+        <div class="col-2">
+            <button type="submit" class="btn btn-primary form-control" value="heal">Heal Troops</button>
+        </div>
     </div>
-    <div class="col-2 col-form-label">
-        @Model.CurrentStamina.ToString(StringFormat.Integer)
-    </div>
-    <div class="col-2">
-        <button type="submit" class="btn btn-primary form-control" value="heal">Heal Troops</button>
-    </div>
-</div>
 
     <div class="row">
         <div class="col-4 col-form-label">

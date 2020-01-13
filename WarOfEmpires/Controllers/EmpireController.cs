@@ -32,7 +32,7 @@ namespace WarOfEmpires.Controllers {
                         () => Troops());
                 case "heal":
                     throw new NotImplementedException();
-                    // TODO: Implement troop healing (full, or as much as available food allows
+                // TODO: Implement troop healing (full, or as much as available food allows
                 default:
                     throw new InvalidOperationException($"Invalid operation '{model.Command}' found");
 

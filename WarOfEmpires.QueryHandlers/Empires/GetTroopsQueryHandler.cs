@@ -39,7 +39,9 @@ namespace WarOfEmpires.QueryHandlers.Empires {
                 WillUpkeepRunOut = !(player.GetTotalResources() + player.GetResourcesPerTurn() * 48).CanAfford(player.GetUpkeepPerTurn() * 48),
                 HasUpkeepRunOut = player.HasUpkeepRunOut,
                 CurrentStamina = player.Stamina,
-                HasSoldierShortage = player.GetSoldierRecruitsPenalty() > 0
+                HasSoldierShortage = player.GetSoldierRecruitsPenalty() > 0,
+                StaminaToFull = 100 - player.Stamina,
+                //HealMaxAfford = ;
             };
         }
     }
