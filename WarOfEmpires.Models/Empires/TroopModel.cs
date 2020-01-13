@@ -42,5 +42,6 @@ namespace WarOfEmpires.Models.Empires {
         public int CurrentStamina { get; set; }
         public int StaminaToFull { get; set; }
         public int HealMaxAfford { get; set; }
+        // TODO: Rename this to something better, more in line with other properties when implementing functionality
     }
 }
