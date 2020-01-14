@@ -21,6 +21,7 @@ namespace WarOfEmpires.Domain.Players {
         public const int AttackStaminaDrainModifier = 2;
 
         public static Resources WorkerTrainingCost = new Resources(gold: 250);
+        public static Resources SiegeEngineerTrainingCost = new Resources(gold: 2500, wood: 250, ore: 500);
         public static Resources ArcherTrainingCost = new Resources(gold: 5000, wood: 1000, ore: 500);
         public static Resources CavalryTrainingCost = new Resources(gold: 5000, ore: 1500);
         public static Resources FootmanTrainingCost = new Resources(gold: 5000, wood: 500, ore: 1000);
@@ -41,6 +42,7 @@ namespace WarOfEmpires.Domain.Players {
         public virtual int WoodWorkers { get; protected set; }
         public virtual int StoneMasons { get; protected set; }
         public virtual int OreMiners { get; protected set; }
+        public virtual int SiegeEngineers { get; protected set; }
         public virtual Resources Resources { get; protected set; } = new Resources(10000, 2000, 2000, 2000, 2000);
         public virtual Resources BankedResources { get; protected set; } = new Resources();
         public virtual int Tax { get; set; } = 50;
@@ -109,7 +111,7 @@ namespace WarOfEmpires.Domain.Players {
         public virtual Resources GetUpkeepPerTurn() {
             var upkeep = new Resources();
 
-            upkeep += (Peasants + Farmers + WoodWorkers + StoneMasons + OreMiners) * PeasantUpkeep;
+            upkeep += (Peasants + Farmers + WoodWorkers + StoneMasons + OreMiners + SiegeEngineers) * PeasantUpkeep;
             upkeep += (Archers.Soldiers + Cavalry.Soldiers + Footmen.Soldiers) * SoldierUpkeep;
             upkeep += (Archers.Mercenaries + Cavalry.Mercenaries + Footmen.Mercenaries) * MercenaryUpkeep;
 
@@ -218,9 +220,7 @@ namespace WarOfEmpires.Domain.Players {
                 Resources += GetResourcesPerTurn();
             }
             else {
-                Resources remainder;
-
-                Resources = Resources.SubtractSafe(upkeep, out remainder);
+                Resources = Resources.SubtractSafe(upkeep, out Resources remainder);
                 BankedResources = BankedResources.SubtractSafe(remainder);
 
                 Archers = new Troops(Archers.Soldiers, 0);
@@ -230,25 +230,30 @@ namespace WarOfEmpires.Domain.Players {
             }
         }
 
-        public virtual void TrainWorkers(int farmers, int woodWorkers, int stoneMasons, int oreMiners) {
+        public virtual void TrainWorkers(int farmers, int woodWorkers, int stoneMasons, int oreMiners, int siegeEngineers) {
             var trainedPeasants = farmers + woodWorkers + stoneMasons + oreMiners;
 
             Farmers += farmers;
             WoodWorkers += woodWorkers;
             StoneMasons += stoneMasons;
             OreMiners += oreMiners;
+            SiegeEngineers += siegeEngineers;
 
             Peasants -= trainedPeasants;
             SpendResources(trainedPeasants * WorkerTrainingCost);
+
+            Peasants -= siegeEngineers;
+            SpendResources(siegeEngineers * SiegeEngineerTrainingCost);
         }
 
-        public virtual void UntrainWorkers(int farmers, int woodWorkers, int stoneMasons, int oreMiners) {
+        public virtual void UntrainWorkers(int farmers, int woodWorkers, int stoneMasons, int oreMiners, int siegeEngineers) {
             Farmers -= farmers;
             WoodWorkers -= woodWorkers;
             StoneMasons -= stoneMasons;
             OreMiners -= oreMiners;
+            SiegeEngineers -= siegeEngineers;
 
-            Peasants += farmers + woodWorkers + stoneMasons + oreMiners;
+            Peasants += farmers + woodWorkers + stoneMasons + oreMiners + siegeEngineers;
         }
 
         public virtual void UpgradeBuilding(BuildingType type) {
@@ -266,7 +271,7 @@ namespace WarOfEmpires.Domain.Players {
             }
         }
 
-        public int GetBuildingBonus(BuildingType type) {
+        public virtual int GetBuildingBonus(BuildingType type) {
             var definition = BuildingDefinitionFactory.Get(type);
 
             return definition.GetBonus(Buildings.SingleOrDefault(b => b.Type == type)?.Level ?? 0);
@@ -281,7 +286,7 @@ namespace WarOfEmpires.Domain.Players {
         }
 
         public virtual int GetAvailableHutCapacity() {
-            return GetBuildingBonus(BuildingType.Huts) - Peasants - Farmers - WoodWorkers - StoneMasons - OreMiners;
+            return GetBuildingBonus(BuildingType.Huts) - Peasants - Farmers - WoodWorkers - StoneMasons - OreMiners - SiegeEngineers;
         }
 
         public virtual int GetAvailableHousingCapacity() {
@@ -321,7 +326,7 @@ namespace WarOfEmpires.Domain.Players {
 
         public virtual int GetSoldierRecruitsPenalty() {
             var soldiers = Archers.Soldiers + Cavalry.Soldiers + Footmen.Soldiers;
-            var peasants = Peasants + Farmers + WoodWorkers + StoneMasons + OreMiners;
+            var peasants = Peasants + Farmers + WoodWorkers + StoneMasons + OreMiners + SiegeEngineers;
             var ratio = 1.0m * soldiers / (soldiers + peasants);
 
             if (ratio >= 0.5m) {
@@ -406,9 +411,7 @@ namespace WarOfEmpires.Domain.Players {
         }
 
         public virtual void SpendResources(Resources resources) {
-            Resources remainder;
-
-            Resources = Resources.SubtractSafe(resources, out remainder);
+            Resources = Resources.SubtractSafe(resources, out Resources remainder);
             BankedResources -= remainder;
         }
     }

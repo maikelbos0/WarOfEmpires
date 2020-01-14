@@ -48,11 +48,11 @@ namespace WarOfEmpires.Controllers {
             switch (model.Command) {
                 case "train":
                     return ValidatedCommandResult(model,
-                        new TrainWorkersCommand(_authenticationService.Identity, model.Farmers, model.WoodWorkers, model.StoneMasons, model.OreMiners),
+                        new TrainWorkersCommand(_authenticationService.Identity, model.Farmers, model.WoodWorkers, model.StoneMasons, model.OreMiners, model.SiegeEngineers),
                         () => Workers());
                 case "untrain":
                     return ValidatedCommandResult(model,
-                        new UntrainWorkersCommand(_authenticationService.Identity, model.Farmers, model.WoodWorkers, model.StoneMasons, model.OreMiners),
+                        new UntrainWorkersCommand(_authenticationService.Identity, model.Farmers, model.WoodWorkers, model.StoneMasons, model.OreMiners, model.SiegeEngineers),
                         () => Workers());
                 default:
                     throw new InvalidOperationException($"Invalid operation '{model.Command}' found");

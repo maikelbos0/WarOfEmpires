@@ -165,6 +165,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Icons\axe-sword.svg" />
+    <Content Include="Content\Icons\claw-hammer.svg" />
     <Content Include="Content\Icons\high-shot.svg" />
     <Content Include="Content\Icons\locked-chest.svg" />
     <Content Include="Content\Icons\ore.svg" />

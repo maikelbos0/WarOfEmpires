@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 using WarOfEmpires.Domain.Common;
+using WarOfEmpires.Domain.Empires;
 using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Queries.Empires;
@@ -29,11 +30,14 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
             player.WoodWorkers.Returns(3);
             player.StoneMasons.Returns(4);
             player.OreMiners.Returns(5);
+            player.SiegeEngineers.Returns(6);
+            
             player.Tax.Returns(50);
             player.GetRecruitsPerDay().Returns(5);
             player.GetUpkeepPerTurn().Returns(new Resources(gold: 500, food: 30));
             player.GetTotalResources().Returns(new Resources(gold: 1000, food: 100));
             player.GetResourcesPerTurn().Returns(new Resources(gold: 400, food: 20));
+            player.GetBuildingBonus(BuildingType.SiegeFactory).Returns(4);
             player.HasUpkeepRunOut.Returns(true);
 
             _context.Users.Add(user);
@@ -61,6 +65,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
             result.CurrentWoodWorkers.Should().Be(3);
             result.CurrentStoneMasons.Should().Be(4);
             result.CurrentOreMiners.Should().Be(5);
+            result.CurrentSiegeEngineers.Should().Be(6);
         }
 
         [TestMethod]
@@ -80,6 +85,8 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
             result.CurrentStonePerTurn.Should().Be(40);
             result.CurrentOrePerWorkerPerTurn.Should().Be(10);
             result.CurrentOrePerTurn.Should().Be(50);
+            result.CurrentSiegeMaintenancePerSiegeEngineer.Should().Be(4);
+            result.CurrentSiegeMaintenance.Should().Be(24);
         }
 
         [TestMethod]
@@ -93,6 +100,9 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
             result.UpkeepPerTurn.Food.Should().Be(30);
             result.UpkeepPerTurn.Gold.Should().Be(500);
             result.WorkerTrainingCost.Gold.Should().Be(250);
+            result.SiegeEngineerTrainingCost.Gold.Should().Be(2500);
+            result.SiegeEngineerTrainingCost.Wood.Should().Be(250);
+            result.SiegeEngineerTrainingCost.Ore.Should().Be(500);
             result.WillUpkeepRunOut.Should().BeTrue();
             result.HasUpkeepRunOut.Should().BeTrue();
         }

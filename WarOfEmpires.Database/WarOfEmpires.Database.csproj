@@ -142,6 +142,10 @@
     <Compile Include="Migrations\201912311549472_Attacks-Type-Entity.Designer.cs">
       <DependentUpon>201912311549472_Attacks-Type-Entity.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202001121932079_Players-SiegeEngineers.cs" />
+    <Compile Include="Migrations\202001121932079_Players-SiegeEngineers.Designer.cs">
+      <DependentUpon>202001121932079_Players-SiegeEngineers.cs</DependentUpon>
+    </Compile>
     <Compile Include="ReferenceEntities\AttackResultEntity.cs" />
     <Compile Include="ReferenceEntities\AttackTypeEntity.cs" />
     <Compile Include="ReferenceEntities\BaseReferenceEntity.cs" />
@@ -238,6 +242,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201912311549472_Attacks-Type-Entity.resx">
       <DependentUpon>201912311549472_Attacks-Type-Entity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001121932079_Players-SiegeEngineers.resx">
+      <DependentUpon>202001121932079_Players-SiegeEngineers.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

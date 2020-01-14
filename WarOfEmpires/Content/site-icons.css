@@ -35,3 +35,7 @@
 .si.si-bank::after {
     background: url('Icons/locked-chest.svg');
 }
+
+.si.si-maintenance::after {
+    background: url('Icons/claw-hammer.svg');
+}

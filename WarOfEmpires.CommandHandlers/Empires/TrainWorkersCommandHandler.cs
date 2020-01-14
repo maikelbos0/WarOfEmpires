@@ -21,6 +21,7 @@ namespace WarOfEmpires.CommandHandlers.Empires {
             int woodWorkers = 0;
             int stoneMasons = 0;
             int oreMiners = 0;
+            int siegeEngineers = 0;
 
             if (!string.IsNullOrEmpty(command.Farmers) && !int.TryParse(command.Farmers, out farmers) || farmers < 0) {
                 result.AddError(c => c.Farmers, "Farmers must be a valid number");
@@ -42,20 +43,25 @@ namespace WarOfEmpires.CommandHandlers.Empires {
                 oreMiners = 0;
             }
 
-            if (farmers + woodWorkers + stoneMasons + oreMiners > player.Peasants) {
+            if (!string.IsNullOrEmpty(command.SiegeEngineers) && !int.TryParse(command.SiegeEngineers, out siegeEngineers) || siegeEngineers < 0) {
+                result.AddError(c => c.SiegeEngineers, "Siege engineers must be a valid number");
+                siegeEngineers = 0;
+            }
+
+            if (farmers + woodWorkers + stoneMasons + oreMiners + siegeEngineers > player.Peasants) {
                 result.AddError("You don't have that many peasants available to train");
             }
 
-            if (farmers + woodWorkers + stoneMasons + oreMiners > player.GetAvailableHutCapacity()) {
+            if (farmers + woodWorkers + stoneMasons + oreMiners + siegeEngineers > player.GetAvailableHutCapacity()) {
                 result.AddError("You don't have enough huts available to train that many workers");
             }
 
-            if (!player.CanAfford((farmers + woodWorkers + stoneMasons + oreMiners) * Player.WorkerTrainingCost)) {
+            if (!player.CanAfford((farmers + woodWorkers + stoneMasons + oreMiners) * Player.WorkerTrainingCost + siegeEngineers * Player.SiegeEngineerTrainingCost)) {
                 result.AddError("You don't have enough gold to train these peasants");
             }
 
             if (result.Success) {
-                player.TrainWorkers(farmers, woodWorkers, stoneMasons, oreMiners);
+                player.TrainWorkers(farmers, woodWorkers, stoneMasons, oreMiners, siegeEngineers);
                 _repository.Update();
             }
 

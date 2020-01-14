@@ -36,6 +36,8 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
             player.WoodWorkers.Returns(12);
             player.StoneMasons.Returns(2);
             player.OreMiners.Returns(1);
+            player.SiegeEngineers.Returns(3);
+            
             player.GetAvailableHousingCapacity().Returns(4);
             player.GetTheoreticalRecruitsPerDay().Returns(5);
 
@@ -53,7 +55,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
             result.BarracksCapacity.Should().Be(70);
             result.BarracksOccupancy.Should().Be(48);
             result.HutCapacity.Should().Be(40);
-            result.HutOccupancy.Should().Be(27);
+            result.HutOccupancy.Should().Be(30);
             result.HasHousingShortage.Should().BeTrue();
         }
     }

@@ -15,6 +15,9 @@ namespace WarOfEmpires.Models.Empires {
         [DisplayName("Ore miners")]
         [RegularExpression("^\\d{0,6}$", ErrorMessage = "Ore miners must be a valid number")]
         public string OreMiners { get; set; }
+        [DisplayName("Siege engineers")]
+        [RegularExpression("^\\d{0,6}$", ErrorMessage = "Siege engineers must be a valid number")]
+        public string SiegeEngineers { get; set; }
         public int CurrentPeasants { get; set; }
         public int CurrentGoldPerWorkerPerTurn { get; set; }
         public int CurrentGoldPerTurn { get; set; }
@@ -30,8 +33,12 @@ namespace WarOfEmpires.Models.Empires {
         public int CurrentOreMiners { get; set; }
         public int CurrentOrePerWorkerPerTurn { get; set; }
         public int CurrentOrePerTurn { get; set; }
+        public int CurrentSiegeEngineers { get; set; }
+        public int CurrentSiegeMaintenancePerSiegeEngineer { get;set;}
+        public int CurrentSiegeMaintenance { get; set; }
         public ResourcesViewModel UpkeepPerTurn { get; set; }
         public ResourcesViewModel WorkerTrainingCost { get; set; }
+        public ResourcesViewModel SiegeEngineerTrainingCost { get; set; }
         public int RecruitsPerDay { get; set; }
         public bool WillUpkeepRunOut { get; set; }
         public bool HasUpkeepRunOut { get; set; }

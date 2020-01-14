@@ -145,6 +145,25 @@
     </div>
 
     <div class="row">
+        <div class="col-4 col-form-label">
+            @Html.LabelFor(m => m.SiegeEngineers)
+        </div>
+        <div class="col-2 col-form-label">
+            @Model.CurrentSiegeEngineers.ToString(StringFormat.Integer)
+        </div>
+        <div class="col-2 col-form-label">
+            @Model.CurrentSiegeMaintenancePerSiegeEngineer.ToString(StringFormat.Integer) <span class="si si-maintenance"></span>
+        </div>
+        <div class="col-2 col-form-label">
+            @Model.CurrentSiegeMaintenance.ToString(StringFormat.Integer) <span class="si si-maintenance"></span>
+        </div>
+        <div class="col-2">
+            @Html.TextBoxFor(m => m.SiegeEngineers, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.SiegeEngineers, null, new { @class = "small form-text text-danger" })
+        </div>
+    </div>
+
+    <div class="row">
         <div class="col-10"></div>
 
         <div class="col-2">

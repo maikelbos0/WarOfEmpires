@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using WarOfEmpires.Database;
+using WarOfEmpires.Domain.Empires;
 using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Models.Empires;
 using WarOfEmpires.Queries.Empires;
@@ -40,8 +41,12 @@ namespace WarOfEmpires.QueryHandlers.Empires {
                 CurrentOreMiners = player.OreMiners,
                 CurrentOrePerWorkerPerTurn = player.GetOreProduction().GetProductionPerWorker(),
                 CurrentOrePerTurn = player.GetOreProduction().GetTotalProduction(),
+                CurrentSiegeEngineers = player.SiegeEngineers,
+                CurrentSiegeMaintenancePerSiegeEngineer = player.GetBuildingBonus(BuildingType.SiegeFactory),
+                CurrentSiegeMaintenance = player.GetBuildingBonus(BuildingType.SiegeFactory) * player.SiegeEngineers,
                 UpkeepPerTurn = _resourcesMap.ToViewModel(player.GetUpkeepPerTurn()),
                 WorkerTrainingCost = _resourcesMap.ToViewModel(Player.WorkerTrainingCost),
+                SiegeEngineerTrainingCost = _resourcesMap.ToViewModel(Player.SiegeEngineerTrainingCost),
                 RecruitsPerDay = player.GetRecruitsPerDay(),
                 WillUpkeepRunOut = !(player.GetTotalResources() + player.GetResourcesPerTurn() * 48).CanAfford(player.GetUpkeepPerTurn() * 48),
                 HasUpkeepRunOut = player.HasUpkeepRunOut

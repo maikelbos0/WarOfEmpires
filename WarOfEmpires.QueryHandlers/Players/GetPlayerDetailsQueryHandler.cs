@@ -20,11 +20,11 @@ namespace WarOfEmpires.QueryHandlers.Players {
             var id = int.Parse(query.Id);
             var player = _context.Players
                 .Single(p => p.User.Status == UserStatus.Active && p.Id == id);
-
+            
             return new PlayerDetailsViewModel() {
                 Id = player.Id,
                 DisplayName = player.DisplayName,
-                Population = player.Farmers + player.WoodWorkers + player.StoneMasons + player.OreMiners + player.Peasants
+                Population = player.Farmers + player.WoodWorkers + player.StoneMasons + player.OreMiners + player.Peasants + player.SiegeEngineers
                     + player.Archers.Soldiers + player.Archers.Mercenaries
                     + player.Cavalry.Soldiers + player.Cavalry.Mercenaries
                     + player.Footmen.Soldiers + player.Footmen.Mercenaries

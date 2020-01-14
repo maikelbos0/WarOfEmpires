@@ -28,6 +28,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
             player.WoodWorkers.Returns(2);
             player.StoneMasons.Returns(3);
             player.OreMiners.Returns(4);
+            player.SiegeEngineers.Returns(6);
             player.Peasants.Returns(5);
             player.Archers.Returns(new Troops(15, 5));
             player.Cavalry.Returns(new Troops(3, 1));
@@ -49,7 +50,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
 
             result.Id.Should().Be(2);
             result.DisplayName.Should().Be("Test display name 2");
-            result.Population.Should().Be(43);
+            result.Population.Should().Be(49);
         }
 
         [TestMethod]
