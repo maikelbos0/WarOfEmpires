@@ -30,6 +30,7 @@ namespace WarOfEmpires.Domain.Players {
         public static Resources PeasantUpkeep = new Resources(food: 2);
         public static Resources SoldierUpkeep = new Resources(food: 2);
         public static Resources MercenaryUpkeep = new Resources(gold: 250, food: 2);
+        public static Resources HealCostPerTroopPerTurn = new Resources(food: 2);
 
         public virtual string DisplayName { get; set; }
         public virtual Security.User User { get; protected set; }
@@ -116,6 +117,14 @@ namespace WarOfEmpires.Domain.Players {
             upkeep += (Archers.Mercenaries + Cavalry.Mercenaries + Footmen.Mercenaries) * MercenaryUpkeep;
 
             return upkeep;
+        }
+
+        public virtual Resources GetHealCostPerTurn() {
+            var healCost = new Resources();
+
+            healCost += (Archers.GetTotals() + Cavalry.GetTotals() + Footmen.GetTotals()) * HealCostPerTroopPerTurn;
+
+            return healCost;
         }
 
         public virtual TroopInfo GetArcherInfo() {
