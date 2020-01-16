@@ -30,6 +30,9 @@ namespace WarOfEmpires.Controllers {
                     return ValidatedCommandResult(model,
                         new UntrainTroopsCommand(_authenticationService.Identity, model.Archers, model.MercenaryArchers, model.Cavalry, model.MercenaryCavalry, model.Footmen, model.MercenaryFootmen),
                         () => Troops());
+                case "heal":
+                    throw new NotImplementedException();
+                // TODO: Implement troop healing (full, or as much as available food allows
                 default:
                     throw new InvalidOperationException($"Invalid operation '{model.Command}' found");
 

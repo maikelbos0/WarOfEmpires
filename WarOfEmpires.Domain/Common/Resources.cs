@@ -57,7 +57,7 @@ namespace WarOfEmpires.Domain.Common {
                 Math.Min(Ore, value.Ore)
             );
 
-             remainder = value - safeValue;
+            remainder = value - safeValue;
 
             return this - safeValue;
         }

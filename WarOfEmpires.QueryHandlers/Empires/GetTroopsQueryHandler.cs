@@ -38,7 +38,10 @@ namespace WarOfEmpires.QueryHandlers.Empires {
                 MercenaryTrainingCost = _resourcesMap.ToViewModel(Player.MercenaryTrainingCost),
                 WillUpkeepRunOut = !(player.GetTotalResources() + player.GetResourcesPerTurn() * 48).CanAfford(player.GetUpkeepPerTurn() * 48),
                 HasUpkeepRunOut = player.HasUpkeepRunOut,
-                HasSoldierShortage = player.GetSoldierRecruitsPenalty() > 0
+                CurrentStamina = player.Stamina,
+                HasSoldierShortage = player.GetSoldierRecruitsPenalty() > 0,
+                StaminaToFull = 100 - player.Stamina,
+                //TODO: Implement this with better name HealMaxAfford = ;
             };
         }
     }
