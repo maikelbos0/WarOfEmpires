@@ -85,6 +85,7 @@
     <Compile Include="Security\PasswordTests.cs" />
     <Compile Include="Security\TemporaryPasswordTests.cs" />
     <Compile Include="Security\UserTests.cs" />
+    <Compile Include="Siege\SiegeWeaponDefinitionFactoryTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
