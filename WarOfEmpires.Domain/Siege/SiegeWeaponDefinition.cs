@@ -6,15 +6,15 @@ namespace WarOfEmpires.Domain.Siege {
         public Resources PurchaseCost { get; }
         public TroopType TroopType { get; }
         public int TroopCount { get; }
-        public Resources OperatingCostPerTurn { get; }
-        public int SiegeMaintenance { get; }
+        public double ChanceToDestroy { get; }
+        public string Description { get; }
 
-        public SiegeWeaponDefinition(Resources purchaseCost, TroopType troopType, int troopCount, Resources operatingCostPerTurn, int siegeMaintenance) {
+        public SiegeWeaponDefinition(Resources purchaseCost, TroopType troopType, int troopCount, double chanceToDestroy, string description) {
             PurchaseCost = purchaseCost;
             TroopType = troopType;
             TroopCount = troopCount;
-            OperatingCostPerTurn = operatingCostPerTurn;
-            SiegeMaintenance = siegeMaintenance;
+            ChanceToDestroy = chanceToDestroy;
+            Description = description;
         }
     }
 }
