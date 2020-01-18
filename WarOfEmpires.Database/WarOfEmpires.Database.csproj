@@ -146,12 +146,17 @@
     <Compile Include="Migrations\202001121932079_Players-SiegeEngineers.Designer.cs">
       <DependentUpon>202001121932079_Players-SiegeEngineers.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202001181851497_SiegeWeapons.cs" />
+    <Compile Include="Migrations\202001181851497_SiegeWeapons.Designer.cs">
+      <DependentUpon>202001181851497_SiegeWeapons.cs</DependentUpon>
+    </Compile>
     <Compile Include="ReferenceEntities\AttackResultEntity.cs" />
     <Compile Include="ReferenceEntities\AttackTypeEntity.cs" />
     <Compile Include="ReferenceEntities\BaseReferenceEntity.cs" />
     <Compile Include="IWarContext.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ReferenceEntities\BuildingTypeEntity.cs" />
+    <Compile Include="ReferenceEntities\SiegeWeaponTypeEntity.cs" />
     <Compile Include="ReferenceEntities\TroopTypeEntity.cs" />
     <Compile Include="WarContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -245,6 +250,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202001121932079_Players-SiegeEngineers.resx">
       <DependentUpon>202001121932079_Players-SiegeEngineers.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001181851497_SiegeWeapons.resx">
+      <DependentUpon>202001181851497_SiegeWeapons.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

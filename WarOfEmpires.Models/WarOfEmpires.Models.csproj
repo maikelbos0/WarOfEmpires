@@ -56,6 +56,7 @@
     <Compile Include="Empires\HousingTotalsViewModel.cs" />
     <Compile Include="Empires\ResourceHeaderViewModel.cs" />
     <Compile Include="Empires\ResourcesViewModel.cs" />
+    <Compile Include="Empires\SiegeWeaponModel.cs" />
     <Compile Include="Empires\TaxModel.cs" />
     <Compile Include="Empires\TroopModel.cs" />
     <Compile Include="Messages\MessageModel.cs" />
@@ -77,6 +78,7 @@
     <Compile Include="Security\LogInUserModel.cs" />
     <Compile Include="Security\RegisterUserModel.cs" />
     <Compile Include="EntityViewModel.cs" />
+    <Compile Include="Empires\SiegeModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WarOfEmpires.Utilities\WarOfEmpires.Utilities.csproj">
@@ -84,5 +86,6 @@
       <Name>WarOfEmpires.Utilities</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

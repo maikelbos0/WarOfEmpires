@@ -4,6 +4,7 @@ using System.Linq;
 using WarOfEmpires.Domain.Attacks;
 using WarOfEmpires.Domain.Common;
 using WarOfEmpires.Domain.Empires;
+using WarOfEmpires.Domain.Siege;
 
 namespace WarOfEmpires.Domain.Players {
     public class Player : AggregateRoot {
@@ -55,6 +56,7 @@ namespace WarOfEmpires.Domain.Players {
         public virtual int Stamina { get; protected set; } = 100;
         public virtual bool HasUpkeepRunOut { get; protected set; } = false;
         public virtual ICollection<Building> Buildings { get; protected set; } = new List<Building>();
+        public virtual ICollection<SiegeWeapon> SiegeWeapons { get; protected set; } = new List<SiegeWeapon>();
         public virtual ICollection<Message> SentMessages { get; protected set; } = new List<Message>();
         public virtual ICollection<Message> ReceivedMessages { get; protected set; } = new List<Message>();
         public virtual ICollection<Attack> ExecutedAttacks { get; protected set; } = new List<Attack>();

@@ -18,6 +18,7 @@ namespace WarOfEmpires.Domain.Siege {
                 TroopType.Archers,
                 36,
                 0.9,
+                "Flaming arrows",
                 "Archers can fire flaming arrows to cause havoc behind enemy walls; it is however rare to recover any from the battle site"
             );
         }
@@ -28,7 +29,8 @@ namespace WarOfEmpires.Domain.Siege {
                 TroopType.Cavalry,
                 8,
                 0.1,
-                "Cavalry can keep any defences' gates down with battering rams; they can be recovered from the battle site afterwards unless they break"
+                "Battering rams",
+                "Cavalry can keep any defences' gates down with battering rams; they can normally be reused"
             );
         }
 
@@ -38,6 +40,7 @@ namespace WarOfEmpires.Domain.Siege {
                 TroopType.Cavalry,
                 12,
                 0.3,
+                "Scaling ladders",
                 "Footmen can use ladders to scale any defences; they can usually be recovered from the battlefield"
             );
         }

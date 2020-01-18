@@ -87,6 +87,7 @@
     <Compile Include="Security\UserEventType.cs" />
     <Compile Include="Security\UserStatus.cs" />
     <Compile Include="Players\Player.cs" />
+    <Compile Include="Siege\SiegeWeapon.cs" />
     <Compile Include="Siege\SiegeWeaponDefinition.cs" />
     <Compile Include="Siege\SiegeWeaponDefinitionFactory.cs" />
     <Compile Include="Siege\SiegeWeaponType.cs" />

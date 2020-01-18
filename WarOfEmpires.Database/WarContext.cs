@@ -10,6 +10,7 @@ using Events = WarOfEmpires.Domain.Events;
 using Empires = WarOfEmpires.Domain.Empires;
 using Players = WarOfEmpires.Domain.Players;
 using Security = WarOfEmpires.Domain.Security;
+using Siege = WarOfEmpires.Domain.Siege;
 
 namespace WarOfEmpires.Database {
     [InterfaceInjectable]
@@ -69,6 +70,10 @@ namespace WarOfEmpires.Database {
             buildingTypes.HasMany(t => t.Buildings).WithRequired().HasForeignKey(b => b.Type);
             buildingTypes.Property(t => t.Name).IsRequired();
 
+            var siegeWeaponTypes = modelBuilder.Entity<SiegeWeaponTypeEntity>().ToTable("SiegeWeaponTypes", "Siege").HasKey(t => t.Id);
+            siegeWeaponTypes.HasMany(t => t.SiegeWeapons).WithRequired().HasForeignKey(b => b.Type);
+            siegeWeaponTypes.Property(t => t.Name).IsRequired();
+
             var players = modelBuilder.Entity<Players.Player>().ToTable("Players", "Players").HasKey(p => p.Id);
             players.HasRequired(p => p.User).WithOptional();
             players.HasMany(p => p.Buildings).WithRequired(b => b.Player);
@@ -95,6 +100,8 @@ namespace WarOfEmpires.Database {
             players.Property(p => p.Footmen.Mercenaries).HasColumnName("MercenaryFootmen");
 
             var buildings = modelBuilder.Entity<Empires.Building>().ToTable("Buildings", "Empires").HasKey(b => b.Id);
+
+            var siegeWeapons = modelBuilder.Entity<Siege.SiegeWeapon>().ToTable("SiegeWeapons", "Siege").HasKey(b => b.Id);
 
             var messages = modelBuilder.Entity<Players.Message>().ToTable("Messages", "Players").HasKey(m => m.Id);
             messages.Property(m => m.Subject).IsRequired().HasMaxLength(100);
