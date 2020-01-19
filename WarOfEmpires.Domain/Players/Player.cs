@@ -292,6 +292,10 @@ namespace WarOfEmpires.Domain.Players {
             return (100m + GetBuildingBonus(type)) / 100m;
         }
 
+        public int GetSiegeWeaponCount(SiegeWeaponType type) {
+            return SiegeWeapons.SingleOrDefault(w => w.Type == type)?.Count ?? 0;
+        }
+
         public virtual int GetAvailableBarracksCapacity() {
             return GetBuildingBonus(BuildingType.Barracks) - Archers.GetTotals() - Cavalry.GetTotals() - Footmen.GetTotals();
         }

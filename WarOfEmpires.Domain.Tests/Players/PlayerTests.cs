@@ -4,6 +4,7 @@ using System.Linq;
 using WarOfEmpires.Domain.Common;
 using WarOfEmpires.Domain.Empires;
 using WarOfEmpires.Domain.Players;
+using WarOfEmpires.Domain.Siege;
 
 namespace WarOfEmpires.Domain.Tests.Players {
     [TestClass]
@@ -388,6 +389,22 @@ namespace WarOfEmpires.Domain.Tests.Players {
             player.Buildings.Add(new Building(player, BuildingType.Farm, 3));
 
             player.GetBuildingBonusMultiplier(BuildingType.Farm).Should().Be(1.75m);
+        }
+
+        [TestMethod]
+        public void Player_GetSiegeWeaponCount_Succeeds_For_Nonexistent_SiegeWeaponType() {
+            var player = new Player(0, "Test");
+
+            player.GetSiegeWeaponCount(SiegeWeaponType.ScalingLadders).Should().Be(0);
+        }
+
+        [TestMethod]
+        public void Player_GetSiegeWeaponCount_Succeeds_For_Existing_SiegeWeaponType() {
+            var player = new Player(0, "Test");
+
+            player.SiegeWeapons.Add(new SiegeWeapon(player, SiegeWeaponType.BatteringRams) { Count = 5 });
+
+            player.GetSiegeWeaponCount(SiegeWeaponType.BatteringRams).Should().Be(5);
         }
 
         [TestMethod]

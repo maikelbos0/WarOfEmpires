@@ -14,21 +14,23 @@ namespace WarOfEmpires.Domain.Siege {
 
         private static SiegeWeaponDefinition GenerateFireArrows() {
             return new SiegeWeaponDefinition(
-                new Resources(800, 400),
+                new Resources(wood: 80, ore: 40),
                 TroopType.Archers,
                 36,
                 0.9,
-                "Flaming arrows",
+                18,
+                "Fire arrows",
                 "Archers can fire flaming arrows to cause havoc behind enemy walls; it is however rare to recover any from the battle site"
             );
         }
 
         private static SiegeWeaponDefinition GenerateBatteringRams() {
             return new SiegeWeaponDefinition(
-                new Resources(wood: 2000, ore: 1000),
+                new Resources(wood: 200, ore: 100),
                 TroopType.Cavalry,
                 8,
                 0.1,
+                4,
                 "Battering rams",
                 "Cavalry can keep any defences' gates down with battering rams; they can normally be reused"
             );
@@ -36,10 +38,11 @@ namespace WarOfEmpires.Domain.Siege {
 
         private static SiegeWeaponDefinition GenerateScalingLadders() {
             return new SiegeWeaponDefinition(
-                new Resources(wood: 900, ore: 450),
-                TroopType.Cavalry,
+                new Resources(wood: 90, ore: 45),
+                TroopType.Footmen,
                 12,
                 0.3,
+                6,
                 "Scaling ladders",
                 "Footmen can use ladders to scale any defences; they can usually be recovered from the battlefield"
             );
