@@ -86,6 +86,7 @@
     <Compile Include="Empires\GetBuildingUpgradesQueryHandlerTests.cs" />
     <Compile Include="Empires\GetHousingTotalsQueryHandlerTests.cs" />
     <Compile Include="Empires\GetResourceHeaderQueryHandlerTests.cs" />
+    <Compile Include="Empires\GetSiegeQueryHandlerTests.cs" />
     <Compile Include="Empires\GetTaxQueryHandlerTests.cs" />
     <Compile Include="Empires\GetTroopsQueryHandlerTests.cs" />
     <Compile Include="Empires\GetWorkersQueryHandlerTests.cs" />

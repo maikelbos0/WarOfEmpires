@@ -51,6 +51,7 @@
     <Compile Include="Empires\GetBuildingUpgradesQuery.cs" />
     <Compile Include="Empires\GetHousingTotalsQuery.cs" />
     <Compile Include="Empires\GetResourceHeaderQuery.cs" />
+    <Compile Include="Empires\GetSiegeQuery.cs" />
     <Compile Include="Empires\GetTaxQuery.cs" />
     <Compile Include="Empires\GetTroopsQuery.cs" />
     <Compile Include="Empires\GetWorkersQuery.cs" />
