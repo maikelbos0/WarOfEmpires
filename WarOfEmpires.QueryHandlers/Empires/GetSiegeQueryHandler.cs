@@ -45,11 +45,9 @@ namespace WarOfEmpires.QueryHandlers.Empires {
                 Name = definition.Name,
                 Description = definition.Description,
                 Maintenance = definition.Maintenance,
-                TroopType = definition.TroopType.ToString(),
                 TroopCount = definition.TroopCount,
                 Cost = _resourcesMap.ToViewModel(definition.Cost),
                 CurrentCount = count,
-                CurrentMaintenance = definition.Maintenance * count,
                 CurrentTroopCount = definition.TroopCount * count
             };
         }

@@ -1,0 +1,144 @@
+﻿@model WarOfEmpires.Models.Empires.SiegeModel
+
+@{
+    ViewBag.Title = "Siege";
+}
+
+<h2>Siege</h2>
+
+<p>
+    Here you can purchase siege to help you scale your enemies' defences. Each siege weapon is tailored to a specific type of soldier and can
+    not be used by other types.
+</p>
+
+<ul>
+    <li>Siege engineers: @Model.Engineers.ToString(StringFormat.Integer)</li>
+    <li>Total siege maintenance provided: @Model.TotalMaintenance.ToString(StringFormat.Integer)</li>
+    <li>Available siege maintenance: @Model.AvailableMaintenance.ToString(StringFormat.Integer)</li>
+    <li>
+        @Model.FireArrows.Description
+        <ul>
+            <li>Purchase cost: @Html.DisplayFor(m => m.FireArrows.Cost)</li>
+        </ul>
+    </li>
+    <li>
+        @Model.BatteringRams.Description
+        <ul>
+            <li>Purchase cost: @Html.DisplayFor(m => m.BatteringRams.Cost)</li>
+        </ul>
+    </li>
+    <li>
+        @Model.ScalingLadders.Description
+        <ul>
+            <li>Purchase cost: @Html.DisplayFor(m => m.ScalingLadders.Cost)</li>
+        </ul>
+    </li>
+</ul>
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { data_success_message = "Your siege weapons were purchased." })) {
+    @Html.ValidationSummary(true, null, new { @class = "site-validation-summary text-danger" })
+    @Html.HiddenFor(m => m.Engineers)
+    @Html.HiddenFor(m => m.TotalMaintenance)
+    @Html.HiddenFor(m => m.AvailableMaintenance)
+
+    <div class="row">
+        <div class="col-2">
+        </div>
+        <div class="col-2 col-form-label">
+            <strong>Maintenance per weapon</strong>
+        </div>
+        <div class="col-2 col-form-label">
+            <strong>Troops per weapon</strong>
+        </div>
+        <div class="col-2 col-form-label">
+            <strong>Current weapons</strong>
+        </div>
+        <div class="col-2 col-form-label">
+            <strong>Troops equipped</strong>
+        </div>
+        <div class="col-2">
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-2 col-form-label">
+            <strong>@Model.FireArrows.Name</strong>
+        </div>
+        <div class="col-2 col-form-label">
+            @Model.FireArrows.Maintenance.ToString(StringFormat.Integer)
+        </div>
+        <div class="col-2 col-form-label">
+            @Model.FireArrows.TroopCount.ToString(StringFormat.Integer)
+        </div>
+        <div class="col-2 col-form-label">
+            @Model.FireArrows.CurrentCount.ToString(StringFormat.Integer)
+        </div>
+        <div class="col-2 col-form-label">
+            @Model.FireArrows.CurrentTroopCount.ToString(StringFormat.Integer)
+        </div>
+        <div class="col-2">
+            @Html.TextBoxFor(m => m.FireArrows.Count, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.FireArrows.Count, null, new { @class = "small form-text text-danger" })
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-2 col-form-label">
+            <strong>@Model.BatteringRams.Name</strong>
+        </div>
+        <div class="col-2 col-form-label">
+            @Model.BatteringRams.Maintenance.ToString(StringFormat.Integer)
+        </div>
+        <div class="col-2 col-form-label">
+            @Model.BatteringRams.TroopCount.ToString(StringFormat.Integer)
+        </div>
+        <div class="col-2 col-form-label">
+            @Model.BatteringRams.CurrentCount.ToString(StringFormat.Integer)
+        </div>
+        <div class="col-2 col-form-label">
+            @Model.BatteringRams.CurrentTroopCount.ToString(StringFormat.Integer)
+        </div>
+        <div class="col-2">
+            @Html.TextBoxFor(m => m.BatteringRams.Count, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.BatteringRams.Count, null, new { @class = "small form-text text-danger" })
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-2 col-form-label">
+            <strong>@Model.ScalingLadders.Name</strong>
+        </div>
+        <div class="col-2 col-form-label">
+            @Model.ScalingLadders.Maintenance.ToString(StringFormat.Integer)
+        </div>
+        <div class="col-2 col-form-label">
+            @Model.ScalingLadders.TroopCount.ToString(StringFormat.Integer)
+        </div>
+        <div class="col-2 col-form-label">
+            @Model.ScalingLadders.CurrentCount.ToString(StringFormat.Integer)
+        </div>
+        <div class="col-2 col-form-label">
+            @Model.ScalingLadders.CurrentTroopCount.ToString(StringFormat.Integer)
+        </div>
+        <div class="col-2">
+            @Html.TextBoxFor(m => m.ScalingLadders.Count, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.ScalingLadders.Count, null, new { @class = "small form-text text-danger" })
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-10"></div>
+
+        <div class="col-2">
+            <button type="submit" class="btn btn-primary form-control" value="purchase">Purchase</button>
+        </div>
+    </div>
+
+    <div class="row site-spaced-small">
+        <div class="col-10"></div>
+
+        <div class="col-2">
+            <button type="submit" class="btn btn-secondary form-control" value="sell">Sell</button>
+        </div>
+    </div>
+}

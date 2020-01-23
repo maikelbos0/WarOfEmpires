@@ -50,9 +50,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
             result.FireArrows.Cost.Wood.Should().Be(80);
             result.FireArrows.TroopCount.Should().Be(36);
             result.FireArrows.Maintenance.Should().Be(18);
-            result.FireArrows.TroopType.Should().Be("Archers");
             result.FireArrows.CurrentCount.Should().Be(2);
-            result.FireArrows.CurrentMaintenance.Should().Be(36);
             result.FireArrows.CurrentTroopCount.Should().Be(72);
             result.FireArrows.Name.Should().Be("Fire arrows");
         }
@@ -69,9 +67,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
             result.BatteringRams.Cost.Wood.Should().Be(200);
             result.BatteringRams.TroopCount.Should().Be(8);
             result.BatteringRams.Maintenance.Should().Be(4);
-            result.BatteringRams.TroopType.Should().Be("Cavalry");
             result.BatteringRams.CurrentCount.Should().Be(3);
-            result.BatteringRams.CurrentMaintenance.Should().Be(12);
             result.BatteringRams.CurrentTroopCount.Should().Be(24);
             result.BatteringRams.Name.Should().Be("Battering rams");
         }
@@ -88,9 +84,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
             result.ScalingLadders.Cost.Wood.Should().Be(90);
             result.ScalingLadders.TroopCount.Should().Be(12);
             result.ScalingLadders.Maintenance.Should().Be(6);
-            result.ScalingLadders.TroopType.Should().Be("Footmen");
             result.ScalingLadders.CurrentCount.Should().Be(4);
-            result.ScalingLadders.CurrentMaintenance.Should().Be(24);
             result.ScalingLadders.CurrentTroopCount.Should().Be(48);
             result.ScalingLadders.Name.Should().Be("Scaling ladders");
         }

@@ -154,5 +154,11 @@ namespace WarOfEmpires.Controllers {
         public ActionResult SpecialtyBuildings() {
             return View();
         }
+
+        [Route("Siege")]
+        [HttpGet]
+        public ActionResult Siege() {
+            return View(_messageService.Dispatch(new GetSiegeQuery(_authenticationService.Identity)));
+        }
     }
 }
