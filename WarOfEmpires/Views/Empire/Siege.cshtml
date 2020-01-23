@@ -15,24 +15,6 @@
     <li>Siege engineers: @Model.Engineers.ToString(StringFormat.Integer)</li>
     <li>Total siege maintenance provided: @Model.TotalMaintenance.ToString(StringFormat.Integer)</li>
     <li>Available siege maintenance: @Model.AvailableMaintenance.ToString(StringFormat.Integer)</li>
-    <li>
-        @Model.FireArrows.Description
-        <ul>
-            <li>Purchase cost: @Html.DisplayFor(m => m.FireArrows.Cost)</li>
-        </ul>
-    </li>
-    <li>
-        @Model.BatteringRams.Description
-        <ul>
-            <li>Purchase cost: @Html.DisplayFor(m => m.BatteringRams.Cost)</li>
-        </ul>
-    </li>
-    <li>
-        @Model.ScalingLadders.Description
-        <ul>
-            <li>Purchase cost: @Html.DisplayFor(m => m.ScalingLadders.Cost)</li>
-        </ul>
-    </li>
 </ul>
 
 @using (Html.BeginForm(null, null, FormMethod.Post, new { data_success_message = "Your siege weapons were purchased." })) {
@@ -82,6 +64,11 @@
         </div>
     </div>
 
+    <ul>
+        <li>@Model.FireArrows.Description</li>
+        <li>Purchase cost: @Html.DisplayFor(m => m.FireArrows.Cost)</li>
+    </ul>
+
     <div class="row">
         <div class="col-2 col-form-label">
             <strong>@Model.BatteringRams.Name</strong>
@@ -104,6 +91,11 @@
         </div>
     </div>
 
+    <ul>
+        <li>@Model.BatteringRams.Description</li>
+        <li>Purchase cost: @Html.DisplayFor(m => m.BatteringRams.Cost)</li>
+    </ul>
+
     <div class="row">
         <div class="col-2 col-form-label">
             <strong>@Model.ScalingLadders.Name</strong>
@@ -125,6 +117,11 @@
             @Html.ValidationMessageFor(m => m.ScalingLadders.Count, null, new { @class = "small form-text text-danger" })
         </div>
     </div>
+
+    <ul>
+        <li>@Model.ScalingLadders.Description</li>
+        <li>Purchase cost: @Html.DisplayFor(m => m.ScalingLadders.Cost)</li>
+    </ul>
 
     <div class="row">
         <div class="col-10"></div>
