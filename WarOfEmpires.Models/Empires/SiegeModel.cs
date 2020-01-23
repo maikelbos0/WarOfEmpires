@@ -6,5 +6,6 @@
         public int Engineers { get; set; }
         public int TotalMaintenance { get; set; }
         public int AvailableMaintenance { get; set; }
+        public string Command { get; set; }
     }
 }

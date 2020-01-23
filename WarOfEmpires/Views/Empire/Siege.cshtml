@@ -19,9 +19,35 @@
 
 @using (Html.BeginForm(null, null, FormMethod.Post, new { data_success_message = "Your siege weapons were purchased." })) {
     @Html.ValidationSummary(true, null, new { @class = "site-validation-summary text-danger" })
+
+    @Html.HiddenFor(m => m.FireArrows.Cost)
+    @Html.HiddenFor(m => m.FireArrows.CurrentCount)
+    @Html.HiddenFor(m => m.FireArrows.CurrentTroopCount)
+    @Html.HiddenFor(m => m.FireArrows.Description)
+    @Html.HiddenFor(m => m.FireArrows.Maintenance)
+    @Html.HiddenFor(m => m.FireArrows.Name)
+    @Html.HiddenFor(m => m.FireArrows.TroopCount)
+
+    @Html.HiddenFor(m => m.BatteringRams.Cost)
+    @Html.HiddenFor(m => m.BatteringRams.CurrentCount)
+    @Html.HiddenFor(m => m.BatteringRams.CurrentTroopCount)
+    @Html.HiddenFor(m => m.BatteringRams.Description)
+    @Html.HiddenFor(m => m.BatteringRams.Maintenance)
+    @Html.HiddenFor(m => m.BatteringRams.Name)
+    @Html.HiddenFor(m => m.BatteringRams.TroopCount)
+
+    @Html.HiddenFor(m => m.ScalingLadders.Cost)
+    @Html.HiddenFor(m => m.ScalingLadders.CurrentCount)
+    @Html.HiddenFor(m => m.ScalingLadders.CurrentTroopCount)
+    @Html.HiddenFor(m => m.ScalingLadders.Description)
+    @Html.HiddenFor(m => m.ScalingLadders.Maintenance)
+    @Html.HiddenFor(m => m.ScalingLadders.Name)
+    @Html.HiddenFor(m => m.ScalingLadders.TroopCount)
+
     @Html.HiddenFor(m => m.Engineers)
     @Html.HiddenFor(m => m.TotalMaintenance)
     @Html.HiddenFor(m => m.AvailableMaintenance)
+    @Html.HiddenFor(m => m.Command)
 
     <div class="row">
         <div class="col-2">
@@ -66,7 +92,7 @@
 
     <ul>
         <li>@Model.FireArrows.Description</li>
-        <li>Purchase cost: @Html.DisplayFor(m => m.FireArrows.Cost)</li>
+        <li>Build cost: @Html.DisplayFor(m => m.FireArrows.Cost)</li>
     </ul>
 
     <div class="row">
@@ -93,7 +119,7 @@
 
     <ul>
         <li>@Model.BatteringRams.Description</li>
-        <li>Purchase cost: @Html.DisplayFor(m => m.BatteringRams.Cost)</li>
+        <li>Build cost: @Html.DisplayFor(m => m.BatteringRams.Cost)</li>
     </ul>
 
     <div class="row">
@@ -120,14 +146,14 @@
 
     <ul>
         <li>@Model.ScalingLadders.Description</li>
-        <li>Purchase cost: @Html.DisplayFor(m => m.ScalingLadders.Cost)</li>
+        <li>Build cost: @Html.DisplayFor(m => m.ScalingLadders.Cost)</li>
     </ul>
 
     <div class="row">
         <div class="col-10"></div>
 
         <div class="col-2">
-            <button type="submit" class="btn btn-primary form-control" value="purchase">Purchase</button>
+            <button type="submit" class="btn btn-primary form-control" value="build">Build</button>
         </div>
     </div>
 
@@ -135,7 +161,7 @@
         <div class="col-10"></div>
 
         <div class="col-2">
-            <button type="submit" class="btn btn-secondary form-control" value="sell">Sell</button>
+            <button type="submit" class="btn btn-secondary form-control" value="discard">Discard</button>
         </div>
     </div>
 }

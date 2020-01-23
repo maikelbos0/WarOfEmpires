@@ -160,5 +160,22 @@ namespace WarOfEmpires.Controllers {
         public ActionResult Siege() {
             return View(_messageService.Dispatch(new GetSiegeQuery(_authenticationService.Identity)));
         }
+
+        [Route("Siege")]
+        [HttpPost]
+        public ActionResult Siege(SiegeModel model) {
+            switch (model.Command) {
+                case "build":
+                    return ValidatedCommandResult(model,
+                        new BuildSiegeCommand(_authenticationService.Identity, model.FireArrows.Count, model.BatteringRams.Count, model.ScalingLadders.Count),
+                        () => Workers());
+                case "discard":
+                    return ValidatedCommandResult(model,
+                        new DiscardSiegeCommand(_authenticationService.Identity, model.FireArrows.Count, model.BatteringRams.Count, model.ScalingLadders.Count),
+                        () => Workers());
+                default:
+                    throw new InvalidOperationException($"Invalid operation '{model.Command}' found");
+            }
+        }
     }
 }

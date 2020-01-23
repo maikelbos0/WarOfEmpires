@@ -45,6 +45,8 @@
     <Compile Include="Attacks\ReadAttackCommand.cs" />
     <Compile Include="Empires\AddBankTurnCommand.cs" />
     <Compile Include="Empires\BankCommand.cs" />
+    <Compile Include="Empires\BuildSiegeCommand.cs" />
+    <Compile Include="Empires\DiscardSiegeCommand.cs" />
     <Compile Include="Empires\HealTroopsCommand.cs" />
     <Compile Include="Empires\ProcessTurnCommand.cs" />
     <Compile Include="Empires\SetTaxCommand.cs" />
