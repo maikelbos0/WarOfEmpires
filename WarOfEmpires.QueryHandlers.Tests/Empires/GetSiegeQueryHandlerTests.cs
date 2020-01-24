@@ -45,14 +45,14 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
 
             var result = handler.Execute(query);
 
-            result.FireArrows.Should().NotBeNull();
-            result.FireArrows.Cost.Ore.Should().Be(40);
-            result.FireArrows.Cost.Wood.Should().Be(80);
-            result.FireArrows.TroopCount.Should().Be(36);
-            result.FireArrows.Maintenance.Should().Be(18);
-            result.FireArrows.CurrentCount.Should().Be(2);
-            result.FireArrows.CurrentTroopCount.Should().Be(72);
-            result.FireArrows.Name.Should().Be("Fire arrows");
+            result.FireArrowsInfo.Should().NotBeNull();
+            result.FireArrowsInfo.Cost.Ore.Should().Be(40);
+            result.FireArrowsInfo.Cost.Wood.Should().Be(80);
+            result.FireArrowsInfo.TroopCount.Should().Be(36);
+            result.FireArrowsInfo.Maintenance.Should().Be(18);
+            result.FireArrowsInfo.CurrentCount.Should().Be(2);
+            result.FireArrowsInfo.CurrentTroopCount.Should().Be(72);
+            result.FireArrowsInfo.Name.Should().Be("Fire arrows");
         }
 
         [TestMethod]
@@ -62,14 +62,14 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
 
             var result = handler.Execute(query);
 
-            result.BatteringRams.Should().NotBeNull();
-            result.BatteringRams.Cost.Ore.Should().Be(100);
-            result.BatteringRams.Cost.Wood.Should().Be(200);
-            result.BatteringRams.TroopCount.Should().Be(8);
-            result.BatteringRams.Maintenance.Should().Be(4);
-            result.BatteringRams.CurrentCount.Should().Be(3);
-            result.BatteringRams.CurrentTroopCount.Should().Be(24);
-            result.BatteringRams.Name.Should().Be("Battering rams");
+            result.BatteringRamsInfo.Should().NotBeNull();
+            result.BatteringRamsInfo.Cost.Ore.Should().Be(100);
+            result.BatteringRamsInfo.Cost.Wood.Should().Be(200);
+            result.BatteringRamsInfo.TroopCount.Should().Be(8);
+            result.BatteringRamsInfo.Maintenance.Should().Be(4);
+            result.BatteringRamsInfo.CurrentCount.Should().Be(3);
+            result.BatteringRamsInfo.CurrentTroopCount.Should().Be(24);
+            result.BatteringRamsInfo.Name.Should().Be("Battering rams");
         }
 
         [TestMethod]
@@ -79,14 +79,14 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
 
             var result = handler.Execute(query);
 
-            result.ScalingLadders.Should().NotBeNull();
-            result.ScalingLadders.Cost.Ore.Should().Be(45);
-            result.ScalingLadders.Cost.Wood.Should().Be(90);
-            result.ScalingLadders.TroopCount.Should().Be(12);
-            result.ScalingLadders.Maintenance.Should().Be(6);
-            result.ScalingLadders.CurrentCount.Should().Be(4);
-            result.ScalingLadders.CurrentTroopCount.Should().Be(48);
-            result.ScalingLadders.Name.Should().Be("Scaling ladders");
+            result.ScalingLaddersInfo.Should().NotBeNull();
+            result.ScalingLaddersInfo.Cost.Ore.Should().Be(45);
+            result.ScalingLaddersInfo.Cost.Wood.Should().Be(90);
+            result.ScalingLaddersInfo.TroopCount.Should().Be(12);
+            result.ScalingLaddersInfo.Maintenance.Should().Be(6);
+            result.ScalingLaddersInfo.CurrentCount.Should().Be(4);
+            result.ScalingLaddersInfo.CurrentTroopCount.Should().Be(48);
+            result.ScalingLaddersInfo.Name.Should().Be("Scaling ladders");
         }
 
         [TestMethod]

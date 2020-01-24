@@ -20,29 +20,29 @@
 @using (Html.BeginForm(null, null, FormMethod.Post, new { data_success_message = "Your siege weapons were purchased." })) {
     @Html.ValidationSummary(true, null, new { @class = "site-validation-summary text-danger" })
 
-    @Html.HiddenFor(m => m.FireArrows.Cost)
-    @Html.HiddenFor(m => m.FireArrows.CurrentCount)
-    @Html.HiddenFor(m => m.FireArrows.CurrentTroopCount)
-    @Html.HiddenFor(m => m.FireArrows.Description)
-    @Html.HiddenFor(m => m.FireArrows.Maintenance)
-    @Html.HiddenFor(m => m.FireArrows.Name)
-    @Html.HiddenFor(m => m.FireArrows.TroopCount)
+    @Html.HiddenFor(m => m.FireArrowsInfo.Cost)
+    @Html.HiddenFor(m => m.FireArrowsInfo.CurrentCount)
+    @Html.HiddenFor(m => m.FireArrowsInfo.CurrentTroopCount)
+    @Html.HiddenFor(m => m.FireArrowsInfo.Description)
+    @Html.HiddenFor(m => m.FireArrowsInfo.Maintenance)
+    @Html.HiddenFor(m => m.FireArrowsInfo.Name)
+    @Html.HiddenFor(m => m.FireArrowsInfo.TroopCount)
 
-    @Html.HiddenFor(m => m.BatteringRams.Cost)
-    @Html.HiddenFor(m => m.BatteringRams.CurrentCount)
-    @Html.HiddenFor(m => m.BatteringRams.CurrentTroopCount)
-    @Html.HiddenFor(m => m.BatteringRams.Description)
-    @Html.HiddenFor(m => m.BatteringRams.Maintenance)
-    @Html.HiddenFor(m => m.BatteringRams.Name)
-    @Html.HiddenFor(m => m.BatteringRams.TroopCount)
+    @Html.HiddenFor(m => m.BatteringRamsInfo.Cost)
+    @Html.HiddenFor(m => m.BatteringRamsInfo.CurrentCount)
+    @Html.HiddenFor(m => m.BatteringRamsInfo.CurrentTroopCount)
+    @Html.HiddenFor(m => m.BatteringRamsInfo.Description)
+    @Html.HiddenFor(m => m.BatteringRamsInfo.Maintenance)
+    @Html.HiddenFor(m => m.BatteringRamsInfo.Name)
+    @Html.HiddenFor(m => m.BatteringRamsInfo.TroopCount)
 
-    @Html.HiddenFor(m => m.ScalingLadders.Cost)
-    @Html.HiddenFor(m => m.ScalingLadders.CurrentCount)
-    @Html.HiddenFor(m => m.ScalingLadders.CurrentTroopCount)
-    @Html.HiddenFor(m => m.ScalingLadders.Description)
-    @Html.HiddenFor(m => m.ScalingLadders.Maintenance)
-    @Html.HiddenFor(m => m.ScalingLadders.Name)
-    @Html.HiddenFor(m => m.ScalingLadders.TroopCount)
+    @Html.HiddenFor(m => m.ScalingLaddersInfo.Cost)
+    @Html.HiddenFor(m => m.ScalingLaddersInfo.CurrentCount)
+    @Html.HiddenFor(m => m.ScalingLaddersInfo.CurrentTroopCount)
+    @Html.HiddenFor(m => m.ScalingLaddersInfo.Description)
+    @Html.HiddenFor(m => m.ScalingLaddersInfo.Maintenance)
+    @Html.HiddenFor(m => m.ScalingLaddersInfo.Name)
+    @Html.HiddenFor(m => m.ScalingLaddersInfo.TroopCount)
 
     @Html.HiddenFor(m => m.Engineers)
     @Html.HiddenFor(m => m.TotalMaintenance)
@@ -70,83 +70,83 @@
 
     <div class="row">
         <div class="col-2 col-form-label">
-            <strong>@Model.FireArrows.Name</strong>
+            <strong>@Model.FireArrowsInfo.Name</strong>
         </div>
         <div class="col-2 col-form-label">
-            @Model.FireArrows.Maintenance.ToString(StringFormat.Integer)
+            @Model.FireArrowsInfo.Maintenance.ToString(StringFormat.Integer)
         </div>
         <div class="col-2 col-form-label">
-            @Model.FireArrows.TroopCount.ToString(StringFormat.Integer)
+            @Model.FireArrowsInfo.TroopCount.ToString(StringFormat.Integer)
         </div>
         <div class="col-2 col-form-label">
-            @Model.FireArrows.CurrentCount.ToString(StringFormat.Integer)
+            @Model.FireArrowsInfo.CurrentCount.ToString(StringFormat.Integer)
         </div>
         <div class="col-2 col-form-label">
-            @Model.FireArrows.CurrentTroopCount.ToString(StringFormat.Integer)
+            @Model.FireArrowsInfo.CurrentTroopCount.ToString(StringFormat.Integer)
         </div>
         <div class="col-2">
-            @Html.TextBoxFor(m => m.FireArrows.Count, new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.FireArrows.Count, null, new { @class = "small form-text text-danger" })
+            @Html.TextBoxFor(m => m.FireArrows, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.FireArrows, null, new { @class = "small form-text text-danger" })
         </div>
     </div>
 
     <ul>
-        <li>@Model.FireArrows.Description</li>
-        <li>Build cost: @Html.DisplayFor(m => m.FireArrows.Cost)</li>
+        <li>@Model.FireArrowsInfo.Description</li>
+        <li>Build cost: @Html.DisplayFor(m => m.FireArrowsInfo.Cost)</li>
     </ul>
 
     <div class="row">
         <div class="col-2 col-form-label">
-            <strong>@Model.BatteringRams.Name</strong>
+            <strong>@Model.BatteringRamsInfo.Name</strong>
         </div>
         <div class="col-2 col-form-label">
-            @Model.BatteringRams.Maintenance.ToString(StringFormat.Integer)
+            @Model.BatteringRamsInfo.Maintenance.ToString(StringFormat.Integer)
         </div>
         <div class="col-2 col-form-label">
-            @Model.BatteringRams.TroopCount.ToString(StringFormat.Integer)
+            @Model.BatteringRamsInfo.TroopCount.ToString(StringFormat.Integer)
         </div>
         <div class="col-2 col-form-label">
-            @Model.BatteringRams.CurrentCount.ToString(StringFormat.Integer)
+            @Model.BatteringRamsInfo.CurrentCount.ToString(StringFormat.Integer)
         </div>
         <div class="col-2 col-form-label">
-            @Model.BatteringRams.CurrentTroopCount.ToString(StringFormat.Integer)
+            @Model.BatteringRamsInfo.CurrentTroopCount.ToString(StringFormat.Integer)
         </div>
         <div class="col-2">
-            @Html.TextBoxFor(m => m.BatteringRams.Count, new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.BatteringRams.Count, null, new { @class = "small form-text text-danger" })
+            @Html.TextBoxFor(m => m.BatteringRams, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.BatteringRams, null, new { @class = "small form-text text-danger" })
         </div>
     </div>
 
     <ul>
-        <li>@Model.BatteringRams.Description</li>
-        <li>Build cost: @Html.DisplayFor(m => m.BatteringRams.Cost)</li>
+        <li>@Model.BatteringRamsInfo.Description</li>
+        <li>Build cost: @Html.DisplayFor(m => m.BatteringRamsInfo.Cost)</li>
     </ul>
 
     <div class="row">
         <div class="col-2 col-form-label">
-            <strong>@Model.ScalingLadders.Name</strong>
+            <strong>@Model.ScalingLaddersInfo.Name</strong>
         </div>
         <div class="col-2 col-form-label">
-            @Model.ScalingLadders.Maintenance.ToString(StringFormat.Integer)
+            @Model.ScalingLaddersInfo.Maintenance.ToString(StringFormat.Integer)
         </div>
         <div class="col-2 col-form-label">
-            @Model.ScalingLadders.TroopCount.ToString(StringFormat.Integer)
+            @Model.ScalingLaddersInfo.TroopCount.ToString(StringFormat.Integer)
         </div>
         <div class="col-2 col-form-label">
-            @Model.ScalingLadders.CurrentCount.ToString(StringFormat.Integer)
+            @Model.ScalingLaddersInfo.CurrentCount.ToString(StringFormat.Integer)
         </div>
         <div class="col-2 col-form-label">
-            @Model.ScalingLadders.CurrentTroopCount.ToString(StringFormat.Integer)
+            @Model.ScalingLaddersInfo.CurrentTroopCount.ToString(StringFormat.Integer)
         </div>
         <div class="col-2">
-            @Html.TextBoxFor(m => m.ScalingLadders.Count, new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.ScalingLadders.Count, null, new { @class = "small form-text text-danger" })
+            @Html.TextBoxFor(m => m.ScalingLadders, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.ScalingLadders, null, new { @class = "small form-text text-danger" })
         </div>
     </div>
 
     <ul>
-        <li>@Model.ScalingLadders.Description</li>
-        <li>Build cost: @Html.DisplayFor(m => m.ScalingLadders.Cost)</li>
+        <li>@Model.ScalingLaddersInfo.Description</li>
+        <li>Build cost: @Html.DisplayFor(m => m.ScalingLaddersInfo.Cost)</li>
     </ul>
 
     <div class="row">

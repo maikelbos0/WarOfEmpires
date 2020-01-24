@@ -56,7 +56,7 @@
     <Compile Include="Empires\HousingTotalsViewModel.cs" />
     <Compile Include="Empires\ResourceHeaderViewModel.cs" />
     <Compile Include="Empires\ResourcesViewModel.cs" />
-    <Compile Include="Empires\SiegeWeaponModel.cs" />
+    <Compile Include="Empires\SiegeWeaponInfoModel.cs" />
     <Compile Include="Empires\TaxModel.cs" />
     <Compile Include="Empires\TroopModel.cs" />
     <Compile Include="Messages\MessageModel.cs" />

@@ -31,17 +31,17 @@ namespace WarOfEmpires.QueryHandlers.Empires {
                 TotalMaintenance = player.SiegeEngineers * player.GetBuildingBonus(BuildingType.SiegeFactory),
                 AvailableMaintenance = player.SiegeEngineers * player.GetBuildingBonus(BuildingType.SiegeFactory)
                     - player.SiegeWeapons.Sum(s => s.Count * SiegeWeaponDefinitionFactory.Get(s.Type).Maintenance),
-                FireArrows = MapSiegeWeapon(player, SiegeWeaponType.FireArrows),
-                BatteringRams = MapSiegeWeapon(player, SiegeWeaponType.BatteringRams),
-                ScalingLadders = MapSiegeWeapon(player, SiegeWeaponType.ScalingLadders)
+                FireArrowsInfo = MapSiegeWeapon(player, SiegeWeaponType.FireArrows),
+                BatteringRamsInfo = MapSiegeWeapon(player, SiegeWeaponType.BatteringRams),
+                ScalingLaddersInfo = MapSiegeWeapon(player, SiegeWeaponType.ScalingLadders)
             };
         }
 
-        private SiegeWeaponModel MapSiegeWeapon(Player player, SiegeWeaponType type) {
+        private SiegeWeaponInfoModel MapSiegeWeapon(Player player, SiegeWeaponType type) {
             var definition = SiegeWeaponDefinitionFactory.Get(type);
             var count = player.GetSiegeWeaponCount(type);
 
-            return new SiegeWeaponModel() {
+            return new SiegeWeaponInfoModel() {
                 Name = definition.Name,
                 Description = definition.Description,
                 Maintenance = definition.Maintenance,
