@@ -5,7 +5,6 @@ let AjaxManager = {
 $(function () {
     $('body').on('submit', 'form:not(.html-only)', function () {        
         let form = $(this);
-        // Find the panel to hold this partial; in case of modals or partials it could be different from site-content and we may need to add selectors
         let panel = form.closest('.site-content, .partial-content');
         let submitButtons = form.find('button[type="submit"]');
 

@@ -17,7 +17,7 @@
     <li>Available siege maintenance: @Model.AvailableMaintenance.ToString(StringFormat.Integer) <span class="si si-maintenance"></span></li>
 </ul>
 
-@using (Html.BeginForm(null, null, FormMethod.Post, new { data_success_message = "Your siege weapons were purchased." })) {
+@using (Html.BeginForm(null, null, FormMethod.Post, new { data_success_message = "Your siege engineers were set to work." })) {
     @Html.ValidationSummary(true, null, new { @class = "site-validation-summary text-danger" })
 
     @Html.HiddenFor(m => m.FireArrowsInfo.Cost)
