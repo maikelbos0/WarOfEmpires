@@ -13,8 +13,8 @@
 
 <ul>
     <li>Siege engineers: @Model.Engineers.ToString(StringFormat.Integer)</li>
-    <li>Total siege maintenance provided: @Model.TotalMaintenance.ToString(StringFormat.Integer)</li>
-    <li>Available siege maintenance: @Model.AvailableMaintenance.ToString(StringFormat.Integer)</li>
+    <li>Total siege maintenance provided: @Model.TotalMaintenance.ToString(StringFormat.Integer) <span class="si si-maintenance"></span></li>
+    <li>Available siege maintenance: @Model.AvailableMaintenance.ToString(StringFormat.Integer) <span class="si si-maintenance"></span></li>
 </ul>
 
 @using (Html.BeginForm(null, null, FormMethod.Post, new { data_success_message = "Your siege weapons were purchased." })) {
@@ -73,7 +73,7 @@
             <strong>@Model.FireArrowsInfo.Name</strong>
         </div>
         <div class="col-2 col-form-label">
-            @Model.FireArrowsInfo.Maintenance.ToString(StringFormat.Integer)
+            @Model.FireArrowsInfo.Maintenance.ToString(StringFormat.Integer) <span class="si si-maintenance"></span>
         </div>
         <div class="col-2 col-form-label">
             @Model.FireArrowsInfo.TroopCount.ToString(StringFormat.Integer)
@@ -100,7 +100,7 @@
             <strong>@Model.BatteringRamsInfo.Name</strong>
         </div>
         <div class="col-2 col-form-label">
-            @Model.BatteringRamsInfo.Maintenance.ToString(StringFormat.Integer)
+            @Model.BatteringRamsInfo.Maintenance.ToString(StringFormat.Integer) <span class="si si-maintenance"></span>
         </div>
         <div class="col-2 col-form-label">
             @Model.BatteringRamsInfo.TroopCount.ToString(StringFormat.Integer)
@@ -127,7 +127,7 @@
             <strong>@Model.ScalingLaddersInfo.Name</strong>
         </div>
         <div class="col-2 col-form-label">
-            @Model.ScalingLaddersInfo.Maintenance.ToString(StringFormat.Integer)
+            @Model.ScalingLaddersInfo.Maintenance.ToString(StringFormat.Integer) <span class="si si-maintenance"></span>
         </div>
         <div class="col-2 col-form-label">
             @Model.ScalingLaddersInfo.TroopCount.ToString(StringFormat.Integer)

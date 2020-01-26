@@ -907,5 +907,36 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
             player.GetSoldierRecruitsPenalty().Should().Be(expectedResult);
         }
+
+        [TestMethod]
+        public void Player_BuildSiege_Succeeds_For_New_SiegeWeaponType() {
+            var player = new Player(0, "Test");
+            var siegeWeaponDefinition = SiegeWeaponDefinitionFactory.Get(SiegeWeaponType.FireArrows);
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(100000, 10000, 10000, 10000, 10000));
+
+            var previousResources = player.Resources;
+
+            player.BuildSiege(SiegeWeaponType.FireArrows, 3);
+
+            player.SiegeWeapons.Single().Count.Should().Be(3);
+            player.SiegeWeapons.Single().Type.Should().Be(SiegeWeaponType.FireArrows);
+            player.Resources.Should().Be(previousResources - siegeWeaponDefinition.Cost * 3);
+        }
+
+        [TestMethod]
+        public void Player_BuildSiege_Succeeds_For_Existing_SiegeWeaponType() {
+            var player = new Player(0, "Test");
+            var siegeWeaponDefinition = SiegeWeaponDefinitionFactory.Get(SiegeWeaponType.FireArrows);
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(100000, 10000, 10000, 10000, 10000));
+
+            var previousResources = player.Resources;
+
+            player.SiegeWeapons.Add(new SiegeWeapon(player, SiegeWeaponType.FireArrows) { Count = 2 });
+            player.BuildSiege(SiegeWeaponType.FireArrows, 3);
+
+            player.SiegeWeapons.Single().Count.Should().Be(5);
+            player.SiegeWeapons.Single().Type.Should().Be(SiegeWeaponType.FireArrows);
+            player.Resources.Should().Be(previousResources - siegeWeaponDefinition.Cost * 3);
+        }
     }
 }

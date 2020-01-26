@@ -168,11 +168,11 @@ namespace WarOfEmpires.Controllers {
                 case "build":
                     return ValidatedCommandResult(model,
                         new BuildSiegeCommand(_authenticationService.Identity, model.FireArrows, model.BatteringRams, model.ScalingLadders),
-                        () => Workers());
+                        () => Siege());
                 case "discard":
                     return ValidatedCommandResult(model,
                         new DiscardSiegeCommand(_authenticationService.Identity, model.FireArrows, model.BatteringRams, model.ScalingLadders),
-                        () => Workers());
+                        () => Siege());
                 default:
                     throw new InvalidOperationException($"Invalid operation '{model.Command}' found");
             }

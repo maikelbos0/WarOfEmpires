@@ -429,5 +429,21 @@ namespace WarOfEmpires.Domain.Players {
             Resources = Resources.SubtractSafe(resources, out Resources remainder);
             BankedResources -= remainder;
         }
+
+
+        public virtual void BuildSiege(SiegeWeaponType type, int count) {
+            var definition = SiegeWeaponDefinitionFactory.Get(type);
+            var weapon = SiegeWeapons.SingleOrDefault(b => b.Type == type);
+
+            SpendResources(definition.Cost * count);
+
+            if (weapon == null) {
+                weapon = new SiegeWeapon(this, type) { Count = count };
+                SiegeWeapons.Add(weapon);
+            }
+            else {
+                weapon.Count += count;
+            }
+        }
     }
 }
