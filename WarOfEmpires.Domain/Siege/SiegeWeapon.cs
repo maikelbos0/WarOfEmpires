@@ -9,9 +9,10 @@ namespace WarOfEmpires.Domain.Siege {
         protected SiegeWeapon() {
         }
 
-        public SiegeWeapon(Player player, SiegeWeaponType type) {
+        public SiegeWeapon(Player player, SiegeWeaponType type, int count) {
             Player = player;
             Type = type;
+            Count = count;
         }
     }
 }

@@ -438,12 +438,18 @@ namespace WarOfEmpires.Domain.Players {
             SpendResources(definition.Cost * count);
 
             if (weapon == null) {
-                weapon = new SiegeWeapon(this, type) { Count = count };
+                weapon = new SiegeWeapon(this, type, count);
                 SiegeWeapons.Add(weapon);
             }
             else {
                 weapon.Count += count;
             }
+        }
+
+        public virtual void DiscardSiege(SiegeWeaponType type, int count) {
+            var weapon = SiegeWeapons.Single(b => b.Type == type);
+
+            weapon.Count -= count;
         }
     }
 }
