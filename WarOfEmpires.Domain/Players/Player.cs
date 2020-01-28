@@ -371,6 +371,23 @@ namespace WarOfEmpires.Domain.Players {
             return buildingTotals;
         }
 
+        public int GetStaminaToHeal(int staminaToHeal) {
+            var troops = Archers.GetTotals() + Cavalry.GetTotals() + Footmen.GetTotals();
+            int staminaCanAfford = 0;
+            if (CanAfford(staminaToHeal * HealCostPerTroopPerTurn * troops)) {
+                return staminaToHeal;
+            }
+            else {
+                for (int i = staminaToHeal; i > 0; i--) {
+                    if (CanAfford(i * HealCostPerTroopPerTurn * troops)) {
+                        staminaCanAfford = i;
+                        break;
+                    }
+                }
+                return staminaCanAfford;
+            }
+        }
+
         public virtual void TrainTroops(int archers, int mercenaryArchers, int cavalry, int mercenaryCavalry, int footmen, int mercenaryFootmen) {
             var troops = archers + cavalry + footmen;
             var mercenaries = mercenaryArchers + mercenaryCavalry + mercenaryFootmen;

@@ -21,27 +21,21 @@ namespace WarOfEmpires.CommandHandlers.Empires {
 
             if (!string.IsNullOrEmpty(command.StaminaToHeal) && !int.TryParse(command.StaminaToHeal, out staminaToHeal) || staminaToHeal < 0) {
                 result.AddError(c => c.StaminaToHeal, "Stamina to heal must be a valid number");
+                staminaToHeal = 0;
             }
 
             if ((player.Stamina + staminaToHeal) > 100) {
                 result.AddError(c => c.StaminaToHeal, "You cannot heal above 100%");
             }
 
+            if (!player.CanAfford(staminaToHeal * Player.HealCostPerTroopPerTurn * (player.Archers.GetTotals() + player.Cavalry.GetTotals() + player.Footmen.GetTotals()))) {
+                result.AddError("You don't have enough food to heal these troops");
+            }
+
             if (result.Success) {
                 player.HealTroops(staminaToHeal);
                 _repository.Update();
             }
-
-            // TODO: Use the the code below to figure out something for whether you can afford to heal what you wanted or not
-
-            //if (!player.CanAfford(healTurnsStamina * Player.HealCostPerTroopPerTurn * (Player.Archers.GetTotals() + Player.Cavalry.GetTotals() + Player.Footmen.GetTotals()) {
-            //    result.AddError("You don't have enough food to heal these troops");
-            //}
-
-            //if (!player.CanAfford((archers * Player.ArcherTrainingCost) + (cavalry * Player.CavalryTrainingCost) + (footmen * Player.FootmanTrainingCost) + ((mercenaryArchers + mercenaryCavalry + mercenaryFootmen) * Player.MercenaryTrainingCost))) {
-            //    result.AddError("You don't have enough resources to train these troops");
-            //}
-
 
             return result;
         }

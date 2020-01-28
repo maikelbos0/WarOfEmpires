@@ -28,6 +28,9 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
             player.Stamina.Returns(90);
             player.User.Returns(user);
             player.CanAfford(Arg.Any<Resources>()).Returns(true);
+            player.Archers.Returns(new Troops(10,2));
+            player.Cavalry.Returns(new Troops(0,0));
+            player.Footmen.Returns(new Troops(0,0));
 
             _context.Users.Add(user);
             _context.Players.Add(player);
@@ -43,6 +46,18 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
             result.Success.Should().BeTrue();
             _player.Received().HealTroops(5);
+            _context.CallsToSaveChanges.Should().Be(1);
+        }
+
+        [TestMethod]
+        public void HealTroopsCommandHandler_AllowsEmptyStamina() {
+            var handler = new HealTroopsCommandHandler(_repository);
+            var command = new HealTroopsCommand("test@test.com", "");
+
+            var result = handler.Execute(command);
+
+            result.Success.Should().BeTrue();
+            _player.Received().HealTroops(0);
             _context.CallsToSaveChanges.Should().Be(1);
         }
 
@@ -85,6 +100,19 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
             _player.DidNotReceiveWithAnyArgs().HealTroops(default);
         }
 
-        // TODO: Implement test on whether it will catch if you don't have enough resources to afford your healing
+        [TestMethod]
+
+        public void HealTroopsCommandHandler_FailsWhenNotEnoughFood() {
+            _player.CanAfford(Arg.Any<Resources>()).Returns(false);
+            var handler = new HealTroopsCommandHandler(_repository);
+            var command = new HealTroopsCommand("test@test.com", "5");
+
+            var result = handler.Execute(command);
+
+            result.Errors.Should().HaveCount(1);
+            result.Errors[0].Expression.Should().Be(null);
+            result.Errors[0].Message.Should().Be("You don't have enough food to heal these troops");
+            _player.DidNotReceiveWithAnyArgs().HealTroops(default);
+        }
     }
 }
