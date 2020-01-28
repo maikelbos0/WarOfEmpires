@@ -22,8 +22,8 @@ namespace WarOfEmpires.Models.Empires {
         [RegularExpression("^\\d{0,6}$", ErrorMessage = "Footman mercenaries must be a valid number")]
         public string MercenaryFootmen { get; set; }
         [DisplayName("Stamina")]
-        [RegularExpression("^\\d{0,6}$", ErrorMessage = "Stamina must be a valid number")]
-        public string Stamina { get; set; }
+        [RegularExpression("^\\d{0,6}$", ErrorMessage = "Stamina to heal must be a valid number")]
+        public string StaminaToHeal { get; set; }
         public int CurrentPeasants { get; set; }
         public int CurrentArchers { get; set; }
         public int CurrentMercenaryArchers { get; set; }
@@ -40,8 +40,5 @@ namespace WarOfEmpires.Models.Empires {
         public bool HasSoldierShortage { get; set; }
         public string Command { get; set; }
         public int CurrentStamina { get; set; }
-        public int StaminaToFull { get; set; }
-        public int HealMaxAfford { get; set; }
-        // TODO: Rename this to something better, more in line with other properties when implementing functionality
     }
 }

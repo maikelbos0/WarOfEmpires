@@ -40,8 +40,7 @@ namespace WarOfEmpires.QueryHandlers.Empires {
                 HasUpkeepRunOut = player.HasUpkeepRunOut,
                 CurrentStamina = player.Stamina,
                 HasSoldierShortage = player.GetSoldierRecruitsPenalty() > 0,
-                StaminaToFull = 100 - player.Stamina,
-                //TODO: Implement this with better name HealMaxAfford = ;
+                StaminaToHeal = (100 - player.Stamina).ToString()
             };
         }
     }

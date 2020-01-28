@@ -49,15 +49,15 @@
     @Html.HiddenFor(m => m.CurrentStamina)
 
     <div class="row">
-        <div class="col-4 col-form-label">
-            @Html.LabelFor(m => m.Stamina)
+        <div class="col-6 col-form-label">
+            @Html.LabelFor(m => m.StaminaToHeal)
         </div>
         <div class="col-2 col-form-label">
             @Model.CurrentStamina.ToString(StringFormat.Integer)
         </div>
         <div class="col-2">
-            @Html.TextBoxFor(m => m.StaminaToFull, new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.StaminaToFull, null, new { @class = "small form-text text-danger" })
+            @Html.TextBoxFor(m => m.StaminaToHeal, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.StaminaToHeal, null, new { @class = "small form-text text-danger" })
         </div>
         
         <div class="col-2">

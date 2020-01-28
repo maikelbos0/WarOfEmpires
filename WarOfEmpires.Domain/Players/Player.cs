@@ -121,14 +121,6 @@ namespace WarOfEmpires.Domain.Players {
             return upkeep;
         }
 
-        public virtual Resources GetHealCostPerTurn() {
-            var healCost = new Resources();
-
-            healCost += (Archers.GetTotals() + Cavalry.GetTotals() + Footmen.GetTotals()) * HealCostPerTroopPerTurn;
-
-            return healCost;
-        }
-
         public virtual TroopInfo GetArcherInfo() {
             return new TroopInfo(Archers, BaseArcherAttack, BaseArcherDefense, GetBuildingBonusMultiplier(BuildingType.ArcheryRange),
                 GetBuildingBonusMultiplier(BuildingType.Forge), GetBuildingBonusMultiplier(BuildingType.Armoury));
@@ -400,6 +392,12 @@ namespace WarOfEmpires.Domain.Players {
             Footmen -= new Troops(footmen, mercenaryFootmen);
 
             Peasants += archers + cavalry + footmen;
+        }
+
+        public virtual void HealTroops(int staminaToHeal) {
+            var troops = Archers.GetTotals() + Cavalry.GetTotals() + Footmen.GetTotals();
+            Stamina += staminaToHeal;
+            SpendResources(troops * HealCostPerTroopPerTurn * staminaToHeal);
         }
 
         public virtual void ProcessAttack(Player defender, Resources gainedResources, int attackTurns) {

@@ -82,6 +82,7 @@
     <Compile Include="Empires\BankCommandHandlerTests.cs" />
     <Compile Include="Empires\BuildSiegeCommandHandlerTests.cs" />
     <Compile Include="Empires\DiscardSiegeCommandHandlerTests.cs" />
+    <Compile Include="Empires\HealTroopsCommandHandlerTests.cs" />
     <Compile Include="Empires\ProcessTurnCommandHandlerTests.cs" />
     <Compile Include="Empires\SetTaxCommandHandlerTests.cs" />
     <Compile Include="Empires\TrainTroopsCommandHandlerTests.cs" />

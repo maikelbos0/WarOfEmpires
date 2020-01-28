@@ -97,11 +97,11 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
         // TODO add tests for troop strength if/when implemented
 
         [TestMethod]
-        public void GetTroopsQueryHandler_Returns_Correct_StaminaToFull() {
+        public void GetTroopsQueryHandler_Returns_Correct_StaminaToHeal() {
             var query = new GetTroopsQuery("test@test.com");
             var handler = new GetTroopsQueryHandler(_context, new ResourcesMap());
             var result = handler.Execute(query);
-            result.StaminaToFull.Should().Be(0);
+            result.StaminaToHeal.Should().Be("0");
 
         }
     }
