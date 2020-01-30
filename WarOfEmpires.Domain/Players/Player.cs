@@ -121,14 +121,6 @@ namespace WarOfEmpires.Domain.Players {
             return upkeep;
         }
 
-        public virtual Resources GetHealCostPerTurn() {
-            var healCost = new Resources();
-
-            healCost += (Archers.GetTotals() + Cavalry.GetTotals() + Footmen.GetTotals()) * HealCostPerTroopPerTurn;
-
-            return healCost;
-        }
-
         public virtual TroopInfo GetArcherInfo() {
             return new TroopInfo(Archers, BaseArcherAttack, BaseArcherDefense, GetBuildingBonusMultiplier(BuildingType.ArcheryRange),
                 GetBuildingBonusMultiplier(BuildingType.Forge), GetBuildingBonusMultiplier(BuildingType.Armoury));
@@ -379,6 +371,24 @@ namespace WarOfEmpires.Domain.Players {
             return buildingTotals;
         }
 
+        public int GetStaminaToHeal() {
+            var troops = Archers.GetTotals() + Cavalry.GetTotals() + Footmen.GetTotals();
+            int staminaCanAfford = 0;
+            int staminaToFull = 100 - Stamina;
+            if (CanAfford(staminaToFull * HealCostPerTroopPerTurn * troops)) {
+                return staminaToFull;
+            }
+            else {
+                for (int i = staminaToFull; i > 0; i--) {
+                    if (CanAfford(i * HealCostPerTroopPerTurn * troops)) {
+                        staminaCanAfford = i;
+                        break;
+                    }
+                }
+                return staminaCanAfford;
+            }
+        }
+
         public virtual void TrainTroops(int archers, int mercenaryArchers, int cavalry, int mercenaryCavalry, int footmen, int mercenaryFootmen) {
             var troops = archers + cavalry + footmen;
             var mercenaries = mercenaryArchers + mercenaryCavalry + mercenaryFootmen;
@@ -400,6 +410,12 @@ namespace WarOfEmpires.Domain.Players {
             Footmen -= new Troops(footmen, mercenaryFootmen);
 
             Peasants += archers + cavalry + footmen;
+        }
+
+        public virtual void HealTroops(int staminaToHeal) {
+            var troops = Archers.GetTotals() + Cavalry.GetTotals() + Footmen.GetTotals();
+            Stamina += staminaToHeal;
+            SpendResources(troops * HealCostPerTroopPerTurn * staminaToHeal);
         }
 
         public virtual void ProcessAttack(Player defender, Resources gainedResources, int attackTurns) {
