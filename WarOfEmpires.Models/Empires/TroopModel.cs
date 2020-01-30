@@ -22,7 +22,7 @@ namespace WarOfEmpires.Models.Empires {
         [RegularExpression("^\\d{0,6}$", ErrorMessage = "Footman mercenaries must be a valid number")]
         public string MercenaryFootmen { get; set; }
         [DisplayName("Stamina")]
-        [RegularExpression("^\\d{0,6}$", ErrorMessage = "Stamina to heal must be a valid number")]
+        [RegularExpression("^\\d{1,3}$", ErrorMessage = "Stamina to heal must be a valid number")]
         public string StaminaToHeal { get; set; }
         public int CurrentPeasants { get; set; }
         public int CurrentArchers { get; set; }

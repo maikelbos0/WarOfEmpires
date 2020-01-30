@@ -371,14 +371,15 @@ namespace WarOfEmpires.Domain.Players {
             return buildingTotals;
         }
 
-        public int GetStaminaToHeal(int staminaToHeal) {
+        public int GetStaminaToHeal() {
             var troops = Archers.GetTotals() + Cavalry.GetTotals() + Footmen.GetTotals();
             int staminaCanAfford = 0;
-            if (CanAfford(staminaToHeal * HealCostPerTroopPerTurn * troops)) {
-                return staminaToHeal;
+            int staminaToFull = 100 - Stamina;
+            if (CanAfford(staminaToFull * HealCostPerTroopPerTurn * troops)) {
+                return staminaToFull;
             }
             else {
-                for (int i = staminaToHeal; i > 0; i--) {
+                for (int i = staminaToFull; i > 0; i--) {
                     if (CanAfford(i * HealCostPerTroopPerTurn * troops)) {
                         staminaCanAfford = i;
                         break;

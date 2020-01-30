@@ -19,7 +19,7 @@ namespace WarOfEmpires.CommandHandlers.Empires {
             var player = _repository.Get(command.Email);
             int staminaToHeal = 0;
 
-            if (!string.IsNullOrEmpty(command.StaminaToHeal) && !int.TryParse(command.StaminaToHeal, out staminaToHeal) || staminaToHeal < 0) {
+            if (!int.TryParse(command.StaminaToHeal, out staminaToHeal) || staminaToHeal < 0) {
                 result.AddError(c => c.StaminaToHeal, "Stamina to heal must be a valid number");
                 staminaToHeal = 0;
             }

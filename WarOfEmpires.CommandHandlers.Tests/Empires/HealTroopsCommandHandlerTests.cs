@@ -49,20 +49,9 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
             _context.CallsToSaveChanges.Should().Be(1);
         }
 
-        [TestMethod]
-        public void HealTroopsCommandHandler_AllowsEmptyStamina() {
-            var handler = new HealTroopsCommandHandler(_repository);
-            var command = new HealTroopsCommand("test@test.com", "");
-
-            var result = handler.Execute(command);
-
-            result.Success.Should().BeTrue();
-            _player.Received().HealTroops(0);
-            _context.CallsToSaveChanges.Should().Be(1);
-        }
 
         [TestMethod]
-        public void HealTroopsCommandHandler_FailsForAlphanumericValue() {
+        public void HealTroopsCommandHandler_Fails_For_Alphanumeric_Value() {
             var handler = new HealTroopsCommandHandler(_repository);
             var command = new HealTroopsCommand("test@test.com", "K");
 
@@ -75,7 +64,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
         }
 
         [TestMethod]
-        public void HealTroopsCommandHandler_FailsForNegativeValue() {
+        public void HealTroopsCommandHandler_Fails_For_Negative_Value() {
             var handler = new HealTroopsCommandHandler(_repository);
             var command = new HealTroopsCommand("test@test.com", "-5");
 
@@ -88,7 +77,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
         }
 
         [TestMethod]
-        public void HealTroopsCommandHandler_FailsForHealingAboveFull() {
+        public void HealTroopsCommandHandler_Fails_For_Healing_Above_Full() {
             var handler = new HealTroopsCommandHandler(_repository);
             var command = new HealTroopsCommand("test@test.com", "11");
 
@@ -102,7 +91,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
         [TestMethod]
 
-        public void HealTroopsCommandHandler_FailsWhenNotEnoughFood() {
+        public void HealTroopsCommandHandler_Fails_When_Not_Enough_Food() {
             _player.CanAfford(Arg.Any<Resources>()).Returns(false);
             var handler = new HealTroopsCommandHandler(_repository);
             var command = new HealTroopsCommand("test@test.com", "5");

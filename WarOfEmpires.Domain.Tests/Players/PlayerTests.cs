@@ -962,7 +962,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
         }
 
         [TestMethod]
-        public void Player_HealTroops_Succeeds_ForZeroTroops() {
+        public void Player_HealTroops_Succeeds_For_Zero_Troops() {
             var player = new Player(0, "Test");
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(1000000, 100000, 100000, 100000, 100000));
             typeof(Player).GetProperty(nameof(Player.Stamina)).SetValue(player, 90);
@@ -973,47 +973,47 @@ namespace WarOfEmpires.Domain.Tests.Players {
         }
 
         [TestMethod]
-        public void Player_GetStaminaToHeal_CorrectForCanAfford() {
+        public void Player_GetStaminaToHeal_Correct_For_Can_Afford() {
             var player = new Player(0, "Test");
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(food: 100000));
             typeof(Player).GetProperty(nameof(Player.Stamina)).SetValue(player, 90);
             typeof(Player).GetProperty(nameof(Player.Archers)).SetValue(player, new Troops(30, 10));
             typeof(Player).GetProperty(nameof(Player.Cavalry)).SetValue(player, new Troops(20, 10));
             typeof(Player).GetProperty(nameof(Player.Footmen)).SetValue(player, new Troops(20, 10));
-            player.GetStaminaToHeal(10).Should().Be(10);
+            player.GetStaminaToHeal().Should().Be(10);
         }
 
         [TestMethod]
-        public void Player_GetStaminaToHeal_CorrectForCantAfford() {
+        public void Player_GetStaminaToHeal_Correct_For_Cant_Afford() {
             var player = new Player(0, "Test");
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(food: 1000));
             typeof(Player).GetProperty(nameof(Player.Stamina)).SetValue(player, 90);
             typeof(Player).GetProperty(nameof(Player.Archers)).SetValue(player, new Troops(30, 10));
             typeof(Player).GetProperty(nameof(Player.Cavalry)).SetValue(player, new Troops(20, 10));
             typeof(Player).GetProperty(nameof(Player.Footmen)).SetValue(player, new Troops(20, 10));
-            player.GetStaminaToHeal(10).Should().Be(5);
+            player.GetStaminaToHeal().Should().Be(5);
         }
 
         [TestMethod]
-        public void Player_GetStaminaToHeal_CorrectForZeroTroopsZeroFood() {
+        public void Player_GetStaminaToHeal_Correct_For_Zero_Troops_Zero_Food() {
             var player = new Player(0, "Test");
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(food: 100000));
             typeof(Player).GetProperty(nameof(Player.Stamina)).SetValue(player, 90);
             typeof(Player).GetProperty(nameof(Player.Archers)).SetValue(player, new Troops(0, 0));
             typeof(Player).GetProperty(nameof(Player.Cavalry)).SetValue(player, new Troops(0, 0));
             typeof(Player).GetProperty(nameof(Player.Footmen)).SetValue(player, new Troops(0, 0));
-            player.GetStaminaToHeal(10).Should().Be(10);
+            player.GetStaminaToHeal().Should().Be(10);
         }
 
         [TestMethod]
-        public void Player_GetStaminaToHeal_CorrectForZeroFood() {
+        public void Player_GetStaminaToHeal_Correct_For_Zero_Food() {
             var player = new Player(0, "Test");
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(food: 0));
             typeof(Player).GetProperty(nameof(Player.Stamina)).SetValue(player, 90);
             typeof(Player).GetProperty(nameof(Player.Archers)).SetValue(player, new Troops(30, 10));
             typeof(Player).GetProperty(nameof(Player.Cavalry)).SetValue(player, new Troops(20, 10));
             typeof(Player).GetProperty(nameof(Player.Footmen)).SetValue(player, new Troops(20, 10));
-            player.GetStaminaToHeal(10).Should().Be(0);
+            player.GetStaminaToHeal().Should().Be(0);
         }
     }
 }
