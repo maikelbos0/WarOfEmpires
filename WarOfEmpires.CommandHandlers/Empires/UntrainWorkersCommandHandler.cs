@@ -1,5 +1,8 @@
-﻿using WarOfEmpires.CommandHandlers.Decorators;
+﻿using System.Linq;
+using WarOfEmpires.CommandHandlers.Decorators;
 using WarOfEmpires.Commands.Empires;
+using WarOfEmpires.Domain.Empires;
+using WarOfEmpires.Domain.Siege;
 using WarOfEmpires.Repositories.Players;
 using WarOfEmpires.Utilities.Container;
 
@@ -60,6 +63,10 @@ namespace WarOfEmpires.CommandHandlers.Empires {
 
             if (siegeEngineers > player.SiegeEngineers) {
                 result.AddError(c => c.SiegeEngineers, "You don't have that many siege engineers to untrain");
+            }
+
+            if ((player.SiegeEngineers - siegeEngineers ) * player.GetBuildingBonus(BuildingType.SiegeFactory) < player.SiegeWeapons.Sum(s => s.Count * SiegeWeaponDefinitionFactory.Get(s.Type).Maintenance)) {
+                result.AddError(c => c.SiegeEngineers, "Your siege engineers are maintaining too many siege weapons for that many to be untrained");
             }
 
             if (result.Success) {

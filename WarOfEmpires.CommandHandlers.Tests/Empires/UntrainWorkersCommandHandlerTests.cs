@@ -1,10 +1,13 @@
 ﻿using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
+using System.Collections.Generic;
 using WarOfEmpires.CommandHandlers.Empires;
 using WarOfEmpires.Commands.Empires;
+using WarOfEmpires.Domain.Empires;
 using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Domain.Security;
+using WarOfEmpires.Domain.Siege;
 using WarOfEmpires.Repositories.Players;
 using WarOfEmpires.Test.Utilities;
 
@@ -253,6 +256,24 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
             _player.DidNotReceiveWithAnyArgs().UntrainWorkers(default, default, default, default, default);
         }
 
-        // TODO implement test to not allow siege engineers to be untrained when they are maintaining siege
+        [TestMethod]
+        public void UntrainWorkersCommandHandler_Fails_For_Siege_Maintenance_In_Use() {
+            _player.GetBuildingBonus(BuildingType.SiegeFactory).Returns(6);
+            _player.SiegeWeapons.Returns(new List<SiegeWeapon>() {
+                new SiegeWeapon(_player, SiegeWeaponType.FireArrows, 2),
+                new SiegeWeapon(_player, SiegeWeaponType.BatteringRams, 2),
+                new SiegeWeapon(_player, SiegeWeaponType.ScalingLadders, 2)
+            });
+
+            var handler = new UntrainWorkersCommandHandler(_repository);
+            var command = new UntrainWorkersCommand("test@test.com", "", "", "", "", "1");
+
+            var result = handler.Execute(command);
+
+            result.Errors.Should().HaveCount(1);
+            result.Errors[0].Expression.ToString().Should().Be("c => c.SiegeEngineers");
+            result.Errors[0].Message.Should().Be("Your siege engineers are maintaining too many siege weapons for that many to be untrained");
+            _player.DidNotReceiveWithAnyArgs().UntrainWorkers(default, default, default, default, default);
+        }
     }
 }
