@@ -19,14 +19,21 @@ $(function () {
                 method: this.method,
                 data: form.serialize(),
                 success: function (result, status, jqXHR) {
-                    if (jqXHR.getResponseHeader("X-IsValid") === "true" && form.data("success-message")) {
-                        toastr.success(form.data("success-message"));
+                    let successMessage = form.data("success-message");
+                    let command = form.find("#Command").val();
+
+                    if (command && form.data("success-message-" + command)) {
+                        successMessage = form.data("success-message-" + command);
+                    }
+
+                    if (jqXHR.getResponseHeader("X-IsValid") === "true" && successMessage) {
+                        toastr.success(successMessage);
                     }
                     
                     panel.html(result);
 
                     // Since the page won't be refreshed we try to find the title in the new content
-                    var title = panel.find('h2').text();
+                    let title = panel.find('h2').text();
 
                     if (title) {
                         document.title = title + ' - War of Empires';
