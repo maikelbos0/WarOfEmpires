@@ -288,6 +288,22 @@ namespace WarOfEmpires.Domain.Players {
             return SiegeWeapons.SingleOrDefault(w => w.Type == type)?.Count ?? 0;
         }
 
+        public int GetSiegeWeaponTroopCount(TroopType type) {
+            var definition = SiegeWeaponDefinitionFactory.Get(type);
+            var troopCount = GetSiegeWeaponCount(definition.Type) * definition.TroopCount;
+
+            switch (type) {
+                case TroopType.Archers:
+                    return Math.Min(troopCount, Archers.GetTotals());
+                case TroopType.Cavalry:
+                    return Math.Min(troopCount, Cavalry.GetTotals());
+                case TroopType.Footmen:
+                    return Math.Min(troopCount, Footmen.GetTotals());
+                default:
+                    throw new NotImplementedException();
+            }            
+        }
+
         public virtual int GetAvailableBarracksCapacity() {
             return GetBuildingBonus(BuildingType.Barracks) - Archers.GetTotals() - Cavalry.GetTotals() - Footmen.GetTotals();
         }

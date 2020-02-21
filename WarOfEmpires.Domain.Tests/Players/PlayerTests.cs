@@ -1,6 +1,8 @@
 ﻿using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Linq;
+using WarOfEmpires.Domain.Attacks;
 using WarOfEmpires.Domain.Common;
 using WarOfEmpires.Domain.Empires;
 using WarOfEmpires.Domain.Players;
@@ -1014,6 +1016,34 @@ namespace WarOfEmpires.Domain.Tests.Players {
             typeof(Player).GetProperty(nameof(Player.Cavalry)).SetValue(player, new Troops(20, 10));
             typeof(Player).GetProperty(nameof(Player.Footmen)).SetValue(player, new Troops(20, 10));
             player.GetStaminaToHeal().Should().Be(0);
+        }
+
+        [DataTestMethod]
+        [DataRow(TroopType.Archers, 10, 0, 0, DisplayName = "Archers, no weapons")]
+        [DataRow(TroopType.Archers, 90, 2, 72, DisplayName = "Archers, insufficient weapons")]
+        [DataRow(TroopType.Archers, 72, 2, 72, DisplayName = "Archers, exactly enough weapons")]
+        [DataRow(TroopType.Archers, 60, 2, 60, DisplayName = "Archers, too many weapons")]
+        [DataRow(TroopType.Cavalry, 60, 2, 16, DisplayName = "Cavalry, insufficient weapons")]
+        [DataRow(TroopType.Footmen, 60, 2, 24, DisplayName = "Footmen, insufficient weapons")]
+        public void Player_GetSiegeWeaponTroopCount_Succeeds(TroopType troopType, int troopCount, int siegeWeaponCount, int expectedResult) {
+            var player = new Player(0, "Test");
+
+            switch (troopType) {
+                case TroopType.Archers:
+                    typeof(Player).GetProperty(nameof(Player.Archers)).SetValue(player, new Troops(troopCount, 0));
+                    break;
+                case TroopType.Cavalry:
+                    typeof(Player).GetProperty(nameof(Player.Cavalry)).SetValue(player, new Troops(troopCount, 0));
+                    break;
+                case TroopType.Footmen:
+                    typeof(Player).GetProperty(nameof(Player.Footmen)).SetValue(player, new Troops(troopCount, 0));
+                    break;
+                default:
+                    throw new NotImplementedException();
+            }
+
+            player.SiegeWeapons.Add(new SiegeWeapon(player, SiegeWeaponDefinitionFactory.Get(troopType).Type, siegeWeaponCount));
+            player.GetSiegeWeaponTroopCount(troopType).Should().Be(expectedResult);
         }
     }
 }
