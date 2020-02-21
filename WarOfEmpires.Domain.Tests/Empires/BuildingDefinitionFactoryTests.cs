@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using FluentAssertions;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using WarOfEmpires.Domain.Common;
 using WarOfEmpires.Domain.Empires;
@@ -11,6 +12,7 @@ namespace WarOfEmpires.Domain.Tests.Empires {
             foreach (BuildingType type in Enum.GetValues(typeof(BuildingType))) {
                 var building = BuildingDefinitionFactory.Get(type);
 
+                building.Type.Should().Be(type);
                 building.GetDescription(1);
                 building.GetName(1);
                 building.GetNextLevelCost(1);

@@ -2,16 +2,20 @@
 
 namespace WarOfEmpires.Domain.Empires {
     public sealed class BuildingDefinition {
-        private ExpressionGenerator<string> _nameGenerator;
-        private ExpressionGenerator<string> _descriptionGenerator;
-        private ExpressionGenerator<Resources> _costGenerator;
-        private ExpressionGenerator<int> _bonusGenerator;
+        private readonly ExpressionGenerator<string> _nameGenerator;
+        private readonly ExpressionGenerator<string> _descriptionGenerator;
+        private readonly ExpressionGenerator<Resources> _costGenerator;
+        private readonly ExpressionGenerator<int> _bonusGenerator;
 
-        public BuildingDefinition(ExpressionGenerator<string> nameGenerator, 
+        public BuildingType Type { get; }
+
+        public BuildingDefinition(BuildingType type,
+            ExpressionGenerator<string> nameGenerator, 
             ExpressionGenerator<string> descriptionGenerator, 
             ExpressionGenerator<Resources> costGenerator,
             ExpressionGenerator<int> bonusGenerator) {
 
+            Type = type;
             _nameGenerator = nameGenerator;
             _descriptionGenerator = descriptionGenerator;
             _costGenerator = costGenerator;

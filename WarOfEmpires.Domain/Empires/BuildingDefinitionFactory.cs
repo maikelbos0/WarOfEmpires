@@ -6,28 +6,20 @@ namespace WarOfEmpires.Domain.Empires {
         private static readonly Dictionary<BuildingType, BuildingDefinition> _buildings = new Dictionary<BuildingType, BuildingDefinition>();
 
         static BuildingDefinitionFactory() {
-            _buildings.Add(BuildingType.Farm, GenerateFarm());
-            _buildings.Add(BuildingType.Lumberyard, GenerateLumberyard());
-            _buildings.Add(BuildingType.Quarry, GenerateQuarry());
-            _buildings.Add(BuildingType.Mine, GenerateMine());
-            _buildings.Add(BuildingType.Forge, GenerateForge());
-            _buildings.Add(BuildingType.Armoury, GenerateArmoury());
-            _buildings.Add(BuildingType.ArcheryRange, GenerateArcheryRange());
-            _buildings.Add(BuildingType.CavalryRange, GenerateCavalryRange());
-            _buildings.Add(BuildingType.FootmanRange, GenerateFootmanRange());
-            _buildings.Add(BuildingType.Defences, GenerateDefences());
-            _buildings.Add(BuildingType.Huts, GenerateHuts());
-            _buildings.Add(BuildingType.Barracks, GenerateBarracks());
-            _buildings.Add(BuildingType.GoldBank, GenerateGoldBank());
-            _buildings.Add(BuildingType.FoodBank, GenerateFoodBank());
-            _buildings.Add(BuildingType.WoodBank, GenerateWoodBank());
-            _buildings.Add(BuildingType.StoneBank, GenerateStoneBank());
-            _buildings.Add(BuildingType.OreBank, GenerateOreBank());
-            _buildings.Add(BuildingType.SiegeFactory, GenerateSiegeFactory());
+            foreach (var definition in new[] {
+                GenerateFarm(), GenerateLumberyard(), GenerateQuarry(), GenerateMine(),
+                GenerateForge(),GenerateArmoury(), GenerateArcheryRange(), GenerateCavalryRange(), GenerateFootmanRange(),
+                GenerateDefences(), GenerateHuts(), GenerateBarracks(),
+                GenerateGoldBank(), GenerateFoodBank(), GenerateWoodBank(), GenerateStoneBank(), GenerateOreBank(),
+                GenerateSiegeFactory()
+            }) {
+                _buildings.Add(definition.Type, definition);
+            }
         }
 
         private static BuildingDefinition GenerateFarm() {
             return new BuildingDefinition(
+                BuildingType.Farm,
                 new ExpressionGenerator<string>((int level, int levelOffset) => $"Farm (level {level})"),
                 new ExpressionGenerator<string>((int level, int levelOffset) => $"Your farm increases food production by 25% for each level; your current bonus is {level * 25}%"),
                 new ExpressionGenerator<Resources>(SequenceGeneratorFactory.GetGeneratorFunction(new Resources(gold: 10000, wood: 1000, stone: 500, ore: 250))),
@@ -37,6 +29,7 @@ namespace WarOfEmpires.Domain.Empires {
 
         private static BuildingDefinition GenerateLumberyard() {
             return new BuildingDefinition(
+                BuildingType.Lumberyard,
                 new ExpressionGenerator<string>((int level, int levelOffset) => $"Lumberyard (level {level})"),
                 new ExpressionGenerator<string>((int level, int levelOffset) => $"Your lumberyard increases wood production by 25% for each level; your current bonus is {level * 25}%"),
                 new ExpressionGenerator<Resources>(SequenceGeneratorFactory.GetGeneratorFunction(new Resources(gold: 10000, wood: 1000, stone: 500, ore: 250))),
@@ -46,6 +39,7 @@ namespace WarOfEmpires.Domain.Empires {
 
         private static BuildingDefinition GenerateQuarry() {
             return new BuildingDefinition(
+                BuildingType.Quarry,
                 new ExpressionGenerator<string>((int level, int levelOffset) => $"Quarry (level {level})"),
                 new ExpressionGenerator<string>((int level, int levelOffset) => $"Your quarry increases stone production by 25% for each level; your current bonus is {level * 25}%"),
                 new ExpressionGenerator<Resources>(SequenceGeneratorFactory.GetGeneratorFunction(new Resources(gold: 10000, wood: 1000, stone: 500, ore: 250))),
@@ -55,6 +49,7 @@ namespace WarOfEmpires.Domain.Empires {
 
         private static BuildingDefinition GenerateMine() {
             return new BuildingDefinition(
+                BuildingType.Mine,
                 new ExpressionGenerator<string>((int level, int levelOffset) => $"Mine (level {level})"),
                 new ExpressionGenerator<string>((int level, int levelOffset) => $"Your mine increases ore production by 25% for each level; your current bonus is {level * 25}%"),
                 new ExpressionGenerator<Resources>(SequenceGeneratorFactory.GetGeneratorFunction(new Resources(gold: 10000, wood: 1000, stone: 500, ore: 250))),
@@ -64,6 +59,7 @@ namespace WarOfEmpires.Domain.Empires {
 
         private static BuildingDefinition GenerateForge() {
             return new BuildingDefinition(
+                BuildingType.Forge,
                 new ExpressionGenerator<string>((int level, int levelOffset) => $"Forge (level {level})"),
                 new ExpressionGenerator<string>((int level, int levelOffset) => $"Your forge increases your troops' attack strength by 25% for each level; your current bonus is {level * 25}%"),
                 new ExpressionGenerator<Resources>(SequenceGeneratorFactory.GetGeneratorFunction(new Resources(gold: 10000, wood: 250, stone: 500, ore: 1000))),
@@ -73,6 +69,7 @@ namespace WarOfEmpires.Domain.Empires {
 
         private static BuildingDefinition GenerateArmoury() {
             return new BuildingDefinition(
+                BuildingType.Armoury,
                 new ExpressionGenerator<string>((int level, int levelOffset) => $"Armoury (level {level})"),
                 new ExpressionGenerator<string>((int level, int levelOffset) => $"Your armoury increases your troops' defensive strength by 25% for each level; your current bonus is {level * 25}%"),
                 new ExpressionGenerator<Resources>(SequenceGeneratorFactory.GetGeneratorFunction(new Resources(gold: 10000, wood: 250, stone: 500, ore: 1000))),
@@ -82,6 +79,7 @@ namespace WarOfEmpires.Domain.Empires {
 
         private static BuildingDefinition GenerateArcheryRange() {
             return new BuildingDefinition(
+                BuildingType.ArcheryRange,
                 new ExpressionGenerator<string>((int level, int levelOffset) => $"Archery range (level {level})"),
                 new ExpressionGenerator<string>((int level, int levelOffset) => $"Your archery range increases your archers' strength by 25% for each level; your current bonus is {level * 25}%"),
                 new ExpressionGenerator<Resources>(SequenceGeneratorFactory.GetGeneratorFunction(new Resources(gold: 10000, wood: 250, stone: 500, ore: 1000))),
@@ -91,6 +89,7 @@ namespace WarOfEmpires.Domain.Empires {
 
         private static BuildingDefinition GenerateCavalryRange() {
             return new BuildingDefinition(
+                BuildingType.CavalryRange,
                 new ExpressionGenerator<string>((int level, int levelOffset) => $"Cavalry range (level {level})"),
                 new ExpressionGenerator<string>((int level, int levelOffset) => $"Your cavalry range increases your cavalry's strength by 25% for each level; your current bonus is {level * 25}%"),
                 new ExpressionGenerator<Resources>(SequenceGeneratorFactory.GetGeneratorFunction(new Resources(gold: 10000, wood: 250, stone: 500, ore: 1000))),
@@ -100,6 +99,7 @@ namespace WarOfEmpires.Domain.Empires {
 
         private static BuildingDefinition GenerateFootmanRange() {
             return new BuildingDefinition(
+                BuildingType.FootmanRange,
                 new ExpressionGenerator<string>((int level, int levelOffset) => $"Footmen range (level {level})"),
                 new ExpressionGenerator<string>((int level, int levelOffset) => $"Your footmen range increases your footmen's strength by 25% for each level; your current bonus is {level * 25}%"),
                 new ExpressionGenerator<Resources>(SequenceGeneratorFactory.GetGeneratorFunction(new Resources(gold: 10000, wood: 250, stone: 500, ore: 1000))),
@@ -126,6 +126,7 @@ namespace WarOfEmpires.Domain.Empires {
             names.Add(15, (int level, int levelOffset) => $"Citadel (level {levelOffset + 1})");
 
             return new BuildingDefinition(
+                BuildingType.Defences,
                 names,
                 new ExpressionGenerator<string>((int level, int levelOffset) => $"Your defences protect against assaults and increase your recruiting by 1 peasant for each level; your current bonus is {level}"),
                 new ExpressionGenerator<Resources>(SequenceGeneratorFactory.GetGeneratorFunction(new Resources(gold: 20000, wood: 1000, stone: 2000, ore: 500))),
@@ -137,6 +138,7 @@ namespace WarOfEmpires.Domain.Empires {
             var costs = new ExpressionGenerator<Resources>((int level, int levelOffset) => new Resources(gold: 2500 + 2500 * level, wood: 250 + 250 * level, stone: 100 + 100 * level, ore: 50 + 50 * level));
 
             return new BuildingDefinition(
+                BuildingType.Huts,
                 new ExpressionGenerator<string>((int level, int levelOffset) => $"Peasant huts (level {level})"),
                 new ExpressionGenerator<string>((int level, int levelOffset) => $"Your peasant huts provide the housing for your workers and peasants; each hut houses 10 peasants and your current capacity is {level * 10}"),
                 costs,
@@ -148,13 +150,14 @@ namespace WarOfEmpires.Domain.Empires {
             var costs = new ExpressionGenerator<Resources>((int level, int levelOffset) => new Resources(gold: 2500 + 2500 * level, wood: 100 + 100 * level, stone: 250 + 250 * level, ore: 50 + 50 * level));
 
             return new BuildingDefinition(
+                BuildingType.Barracks,
                 new ExpressionGenerator<string>((int level, int levelOffset) => $"Barracks (level {level})"),
                 new ExpressionGenerator<string>((int level, int levelOffset) => $"Your barracks provide the housing for your troops; each barracks houses 10 troops and your current capacity is {level * 10}"),
                 costs,
                 new ExpressionGenerator<int>((int currentLevel, int levelOffset) => currentLevel * 10)
             );
         }
-        
+
         private static BuildingDefinition GenerateGoldBank() {
             var descriptions = new ExpressionGenerator<string>("Your gold bank allows you to safely store gold away from attackers");
             descriptions.Add(1, SequenceGeneratorFactory.GetGeneratorFunction((value) => $"Your gold bank allows you to safely store gold away from attackers; your current capacity is {value * 25000} gold"));
@@ -163,6 +166,7 @@ namespace WarOfEmpires.Domain.Empires {
             bonuses.Add(1, SequenceGeneratorFactory.GetGeneratorFunction(25000));
 
             return new BuildingDefinition(
+                BuildingType.GoldBank,
                 new ExpressionGenerator<string>((int level, int levelOffset) => $"Gold bank (level {level})"),
                 descriptions,
                 new ExpressionGenerator<Resources>(SequenceGeneratorFactory.GetGeneratorFunction(new Resources(gold: 10000, wood: 250, stone: 500, ore: 1000))),
@@ -178,6 +182,7 @@ namespace WarOfEmpires.Domain.Empires {
             bonuses.Add(1, SequenceGeneratorFactory.GetGeneratorFunction(10000));
 
             return new BuildingDefinition(
+                BuildingType.FoodBank,
                 new ExpressionGenerator<string>((int level, int levelOffset) => $"Food bank (level {level})"),
                 descriptions,
                 new ExpressionGenerator<Resources>(SequenceGeneratorFactory.GetGeneratorFunction(new Resources(gold: 10000, wood: 500, stone: 1000, ore: 250))),
@@ -193,6 +198,7 @@ namespace WarOfEmpires.Domain.Empires {
             bonuses.Add(1, SequenceGeneratorFactory.GetGeneratorFunction(10000));
 
             return new BuildingDefinition(
+                BuildingType.WoodBank,
                 new ExpressionGenerator<string>((int level, int levelOffset) => $"Wood bank (level {level})"),
                 descriptions,
                 new ExpressionGenerator<Resources>(SequenceGeneratorFactory.GetGeneratorFunction(new Resources(gold: 10000, wood: 500, stone: 1000, ore: 250))),
@@ -208,6 +214,7 @@ namespace WarOfEmpires.Domain.Empires {
             bonuses.Add(1, SequenceGeneratorFactory.GetGeneratorFunction(10000));
 
             return new BuildingDefinition(
+                BuildingType.StoneBank,
                 new ExpressionGenerator<string>((int level, int levelOffset) => $"Stone bank (level {level})"),
                 descriptions,
                 new ExpressionGenerator<Resources>(SequenceGeneratorFactory.GetGeneratorFunction(new Resources(gold: 10000, wood: 500, stone: 1000, ore: 250))),
@@ -223,6 +230,7 @@ namespace WarOfEmpires.Domain.Empires {
             bonuses.Add(1, SequenceGeneratorFactory.GetGeneratorFunction(10000));
 
             return new BuildingDefinition(
+                BuildingType.OreBank,
                 new ExpressionGenerator<string>((int level, int levelOffset) => $"Ore bank (level {level})"),
                 descriptions,
                 new ExpressionGenerator<Resources>(SequenceGeneratorFactory.GetGeneratorFunction(new Resources(gold: 10000, wood: 500, stone: 1000, ore: 250))),
@@ -232,6 +240,7 @@ namespace WarOfEmpires.Domain.Empires {
 
         private static BuildingDefinition GenerateSiegeFactory() {
             return new BuildingDefinition(
+                BuildingType.SiegeFactory,
                 new ExpressionGenerator<string>((int level, int levelOffset) => $"Siege factory (level {level})"),
                 new ExpressionGenerator<string>((int level, int levelOffset) => $"Your siege factory allows your siege engineers to set up and maintain siege weapons to aid in your assaults against other players; your current maintenance is {level} per engineer"),
                 new ExpressionGenerator<Resources>(SequenceGeneratorFactory.GetGeneratorFunction(new Resources(gold: 10000, wood: 1000, stone: 250, ore: 500))),

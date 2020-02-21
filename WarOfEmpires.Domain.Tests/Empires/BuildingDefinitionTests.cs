@@ -9,6 +9,7 @@ namespace WarOfEmpires.Domain.Tests.Empires {
         [TestMethod]
         public void BuildingDefinition_Generates_Name_Correctly() {
             var building = new BuildingDefinition(
+                BuildingType.Forge,
                 new ExpressionGenerator<string>((int level, int levelOffset) => $"Level {level}"),
                 new ExpressionGenerator<string>((int level, int levelOffset) => $"Description {level}"),
                 new ExpressionGenerator<Resources>((int level, int levelOffset) => new Resources(gold: level * 20000)),
@@ -21,6 +22,7 @@ namespace WarOfEmpires.Domain.Tests.Empires {
         [TestMethod]
         public void BuildingDefinition_Generates_Description_Correctly() {
             var building = new BuildingDefinition(
+                BuildingType.Forge,
                 new ExpressionGenerator<string>((int level, int levelOffset) => $"Level {level}"),
                 new ExpressionGenerator<string>((int level, int levelOffset) => $"Description {level}"),
                 new ExpressionGenerator<Resources>((int level, int levelOffset) => new Resources(gold: level * 20000)),
@@ -33,6 +35,7 @@ namespace WarOfEmpires.Domain.Tests.Empires {
         [TestMethod]
         public void BuildingDefinition_Generates_Costs_Correctly() {
             var building = new BuildingDefinition(
+                BuildingType.Forge,
                 new ExpressionGenerator<string>((int level, int levelOffset) => $"Level {level}"),
                 new ExpressionGenerator<string>((int level, int levelOffset) => $"Description {level}"),
                 new ExpressionGenerator<Resources>((int level, int levelOffset) => new Resources(gold: level * 20000)),
@@ -44,8 +47,8 @@ namespace WarOfEmpires.Domain.Tests.Empires {
 
         [TestMethod]
         public void BuildingDefinition_Generates_Bonus_Correctly() {
-
             var building = new BuildingDefinition(
+                BuildingType.Forge,
                 new ExpressionGenerator<string>((int level, int levelOffset) => $"Level {level}"),
                 new ExpressionGenerator<string>((int level, int levelOffset) => $"Description {level}"),
                 new ExpressionGenerator<Resources>((int level, int levelOffset) => new Resources(gold: level * 20000)),
