@@ -3,7 +3,7 @@ using WarOfEmpires.Domain.Attacks;
 
 namespace WarOfEmpires.Domain.Players {
     public sealed class Casualties : ValueObject {
-        // TODO make this a list
+        // TODO make this a single troop type casualty Entity
         public Troops Archers { get; private set; }
         public Troops Cavalry { get; private set; }
         public Troops Footmen { get; private set; }

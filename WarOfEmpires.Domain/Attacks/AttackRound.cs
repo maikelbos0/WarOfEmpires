@@ -7,6 +7,7 @@ namespace WarOfEmpires.Domain.Attacks {
         public virtual bool IsAggressor { get; protected set; }
         public virtual int Troops { get; protected set; }
         public virtual long Damage { get; protected set; }
+        // TODO make this a list
         public virtual Casualties Casualties { get; protected set; }
 
         protected AttackRound() { }
