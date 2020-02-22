@@ -48,6 +48,7 @@ namespace WarOfEmpires.Domain.Players {
         public virtual Resources Resources { get; protected set; } = new Resources(10000, 2000, 2000, 2000, 2000);
         public virtual Resources BankedResources { get; protected set; } = new Resources();
         public virtual int Tax { get; set; } = 50;
+        [Obsolete]
         public virtual Troops Archers {
             get {
                 var troops = Troops.SingleOrDefault(t => t.Type == TroopType.Archers);
@@ -69,6 +70,7 @@ namespace WarOfEmpires.Domain.Players {
                 Troops.Add(new Troops(TroopType.Archers, value.Soldiers, value.Mercenaries));
             }
         }
+        [Obsolete]
         public virtual Troops Cavalry {
             get {
                 var troops = Troops.SingleOrDefault(t => t.Type == TroopType.Cavalry);
@@ -90,6 +92,7 @@ namespace WarOfEmpires.Domain.Players {
                 Troops.Add(new Troops(TroopType.Cavalry, value.Soldiers, value.Mercenaries));
             }
         }
+        [Obsolete]
         public virtual Troops Footmen {
             get {
                 var troops = Troops.SingleOrDefault(t => t.Type == TroopType.Footmen);
@@ -176,8 +179,8 @@ namespace WarOfEmpires.Domain.Players {
             var upkeep = new Resources();
 
             upkeep += (Peasants + Farmers + WoodWorkers + StoneMasons + OreMiners + SiegeEngineers) * PeasantUpkeep;
-            upkeep += (Archers.Soldiers + Cavalry.Soldiers + Footmen.Soldiers) * SoldierUpkeep;
-            upkeep += (Archers.Mercenaries + Cavalry.Mercenaries + Footmen.Mercenaries) * MercenaryUpkeep;
+            upkeep += Troops.Sum(t => t.Soldiers) * SoldierUpkeep;
+            upkeep += Troops.Sum(t => t.Mercenaries) * MercenaryUpkeep;
 
             return upkeep;
         }

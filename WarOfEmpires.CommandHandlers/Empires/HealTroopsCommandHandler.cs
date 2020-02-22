@@ -1,4 +1,5 @@
-﻿using WarOfEmpires.CommandHandlers.Decorators;
+﻿using System.Linq;
+using WarOfEmpires.CommandHandlers.Decorators;
 using WarOfEmpires.Commands.Empires;
 using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Repositories.Players;
@@ -28,7 +29,7 @@ namespace WarOfEmpires.CommandHandlers.Empires {
                 result.AddError(c => c.StaminaToHeal, "You cannot heal above 100%");
             }
 
-            if (!player.CanAfford(staminaToHeal * Player.HealCostPerTroopPerTurn * (player.Archers.GetTotals() + player.Cavalry.GetTotals() + player.Footmen.GetTotals()))) {
+            if (!player.CanAfford(staminaToHeal * Player.HealCostPerTroopPerTurn * player.Troops.Sum(t => t.GetTotals()))) {
                 result.AddError("You don't have enough food to heal these troops");
             }
 

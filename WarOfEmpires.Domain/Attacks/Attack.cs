@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using WarOfEmpires.Domain.Common;
 using WarOfEmpires.Domain.Players;
 
@@ -93,8 +94,8 @@ namespace WarOfEmpires.Domain.Attacks {
         }
 
         public decimal GetArmyStrengthModifier(decimal minimum = 0) {
-            var defenderTroops = Defender.Archers.GetTotals() + Defender.Cavalry.GetTotals() + Defender.Footmen.GetTotals();
-            var attackerTroops = Attacker.Archers.GetTotals() + Attacker.Cavalry.GetTotals() + Attacker.Footmen.GetTotals();
+            var defenderTroops = Defender.Troops.Sum(t => t.GetTotals());
+            var attackerTroops = Attacker.Troops.Sum(t => t.GetTotals());
 
             return Math.Max(minimum, 1.0m * defenderTroops / attackerTroops);
         }
