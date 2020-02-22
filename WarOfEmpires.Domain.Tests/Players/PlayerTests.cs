@@ -476,7 +476,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
         public void Player_GetAvailableHousingCapacity_Succeeds() {
             var player = new Player(0, "Test");
 
-            typeof(Player).GetProperty(nameof(Player.Archers)).SetValue(player, new Troops(19, 0));
+            player.Troops.Add(new Troops(TroopType.Archers, 19, 0));
             typeof(Player).GetProperty(nameof(Player.Peasants)).SetValue(player, 10);
 
             player.GetAvailableHousingCapacity().Should().Be(11);
@@ -486,9 +486,9 @@ namespace WarOfEmpires.Domain.Tests.Players {
         public void Player_GetAvailableHousingCapacity_Succeeds_For_Crowded_Barracks() {
             var player = new Player(0, "Test");
 
-            typeof(Player).GetProperty(nameof(Player.Archers)).SetValue(player, new Troops(6, 1));
-            typeof(Player).GetProperty(nameof(Player.Cavalry)).SetValue(player, new Troops(6, 1));
-            typeof(Player).GetProperty(nameof(Player.Footmen)).SetValue(player, new Troops(6, 1));
+            player.Troops.Add(new Troops(TroopType.Archers, 6, 1));
+            player.Troops.Add(new Troops(TroopType.Cavalry, 6, 1));
+            player.Troops.Add(new Troops(TroopType.Footmen, 6, 1));
             typeof(Player).GetProperty(nameof(Player.Peasants)).SetValue(player, 10);
 
             player.GetAvailableHousingCapacity().Should().Be(9);
@@ -518,7 +518,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
             player.Buildings.Add(new Building(player, BuildingType.Mine, 2));
             player.Buildings.Add(new Building(player, BuildingType.Defences, 3));
 
-            typeof(Player).GetProperty(nameof(Player.Archers)).SetValue(player, new Troops(19, 0));
+            player.Troops.Add(new Troops(TroopType.Archers, 19, 0));
             typeof(Player).GetProperty(nameof(Player.Peasants)).SetValue(player, 20);
 
             player.GetRecruitsPerDay().Should().Be(1);
@@ -552,9 +552,12 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
             player.TrainTroops(1, 4, 2, 5, 3, 6);
 
-            player.Archers.Should().Be(new Troops(1, 4));
-            player.Cavalry.Should().Be(new Troops(2, 5));
-            player.Footmen.Should().Be(new Troops(3, 6));
+            player.Archers.Soldiers.Should().Be(1);
+            player.Archers.Mercenaries.Should().Be(4);
+            player.Cavalry.Soldiers.Should().Be(2);
+            player.Cavalry.Mercenaries.Should().Be(5);
+            player.Footmen.Soldiers.Should().Be(3);
+            player.Footmen.Mercenaries.Should().Be(6);
         }
 
         [TestMethod]
@@ -584,10 +587,13 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
             player.TrainTroops(2, 5, 3, 6, 4, 7);
             player.UntrainTroops(1, 4, 2, 5, 3, 6);
-
-            player.Archers.Should().Be(new Troops(1, 1));
-            player.Cavalry.Should().Be(new Troops(1, 1));
-            player.Footmen.Should().Be(new Troops(1, 1));
+            
+            player.Archers.Soldiers.Should().Be(1);
+            player.Archers.Mercenaries.Should().Be(1);
+            player.Cavalry.Soldiers.Should().Be(1);
+            player.Cavalry.Mercenaries.Should().Be(1);
+            player.Footmen.Soldiers.Should().Be(1);
+            player.Footmen.Mercenaries.Should().Be(1);
         }
 
         [TestMethod]
@@ -906,7 +912,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
         public void Player_GetSoldierRecruitsPenalty_Succeeds(int soldiers, int peasants, int expectedResult) {
             var player = new Player(0, "Test");
 
-            typeof(Player).GetProperty(nameof(Player.Archers)).SetValue(player, new Troops(soldiers, 50));
+            player.Troops.Add(new Troops(TroopType.Archers, soldiers, 50));
             typeof(Player).GetProperty(nameof(Player.Peasants)).SetValue(player, peasants);
 
             player.GetSoldierRecruitsPenalty().Should().Be(expectedResult);
@@ -981,9 +987,9 @@ namespace WarOfEmpires.Domain.Tests.Players {
             var player = new Player(0, "Test");
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(food: 100000));
             typeof(Player).GetProperty(nameof(Player.Stamina)).SetValue(player, 90);
-            typeof(Player).GetProperty(nameof(Player.Archers)).SetValue(player, new Troops(30, 10));
-            typeof(Player).GetProperty(nameof(Player.Cavalry)).SetValue(player, new Troops(20, 10));
-            typeof(Player).GetProperty(nameof(Player.Footmen)).SetValue(player, new Troops(20, 10));
+            player.Troops.Add(new Troops(TroopType.Archers, 30, 10));
+            player.Troops.Add(new Troops(TroopType.Cavalry, 20, 10));
+            player.Troops.Add(new Troops(TroopType.Footmen, 20, 10));
             player.GetStaminaToHeal().Should().Be(10);
         }
 
@@ -992,9 +998,9 @@ namespace WarOfEmpires.Domain.Tests.Players {
             var player = new Player(0, "Test");
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(food: 1000));
             typeof(Player).GetProperty(nameof(Player.Stamina)).SetValue(player, 90);
-            typeof(Player).GetProperty(nameof(Player.Archers)).SetValue(player, new Troops(30, 10));
-            typeof(Player).GetProperty(nameof(Player.Cavalry)).SetValue(player, new Troops(20, 10));
-            typeof(Player).GetProperty(nameof(Player.Footmen)).SetValue(player, new Troops(20, 10));
+            player.Troops.Add(new Troops(TroopType.Archers, 30, 10));
+            player.Troops.Add(new Troops(TroopType.Cavalry, 20, 10));
+            player.Troops.Add(new Troops(TroopType.Footmen, 20, 10));
             player.GetStaminaToHeal().Should().Be(5);
         }
 
@@ -1003,9 +1009,9 @@ namespace WarOfEmpires.Domain.Tests.Players {
             var player = new Player(0, "Test");
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(food: 100000));
             typeof(Player).GetProperty(nameof(Player.Stamina)).SetValue(player, 90);
-            typeof(Player).GetProperty(nameof(Player.Archers)).SetValue(player, new Troops(0, 0));
-            typeof(Player).GetProperty(nameof(Player.Cavalry)).SetValue(player, new Troops(0, 0));
-            typeof(Player).GetProperty(nameof(Player.Footmen)).SetValue(player, new Troops(0, 0));
+            player.Troops.Add(new Troops(TroopType.Archers, 0, 0));
+            player.Troops.Add(new Troops(TroopType.Cavalry, 0, 0));
+            player.Troops.Add(new Troops(TroopType.Footmen, 0, 0));
             player.GetStaminaToHeal().Should().Be(10);
         }
 
@@ -1014,9 +1020,9 @@ namespace WarOfEmpires.Domain.Tests.Players {
             var player = new Player(0, "Test");
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(food: 0));
             typeof(Player).GetProperty(nameof(Player.Stamina)).SetValue(player, 90);
-            typeof(Player).GetProperty(nameof(Player.Archers)).SetValue(player, new Troops(30, 10));
-            typeof(Player).GetProperty(nameof(Player.Cavalry)).SetValue(player, new Troops(20, 10));
-            typeof(Player).GetProperty(nameof(Player.Footmen)).SetValue(player, new Troops(20, 10));
+            player.Troops.Add(new Troops(TroopType.Archers, 30, 10));
+            player.Troops.Add(new Troops(TroopType.Cavalry, 20, 10));
+            player.Troops.Add(new Troops(TroopType.Footmen, 20, 10));
             player.GetStaminaToHeal().Should().Be(0);
         }
 
@@ -1030,20 +1036,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
         public void Player_GetSiegeWeaponTroopCount_Succeeds(TroopType troopType, int troopCount, int siegeWeaponCount, int expectedResult) {
             var player = new Player(0, "Test");
 
-            switch (troopType) {
-                case TroopType.Archers:
-                    typeof(Player).GetProperty(nameof(Player.Archers)).SetValue(player, new Troops(troopCount, 0));
-                    break;
-                case TroopType.Cavalry:
-                    typeof(Player).GetProperty(nameof(Player.Cavalry)).SetValue(player, new Troops(troopCount, 0));
-                    break;
-                case TroopType.Footmen:
-                    typeof(Player).GetProperty(nameof(Player.Footmen)).SetValue(player, new Troops(troopCount, 0));
-                    break;
-                default:
-                    throw new NotImplementedException();
-            }
-
+            player.Troops.Add(new Troops(troopType, troopCount, 0));
             player.SiegeWeapons.Add(new SiegeWeapon(player, SiegeWeaponDefinitionFactory.Get(troopType).Type, siegeWeaponCount));
             player.GetSiegeWeaponTroopCount(troopType).Should().Be(expectedResult);
         }

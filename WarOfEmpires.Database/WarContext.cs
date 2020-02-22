@@ -92,12 +92,11 @@ namespace WarOfEmpires.Database {
             players.Property(p => p.BankedResources.Wood).HasColumnName("BankedWood");
             players.Property(p => p.BankedResources.Stone).HasColumnName("BankedStone");
             players.Property(p => p.BankedResources.Ore).HasColumnName("BankedOre");
-            players.Property(p => p.Archers.Soldiers).HasColumnName("Archers");
-            players.Property(p => p.Archers.Mercenaries).HasColumnName("MercenaryArchers");
-            players.Property(p => p.Cavalry.Soldiers).HasColumnName("Cavalry");
-            players.Property(p => p.Cavalry.Mercenaries).HasColumnName("MercenaryCavalry");
-            players.Property(p => p.Footmen.Soldiers).HasColumnName("Footmen");
-            players.Property(p => p.Footmen.Mercenaries).HasColumnName("MercenaryFootmen");
+            players.Ignore(p => p.Archers);
+            players.Ignore(p => p.Cavalry);
+            players.Ignore(p => p.Footmen);
+
+            var troops = modelBuilder.Entity<Attacks.Troops>().ToTable("Troops", "Attacks").HasKey(t => t.Id);
 
             var buildings = modelBuilder.Entity<Empires.Building>().ToTable("Buildings", "Empires").HasKey(b => b.Id);
 
