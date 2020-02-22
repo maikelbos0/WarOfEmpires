@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
+using WarOfEmpires.Domain.Attacks;
 
 namespace WarOfEmpires.Domain.Players {
     public sealed class Casualties : ValueObject {
+        // TODO make this a list
         public Troops Archers { get; private set; }
         public Troops Cavalry { get; private set; }
         public Troops Footmen { get; private set; }
@@ -15,6 +17,7 @@ namespace WarOfEmpires.Domain.Players {
         }
 
         protected override IEnumerable<object> GetEqualityComponents() {
+            // TODO fix equality
             yield return Archers.Soldiers;
             yield return Archers.Mercenaries;
             yield return Cavalry.Soldiers;

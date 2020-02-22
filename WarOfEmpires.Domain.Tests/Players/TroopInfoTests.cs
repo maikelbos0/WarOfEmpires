@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using WarOfEmpires.Domain.Attacks;
 using WarOfEmpires.Domain.Players;
 
 namespace WarOfEmpires.Domain.Tests.Players {

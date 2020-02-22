@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 using WarOfEmpires.CommandHandlers.Empires;
 using WarOfEmpires.Commands.Empires;
+using WarOfEmpires.Domain.Attacks;
 using WarOfEmpires.Domain.Common;
 using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Domain.Security;
@@ -28,9 +29,9 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
             player.Stamina.Returns(90);
             player.User.Returns(user);
             player.CanAfford(Arg.Any<Resources>()).Returns(true);
-            player.Archers.Returns(new Troops(10,2));
-            player.Cavalry.Returns(new Troops(0,0));
-            player.Footmen.Returns(new Troops(0,0));
+            player.Archers.Returns(new Troops(10, 2));
+            player.Cavalry.Returns(new Troops(0, 0));
+            player.Footmen.Returns(new Troops(0, 0));
 
             _context.Users.Add(user);
             _context.Players.Add(player);

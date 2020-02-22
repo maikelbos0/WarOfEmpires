@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace WarOfEmpires.Domain.Players {
+namespace WarOfEmpires.Domain.Attacks {
     public sealed class Troops : ValueObject {
+        public TroopType Type { get; private set; }
         public int Soldiers { get; private set; }
         public int Mercenaries { get; private set; }
 
@@ -16,7 +17,12 @@ namespace WarOfEmpires.Domain.Players {
             Mercenaries = mercenaries;
         }
 
+        public Troops(TroopType type, int soldiers, int mercenaries) : this(soldiers, mercenaries) {
+            Type = type;
+        }
+
         protected override IEnumerable<object> GetEqualityComponents() {
+            yield return Type;
             yield return Soldiers;
             yield return Mercenaries;
         }
