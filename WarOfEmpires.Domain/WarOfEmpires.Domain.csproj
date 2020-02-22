@@ -60,7 +60,7 @@
     <Compile Include="Attacks\Raid.cs" />
     <Compile Include="Empires\BankTurnTaskTriggeredEvent.cs" />
     <Compile Include="Empires\SequenceGeneratorFactory.cs" />
-    <Compile Include="Players\Casualties.cs" />
+    <Compile Include="Attacks\Casualties.cs" />
     <Compile Include="Attacks\TroopType.cs" />
     <Compile Include="Auditing\QueryExecution.cs" />
     <Compile Include="Auditing\CommandExecution.cs" />

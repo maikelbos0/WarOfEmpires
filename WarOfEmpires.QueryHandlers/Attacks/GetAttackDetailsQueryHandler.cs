@@ -49,8 +49,8 @@ namespace WarOfEmpires.QueryHandlers.Attacks {
                     TroopType = r.TroopType.ToString(),
                     Troops = r.Troops,
                     Damage = r.Damage,
-                    SoldierCasualties = r.Casualties.Archers.Soldiers + r.Casualties.Cavalry.Soldiers + r.Casualties.Footmen.Soldiers,
-                    MercenaryCasualties = r.Casualties.Archers.Mercenaries + r.Casualties.Cavalry.Mercenaries + r.Casualties.Footmen.Mercenaries
+                    SoldierCasualties = r.Casualties.Sum(c => c.Soldiers),
+                    MercenaryCasualties = r.Casualties.Sum(c => c.Mercenaries)
                 }).ToList()
             };
         }

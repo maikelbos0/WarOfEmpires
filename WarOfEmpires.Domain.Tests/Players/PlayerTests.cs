@@ -702,12 +702,14 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
             var casualties = player.ProcessAttackDamage(damage * 10);
 
-            casualties.Archers.Soldiers.Should().Be(0);
-            casualties.Archers.Mercenaries.Should().Be(10);
-            casualties.Cavalry.Soldiers.Should().Be(0);
-            casualties.Cavalry.Mercenaries.Should().Be(10);
-            casualties.Footmen.Soldiers.Should().Be(0);
-            casualties.Footmen.Mercenaries.Should().Be(10);
+            casualties.Should().HaveCount(3);
+
+            casualties.Single(c => c.TroopType == TroopType.Archers).Soldiers.Should().Be(0);
+            casualties.Single(c => c.TroopType == TroopType.Archers).Mercenaries.Should().Be(10);
+            casualties.Single(c => c.TroopType == TroopType.Cavalry).Soldiers.Should().Be(0);
+            casualties.Single(c => c.TroopType == TroopType.Cavalry).Mercenaries.Should().Be(10);
+            casualties.Single(c => c.TroopType == TroopType.Footmen).Soldiers.Should().Be(0);
+            casualties.Single(c => c.TroopType == TroopType.Footmen).Mercenaries.Should().Be(10);
         }
 
         [TestMethod]

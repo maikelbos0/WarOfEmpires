@@ -130,12 +130,8 @@ namespace WarOfEmpires.Database {
             troopTypes.Property(t => t.Name).IsRequired();
 
             var attackRounds = modelBuilder.Entity<Attacks.AttackRound>().ToTable("AttackRounds", "Attacks").HasKey(r => r.Id);
-            attackRounds.Property(r => r.Casualties.Archers.Soldiers).HasColumnName("Archers");
-            attackRounds.Property(r => r.Casualties.Archers.Mercenaries).HasColumnName("MercenaryArchers");
-            attackRounds.Property(r => r.Casualties.Cavalry.Soldiers).HasColumnName("Cavalry");
-            attackRounds.Property(r => r.Casualties.Cavalry.Mercenaries).HasColumnName("MercenaryCavalry");
-            attackRounds.Property(r => r.Casualties.Footmen.Soldiers).HasColumnName("Footmen");
-            attackRounds.Property(r => r.Casualties.Footmen.Mercenaries).HasColumnName("MercenaryFootmen");
+
+            var casualties = modelBuilder.Entity<Attacks.Casualties>().ToTable("Casualties", "Attacks").HasKey(c => c.Id);
         }
 
         private void OnSecurityModelCreating(DbModelBuilder modelBuilder) {

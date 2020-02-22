@@ -136,18 +136,15 @@ namespace WarOfEmpires.Domain.Players {
                 GetBuildingBonusMultiplier(BuildingType.Forge), GetBuildingBonusMultiplier(BuildingType.Armoury));
         }
 
-        public virtual Casualties ProcessAttackDamage(long damage) {
+        public virtual ICollection<Casualties> ProcessAttackDamage(long damage) {
             var totalDefense = GetArcherInfo().GetTotalDefense() + GetCavalryInfo().GetTotalDefense() + GetFootmanInfo().GetTotalDefense();
-            var archerCasualties = Archers.GetTroopCasualties((int)(GetArcherInfo().GetTotalDefense() * damage / totalDefense / AttackDamageModifier / GetArcherInfo().GetDefensePerSoldier()));
-            var cavalryCasualties = Cavalry.GetTroopCasualties((int)(GetCavalryInfo().GetTotalDefense() * damage / totalDefense / AttackDamageModifier / GetCavalryInfo().GetDefensePerSoldier()));
-            var footmanCasualties = Footmen.GetTroopCasualties((int)(GetFootmanInfo().GetTotalDefense() * damage / totalDefense / AttackDamageModifier / GetFootmanInfo().GetDefensePerSoldier()));
+            var archerCasualties = Archers.ProcessCasualties((int)(GetArcherInfo().GetTotalDefense() * damage / totalDefense / AttackDamageModifier / GetArcherInfo().GetDefensePerSoldier()));
+            var cavalryCasualties = Cavalry.ProcessCasualties((int)(GetCavalryInfo().GetTotalDefense() * damage / totalDefense / AttackDamageModifier / GetCavalryInfo().GetDefensePerSoldier()));
+            var footmanCasualties = Footmen.ProcessCasualties((int)(GetFootmanInfo().GetTotalDefense() * damage / totalDefense / AttackDamageModifier / GetFootmanInfo().GetDefensePerSoldier()));
 
             Stamina = Math.Max(0, (int)(Stamina - damage * AttackStaminaDrainModifier / totalDefense));
-            Archers -= archerCasualties;
-            Cavalry -= cavalryCasualties;
-            Footmen -= footmanCasualties;
 
-            return new Casualties(archerCasualties, cavalryCasualties, footmanCasualties);
+            return new List<Casualties>() { archerCasualties, cavalryCasualties, footmanCasualties };
         }
 
         public virtual Resources GetBankCapacity() {
@@ -409,9 +406,9 @@ namespace WarOfEmpires.Domain.Players {
             var troops = archers + cavalry + footmen;
             var mercenaries = mercenaryArchers + mercenaryCavalry + mercenaryFootmen;
 
-            Archers += new Troops(archers, mercenaryArchers);
-            Cavalry += new Troops(cavalry, mercenaryCavalry);
-            Footmen += new Troops(footmen, mercenaryFootmen);
+            Archers.Train(archers, mercenaryArchers);
+            Cavalry.Train(cavalry, mercenaryCavalry);
+            Footmen.Train(footmen, mercenaryFootmen);
 
             Peasants -= troops;
             SpendResources(archers * ArcherTrainingCost
@@ -421,9 +418,9 @@ namespace WarOfEmpires.Domain.Players {
         }
 
         public virtual void UntrainTroops(int archers, int mercenaryArchers, int cavalry, int mercenaryCavalry, int footmen, int mercenaryFootmen) {
-            Archers -= new Troops(archers, mercenaryArchers);
-            Cavalry -= new Troops(cavalry, mercenaryCavalry);
-            Footmen -= new Troops(footmen, mercenaryFootmen);
+            Archers.Untrain(archers, mercenaryArchers);
+            Cavalry.Untrain(cavalry, mercenaryCavalry);
+            Footmen.Untrain(footmen, mercenaryFootmen);
 
             Peasants += archers + cavalry + footmen;
         }

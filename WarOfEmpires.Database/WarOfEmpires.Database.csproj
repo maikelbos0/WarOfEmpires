@@ -150,6 +150,10 @@
     <Compile Include="Migrations\202001181851497_SiegeWeapons.Designer.cs">
       <DependentUpon>202001181851497_SiegeWeapons.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202002221341570_Attacks-Casualties.cs" />
+    <Compile Include="Migrations\202002221341570_Attacks-Casualties.Designer.cs">
+      <DependentUpon>202002221341570_Attacks-Casualties.cs</DependentUpon>
+    </Compile>
     <Compile Include="ReferenceEntities\AttackResultEntity.cs" />
     <Compile Include="ReferenceEntities\AttackTypeEntity.cs" />
     <Compile Include="ReferenceEntities\BaseReferenceEntity.cs" />
@@ -253,6 +257,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202001181851497_SiegeWeapons.resx">
       <DependentUpon>202001181851497_SiegeWeapons.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002221341570_Attacks-Casualties.resx">
+      <DependentUpon>202002221341570_Attacks-Casualties.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
