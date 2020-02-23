@@ -48,27 +48,27 @@ namespace WarOfEmpires.CommandHandlers.Empires {
                 result.AddError(c => c.MercenaryFootmen, "Footman mercenaries must be a valid number");
             }
 
-            if (archers > player.Archers.Soldiers) {
+            if (archers > player.GetTroops(TroopType.Archers).Soldiers) {
                 result.AddError(c => c.Archers, "You don't have that many archers to untrain");
             }
 
-            if (mercenaryArchers > player.Archers.Mercenaries) {
+            if (mercenaryArchers > player.GetTroops(TroopType.Archers).Mercenaries) {
                 result.AddError(c => c.MercenaryArchers, "You don't have that many archer mercenaries to untrain");
             }
 
-            if (cavalry > player.Cavalry.Soldiers) {
+            if (cavalry > player.GetTroops(TroopType.Cavalry).Soldiers) {
                 result.AddError(c => c.Cavalry, "You don't have that many cavalry units to untrain");
             }
 
-            if (mercenaryCavalry > player.Cavalry.Mercenaries) {
+            if (mercenaryCavalry > player.GetTroops(TroopType.Cavalry).Mercenaries) {
                 result.AddError(c => c.MercenaryCavalry, "You don't have that many cavalry mercenaries to untrain");
             }
 
-            if (footmen > player.Footmen.Soldiers) {
+            if (footmen > player.GetTroops(TroopType.Footmen).Soldiers) {
                 result.AddError(c => c.Footmen, "You don't have that many footmen to untrain");
             }
 
-            if (mercenaryFootmen > player.Footmen.Mercenaries) {
+            if (mercenaryFootmen > player.GetTroops(TroopType.Footmen).Mercenaries) {
                 result.AddError(c => c.MercenaryFootmen, "You don't have that many footman mercenaries to untrain");
             }
 

@@ -11,7 +11,7 @@ using WarOfEmpires.Test.Utilities;
 
 namespace WarOfEmpires.CommandHandlers.Tests.Empires {
     [TestClass]
-   public sealed class UntrainTroopsCommandHandlerTests {
+    public sealed class UntrainTroopsCommandHandlerTests {
         private readonly FakeWarContext _context = new FakeWarContext();
         private readonly PlayerRepository _repository;
         private readonly Player _player;
@@ -25,9 +25,9 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
             var player = Substitute.For<Player>();
             player.User.Returns(user);
-            player.Archers.Returns(new Troops(10, 10));
-            player.Cavalry.Returns(new Troops(10, 10));
-            player.Footmen.Returns(new Troops(10, 10));
+            player.GetTroops(TroopType.Archers).Returns(new Troops(TroopType.Archers, 10, 10));
+            player.GetTroops(TroopType.Cavalry).Returns(new Troops(TroopType.Cavalry, 10, 10));
+            player.GetTroops(TroopType.Footmen).Returns(new Troops(TroopType.Footmen, 10, 10));
 
             _context.Users.Add(user);
             _context.Players.Add(player);

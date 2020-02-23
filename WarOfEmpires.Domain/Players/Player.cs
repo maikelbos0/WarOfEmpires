@@ -182,11 +182,15 @@ namespace WarOfEmpires.Domain.Players {
             return upkeep;
         }
 
+        public virtual Troops GetTroops(TroopType type) {
+            return Troops.SingleOrDefault(t => t.Type == type) ?? new Troops(type, 0, 0);
+        }
+
         public virtual TroopInfo GetTroopInfo(TroopType type) {
             var definition = TroopDefinitionFactory.Get(type);
 
             return new TroopInfo(
-                Troops.SingleOrDefault(t => t.Type == type) ?? new Troops(type, 0, 0),
+                GetTroops(type),
                 definition.BaseAttack,
                 definition.BaseDefence,
                 GetBuildingBonusMultiplier(definition.BuildingType),
