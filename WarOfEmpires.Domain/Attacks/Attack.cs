@@ -41,7 +41,7 @@ namespace WarOfEmpires.Domain.Attacks {
             var attackerStamina = Attacker.Stamina;
             var defenderStamina = Defender.Stamina;            
 
-            if (attackerStamina < AttackerMinimumStamina || Attacker.Archers.GetTotals() + Attacker.Cavalry.GetTotals() + Attacker.Footmen.GetTotals() == 0) {
+            if (attackerStamina < AttackerMinimumStamina || Attacker.Troops.Sum(t => t.GetTotals()) == 0) {
                 Result = AttackResult.Fatigued;
             }
             else if (IsSurrender()) {

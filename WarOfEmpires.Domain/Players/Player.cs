@@ -285,9 +285,10 @@ namespace WarOfEmpires.Domain.Players {
                 Resources = Resources.SubtractSafe(upkeep, out Resources remainder);
                 BankedResources = BankedResources.SubtractSafe(remainder);
 
-                Archers = new Troops(Archers.Soldiers, 0);
-                Cavalry = new Troops(Cavalry.Soldiers, 0);
-                Footmen = new Troops(Footmen.Soldiers, 0);
+                foreach (var troops in Troops) {
+                    troops.Untrain(0, troops.Mercenaries);
+                }
+
                 HasUpkeepRunOut = true;
             }
         }
@@ -349,22 +350,12 @@ namespace WarOfEmpires.Domain.Players {
 
         public int GetSiegeWeaponTroopCount(TroopType type) {
             var definition = SiegeWeaponDefinitionFactory.Get(type);
-            var troopCount = GetSiegeWeaponCount(definition.Type) * definition.TroopCount;
 
-            switch (type) {
-                case TroopType.Archers:
-                    return Math.Min(troopCount, Archers.GetTotals());
-                case TroopType.Cavalry:
-                    return Math.Min(troopCount, Cavalry.GetTotals());
-                case TroopType.Footmen:
-                    return Math.Min(troopCount, Footmen.GetTotals());
-                default:
-                    throw new NotImplementedException();
-            }
+            return Math.Min(GetTroops(type).GetTotals(), GetSiegeWeaponCount(definition.Type) * definition.TroopCount);
         }
 
         public virtual int GetAvailableBarracksCapacity() {
-            return GetBuildingBonus(BuildingType.Barracks) - Archers.GetTotals() - Cavalry.GetTotals() - Footmen.GetTotals();
+            return GetBuildingBonus(BuildingType.Barracks) - Troops.Sum(t => t.GetTotals());
         }
 
         public virtual int GetAvailableHutCapacity() {
@@ -407,7 +398,7 @@ namespace WarOfEmpires.Domain.Players {
         }
 
         public virtual int GetSoldierRecruitsPenalty() {
-            var soldiers = Archers.Soldiers + Cavalry.Soldiers + Footmen.Soldiers;
+            var soldiers = Troops.Sum(t => t.Soldiers);
             var peasants = Peasants + Farmers + WoodWorkers + StoneMasons + OreMiners + SiegeEngineers;
             var ratio = 1.0m * soldiers / (soldiers + peasants);
 
@@ -447,7 +438,7 @@ namespace WarOfEmpires.Domain.Players {
         }
 
         public int GetStaminaToHeal() {
-            var troops = Archers.GetTotals() + Cavalry.GetTotals() + Footmen.GetTotals();
+            var troops = Troops.Sum(t => t.GetTotals());
             int staminaCanAfford = 0;
             int staminaToFull = 100 - Stamina;
             if (CanAfford(staminaToFull * HealCostPerTroopPerTurn * troops)) {
