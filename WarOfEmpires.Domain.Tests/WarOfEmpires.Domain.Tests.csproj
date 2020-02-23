@@ -72,6 +72,7 @@
     <Compile Include="Attacks\AttackTests.cs" />
     <Compile Include="Attacks\AssaultTests.cs" />
     <Compile Include="Attacks\RaidTests.cs" />
+    <Compile Include="Attacks\TroopDefinitionFactoryTests.cs" />
     <Compile Include="Common\ResourcesTests.cs" />
     <Compile Include="Empires\BuildingDefinitionFactoryTests.cs" />
     <Compile Include="Empires\BuildingDefinitionTests.cs" />

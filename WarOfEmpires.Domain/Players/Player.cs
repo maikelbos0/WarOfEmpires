@@ -23,8 +23,11 @@ namespace WarOfEmpires.Domain.Players {
 
         public static Resources WorkerTrainingCost = new Resources(gold: 250);
         public static Resources SiegeEngineerTrainingCost = new Resources(gold: 2500, wood: 250, ore: 500);
+        [Obsolete]
         public static Resources ArcherTrainingCost = new Resources(gold: 5000, wood: 1000, ore: 500);
+        [Obsolete]
         public static Resources CavalryTrainingCost = new Resources(gold: 5000, ore: 1500);
+        [Obsolete]
         public static Resources FootmanTrainingCost = new Resources(gold: 5000, wood: 500, ore: 1000);
         public static Resources MercenaryTrainingCost = new Resources(gold: 5000);
 

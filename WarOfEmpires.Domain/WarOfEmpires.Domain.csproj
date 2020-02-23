@@ -58,6 +58,8 @@
     <Compile Include="Attacks\AttackType.cs" />
     <Compile Include="Attacks\Assault.cs" />
     <Compile Include="Attacks\Raid.cs" />
+    <Compile Include="Attacks\TroopDefinition.cs" />
+    <Compile Include="Attacks\TroopDefinitionFactory.cs" />
     <Compile Include="Empires\BankTurnTaskTriggeredEvent.cs" />
     <Compile Include="Empires\SequenceGeneratorFactory.cs" />
     <Compile Include="Attacks\Casualties.cs" />

@@ -7,7 +7,7 @@ namespace WarOfEmpires.Domain.Siege {
         private static readonly Dictionary<SiegeWeaponType, SiegeWeaponDefinition> _siegeWeapons = new Dictionary<SiegeWeaponType, SiegeWeaponDefinition>();
         private static readonly Dictionary<TroopType, SiegeWeaponDefinition> _troopSiegeWeapons = new Dictionary<TroopType, SiegeWeaponDefinition>();
 
-        static SiegeWeaponDefinitionFactory() {           
+        static SiegeWeaponDefinitionFactory() {
             foreach (var definition in new[] { GenerateFireArrows(), GenerateBatteringRams(), GenerateScalingLadders() }) {
                 _siegeWeapons.Add(definition.Type, definition);
                 _troopSiegeWeapons.Add(definition.TroopType, definition);
