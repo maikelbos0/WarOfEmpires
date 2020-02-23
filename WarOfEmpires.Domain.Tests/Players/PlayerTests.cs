@@ -626,49 +626,22 @@ namespace WarOfEmpires.Domain.Tests.Players {
             player.Peasants.Should().Be(9);
         }
 
-        [TestMethod]
-        public void Player_GetArcherInfo_Succeeds() {
-            var player = new Player(0, "Test");
-            
-            player.Buildings.Add(new Building(player, BuildingType.Armoury, 1));
-            player.Buildings.Add(new Building(player, BuildingType.Forge, 2));
-            player.Buildings.Add(new Building(player, BuildingType.ArcheryRange, 3));
-            player.Troops.Add(new Troops(TroopType.Archers, 2, 5));
-
-            var result = player.GetArcherInfo();
-
-            result.GetTotalAttack().Should().Be(7 * (int)(50 * 1.2m * 1.3m));
-            result.GetTotalDefense().Should().Be(7 * (int)(30 * 1.1m * 1.3m));
-        }
-
-        [TestMethod]
-        public void Player_GetCavalryInfo_Succeeds() {
+        [DataTestMethod]
+        [DataRow(TroopType.Archers, BuildingType.ArcheryRange, 11 * (int)(50 * 1.2m * 1.3m), 11 * (int)(30 * 1.1m * 1.3m), DisplayName = "Archers")]
+        [DataRow(TroopType.Cavalry, BuildingType.CavalryRange, 11 * (int)(45 * 1.2m * 1.3m), 11 * (int)(35 * 1.1m * 1.3m), DisplayName = "Cavalry")]
+        [DataRow(TroopType.Footmen, BuildingType.FootmanRange, 11 * (int)(40 * 1.2m * 1.3m), 11 * (int)(40 * 1.1m * 1.3m), DisplayName = "Footmen")]
+        public void Player_GetTroopInfo_Succeeds(TroopType type, BuildingType buildingType, int attack, int defence) {
             var player = new Player(0, "Test");
 
             player.Buildings.Add(new Building(player, BuildingType.Armoury, 1));
             player.Buildings.Add(new Building(player, BuildingType.Forge, 2));
-            player.Buildings.Add(new Building(player, BuildingType.CavalryRange, 3));
-            player.Troops.Add(new Troops(TroopType.Cavalry, 3, 6));
+            player.Buildings.Add(new Building(player, buildingType, 3));
+            player.Troops.Add(new Troops(type, 4, 7));
 
-            var result = player.GetCavalryInfo();
+            var result = player.GetTroopInfo(type);
 
-            result.GetTotalAttack().Should().Be(9 * (int)(45 * 1.2m * 1.3m));
-            result.GetTotalDefense().Should().Be(9 * (int)(35 * 1.1m * 1.3m));
-        }
-
-        [TestMethod]
-        public void Player_GetFootmanInfo_Succeeds() {
-            var player = new Player(0, "Test");
-
-            player.Buildings.Add(new Building(player, BuildingType.Armoury, 1));
-            player.Buildings.Add(new Building(player, BuildingType.Forge, 2));
-            player.Buildings.Add(new Building(player, BuildingType.FootmanRange, 3));
-            player.Troops.Add(new Troops(TroopType.Footmen, 4, 7));
-
-            var result = player.GetFootmanInfo();
-
-            result.GetTotalAttack().Should().Be(11 * (int)(40 * 1.2m * 1.3m));
-            result.GetTotalDefense().Should().Be(11 * (int)(40 * 1.1m * 1.3m));
+            result.GetTotalAttack().Should().Be(attack);
+            result.GetTotalDefense().Should().Be(defence);
         }
 
         [TestMethod]
@@ -679,7 +652,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
             player.Troops.Add(new Troops(TroopType.Cavalry, 150, 50));
             player.Troops.Add(new Troops(TroopType.Footmen, 150, 50));
 
-            var damage = player.GetArcherInfo().GetTotalDefense() + player.GetCavalryInfo().GetTotalDefense() + player.GetFootmanInfo().GetTotalDefense();
+            var damage = player.Troops.Sum(t => player.GetTroopInfo(t.Type).GetTotalDefense());
 
             player.ProcessAttackDamage(damage * 10);
 
@@ -694,16 +667,14 @@ namespace WarOfEmpires.Domain.Tests.Players {
             player.Troops.Add(new Troops(TroopType.Cavalry, 150, 50));
             player.Troops.Add(new Troops(TroopType.Footmen, 150, 50));
 
-            var damage = player.GetArcherInfo().GetTotalDefense() + player.GetCavalryInfo().GetTotalDefense() + player.GetFootmanInfo().GetTotalDefense();
+            var damage = player.Troops.Sum(t => player.GetTroopInfo(t.Type).GetTotalDefense());
 
             player.ProcessAttackDamage(damage * 10);
 
-            player.Archers.Soldiers.Should().Be(150);
-            player.Archers.Mercenaries.Should().Be(40);
-            player.Cavalry.Soldiers.Should().Be(150);
-            player.Cavalry.Mercenaries.Should().Be(40);
-            player.Footmen.Soldiers.Should().Be(150);
-            player.Footmen.Mercenaries.Should().Be(40);
+            foreach (var troops in player.Troops) {
+                troops.Soldiers.Should().Be(150);
+                troops.Mercenaries.Should().Be(40);
+            }
         }
 
         [TestMethod]
@@ -714,18 +685,16 @@ namespace WarOfEmpires.Domain.Tests.Players {
             player.Troops.Add(new Troops(TroopType.Cavalry, 150, 50));
             player.Troops.Add(new Troops(TroopType.Footmen, 150, 50));
 
-            var damage = player.GetArcherInfo().GetTotalDefense() + player.GetCavalryInfo().GetTotalDefense() + player.GetFootmanInfo().GetTotalDefense();
+            var damage = player.Troops.Sum(t => player.GetTroopInfo(t.Type).GetTotalDefense());
 
             var casualties = player.ProcessAttackDamage(damage * 10);
 
             casualties.Should().HaveCount(3);
 
-            casualties.Single(c => c.TroopType == TroopType.Archers).Soldiers.Should().Be(0);
-            casualties.Single(c => c.TroopType == TroopType.Archers).Mercenaries.Should().Be(10);
-            casualties.Single(c => c.TroopType == TroopType.Cavalry).Soldiers.Should().Be(0);
-            casualties.Single(c => c.TroopType == TroopType.Cavalry).Mercenaries.Should().Be(10);
-            casualties.Single(c => c.TroopType == TroopType.Footmen).Soldiers.Should().Be(0);
-            casualties.Single(c => c.TroopType == TroopType.Footmen).Mercenaries.Should().Be(10);
+            foreach (var c in casualties) {
+                c.Soldiers.Should().Be(0);
+                c.Mercenaries.Should().Be(10);
+            }
         }
 
         [TestMethod]

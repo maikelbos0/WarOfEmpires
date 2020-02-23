@@ -12,12 +12,6 @@ namespace WarOfEmpires.Domain.Players {
         public const int BaseGoldProduction = 500;
         public const int BaseResourceProduction = 20;
         public static int[] BuildingRecruitingLevels = { 50000, 100000, 200000, 300000, 500000, 800000, 1200000, 2000000, 3000000, 5000000, 8000000, 12000000, 20000000, 30000000, 40000000, 50000000, 60000000, 70000000, 80000000, 90000000, 100000000, 110000000, 120000000, 130000000, 140000000, 150000000 };
-        public const long BaseArcherAttack = 50;
-        public const long BaseArcherDefense = 30;
-        public const long BaseCavalryAttack = 45;
-        public const long BaseCavalryDefense = 35;
-        public const long BaseFootmanAttack = 40;
-        public const long BaseFootmanDefense = 40;
         public const int AttackDamageModifier = 200;
         public const int AttackStaminaDrainModifier = 2;
 
@@ -188,30 +182,27 @@ namespace WarOfEmpires.Domain.Players {
             return upkeep;
         }
 
-        public virtual TroopInfo GetArcherInfo() {
-            return new TroopInfo(Archers, BaseArcherAttack, BaseArcherDefense, GetBuildingBonusMultiplier(BuildingType.ArcheryRange),
-                GetBuildingBonusMultiplier(BuildingType.Forge), GetBuildingBonusMultiplier(BuildingType.Armoury));
-        }
+        public virtual TroopInfo GetTroopInfo(TroopType type) {
+            var definition = TroopDefinitionFactory.Get(type);
 
-        public virtual TroopInfo GetCavalryInfo() {
-            return new TroopInfo(Cavalry, BaseCavalryAttack, BaseCavalryDefense, GetBuildingBonusMultiplier(BuildingType.CavalryRange),
-                GetBuildingBonusMultiplier(BuildingType.Forge), GetBuildingBonusMultiplier(BuildingType.Armoury));
-        }
-
-        public virtual TroopInfo GetFootmanInfo() {
-            return new TroopInfo(Footmen, BaseFootmanAttack, BaseFootmanDefense, GetBuildingBonusMultiplier(BuildingType.FootmanRange),
-                GetBuildingBonusMultiplier(BuildingType.Forge), GetBuildingBonusMultiplier(BuildingType.Armoury));
+            return new TroopInfo(
+                Troops.SingleOrDefault(t => t.Type == type) ?? new Troops(type, 0, 0),
+                definition.BaseAttack,
+                definition.BaseDefence,
+                GetBuildingBonusMultiplier(definition.BuildingType),
+                GetBuildingBonusMultiplier(BuildingType.Forge),
+                GetBuildingBonusMultiplier(BuildingType.Armoury)
+            );
         }
 
         public virtual ICollection<Casualties> ProcessAttackDamage(long damage) {
-            var totalDefense = GetArcherInfo().GetTotalDefense() + GetCavalryInfo().GetTotalDefense() + GetFootmanInfo().GetTotalDefense();
-            var archerCasualties = Archers.ProcessCasualties((int)(GetArcherInfo().GetTotalDefense() * damage / totalDefense / AttackDamageModifier / GetArcherInfo().GetDefensePerSoldier()));
-            var cavalryCasualties = Cavalry.ProcessCasualties((int)(GetCavalryInfo().GetTotalDefense() * damage / totalDefense / AttackDamageModifier / GetCavalryInfo().GetDefensePerSoldier()));
-            var footmanCasualties = Footmen.ProcessCasualties((int)(GetFootmanInfo().GetTotalDefense() * damage / totalDefense / AttackDamageModifier / GetFootmanInfo().GetDefensePerSoldier()));
+            var troops = Troops.Select(t => new { Troops = t, Info = GetTroopInfo(t.Type) });
+            var totalDefence = troops.Sum(t => t.Info.GetTotalDefense());
+            var casualties = troops.Select(t => t.Troops.ProcessCasualties((int)(t.Info.GetTotalDefense() * damage / totalDefence / AttackDamageModifier / t.Info.GetDefensePerSoldier())));
 
-            Stamina = Math.Max(0, (int)(Stamina - damage * AttackStaminaDrainModifier / totalDefense));
+            Stamina = Math.Max(0, (int)(Stamina - damage * AttackStaminaDrainModifier / totalDefence));
 
-            return new List<Casualties>() { archerCasualties, cavalryCasualties, footmanCasualties };
+            return casualties.ToList();
         }
 
         public virtual Resources GetBankCapacity() {
@@ -365,7 +356,7 @@ namespace WarOfEmpires.Domain.Players {
                     return Math.Min(troopCount, Footmen.GetTotals());
                 default:
                     throw new NotImplementedException();
-            }            
+            }
         }
 
         public virtual int GetAvailableBarracksCapacity() {
@@ -485,7 +476,7 @@ namespace WarOfEmpires.Domain.Players {
         }
 
         public virtual void UntrainTroops(TroopType type, int soldiers, int mercenaries) {
-            Troops.SingleOrDefault(t => t.Type == type).Untrain(soldiers, mercenaries);
+            Troops.Single(t => t.Type == type).Untrain(soldiers, mercenaries);
 
             Peasants += soldiers;
         }

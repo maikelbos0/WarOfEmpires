@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using WarOfEmpires.Domain.Common;
+using WarOfEmpires.Domain.Empires;
 
 namespace WarOfEmpires.Domain.Attacks {
     public static class TroopDefinitionFactory {
@@ -10,17 +11,17 @@ namespace WarOfEmpires.Domain.Attacks {
                 _troops.Add(definition.Type, definition);
             }
         }
-
+        
         private static TroopDefinition GenerateArchers() {
-            return new TroopDefinition(TroopType.Archers, new Resources(gold: 5000, wood: 1000, ore: 500), "Archers");
+            return new TroopDefinition(TroopType.Archers, BuildingType.ArcheryRange, 50, 30, new Resources(gold: 5000, wood: 1000, ore: 500), "Archers");
         }
 
         private static TroopDefinition GenerateCavalry() {
-            return new TroopDefinition(TroopType.Cavalry, new Resources(gold: 5000, ore: 1500), "Cavalry");
+            return new TroopDefinition(TroopType.Cavalry, BuildingType.CavalryRange, 45, 35, new Resources(gold: 5000, ore: 1500), "Cavalry");
         }
 
         private static TroopDefinition GenerateFootmen() {
-            return new TroopDefinition(TroopType.Footmen, new Resources(gold: 5000, wood: 500, ore: 1000), "Footmen");
+            return new TroopDefinition(TroopType.Footmen, BuildingType.FootmanRange, 40, 40, new Resources(gold: 5000, wood: 500, ore: 1000), "Footmen");
         }
 
         public static TroopDefinition Get(TroopType type) {

@@ -55,14 +55,10 @@ namespace WarOfEmpires.Domain.Attacks {
                 var calculatedAttackerStamina = random.Next(attackerStamina - StaminaRandomModifier, attackerStamina + StaminaRandomModifier);
                 var calculatedDefenderStamina = random.Next(defenderStamina - StaminaRandomModifier, defenderStamina + StaminaRandomModifier);
 
-                AddRound(calculatedAttackerStamina, TroopType.Archers, true, Attacker.GetArcherInfo(), Defender);
-                AddRound(calculatedDefenderStamina, TroopType.Archers, false, Defender.GetArcherInfo(), Attacker);
-
-                AddRound(calculatedAttackerStamina, TroopType.Cavalry, true, Attacker.GetCavalryInfo(), Defender);
-                AddRound(calculatedDefenderStamina, TroopType.Cavalry, false, Defender.GetCavalryInfo(), Attacker);
-
-                AddRound(calculatedAttackerStamina, TroopType.Footmen, true, Attacker.GetFootmanInfo(), Defender);
-                AddRound(calculatedDefenderStamina, TroopType.Footmen, false, Defender.GetFootmanInfo(), Attacker);
+                foreach (TroopType troopType in Enum.GetValues(typeof(TroopType))) {
+                    AddRound(calculatedAttackerStamina, troopType, true, Attacker.GetTroopInfo(troopType), Defender);
+                    AddRound(calculatedDefenderStamina, troopType, false, Defender.GetTroopInfo(troopType), Attacker);
+                }
 
                 if (Attacker.Stamina - attackerStamina > Defender.Stamina - defenderStamina) {
                     Result = AttackResult.Won;
