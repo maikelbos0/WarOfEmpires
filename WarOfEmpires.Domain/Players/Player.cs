@@ -469,19 +469,19 @@ namespace WarOfEmpires.Domain.Players {
             }
         }
 
-        public virtual void TrainTroops(int archers, int mercenaryArchers, int cavalry, int mercenaryCavalry, int footmen, int mercenaryFootmen) {
-            var troops = archers + cavalry + footmen;
-            var mercenaries = mercenaryArchers + mercenaryCavalry + mercenaryFootmen;
+        public virtual void TrainTroops(TroopType type, int soldiers, int mercenaries) {
+            var definition = TroopDefinitionFactory.Get(type);
+            var troops = Troops.SingleOrDefault(t => t.Type == type);
 
-            Archers.Train(archers, mercenaryArchers);
-            Cavalry.Train(cavalry, mercenaryCavalry);
-            Footmen.Train(footmen, mercenaryFootmen);
+            if (troops == null) {
+                Troops.Add(new Troops(type, soldiers, mercenaries));
+            }
+            else {
+                troops.Train(soldiers, mercenaries);
+            }
 
-            Peasants -= troops;
-            SpendResources(archers * ArcherTrainingCost
-                + cavalry * CavalryTrainingCost
-                + footmen * FootmanTrainingCost
-                + mercenaries * MercenaryTrainingCost);
+            Peasants -= soldiers;
+            SpendResources(soldiers * definition.Cost + mercenaries * MercenaryTrainingCost);
         }
 
         public virtual void UntrainTroops(TroopType type, int soldiers, int mercenaries) {

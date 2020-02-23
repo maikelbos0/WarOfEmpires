@@ -14,11 +14,8 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
             var attacker = new Player(1, "Attacker");
             var defender = new Player(2, "Defender");
 
-            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(attacker, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
-            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(defender, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
-
-            attacker.TrainTroops(600, 200, 0, 0, 0, 0);
-            defender.TrainTroops(600, 200, 0, 0, 0, 0);
+            attacker.Troops.Add(new Troops(TroopType.Archers, 600, 200));
+            defender.Troops.Add(new Troops(TroopType.Archers, 600, 200));
 
             typeof(Player).GetProperty(nameof(Player.Stamina)).SetValue(defender, 29);
 
@@ -33,9 +30,7 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
             var attacker = new Player(1, "Attacker");
             var defender = new Player(2, "Defender");
 
-            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(attacker, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
-
-            attacker.TrainTroops(600, 200, 0, 0, 0, 0);
+            attacker.Troops.Add(new Troops(TroopType.Archers, 600, 200));
 
             var attack = new Assault(attacker, defender, 10);
             attack.Execute();
@@ -51,8 +46,8 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(attacker, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(defender, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
 
-            attacker.TrainTroops(600, 200, 0, 0, 0, 0);
-            defender.TrainTroops(600, 200, 0, 0, 0, 0);
+            attacker.Troops.Add(new Troops(TroopType.Archers, 600, 200));
+            defender.Troops.Add(new Troops(TroopType.Archers, 600, 200));
 
             typeof(Player).GetProperty(nameof(Player.Stamina)).SetValue(defender, 29);
 
@@ -76,8 +71,8 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(attacker, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(defender, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
 
-            attacker.TrainTroops(600, 200, 0, 0, 0, 0);
-            defender.TrainTroops(400, 100, 0, 0, 0, 0);
+            attacker.Troops.Add(new Troops(TroopType.Archers, 600, 200));
+            defender.Troops.Add(new Troops(TroopType.Archers, 400, 100));
 
             var expectedResources = new Resources(defender.Resources.Gold) * 0.5m * (500m / 800m);
             var previousDefenderResources = defender.Resources;
@@ -125,11 +120,8 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
             defender.Buildings.Add(new Building(defender, BuildingType.Defences, defenceLevel));
 
             typeof(Player).GetProperty(nameof(Player.Stamina)).SetValue(defender, stamina);
-            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(attacker, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
-            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(defender, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
-
-            attacker.TrainTroops(600, 200, 0, 0, 0, 0);
-            defender.TrainTroops(600, 200, 0, 0, 0, 0);
+            attacker.Troops.Add(new Troops(TroopType.Archers, 600, 200));
+            defender.Troops.Add(new Troops(TroopType.Archers, 600, 200));
 
             attack.IsSurrender().Should().Be(expectedResult);
         }
@@ -140,11 +132,8 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
             var defender = new Player(2, "Defender");
             var attack = new Assault(attacker, defender, 10);
 
-            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(attacker, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
-            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(defender, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
-
-            attacker.TrainTroops(600, 200, 0, 0, 0, 0);
-            defender.TrainTroops(150, 25, 0, 0, 0, 0);
+            attacker.Troops.Add(new Troops(TroopType.Archers, 600, 200));
+            defender.Troops.Add(new Troops(TroopType.Archers, 150, 25));
 
             attack.IsSurrender().Should().BeTrue();
         }

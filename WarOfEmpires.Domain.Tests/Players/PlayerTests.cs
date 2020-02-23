@@ -55,7 +55,9 @@ namespace WarOfEmpires.Domain.Tests.Players {
             player.Buildings.Add(new Building(player, BuildingType.Mine, 7));
 
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(100000, 10000, 10000, 10000, 10000));
-            player.TrainTroops(2, 0, 2, 0, 2, 0);
+            player.TrainTroops(TroopType.Archers, 2, 0);
+            player.TrainTroops(TroopType.Cavalry, 2, 0);
+            player.TrainTroops(TroopType.Footmen, 2, 0);
 
             var previousRecruitingEffort = player.CurrentRecruitingEffort;
             var previousPeasants = player.Peasants;
@@ -214,9 +216,8 @@ namespace WarOfEmpires.Domain.Tests.Players {
         [TestMethod]
         public void Player_ProcessTurn_Adds_Resources() {
             var player = new Player(0, "Test");
-            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(100000, 10000, 10000, 10000, 10000));
             player.TrainWorkers(1, 2, 1, 2, 0);
-            player.TrainTroops(0, 1, 0, 0, 0, 0);
+            player.Troops.Add(new Troops(TroopType.Archers, 0, 1));
 
             var previousResources = player.Resources;
 
@@ -336,11 +337,13 @@ namespace WarOfEmpires.Domain.Tests.Players {
                 player.ProcessTurn();
             }
 
-            player.TrainTroops(1, 1, 1, 1, 0, 0);
+            player.Troops.Add(new Troops(TroopType.Archers, 1, 1));
+            player.Troops.Add(new Troops(TroopType.Cavalry, 1, 1));
+            player.Troops.Add(new Troops(TroopType.Footmen, 1, 1));
 
             player.ProcessTurn();
-            player.Archers.Mercenaries.Should().Be(0);
-            player.Cavalry.Mercenaries.Should().Be(0);
+
+            player.Troops.Should().NotContain(t => t.Mercenaries > 0);
         }
 
         [TestMethod]
@@ -414,7 +417,10 @@ namespace WarOfEmpires.Domain.Tests.Players {
             var player = new Player(0, "Test");
             typeof(Player).GetProperty(nameof(Player.Peasants)).SetValue(player, 50);
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(100000, 10000, 10000, 10000, 10000));
-            player.TrainTroops(1, 1, 1, 1, 1, 1);
+            player.TrainTroops(TroopType.Archers, 1, 1);
+            player.TrainTroops(TroopType.Cavalry, 1, 1);
+            player.TrainTroops(TroopType.Footmen, 1, 1);
+
             player.TrainWorkers(1, 1, 1, 1, 1);
 
             player.GetUpkeepPerTurn().Should().Be(new Resources(food: 106, gold: 750));
@@ -431,7 +437,9 @@ namespace WarOfEmpires.Domain.Tests.Players {
             player.Buildings.Add(new Building(player, BuildingType.Defences, 3));
 
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(100000, 10000, 10000, 10000, 10000));
-            player.TrainTroops(2, 0, 2, 0, 2, 0);
+            player.TrainTroops(TroopType.Archers, 2, 0);
+            player.TrainTroops(TroopType.Cavalry, 2, 0);
+            player.TrainTroops(TroopType.Footmen, 2, 0);
 
             player.GetTheoreticalRecruitsPerDay().Should().Be(8);
         }
@@ -467,7 +475,9 @@ namespace WarOfEmpires.Domain.Tests.Players {
             player.Buildings.Add(new Building(player, BuildingType.Defences, 15));
 
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(100000, 10000, 10000, 10000, 10000));
-            player.TrainTroops(2, 0, 2, 0, 2, 0);
+            player.TrainTroops(TroopType.Archers, 2, 0);
+            player.TrainTroops(TroopType.Cavalry, 2, 0);
+            player.TrainTroops(TroopType.Footmen, 2, 0);
 
             player.GetTheoreticalRecruitsPerDay().Should().Be(25);
         }
@@ -546,18 +556,29 @@ namespace WarOfEmpires.Domain.Tests.Players {
         }
 
         [TestMethod]
-        public void Player_TrainTroops_Trains_Troops() {
+        public void Player_TrainTroops_Trains_Troops_Existing_TroopType() {
             var player = new Player(0, "Test");
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(200000, 10000, 10000, 10000, 10000));
 
-            player.TrainTroops(1, 4, 2, 5, 3, 6);
+            player.Troops.Add(new Troops(TroopType.Cavalry, 1, 1));
 
-            player.Archers.Soldiers.Should().Be(1);
-            player.Archers.Mercenaries.Should().Be(4);
-            player.Cavalry.Soldiers.Should().Be(2);
-            player.Cavalry.Mercenaries.Should().Be(5);
-            player.Footmen.Soldiers.Should().Be(3);
-            player.Footmen.Mercenaries.Should().Be(6);
+            player.TrainTroops(TroopType.Cavalry, 1, 4);
+
+            player.Troops.Should().HaveCount(1);
+            player.Troops.Single().Soldiers.Should().Be(2);
+            player.Troops.Single().Mercenaries.Should().Be(5);
+        }
+
+        [TestMethod]
+        public void Player_TrainTroops_Trains_Troops_New_TroopType() {
+            var player = new Player(0, "Test");
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(200000, 10000, 10000, 10000, 10000));
+
+            player.TrainTroops(TroopType.Cavalry, 1, 4);
+
+            player.Troops.Should().HaveCount(1);
+            player.Troops.Single().Soldiers.Should().Be(1);
+            player.Troops.Single().Mercenaries.Should().Be(4);
         }
 
         [TestMethod]
@@ -565,9 +586,9 @@ namespace WarOfEmpires.Domain.Tests.Players {
             var player = new Player(0, "Test");
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(200000, 10000, 10000, 10000, 10000));
 
-            player.TrainTroops(1, 4, 2, 5, 3, 6);
+            player.TrainTroops(TroopType.Cavalry, 1, 4);
 
-            player.Peasants.Should().Be(4);
+            player.Peasants.Should().Be(9);
         }
 
         [TestMethod]
@@ -575,7 +596,9 @@ namespace WarOfEmpires.Domain.Tests.Players {
             var player = new Player(0, "Test");
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(200000, 10000, 10000, 10000, 10000));
 
-            player.TrainTroops(1, 4, 2, 5, 3, 6);
+            player.TrainTroops(TroopType.Archers, 1, 4);
+            player.TrainTroops(TroopType.Cavalry, 2, 5);
+            player.TrainTroops(TroopType.Footmen, 3, 6);
 
             player.Resources.Should().Be(new Resources(95000, 10000, 7500, 10000, 3500));
         }
@@ -584,8 +607,8 @@ namespace WarOfEmpires.Domain.Tests.Players {
         public void Player_UntrainTroops_Removes_Troops() {
             var player = new Player(0, "Test");
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(200000, 10000, 10000, 10000, 10000));
+            player.TrainTroops(TroopType.Archers, 2, 5);
 
-            player.TrainTroops(2, 5, 3, 6, 4, 7);
             player.UntrainTroops(TroopType.Archers, 1, 4);
             
             player.Troops.Single(t => t.Type == TroopType.Archers).Soldiers.Should().Be(1);
@@ -596,25 +619,21 @@ namespace WarOfEmpires.Domain.Tests.Players {
         public void Player_UntrainTroops_Adds_Peasants() {
             var player = new Player(0, "Test");
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(200000, 10000, 10000, 10000, 10000));
+            player.TrainTroops(TroopType.Archers, 2, 5);
 
-            player.TrainTroops(2, 5, 3, 6, 4, 7);
             player.UntrainTroops(TroopType.Archers, 1, 4);
 
-            player.Peasants.Should().Be(2);
+            player.Peasants.Should().Be(9);
         }
 
         [TestMethod]
         public void Player_GetArcherInfo_Succeeds() {
             var player = new Player(0, "Test");
-            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(1000000, 100000, 100000, 100000, 100000));
-
-            player.UpgradeBuilding(BuildingType.Armoury);
-            player.UpgradeBuilding(BuildingType.Forge);
-            player.UpgradeBuilding(BuildingType.Forge);
-            player.UpgradeBuilding(BuildingType.ArcheryRange);
-            player.UpgradeBuilding(BuildingType.ArcheryRange);
-            player.UpgradeBuilding(BuildingType.ArcheryRange);
-            player.TrainTroops(2, 5, 3, 6, 4, 7);
+            
+            player.Buildings.Add(new Building(player, BuildingType.Armoury, 1));
+            player.Buildings.Add(new Building(player, BuildingType.Forge, 2));
+            player.Buildings.Add(new Building(player, BuildingType.ArcheryRange, 3));
+            player.Troops.Add(new Troops(TroopType.Archers, 2, 5));
 
             var result = player.GetArcherInfo();
 
@@ -625,15 +644,11 @@ namespace WarOfEmpires.Domain.Tests.Players {
         [TestMethod]
         public void Player_GetCavalryInfo_Succeeds() {
             var player = new Player(0, "Test");
-            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(1000000, 100000, 100000, 100000, 100000));
 
-            player.UpgradeBuilding(BuildingType.Armoury);
-            player.UpgradeBuilding(BuildingType.Forge);
-            player.UpgradeBuilding(BuildingType.Forge);
-            player.UpgradeBuilding(BuildingType.CavalryRange);
-            player.UpgradeBuilding(BuildingType.CavalryRange);
-            player.UpgradeBuilding(BuildingType.CavalryRange);
-            player.TrainTroops(2, 5, 3, 6, 4, 7);
+            player.Buildings.Add(new Building(player, BuildingType.Armoury, 1));
+            player.Buildings.Add(new Building(player, BuildingType.Forge, 2));
+            player.Buildings.Add(new Building(player, BuildingType.CavalryRange, 3));
+            player.Troops.Add(new Troops(TroopType.Cavalry, 3, 6));
 
             var result = player.GetCavalryInfo();
 
@@ -644,15 +659,11 @@ namespace WarOfEmpires.Domain.Tests.Players {
         [TestMethod]
         public void Player_GetFootmanInfo_Succeeds() {
             var player = new Player(0, "Test");
-            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(1000000, 100000, 100000, 100000, 100000));
 
-            player.UpgradeBuilding(BuildingType.Armoury);
-            player.UpgradeBuilding(BuildingType.Forge);
-            player.UpgradeBuilding(BuildingType.Forge);
-            player.UpgradeBuilding(BuildingType.FootmanRange);
-            player.UpgradeBuilding(BuildingType.FootmanRange);
-            player.UpgradeBuilding(BuildingType.FootmanRange);
-            player.TrainTroops(2, 5, 3, 6, 4, 7);
+            player.Buildings.Add(new Building(player, BuildingType.Armoury, 1));
+            player.Buildings.Add(new Building(player, BuildingType.Forge, 2));
+            player.Buildings.Add(new Building(player, BuildingType.FootmanRange, 3));
+            player.Troops.Add(new Troops(TroopType.Footmen, 4, 7));
 
             var result = player.GetFootmanInfo();
 
@@ -663,9 +674,10 @@ namespace WarOfEmpires.Domain.Tests.Players {
         [TestMethod]
         public void Player_ProcessAttackDamage_Reduces_Stamina() {
             var player = new Player(0, "Test");
-            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
 
-            player.TrainTroops(150, 50, 150, 50, 150, 50);
+            player.Troops.Add(new Troops(TroopType.Archers, 150, 50));
+            player.Troops.Add(new Troops(TroopType.Cavalry, 150, 50));
+            player.Troops.Add(new Troops(TroopType.Footmen, 150, 50));
 
             var damage = player.GetArcherInfo().GetTotalDefense() + player.GetCavalryInfo().GetTotalDefense() + player.GetFootmanInfo().GetTotalDefense();
 
@@ -677,9 +689,10 @@ namespace WarOfEmpires.Domain.Tests.Players {
         [TestMethod]
         public void Player_ProcessAttackDamage_Reduces_Troops() {
             var player = new Player(0, "Test");
-            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
 
-            player.TrainTroops(150, 50, 150, 50, 150, 50);
+            player.Troops.Add(new Troops(TroopType.Archers, 150, 50));
+            player.Troops.Add(new Troops(TroopType.Cavalry, 150, 50));
+            player.Troops.Add(new Troops(TroopType.Footmen, 150, 50));
 
             var damage = player.GetArcherInfo().GetTotalDefense() + player.GetCavalryInfo().GetTotalDefense() + player.GetFootmanInfo().GetTotalDefense();
 
@@ -696,9 +709,10 @@ namespace WarOfEmpires.Domain.Tests.Players {
         [TestMethod]
         public void Player_ProcessAttackDamage_Returns_Casualties() {
             var player = new Player(0, "Test");
-            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
 
-            player.TrainTroops(150, 50, 150, 50, 150, 50);
+            player.Troops.Add(new Troops(TroopType.Archers, 150, 50));
+            player.Troops.Add(new Troops(TroopType.Cavalry, 150, 50));
+            player.Troops.Add(new Troops(TroopType.Footmen, 150, 50));
 
             var damage = player.GetArcherInfo().GetTotalDefense() + player.GetCavalryInfo().GetTotalDefense() + player.GetFootmanInfo().GetTotalDefense();
 
@@ -957,10 +971,12 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_HealTroops_Succeeds() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test");            
+            player.Troops.Add(new Troops(TroopType.Archers, 30, 10));
+            player.Troops.Add(new Troops(TroopType.Cavalry, 20, 10));
+            player.Troops.Add(new Troops(TroopType.Footmen, 20, 10));
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(1000000, 100000, 100000, 100000, 100000));
             typeof(Player).GetProperty(nameof(Player.Stamina)).SetValue(player, 90);
-            player.TrainTroops(30, 10, 20, 10, 20, 10);
             var previousResources = player.Resources;
             player.HealTroops(10);
             player.Stamina.Should().Be(100);
