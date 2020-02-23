@@ -484,16 +484,15 @@ namespace WarOfEmpires.Domain.Players {
                 + mercenaries * MercenaryTrainingCost);
         }
 
-        public virtual void UntrainTroops(int archers, int mercenaryArchers, int cavalry, int mercenaryCavalry, int footmen, int mercenaryFootmen) {
-            Archers.Untrain(archers, mercenaryArchers);
-            Cavalry.Untrain(cavalry, mercenaryCavalry);
-            Footmen.Untrain(footmen, mercenaryFootmen);
+        public virtual void UntrainTroops(TroopType type, int soldiers, int mercenaries) {
+            Troops.SingleOrDefault(t => t.Type == type).Untrain(soldiers, mercenaries);
 
-            Peasants += archers + cavalry + footmen;
+            Peasants += soldiers;
         }
 
         public virtual void HealTroops(int staminaToHeal) {
-            var troops = Archers.GetTotals() + Cavalry.GetTotals() + Footmen.GetTotals();
+            var troops = Troops.Sum(t => t.GetTotals());
+
             Stamina += staminaToHeal;
             SpendResources(troops * HealCostPerTroopPerTurn * staminaToHeal);
         }

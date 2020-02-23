@@ -586,14 +586,10 @@ namespace WarOfEmpires.Domain.Tests.Players {
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(200000, 10000, 10000, 10000, 10000));
 
             player.TrainTroops(2, 5, 3, 6, 4, 7);
-            player.UntrainTroops(1, 4, 2, 5, 3, 6);
+            player.UntrainTroops(TroopType.Archers, 1, 4);
             
-            player.Archers.Soldiers.Should().Be(1);
-            player.Archers.Mercenaries.Should().Be(1);
-            player.Cavalry.Soldiers.Should().Be(1);
-            player.Cavalry.Mercenaries.Should().Be(1);
-            player.Footmen.Soldiers.Should().Be(1);
-            player.Footmen.Mercenaries.Should().Be(1);
+            player.Troops.Single(t => t.Type == TroopType.Archers).Soldiers.Should().Be(1);
+            player.Troops.Single(t => t.Type == TroopType.Archers).Mercenaries.Should().Be(1);
         }
 
         [TestMethod]
@@ -602,9 +598,9 @@ namespace WarOfEmpires.Domain.Tests.Players {
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(200000, 10000, 10000, 10000, 10000));
 
             player.TrainTroops(2, 5, 3, 6, 4, 7);
-            player.UntrainTroops(1, 4, 2, 5, 3, 6);
+            player.UntrainTroops(TroopType.Archers, 1, 4);
 
-            player.Peasants.Should().Be(7);
+            player.Peasants.Should().Be(2);
         }
 
         [TestMethod]

@@ -1,5 +1,6 @@
 ﻿using WarOfEmpires.CommandHandlers.Decorators;
 using WarOfEmpires.Commands.Empires;
+using WarOfEmpires.Domain.Attacks;
 using WarOfEmpires.Repositories.Players;
 using WarOfEmpires.Utilities.Container;
 
@@ -72,7 +73,9 @@ namespace WarOfEmpires.CommandHandlers.Empires {
             }
 
             if (result.Success) {
-                player.UntrainTroops(archers, mercenaryArchers, cavalry, mercenaryCavalry, footmen, mercenaryFootmen);
+                player.UntrainTroops(TroopType.Archers, archers, mercenaryArchers);
+                player.UntrainTroops(TroopType.Cavalry, cavalry, mercenaryCavalry);
+                player.UntrainTroops(TroopType.Footmen, footmen, mercenaryFootmen);
                 _repository.Update();
             }
 

@@ -42,7 +42,9 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
             var result = handler.Execute(command);
 
             result.Success.Should().BeTrue();
-            _player.Received().UntrainTroops(0, 1, 2, 3, 4, 5);
+            _player.Received().UntrainTroops(TroopType.Archers, 0, 1);
+            _player.Received().UntrainTroops(TroopType.Cavalry, 2, 3);
+            _player.Received().UntrainTroops(TroopType.Footmen, 4, 5);
             _context.CallsToSaveChanges.Should().Be(1);
         }
 
@@ -54,7 +56,9 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
             var result = handler.Execute(command);
 
             result.Success.Should().BeTrue();
-            _player.Received().UntrainTroops(0, 0, 0, 0, 0, 0);
+            _player.Received().UntrainTroops(TroopType.Archers, 0, 0);
+            _player.Received().UntrainTroops(TroopType.Cavalry, 0, 0);
+            _player.Received().UntrainTroops(TroopType.Footmen, 0, 0);
         }
 
         [TestMethod]
@@ -67,7 +71,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
             result.Errors.Should().HaveCount(1);
             result.Errors[0].Expression.ToString().Should().Be("c => c.Archers");
             result.Errors[0].Message.Should().Be("Archers must be a valid number");
-            _player.DidNotReceiveWithAnyArgs().UntrainTroops(default, default, default, default, default, default);
+            _player.DidNotReceiveWithAnyArgs().UntrainTroops(default, default, default);
         }
 
         [TestMethod]
@@ -80,7 +84,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
             result.Errors.Should().HaveCount(1);
             result.Errors[0].Expression.ToString().Should().Be("c => c.MercenaryArchers");
             result.Errors[0].Message.Should().Be("Archer mercenaries must be a valid number");
-            _player.DidNotReceiveWithAnyArgs().UntrainTroops(default, default, default, default, default, default);
+            _player.DidNotReceiveWithAnyArgs().UntrainTroops(default, default, default);
         }
 
         [TestMethod]
@@ -93,7 +97,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
             result.Errors.Should().HaveCount(1);
             result.Errors[0].Expression.ToString().Should().Be("c => c.Cavalry");
             result.Errors[0].Message.Should().Be("Cavalry must be a valid number");
-            _player.DidNotReceiveWithAnyArgs().UntrainTroops(default, default, default, default, default, default);
+            _player.DidNotReceiveWithAnyArgs().UntrainTroops(default, default, default);
         }
 
         [TestMethod]
@@ -106,7 +110,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
             result.Errors.Should().HaveCount(1);
             result.Errors[0].Expression.ToString().Should().Be("c => c.MercenaryCavalry");
             result.Errors[0].Message.Should().Be("Cavalry mercenaries must be a valid number");
-            _player.DidNotReceiveWithAnyArgs().UntrainTroops(default, default, default, default, default, default);
+            _player.DidNotReceiveWithAnyArgs().UntrainTroops(default, default, default);
         }
 
         [TestMethod]
@@ -119,7 +123,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
             result.Errors.Should().HaveCount(1);
             result.Errors[0].Expression.ToString().Should().Be("c => c.Footmen");
             result.Errors[0].Message.Should().Be("Footmen must be a valid number");
-            _player.DidNotReceiveWithAnyArgs().UntrainTroops(default, default, default, default, default, default);
+            _player.DidNotReceiveWithAnyArgs().UntrainTroops(default, default, default);
         }
 
         [TestMethod]
@@ -132,7 +136,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
             result.Errors.Should().HaveCount(1);
             result.Errors[0].Expression.ToString().Should().Be("c => c.MercenaryFootmen");
             result.Errors[0].Message.Should().Be("Footman mercenaries must be a valid number");
-            _player.DidNotReceiveWithAnyArgs().UntrainTroops(default, default, default, default, default, default);
+            _player.DidNotReceiveWithAnyArgs().UntrainTroops(default, default, default);
         }
 
         [TestMethod]
@@ -145,7 +149,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
             result.Errors.Should().HaveCount(1);
             result.Errors[0].Expression.ToString().Should().Be("c => c.Archers");
             result.Errors[0].Message.Should().Be("You don't have that many archers to untrain");
-            _player.DidNotReceiveWithAnyArgs().UntrainTroops(default, default, default, default, default, default);
+            _player.DidNotReceiveWithAnyArgs().UntrainTroops(default, default, default);
         }
 
         [TestMethod]
@@ -158,7 +162,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
             result.Errors.Should().HaveCount(1);
             result.Errors[0].Expression.ToString().Should().Be("c => c.MercenaryArchers");
             result.Errors[0].Message.Should().Be("You don't have that many archer mercenaries to untrain");
-            _player.DidNotReceiveWithAnyArgs().UntrainTroops(default, default, default, default, default, default);
+            _player.DidNotReceiveWithAnyArgs().UntrainTroops(default, default, default);
         }
 
         [TestMethod]
@@ -171,7 +175,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
             result.Errors.Should().HaveCount(1);
             result.Errors[0].Expression.ToString().Should().Be("c => c.Cavalry");
             result.Errors[0].Message.Should().Be("You don't have that many cavalry units to untrain");
-            _player.DidNotReceiveWithAnyArgs().UntrainTroops(default, default, default, default, default, default);
+            _player.DidNotReceiveWithAnyArgs().UntrainTroops(default, default, default);
         }
 
         [TestMethod]
@@ -184,7 +188,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
             result.Errors.Should().HaveCount(1);
             result.Errors[0].Expression.ToString().Should().Be("c => c.MercenaryCavalry");
             result.Errors[0].Message.Should().Be("You don't have that many cavalry mercenaries to untrain");
-            _player.DidNotReceiveWithAnyArgs().UntrainTroops(default, default, default, default, default, default);
+            _player.DidNotReceiveWithAnyArgs().UntrainTroops(default, default, default);
         }
 
         [TestMethod]
@@ -197,7 +201,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
             result.Errors.Should().HaveCount(1);
             result.Errors[0].Expression.ToString().Should().Be("c => c.Footmen");
             result.Errors[0].Message.Should().Be("You don't have that many footmen to untrain");
-            _player.DidNotReceiveWithAnyArgs().UntrainTroops(default, default, default, default, default, default);
+            _player.DidNotReceiveWithAnyArgs().UntrainTroops(default, default, default);
         }
 
         [TestMethod]
@@ -210,7 +214,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
             result.Errors.Should().HaveCount(1);
             result.Errors[0].Expression.ToString().Should().Be("c => c.MercenaryFootmen");
             result.Errors[0].Message.Should().Be("You don't have that many footman mercenaries to untrain");
-            _player.DidNotReceiveWithAnyArgs().UntrainTroops(default, default, default, default, default, default);
+            _player.DidNotReceiveWithAnyArgs().UntrainTroops(default, default, default);
         }
 
         [TestMethod]
@@ -223,7 +227,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
             result.Errors.Should().HaveCount(1);
             result.Errors[0].Expression.ToString().Should().Be("c => c.Archers");
             result.Errors[0].Message.Should().Be("Archers must be a valid number");
-            _player.DidNotReceiveWithAnyArgs().UntrainTroops(default, default, default, default, default, default);
+            _player.DidNotReceiveWithAnyArgs().UntrainTroops(default, default, default);
         }
 
         [TestMethod]
@@ -236,7 +240,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
             result.Errors.Should().HaveCount(1);
             result.Errors[0].Expression.ToString().Should().Be("c => c.MercenaryArchers");
             result.Errors[0].Message.Should().Be("Archer mercenaries must be a valid number");
-            _player.DidNotReceiveWithAnyArgs().UntrainTroops(default, default, default, default, default, default);
+            _player.DidNotReceiveWithAnyArgs().UntrainTroops(default, default, default);
         }
 
         [TestMethod]
@@ -249,7 +253,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
             result.Errors.Should().HaveCount(1);
             result.Errors[0].Expression.ToString().Should().Be("c => c.Cavalry");
             result.Errors[0].Message.Should().Be("Cavalry must be a valid number");
-            _player.DidNotReceiveWithAnyArgs().UntrainTroops(default, default, default, default, default, default);
+            _player.DidNotReceiveWithAnyArgs().UntrainTroops(default, default, default);
         }
 
         [TestMethod]
@@ -262,7 +266,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
             result.Errors.Should().HaveCount(1);
             result.Errors[0].Expression.ToString().Should().Be("c => c.MercenaryCavalry");
             result.Errors[0].Message.Should().Be("Cavalry mercenaries must be a valid number");
-            _player.DidNotReceiveWithAnyArgs().UntrainTroops(default, default, default, default, default, default);
+            _player.DidNotReceiveWithAnyArgs().UntrainTroops(default, default, default);
         }
 
         [TestMethod]
@@ -275,7 +279,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
             result.Errors.Should().HaveCount(1);
             result.Errors[0].Expression.ToString().Should().Be("c => c.Footmen");
             result.Errors[0].Message.Should().Be("Footmen must be a valid number");
-            _player.DidNotReceiveWithAnyArgs().UntrainTroops(default, default, default, default, default, default);
+            _player.DidNotReceiveWithAnyArgs().UntrainTroops(default, default, default);
         }
 
         [TestMethod]
@@ -288,7 +292,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
             result.Errors.Should().HaveCount(1);
             result.Errors[0].Expression.ToString().Should().Be("c => c.MercenaryFootmen");
             result.Errors[0].Message.Should().Be("Footman mercenaries must be a valid number");
-            _player.DidNotReceiveWithAnyArgs().UntrainTroops(default, default, default, default, default, default);
+            _player.DidNotReceiveWithAnyArgs().UntrainTroops(default, default, default);
         }
     }
 }
