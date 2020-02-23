@@ -17,12 +17,6 @@ namespace WarOfEmpires.Domain.Players {
 
         public static Resources WorkerTrainingCost = new Resources(gold: 250);
         public static Resources SiegeEngineerTrainingCost = new Resources(gold: 2500, wood: 250, ore: 500);
-        [Obsolete]
-        public static Resources ArcherTrainingCost = new Resources(gold: 5000, wood: 1000, ore: 500);
-        [Obsolete]
-        public static Resources CavalryTrainingCost = new Resources(gold: 5000, ore: 1500);
-        [Obsolete]
-        public static Resources FootmanTrainingCost = new Resources(gold: 5000, wood: 500, ore: 1000);
         public static Resources MercenaryTrainingCost = new Resources(gold: 5000);
 
         public static Resources PeasantUpkeep = new Resources(food: 2);
@@ -45,72 +39,6 @@ namespace WarOfEmpires.Domain.Players {
         public virtual Resources Resources { get; protected set; } = new Resources(10000, 2000, 2000, 2000, 2000);
         public virtual Resources BankedResources { get; protected set; } = new Resources();
         public virtual int Tax { get; set; } = 50;
-        [Obsolete]
-        public virtual Troops Archers {
-            get {
-                var troops = Troops.SingleOrDefault(t => t.Type == TroopType.Archers);
-
-                if (troops == null) {
-                    troops = new Troops(TroopType.Archers, 0, 0);
-                    Troops.Add(troops);
-                }
-
-                return troops;
-            }
-            protected set {
-                var troops = Troops.SingleOrDefault(t => t.Type == TroopType.Archers);
-
-                if (troops != null) {
-                    Troops.Remove(troops);
-                }
-
-                Troops.Add(new Troops(TroopType.Archers, value.Soldiers, value.Mercenaries));
-            }
-        }
-        [Obsolete]
-        public virtual Troops Cavalry {
-            get {
-                var troops = Troops.SingleOrDefault(t => t.Type == TroopType.Cavalry);
-
-                if (troops == null) {
-                    troops = new Troops(TroopType.Cavalry, 0, 0);
-                    Troops.Add(troops);
-                }
-
-                return troops;
-            }
-            protected set {
-                var troops = Troops.SingleOrDefault(t => t.Type == TroopType.Cavalry);
-
-                if (troops != null) {
-                    Troops.Remove(troops);
-                }
-
-                Troops.Add(new Troops(TroopType.Cavalry, value.Soldiers, value.Mercenaries));
-            }
-        }
-        [Obsolete]
-        public virtual Troops Footmen {
-            get {
-                var troops = Troops.SingleOrDefault(t => t.Type == TroopType.Footmen);
-
-                if (troops == null) {
-                    troops = new Troops(TroopType.Footmen, 0, 0);
-                    Troops.Add(troops);
-                }
-
-                return troops;
-            }
-            protected set {
-                var troops = Troops.SingleOrDefault(t => t.Type == TroopType.Footmen);
-
-                if (troops != null) {
-                    Troops.Remove(troops);
-                }
-
-                Troops.Add(new Troops(TroopType.Footmen, value.Soldiers, value.Mercenaries));
-            }
-        }
         public virtual int AttackTurns { get; protected set; } = 50;
         public virtual int BankTurns { get; protected set; } = 6;
         public virtual int Stamina { get; protected set; } = 100;
