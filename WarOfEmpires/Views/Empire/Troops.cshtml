@@ -12,9 +12,9 @@
 
 <ul>
     <li>Peasants available for training: @Model.CurrentPeasants.ToString(StringFormat.Integer)</li>
-    <li>Archer training cost: @Html.DisplayFor(m => m.ArcherTrainingCost)</li>
-    <li>Cavalry training cost: @Html.DisplayFor(m => m.CavalryTrainingCost)</li>
-    <li>Footman training cost: @Html.DisplayFor(m => m.FootmanTrainingCost)</li>
+    <li>Archer training cost: @Html.DisplayFor(m => m.ArcherInfo.Cost)</li>
+    <li>Cavalry training cost: @Html.DisplayFor(m => m.CavalryInfo.Cost)</li>
+    <li>Footman training cost: @Html.DisplayFor(m => m.FootmanInfo.Cost)</li>
     <li>Mercenary training cost: @Html.DisplayFor(m => m.MercenaryTrainingCost)</li>
 
     @if (Model.HasUpkeepRunOut) {
@@ -36,15 +36,15 @@
     @Html.ValidationSummary(true, null, new { @class = "site-validation-summary text-danger" })
     @Html.HiddenFor(m => m.Command)
     @Html.HiddenFor(m => m.CurrentPeasants)
-    @Html.HiddenFor(m => m.CurrentArchers)
-    @Html.HiddenFor(m => m.CurrentMercenaryArchers)
-    @Html.HiddenFor(m => m.CurrentCavalry)
-    @Html.HiddenFor(m => m.CurrentMercenaryCavalry)
-    @Html.HiddenFor(m => m.CurrentFootmen)
-    @Html.HiddenFor(m => m.CurrentMercenaryFootmen)
-    @Html.HiddenFor(m => m.ArcherTrainingCost)
-    @Html.HiddenFor(m => m.CavalryTrainingCost)
-    @Html.HiddenFor(m => m.FootmanTrainingCost)
+    @Html.HiddenFor(m => m.ArcherInfo.Cost)
+    @Html.HiddenFor(m => m.ArcherInfo.CurrentSoldiers)
+    @Html.HiddenFor(m => m.ArcherInfo.CurrentMercenaries)
+    @Html.HiddenFor(m => m.CavalryInfo.Cost)
+    @Html.HiddenFor(m => m.CavalryInfo.CurrentSoldiers)
+    @Html.HiddenFor(m => m.CavalryInfo.CurrentMercenaries)
+    @Html.HiddenFor(m => m.FootmanInfo.Cost)
+    @Html.HiddenFor(m => m.FootmanInfo.CurrentSoldiers)
+    @Html.HiddenFor(m => m.FootmanInfo.CurrentMercenaries)
     @Html.HiddenFor(m => m.MercenaryTrainingCost)
     @Html.HiddenFor(m => m.CurrentStamina)
 
@@ -87,10 +87,10 @@
             @Html.LabelFor(m => m.Archers)
         </div>
         <div class="col-2 col-form-label">
-            @Model.CurrentArchers.ToString(StringFormat.Integer)
+            @Model.ArcherInfo.CurrentSoldiers.ToString(StringFormat.Integer)
         </div>
         <div class="col-2 col-form-label">
-            @Model.CurrentMercenaryArchers.ToString(StringFormat.Integer)
+            @Model.ArcherInfo.CurrentMercenaries.ToString(StringFormat.Integer)
         </div>
         <div class="col-2">
             @Html.TextBoxFor(m => m.Archers, new { @class = "form-control" })
@@ -107,10 +107,10 @@
             @Html.LabelFor(m => m.Cavalry)
         </div>
         <div class="col-2 col-form-label">
-            @Model.CurrentCavalry.ToString(StringFormat.Integer)
+            @Model.CavalryInfo.CurrentSoldiers.ToString(StringFormat.Integer)
         </div>
         <div class="col-2 col-form-label">
-            @Model.CurrentMercenaryCavalry.ToString(StringFormat.Integer)
+            @Model.CavalryInfo.CurrentMercenaries.ToString(StringFormat.Integer)
         </div>
         <div class="col-2">
             @Html.TextBoxFor(m => m.Cavalry, new { @class = "form-control" })
@@ -127,10 +127,10 @@
             @Html.LabelFor(m => m.Footmen)
         </div>
         <div class="col-2 col-form-label">
-            @Model.CurrentFootmen.ToString(StringFormat.Integer)
+            @Model.FootmanInfo.CurrentSoldiers.ToString(StringFormat.Integer)
         </div>
         <div class="col-2 col-form-label">
-            @Model.CurrentMercenaryFootmen.ToString(StringFormat.Integer)
+            @Model.FootmanInfo.CurrentMercenaries.ToString(StringFormat.Integer)
         </div>
         <div class="col-2">
             @Html.TextBoxFor(m => m.Footmen, new { @class = "form-control" })

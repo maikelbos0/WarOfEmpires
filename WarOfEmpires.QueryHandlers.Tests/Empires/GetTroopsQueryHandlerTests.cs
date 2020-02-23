@@ -26,9 +26,9 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
             player.User.Returns(user);
             player.Id.Returns(1);
             player.Peasants.Returns(1);
-            player.Archers.Returns(new Troops(7, 6));
-            player.Cavalry.Returns(new Troops(5, 4));
-            player.Footmen.Returns(new Troops(3, 2));
+            player.GetTroops(TroopType.Archers).Returns(new Troops(TroopType.Archers, 7, 6));
+            player.GetTroops(TroopType.Cavalry).Returns(new Troops(TroopType.Cavalry, 5, 4));
+            player.GetTroops(TroopType.Footmen).Returns(new Troops(TroopType.Footmen, 3, 2));
             player.GetUpkeepPerTurn().Returns(new Resources(gold: 500, food: 30));
             player.GetTotalResources().Returns(new Resources(gold: 1000, food: 100));
             player.GetResourcesPerTurn().Returns(new Resources(gold: 400, food: 20));
@@ -57,12 +57,12 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
 
             var result = handler.Execute(query);
 
-            result.CurrentArchers.Should().Be(7);
-            result.CurrentMercenaryArchers.Should().Be(6);
-            result.CurrentCavalry.Should().Be(5);
-            result.CurrentMercenaryCavalry.Should().Be(4);
-            result.CurrentFootmen.Should().Be(3);
-            result.CurrentMercenaryFootmen.Should().Be(2);
+            result.ArcherInfo.CurrentSoldiers.Should().Be(7);
+            result.ArcherInfo.CurrentMercenaries.Should().Be(6);
+            result.CavalryInfo.CurrentSoldiers.Should().Be(5);
+            result.CavalryInfo.CurrentMercenaries.Should().Be(4);
+            result.FootmanInfo.CurrentSoldiers.Should().Be(3);
+            result.FootmanInfo.CurrentMercenaries.Should().Be(2);
         }
 
         [TestMethod]
@@ -72,15 +72,15 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
 
             var result = handler.Execute(query);
 
-            result.ArcherTrainingCost.Gold.Should().Be(5000);
-            result.ArcherTrainingCost.Wood.Should().Be(1000);
-            result.ArcherTrainingCost.Ore.Should().Be(500);
-            result.CavalryTrainingCost.Gold.Should().Be(5000);
-            result.CavalryTrainingCost.Wood.Should().Be(0);
-            result.CavalryTrainingCost.Ore.Should().Be(1500);
-            result.FootmanTrainingCost.Gold.Should().Be(5000);
-            result.FootmanTrainingCost.Wood.Should().Be(500);
-            result.FootmanTrainingCost.Ore.Should().Be(1000);
+            result.ArcherInfo.Cost.Gold.Should().Be(5000);
+            result.ArcherInfo.Cost.Wood.Should().Be(1000);
+            result.ArcherInfo.Cost.Ore.Should().Be(500);
+            result.CavalryInfo.Cost.Gold.Should().Be(5000);
+            result.CavalryInfo.Cost.Wood.Should().Be(0);
+            result.CavalryInfo.Cost.Ore.Should().Be(1500);
+            result.FootmanInfo.Cost.Gold.Should().Be(5000);
+            result.FootmanInfo.Cost.Wood.Should().Be(500);
+            result.FootmanInfo.Cost.Ore.Should().Be(1000);
             result.MercenaryTrainingCost.Gold.Should().Be(5000);
             result.WillUpkeepRunOut.Should().BeTrue();
             result.HasUpkeepRunOut.Should().BeTrue();
@@ -103,7 +103,6 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
             var handler = new GetTroopsQueryHandler(_context, new ResourcesMap());
             var result = handler.Execute(query);
             result.StaminaToHeal.Should().Be("0");
-
         }
     }
 }
