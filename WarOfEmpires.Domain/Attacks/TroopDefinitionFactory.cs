@@ -13,15 +13,15 @@ namespace WarOfEmpires.Domain.Attacks {
         }
         
         private static TroopDefinition GenerateArchers() {
-            return new TroopDefinition(TroopType.Archers, BuildingType.ArcheryRange, 50, 30, new Resources(gold: 5000, wood: 1000, ore: 500), "Archers");
+            return new TroopDefinition(TroopType.Archers, BuildingType.ArcheryRange, 50, 30, new Resources(gold: 5000, wood: 1000, ore: 500));
         }
 
         private static TroopDefinition GenerateCavalry() {
-            return new TroopDefinition(TroopType.Cavalry, BuildingType.CavalryRange, 45, 35, new Resources(gold: 5000, ore: 1500), "Cavalry");
+            return new TroopDefinition(TroopType.Cavalry, BuildingType.CavalryRange, 45, 35, new Resources(gold: 5000, ore: 1500));
         }
 
         private static TroopDefinition GenerateFootmen() {
-            return new TroopDefinition(TroopType.Footmen, BuildingType.FootmanRange, 40, 40, new Resources(gold: 5000, wood: 500, ore: 1000), "Footmen");
+            return new TroopDefinition(TroopType.Footmen, BuildingType.FootmanRange, 40, 40, new Resources(gold: 5000, wood: 500, ore: 1000));
         }
 
         public static TroopDefinition Get(TroopType type) {
