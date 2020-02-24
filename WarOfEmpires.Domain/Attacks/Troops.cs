@@ -8,16 +8,13 @@ namespace WarOfEmpires.Domain.Attacks {
 
         private Troops() { }
 
-        public Troops(int soldiers, int mercenaries) {
+        public Troops(TroopType type, int soldiers, int mercenaries) {
             if (soldiers < 0) throw new ArgumentOutOfRangeException("soldiers", "Negative values are not allowed");
             if (mercenaries < 0) throw new ArgumentOutOfRangeException("mercenaries", "Negative values are not allowed");
 
+            Type = type;
             Soldiers = soldiers;
             Mercenaries = mercenaries;
-        }
-
-        public Troops(TroopType type, int soldiers, int mercenaries) : this(soldiers, mercenaries) {
-            Type = type;
         }
 
         public int GetTotals() {
@@ -28,20 +25,20 @@ namespace WarOfEmpires.Domain.Attacks {
             var mercenaryCasualties = Math.Min(Mercenaries, casualties);
             var soldierCasualties = Math.Min(Soldiers, casualties - mercenaryCasualties);
 
-            Mercenaries -= mercenaryCasualties;
             Soldiers -= soldierCasualties;
+            Mercenaries -= mercenaryCasualties;
 
             return new Casualties(Type, soldierCasualties, mercenaryCasualties);
         }
 
         public void Train(int soldiers, int mercenaries) {
-            Mercenaries += mercenaries;
             Soldiers += soldiers;
+            Mercenaries += mercenaries;
         }
 
         public void Untrain(int soldiers, int mercenaries) {
-            Mercenaries -= mercenaries;
             Soldiers -= soldiers;
+            Mercenaries -= mercenaries;
         }
     }
 }

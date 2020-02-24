@@ -10,17 +10,18 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
         [DataRow(0, 0, DisplayName = "Empty")]
         [DataRow(10, 10, DisplayName = "Not empty")]
         public void Troops_Constructor_Succeeds(int soldiers, int mercenaries) {
-            var troops = new Troops(soldiers, mercenaries);
+            var troops = new Troops(TroopType.Archers, soldiers, mercenaries);
 
             troops.Soldiers.Should().Be(soldiers);
             troops.Mercenaries.Should().Be(mercenaries);
+            troops.Type.Should().Be(TroopType.Archers);
         }
 
         [DataTestMethod]
         [DataRow(-1, 0, DisplayName = "Soldiers")]
         [DataRow(0, -1, DisplayName = "Mercenaries")]
         public void Troops_Constructor_Throws_Exception_For_Negative_Values(int soldiers, int mercenaries) {
-            Action action = () => new Troops(soldiers, mercenaries);
+            Action action = () => new Troops(TroopType.Archers, soldiers, mercenaries);
 
             action.Should().Throw<ArgumentOutOfRangeException>();
         }
@@ -34,7 +35,7 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
         [DataRow(15, 5, 20, 15, 5, DisplayName = "All soldiers")]
         [DataRow(15, 5, 25, 15, 5, DisplayName = "Too many")]
         public void Troops_ProcessCasualties_Succeeds(int soldiers, int mercenaries, int casualties, int expectedSoldierCasualties, int expectedMercenaryCasualties) {
-            var troops = new Troops(soldiers, mercenaries);
+            var troops = new Troops(TroopType.Archers, soldiers, mercenaries);
             var result = troops.ProcessCasualties(casualties);
 
             result.Soldiers.Should().Be(expectedSoldierCasualties);
@@ -46,7 +47,7 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
 
         [TestMethod]
         public void Troops_Train_Succeeds() {
-            var troops = new Troops(15, 5);
+            var troops = new Troops(TroopType.Archers, 15, 5);
 
             troops.Train(3, 1);
 
@@ -56,7 +57,7 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
 
         [TestMethod]
         public void Troops_Untrain_Succeeds() {
-            var troops = new Troops(15, 5);
+            var troops = new Troops(TroopType.Archers, 15, 5);
 
             troops.Untrain(3, 1);
 
@@ -66,7 +67,7 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
 
         [TestMethod]
         public void Troops_GetTotals_Succeeds() {
-            var troops = new Troops(5, 2);
+            var troops = new Troops(TroopType.Archers, 5, 2);
 
             troops.GetTotals().Should().Be(7);
         }
