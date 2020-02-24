@@ -574,11 +574,13 @@ namespace WarOfEmpires.Domain.Tests.Players {
             var player = new Player(0, "Test");
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(200000, 10000, 10000, 10000, 10000));
 
+            player.Troops.Add(new Troops(TroopType.Archers, 1, 1));
+
             player.TrainTroops(TroopType.Cavalry, 1, 4);
 
-            player.Troops.Should().HaveCount(1);
-            player.Troops.Single().Soldiers.Should().Be(1);
-            player.Troops.Single().Mercenaries.Should().Be(4);
+            player.Troops.Should().HaveCount(2);
+            player.Troops.Single(t => t.Type == TroopType.Cavalry).Soldiers.Should().Be(1);
+            player.Troops.Single(t => t.Type == TroopType.Cavalry).Mercenaries.Should().Be(4);
         }
 
         [TestMethod]
