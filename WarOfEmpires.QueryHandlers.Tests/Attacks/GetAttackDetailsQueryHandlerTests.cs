@@ -40,13 +40,13 @@ namespace WarOfEmpires.QueryHandlers.Tests.Attacks {
             attack.Result.Returns(AttackResult.Won);
             attack.Resources.Returns(new Resources(1, 2, 3, 4, 5));
 
-            rounds.Add(CreateRound(true, 200, 17000, TroopType.Archers, new Casualties(new Troops(0, 15), new Troops(0, 14), new Troops(0, 13))));
-            rounds.Add(CreateRound(false, 150, 16000, TroopType.Archers, new Casualties(new Troops(0, 12), new Troops(0, 11), new Troops(0, 10))));
-            rounds.Add(CreateRound(false, 170, 15000, TroopType.Cavalry, new Casualties(new Troops(1, 9), new Troops(2, 8), new Troops(3, 7))));
-            rounds.Add(CreateRound(true, 130, 14000, TroopType.Footmen, new Casualties(new Troops(4, 6), new Troops(5, 5), new Troops(6, 4))));
+            rounds.Add(CreateRound(true, 200, 17000, TroopType.Archers, new Casualties(TroopType.Archers, 0, 15), new Casualties(TroopType.Cavalry, 0, 14), new Casualties(TroopType.Footmen, 0, 13)));
+            rounds.Add(CreateRound(false, 150, 16000, TroopType.Archers, new Casualties(TroopType.Archers, 0, 12), new Casualties(TroopType.Cavalry, 0, 11), new Casualties(TroopType.Footmen, 0, 10)));
+            rounds.Add(CreateRound(false, 170, 15000, TroopType.Cavalry, new Casualties(TroopType.Archers, 1, 9), new Casualties(TroopType.Cavalry, 2, 8), new Casualties(TroopType.Footmen, 3, 7)));
+            rounds.Add(CreateRound(true, 130, 14000, TroopType.Footmen, new Casualties(TroopType.Archers, 4, 6), new Casualties(TroopType.Cavalry, 5, 5), new Casualties(TroopType.Footmen, 6, 4)));
         }
 
-        public AttackRound CreateRound(bool isAggressor, int troops, long damage, TroopType troopType, Casualties casualties) {
+        public AttackRound CreateRound(bool isAggressor, int troops, long damage, TroopType troopType, params Casualties[] casualties) {
             var round = Substitute.For<AttackRound>();
 
             round.IsAggressor.Returns(isAggressor);

@@ -25,9 +25,7 @@ namespace WarOfEmpires.QueryHandlers.Attacks {
                 DefenderId = player.Id,
                 DisplayName = player.DisplayName,
                 Population = player.Farmers + player.WoodWorkers + player.StoneMasons + player.OreMiners + player.Peasants + player.SiegeEngineers
-                    + player.Archers.Soldiers + player.Archers.Mercenaries
-                    + player.Cavalry.Soldiers + player.Cavalry.Mercenaries
-                    + player.Footmen.Soldiers + player.Footmen.Mercenaries
+                    + player.Troops.Sum(t => t.GetTotals())
             };
         }
     }

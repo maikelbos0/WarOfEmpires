@@ -15,9 +15,9 @@ namespace WarOfEmpires.QueryHandlers.Tests.Attacks {
     [TestClass]
     public sealed class GetExecutedAttacksQueryHandlerTests {
         private readonly FakeWarContext _context = new FakeWarContext();
-        private Player _attacker;
-        private Player _defender1;
-        private Player _defender2;
+        private readonly Player _attacker;
+        private readonly Player _defender1;
+        private readonly Player _defender2;
         private int _attackId = 0;
 
         public GetExecutedAttacksQueryHandlerTests() {
@@ -46,7 +46,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Attacks {
             return player;
         }
 
-        public void AddAttack(Player defender, int turns, Casualties[] attackerCasualties, Casualties[] defenderCasualties) {
+        public void AddAttack(Player defender, int turns, List<Casualties>[] attackerCasualties, List<Casualties>[] defenderCasualties) {
             var attack = Substitute.For<Attack>();
             var rounds = new List<AttackRound>();
 
@@ -82,10 +82,9 @@ namespace WarOfEmpires.QueryHandlers.Tests.Attacks {
 
         [TestMethod]
         public void GetExecutedAttacksQueryHandler_Returns_All_Executed_Attacks() {
-            AddAttack(_defender1, 10, new Casualties[] { new Casualties(new Troops(0, 15), new Troops(0, 0), new Troops(0, 0)) }, new Casualties[] { new Casualties(new Troops(0, 15), new Troops(0, 0), new Troops(0, 0)) });
-            AddAttack(_defender1, 10, new Casualties[] { new Casualties(new Troops(0, 15), new Troops(0, 0), new Troops(0, 0)) }, new Casualties[] { new Casualties(new Troops(0, 15), new Troops(0, 0), new Troops(0, 0)) });
-            AddAttack(_defender2, 10, new Casualties[] { new Casualties(new Troops(0, 15), new Troops(0, 0), new Troops(0, 0)) }, new Casualties[] { new Casualties(new Troops(0, 15), new Troops(0, 0), new Troops(0, 0)) });
-
+            AddAttack(_defender1, 10, new List<Casualties>[] { new List<Casualties>() { new Casualties(TroopType.Archers, 0, 15), new Casualties(TroopType.Footmen, 0, 0), new Casualties(TroopType.Cavalry, 0, 0) } }, new List<Casualties>[] { new List<Casualties>() { new Casualties(TroopType.Archers, 0, 15), new Casualties(TroopType.Footmen, 0, 0), new Casualties(TroopType.Cavalry, 0, 0) } });
+            AddAttack(_defender1, 10, new List<Casualties>[] { new List<Casualties>() { new Casualties(TroopType.Archers, 0, 15), new Casualties(TroopType.Footmen, 0, 0), new Casualties(TroopType.Cavalry, 0, 0) } }, new List<Casualties>[] { new List<Casualties>() { new Casualties(TroopType.Archers, 0, 15), new Casualties(TroopType.Footmen, 0, 0), new Casualties(TroopType.Cavalry, 0, 0) } });
+            AddAttack(_defender2, 10, new List<Casualties>[] { new List<Casualties>() { new Casualties(TroopType.Archers, 0, 15), new Casualties(TroopType.Footmen, 0, 0), new Casualties(TroopType.Cavalry, 0, 0) } }, new List<Casualties>[] { new List<Casualties>() { new Casualties(TroopType.Archers, 0, 15), new Casualties(TroopType.Footmen, 0, 0), new Casualties(TroopType.Cavalry, 0, 0) } });
             var handler = new GetExecutedAttacksQueryHandler(_context);
             var query = new GetExecutedAttacksQuery("test@test.com");
 
@@ -96,12 +95,12 @@ namespace WarOfEmpires.QueryHandlers.Tests.Attacks {
 
         [TestMethod]
         public void GetExecutedAttacksQueryHandler_Returns_Correct_Data() {
-            AddAttack(_defender1, 7, new Casualties[] {
-                new Casualties(new Troops(0, 10), new Troops(0, 9), new Troops(0, 8)),
-                new Casualties(new Troops(4, 7), new Troops(3, 6), new Troops(2, 5))
-            }, new Casualties[] {
-                new Casualties(new Troops(0, 15), new Troops(0, 7), new Troops(0, 3)),
-                new Casualties(new Troops(3, 20), new Troops(2, 5), new Troops(1, 3))
+            AddAttack(_defender1, 7, new List<Casualties>[] {
+                new List<Casualties>() { new Casualties(TroopType.Archers, 0, 10), new Casualties(TroopType.Footmen, 0, 9), new Casualties(TroopType.Cavalry, 0, 8) },
+                new List<Casualties>() { new Casualties(TroopType.Archers, 4, 7), new Casualties(TroopType.Footmen, 3, 6), new Casualties(TroopType.Cavalry, 2, 5) }
+            }, new List<Casualties>[] {
+                new List<Casualties>() { new Casualties(TroopType.Archers, 0, 15), new Casualties(TroopType.Footmen, 0, 7), new Casualties(TroopType.Cavalry, 0, 3) },
+                new List<Casualties>() { new Casualties(TroopType.Archers, 3, 20), new Casualties(TroopType.Footmen, 2, 5), new Casualties(TroopType.Cavalry, 1, 3) }
             });
 
             var handler = new GetExecutedAttacksQueryHandler(_context);

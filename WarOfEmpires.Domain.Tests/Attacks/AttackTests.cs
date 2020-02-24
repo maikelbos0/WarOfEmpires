@@ -16,10 +16,7 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
             var attacker = new Player(1, "Attacker");
             var defender = new Player(2, "Defender");
 
-            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(attacker, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
-            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(defender, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
-
-            defender.TrainTroops(600, 200, 0, 0, 0, 0);
+            defender.Troops.Add(new Troops(TroopType.Archers, 600, 200));
 
             var attack = new Raid(attacker, defender, 10);
             attack.Execute();
@@ -32,11 +29,8 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
             var attacker = new Player(1, "Attacker");
             var defender = new Player(2, "Defender");
 
-            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(attacker, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
-            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(defender, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
-
-            attacker.TrainTroops(600, 200, 0, 0, 0, 0);
-            defender.TrainTroops(600, 200, 0, 0, 0, 0);
+            attacker.Troops.Add(new Troops(TroopType.Archers, 600, 200));
+            defender.Troops.Add(new Troops(TroopType.Archers, 600, 200));
 
             typeof(Player).GetProperty(nameof(Player.Stamina)).SetValue(attacker, 69);
 
@@ -50,11 +44,8 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
             var attacker = new Player(1, "Attacker");
             var defender = new Player(2, "Defender");
 
-            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(attacker, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
-            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(defender, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
-
-            attacker.TrainTroops(600, 200, 0, 0, 0, 0);
-            defender.TrainTroops(400, 100, 0, 0, 0, 0);
+            attacker.Troops.Add(new Troops(TroopType.Archers, 600, 200));
+            defender.Troops.Add(new Troops(TroopType.Archers, 400, 100));
 
             var attack = new Raid(attacker, defender, 10);
             attack.Execute();
@@ -66,11 +57,8 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
             var attacker = new Player(1, "Attacker");
             var defender = new Player(2, "Defender");
 
-            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(attacker, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
-            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(defender, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
-
-            attacker.TrainTroops(400, 100, 0, 0, 0, 0);
-            defender.TrainTroops(600, 200, 0, 0, 0, 0);
+            attacker.Troops.Add(new Troops(TroopType.Archers, 400, 100));
+            defender.Troops.Add(new Troops(TroopType.Archers, 600, 200));
 
             var attack = new Raid(attacker, defender, 10);
             attack.Execute();
@@ -86,7 +74,7 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(attacker, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(defender, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
 
-            attacker.TrainTroops(600, 200, 0, 0, 0, 0);
+            attacker.Troops.Add(new Troops(TroopType.Archers, 600, 200));
 
             var expectedResources = new Resources(defender.Resources.Gold) * 0.25m * 0.5m;
             var previousDefenderResources = defender.Resources;
@@ -109,8 +97,8 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(defender, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
             typeof(Player).GetProperty(nameof(Player.Stamina)).SetValue(attacker, 70);
 
-            attacker.TrainTroops(600, 200, 0, 0, 0, 0);
-            defender.TrainTroops(300, 75, 0, 0, 0, 0);
+            attacker.Troops.Add(new Troops(TroopType.Archers, 600, 200));
+            defender.Troops.Add(new Troops(TroopType.Archers, 300, 75));
 
             var expectedResources = new Resources(defender.Resources.Gold) * 0.5m * 0.5m;
             var previousDefenderResources = defender.Resources;
@@ -132,8 +120,8 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(attacker, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(defender, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
 
-            attacker.TrainTroops(600, 200, 0, 0, 0, 0);
-            defender.TrainTroops(600, 200, 0, 0, 0, 0);
+            attacker.Troops.Add(new Troops(TroopType.Archers, 600, 200));
+            defender.Troops.Add(new Troops(TroopType.Archers, 600, 200));
 
             typeof(Player).GetProperty(nameof(Player.Stamina)).SetValue(attacker, 69);
 
@@ -156,8 +144,8 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(attacker, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(defender, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
 
-            attacker.TrainTroops(400, 100, 0, 0, 0, 0);
-            defender.TrainTroops(600, 200, 0, 0, 0, 0);
+            attacker.Troops.Add(new Troops(TroopType.Archers, 400, 100));
+            defender.Troops.Add(new Troops(TroopType.Archers, 600, 200));
 
             var previousDefenderResources = defender.Resources;
             var previousAttackerResources = attacker.Resources;
@@ -175,11 +163,8 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
             var attacker = new Player(1, "Attacker");
             var defender = new Player(2, "Defender");
 
-            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(attacker, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
-            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(defender, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
-
-            attacker.TrainTroops(600, 200, 0, 0, 0, 0);
-            defender.TrainTroops(600, 200, 0, 0, 0, 0);
+            attacker.Troops.Add(new Troops(TroopType.Archers, 600, 200));
+            defender.Troops.Add(new Troops(TroopType.Archers, 600, 200));
 
             var attackTurns = attacker.AttackTurns;
 
@@ -204,11 +189,8 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
             var attacker = new Player(1, "Attacker");
             var defender = new Player(2, "Defender");
 
-            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(attacker, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
-            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(defender, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
-
-            attacker.TrainTroops(600, 200, 0, 0, 0, 0);
-            defender.TrainTroops(600, 200, 0, 0, 0, 0);
+            attacker.Troops.Add(new Troops(TroopType.Archers, 600, 200));
+            defender.Troops.Add(new Troops(TroopType.Archers, 600, 200));
 
             var attack = new Raid(attacker, defender, 10);
             attack.Execute();
@@ -226,11 +208,10 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
             var attacker = new Player(1, "Attacker");
             var defender = new Player(2, "Defender");
 
-            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(attacker, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
-            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(defender, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
-
-            attacker.TrainTroops(600, 200, 0, 0, 0, 0);
-            defender.TrainTroops(200, 50, 200, 50, 200, 50);
+            attacker.Troops.Add(new Troops(TroopType.Archers, 600, 200));
+            defender.Troops.Add(new Troops(TroopType.Archers, 200, 50));
+            defender.Troops.Add(new Troops(TroopType.Cavalry, 200, 50));
+            defender.Troops.Add(new Troops(TroopType.Footmen, 200, 50));
 
             var attack = new Raid(attacker, defender, 10);
             attack.Execute();
@@ -252,11 +233,10 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
             var attacker = new Player(1, "Attacker");
             var defender = new Player(2, "Defender");
 
-            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(attacker, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
-            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(defender, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
-
-            attacker.TrainTroops(300, 100, 300, 100, 0, 0);
-            defender.TrainTroops(0, 0, 300, 100, 300, 100);
+            attacker.Troops.Add(new Troops(TroopType.Archers, 300, 100));
+            attacker.Troops.Add(new Troops(TroopType.Cavalry, 300, 100));
+            defender.Troops.Add(new Troops(TroopType.Cavalry, 300, 100));
+            defender.Troops.Add(new Troops(TroopType.Footmen, 300, 100));
 
             var attack = new Raid(attacker, defender, 10);
             attack.Execute();
@@ -278,11 +258,12 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
             var attacker = new Player(1, "Attacker");
             var defender = new Player(2, "Defender");
 
-            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(attacker, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
-            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(defender, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
-
-            attacker.TrainTroops(200, 50, 200, 50, 200, 50);
-            defender.TrainTroops(200, 50, 200, 50, 200, 50);
+            attacker.Troops.Add(new Troops(TroopType.Archers, 200, 50));
+            attacker.Troops.Add(new Troops(TroopType.Cavalry, 200, 50));
+            attacker.Troops.Add(new Troops(TroopType.Footmen, 200, 50));
+            defender.Troops.Add(new Troops(TroopType.Archers, 200, 50));
+            defender.Troops.Add(new Troops(TroopType.Cavalry, 200, 50));
+            defender.Troops.Add(new Troops(TroopType.Footmen, 200, 50));
 
             var attack = new Raid(attacker, defender, 10);
             attack.Execute();
@@ -308,10 +289,9 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
             var attacker = new Player(1, "Attacker");
             var defender = new Player(2, "Defender");
 
-            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(attacker, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
-            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(defender, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
-
-            attacker.TrainTroops(600, 130, 10, 15, 20, 25);
+            attacker.Troops.Add(new Troops(TroopType.Archers, 600, 130));
+            attacker.Troops.Add(new Troops(TroopType.Cavalry, 10, 15));
+            attacker.Troops.Add(new Troops(TroopType.Footmen, 20, 25));
 
             var attack = new Raid(attacker, defender, 10);
 
@@ -323,11 +303,12 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
             var attacker = new Player(1, "Attacker");
             var defender = new Player(2, "Defender");
 
-            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(attacker, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
-            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(defender, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
-
-            attacker.TrainTroops(600, 130, 10, 15, 20, 25);
-            defender.TrainTroops(400, 130, 10, 15, 20, 25);
+            attacker.Troops.Add(new Troops(TroopType.Archers, 600, 130));
+            attacker.Troops.Add(new Troops(TroopType.Cavalry, 10, 15));
+            attacker.Troops.Add(new Troops(TroopType.Footmen, 20, 25));
+            defender.Troops.Add(new Troops(TroopType.Archers, 400, 130));
+            defender.Troops.Add(new Troops(TroopType.Cavalry, 10, 15));
+            defender.Troops.Add(new Troops(TroopType.Footmen, 20, 25));
 
             var attack = new Raid(attacker, defender, 10);
 
@@ -339,11 +320,12 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
             var attacker = new Player(1, "Attacker");
             var defender = new Player(2, "Defender");
 
-            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(attacker, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
-            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(defender, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
-
-            attacker.TrainTroops(600, 130, 10, 15, 20, 25);
-            defender.TrainTroops(600, 130, 10, 15, 20, 25);
+            attacker.Troops.Add(new Troops(TroopType.Archers, 600, 130));
+            attacker.Troops.Add(new Troops(TroopType.Cavalry, 10, 15));
+            attacker.Troops.Add(new Troops(TroopType.Footmen, 20, 25));
+            defender.Troops.Add(new Troops(TroopType.Archers, 600, 130));
+            defender.Troops.Add(new Troops(TroopType.Cavalry, 10, 15));
+            defender.Troops.Add(new Troops(TroopType.Footmen, 20, 25));
 
             var attack = new Raid(attacker, defender, 10);
 
@@ -355,11 +337,12 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
             var attacker = new Player(1, "Attacker");
             var defender = new Player(2, "Defender");
 
-            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(attacker, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
-            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(defender, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
-
-            attacker.TrainTroops(600, 130, 10, 15, 20, 25);
-            defender.TrainTroops(760, 130, 10, 15, 20, 25);
+            attacker.Troops.Add(new Troops(TroopType.Archers, 600, 130));
+            attacker.Troops.Add(new Troops(TroopType.Cavalry, 10, 15));
+            attacker.Troops.Add(new Troops(TroopType.Footmen, 20, 25));
+            defender.Troops.Add(new Troops(TroopType.Archers, 760, 130));
+            defender.Troops.Add(new Troops(TroopType.Cavalry, 10, 15));
+            defender.Troops.Add(new Troops(TroopType.Footmen, 20, 25));
 
             var attack = new Raid(attacker, defender, 10);
 

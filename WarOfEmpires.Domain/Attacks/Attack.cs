@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using WarOfEmpires.Domain.Common;
 using WarOfEmpires.Domain.Players;
 
@@ -40,7 +41,7 @@ namespace WarOfEmpires.Domain.Attacks {
             var attackerStamina = Attacker.Stamina;
             var defenderStamina = Defender.Stamina;            
 
-            if (attackerStamina < AttackerMinimumStamina || Attacker.Archers.GetTotals() + Attacker.Cavalry.GetTotals() + Attacker.Footmen.GetTotals() == 0) {
+            if (attackerStamina < AttackerMinimumStamina || Attacker.Troops.Sum(t => t.GetTotals()) == 0) {
                 Result = AttackResult.Fatigued;
             }
             else if (IsSurrender()) {
@@ -54,14 +55,10 @@ namespace WarOfEmpires.Domain.Attacks {
                 var calculatedAttackerStamina = random.Next(attackerStamina - StaminaRandomModifier, attackerStamina + StaminaRandomModifier);
                 var calculatedDefenderStamina = random.Next(defenderStamina - StaminaRandomModifier, defenderStamina + StaminaRandomModifier);
 
-                AddRound(calculatedAttackerStamina, TroopType.Archers, true, Attacker.GetArcherInfo(), Defender);
-                AddRound(calculatedDefenderStamina, TroopType.Archers, false, Defender.GetArcherInfo(), Attacker);
-
-                AddRound(calculatedAttackerStamina, TroopType.Cavalry, true, Attacker.GetCavalryInfo(), Defender);
-                AddRound(calculatedDefenderStamina, TroopType.Cavalry, false, Defender.GetCavalryInfo(), Attacker);
-
-                AddRound(calculatedAttackerStamina, TroopType.Footmen, true, Attacker.GetFootmanInfo(), Defender);
-                AddRound(calculatedDefenderStamina, TroopType.Footmen, false, Defender.GetFootmanInfo(), Attacker);
+                foreach (TroopType troopType in Enum.GetValues(typeof(TroopType))) {
+                    AddRound(calculatedAttackerStamina, troopType, true, Attacker.GetTroopInfo(troopType), Defender);
+                    AddRound(calculatedDefenderStamina, troopType, false, Defender.GetTroopInfo(troopType), Attacker);
+                }
 
                 if (Attacker.Stamina - attackerStamina > Defender.Stamina - defenderStamina) {
                     Result = AttackResult.Won;
@@ -93,8 +90,8 @@ namespace WarOfEmpires.Domain.Attacks {
         }
 
         public decimal GetArmyStrengthModifier(decimal minimum = 0) {
-            var defenderTroops = Defender.Archers.GetTotals() + Defender.Cavalry.GetTotals() + Defender.Footmen.GetTotals();
-            var attackerTroops = Attacker.Archers.GetTotals() + Attacker.Cavalry.GetTotals() + Attacker.Footmen.GetTotals();
+            var defenderTroops = Defender.Troops.Sum(t => t.GetTotals());
+            var attackerTroops = Attacker.Troops.Sum(t => t.GetTotals());
 
             return Math.Max(minimum, 1.0m * defenderTroops / attackerTroops);
         }

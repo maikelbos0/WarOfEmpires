@@ -58,6 +58,7 @@
     <Compile Include="Empires\ResourcesViewModel.cs" />
     <Compile Include="Empires\SiegeWeaponInfoModel.cs" />
     <Compile Include="Empires\TaxModel.cs" />
+    <Compile Include="Empires\TroopInfoModel.cs" />
     <Compile Include="Empires\TroopModel.cs" />
     <Compile Include="Messages\MessageModel.cs" />
     <Compile Include="Messages\ReceivedMessageDetailsViewModel.cs" />

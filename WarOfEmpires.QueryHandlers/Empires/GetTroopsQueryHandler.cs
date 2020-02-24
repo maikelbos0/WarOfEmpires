@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using WarOfEmpires.Database;
+using WarOfEmpires.Domain.Attacks;
 using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Models.Empires;
 using WarOfEmpires.Queries.Empires;
@@ -26,21 +27,26 @@ namespace WarOfEmpires.QueryHandlers.Empires {
 
             return new TroopModel() {
                 CurrentPeasants = player.Peasants,
-                CurrentArchers = player.Archers.Soldiers,
-                CurrentMercenaryArchers = player.Archers.Mercenaries,
-                CurrentCavalry = player.Cavalry.Soldiers,
-                CurrentMercenaryCavalry = player.Cavalry.Mercenaries,
-                CurrentFootmen = player.Footmen.Soldiers,
-                CurrentMercenaryFootmen = player.Footmen.Mercenaries,
-                ArcherTrainingCost = _resourcesMap.ToViewModel(Player.ArcherTrainingCost),
-                CavalryTrainingCost = _resourcesMap.ToViewModel(Player.CavalryTrainingCost),
-                FootmanTrainingCost = _resourcesMap.ToViewModel(Player.FootmanTrainingCost),
+                ArcherInfo = MapTroops(player, TroopType.Archers),
+                CavalryInfo = MapTroops(player, TroopType.Cavalry),
+                FootmanInfo = MapTroops(player, TroopType.Footmen),
                 MercenaryTrainingCost = _resourcesMap.ToViewModel(Player.MercenaryTrainingCost),
                 WillUpkeepRunOut = !(player.GetTotalResources() + player.GetResourcesPerTurn() * 48).CanAfford(player.GetUpkeepPerTurn() * 48),
                 HasUpkeepRunOut = player.HasUpkeepRunOut,
                 CurrentStamina = player.Stamina,
                 HasSoldierShortage = player.GetSoldierRecruitsPenalty() > 0,
                 StaminaToHeal = player.GetStaminaToHeal().ToString()
+            };
+        }
+
+        private TroopInfoModel MapTroops(Player player, TroopType type) {
+            var definition = TroopDefinitionFactory.Get(type);
+            var troops = player.GetTroops(type);
+
+            return new TroopInfoModel() {
+                Cost = _resourcesMap.ToViewModel(definition.Cost),
+                CurrentSoldiers = troops.Soldiers,
+                CurrentMercenaries = troops.Mercenaries
             };
         }
     }

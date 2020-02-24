@@ -24,9 +24,8 @@ namespace WarOfEmpires.QueryHandlers.Players {
                     Id = p.Id,
                     DisplayName = p.DisplayName,
                     Population = p.Farmers + p.WoodWorkers + p.StoneMasons + p.OreMiners + p.Peasants + p.SiegeEngineers
-                        + p.Archers.Soldiers + p.Archers.Mercenaries
-                        + p.Cavalry.Soldiers + p.Cavalry.Mercenaries
-                        + p.Footmen.Soldiers + p.Footmen.Mercenaries
+                        + (p.Troops.Sum(t => (int?)t.Soldiers) ?? 0)
+                        + (p.Troops.Sum(t => (int?)t.Mercenaries) ?? 0)
                 })
                 .ToList();
         }

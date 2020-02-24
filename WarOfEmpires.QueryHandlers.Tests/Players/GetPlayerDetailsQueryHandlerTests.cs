@@ -2,6 +2,8 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 using System;
+using System.Collections.Generic;
+using WarOfEmpires.Domain.Attacks;
 using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Queries.Players;
@@ -30,9 +32,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
             player.OreMiners.Returns(4);
             player.SiegeEngineers.Returns(6);
             player.Peasants.Returns(5);
-            player.Archers.Returns(new Troops(15, 5));
-            player.Cavalry.Returns(new Troops(3, 1));
-            player.Footmen.Returns(new Troops(3, 1));
+            player.Troops.Returns(new List<Troops>() { new Troops(TroopType.Archers, 15, 5), new Troops(TroopType.Cavalry, 3, 1), new Troops(TroopType.Footmen, 3, 1) });
 
             _context.Users.Add(user);
             _context.Players.Add(player);

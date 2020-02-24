@@ -58,9 +58,11 @@
     <Compile Include="Attacks\AttackType.cs" />
     <Compile Include="Attacks\Assault.cs" />
     <Compile Include="Attacks\Raid.cs" />
+    <Compile Include="Attacks\TroopDefinition.cs" />
+    <Compile Include="Attacks\TroopDefinitionFactory.cs" />
     <Compile Include="Empires\BankTurnTaskTriggeredEvent.cs" />
     <Compile Include="Empires\SequenceGeneratorFactory.cs" />
-    <Compile Include="Players\Casualties.cs" />
+    <Compile Include="Attacks\Casualties.cs" />
     <Compile Include="Attacks\TroopType.cs" />
     <Compile Include="Auditing\QueryExecution.cs" />
     <Compile Include="Auditing\CommandExecution.cs" />
@@ -77,7 +79,7 @@
     <Compile Include="Players\ProductionInfo.cs" />
     <Compile Include="Empires\RecruitTaskTriggeredEvent.cs" />
     <Compile Include="Players\TroopInfo.cs" />
-    <Compile Include="Players\Troops.cs" />
+    <Compile Include="Attacks\Troops.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Events\ScheduledTask.cs" />
     <Compile Include="Security\Password.cs" />

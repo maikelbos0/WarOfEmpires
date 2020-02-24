@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using WarOfEmpires.Domain.Attacks;
 
 namespace WarOfEmpires.Domain.Players {
     public class TroopInfo : ValueObject {
