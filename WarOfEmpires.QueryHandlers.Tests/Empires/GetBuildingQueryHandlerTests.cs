@@ -27,7 +27,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
 
             player.User.Returns(user);
             player.Buildings.Returns(new List<Building>() {
-                new Building(player, BuildingType.Lumberyard, 2)
+                new Building(BuildingType.Lumberyard, 2)
             });
 
             _context.Users.Add(user);

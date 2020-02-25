@@ -97,7 +97,7 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
             var attack = new Assault(attacker, defender, turns);
             var troopInfo = Substitute.For<TroopInfo>();
 
-            defender.Buildings.Add(new Building(defender, BuildingType.Defences, defenceLevel));
+            defender.Buildings.Add(new Building(BuildingType.Defences, defenceLevel));
             troopInfo.GetTotalAttack().Returns(troopAttackDamage);
 
             attack.CalculateDamage(stamina, isAggressor, troopInfo, defender).Should().Be(expectedDamage);
@@ -117,7 +117,7 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
             var defender = new Player(2, "Defender");
             var attack = new Assault(attacker, defender, 10);
 
-            defender.Buildings.Add(new Building(defender, BuildingType.Defences, defenceLevel));
+            defender.Buildings.Add(new Building(BuildingType.Defences, defenceLevel));
 
             typeof(Player).GetProperty(nameof(Player.Stamina)).SetValue(defender, stamina);
             attacker.Troops.Add(new Troops(TroopType.Archers, 600, 200));

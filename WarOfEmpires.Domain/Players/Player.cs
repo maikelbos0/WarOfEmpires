@@ -64,8 +64,8 @@ namespace WarOfEmpires.Domain.Players {
         }
 
         public IEnumerable<Building> GetStartingBuildings() {
-            yield return new Building(this, BuildingType.Barracks, 2);
-            yield return new Building(this, BuildingType.Huts, 2);
+            yield return new Building(BuildingType.Barracks, 2);
+            yield return new Building(BuildingType.Huts, 2);
         }
 
         public decimal GetTaxRate() {
@@ -254,7 +254,7 @@ namespace WarOfEmpires.Domain.Players {
             SpendResources(definition.GetNextLevelCost(building?.Level ?? 0));
 
             if (building == null) {
-                building = new Building(this, type, 1);
+                building = new Building(type, 1);
                 Buildings.Add(building);
             }
             else {

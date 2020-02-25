@@ -24,10 +24,10 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
 
             player.User.Returns(user);
             player.Buildings.Returns(new List<Building>() {
-                new Building(player, BuildingType.Farm, 4),
-                new Building(player, BuildingType.Lumberyard, 8),
-                new Building(player, BuildingType.Quarry, 2),
-                new Building(player, BuildingType.Mine, 2)
+                new Building(BuildingType.Farm, 4),
+                new Building(BuildingType.Lumberyard, 8),
+                new Building(BuildingType.Quarry, 2),
+                new Building(BuildingType.Mine, 2)
             });
 
             _context.Users.Add(user);

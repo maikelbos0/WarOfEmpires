@@ -49,10 +49,10 @@ namespace WarOfEmpires.Domain.Tests.Players {
         public void Player_Recruit_Gives_Correct_Effort_Remainder_When_Adding_Peasants() {
             var player = new Player(0, "Test");
 
-            player.Buildings.Add(new Building(player, BuildingType.Farm, 8));
-            player.Buildings.Add(new Building(player, BuildingType.Lumberyard, 8));
-            player.Buildings.Add(new Building(player, BuildingType.Quarry, 7));
-            player.Buildings.Add(new Building(player, BuildingType.Mine, 7));
+            player.Buildings.Add(new Building(BuildingType.Farm, 8));
+            player.Buildings.Add(new Building(BuildingType.Lumberyard, 8));
+            player.Buildings.Add(new Building(BuildingType.Quarry, 7));
+            player.Buildings.Add(new Building(BuildingType.Mine, 7));
 
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(100000, 10000, 10000, 10000, 10000));
             player.TrainTroops(TroopType.Archers, 2, 0);
@@ -161,7 +161,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
                 Tax = 20
             };
 
-            player.Buildings.Add(new Building(player, BuildingType.Farm, 4));
+            player.Buildings.Add(new Building(BuildingType.Farm, 4));
             player.TrainWorkers(1, 2, 3, 4, 0);
 
             player.GetFoodProduction().GetTotalProduction().Should().Be(32);
@@ -173,7 +173,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
                 Tax = 40
             };
 
-            player.Buildings.Add(new Building(player, BuildingType.Lumberyard, 6));
+            player.Buildings.Add(new Building(BuildingType.Lumberyard, 6));
             player.TrainWorkers(1, 2, 3, 4, 0);
 
             player.GetWoodProduction().GetTotalProduction().Should().Be(60);
@@ -185,7 +185,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
                 Tax = 60
             };
 
-            player.Buildings.Add(new Building(player, BuildingType.Quarry, 8));
+            player.Buildings.Add(new Building(BuildingType.Quarry, 8));
             player.TrainWorkers(1, 2, 3, 4, 0);
 
             player.GetStoneProduction().GetTotalProduction().Should().Be(72);
@@ -197,7 +197,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
                 Tax = 80
             };
 
-            player.Buildings.Add(new Building(player, BuildingType.Mine, 16));
+            player.Buildings.Add(new Building(BuildingType.Mine, 16));
             player.TrainWorkers(1, 2, 3, 4, 0);
 
             player.GetOreProduction().GetTotalProduction().Should().Be(80);
@@ -282,11 +282,11 @@ namespace WarOfEmpires.Domain.Tests.Players {
                 player.ProcessTurn();
             }
 
-            player.Buildings.Add(new Building(player, BuildingType.GoldBank, 10));
-            player.Buildings.Add(new Building(player, BuildingType.FoodBank, 10));
-            player.Buildings.Add(new Building(player, BuildingType.WoodBank, 10));
-            player.Buildings.Add(new Building(player, BuildingType.StoneBank, 10));
-            player.Buildings.Add(new Building(player, BuildingType.OreBank, 10));
+            player.Buildings.Add(new Building(BuildingType.GoldBank, 10));
+            player.Buildings.Add(new Building(BuildingType.FoodBank, 10));
+            player.Buildings.Add(new Building(BuildingType.WoodBank, 10));
+            player.Buildings.Add(new Building(BuildingType.StoneBank, 10));
+            player.Buildings.Add(new Building(BuildingType.OreBank, 10));
             player.Bank();
 
             var previousResources = player.BankedResources;
@@ -370,7 +370,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(100000, 10000, 10000, 10000, 10000));
 
             player.Buildings.Clear();
-            player.Buildings.Add(new Building(player, BuildingType.Farm, 1));
+            player.Buildings.Add(new Building(BuildingType.Farm, 1));
 
             var previousResources = player.Resources;
 
@@ -391,7 +391,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
         public void Player_GetBuildingBonusMultiplier_Succeeds_For_Existing_BuildingType() {
             var player = new Player(0, "Test");
 
-            player.Buildings.Add(new Building(player, BuildingType.Farm, 3));
+            player.Buildings.Add(new Building(BuildingType.Farm, 3));
 
             player.GetBuildingBonusMultiplier(BuildingType.Farm).Should().Be(1.75m);
         }
@@ -430,11 +430,11 @@ namespace WarOfEmpires.Domain.Tests.Players {
         public void Player_GetTheoreticalRecruitsPerDay_Succeeds() {
             var player = new Player(0, "Test");
 
-            player.Buildings.Add(new Building(player, BuildingType.Farm, 4));
-            player.Buildings.Add(new Building(player, BuildingType.Lumberyard, 6));
-            player.Buildings.Add(new Building(player, BuildingType.Quarry, 2));
-            player.Buildings.Add(new Building(player, BuildingType.Mine, 2));
-            player.Buildings.Add(new Building(player, BuildingType.Defences, 3));
+            player.Buildings.Add(new Building(BuildingType.Farm, 4));
+            player.Buildings.Add(new Building(BuildingType.Lumberyard, 6));
+            player.Buildings.Add(new Building(BuildingType.Quarry, 2));
+            player.Buildings.Add(new Building(BuildingType.Mine, 2));
+            player.Buildings.Add(new Building(BuildingType.Defences, 3));
 
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(100000, 10000, 10000, 10000, 10000));
             player.TrainTroops(TroopType.Archers, 2, 0);
@@ -448,11 +448,11 @@ namespace WarOfEmpires.Domain.Tests.Players {
         public void Player_GetTheoreticalRecruitsPerDay_Uses_Soldier_Penalty() {
             var player = new Player(0, "Test");
 
-            player.Buildings.Add(new Building(player, BuildingType.Farm, 4));
-            player.Buildings.Add(new Building(player, BuildingType.Lumberyard, 6));
-            player.Buildings.Add(new Building(player, BuildingType.Quarry, 2));
-            player.Buildings.Add(new Building(player, BuildingType.Mine, 2));
-            player.Buildings.Add(new Building(player, BuildingType.Defences, 3));
+            player.Buildings.Add(new Building(BuildingType.Farm, 4));
+            player.Buildings.Add(new Building(BuildingType.Lumberyard, 6));
+            player.Buildings.Add(new Building(BuildingType.Quarry, 2));
+            player.Buildings.Add(new Building(BuildingType.Mine, 2));
+            player.Buildings.Add(new Building(BuildingType.Defences, 3));
 
             player.GetTheoreticalRecruitsPerDay().Should().Be(5);
         }
@@ -468,11 +468,11 @@ namespace WarOfEmpires.Domain.Tests.Players {
         public void Player_GetTheoreticalRecruitsPerDay_Maximum_Is_25() {
             var player = new Player(0, "Test");
 
-            player.Buildings.Add(new Building(player, BuildingType.Farm, 15));
-            player.Buildings.Add(new Building(player, BuildingType.Lumberyard, 15));
-            player.Buildings.Add(new Building(player, BuildingType.Quarry, 15));
-            player.Buildings.Add(new Building(player, BuildingType.Mine, 15));
-            player.Buildings.Add(new Building(player, BuildingType.Defences, 15));
+            player.Buildings.Add(new Building(BuildingType.Farm, 15));
+            player.Buildings.Add(new Building(BuildingType.Lumberyard, 15));
+            player.Buildings.Add(new Building(BuildingType.Quarry, 15));
+            player.Buildings.Add(new Building(BuildingType.Mine, 15));
+            player.Buildings.Add(new Building(BuildingType.Defences, 15));
 
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(100000, 10000, 10000, 10000, 10000));
             player.TrainTroops(TroopType.Archers, 2, 0);
@@ -522,11 +522,11 @@ namespace WarOfEmpires.Domain.Tests.Players {
         public void Player_GetRecruitsPerDay_Is_Maxed_By_Barracks_And_Huts_Capacity() {
             var player = new Player(0, "Test");
 
-            player.Buildings.Add(new Building(player, BuildingType.Farm, 4));
-            player.Buildings.Add(new Building(player, BuildingType.Lumberyard, 6));
-            player.Buildings.Add(new Building(player, BuildingType.Quarry, 2));
-            player.Buildings.Add(new Building(player, BuildingType.Mine, 2));
-            player.Buildings.Add(new Building(player, BuildingType.Defences, 3));
+            player.Buildings.Add(new Building(BuildingType.Farm, 4));
+            player.Buildings.Add(new Building(BuildingType.Lumberyard, 6));
+            player.Buildings.Add(new Building(BuildingType.Quarry, 2));
+            player.Buildings.Add(new Building(BuildingType.Mine, 2));
+            player.Buildings.Add(new Building(BuildingType.Defences, 3));
 
             player.Troops.Add(new Troops(TroopType.Archers, 19, 0));
             typeof(Player).GetProperty(nameof(Player.Peasants)).SetValue(player, 20);
@@ -538,10 +538,10 @@ namespace WarOfEmpires.Domain.Tests.Players {
         public void Player_GetTotalGoldSpentOnBuildings_Succeeds() {
             var player = new Player(0, "Test");
 
-            player.Buildings.Add(new Building(player, BuildingType.Farm, 4));
-            player.Buildings.Add(new Building(player, BuildingType.Lumberyard, 8));
-            player.Buildings.Add(new Building(player, BuildingType.Quarry, 2));
-            player.Buildings.Add(new Building(player, BuildingType.Mine, 2));
+            player.Buildings.Add(new Building(BuildingType.Farm, 4));
+            player.Buildings.Add(new Building(BuildingType.Lumberyard, 8));
+            player.Buildings.Add(new Building(BuildingType.Quarry, 2));
+            player.Buildings.Add(new Building(BuildingType.Mine, 2));
 
             player.GetTotalGoldSpentOnBuildings().Should().Be(1580000);
         }
@@ -550,7 +550,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
         public void Player_GetTotalGoldSpentOnBuildings_Ignores_Defences() {
             var player = new Player(0, "Test");
 
-            player.Buildings.Add(new Building(player, BuildingType.Defences, 10));
+            player.Buildings.Add(new Building(BuildingType.Defences, 10));
 
             player.GetTotalGoldSpentOnBuildings().Should().Be(0);
         }
@@ -635,9 +635,9 @@ namespace WarOfEmpires.Domain.Tests.Players {
         public void Player_GetTroopInfo_Succeeds(TroopType type, BuildingType buildingType, int attack, int defence) {
             var player = new Player(0, "Test");
 
-            player.Buildings.Add(new Building(player, BuildingType.Armoury, 1));
-            player.Buildings.Add(new Building(player, BuildingType.Forge, 2));
-            player.Buildings.Add(new Building(player, buildingType, 3));
+            player.Buildings.Add(new Building(BuildingType.Armoury, 1));
+            player.Buildings.Add(new Building(BuildingType.Forge, 2));
+            player.Buildings.Add(new Building(buildingType, 3));
             player.Troops.Add(new Troops(type, 4, 7));
 
             var result = player.GetTroopInfo(type);
@@ -752,11 +752,11 @@ namespace WarOfEmpires.Domain.Tests.Players {
         public void Player_GetBankCapacity_Succeeds_For_Available_Bank_Buildings() {
             var player = new Player(0, "Test");
 
-            player.Buildings.Add(new Building(player, BuildingType.GoldBank, 1));
-            player.Buildings.Add(new Building(player, BuildingType.FoodBank, 2));
-            player.Buildings.Add(new Building(player, BuildingType.WoodBank, 3));
-            player.Buildings.Add(new Building(player, BuildingType.StoneBank, 4));
-            player.Buildings.Add(new Building(player, BuildingType.OreBank, 5));
+            player.Buildings.Add(new Building(BuildingType.GoldBank, 1));
+            player.Buildings.Add(new Building(BuildingType.FoodBank, 2));
+            player.Buildings.Add(new Building(BuildingType.WoodBank, 3));
+            player.Buildings.Add(new Building(BuildingType.StoneBank, 4));
+            player.Buildings.Add(new Building(BuildingType.OreBank, 5));
 
             player.GetBankCapacity().Should().Be(new Resources(50000, 30000, 50000, 80000, 120000));
         }
@@ -766,11 +766,11 @@ namespace WarOfEmpires.Domain.Tests.Players {
             var player = new Player(0, "Test");
 
             typeof(Player).GetProperty(nameof(Player.BankedResources)).SetValue(player, new Resources(5000, 4000, 3000, 2000, 1000));
-            player.Buildings.Add(new Building(player, BuildingType.GoldBank, 1));
-            player.Buildings.Add(new Building(player, BuildingType.FoodBank, 2));
-            player.Buildings.Add(new Building(player, BuildingType.WoodBank, 3));
-            player.Buildings.Add(new Building(player, BuildingType.StoneBank, 4));
-            player.Buildings.Add(new Building(player, BuildingType.OreBank, 5));
+            player.Buildings.Add(new Building(BuildingType.GoldBank, 1));
+            player.Buildings.Add(new Building(BuildingType.FoodBank, 2));
+            player.Buildings.Add(new Building(BuildingType.WoodBank, 3));
+            player.Buildings.Add(new Building(BuildingType.StoneBank, 4));
+            player.Buildings.Add(new Building(BuildingType.OreBank, 5));
 
             player.GetAvailableBankCapacity().Should().Be(new Resources(45000, 26000, 47000, 78000, 119000));
         }
@@ -781,11 +781,11 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
             typeof(Player).GetProperty(nameof(Player.BankedResources)).SetValue(player, new Resources(5000, 4000, 3000, 2000, 1000));
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(60000, 50000, 40000, 30000, 20000));
-            player.Buildings.Add(new Building(player, BuildingType.GoldBank, 1));
-            player.Buildings.Add(new Building(player, BuildingType.FoodBank, 1));
-            player.Buildings.Add(new Building(player, BuildingType.WoodBank, 1));
-            player.Buildings.Add(new Building(player, BuildingType.StoneBank, 1));
-            player.Buildings.Add(new Building(player, BuildingType.OreBank, 1));
+            player.Buildings.Add(new Building(BuildingType.GoldBank, 1));
+            player.Buildings.Add(new Building(BuildingType.FoodBank, 1));
+            player.Buildings.Add(new Building(BuildingType.WoodBank, 1));
+            player.Buildings.Add(new Building(BuildingType.StoneBank, 1));
+            player.Buildings.Add(new Building(BuildingType.OreBank, 1));
 
             player.GetBankableResources().Should().Be(new Resources(45000, 16000, 17000, 18000, 19000));
         }
@@ -796,11 +796,11 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
             typeof(Player).GetProperty(nameof(Player.BankedResources)).SetValue(player, new Resources(5000, 4000, 3000, 2000, 1000));
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(6000, 5000, 4000, 3000, 2000));
-            player.Buildings.Add(new Building(player, BuildingType.GoldBank, 1));
-            player.Buildings.Add(new Building(player, BuildingType.FoodBank, 1));
-            player.Buildings.Add(new Building(player, BuildingType.WoodBank, 1));
-            player.Buildings.Add(new Building(player, BuildingType.StoneBank, 1));
-            player.Buildings.Add(new Building(player, BuildingType.OreBank, 1));
+            player.Buildings.Add(new Building(BuildingType.GoldBank, 1));
+            player.Buildings.Add(new Building(BuildingType.FoodBank, 1));
+            player.Buildings.Add(new Building(BuildingType.WoodBank, 1));
+            player.Buildings.Add(new Building(BuildingType.StoneBank, 1));
+            player.Buildings.Add(new Building(BuildingType.OreBank, 1));
 
             player.GetBankableResources().Should().Be(new Resources(6000, 5000, 4000, 3000, 2000));
         }
@@ -822,11 +822,11 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
             typeof(Player).GetProperty(nameof(Player.BankedResources)).SetValue(player, new Resources(25000, 10000, 10000, 10000, 10000));
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(35000, 5000, 15000, 5000, 15000));
-            player.Buildings.Add(new Building(player, BuildingType.GoldBank, 1));
-            player.Buildings.Add(new Building(player, BuildingType.FoodBank, 1));
-            player.Buildings.Add(new Building(player, BuildingType.WoodBank, 1));
-            player.Buildings.Add(new Building(player, BuildingType.StoneBank, 1));
-            player.Buildings.Add(new Building(player, BuildingType.OreBank, 1));
+            player.Buildings.Add(new Building(BuildingType.GoldBank, 1));
+            player.Buildings.Add(new Building(BuildingType.FoodBank, 1));
+            player.Buildings.Add(new Building(BuildingType.WoodBank, 1));
+            player.Buildings.Add(new Building(BuildingType.StoneBank, 1));
+            player.Buildings.Add(new Building(BuildingType.OreBank, 1));
 
             player.Bank();
 

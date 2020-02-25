@@ -78,7 +78,7 @@ namespace WarOfEmpires.Database {
             players.HasRequired(p => p.User).WithOptional();
             players.HasMany(p => p.Troops).WithRequired();
             players.HasMany(p => p.SiegeWeapons).WithRequired();
-            players.HasMany(p => p.Buildings).WithRequired(b => b.Player);
+            players.HasMany(p => p.Buildings).WithRequired();
             players.HasMany(p => p.SentMessages).WithRequired(m => m.Sender).WillCascadeOnDelete(false);
             players.HasMany(p => p.ReceivedMessages).WithRequired(m => m.Recipient);
             players.HasMany(p => p.ExecutedAttacks).WithRequired(a => a.Attacker).WillCascadeOnDelete(false);

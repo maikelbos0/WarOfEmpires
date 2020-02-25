@@ -25,8 +25,8 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
 
             player.User.Returns(user);
             player.Buildings.Returns(new List<Building>() {
-                new Building(player, BuildingType.Barracks, 7),
-                new Building(player, BuildingType.Huts, 4)
+                new Building(BuildingType.Barracks, 7),
+                new Building(BuildingType.Huts, 4)
             });
             player.Troops.Returns(new List<Troops>() { new Troops(TroopType.Archers, 25, 5), new Troops(TroopType.Cavalry, 5, 1), new Troops(TroopType.Footmen, 10, 2) });
 

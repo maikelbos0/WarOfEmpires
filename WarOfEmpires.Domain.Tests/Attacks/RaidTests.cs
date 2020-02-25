@@ -97,7 +97,7 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
             var attack = new Raid(attacker, defender, turns);
             var troopInfo = Substitute.For<TroopInfo>();
 
-            defender.Buildings.Add(new Building(defender, BuildingType.Defences, 5));
+            defender.Buildings.Add(new Building(BuildingType.Defences, 5));
             troopInfo.GetTotalAttack().Returns(troopAttackDamage);
 
             attack.CalculateDamage(stamina, isAggressor, troopInfo, defender).Should().Be(expectedDamage);

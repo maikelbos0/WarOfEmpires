@@ -30,8 +30,8 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
             player.User.Returns(user);
             player.CanAfford(Arg.Any<Resources>()).Returns(true);
             player.Buildings.Returns(new List<Building>() {
-                new Building(player, BuildingType.Farm, 2),
-                new Building(player, BuildingType.Lumberyard, 1)
+                new Building(BuildingType.Farm, 2),
+                new Building(BuildingType.Lumberyard, 1)
             });
 
             _context.Users.Add(user);
