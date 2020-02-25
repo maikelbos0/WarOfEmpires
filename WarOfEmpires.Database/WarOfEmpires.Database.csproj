@@ -158,9 +158,9 @@
     <Compile Include="Migrations\202002221401066_Attacks-Troops.Designer.cs">
       <DependentUpon>202002221401066_Attacks-Troops.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202002251620546_asd.cs" />
-    <Compile Include="Migrations\202002251620546_asd.Designer.cs">
-      <DependentUpon>202002251620546_asd.cs</DependentUpon>
+    <Compile Include="Migrations\202002251629436_ForeignKey-Corrections.cs" />
+    <Compile Include="Migrations\202002251629436_ForeignKey-Corrections.Designer.cs">
+      <DependentUpon>202002251629436_ForeignKey-Corrections.cs</DependentUpon>
     </Compile>
     <Compile Include="ReferenceEntities\AttackResultEntity.cs" />
     <Compile Include="ReferenceEntities\AttackTypeEntity.cs" />
@@ -272,8 +272,8 @@
     <EmbeddedResource Include="Migrations\202002221401066_Attacks-Troops.resx">
       <DependentUpon>202002221401066_Attacks-Troops.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202002251620546_asd.resx">
-      <DependentUpon>202002251620546_asd.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202002251629436_ForeignKey-Corrections.resx">
+      <DependentUpon>202002251629436_ForeignKey-Corrections.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
