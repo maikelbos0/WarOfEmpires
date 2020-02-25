@@ -27,9 +27,9 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
             var player = Substitute.For<Player>();
             player.User.Returns(user);
             player.SiegeWeapons.Returns(new List<SiegeWeapon>() {
-                new SiegeWeapon(player, SiegeWeaponType.FireArrows, 3),
-                new SiegeWeapon(player, SiegeWeaponType.BatteringRams, 3),
-                new SiegeWeapon(player, SiegeWeaponType.ScalingLadders, 3)
+                new SiegeWeapon(SiegeWeaponType.FireArrows, 3),
+                new SiegeWeapon(SiegeWeaponType.BatteringRams, 3),
+                new SiegeWeapon(SiegeWeaponType.ScalingLadders, 3)
             });
 
             _context.Users.Add(user);

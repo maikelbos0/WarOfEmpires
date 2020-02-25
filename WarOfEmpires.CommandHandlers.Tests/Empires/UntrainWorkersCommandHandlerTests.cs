@@ -260,9 +260,9 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
         public void UntrainWorkersCommandHandler_Fails_For_Siege_Maintenance_In_Use() {
             _player.GetBuildingBonus(BuildingType.SiegeFactory).Returns(6);
             _player.SiegeWeapons.Returns(new List<SiegeWeapon>() {
-                new SiegeWeapon(_player, SiegeWeaponType.FireArrows, 2),
-                new SiegeWeapon(_player, SiegeWeaponType.BatteringRams, 2),
-                new SiegeWeapon(_player, SiegeWeaponType.ScalingLadders, 2)
+                new SiegeWeapon(SiegeWeaponType.FireArrows, 2),
+                new SiegeWeapon(SiegeWeaponType.BatteringRams, 2),
+                new SiegeWeapon(SiegeWeaponType.ScalingLadders, 2)
             });
 
             var handler = new UntrainWorkersCommandHandler(_repository);

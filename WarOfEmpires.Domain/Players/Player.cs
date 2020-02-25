@@ -447,7 +447,7 @@ namespace WarOfEmpires.Domain.Players {
             SpendResources(definition.Cost * count);
 
             if (weapon == null) {
-                weapon = new SiegeWeapon(this, type, count);
+                weapon = new SiegeWeapon(type, count);
                 SiegeWeapons.Add(weapon);
             }
             else {

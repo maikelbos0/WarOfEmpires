@@ -407,7 +407,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
         public void Player_GetSiegeWeaponCount_Succeeds_For_Existing_SiegeWeaponType() {
             var player = new Player(0, "Test");
 
-            player.SiegeWeapons.Add(new SiegeWeapon(player, SiegeWeaponType.BatteringRams, 5));
+            player.SiegeWeapons.Add(new SiegeWeapon(SiegeWeaponType.BatteringRams, 5));
 
             player.GetSiegeWeaponCount(SiegeWeaponType.BatteringRams).Should().Be(5);
         }
@@ -922,7 +922,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
             var previousResources = player.Resources;
 
-            player.SiegeWeapons.Add(new SiegeWeapon(player, SiegeWeaponType.FireArrows, 2));
+            player.SiegeWeapons.Add(new SiegeWeapon(SiegeWeaponType.FireArrows, 2));
             player.BuildSiege(SiegeWeaponType.FireArrows, 3);
 
             player.SiegeWeapons.Single().Count.Should().Be(5);
@@ -933,7 +933,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
         [TestMethod]
         public void Player_DiscardSiege_Succeeds() {
             var player = new Player(0, "Test");
-            player.SiegeWeapons.Add(new SiegeWeapon(player, SiegeWeaponType.FireArrows, 5));
+            player.SiegeWeapons.Add(new SiegeWeapon(SiegeWeaponType.FireArrows, 5));
 
             player.DiscardSiege(SiegeWeaponType.FireArrows, 3);
 
@@ -1020,7 +1020,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
             var player = new Player(0, "Test");
 
             player.Troops.Add(new Troops(troopType, troopCount, 0));
-            player.SiegeWeapons.Add(new SiegeWeapon(player, SiegeWeaponDefinitionFactory.Get(troopType).Type, siegeWeaponCount));
+            player.SiegeWeapons.Add(new SiegeWeapon(SiegeWeaponDefinitionFactory.Get(troopType).Type, siegeWeaponCount));
             player.GetSiegeWeaponTroopCount(troopType).Should().Be(expectedResult);
         }
     }

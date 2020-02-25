@@ -27,9 +27,9 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
 
             player.User.Returns(user);
             player.SiegeWeapons.Returns(new List<SiegeWeapon>() {
-                new SiegeWeapon(player, SiegeWeaponType.FireArrows, 2),
-                new SiegeWeapon(player, SiegeWeaponType.BatteringRams, 3),
-                new SiegeWeapon(player, SiegeWeaponType.ScalingLadders, 4)
+                new SiegeWeapon(SiegeWeaponType.FireArrows, 2),
+                new SiegeWeapon(SiegeWeaponType.BatteringRams, 3),
+                new SiegeWeapon(SiegeWeaponType.ScalingLadders, 4)
             });
             player.GetBuildingBonus(BuildingType.SiegeFactory).Returns(6);
             player.SiegeEngineers.Returns(14);
