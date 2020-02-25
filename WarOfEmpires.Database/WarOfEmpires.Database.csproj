@@ -158,6 +158,10 @@
     <Compile Include="Migrations\202002221401066_Attacks-Troops.Designer.cs">
       <DependentUpon>202002221401066_Attacks-Troops.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202002251620546_asd.cs" />
+    <Compile Include="Migrations\202002251620546_asd.Designer.cs">
+      <DependentUpon>202002251620546_asd.cs</DependentUpon>
+    </Compile>
     <Compile Include="ReferenceEntities\AttackResultEntity.cs" />
     <Compile Include="ReferenceEntities\AttackTypeEntity.cs" />
     <Compile Include="ReferenceEntities\BaseReferenceEntity.cs" />
@@ -267,6 +271,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202002221401066_Attacks-Troops.resx">
       <DependentUpon>202002221401066_Attacks-Troops.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002251620546_asd.resx">
+      <DependentUpon>202002251620546_asd.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
