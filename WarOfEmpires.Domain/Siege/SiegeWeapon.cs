@@ -1,6 +1,4 @@
-﻿using WarOfEmpires.Domain.Players;
-
-namespace WarOfEmpires.Domain.Siege {
+﻿namespace WarOfEmpires.Domain.Siege {
     public class SiegeWeapon : Entity {
         public SiegeWeaponType Type { get; protected set; }
         public int Count { get; set; }

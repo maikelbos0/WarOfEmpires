@@ -47,7 +47,7 @@ namespace WarOfEmpires.CommandHandlers.Empires {
             if (!string.IsNullOrEmpty(command.BatteringRams) && !int.TryParse(command.BatteringRams, out batteringRams) || batteringRams < 0) {
                 result.AddError(c => c.BatteringRams, "Battering rams must be a valid number");
             }
-            else if (player.SiegeWeapons.SingleOrDefault(w => w.Type == SiegeWeaponType.BatteringRams).Count < batteringRams) {
+            else if (player.GetSiegeWeaponCount(SiegeWeaponType.BatteringRams) < batteringRams) {
                 result.AddError(c => c.BatteringRams, "You don't have that many battering rams to discard");
             }
             else if (batteringRams > 0) {
@@ -57,7 +57,7 @@ namespace WarOfEmpires.CommandHandlers.Empires {
             if (!string.IsNullOrEmpty(command.ScalingLadders) && !int.TryParse(command.ScalingLadders, out scalingLadders) || scalingLadders < 0) {
                 result.AddError(c => c.ScalingLadders, "Scaling ladders must be a valid number");
             }
-            else if (player.SiegeWeapons.SingleOrDefault(w => w.Type == SiegeWeaponType.ScalingLadders).Count <scalingLadders) {
+            else if (player.GetSiegeWeaponCount(SiegeWeaponType.ScalingLadders) <scalingLadders) {
                 result.AddError(c => c.ScalingLadders, "You don't have that many scaling ladders to discard");
             }
             else if (scalingLadders > 0) {

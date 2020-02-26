@@ -1,6 +1,4 @@
-﻿using WarOfEmpires.Domain.Players;
-
-namespace WarOfEmpires.Domain.Empires {
+﻿namespace WarOfEmpires.Domain.Empires {
     public class Building : Entity {
         public BuildingType Type { get; protected set; }
         public int Level { get; set; }
