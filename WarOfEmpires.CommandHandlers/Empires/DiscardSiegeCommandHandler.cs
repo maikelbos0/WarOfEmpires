@@ -30,38 +30,36 @@ namespace WarOfEmpires.CommandHandlers.Empires {
             var result = new CommandResult<DiscardSiegeCommand>();
             var player = _repository.Get(command.Email);
             var siege = new List<SiegeWeaponInfo>();
-            int fireArrows = 0;
-            int batteringRams = 0;
-            int scalingLadders = 0;
+            int weapons = 0;
 
-            if (!string.IsNullOrEmpty(command.FireArrows) && !int.TryParse(command.FireArrows, out fireArrows) || fireArrows < 0) {
+            if (!string.IsNullOrEmpty(command.FireArrows) && !int.TryParse(command.FireArrows, out weapons) || weapons < 0) {
                 result.AddError(c => c.FireArrows, "Fire arrows must be a valid number");
             }
-            else if (player.SiegeWeapons.SingleOrDefault(w => w.Type == SiegeWeaponType.FireArrows).Count < fireArrows) {
+            else if (player.SiegeWeapons.SingleOrDefault(w => w.Type == SiegeWeaponType.FireArrows).Count < weapons) {
                 result.AddError(c => c.FireArrows, "You don't have that many fire arrows to discard");
             }
-            else if (fireArrows > 0) {
-                siege.Add(new SiegeWeaponInfo(SiegeWeaponType.FireArrows, fireArrows));
+            else if (weapons > 0) {
+                siege.Add(new SiegeWeaponInfo(SiegeWeaponType.FireArrows, weapons));
             }
 
-            if (!string.IsNullOrEmpty(command.BatteringRams) && !int.TryParse(command.BatteringRams, out batteringRams) || batteringRams < 0) {
+            if (!string.IsNullOrEmpty(command.BatteringRams) && !int.TryParse(command.BatteringRams, out weapons) || weapons < 0) {
                 result.AddError(c => c.BatteringRams, "Battering rams must be a valid number");
             }
-            else if (player.GetSiegeWeaponCount(SiegeWeaponType.BatteringRams) < batteringRams) {
+            else if (player.GetSiegeWeaponCount(SiegeWeaponType.BatteringRams) < weapons) {
                 result.AddError(c => c.BatteringRams, "You don't have that many battering rams to discard");
             }
-            else if (batteringRams > 0) {
-                siege.Add(new SiegeWeaponInfo(SiegeWeaponType.BatteringRams, batteringRams));
+            else if (weapons > 0) {
+                siege.Add(new SiegeWeaponInfo(SiegeWeaponType.BatteringRams, weapons));
             }
 
-            if (!string.IsNullOrEmpty(command.ScalingLadders) && !int.TryParse(command.ScalingLadders, out scalingLadders) || scalingLadders < 0) {
+            if (!string.IsNullOrEmpty(command.ScalingLadders) && !int.TryParse(command.ScalingLadders, out weapons) || weapons < 0) {
                 result.AddError(c => c.ScalingLadders, "Scaling ladders must be a valid number");
             }
-            else if (player.GetSiegeWeaponCount(SiegeWeaponType.ScalingLadders) <scalingLadders) {
+            else if (player.GetSiegeWeaponCount(SiegeWeaponType.ScalingLadders) < weapons) {
                 result.AddError(c => c.ScalingLadders, "You don't have that many scaling ladders to discard");
             }
-            else if (scalingLadders > 0) {
-                siege.Add(new SiegeWeaponInfo(SiegeWeaponType.ScalingLadders, scalingLadders));
+            else if (weapons > 0) {
+                siege.Add(new SiegeWeaponInfo(SiegeWeaponType.ScalingLadders, weapons));
             }
             
             if (result.Success) {
