@@ -32,7 +32,11 @@
 <div id="empire-housing-totals" class="partial-content">
 </div>
 
-@using (Html.BeginForm(null, null, FormMethod.Post, new { data_success_message = "Your people were reassigned." })) {
+@using (Html.BeginForm(null, null, FormMethod.Post, new {
+    data_success_message_train = "Your troops were trained.",
+    data_success_message_untrain = "Your troops were untrained.",
+    data_success_message_heal = "Your troops were healed.",
+})) {
     @Html.ValidationSummary(true, null, new { @class = "site-validation-summary text-danger" })
     @Html.HiddenFor(m => m.Command)
     @Html.HiddenFor(m => m.CurrentPeasants)
@@ -59,7 +63,7 @@
             @Html.TextBoxFor(m => m.StaminaToHeal, new { @class = "form-control" })
             @Html.ValidationMessageFor(m => m.StaminaToHeal, null, new { @class = "small form-text text-danger" })
         </div>
-        
+
         <div class="col-2">
             <button type="submit" class="btn btn-primary form-control" value="heal">Heal Troops</button>
         </div>
