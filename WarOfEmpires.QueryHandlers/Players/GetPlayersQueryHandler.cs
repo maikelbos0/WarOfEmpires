@@ -23,7 +23,8 @@ namespace WarOfEmpires.QueryHandlers.Players {
                 .Select(p => new PlayerViewModel() {
                     Id = p.Id,
                     DisplayName = p.DisplayName,
-                    Population = p.Farmers + p.WoodWorkers + p.StoneMasons + p.OreMiners + p.Peasants + p.SiegeEngineers
+                    Population = p.Peasants 
+                        + (p.Workers.Sum(w => (int?)w.Count) ?? 0)
                         + (p.Troops.Sum(t => (int?)t.Soldiers) ?? 0)
                         + (p.Troops.Sum(t => (int?)t.Mercenaries) ?? 0)
                 })

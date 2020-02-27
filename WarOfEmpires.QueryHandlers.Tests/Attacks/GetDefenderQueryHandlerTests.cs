@@ -35,7 +35,11 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
                 new Workers(WorkerType.OreMiner, 4),
                 new Workers(WorkerType.SiegeEngineer, 6)
             });
-            player.Troops.Returns(new List<Troops>() { new Troops(TroopType.Archers, 15, 5), new Troops(TroopType.Cavalry, 3, 1), new Troops(TroopType.Footmen, 3, 1) });
+            player.Troops.Returns(new List<Troops>() {
+                new Troops(TroopType.Archers, 15, 5),
+                new Troops(TroopType.Cavalry, 3, 1),
+                new Troops(TroopType.Footmen, 3, 1)
+            });
 
             _context.Users.Add(user);
             _context.Players.Add(player);
