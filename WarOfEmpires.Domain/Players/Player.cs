@@ -15,7 +15,9 @@ namespace WarOfEmpires.Domain.Players {
         public const int AttackDamageModifier = 200;
         public const int AttackStaminaDrainModifier = 2;
 
+        [Obsolete]
         public static Resources WorkerTrainingCost = new Resources(gold: 250);
+        [Obsolete]
         public static Resources SiegeEngineerTrainingCost = new Resources(gold: 2500, wood: 250, ore: 500);
         public static Resources MercenaryTrainingCost = new Resources(gold: 5000);
 
@@ -29,12 +31,17 @@ namespace WarOfEmpires.Domain.Players {
         /// <summary>
         /// Current number of expected recruits / 24
         /// </summary>
-        public virtual int CurrentRecruitingEffort { get; protected set; } = 0;
+        public virtual int CurrentRecruitingEffort { get; protected set; } = 0;        
         public virtual int Peasants { get; protected set; } = 10;
+        [Obsolete]
         public virtual int Farmers { get; protected set; }
+        [Obsolete]
         public virtual int WoodWorkers { get; protected set; }
+        [Obsolete]
         public virtual int StoneMasons { get; protected set; }
+        [Obsolete]
         public virtual int OreMiners { get; protected set; }
+        [Obsolete]
         public virtual int SiegeEngineers { get; protected set; }
         public virtual Resources Resources { get; protected set; } = new Resources(10000, 2000, 2000, 2000, 2000);
         public virtual Resources BankedResources { get; protected set; } = new Resources();
