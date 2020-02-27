@@ -76,6 +76,7 @@
   <ItemGroup>
     <Compile Include="Container\ContainerServiceTests.cs" />
     <Compile Include="Events\EventServiceTests.cs" />
+    <Compile Include="Linq\EnumerableExtensionsTests.cs" />
     <Compile Include="Mail\ConfirmEmailMailTemplateTests.cs" />
     <Compile Include="Mail\ActivationMailTemplateTests.cs" />
     <Compile Include="Mail\PasswordResetMailTemplateTests.cs" />

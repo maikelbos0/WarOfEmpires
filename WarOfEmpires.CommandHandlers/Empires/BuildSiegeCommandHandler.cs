@@ -2,11 +2,11 @@
 using System.Linq;
 using WarOfEmpires.CommandHandlers.Decorators;
 using WarOfEmpires.Commands.Empires;
-using WarOfEmpires.Domain.Common;
 using WarOfEmpires.Domain.Empires;
 using WarOfEmpires.Domain.Siege;
 using WarOfEmpires.Repositories.Players;
 using WarOfEmpires.Utilities.Container;
+using WarOfEmpires.Utilities.Linq;
 
 namespace WarOfEmpires.CommandHandlers.Empires {
     [InterfaceInjectable]
@@ -54,7 +54,7 @@ namespace WarOfEmpires.CommandHandlers.Empires {
                 result.AddError("You don't have enough siege maintenance available to build that much siege");
             }
 
-            if (!player.CanAfford(siege.Aggregate(new Resources(), (seed, s) => seed + s.Count * SiegeWeaponDefinitionFactory.Get(s.Type).Cost))) {
+            if (!player.CanAfford(siege.Sum(s => s.Count * SiegeWeaponDefinitionFactory.Get(s.Type).Cost))) {
                 result.AddError("You don't have enough resources to build that much siege");
             }
 

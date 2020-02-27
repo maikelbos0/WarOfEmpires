@@ -3,10 +3,10 @@ using System.Linq;
 using WarOfEmpires.CommandHandlers.Decorators;
 using WarOfEmpires.Commands.Empires;
 using WarOfEmpires.Domain.Attacks;
-using WarOfEmpires.Domain.Common;
 using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Repositories.Players;
 using WarOfEmpires.Utilities.Container;
+using WarOfEmpires.Utilities.Linq;
 
 namespace WarOfEmpires.CommandHandlers.Empires {
     [InterfaceInjectable]
@@ -78,7 +78,7 @@ namespace WarOfEmpires.CommandHandlers.Empires {
                 result.AddError("You don't have enough barracks available to train that many troops");
             }
 
-            if (!player.CanAfford(troops.Aggregate(new Resources(), (r, t) => r + TroopDefinitionFactory.Get(t.Type).Cost * t.Soldiers)
+            if (!player.CanAfford(troops.Sum(t => TroopDefinitionFactory.Get(t.Type).Cost * t.Soldiers)
                 + troops.Sum(t => t.Mercenaries) * Player.MercenaryTrainingCost)) {
                 result.AddError("You don't have enough resources to train these troops");
             }
