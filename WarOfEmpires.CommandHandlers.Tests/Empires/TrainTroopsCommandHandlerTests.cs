@@ -58,9 +58,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
             var result = handler.Execute(command);
 
             result.Success.Should().BeTrue();
-            _player.Received().TrainTroops(TroopType.Archers, 0, 0);
-            _player.Received().TrainTroops(TroopType.Cavalry, 0, 0);
-            _player.Received().TrainTroops(TroopType.Footmen, 0, 0);
+            _player.DidNotReceiveWithAnyArgs().TrainTroops(default, default, default);
         }
 
         [TestMethod]
