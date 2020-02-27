@@ -155,20 +155,8 @@ namespace WarOfEmpires.Domain.Tests.Players {
             player.GetGoldPerTurn().Should().Be(900);
         }
 
-        [TestMethod]
-        public void Player_GetFoodProduction_Is_Correct() {
-            var player = new Player(0, "Test") {
-                Tax = 20
-            };
-
-            player.Buildings.Add(new Building(BuildingType.Farm, 4));
-            player.TrainWorkers(1, 2, 3, 4, 0);
-
-            player.GetFoodProduction().GetTotalProduction().Should().Be(32);
-        }
-
-        [TestMethod]
-        public void Player_GetWoodProduction_Is_Correct() {
+        [DataTestMethod]
+        public void Player_GetProduction_Is_Correct() {
             var player = new Player(0, "Test") {
                 Tax = 40
             };
@@ -176,31 +164,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
             player.Buildings.Add(new Building(BuildingType.Lumberyard, 6));
             player.TrainWorkers(1, 2, 3, 4, 0);
 
-            player.GetWoodProduction().GetTotalProduction().Should().Be(60);
-        }
-
-        [TestMethod]
-        public void Player_GetStoneProduction_Is_Correct() {
-            var player = new Player(0, "Test") {
-                Tax = 60
-            };
-
-            player.Buildings.Add(new Building(BuildingType.Quarry, 8));
-            player.TrainWorkers(1, 2, 3, 4, 0);
-
-            player.GetStoneProduction().GetTotalProduction().Should().Be(72);
-        }
-
-        [TestMethod]
-        public void Player_GetOreProduction_Is_Correct() {
-            var player = new Player(0, "Test") {
-                Tax = 80
-            };
-
-            player.Buildings.Add(new Building(BuildingType.Mine, 16));
-            player.TrainWorkers(1, 2, 3, 4, 0);
-
-            player.GetOreProduction().GetTotalProduction().Should().Be(80);
+            player.GetProduction(WorkerType.WoodWorker).GetTotalProduction().Should().Be(60);
         }
 
         [TestMethod]
@@ -226,10 +190,10 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
             player.Resources.Should().Be(previousResources + new Resources(
                 player.GetGoldPerTurn(),
-                player.GetFoodProduction().GetTotalProduction(),
-                player.GetWoodProduction().GetTotalProduction(),
-                player.GetStoneProduction().GetTotalProduction(),
-                player.GetOreProduction().GetTotalProduction()
+                player.GetProduction(WorkerType.Farmer).GetTotalProduction(),
+                player.GetProduction(WorkerType.WoodWorker).GetTotalProduction(),
+                player.GetProduction(WorkerType.StoneMason).GetTotalProduction(),
+                player.GetProduction(WorkerType.OreMiner).GetTotalProduction()
             ) - player.GetUpkeepPerTurn());
         }
 
@@ -1022,6 +986,46 @@ namespace WarOfEmpires.Domain.Tests.Players {
             player.Troops.Add(new Troops(troopType, troopCount, 0));
             player.SiegeWeapons.Add(new SiegeWeapon(SiegeWeaponDefinitionFactory.Get(troopType).Type, siegeWeaponCount));
             player.GetSiegeWeaponTroopCount(troopType).Should().Be(expectedResult);
+        }
+
+        [TestMethod]
+        public void Player_GetTroops_Succeeds_For_Nonexistent_TroopType() {
+            var player = new Player(0, "Test");
+
+            var troops = player.GetTroops(TroopType.Archers);
+
+            troops.Type.Should().Be(TroopType.Archers);
+            troops.Soldiers.Should().Be(0);
+            troops.Mercenaries.Should().Be(0);
+        }
+
+        [TestMethod]
+        public void Player_GetTroops_Succeeds_For_Existing_TroopType() {
+            var player = new Player(0, "Test");
+
+            player.Troops.Add(new Troops(TroopType.Cavalry, 10, 2));
+
+            var troops = player.GetTroops(TroopType.Cavalry);
+
+            troops.Type.Should().Be(TroopType.Cavalry);
+            troops.Soldiers.Should().Be(10);
+            troops.Mercenaries.Should().Be(2);
+        }
+
+        [TestMethod]
+        public void Player_GetWorkers_Succeeds_For_Nonexistent_WorkerType() {
+            var player = new Player(0, "Test");
+
+            player.GetWorkerCount(WorkerType.StoneMason).Should().Be(0);
+        }
+
+        [TestMethod]
+        public void Player_GetWorkers_Succeeds_For_Existing_WorkerType() {
+            var player = new Player(0, "Test");
+
+            player.Workers.Add(new Workers(WorkerType.OreMiner, 7));
+
+            player.GetWorkerCount(WorkerType.OreMiner).Should().Be(7);
         }
     }
 }

@@ -9,7 +9,7 @@ using WarOfEmpires.Domain.Siege;
 namespace WarOfEmpires.Domain.Players {
     public class Player : AggregateRoot {
         public const int RecruitingEffortStep = 24;
-        public const int BaseGoldProduction = 500;
+        public const int BaseGoldPerTurn = 500;
         public const int BaseResourceProduction = 20;
         public static int[] BuildingRecruitingLevels = { 50000, 100000, 200000, 300000, 500000, 800000, 1200000, 2000000, 3000000, 5000000, 8000000, 12000000, 20000000, 30000000, 40000000, 50000000, 60000000, 70000000, 80000000, 90000000, 100000000, 110000000, 120000000, 130000000, 140000000, 150000000 };
         public const int AttackDamageModifier = 200;
@@ -150,38 +150,28 @@ namespace WarOfEmpires.Domain.Players {
             return (decimal)Tax / 100;
         }
 
-        public int GetBaseGoldPerTurn() {
-            return BaseGoldProduction;
-        }
-
         public int GetGoldPerWorkerPerTurn() {
-            return (int)(GetTaxRate() * GetBaseGoldPerTurn());
+            return (int)(GetTaxRate() * BaseGoldPerTurn);
         }
 
         public int GetGoldPerTurn() {
-            return GetGoldPerWorkerPerTurn() * (Farmers + WoodWorkers + StoneMasons + OreMiners);
+            return GetGoldPerWorkerPerTurn() * Workers.Where(w => WorkerDefinitionFactory.Get(w.Type).IsProducer).Sum(w => w.Count);
         }
 
-        public ProductionInfo GetFoodProduction() {
-            return new ProductionInfo(Farmers, GetBuildingBonusMultiplier(BuildingType.Farm), GetTaxRate());
+        public int GetWorkerCount(WorkerType type) {
+            return Workers.SingleOrDefault(w => w.Type == type)?.Count ?? 0;
         }
 
-        public ProductionInfo GetWoodProduction() {
-            return new ProductionInfo(WoodWorkers, GetBuildingBonusMultiplier(BuildingType.Lumberyard), GetTaxRate());
-        }
+        public ProductionInfo GetProduction(WorkerType workerType) {
+            var buildingType = WorkerDefinitionFactory.Get(workerType).BuildingType;
 
-        public ProductionInfo GetStoneProduction() {
-            return new ProductionInfo(StoneMasons, GetBuildingBonusMultiplier(BuildingType.Quarry), GetTaxRate());
-        }
-
-        public ProductionInfo GetOreProduction() {
-            return new ProductionInfo(OreMiners, GetBuildingBonusMultiplier(BuildingType.Mine), GetTaxRate());
+            return new ProductionInfo(GetWorkerCount(workerType), GetBuildingBonusMultiplier(buildingType), GetTaxRate());
         }
 
         public virtual Resources GetUpkeepPerTurn() {
             var upkeep = new Resources();
 
-            upkeep += (Peasants + Farmers + WoodWorkers + StoneMasons + OreMiners + SiegeEngineers) * PeasantUpkeep;
+            upkeep += (Peasants + Workers.Sum(w => w.Count)) * PeasantUpkeep;
             upkeep += Troops.Sum(t => t.Soldiers) * SoldierUpkeep;
             upkeep += Troops.Sum(t => t.Mercenaries) * MercenaryUpkeep;
 
@@ -252,10 +242,10 @@ namespace WarOfEmpires.Domain.Players {
         public virtual Resources GetResourcesPerTurn() {
             return new Resources(
                 GetGoldPerTurn(),
-                GetFoodProduction().GetTotalProduction(),
-                GetWoodProduction().GetTotalProduction(),
-                GetStoneProduction().GetTotalProduction(),
-                GetOreProduction().GetTotalProduction()
+                GetProduction(WorkerType.Farmer).GetTotalProduction(),
+                GetProduction(WorkerType.WoodWorker).GetTotalProduction(),
+                GetProduction(WorkerType.StoneMason).GetTotalProduction(),
+                GetProduction(WorkerType.OreMiner).GetTotalProduction()
             );
         }
 

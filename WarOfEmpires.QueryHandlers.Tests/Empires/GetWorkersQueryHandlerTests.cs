@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
+using System.Collections.Generic;
 using WarOfEmpires.Domain.Common;
 using WarOfEmpires.Domain.Empires;
 using WarOfEmpires.Domain.Players;
@@ -26,12 +27,13 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
             player.User.Returns(user);
             player.Id.Returns(1);
             player.Peasants.Returns(1);
-            player.Farmers.Returns(2);
-            player.WoodWorkers.Returns(3);
-            player.StoneMasons.Returns(4);
-            player.OreMiners.Returns(5);
-            player.SiegeEngineers.Returns(6);
-            
+            player.Workers.Returns(new List<Workers>() {
+                new Workers(WorkerType.Farmer, 2),
+                new Workers(WorkerType.WoodWorker, 3),
+                new Workers(WorkerType.StoneMason, 4),
+                new Workers(WorkerType.OreMiner, 5),
+                new Workers(WorkerType.SiegeEngineer, 6)
+            });            
             player.Tax.Returns(50);
             player.GetRecruitsPerDay().Returns(5);
             player.GetUpkeepPerTurn().Returns(new Resources(gold: 500, food: 30));
