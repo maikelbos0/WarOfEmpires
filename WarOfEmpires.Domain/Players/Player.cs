@@ -355,7 +355,7 @@ namespace WarOfEmpires.Domain.Players {
         }
 
         public virtual int GetAvailableHutCapacity() {
-            return GetBuildingBonus(BuildingType.Huts) - Peasants - Farmers - WoodWorkers - StoneMasons - OreMiners - SiegeEngineers;
+            return GetBuildingBonus(BuildingType.Huts) - Peasants - Workers.Sum(w => w.Count);
         }
 
         public virtual int GetAvailableHousingCapacity() {
@@ -395,7 +395,7 @@ namespace WarOfEmpires.Domain.Players {
 
         public virtual int GetSoldierRecruitsPenalty() {
             var soldiers = Troops.Sum(t => t.Soldiers);
-            var peasants = Peasants + Farmers + WoodWorkers + StoneMasons + OreMiners + SiegeEngineers;
+            var peasants = Peasants + Workers.Sum(w => w.Count);
             var ratio = 1.0m * soldiers / (soldiers + peasants);
 
             if (ratio >= 0.5m) {
