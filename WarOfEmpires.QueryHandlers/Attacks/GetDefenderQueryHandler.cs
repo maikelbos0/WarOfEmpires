@@ -20,12 +20,11 @@ namespace WarOfEmpires.QueryHandlers.Attacks {
             var id = int.Parse(query.Id);
             var player = _context.Players
                 .Single(p => p.User.Status == UserStatus.Active && p.Id == id);
-            
+
             return new ExecuteAttackModel() {
                 DefenderId = player.Id,
                 DisplayName = player.DisplayName,
-                Population = player.Farmers + player.WoodWorkers + player.StoneMasons + player.OreMiners + player.Peasants + player.SiegeEngineers
-                    + player.Troops.Sum(t => t.GetTotals())
+                Population = player.Peasants + player.Workers.Sum(w => w.Count) + player.Troops.Sum(t => t.GetTotals())
             };
         }
     }
