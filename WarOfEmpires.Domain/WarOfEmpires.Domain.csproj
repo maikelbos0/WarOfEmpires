@@ -74,6 +74,7 @@
     <Compile Include="Empires\BuildingType.cs" />
     <Compile Include="Empires\WorkerDefinition.cs" />
     <Compile Include="Empires\WorkerDefinitionFactory.cs" />
+    <Compile Include="Empires\Workers.cs" />
     <Compile Include="Empires\WorkerType.cs" />
     <Compile Include="Entity.cs" />
     <Compile Include="Events\IEvent.cs" />

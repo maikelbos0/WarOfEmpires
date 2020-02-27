@@ -31,18 +31,88 @@ namespace WarOfEmpires.Domain.Players {
         /// <summary>
         /// Current number of expected recruits / 24
         /// </summary>
-        public virtual int CurrentRecruitingEffort { get; protected set; } = 0;        
+        public virtual int CurrentRecruitingEffort { get; protected set; } = 0;
         public virtual int Peasants { get; protected set; } = 10;
         [Obsolete]
-        public virtual int Farmers { get; protected set; }
+        public virtual int Farmers {
+            get {
+                return Workers.SingleOrDefault(t => t.Type == WorkerType.Farmer)?.Count ?? 0;
+            }
+            protected set {
+                var workers = Workers.SingleOrDefault(t => t.Type == WorkerType.Farmer);
+
+                if (workers != null) {
+                    workers.Count = value;
+                }
+                else {
+                    Workers.Add(new Workers(WorkerType.Farmer, value));
+                }
+            }
+        }
         [Obsolete]
-        public virtual int WoodWorkers { get; protected set; }
+        public virtual int WoodWorkers {
+            get {
+                return Workers.SingleOrDefault(t => t.Type == WorkerType.WoodWorker)?.Count ?? 0;
+            }
+            protected set {
+                var workers = Workers.SingleOrDefault(t => t.Type == WorkerType.WoodWorker);
+
+                if (workers != null) {
+                    workers.Count = value;
+                }
+                else {
+                    Workers.Add(new Workers(WorkerType.WoodWorker, value));
+                }
+            }
+        }
         [Obsolete]
-        public virtual int StoneMasons { get; protected set; }
+        public virtual int StoneMasons {
+            get {
+                return Workers.SingleOrDefault(t => t.Type == WorkerType.StoneMason)?.Count ?? 0;
+            }
+            protected set {
+                var workers = Workers.SingleOrDefault(t => t.Type == WorkerType.StoneMason);
+
+                if (workers != null) {
+                    workers.Count = value;
+                }
+                else {
+                    Workers.Add(new Workers(WorkerType.StoneMason, value));
+                }
+            }
+        }
         [Obsolete]
-        public virtual int OreMiners { get; protected set; }
+        public virtual int OreMiners {
+            get {
+                return Workers.SingleOrDefault(t => t.Type == WorkerType.OreMiner)?.Count ?? 0;
+            }
+            protected set {
+                var workers = Workers.SingleOrDefault(t => t.Type == WorkerType.OreMiner);
+
+                if (workers != null) {
+                    workers.Count = value;
+                }
+                else {
+                    Workers.Add(new Workers(WorkerType.OreMiner, value));
+                }
+            }
+        }
         [Obsolete]
-        public virtual int SiegeEngineers { get; protected set; }
+        public virtual int SiegeEngineers {
+            get {
+                return Workers.SingleOrDefault(t => t.Type == WorkerType.SiegeEngineer)?.Count ?? 0;
+            }
+            protected set {
+                var workers = Workers.SingleOrDefault(t => t.Type == WorkerType.SiegeEngineer);
+
+                if (workers != null) {
+                    workers.Count = value;
+                }
+                else {
+                    Workers.Add(new Workers(WorkerType.SiegeEngineer, value));
+                }
+            }
+        }
         public virtual Resources Resources { get; protected set; } = new Resources(10000, 2000, 2000, 2000, 2000);
         public virtual Resources BankedResources { get; protected set; } = new Resources();
         public virtual int Tax { get; set; } = 50;
@@ -50,6 +120,7 @@ namespace WarOfEmpires.Domain.Players {
         public virtual int BankTurns { get; protected set; } = 6;
         public virtual int Stamina { get; protected set; } = 100;
         public virtual bool HasUpkeepRunOut { get; protected set; } = false;
+        public virtual ICollection<Workers> Workers { get; protected set; } = new List<Workers>();
         public virtual ICollection<Troops> Troops { get; protected set; } = new List<Troops>();
         public virtual ICollection<Building> Buildings { get; protected set; } = new List<Building>();
         public virtual ICollection<SiegeWeapon> SiegeWeapons { get; protected set; } = new List<SiegeWeapon>();

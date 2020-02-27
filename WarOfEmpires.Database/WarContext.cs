@@ -76,6 +76,7 @@ namespace WarOfEmpires.Database {
 
             var players = modelBuilder.Entity<Players.Player>().ToTable("Players", "Players").HasKey(p => p.Id);
             players.HasRequired(p => p.User).WithOptional();
+            players.HasMany(p => p.Workers).WithRequired();
             players.HasMany(p => p.Troops).WithRequired();
             players.HasMany(p => p.SiegeWeapons).WithRequired();
             players.HasMany(p => p.Buildings).WithRequired();
@@ -94,6 +95,18 @@ namespace WarOfEmpires.Database {
             players.Property(p => p.BankedResources.Wood).HasColumnName("BankedWood");
             players.Property(p => p.BankedResources.Stone).HasColumnName("BankedStone");
             players.Property(p => p.BankedResources.Ore).HasColumnName("BankedOre");
+
+            players.Ignore(p => p.Farmers);
+            players.Ignore(p => p.WoodWorkers);
+            players.Ignore(p => p.StoneMasons);
+            players.Ignore(p => p.OreMiners);
+            players.Ignore(p => p.SiegeEngineers);
+
+            var workerTypes = modelBuilder.Entity<WorkerTypeEntity>().ToTable("WorkerTypes", "Empires").HasKey(t => t.Id);
+            workerTypes.HasMany(w => w.Workers).WithRequired().HasForeignKey(w => w.Type);
+            workerTypes.Property(w => w.Name).IsRequired();
+
+            var workers = modelBuilder.Entity<Empires.Workers>().ToTable("Workers", "Empires").HasKey(t => t.Id);
 
             var troops = modelBuilder.Entity<Attacks.Troops>().ToTable("Troops", "Attacks").HasKey(t => t.Id);
 

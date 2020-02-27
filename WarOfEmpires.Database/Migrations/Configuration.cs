@@ -16,6 +16,7 @@ namespace WarOfEmpires.Database.Migrations {
             SeedEntityType<Security.UserEventType, UserEventTypeEntity>(context);
             SeedEntityType<Empires.BuildingType, BuildingTypeEntity>(context);
             SeedEntityType<Security.UserStatus, UserStatusEntity>(context);
+            SeedEntityType<Empires.WorkerType, WorkerTypeEntity>(context);
             SeedEntityType<Attacks.TroopType, TroopTypeEntity>(context);
             SeedEntityType<Attacks.AttackResult, AttackResultEntity>(context);
             SeedEntityType<Attacks.AttackType, AttackTypeEntity>(context);
