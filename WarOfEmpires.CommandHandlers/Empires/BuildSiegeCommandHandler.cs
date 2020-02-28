@@ -21,7 +21,7 @@ namespace WarOfEmpires.CommandHandlers.Empires {
         public CommandResult<BuildSiegeCommand> Execute(BuildSiegeCommand command) {
             var result = new CommandResult<BuildSiegeCommand>();
             var player = _repository.Get(command.Email);
-            var availableMaintenance = player.SiegeEngineers * player.GetBuildingBonus(BuildingType.SiegeFactory)
+            var availableMaintenance = player.GetWorkerCount(WorkerType.SiegeEngineer) * player.GetBuildingBonus(BuildingType.SiegeFactory)
                 - player.SiegeWeapons.Sum(s => s.Count * SiegeWeaponDefinitionFactory.Get(s.Type).Maintenance);
             var siege = new List<SiegeWeaponInfo>();
             int weapons = 0;
