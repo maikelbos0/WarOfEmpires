@@ -96,12 +96,6 @@ namespace WarOfEmpires.Database {
             players.Property(p => p.BankedResources.Stone).HasColumnName("BankedStone");
             players.Property(p => p.BankedResources.Ore).HasColumnName("BankedOre");
 
-            players.Ignore(p => p.Farmers);
-            players.Ignore(p => p.WoodWorkers);
-            players.Ignore(p => p.StoneMasons);
-            players.Ignore(p => p.OreMiners);
-            players.Ignore(p => p.SiegeEngineers);
-
             var workerTypes = modelBuilder.Entity<WorkerTypeEntity>().ToTable("WorkerTypes", "Empires").HasKey(t => t.Id);
             workerTypes.HasMany(w => w.Workers).WithRequired().HasForeignKey(w => w.Type);
             workerTypes.Property(w => w.Name).IsRequired();
