@@ -24,30 +24,33 @@ namespace WarOfEmpires.CommandHandlers.Empires {
             var availableMaintenance = player.GetWorkerCount(WorkerType.SiegeEngineer) * player.GetBuildingBonus(BuildingType.SiegeFactory)
                 - player.SiegeWeapons.Sum(s => s.Count * SiegeWeaponDefinitionFactory.Get(s.Type).Maintenance);
             var siege = new List<SiegeWeaponInfo>();
-            int weapons = 0;
+            int value = 0;
 
             // Fire arrows
-            if (!string.IsNullOrEmpty(command.FireArrows) && !int.TryParse(command.FireArrows, out weapons) || weapons < 0) {
+            value = 0;
+            if (!string.IsNullOrEmpty(command.FireArrows) && !int.TryParse(command.FireArrows, out value) || value < 0) {
                 result.AddError(c => c.FireArrows, "Fire arrows must be a valid number");
             }
-            else if (weapons > 0) {
-                siege.Add(new SiegeWeaponInfo(SiegeWeaponType.FireArrows, weapons));
+            else if (value > 0) {
+                siege.Add(new SiegeWeaponInfo(SiegeWeaponType.FireArrows, value));
             }
 
             // Battering rams
-            if (!string.IsNullOrEmpty(command.BatteringRams) && !int.TryParse(command.BatteringRams, out weapons) || weapons < 0) {
+            value = 0;
+            if (!string.IsNullOrEmpty(command.BatteringRams) && !int.TryParse(command.BatteringRams, out value) || value < 0) {
                 result.AddError(c => c.BatteringRams, "Battering rams must be a valid number");
             }
-            else if (weapons > 0) {
-                siege.Add(new SiegeWeaponInfo(SiegeWeaponType.BatteringRams, weapons));
+            else if (value > 0) {
+                siege.Add(new SiegeWeaponInfo(SiegeWeaponType.BatteringRams, value));
             }
 
             // Scaling ladders
-            if (!string.IsNullOrEmpty(command.ScalingLadders) && !int.TryParse(command.ScalingLadders, out weapons) || weapons < 0) {
+            value = 0;
+            if (!string.IsNullOrEmpty(command.ScalingLadders) && !int.TryParse(command.ScalingLadders, out value) || value < 0) {
                 result.AddError(c => c.ScalingLadders, "Scaling ladders must be a valid number");
             }
-            else if (weapons > 0) {
-                siege.Add(new SiegeWeaponInfo(SiegeWeaponType.ScalingLadders, weapons));
+            else if (value > 0) {
+                siege.Add(new SiegeWeaponInfo(SiegeWeaponType.ScalingLadders, value));
             }
 
             if (availableMaintenance < siege.Sum(s => s.Count * SiegeWeaponDefinitionFactory.Get(s.Type).Maintenance)) {

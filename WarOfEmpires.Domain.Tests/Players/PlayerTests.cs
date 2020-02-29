@@ -72,19 +72,11 @@ namespace WarOfEmpires.Domain.Tests.Players {
         [TestMethod]
         public void Player_TrainWorkers_Trains_Workers() {
             var player = new Player(0, "Test");
-            var previousFarmers = player.Farmers;
-            var previousWoodWorkers = player.WoodWorkers;
-            var previousStoneMasons = player.StoneMasons;
-            var previousOreMiners = player.OreMiners;
-            var previousSiegeEngineers = player.SiegeEngineers;
+            var previousStoneMasons = player.GetWorkerCount(WorkerType.StoneMason);
 
-            player.TrainWorkers(1, 3, 4, 5, 2);
+            player.TrainWorkers(WorkerType.StoneMason, 4);
 
-            player.Farmers.Should().Be(previousFarmers + 1);
-            player.WoodWorkers.Should().Be(previousWoodWorkers + 3);
-            player.StoneMasons.Should().Be(previousStoneMasons + 4);
-            player.OreMiners.Should().Be(previousOreMiners + 5);
-            player.SiegeEngineers.Should().Be(previousSiegeEngineers + 2);
+            player.GetWorkerCount(WorkerType.StoneMason).Should().Be(previousStoneMasons + 4);
         }
 
         [TestMethod]
@@ -92,9 +84,9 @@ namespace WarOfEmpires.Domain.Tests.Players {
             var player = new Player(0, "Test");
             var previousPeasants = player.Peasants;
 
-            player.TrainWorkers(1, 3, 4, 5, 2);
+            player.TrainWorkers(WorkerType.StoneMason, 4);
 
-            player.Peasants.Should().Be(previousPeasants - 15);
+            player.Peasants.Should().Be(previousPeasants - 4);
         }
 
         [TestMethod]
@@ -102,37 +94,30 @@ namespace WarOfEmpires.Domain.Tests.Players {
             var player = new Player(0, "Test");
             var previousResources = player.Resources;
 
-            player.TrainWorkers(1, 3, 4, 5, 2);
+            player.TrainWorkers(WorkerType.StoneMason, 4);
 
-            player.Resources.Should().Be(previousResources - 13 * Player.WorkerTrainingCost - 2 * Player.SiegeEngineerTrainingCost);
+            player.Resources.Should().Be(previousResources - 4 * WorkerDefinitionFactory.Get(WorkerType.StoneMason).Cost);
         }
 
         [TestMethod]
         public void Player_UntrainWorkers_Untrains_Workers() {
             var player = new Player(0, "Test");
-            var previousFarmers = player.Farmers;
-            var previousWoodWorkers = player.WoodWorkers;
-            var previousStoneMasons = player.StoneMasons;
-            var previousOreMiners = player.OreMiners;
-            var previousSiegeEngineers = player.SiegeEngineers;
+            player.Workers.Add(new Workers(WorkerType.SiegeEngineer, 5));
 
-            player.UntrainWorkers(8, 4, 2, 1, 3);
+            player.UntrainWorkers(WorkerType.SiegeEngineer, 3);
 
-            player.Farmers.Should().Be(previousFarmers - 8);
-            player.WoodWorkers.Should().Be(previousWoodWorkers - 4);
-            player.StoneMasons.Should().Be(previousStoneMasons - 2);
-            player.OreMiners.Should().Be(previousOreMiners - 1);
-            player.SiegeEngineers.Should().Be(previousSiegeEngineers - 3);
+            player.GetWorkerCount(WorkerType.SiegeEngineer).Should().Be(2);
         }
 
         [TestMethod]
         public void Player_UntrainWorkers_Adds_Peasants() {
             var player = new Player(0, "Test");
             var previousPeasants = player.Peasants;
+            player.Workers.Add(new Workers(WorkerType.SiegeEngineer, 5));
 
-            player.UntrainWorkers(8, 4, 2, 1, 3);
+            player.UntrainWorkers(WorkerType.SiegeEngineer, 3);
 
-            player.Peasants.Should().Be(previousPeasants + 18);
+            player.Peasants.Should().Be(previousPeasants + 3);
         }
 
         [TestMethod]
@@ -150,7 +135,11 @@ namespace WarOfEmpires.Domain.Tests.Players {
                 Tax = 30
             };
 
-            player.TrainWorkers(1, 1, 2, 2, 1);
+            player.Workers.Add(new Workers(WorkerType.Farmer, 1));
+            player.Workers.Add(new Workers(WorkerType.WoodWorker, 1));
+            player.Workers.Add(new Workers(WorkerType.StoneMason, 2));
+            player.Workers.Add(new Workers(WorkerType.OreMiner, 2));
+            player.Workers.Add(new Workers(WorkerType.SiegeEngineer, 1));
 
             player.GetGoldPerTurn().Should().Be(900);
         }
@@ -162,7 +151,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
             };
 
             player.Buildings.Add(new Building(BuildingType.Lumberyard, 6));
-            player.TrainWorkers(1, 2, 3, 4, 0);
+            player.Workers.Add(new Workers(WorkerType.WoodWorker, 2));
 
             player.GetProduction(WorkerType.WoodWorker).GetTotalProduction().Should().Be(60);
         }
@@ -180,7 +169,10 @@ namespace WarOfEmpires.Domain.Tests.Players {
         [TestMethod]
         public void Player_ProcessTurn_Adds_Resources() {
             var player = new Player(0, "Test");
-            player.TrainWorkers(1, 2, 1, 2, 0);
+            player.Workers.Add(new Workers(WorkerType.Farmer, 1));
+            player.Workers.Add(new Workers(WorkerType.WoodWorker, 2));
+            player.Workers.Add(new Workers(WorkerType.StoneMason, 1));
+            player.Workers.Add(new Workers(WorkerType.OreMiner, 2));
             player.Troops.Add(new Troops(TroopType.Archers, 0, 1));
 
             var previousResources = player.Resources;
@@ -221,10 +213,13 @@ namespace WarOfEmpires.Domain.Tests.Players {
         [TestMethod]
         public void Player_ProcessTurn_Does_Not_Give_Resources_When_Out_Of_Food_Or_Gold() {
             var player = new Player(0, "Test");
-            player.TrainWorkers(1, 2, 3, 4, 0);
+            player.Workers.Add(new Workers(WorkerType.Farmer, 1));
+            player.Workers.Add(new Workers(WorkerType.WoodWorker, 2));
+            player.Workers.Add(new Workers(WorkerType.StoneMason, 3));
+            player.Workers.Add(new Workers(WorkerType.OreMiner, 4));
             player.Tax = 85;
 
-            while (player.Resources.CanAfford(player.GetUpkeepPerTurn())) {
+            while (player.CanAfford(player.GetUpkeepPerTurn())) {
                 player.ProcessTurn();
             }
 
@@ -237,35 +232,10 @@ namespace WarOfEmpires.Domain.Tests.Players {
         }
 
         [TestMethod]
-        public void Player_ProcessTurn_Does_Not_Give_Resources_When_Out_Of_Food_Or_Gold_Banked() {
-            var player = new Player(0, "Test");
-            player.TrainWorkers(1, 2, 3, 4, 0);
-            player.Tax = 85;
-
-            while (player.CanAfford(player.GetUpkeepPerTurn())) {
-                player.ProcessTurn();
-            }
-
-            player.Buildings.Add(new Building(BuildingType.GoldBank, 10));
-            player.Buildings.Add(new Building(BuildingType.FoodBank, 10));
-            player.Buildings.Add(new Building(BuildingType.WoodBank, 10));
-            player.Buildings.Add(new Building(BuildingType.StoneBank, 10));
-            player.Buildings.Add(new Building(BuildingType.OreBank, 10));
-            player.Bank();
-
-            var previousResources = player.BankedResources;
-
-            player.ProcessTurn();
-
-            player.BankedResources.Should().Be(previousResources - new Resources(food: previousResources.Food));
-            player.HasUpkeepRunOut.Should().BeTrue();
-        }
-
-        [TestMethod]
         public void Player_ProcessTurn_Gives_AttackTurns_When_Out_Of_Food_Or_Gold() {
             var player = new Player(0, "Test");
 
-            while (player.Resources.CanAfford(player.GetUpkeepPerTurn())) {
+            while (player.CanAfford(player.GetUpkeepPerTurn())) {
                 player.ProcessTurn();
             }
 
@@ -280,7 +250,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
         public void Player_ProcessTurn_Increases_Stamina_When_Out_Of_Food_Or_Gold() {
             var player = new Player(0, "Test");
 
-            while (player.Resources.CanAfford(player.GetUpkeepPerTurn())) {
+            while (player.CanAfford(player.GetUpkeepPerTurn())) {
                 player.ProcessTurn();
             }
 
@@ -294,7 +264,6 @@ namespace WarOfEmpires.Domain.Tests.Players {
         [TestMethod]
         public void Player_ProcessTurn_Disbands_Mercenaries_When_Out_Of_Food_Or_Gold() {
             var player = new Player(0, "Test");
-            player.TrainWorkers(1, 2, 1, 2, 0);
             player.Tax = 85;
 
             while (player.Resources.CanAfford(player.GetUpkeepPerTurn())) {
@@ -384,8 +353,11 @@ namespace WarOfEmpires.Domain.Tests.Players {
             player.TrainTroops(TroopType.Archers, 1, 1);
             player.TrainTroops(TroopType.Cavalry, 1, 1);
             player.TrainTroops(TroopType.Footmen, 1, 1);
-
-            player.TrainWorkers(1, 1, 1, 1, 1);
+            player.TrainWorkers(WorkerType.Farmer, 1);
+            player.TrainWorkers(WorkerType.WoodWorker, 1);
+            player.TrainWorkers(WorkerType.StoneMason, 1);
+            player.TrainWorkers(WorkerType.OreMiner, 1);
+            player.TrainWorkers(WorkerType.SiegeEngineer, 1);
 
             player.GetUpkeepPerTurn().Should().Be(new Resources(food: 106, gold: 750));
         }

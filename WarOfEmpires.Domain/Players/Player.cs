@@ -289,30 +289,25 @@ namespace WarOfEmpires.Domain.Players {
             }
         }
 
-        public virtual void TrainWorkers(int farmers, int woodWorkers, int stoneMasons, int oreMiners, int siegeEngineers) {
-            var trainedPeasants = farmers + woodWorkers + stoneMasons + oreMiners;
+        public virtual void TrainWorkers(WorkerType type, int count) {
+            var definition = WorkerDefinitionFactory.Get(type);
+            var workers = Workers.SingleOrDefault(w => w.Type == type);
 
-            Farmers += farmers;
-            WoodWorkers += woodWorkers;
-            StoneMasons += stoneMasons;
-            OreMiners += oreMiners;
-            SiegeEngineers += siegeEngineers;
+            if (workers == null) {
+                Workers.Add(new Workers(type, count));
+            }
+            else {
+                workers.Count += count;
+            }
 
-            Peasants -= trainedPeasants;
-            SpendResources(trainedPeasants * WorkerTrainingCost);
-
-            Peasants -= siegeEngineers;
-            SpendResources(siegeEngineers * SiegeEngineerTrainingCost);
+            Peasants -= count;
+            SpendResources(count * definition.Cost);
         }
 
-        public virtual void UntrainWorkers(int farmers, int woodWorkers, int stoneMasons, int oreMiners, int siegeEngineers) {
-            Farmers -= farmers;
-            WoodWorkers -= woodWorkers;
-            StoneMasons -= stoneMasons;
-            OreMiners -= oreMiners;
-            SiegeEngineers -= siegeEngineers;
+        public virtual void UntrainWorkers(WorkerType type, int count) {
+            Workers.Single(w => w.Type == type).Count -= count;
 
-            Peasants += farmers + woodWorkers + stoneMasons + oreMiners + siegeEngineers;
+            Peasants += count;
         }
 
         public virtual void UpgradeBuilding(BuildingType type) {

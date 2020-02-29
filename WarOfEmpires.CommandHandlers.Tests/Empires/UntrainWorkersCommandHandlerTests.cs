@@ -27,11 +27,13 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
             var player = Substitute.For<Player>();
             player.User.Returns(user);
-            player.Farmers.Returns(10);
-            player.WoodWorkers.Returns(10);
-            player.StoneMasons.Returns(10);
-            player.OreMiners.Returns(10);
-            player.SiegeEngineers.Returns(10);
+            player.Workers.Returns(new List<Workers>() {
+                new Workers(WorkerType.Farmer, 10),
+                new Workers(WorkerType.WoodWorker, 10),
+                new Workers(WorkerType.StoneMason, 10),
+                new Workers(WorkerType.OreMiner, 10),
+                new Workers(WorkerType.SiegeEngineer, 10),
+            });
 
             _context.Users.Add(user);
             _context.Players.Add(player);
@@ -41,12 +43,16 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
         [TestMethod]
         public void UntrainWorkersCommandHandler_Succeeds() {
             var handler = new UntrainWorkersCommandHandler(_repository);
-            var command = new UntrainWorkersCommand("test@test.com", "0", "1", "2", "3", "4");
+            var command = new UntrainWorkersCommand("test@test.com", "5", "4", "3", "2", "1");
 
             var result = handler.Execute(command);
 
             result.Success.Should().BeTrue();
-            _player.Received().UntrainWorkers(0, 1, 2, 3, 4);
+            _player.Received().UntrainWorkers(WorkerType.Farmer, 5);
+            _player.Received().UntrainWorkers(WorkerType.WoodWorker, 4);
+            _player.Received().UntrainWorkers(WorkerType.StoneMason, 3);
+            _player.Received().UntrainWorkers(WorkerType.OreMiner, 2);
+            _player.Received().UntrainWorkers(WorkerType.SiegeEngineer, 1);
             _context.CallsToSaveChanges.Should().Be(1);
         }
 
@@ -58,7 +64,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
             var result = handler.Execute(command);
 
             result.Success.Should().BeTrue();
-            _player.Received().UntrainWorkers(0, 0, 0, 0, 0);
+            _player.DidNotReceiveWithAnyArgs().UntrainWorkers(default, default);
         }
 
         [TestMethod]
@@ -71,7 +77,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
             result.Errors.Should().HaveCount(1);
             result.Errors[0].Expression.ToString().Should().Be("c => c.Farmers");
             result.Errors[0].Message.Should().Be("Farmers must be a valid number");
-            _player.DidNotReceiveWithAnyArgs().UntrainWorkers(default, default, default, default, default);
+            _player.DidNotReceiveWithAnyArgs().UntrainWorkers(default, default);
         }
 
         [TestMethod]
@@ -84,7 +90,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
             result.Errors.Should().HaveCount(1);
             result.Errors[0].Expression.ToString().Should().Be("c => c.WoodWorkers");
             result.Errors[0].Message.Should().Be("Wood workers must be a valid number");
-            _player.DidNotReceiveWithAnyArgs().UntrainWorkers(default, default, default, default, default);
+            _player.DidNotReceiveWithAnyArgs().UntrainWorkers(default, default);
         }
 
         [TestMethod]
@@ -97,7 +103,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
             result.Errors.Should().HaveCount(1);
             result.Errors[0].Expression.ToString().Should().Be("c => c.StoneMasons");
             result.Errors[0].Message.Should().Be("Stone masons must be a valid number");
-            _player.DidNotReceiveWithAnyArgs().UntrainWorkers(default, default, default, default, default);
+            _player.DidNotReceiveWithAnyArgs().UntrainWorkers(default, default);
         }
 
         [TestMethod]
@@ -110,7 +116,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
             result.Errors.Should().HaveCount(1);
             result.Errors[0].Expression.ToString().Should().Be("c => c.OreMiners");
             result.Errors[0].Message.Should().Be("Ore miners must be a valid number");
-            _player.DidNotReceiveWithAnyArgs().UntrainWorkers(default, default, default, default, default);
+            _player.DidNotReceiveWithAnyArgs().UntrainWorkers(default, default);
         }
 
         [TestMethod]
@@ -123,7 +129,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
             result.Errors.Should().HaveCount(1);
             result.Errors[0].Expression.ToString().Should().Be("c => c.SiegeEngineers");
             result.Errors[0].Message.Should().Be("Siege engineers must be a valid number");
-            _player.DidNotReceiveWithAnyArgs().UntrainWorkers(default, default, default, default, default);
+            _player.DidNotReceiveWithAnyArgs().UntrainWorkers(default, default);
         }
 
         [TestMethod]
@@ -136,7 +142,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
             result.Errors.Should().HaveCount(1);
             result.Errors[0].Expression.ToString().Should().Be("c => c.Farmers");
             result.Errors[0].Message.Should().Be("You don't have that many farmers to untrain");
-            _player.DidNotReceiveWithAnyArgs().UntrainWorkers(default, default, default, default, default);
+            _player.DidNotReceiveWithAnyArgs().UntrainWorkers(default, default);
         }
 
         [TestMethod]
@@ -149,7 +155,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
             result.Errors.Should().HaveCount(1);
             result.Errors[0].Expression.ToString().Should().Be("c => c.WoodWorkers");
             result.Errors[0].Message.Should().Be("You don't have that many wood workers to untrain");
-            _player.DidNotReceiveWithAnyArgs().UntrainWorkers(default, default, default, default, default);
+            _player.DidNotReceiveWithAnyArgs().UntrainWorkers(default, default);
         }
 
         [TestMethod]
@@ -162,7 +168,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
             result.Errors.Should().HaveCount(1);
             result.Errors[0].Expression.ToString().Should().Be("c => c.StoneMasons");
             result.Errors[0].Message.Should().Be("You don't have that many stone masons to untrain");
-            _player.DidNotReceiveWithAnyArgs().UntrainWorkers(default, default, default, default, default);
+            _player.DidNotReceiveWithAnyArgs().UntrainWorkers(default, default);
         }
 
         [TestMethod]
@@ -175,7 +181,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
             result.Errors.Should().HaveCount(1);
             result.Errors[0].Expression.ToString().Should().Be("c => c.OreMiners");
             result.Errors[0].Message.Should().Be("You don't have that many ore miners to untrain");
-            _player.DidNotReceiveWithAnyArgs().UntrainWorkers(default, default, default, default, default);
+            _player.DidNotReceiveWithAnyArgs().UntrainWorkers(default, default);
         }
 
         [TestMethod]
@@ -188,7 +194,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
             result.Errors.Should().HaveCount(1);
             result.Errors[0].Expression.ToString().Should().Be("c => c.SiegeEngineers");
             result.Errors[0].Message.Should().Be("You don't have that many siege engineers to untrain");
-            _player.DidNotReceiveWithAnyArgs().UntrainWorkers(default, default, default, default, default);
+            _player.DidNotReceiveWithAnyArgs().UntrainWorkers(default, default);
         }
 
         [TestMethod]
@@ -201,7 +207,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
             result.Errors.Should().HaveCount(1);
             result.Errors[0].Expression.ToString().Should().Be("c => c.Farmers");
             result.Errors[0].Message.Should().Be("Farmers must be a valid number");
-            _player.DidNotReceiveWithAnyArgs().UntrainWorkers(default, default, default, default, default);
+            _player.DidNotReceiveWithAnyArgs().UntrainWorkers(default, default);
         }
 
         [TestMethod]
@@ -214,7 +220,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
             result.Errors.Should().HaveCount(1);
             result.Errors[0].Expression.ToString().Should().Be("c => c.WoodWorkers");
             result.Errors[0].Message.Should().Be("Wood workers must be a valid number");
-            _player.DidNotReceiveWithAnyArgs().UntrainWorkers(default, default, default, default, default);
+            _player.DidNotReceiveWithAnyArgs().UntrainWorkers(default, default);
         }
 
         [TestMethod]
@@ -227,7 +233,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
             result.Errors.Should().HaveCount(1);
             result.Errors[0].Expression.ToString().Should().Be("c => c.StoneMasons");
             result.Errors[0].Message.Should().Be("Stone masons must be a valid number");
-            _player.DidNotReceiveWithAnyArgs().UntrainWorkers(default, default, default, default, default);
+            _player.DidNotReceiveWithAnyArgs().UntrainWorkers(default, default);
         }
 
         [TestMethod]
@@ -240,7 +246,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
             result.Errors.Should().HaveCount(1);
             result.Errors[0].Expression.ToString().Should().Be("c => c.OreMiners");
             result.Errors[0].Message.Should().Be("Ore miners must be a valid number");
-            _player.DidNotReceiveWithAnyArgs().UntrainWorkers(default, default, default, default, default);
+            _player.DidNotReceiveWithAnyArgs().UntrainWorkers(default, default);
         }
 
         [TestMethod]
@@ -253,7 +259,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
             result.Errors.Should().HaveCount(1);
             result.Errors[0].Expression.ToString().Should().Be("c => c.SiegeEngineers");
             result.Errors[0].Message.Should().Be("Siege engineers must be a valid number");
-            _player.DidNotReceiveWithAnyArgs().UntrainWorkers(default, default, default, default, default);
+            _player.DidNotReceiveWithAnyArgs().UntrainWorkers(default, default);
         }
 
         [TestMethod]
@@ -273,7 +279,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
             result.Errors.Should().HaveCount(1);
             result.Errors[0].Expression.ToString().Should().Be("c => c.SiegeEngineers");
             result.Errors[0].Message.Should().Be("Your siege engineers are maintaining too many siege weapons for that many to be untrained");
-            _player.DidNotReceiveWithAnyArgs().UntrainWorkers(default, default, default, default, default);
+            _player.DidNotReceiveWithAnyArgs().UntrainWorkers(default, default);
         }
     }
 }
