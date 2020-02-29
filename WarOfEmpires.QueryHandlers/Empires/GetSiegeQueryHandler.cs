@@ -27,9 +27,9 @@ namespace WarOfEmpires.QueryHandlers.Empires {
                 .Single(p => EmailComparisonService.Equals(p.User.Email, query.Email));
 
             return new SiegeModel() {
-                Engineers = player.SiegeEngineers,
-                TotalMaintenance = player.SiegeEngineers * player.GetBuildingBonus(BuildingType.SiegeFactory),
-                AvailableMaintenance = player.SiegeEngineers * player.GetBuildingBonus(BuildingType.SiegeFactory)
+                Engineers = player.GetWorkerCount(WorkerType.SiegeEngineer),
+                TotalMaintenance = player.GetWorkerCount(WorkerType.SiegeEngineer) * player.GetBuildingBonus(BuildingType.SiegeFactory),
+                AvailableMaintenance = player.GetWorkerCount(WorkerType.SiegeEngineer) * player.GetBuildingBonus(BuildingType.SiegeFactory)
                     - player.SiegeWeapons.Sum(s => s.Count * SiegeWeaponDefinitionFactory.Get(s.Type).Maintenance),
                 FireArrowsInfo = MapSiegeWeapon(player, SiegeWeaponType.FireArrows),
                 BatteringRamsInfo = MapSiegeWeapon(player, SiegeWeaponType.BatteringRams),

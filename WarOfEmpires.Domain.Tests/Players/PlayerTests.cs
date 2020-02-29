@@ -445,11 +445,11 @@ namespace WarOfEmpires.Domain.Tests.Players {
             var player = new Player(0, "Test");
 
             typeof(Player).GetProperty(nameof(Player.Peasants)).SetValue(player, 5);
-            typeof(Player).GetProperty(nameof(Player.Farmers)).SetValue(player, 4);
-            typeof(Player).GetProperty(nameof(Player.WoodWorkers)).SetValue(player, 4);
-            typeof(Player).GetProperty(nameof(Player.StoneMasons)).SetValue(player, 4);
-            typeof(Player).GetProperty(nameof(Player.OreMiners)).SetValue(player, 4);
-            typeof(Player).GetProperty(nameof(Player.SiegeEngineers)).SetValue(player, 3);
+            player.Workers.Add(new Workers(WorkerType.Farmer, 4));
+            player.Workers.Add(new Workers(WorkerType.WoodWorker, 4));
+            player.Workers.Add(new Workers(WorkerType.StoneMason, 4));
+            player.Workers.Add(new Workers(WorkerType.OreMiner, 4));
+            player.Workers.Add(new Workers(WorkerType.SiegeEngineer, 3));
 
             player.GetAvailableHousingCapacity().Should().Be(16);
         }
