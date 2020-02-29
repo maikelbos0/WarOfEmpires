@@ -63,11 +63,11 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
 
             var result = handler.Execute(query);
 
-            result.CurrentFarmers.Should().Be(2);
-            result.CurrentWoodWorkers.Should().Be(3);
-            result.CurrentStoneMasons.Should().Be(4);
-            result.CurrentOreMiners.Should().Be(5);
-            result.CurrentSiegeEngineers.Should().Be(6);
+            result.FarmerInfo.CurrentWorkers.Should().Be(2);
+            result.WoodWorkerInfo.CurrentWorkers.Should().Be(3);
+            result.StoneMasonInfo.CurrentWorkers.Should().Be(4);
+            result.OreMinerInfo.CurrentWorkers.Should().Be(5);
+            result.SiegeEngineerInfo.CurrentWorkers.Should().Be(6);
         }
 
         [TestMethod]
@@ -79,16 +79,16 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
 
             result.CurrentGoldPerWorkerPerTurn.Should().Be(250);
             result.CurrentGoldPerTurn.Should().Be(3500);
-            result.CurrentFoodPerWorkerPerTurn.Should().Be(10);
-            result.CurrentFoodPerTurn.Should().Be(20);
-            result.CurrentWoodPerWorkerPerTurn.Should().Be(10);
-            result.CurrentWoodPerTurn.Should().Be(30);
-            result.CurrentStonePerWorkerPerTurn.Should().Be(10);
-            result.CurrentStonePerTurn.Should().Be(40);
-            result.CurrentOrePerWorkerPerTurn.Should().Be(10);
-            result.CurrentOrePerTurn.Should().Be(50);
-            result.CurrentSiegeMaintenancePerSiegeEngineer.Should().Be(4);
-            result.CurrentSiegeMaintenance.Should().Be(24);
+            result.FarmerInfo.CurrentProductionPerWorkerPerTurn.Should().Be(10);
+            result.FarmerInfo.CurrentProductionPerTurn.Should().Be(20);
+            result.WoodWorkerInfo.CurrentProductionPerWorkerPerTurn.Should().Be(10);
+            result.WoodWorkerInfo.CurrentProductionPerTurn.Should().Be(30);
+            result.StoneMasonInfo.CurrentProductionPerWorkerPerTurn.Should().Be(10);
+            result.StoneMasonInfo.CurrentProductionPerTurn.Should().Be(40);
+            result.OreMinerInfo.CurrentProductionPerWorkerPerTurn.Should().Be(10);
+            result.OreMinerInfo.CurrentProductionPerTurn.Should().Be(50);
+            result.SiegeEngineerInfo.CurrentProductionPerWorkerPerTurn.Should().Be(4);
+            result.SiegeEngineerInfo.CurrentProductionPerTurn.Should().Be(24);
         }
 
         [TestMethod]
@@ -101,10 +101,10 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
             result.RecruitsPerDay.Should().Be(5);
             result.UpkeepPerTurn.Food.Should().Be(30);
             result.UpkeepPerTurn.Gold.Should().Be(500);
-            result.WorkerTrainingCost.Gold.Should().Be(250);
-            result.SiegeEngineerTrainingCost.Gold.Should().Be(2500);
-            result.SiegeEngineerTrainingCost.Wood.Should().Be(250);
-            result.SiegeEngineerTrainingCost.Ore.Should().Be(500);
+            result.FarmerInfo.Cost.Gold.Should().Be(250);
+            result.SiegeEngineerInfo.Cost.Gold.Should().Be(2500);
+            result.SiegeEngineerInfo.Cost.Wood.Should().Be(250);
+            result.SiegeEngineerInfo.Cost.Ore.Should().Be(500);
             result.WillUpkeepRunOut.Should().BeTrue();
             result.HasUpkeepRunOut.Should().BeTrue();
         }

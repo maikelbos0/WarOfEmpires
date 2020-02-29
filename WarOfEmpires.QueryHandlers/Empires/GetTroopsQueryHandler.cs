@@ -39,11 +39,11 @@ namespace WarOfEmpires.QueryHandlers.Empires {
             };
         }
 
-        private TroopInfoModel MapTroops(Player player, TroopType type) {
+        private TroopInfoViewModel MapTroops(Player player, TroopType type) {
             var definition = TroopDefinitionFactory.Get(type);
             var troops = player.GetTroops(type);
 
-            return new TroopInfoModel() {
+            return new TroopInfoViewModel() {
                 Cost = _resourcesMap.ToViewModel(definition.Cost),
                 CurrentSoldiers = troops.Soldiers,
                 CurrentMercenaries = troops.Mercenaries

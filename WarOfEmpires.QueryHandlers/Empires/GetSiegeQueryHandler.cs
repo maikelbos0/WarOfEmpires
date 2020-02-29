@@ -25,7 +25,7 @@ namespace WarOfEmpires.QueryHandlers.Empires {
         public SiegeModel Execute(GetSiegeQuery query) {
             var player = _context.Players
                 .Single(p => EmailComparisonService.Equals(p.User.Email, query.Email));
-
+            
             return new SiegeModel() {
                 Engineers = player.GetWorkerCount(WorkerType.SiegeEngineer),
                 TotalMaintenance = player.GetWorkerCount(WorkerType.SiegeEngineer) * player.GetBuildingBonus(BuildingType.SiegeFactory),
@@ -37,11 +37,11 @@ namespace WarOfEmpires.QueryHandlers.Empires {
             };
         }
 
-        private SiegeWeaponInfoModel MapSiegeWeapon(Player player, SiegeWeaponType type) {
+        private SiegeWeaponInfoViewModel MapSiegeWeapon(Player player, SiegeWeaponType type) {
             var definition = SiegeWeaponDefinitionFactory.Get(type);
             var count = player.GetSiegeWeaponCount(type);
 
-            return new SiegeWeaponInfoModel() {
+            return new SiegeWeaponInfoViewModel() {
                 Name = definition.Name,
                 Description = definition.Description,
                 Maintenance = definition.Maintenance,

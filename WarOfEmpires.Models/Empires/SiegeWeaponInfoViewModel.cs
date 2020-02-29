@@ -1,5 +1,5 @@
 ﻿namespace WarOfEmpires.Models.Empires {
-    public class SiegeWeaponInfoModel {
+    public class SiegeWeaponInfoViewModel {
         public string Name { get; set; }
         public ResourcesViewModel Cost { get; set; }
         public int TroopCount { get; set; }

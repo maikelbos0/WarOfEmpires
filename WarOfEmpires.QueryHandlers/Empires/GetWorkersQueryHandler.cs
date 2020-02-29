@@ -25,32 +25,36 @@ namespace WarOfEmpires.QueryHandlers.Empires {
             var player = _context.Players
                 .Single(p => EmailComparisonService.Equals(p.User.Email, query.Email));
 
-            // TODO change the current worker information to a separate model
             return new WorkerModel() {
                 CurrentPeasants = player.Peasants,
                 CurrentGoldPerWorkerPerTurn = player.GetGoldPerWorkerPerTurn(),
                 CurrentGoldPerTurn = player.GetGoldPerTurn(),
-                CurrentFarmers = player.GetWorkerCount(WorkerType.Farmer),
-                CurrentFoodPerWorkerPerTurn = player.GetProduction(WorkerType.Farmer).GetProductionPerWorker(),
-                CurrentFoodPerTurn = player.GetProduction(WorkerType.Farmer).GetTotalProduction(),
-                CurrentWoodWorkers = player.GetWorkerCount(WorkerType.WoodWorker),
-                CurrentWoodPerWorkerPerTurn = player.GetProduction(WorkerType.WoodWorker).GetProductionPerWorker(),
-                CurrentWoodPerTurn = player.GetProduction(WorkerType.WoodWorker).GetTotalProduction(),
-                CurrentStoneMasons = player.GetWorkerCount(WorkerType.StoneMason),
-                CurrentStonePerWorkerPerTurn = player.GetProduction(WorkerType.StoneMason).GetProductionPerWorker(),
-                CurrentStonePerTurn = player.GetProduction(WorkerType.StoneMason).GetTotalProduction(),
-                CurrentOreMiners = player.GetWorkerCount(WorkerType.OreMiner),
-                CurrentOrePerWorkerPerTurn = player.GetProduction(WorkerType.OreMiner).GetProductionPerWorker(),
-                CurrentOrePerTurn = player.GetProduction(WorkerType.OreMiner).GetTotalProduction(),
-                CurrentSiegeEngineers = player.GetWorkerCount(WorkerType.SiegeEngineer),
-                CurrentSiegeMaintenancePerSiegeEngineer = player.GetBuildingBonus(BuildingType.SiegeFactory),
-                CurrentSiegeMaintenance = player.GetBuildingBonus(BuildingType.SiegeFactory) * player.GetWorkerCount(WorkerType.SiegeEngineer),
+                FarmerInfo = MapWorkers(player, WorkerType.Farmer),
+                WoodWorkerInfo = MapWorkers(player, WorkerType.WoodWorker),
+                StoneMasonInfo = MapWorkers(player, WorkerType.StoneMason),
+                OreMinerInfo = MapWorkers(player, WorkerType.OreMiner),
+                SiegeEngineerInfo = new WorkerInfoViewModel() {
+                    Cost = _resourcesMap.ToViewModel(WorkerDefinitionFactory.Get(WorkerType.SiegeEngineer).Cost),
+                    CurrentWorkers = player.GetWorkerCount(WorkerType.SiegeEngineer),
+                    CurrentProductionPerWorkerPerTurn = player.GetBuildingBonus(BuildingType.SiegeFactory),
+                    CurrentProductionPerTurn = player.GetBuildingBonus(BuildingType.SiegeFactory) * player.GetWorkerCount(WorkerType.SiegeEngineer)
+                },
                 UpkeepPerTurn = _resourcesMap.ToViewModel(player.GetUpkeepPerTurn()),
-                WorkerTrainingCost = _resourcesMap.ToViewModel(Player.WorkerTrainingCost),
-                SiegeEngineerTrainingCost = _resourcesMap.ToViewModel(Player.SiegeEngineerTrainingCost),
                 RecruitsPerDay = player.GetRecruitsPerDay(),
                 WillUpkeepRunOut = !(player.GetTotalResources() + player.GetResourcesPerTurn() * 48).CanAfford(player.GetUpkeepPerTurn() * 48),
                 HasUpkeepRunOut = player.HasUpkeepRunOut
+            };
+        }
+
+        private WorkerInfoViewModel MapWorkers(Player player, WorkerType type) {
+            var definition = WorkerDefinitionFactory.Get(type);
+            var productionInfo = player.GetProduction(type);
+
+            return new WorkerInfoViewModel() {
+                Cost = _resourcesMap.ToViewModel(definition.Cost),
+                CurrentWorkers = player.GetWorkerCount(type),
+                CurrentProductionPerWorkerPerTurn = productionInfo.GetProductionPerWorker(),
+                CurrentProductionPerTurn = productionInfo.GetTotalProduction()
             };
         }
     }
