@@ -1,5 +1,7 @@
 ﻿using System.Linq;
 using WarOfEmpires.Database;
+using WarOfEmpires.Domain.Empires;
+using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Models.Empires;
 using WarOfEmpires.Queries.Empires;
 using WarOfEmpires.QueryHandlers.Decorators;
@@ -22,16 +24,16 @@ namespace WarOfEmpires.QueryHandlers.Empires {
 
             return new TaxModel() {
                 Tax = player.Tax.ToString(),
-                BaseGoldPerTurn = player.GetBaseGoldPerTurn(),
-                BaseFoodPerTurn = player.GetFoodProduction().GetBaseProduction(),
-                BaseWoodPerTurn = player.GetWoodProduction().GetBaseProduction(),
-                BaseStonePerTurn = player.GetStoneProduction().GetBaseProduction(),
-                BaseOrePerTurn = player.GetOreProduction().GetBaseProduction(),
+                BaseGoldPerTurn = Player.BaseGoldPerTurn,
+                BaseFoodPerTurn = player.GetProduction(WorkerType.Farmer).GetBaseProduction(),
+                BaseWoodPerTurn = player.GetProduction(WorkerType.WoodWorker).GetBaseProduction(),
+                BaseStonePerTurn = player.GetProduction(WorkerType.StoneMason).GetBaseProduction(),
+                BaseOrePerTurn = player.GetProduction(WorkerType.OreMiner).GetBaseProduction(),
                 CurrentGoldPerWorkerPerTurn = player.GetGoldPerWorkerPerTurn(),
-                CurrentFoodPerWorkerPerTurn = player.GetFoodProduction().GetProductionPerWorker(),
-                CurrentWoodPerWorkerPerTurn = player.GetWoodProduction().GetProductionPerWorker(),
-                CurrentStonePerWorkerPerTurn = player.GetStoneProduction().GetProductionPerWorker(),
-                CurrentOrePerWorkerPerTurn = player.GetOreProduction().GetProductionPerWorker()
+                CurrentFoodPerWorkerPerTurn = player.GetProduction(WorkerType.Farmer).GetProductionPerWorker(),
+                CurrentWoodPerWorkerPerTurn = player.GetProduction(WorkerType.WoodWorker).GetProductionPerWorker(),
+                CurrentStonePerWorkerPerTurn = player.GetProduction(WorkerType.StoneMason).GetProductionPerWorker(),
+                CurrentOrePerWorkerPerTurn = player.GetProduction(WorkerType.OreMiner).GetProductionPerWorker()
             };
         }
     }

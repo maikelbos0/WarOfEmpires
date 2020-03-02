@@ -63,6 +63,7 @@
     <Compile Include="Empires\DiscardSiegeCommandHandler.cs" />
     <Compile Include="Empires\HealTroopsCommandHandler.cs" />
     <Compile Include="Empires\ProcessTurnCommandHandler.cs" />
+    <Compile Include="Empires\WorkerInfo.cs" />
     <Compile Include="Empires\SiegeWeaponInfo.cs" />
     <Compile Include="Empires\TrainTroopsCommandHandler.cs" />
     <Compile Include="Empires\TroopInfo.cs" />

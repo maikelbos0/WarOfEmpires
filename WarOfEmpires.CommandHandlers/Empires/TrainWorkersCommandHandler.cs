@@ -1,8 +1,11 @@
-﻿using WarOfEmpires.CommandHandlers.Decorators;
+﻿using System.Collections.Generic;
+using System.Linq;
+using WarOfEmpires.CommandHandlers.Decorators;
 using WarOfEmpires.Commands.Empires;
-using WarOfEmpires.Domain.Players;
+using WarOfEmpires.Domain.Empires;
 using WarOfEmpires.Repositories.Players;
 using WarOfEmpires.Utilities.Container;
+using WarOfEmpires.Utilities.Linq;
 
 namespace WarOfEmpires.CommandHandlers.Empires {
     [InterfaceInjectable]
@@ -17,51 +20,70 @@ namespace WarOfEmpires.CommandHandlers.Empires {
         public CommandResult<TrainWorkersCommand> Execute(TrainWorkersCommand command) {
             var result = new CommandResult<TrainWorkersCommand>();
             var player = _repository.Get(command.Email);
-            int farmers = 0;
-            int woodWorkers = 0;
-            int stoneMasons = 0;
-            int oreMiners = 0;
-            int siegeEngineers = 0;
+            var workers = new List<WorkerInfo>();
+            int value = 0;
 
-            if (!string.IsNullOrEmpty(command.Farmers) && !int.TryParse(command.Farmers, out farmers) || farmers < 0) {
+            // Farmers
+            if (!string.IsNullOrEmpty(command.Farmers) && !int.TryParse(command.Farmers, out value) || value < 0) {
                 result.AddError(c => c.Farmers, "Farmers must be a valid number");
-                farmers = 0;
+            }
+            else if (value > 0) {
+                workers.Add(new WorkerInfo(WorkerType.Farmer, value));
             }
 
-            if (!string.IsNullOrEmpty(command.WoodWorkers) && !int.TryParse(command.WoodWorkers, out woodWorkers) || woodWorkers < 0) {
+            // Wood workers
+            value = 0;
+            if (!string.IsNullOrEmpty(command.WoodWorkers) && !int.TryParse(command.WoodWorkers, out value) || value < 0) {
                 result.AddError(c => c.WoodWorkers, "Wood workers must be a valid number");
-                woodWorkers = 0;
+            }
+            else if (value > 0) {
+                workers.Add(new WorkerInfo(WorkerType.WoodWorker, value));
             }
 
-            if (!string.IsNullOrEmpty(command.StoneMasons) && !int.TryParse(command.StoneMasons, out stoneMasons) || stoneMasons < 0) {
+            // Stone masons
+            value = 0;
+            if (!string.IsNullOrEmpty(command.StoneMasons) && !int.TryParse(command.StoneMasons, out value) || value < 0) {
                 result.AddError(c => c.StoneMasons, "Stone masons must be a valid number");
-                stoneMasons = 0;
+            }
+            else if (value > 0) {
+                workers.Add(new WorkerInfo(WorkerType.StoneMason, value));
             }
 
-            if (!string.IsNullOrEmpty(command.OreMiners) && !int.TryParse(command.OreMiners, out oreMiners) || oreMiners < 0) {
+            // Ore miners
+            value = 0;
+            if (!string.IsNullOrEmpty(command.OreMiners) && !int.TryParse(command.OreMiners, out value) || value < 0) {
                 result.AddError(c => c.OreMiners, "Ore miners must be a valid number");
-                oreMiners = 0;
+            }
+            else if (value > 0) {
+                workers.Add(new WorkerInfo(WorkerType.OreMiner, value));
             }
 
-            if (!string.IsNullOrEmpty(command.SiegeEngineers) && !int.TryParse(command.SiegeEngineers, out siegeEngineers) || siegeEngineers < 0) {
+            // Siege engineers
+            value = 0;
+            if (!string.IsNullOrEmpty(command.SiegeEngineers) && !int.TryParse(command.SiegeEngineers, out value) || value < 0) {
                 result.AddError(c => c.SiegeEngineers, "Siege engineers must be a valid number");
-                siegeEngineers = 0;
+            }
+            else if (value > 0) {
+                workers.Add(new WorkerInfo(WorkerType.SiegeEngineer, value));
             }
 
-            if (farmers + woodWorkers + stoneMasons + oreMiners + siegeEngineers > player.Peasants) {
+            if (workers.Sum(w => w.Count) > player.Peasants) {
                 result.AddError("You don't have that many peasants available to train");
             }
 
-            if (farmers + woodWorkers + stoneMasons + oreMiners + siegeEngineers > player.GetAvailableHutCapacity()) {
+            if (workers.Sum(w => w.Count) > player.GetAvailableHutCapacity()) {
                 result.AddError("You don't have enough huts available to train that many workers");
             }
 
-            if (!player.CanAfford((farmers + woodWorkers + stoneMasons + oreMiners) * Player.WorkerTrainingCost + siegeEngineers * Player.SiegeEngineerTrainingCost)) {
+            if (!player.CanAfford(workers.Sum(w => w.Count * WorkerDefinitionFactory.Get(w.Type).Cost))) {
                 result.AddError("You don't have enough gold to train these peasants");
             }
 
             if (result.Success) {
-                player.TrainWorkers(farmers, woodWorkers, stoneMasons, oreMiners, siegeEngineers);
+                foreach (var workerInfo in workers) {
+                    player.TrainWorkers(workerInfo.Type, workerInfo.Count);
+                }
+
                 _repository.Update();
             }
 

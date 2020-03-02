@@ -1,31 +1,10 @@
 ﻿using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 using WarOfEmpires.Domain.Attacks;
 
 namespace WarOfEmpires.Domain.Tests.Attacks {
     [TestClass]
     public sealed class TroopsTests {
-        [DataTestMethod]
-        [DataRow(0, 0, DisplayName = "Empty")]
-        [DataRow(10, 10, DisplayName = "Not empty")]
-        public void Troops_Constructor_Succeeds(int soldiers, int mercenaries) {
-            var troops = new Troops(TroopType.Archers, soldiers, mercenaries);
-
-            troops.Soldiers.Should().Be(soldiers);
-            troops.Mercenaries.Should().Be(mercenaries);
-            troops.Type.Should().Be(TroopType.Archers);
-        }
-
-        [DataTestMethod]
-        [DataRow(-1, 0, DisplayName = "Soldiers")]
-        [DataRow(0, -1, DisplayName = "Mercenaries")]
-        public void Troops_Constructor_Throws_Exception_For_Negative_Values(int soldiers, int mercenaries) {
-            Action action = () => new Troops(TroopType.Archers, soldiers, mercenaries);
-
-            action.Should().Throw<ArgumentOutOfRangeException>();
-        }
-
         [DataTestMethod]
         [DataRow(0, 0, 0, 0, 0, DisplayName = "Empty 1")]
         [DataRow(0, 0, 5, 0, 0, DisplayName = "Empty 2")]

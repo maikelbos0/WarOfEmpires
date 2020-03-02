@@ -4,6 +4,7 @@ using NSubstitute;
 using WarOfEmpires.CommandHandlers.Empires;
 using WarOfEmpires.Commands.Empires;
 using WarOfEmpires.Domain.Common;
+using WarOfEmpires.Domain.Empires;
 using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Repositories.Players;
@@ -25,7 +26,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
             var player = Substitute.For<Player>();
             player.User.Returns(user);
-            player.Peasants.Returns(15);
+            player.Peasants.Returns(20);
             player.CanAfford(Arg.Any<Resources>()).Returns(true);
             player.GetAvailableHutCapacity().Returns(20);
 
@@ -37,12 +38,16 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
         [TestMethod]
         public void TrainWorkersCommandHandler_Succeeds() {
             var handler = new TrainWorkersCommandHandler(_repository);
-            var command = new TrainWorkersCommand("test@test.com", "0", "1", "2", "3", "4");
+            var command = new TrainWorkersCommand("test@test.com", "5", "4", "3", "2", "1");
 
             var result = handler.Execute(command);
 
             result.Success.Should().BeTrue();
-            _player.Received().TrainWorkers(0, 1, 2, 3, 4);
+            _player.Received().TrainWorkers(WorkerType.Farmer, 5);
+            _player.Received().TrainWorkers(WorkerType.WoodWorker, 4);
+            _player.Received().TrainWorkers(WorkerType.StoneMason, 3);
+            _player.Received().TrainWorkers(WorkerType.OreMiner, 2);
+            _player.Received().TrainWorkers(WorkerType.SiegeEngineer, 1);
             _context.CallsToSaveChanges.Should().Be(1);
         }
 
@@ -54,7 +59,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
             var result = handler.Execute(command);
 
             result.Success.Should().BeTrue();
-            _player.Received().TrainWorkers(0, 0, 0, 0, 0);
+            _player.DidNotReceiveWithAnyArgs().TrainWorkers(default, default);
         }
 
         [TestMethod]
@@ -69,7 +74,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
             result.Errors.Should().HaveCount(1);
             result.Errors[0].Expression.Should().BeNull();
             result.Errors[0].Message.Should().Be("You don't have enough huts available to train that many workers");
-            _player.DidNotReceiveWithAnyArgs().TrainWorkers(default, default, default, default, default);
+            _player.DidNotReceiveWithAnyArgs().TrainWorkers(default, default);
         }
 
         [TestMethod]
@@ -82,7 +87,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
             result.Errors.Should().HaveCount(1);
             result.Errors[0].Expression.ToString().Should().Be("c => c.Farmers");
             result.Errors[0].Message.Should().Be("Farmers must be a valid number");
-            _player.DidNotReceiveWithAnyArgs().TrainWorkers(default, default, default, default, default);
+            _player.DidNotReceiveWithAnyArgs().TrainWorkers(default, default);
         }
 
         [TestMethod]
@@ -95,7 +100,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
             result.Errors.Should().HaveCount(1);
             result.Errors[0].Expression.ToString().Should().Be("c => c.WoodWorkers");
             result.Errors[0].Message.Should().Be("Wood workers must be a valid number");
-            _player.DidNotReceiveWithAnyArgs().TrainWorkers(default, default, default, default, default);
+            _player.DidNotReceiveWithAnyArgs().TrainWorkers(default, default);
         }
 
         [TestMethod]
@@ -108,7 +113,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
             result.Errors.Should().HaveCount(1);
             result.Errors[0].Expression.ToString().Should().Be("c => c.StoneMasons");
             result.Errors[0].Message.Should().Be("Stone masons must be a valid number");
-            _player.DidNotReceiveWithAnyArgs().TrainWorkers(default, default, default, default, default);
+            _player.DidNotReceiveWithAnyArgs().TrainWorkers(default, default);
         }
 
         [TestMethod]
@@ -121,7 +126,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
             result.Errors.Should().HaveCount(1);
             result.Errors[0].Expression.ToString().Should().Be("c => c.OreMiners");
             result.Errors[0].Message.Should().Be("Ore miners must be a valid number");
-            _player.DidNotReceiveWithAnyArgs().TrainWorkers(default, default, default, default, default);
+            _player.DidNotReceiveWithAnyArgs().TrainWorkers(default, default);
         }
 
         [TestMethod]
@@ -134,7 +139,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
             result.Errors.Should().HaveCount(1);
             result.Errors[0].Expression.ToString().Should().Be("c => c.SiegeEngineers");
             result.Errors[0].Message.Should().Be("Siege engineers must be a valid number");
-            _player.DidNotReceiveWithAnyArgs().TrainWorkers(default, default, default, default, default);
+            _player.DidNotReceiveWithAnyArgs().TrainWorkers(default, default);
         }
 
         [DataTestMethod]
@@ -145,6 +150,8 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
         [DataRow(0, 0, 0, 0, 16, DisplayName = "SiegeEngineers")]
         [DataRow(4, 3, 4, 3, 3, DisplayName = "All")]
         public void TrainWorkersCommandHandler_Fails_For_Too_High_WorkerCounts(int farmers, int woodWorkers, int stoneMasons, int oreMiners, int siegeEngineers) {
+            _player.Peasants.Returns(15);
+
             var handler = new TrainWorkersCommandHandler(_repository);
             var command = new TrainWorkersCommand("test@test.com", farmers.ToString(), woodWorkers.ToString(), stoneMasons.ToString(), oreMiners.ToString(), siegeEngineers.ToString());
 
@@ -153,7 +160,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
             result.Errors.Should().HaveCount(1);
             result.Errors[0].Expression.Should().BeNull();
             result.Errors[0].Message.Should().Be("You don't have that many peasants available to train");
-            _player.DidNotReceiveWithAnyArgs().TrainWorkers(default, default, default, default, default);
+            _player.DidNotReceiveWithAnyArgs().TrainWorkers(default, default);
         }
 
         [TestMethod]
@@ -166,7 +173,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
             result.Errors.Should().HaveCount(1);
             result.Errors[0].Expression.ToString().Should().Be("c => c.Farmers");
             result.Errors[0].Message.Should().Be("Farmers must be a valid number");
-            _player.DidNotReceiveWithAnyArgs().TrainWorkers(default, default, default, default, default);
+            _player.DidNotReceiveWithAnyArgs().TrainWorkers(default, default);
         }
 
         [TestMethod]
@@ -179,7 +186,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
             result.Errors.Should().HaveCount(1);
             result.Errors[0].Expression.ToString().Should().Be("c => c.WoodWorkers");
             result.Errors[0].Message.Should().Be("Wood workers must be a valid number");
-            _player.DidNotReceiveWithAnyArgs().TrainWorkers(default, default, default, default, default);
+            _player.DidNotReceiveWithAnyArgs().TrainWorkers(default, default);
         }
 
         [TestMethod]
@@ -192,7 +199,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
             result.Errors.Should().HaveCount(1);
             result.Errors[0].Expression.ToString().Should().Be("c => c.StoneMasons");
             result.Errors[0].Message.Should().Be("Stone masons must be a valid number");
-            _player.DidNotReceiveWithAnyArgs().TrainWorkers(default, default, default, default, default);
+            _player.DidNotReceiveWithAnyArgs().TrainWorkers(default, default);
         }
 
         [TestMethod]
@@ -205,7 +212,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
             result.Errors.Should().HaveCount(1);
             result.Errors[0].Expression.ToString().Should().Be("c => c.OreMiners");
             result.Errors[0].Message.Should().Be("Ore miners must be a valid number");
-            _player.DidNotReceiveWithAnyArgs().TrainWorkers(default, default, default, default, default);
+            _player.DidNotReceiveWithAnyArgs().TrainWorkers(default, default);
         }
 
         [TestMethod]
@@ -218,7 +225,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
             result.Errors.Should().HaveCount(1);
             result.Errors[0].Expression.ToString().Should().Be("c => c.SiegeEngineers");
             result.Errors[0].Message.Should().Be("Siege engineers must be a valid number");
-            _player.DidNotReceiveWithAnyArgs().TrainWorkers(default, default, default, default, default);
+            _player.DidNotReceiveWithAnyArgs().TrainWorkers(default, default);
         }
 
         [DataTestMethod]
@@ -238,7 +245,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
             result.Errors.Should().HaveCount(1);
             result.Errors[0].Expression.Should().BeNull();
             result.Errors[0].Message.Should().Be("You don't have enough gold to train these peasants");
-            _player.DidNotReceiveWithAnyArgs().TrainWorkers(default, default, default, default, default);
+            _player.DidNotReceiveWithAnyArgs().TrainWorkers(default, default);
         }
     }
 }

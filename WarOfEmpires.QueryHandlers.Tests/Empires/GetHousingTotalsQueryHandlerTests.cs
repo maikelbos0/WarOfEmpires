@@ -28,14 +28,20 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
                 new Building(BuildingType.Barracks, 7),
                 new Building(BuildingType.Huts, 4)
             });
-            player.Troops.Returns(new List<Troops>() { new Troops(TroopType.Archers, 25, 5), new Troops(TroopType.Cavalry, 5, 1), new Troops(TroopType.Footmen, 10, 2) });
+            player.Troops.Returns(new List<Troops>() {
+                new Troops(TroopType.Archers, 25, 5),
+                new Troops(TroopType.Cavalry, 5, 1),
+                new Troops(TroopType.Footmen, 10, 2)
+            });
 
             player.Peasants.Returns(7);
-            player.Farmers.Returns(5);
-            player.WoodWorkers.Returns(12);
-            player.StoneMasons.Returns(2);
-            player.OreMiners.Returns(1);
-            player.SiegeEngineers.Returns(3);
+            player.Workers.Returns(new List<Workers>() {
+                new Workers(WorkerType.Farmer, 5),
+                new Workers(WorkerType.WoodWorker, 12),
+                new Workers(WorkerType.StoneMason, 2),
+                new Workers(WorkerType.OreMiner, 1),
+                new Workers(WorkerType.SiegeEngineer, 3)
+            });
             
             player.GetAvailableHousingCapacity().Returns(4);
             player.GetTheoreticalRecruitsPerDay().Returns(5);

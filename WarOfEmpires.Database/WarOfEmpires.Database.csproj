@@ -162,6 +162,14 @@
     <Compile Include="Migrations\202002251629436_ForeignKey-Corrections.Designer.cs">
       <DependentUpon>202002251629436_ForeignKey-Corrections.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202002271326588_Empires-Workers.cs" />
+    <Compile Include="Migrations\202002271326588_Empires-Workers.Designer.cs">
+      <DependentUpon>202002271326588_Empires-Workers.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002271330556_Empires-WorkerTypes.cs" />
+    <Compile Include="Migrations\202002271330556_Empires-WorkerTypes.Designer.cs">
+      <DependentUpon>202002271330556_Empires-WorkerTypes.cs</DependentUpon>
+    </Compile>
     <Compile Include="ReferenceEntities\AttackResultEntity.cs" />
     <Compile Include="ReferenceEntities\AttackTypeEntity.cs" />
     <Compile Include="ReferenceEntities\BaseReferenceEntity.cs" />
@@ -170,6 +178,7 @@
     <Compile Include="ReferenceEntities\BuildingTypeEntity.cs" />
     <Compile Include="ReferenceEntities\SiegeWeaponTypeEntity.cs" />
     <Compile Include="ReferenceEntities\TroopTypeEntity.cs" />
+    <Compile Include="ReferenceEntities\WorkerTypeEntity.cs" />
     <Compile Include="WarContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReferenceEntities\ReferenceEntityExtensions.cs" />
@@ -274,6 +283,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202002251629436_ForeignKey-Corrections.resx">
       <DependentUpon>202002251629436_ForeignKey-Corrections.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002271326588_Empires-Workers.resx">
+      <DependentUpon>202002271326588_Empires-Workers.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002271330556_Empires-WorkerTypes.resx">
+      <DependentUpon>202002271330556_Empires-WorkerTypes.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

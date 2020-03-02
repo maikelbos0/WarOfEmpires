@@ -9,9 +9,6 @@ namespace WarOfEmpires.Domain.Attacks {
         private Troops() { }
 
         public Troops(TroopType type, int soldiers, int mercenaries) {
-            if (soldiers < 0) throw new ArgumentOutOfRangeException("soldiers", "Negative values are not allowed");
-            if (mercenaries < 0) throw new ArgumentOutOfRangeException("mercenaries", "Negative values are not allowed");
-
             Type = type;
             Soldiers = soldiers;
             Mercenaries = mercenaries;

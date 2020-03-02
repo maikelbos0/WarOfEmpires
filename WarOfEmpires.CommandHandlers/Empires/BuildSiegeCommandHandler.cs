@@ -21,12 +21,13 @@ namespace WarOfEmpires.CommandHandlers.Empires {
         public CommandResult<BuildSiegeCommand> Execute(BuildSiegeCommand command) {
             var result = new CommandResult<BuildSiegeCommand>();
             var player = _repository.Get(command.Email);
-            var availableMaintenance = player.SiegeEngineers * player.GetBuildingBonus(BuildingType.SiegeFactory)
+            var availableMaintenance = player.GetWorkerCount(WorkerType.SiegeEngineer) * player.GetBuildingBonus(BuildingType.SiegeFactory)
                 - player.SiegeWeapons.Sum(s => s.Count * SiegeWeaponDefinitionFactory.Get(s.Type).Maintenance);
             var siege = new List<SiegeWeaponInfo>();
             int value = 0;
 
             // Fire arrows
+            value = 0;
             if (!string.IsNullOrEmpty(command.FireArrows) && !int.TryParse(command.FireArrows, out value) || value < 0) {
                 result.AddError(c => c.FireArrows, "Fire arrows must be a valid number");
             }
@@ -35,6 +36,7 @@ namespace WarOfEmpires.CommandHandlers.Empires {
             }
 
             // Battering rams
+            value = 0;
             if (!string.IsNullOrEmpty(command.BatteringRams) && !int.TryParse(command.BatteringRams, out value) || value < 0) {
                 result.AddError(c => c.BatteringRams, "Battering rams must be a valid number");
             }
@@ -43,6 +45,7 @@ namespace WarOfEmpires.CommandHandlers.Empires {
             }
 
             // Scaling ladders
+            value = 0;
             if (!string.IsNullOrEmpty(command.ScalingLadders) && !int.TryParse(command.ScalingLadders, out value) || value < 0) {
                 result.AddError(c => c.ScalingLadders, "Scaling ladders must be a valid number");
             }

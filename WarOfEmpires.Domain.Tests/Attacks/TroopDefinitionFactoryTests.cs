@@ -9,9 +9,9 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
         [TestMethod]
         public void TroopDefinitionFactory_Has_Definitions_For_All_TroopTypes() {
             foreach (TroopType type in Enum.GetValues(typeof(TroopType))) {
-                var weapon = TroopDefinitionFactory.Get(type);
+                var troops = TroopDefinitionFactory.Get(type);
 
-                weapon.Type.Should().Be(type);
+                troops.Type.Should().Be(type);
             }
         }
     }

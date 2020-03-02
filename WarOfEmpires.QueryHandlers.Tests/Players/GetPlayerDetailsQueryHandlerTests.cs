@@ -4,6 +4,7 @@ using NSubstitute;
 using System;
 using System.Collections.Generic;
 using WarOfEmpires.Domain.Attacks;
+using WarOfEmpires.Domain.Empires;
 using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Queries.Players;
@@ -26,13 +27,19 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
             player.User.Returns(user);
             player.Id.Returns(id);
             player.DisplayName.Returns(displayName);
-            player.Farmers.Returns(1);
-            player.WoodWorkers.Returns(2);
-            player.StoneMasons.Returns(3);
-            player.OreMiners.Returns(4);
-            player.SiegeEngineers.Returns(6);
             player.Peasants.Returns(5);
-            player.Troops.Returns(new List<Troops>() { new Troops(TroopType.Archers, 15, 5), new Troops(TroopType.Cavalry, 3, 1), new Troops(TroopType.Footmen, 3, 1) });
+            player.Workers.Returns(new List<Workers>() {
+                new Workers(WorkerType.Farmer, 1),
+                new Workers(WorkerType.WoodWorker, 2),
+                new Workers(WorkerType.StoneMason, 3),
+                new Workers(WorkerType.OreMiner, 4),
+                new Workers(WorkerType.SiegeEngineer, 6)
+            });
+            player.Troops.Returns(new List<Troops>() {
+                new Troops(TroopType.Archers, 15, 5),
+                new Troops(TroopType.Cavalry, 3, 1),
+                new Troops(TroopType.Footmen, 3, 1)
+            });
 
             _context.Users.Add(user);
             _context.Players.Add(player);

@@ -78,6 +78,7 @@
     <Compile Include="Empires\BuildingDefinitionTests.cs" />
     <Compile Include="Empires\ExpressionGeneratorTests.cs" />
     <Compile Include="Empires\SequenceGeneratorFactoryTests.cs" />
+    <Compile Include="Empires\WorkerDefinitionFactoryTests.cs" />
     <Compile Include="Events\ScheduledTaskTests.cs" />
     <Compile Include="Players\PlayerTests.cs" />
     <Compile Include="Players\TroopInfoTests.cs" />

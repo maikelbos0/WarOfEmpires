@@ -24,8 +24,7 @@ namespace WarOfEmpires.QueryHandlers.Players {
             return new PlayerDetailsViewModel() {
                 Id = player.Id,
                 DisplayName = player.DisplayName,
-                Population = player.Farmers + player.WoodWorkers + player.StoneMasons + player.OreMiners + player.Peasants + player.SiegeEngineers
-                    + player.Troops.Sum(t => t.GetTotals())
+                Population = player.Peasants + player.Workers.Sum(w => w.Count) + player.Troops.Sum(t => t.GetTotals())
             };
         }
     }

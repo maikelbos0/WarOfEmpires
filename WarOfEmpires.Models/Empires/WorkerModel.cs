@@ -21,24 +21,12 @@ namespace WarOfEmpires.Models.Empires {
         public int CurrentPeasants { get; set; }
         public int CurrentGoldPerWorkerPerTurn { get; set; }
         public int CurrentGoldPerTurn { get; set; }
-        public int CurrentFarmers { get; set; }
-        public int CurrentFoodPerWorkerPerTurn { get; set; }
-        public int CurrentFoodPerTurn { get; set; }
-        public int CurrentWoodWorkers { get; set; }
-        public int CurrentWoodPerWorkerPerTurn { get; set; }
-        public int CurrentWoodPerTurn { get; set; }
-        public int CurrentStoneMasons { get; set; }
-        public int CurrentStonePerWorkerPerTurn { get; set; }
-        public int CurrentStonePerTurn { get; set; }
-        public int CurrentOreMiners { get; set; }
-        public int CurrentOrePerWorkerPerTurn { get; set; }
-        public int CurrentOrePerTurn { get; set; }
-        public int CurrentSiegeEngineers { get; set; }
-        public int CurrentSiegeMaintenancePerSiegeEngineer { get;set;}
-        public int CurrentSiegeMaintenance { get; set; }
+        public WorkerInfoViewModel FarmerInfo { get; set; }
+        public WorkerInfoViewModel WoodWorkerInfo { get; set; }
+        public WorkerInfoViewModel StoneMasonInfo { get; set; }
+        public WorkerInfoViewModel OreMinerInfo { get; set; }
+        public WorkerInfoViewModel SiegeEngineerInfo { get; set; }
         public ResourcesViewModel UpkeepPerTurn { get; set; }
-        public ResourcesViewModel WorkerTrainingCost { get; set; }
-        public ResourcesViewModel SiegeEngineerTrainingCost { get; set; }
         public int RecruitsPerDay { get; set; }
         public bool WillUpkeepRunOut { get; set; }
         public bool HasUpkeepRunOut { get; set; }

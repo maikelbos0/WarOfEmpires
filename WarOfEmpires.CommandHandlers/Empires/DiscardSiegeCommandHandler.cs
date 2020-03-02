@@ -33,6 +33,7 @@ namespace WarOfEmpires.CommandHandlers.Empires {
             }
 
             // Battering rams
+            value = 0;
             if (!string.IsNullOrEmpty(command.BatteringRams) && !int.TryParse(command.BatteringRams, out value) || value < 0) {
                 result.AddError(c => c.BatteringRams, "Battering rams must be a valid number");
             }
@@ -44,6 +45,7 @@ namespace WarOfEmpires.CommandHandlers.Empires {
             }
 
             // Scaling ladders
+            value = 0;
             if (!string.IsNullOrEmpty(command.ScalingLadders) && !int.TryParse(command.ScalingLadders, out value) || value < 0) {
                 result.AddError(c => c.ScalingLadders, "Scaling ladders must be a valid number");
             }

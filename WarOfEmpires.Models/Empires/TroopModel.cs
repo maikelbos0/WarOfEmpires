@@ -25,9 +25,9 @@ namespace WarOfEmpires.Models.Empires {
         [RegularExpression("^\\d{1,3}$", ErrorMessage = "Stamina to heal must be a valid number")]
         public string StaminaToHeal { get; set; }
         public int CurrentPeasants { get; set; }
-        public TroopInfoModel ArcherInfo { get; set; }
-        public TroopInfoModel CavalryInfo { get; set; }
-        public TroopInfoModel FootmanInfo { get; set; }
+        public TroopInfoViewModel ArcherInfo { get; set; }
+        public TroopInfoViewModel CavalryInfo { get; set; }
+        public TroopInfoViewModel FootmanInfo { get; set; }
         public ResourcesViewModel MercenaryTrainingCost { get; set; }
         public bool WillUpkeepRunOut { get; set; }
         public bool HasUpkeepRunOut { get; set; }

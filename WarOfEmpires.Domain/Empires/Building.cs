@@ -1,9 +1,9 @@
 ﻿namespace WarOfEmpires.Domain.Empires {
-    public class Building : Entity {
-        public BuildingType Type { get; protected set; }
+    public sealed class Building : Entity {
+        public BuildingType Type { get; private set; }
         public int Level { get; set; }
 
-        protected Building() {
+        private Building() {
         }
 
         public Building(BuildingType type, int level) {

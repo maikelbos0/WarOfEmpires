@@ -1,9 +1,9 @@
 ﻿namespace WarOfEmpires.Domain.Siege {
-    public class SiegeWeapon : Entity {
-        public SiegeWeaponType Type { get; protected set; }
+    public sealed class SiegeWeapon : Entity {
+        public SiegeWeaponType Type { get; private set; }
         public int Count { get; set; }
 
-        protected SiegeWeapon() {
+        private SiegeWeapon() {
         }
 
         public SiegeWeapon(SiegeWeaponType type, int count) {

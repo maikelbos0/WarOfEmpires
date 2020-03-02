@@ -56,10 +56,11 @@
     <Compile Include="Empires\HousingTotalsViewModel.cs" />
     <Compile Include="Empires\ResourceHeaderViewModel.cs" />
     <Compile Include="Empires\ResourcesViewModel.cs" />
-    <Compile Include="Empires\SiegeWeaponInfoModel.cs" />
+    <Compile Include="Empires\SiegeWeaponInfoViewModel.cs" />
     <Compile Include="Empires\TaxModel.cs" />
-    <Compile Include="Empires\TroopInfoModel.cs" />
+    <Compile Include="Empires\TroopInfoViewModel.cs" />
     <Compile Include="Empires\TroopModel.cs" />
+    <Compile Include="Empires\WorkerInfoViewModel.cs" />
     <Compile Include="Messages\MessageModel.cs" />
     <Compile Include="Messages\ReceivedMessageDetailsViewModel.cs" />
     <Compile Include="Messages\ReceivedMessageViewModel.cs" />
