@@ -27,7 +27,6 @@ namespace WarOfEmpires.CommandHandlers.Empires {
             int value = 0;
 
             // Fire arrows
-            value = 0;
             if (!string.IsNullOrEmpty(command.FireArrows) && !int.TryParse(command.FireArrows, out value) || value < 0) {
                 result.AddError(c => c.FireArrows, "Fire arrows must be a valid number");
             }

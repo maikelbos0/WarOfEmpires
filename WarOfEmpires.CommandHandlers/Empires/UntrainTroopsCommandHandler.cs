@@ -46,6 +46,9 @@ namespace WarOfEmpires.CommandHandlers.Empires {
             }
 
             // Cavalry
+            soldiers = 0;
+            mercenaries = 0;
+
             if (!string.IsNullOrEmpty(command.Cavalry) && !int.TryParse(command.Cavalry, out soldiers) || soldiers < 0) {
                 result.AddError(c => c.Cavalry, "Cavalry must be a valid number");
                 soldiers = 0;
@@ -69,6 +72,9 @@ namespace WarOfEmpires.CommandHandlers.Empires {
             }
 
             // Footmen
+            soldiers = 0;
+            mercenaries = 0;
+
             if (!string.IsNullOrEmpty(command.Footmen) && !int.TryParse(command.Footmen, out soldiers) || soldiers < 0) {
                 result.AddError(c => c.Footmen, "Footmen must be a valid number");
                 soldiers = 0;
