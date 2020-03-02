@@ -3,7 +3,6 @@ using System.Linq;
 using WarOfEmpires.CommandHandlers.Decorators;
 using WarOfEmpires.Commands.Empires;
 using WarOfEmpires.Domain.Empires;
-using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Repositories.Players;
 using WarOfEmpires.Utilities.Container;
 using WarOfEmpires.Utilities.Linq;
