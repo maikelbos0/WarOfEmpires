@@ -168,6 +168,7 @@
     <Content Include="Content\Icons\claw-hammer.svg" />
     <Content Include="Content\Icons\high-shot.svg" />
     <Content Include="Content\Icons\locked-chest.svg" />
+    <Content Include="Content\Icons\open-book.svg" />
     <Content Include="Content\Icons\ore.svg" />
     <Content Include="Content\Icons\pine-tree.svg" />
     <Content Include="Content\Icons\shiny-apple.svg" />

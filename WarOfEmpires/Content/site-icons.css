@@ -39,3 +39,7 @@
 .si.si-maintenance::after {
     background: url('Icons/claw-hammer.svg');
 }
+
+.si.si-menu::after {
+    background: url('Icons/open-book.svg');
+}
