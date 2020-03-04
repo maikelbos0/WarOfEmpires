@@ -1,41 +1,46 @@
 ﻿@model WarOfEmpires.Models.Empires.ResourceHeaderViewModel
 
-<div class="d-flex flex-row justify-content-end align-items-center">
-    <div class="p-1 d-flex flex-row align-items-center">
-        <div class="p-1">
-            <div class="site-resources-open">@Model.Resources.Gold.ToString(StringFormat.Integer)</div>
-            <div class="site-resources-banked">@Model.BankedResources.Gold.ToString(StringFormat.Integer)</div>
+    <div class="d-flex flex-row justify-content-end align-items-center navbar-expand-md">
+        <button class="navbar-toggler btn shadow-none" type="button" data-toggle="collapse" data-target=".site-resourcebar-collapse" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <div class="p-1"><span class="si si-attack"></span></div>
+        </button>
+        <div class="site-resourcebar-collapse collapse d-md-inline-flex flex-md-row-reverse">
+            <div class="p-1 d-flex flex-row align-items-center">
+                <div class="p-1">
+                    <div class="site-resources-open">@Model.Resources.Gold.ToString(StringFormat.Integer)</div>
+                    <div class="site-resources-banked">@Model.BankedResources.Gold.ToString(StringFormat.Integer)</div>
+                </div>
+                <div class="p-1"><span class="si si-gold"></span></div>
+            </div>
+            <div class="p-1 d-flex flex-row align-items-center">
+                <div class="p-1">
+                    <div class="site-resources-open">@Model.Resources.Food.ToString(StringFormat.Integer)</div>
+                    <div class="site-resources-banked">@Model.BankedResources.Food.ToString(StringFormat.Integer)</div>
+                </div>
+                <div class="p-1"><span class="si si-food"></span></div>
+            </div>
+            <div class="p-1 d-flex flex-row align-items-center">
+                <div class="p-1">
+                    <div class="site-resources-open">@Model.Resources.Wood.ToString(StringFormat.Integer)</div>
+                    <div class="site-resources-banked">@Model.BankedResources.Wood.ToString(StringFormat.Integer)</div>
+                </div>
+                <div class="p-1"><span class="si si-wood"></span></div>
+            </div>
+            <div class="p-1 d-flex flex-row align-items-center">
+                <div class="p-1">
+                    <div class="site-resources-open">@Model.Resources.Stone.ToString(StringFormat.Integer)</div>
+                    <div class="site-resources-banked">@Model.BankedResources.Stone.ToString(StringFormat.Integer)</div>
+                </div>
+                <div class="p-1"><span class="si si-stone"></span></div>
+            </div>
+            <div class="p-1 d-flex flex-row align-items-center">
+                <div class="p-1">
+                    <div class="site-resources-open">@Model.Resources.Ore.ToString(StringFormat.Integer)</div>
+                    <div class="site-resources-banked">@Model.BankedResources.Ore.ToString(StringFormat.Integer)</div>
+                </div>
+                <div class="p-1"><span class="si si-ore"></span></div>
+            </div>
+            <div class="p-2">@Model.AttackTurns.ToString(StringFormat.Integer) <span class="si si-attack"></span></div>
+            <div class="p-2">@Model.BankTurns.ToString(StringFormat.Integer) <span class="si si-bank"></span></div>
         </div>
-        <div class="p-1"><span class="si si-gold"></span></div>
     </div>
-    <div class="p-1 d-flex flex-row align-items-center">
-        <div class="p-1">
-            <div class="site-resources-open">@Model.Resources.Food.ToString(StringFormat.Integer)</div>
-            <div class="site-resources-banked">@Model.BankedResources.Food.ToString(StringFormat.Integer)</div>
-        </div>
-        <div class="p-1"><span class="si si-food"></span></div>
-    </div>
-    <div class="p-1 d-flex flex-row align-items-center">
-        <div class="p-1">
-            <div class="site-resources-open">@Model.Resources.Wood.ToString(StringFormat.Integer)</div>
-            <div class="site-resources-banked">@Model.BankedResources.Wood.ToString(StringFormat.Integer)</div>
-        </div>
-        <div class="p-1"><span class="si si-wood"></span></div>
-    </div>
-    <div class="p-1 d-flex flex-row align-items-center">
-        <div class="p-1">
-            <div class="site-resources-open">@Model.Resources.Stone.ToString(StringFormat.Integer)</div>
-            <div class="site-resources-banked">@Model.BankedResources.Stone.ToString(StringFormat.Integer)</div>
-        </div>
-        <div class="p-1"><span class="si si-stone"></span></div>
-    </div>
-    <div class="p-1 d-flex flex-row align-items-center">
-        <div class="p-1">
-            <div class="site-resources-open">@Model.Resources.Ore.ToString(StringFormat.Integer)</div>
-            <div class="site-resources-banked">@Model.BankedResources.Ore.ToString(StringFormat.Integer)</div>
-        </div>
-        <div class="p-1"><span class="si si-ore"></span></div>
-    </div>
-    <div class="p-2">@Model.AttackTurns.ToString(StringFormat.Integer) <span class="si si-attack"></span></div>
-    <div class="p-2">@Model.BankTurns.ToString(StringFormat.Integer) <span class="si si-bank"></span></div>
-</div>

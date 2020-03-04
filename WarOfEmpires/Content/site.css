@@ -148,6 +148,10 @@ body {
     height: auto;
 }
 
+.btn:focus, .btn:active {
+    outline: none;
+}
+
 .btn-primary {
     background-color: var(--btn-primary-color);
     border-color: var(--btn-primary-color);
