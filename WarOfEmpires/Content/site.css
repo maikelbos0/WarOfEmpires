@@ -50,7 +50,7 @@ body {
 
 .site-navbar {
     background-color: var(--nav-bg-color);
-    padding: 15px;
+    padding: 1rem;
 }
 
 .site-dropdown-menu {
@@ -90,12 +90,12 @@ body {
 }
 
 .site-spaced {
-    margin-top: 15px;
-    margin-bottom: 15px;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
 }
 
 .site-spaced-small {
-    margin-top: 4px;
+    margin-top: 0.25rem;
 }
 
 .site-control {
@@ -140,8 +140,8 @@ body {
 .site-user-text {
     white-space: pre-wrap;
     background-color: var(--msg-bg-color);
-    padding: 5px;
-    margin-top: 5px;
+    padding: 0.5rem;
+    margin-top: 0.5rem;
 }
 
 .btn {
