@@ -9,7 +9,7 @@ namespace WarOfEmpires.CommandHandlers.Attacks {
     [InterfaceInjectable]
     [Audit]
     public sealed class AttackCommandHandler : ICommandHandler<AttackCommand> {
-        public PlayerRepository _repository;
+        private readonly PlayerRepository _repository;
 
         public AttackCommandHandler(PlayerRepository repository) {
             _repository = repository;

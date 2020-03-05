@@ -11,7 +11,7 @@ namespace WarOfEmpires.CommandHandlers.Empires {
     [InterfaceInjectable]
     [Audit]
     public sealed class UntrainTroopsCommandHandler : ICommandHandler<UntrainTroopsCommand> {
-        public PlayerRepository _repository;
+        private readonly PlayerRepository _repository;
 
         public UntrainTroopsCommandHandler(PlayerRepository repository) {
             _repository = repository;

@@ -14,7 +14,7 @@ namespace WarOfEmpires.CommandHandlers.Empires {
     [InterfaceInjectable]
     [Audit]
     public sealed class TrainTroopsCommandHandler : ICommandHandler<TrainTroopsCommand> {
-        public PlayerRepository _repository;
+        private readonly PlayerRepository _repository;
 
         public TrainTroopsCommandHandler(PlayerRepository repository) {
             _repository = repository;

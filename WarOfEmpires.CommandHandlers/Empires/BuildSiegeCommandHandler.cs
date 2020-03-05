@@ -14,7 +14,7 @@ namespace WarOfEmpires.CommandHandlers.Empires {
     [InterfaceInjectable]
     [Audit]
     public sealed class BuildSiegeCommandHandler : ICommandHandler<BuildSiegeCommand> {
-        public PlayerRepository _repository;
+        private readonly PlayerRepository _repository;
 
         public BuildSiegeCommandHandler(PlayerRepository repository) {
             _repository = repository;

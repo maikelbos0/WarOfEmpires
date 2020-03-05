@@ -11,7 +11,7 @@ namespace WarOfEmpires.CommandHandlers.Empires {
     [InterfaceInjectable]
     [Audit]
     public sealed class DiscardSiegeCommandHandler : ICommandHandler<DiscardSiegeCommand> {
-        public PlayerRepository _repository;
+        private readonly PlayerRepository _repository;
 
         public DiscardSiegeCommandHandler(PlayerRepository repository) {
             _repository = repository;

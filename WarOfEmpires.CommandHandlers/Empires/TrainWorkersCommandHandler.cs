@@ -13,7 +13,7 @@ namespace WarOfEmpires.CommandHandlers.Empires {
     [InterfaceInjectable]
     [Audit]
     public sealed class TrainWorkersCommandHandler : ICommandHandler<TrainWorkersCommand> {
-        public PlayerRepository _repository;
+        private readonly PlayerRepository _repository;
 
         public TrainWorkersCommandHandler(PlayerRepository repository) {
             _repository = repository;
