@@ -419,6 +419,28 @@ namespace WarOfEmpires.Domain.Tests.Players {
         }
 
         [TestMethod]
+        public void Player_GetAvailableHutCapacity_Succeeds() {
+            var player = new Player(0, "Test");
+
+            typeof(Player).GetProperty(nameof(Player.Peasants)).SetValue(player, 5);
+            player.Workers.Add(new Workers(WorkerType.Farmers, 4));
+            player.Troops.Add(new Troops(TroopType.Archers, 6, 1));
+
+            player.GetAvailableHutCapacity().Should().Be(16);
+        }
+
+        [TestMethod]
+        public void Player_GetAvailableBarracksCapacity_Succeeds() {
+            var player = new Player(0, "Test");
+
+            typeof(Player).GetProperty(nameof(Player.Peasants)).SetValue(player, 5);
+            player.Workers.Add(new Workers(WorkerType.Farmers, 4));
+            player.Troops.Add(new Troops(TroopType.Archers, 6, 1));
+
+            player.GetAvailableBarracksCapacity().Should().Be(13);
+        }
+
+        [TestMethod]
         public void Player_GetAvailableHousingCapacity_Succeeds() {
             var player = new Player(0, "Test");
 

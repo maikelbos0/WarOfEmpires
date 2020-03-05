@@ -265,11 +265,11 @@ namespace WarOfEmpires.Domain.Players {
         }
 
         public virtual int GetAvailableHutCapacity() {
-            return GetBuildingBonus(BuildingType.Huts) - Peasants - Workers.Sum(w => w.Count);
+            return GetBuildingBonus(BuildingType.Huts) - Workers.Sum(w => w.Count);
         }
 
         public virtual int GetAvailableHousingCapacity() {
-            var housingCapacity = GetAvailableBarracksCapacity() + GetAvailableHutCapacity();
+            var housingCapacity = GetAvailableBarracksCapacity() + GetAvailableHutCapacity() - Peasants;
 
             if (housingCapacity < 0) {
                 return 0;

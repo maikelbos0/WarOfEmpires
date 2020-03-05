@@ -24,10 +24,8 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
             user.Email.Returns("test@test.com");
 
             player.User.Returns(user);
-            player.Buildings.Returns(new List<Building>() {
-                new Building(BuildingType.Barracks, 7),
-                new Building(BuildingType.Huts, 4)
-            });
+            player.GetBuildingBonus(BuildingType.Barracks).Returns(70);
+            player.GetBuildingBonus(BuildingType.Huts).Returns(40);
             player.Troops.Returns(new List<Troops>() {
                 new Troops(TroopType.Archers, 25, 5),
                 new Troops(TroopType.Cavalry, 5, 1),
@@ -60,7 +58,9 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
             result.BarracksCapacity.Should().Be(70);
             result.BarracksOccupancy.Should().Be(48);
             result.HutCapacity.Should().Be(40);
-            result.HutOccupancy.Should().Be(30);
+            result.HutOccupancy.Should().Be(23);
+            result.TotalCapacity.Should().Be(110);
+            result.TotalOccupancy.Should().Be(78);
             result.HasHousingShortage.Should().BeTrue();
         }
     }

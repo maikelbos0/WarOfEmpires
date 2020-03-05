@@ -2,5 +2,6 @@
 
 <ul class="@(Model.HasHousingShortage ? "text-danger" : "")">
     <li>Your barracks have room for @Model.BarracksCapacity.ToString(StringFormat.Integer) occupants and are currently housing @Model.BarracksOccupancy.ToString(StringFormat.Integer) troops</li>
-    <li>Your peasant huts have room for @Model.HutCapacity.ToString(StringFormat.Integer) occupants and are currently housing @Model.HutOccupancy.ToString(StringFormat.Integer) workers and peasants</li>
+    <li>Your peasant huts have room for @Model.HutCapacity.ToString(StringFormat.Integer) occupants and are currently housing @Model.HutOccupancy.ToString(StringFormat.Integer) workers</li>
+    <li>You currently have room for @Model.TotalCapacity.ToString(StringFormat.Integer) occupants and are currently housing @Model.TotalOccupancy.ToString(StringFormat.Integer) people</li>
 </ul>

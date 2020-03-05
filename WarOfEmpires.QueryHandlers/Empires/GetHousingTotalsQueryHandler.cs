@@ -22,10 +22,12 @@ namespace WarOfEmpires.QueryHandlers.Empires {
                 .Single(p => EmailComparisonService.Equals(p.User.Email, query.Email));
 
             return new HousingTotalsViewModel() {
-                BarracksCapacity = player.Buildings.SingleOrDefault(b => b.Type == BuildingType.Barracks).Level * 10,
+                BarracksCapacity = player.GetBuildingBonus(BuildingType.Barracks),
                 BarracksOccupancy = player.Troops.Sum(t => t.GetTotals()),
-                HutCapacity = player.Buildings.SingleOrDefault(b => b.Type == BuildingType.Huts).Level * 10,
-                HutOccupancy = player.Peasants + player.Workers.Sum(w => w.Count),
+                HutCapacity = player.GetBuildingBonus(BuildingType.Huts),
+                HutOccupancy = player.Workers.Sum(w => w.Count),
+                TotalCapacity = player.GetBuildingBonus(BuildingType.Barracks) + player.GetBuildingBonus(BuildingType.Huts),
+                TotalOccupancy = player.Troops.Sum(t => t.GetTotals()) + player.Workers.Sum(w => w.Count) + player.Peasants,
                 HasHousingShortage = player.GetTheoreticalRecruitsPerDay() > player.GetAvailableHousingCapacity()
             };
         }
