@@ -35,17 +35,17 @@ body {
 }
 
 .site-container {
-    padding: 15px;
+    padding: 1rem;
 }
 
 .site-content {
     background-color: var(--content-bg-color);
-    padding: 15px;
+    padding: 1rem;
 }
 
-.site-content-low {
+#empire-resources {
     background-color: var(--content-bg-color);
-    padding: 0px 15px;
+    padding: 0 0.5rem;
 }
 
 .site-navbar {
@@ -146,6 +146,10 @@ body {
 
 .btn {
     height: auto;
+}
+
+.btn:focus, .btn:active {
+    outline: none;
 }
 
 .btn-primary {
