@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using WarOfEmpires.CommandHandlers.Decorators;
 using WarOfEmpires.Commands.Empires;
 using WarOfEmpires.Domain.Attacks;
@@ -18,63 +20,38 @@ namespace WarOfEmpires.CommandHandlers.Empires {
             _repository = repository;
         }
 
+        private IEnumerable<TroopInfo> ParseTroops(TrainTroopsCommand command,
+                                                   CommandResult<TrainTroopsCommand> result,
+                                                   TroopType type,
+                                                   Expression<Func<TrainTroopsCommand, object>> soldierFunc,
+                                                   Expression<Func<TrainTroopsCommand, object>> mercenaryFunc) {
+
+            var commandSoldiers = (string)soldierFunc.Compile().Invoke(command);
+            var commandMercenaries = (string)mercenaryFunc.Compile().Invoke(command);
+            int soldiers = 0;
+            int mercenaries = 0;
+
+            if (!string.IsNullOrEmpty(commandSoldiers) && !int.TryParse(commandSoldiers, out soldiers) || soldiers < 0) {
+                result.AddError(soldierFunc, $"{type.ToString()} must be a valid number");
+            }
+
+            if (!string.IsNullOrEmpty(commandMercenaries) && !int.TryParse(commandMercenaries, out mercenaries) || mercenaries < 0) {
+                result.AddError(mercenaryFunc, $"Mercenary {type.ToString().ToLower()} must be a valid number");
+            }
+
+            if (result.Success && (soldiers > 0 || mercenaries > 0)) {
+                yield return new TroopInfo(type, soldiers, mercenaries);
+            }
+        }
+
         public CommandResult<TrainTroopsCommand> Execute(TrainTroopsCommand command) {
             var result = new CommandResult<TrainTroopsCommand>();
             var player = _repository.Get(command.Email);
             var troops = new List<TroopInfo>();
-            int soldiers = 0;
-            int mercenaries = 0;
 
-            // Archers
-            if (!string.IsNullOrEmpty(command.Archers) && !int.TryParse(command.Archers, out soldiers) || soldiers < 0) {
-                result.AddError(c => c.Archers, "Archers must be a valid number");
-                soldiers = 0;
-            }
-
-            if (!string.IsNullOrEmpty(command.MercenaryArchers) && !int.TryParse(command.MercenaryArchers, out mercenaries) || mercenaries < 0) {
-                result.AddError(c => c.MercenaryArchers, "Archer mercenaries must be a valid number");
-                mercenaries = 0;
-            }
-
-            if (soldiers > 0 || mercenaries > 0) {
-                troops.Add(new TroopInfo(TroopType.Archers, soldiers, mercenaries));
-            }
-
-            // Cavalry
-            soldiers = 0;
-            mercenaries = 0;
-
-            if (!string.IsNullOrEmpty(command.Cavalry) && !int.TryParse(command.Cavalry, out soldiers) || soldiers < 0) {
-                result.AddError(c => c.Cavalry, "Cavalry must be a valid number");
-                soldiers = 0;
-            }
-
-            if (!string.IsNullOrEmpty(command.MercenaryCavalry) && !int.TryParse(command.MercenaryCavalry, out mercenaries) || mercenaries < 0) {
-                result.AddError(c => c.MercenaryCavalry, "Cavalry mercenaries must be a valid number");
-                mercenaries = 0;
-            }
-
-            if (soldiers > 0 || mercenaries > 0) {
-                troops.Add(new TroopInfo(TroopType.Cavalry, soldiers, mercenaries));
-            }
-
-            // Footmen
-            soldiers = 0;
-            mercenaries = 0;
-
-            if (!string.IsNullOrEmpty(command.Footmen) && !int.TryParse(command.Footmen, out soldiers) || soldiers < 0) {
-                result.AddError(c => c.Footmen, "Footmen must be a valid number");
-                soldiers = 0;
-            }
-
-            if (!string.IsNullOrEmpty(command.MercenaryFootmen) && !int.TryParse(command.MercenaryFootmen, out mercenaries) || mercenaries < 0) {
-                result.AddError(c => c.MercenaryFootmen, "Footman mercenaries must be a valid number");
-                mercenaries = 0;
-            }
-
-            if (soldiers > 0 || mercenaries > 0) {
-                troops.Add(new TroopInfo(TroopType.Footmen, soldiers, mercenaries));
-            }
+            troops.AddRange(ParseTroops(command, result, TroopType.Archers, c => c.Archers, c => c.MercenaryArchers));
+            troops.AddRange(ParseTroops(command, result, TroopType.Cavalry, c => c.Cavalry, c => c.MercenaryCavalry));
+            troops.AddRange(ParseTroops(command, result, TroopType.Footmen, c => c.Footmen, c => c.MercenaryFootmen));
 
             if (troops.Sum(t => t.Soldiers) > player.Peasants) {
                 result.AddError("You don't have that many peasants available to train");

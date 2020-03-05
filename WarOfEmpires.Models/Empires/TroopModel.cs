@@ -6,20 +6,20 @@ namespace WarOfEmpires.Models.Empires {
         [DisplayName("Archers")]
         [RegularExpression("^\\d{0,6}$", ErrorMessage = "Archers must be a valid number")]
         public string Archers { get; set; }
-        [DisplayName("Archer Mercenaries")]
-        [RegularExpression("^\\d{0,6}$", ErrorMessage = "Archer mercenaries must be a valid number")]
+        [DisplayName("Mercenary archers")]
+        [RegularExpression("^\\d{0,6}$", ErrorMessage = "Mercenary archers must be a valid number")]
         public string MercenaryArchers { get; set; }
         [DisplayName("Cavalry")]
         [RegularExpression("^\\d{0,6}$", ErrorMessage = "Cavalry must be a valid number")]
         public string Cavalry { get; set; }
-        [DisplayName("Cavalry Mercenaries")]
-        [RegularExpression("^\\d{0,6}$", ErrorMessage = "Cavalry mercenaries must be a valid number")]
+        [DisplayName("Mercenary cavalry")]
+        [RegularExpression("^\\d{0,6}$", ErrorMessage = "Mercenary cavalry must be a valid number")]
         public string MercenaryCavalry { get; set; }
         [DisplayName("Footmen")]
         [RegularExpression("^\\d{0,6}$", ErrorMessage = "Footmen must be a valid number")]
         public string Footmen { get; set; }
-        [DisplayName("Footman Mercenaries")]
-        [RegularExpression("^\\d{0,6}$", ErrorMessage = "Footman mercenaries must be a valid number")]
+        [DisplayName("Mercenary footmen")]
+        [RegularExpression("^\\d{0,6}$", ErrorMessage = "Mercenary footmen must be a valid number")]
         public string MercenaryFootmen { get; set; }
         [DisplayName("Stamina")]
         [RegularExpression("^\\d{1,3}$", ErrorMessage = "Stamina to heal must be a valid number")]

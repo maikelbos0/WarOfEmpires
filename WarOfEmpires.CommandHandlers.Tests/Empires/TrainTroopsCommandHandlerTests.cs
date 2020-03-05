@@ -98,7 +98,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
             result.Errors.Should().HaveCount(1);
             result.Errors[0].Expression.ToString().Should().Be("c => c.MercenaryArchers");
-            result.Errors[0].Message.Should().Be("Archer mercenaries must be a valid number");
+            result.Errors[0].Message.Should().Be("Mercenary archers must be a valid number");
             _player.DidNotReceiveWithAnyArgs().TrainTroops(default, default, default);
         }
 
@@ -124,7 +124,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
             result.Errors.Should().HaveCount(1);
             result.Errors[0].Expression.ToString().Should().Be("c => c.MercenaryCavalry");
-            result.Errors[0].Message.Should().Be("Cavalry mercenaries must be a valid number");
+            result.Errors[0].Message.Should().Be("Mercenary cavalry must be a valid number");
             _player.DidNotReceiveWithAnyArgs().TrainTroops(default, default, default);
         }
 
@@ -150,7 +150,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
             result.Errors.Should().HaveCount(1);
             result.Errors[0].Expression.ToString().Should().Be("c => c.MercenaryFootmen");
-            result.Errors[0].Message.Should().Be("Footman mercenaries must be a valid number");
+            result.Errors[0].Message.Should().Be("Mercenary footmen must be a valid number");
             _player.DidNotReceiveWithAnyArgs().TrainTroops(default, default, default);
         }
 
@@ -195,7 +195,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
             result.Errors.Should().HaveCount(1);
             result.Errors[0].Expression.ToString().Should().Be("c => c.MercenaryArchers");
-            result.Errors[0].Message.Should().Be("Archer mercenaries must be a valid number");
+            result.Errors[0].Message.Should().Be("Mercenary archers must be a valid number");
             _player.DidNotReceiveWithAnyArgs().TrainTroops(default, default, default);
         }
 
@@ -221,7 +221,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
             result.Errors.Should().HaveCount(1);
             result.Errors[0].Expression.ToString().Should().Be("c => c.MercenaryCavalry");
-            result.Errors[0].Message.Should().Be("Cavalry mercenaries must be a valid number");
+            result.Errors[0].Message.Should().Be("Mercenary cavalry must be a valid number");
             _player.DidNotReceiveWithAnyArgs().TrainTroops(default, default, default);
         }
 
@@ -247,7 +247,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
             result.Errors.Should().HaveCount(1);
             result.Errors[0].Expression.ToString().Should().Be("c => c.MercenaryFootmen");
-            result.Errors[0].Message.Should().Be("Footman mercenaries must be a valid number");
+            result.Errors[0].Message.Should().Be("Mercenary footmen must be a valid number");
             _player.DidNotReceiveWithAnyArgs().TrainTroops(default, default, default);
         }
 
