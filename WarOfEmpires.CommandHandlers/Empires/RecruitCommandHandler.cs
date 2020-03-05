@@ -7,7 +7,7 @@ namespace WarOfEmpires.CommandHandlers.Empires {
     [InterfaceInjectable]
     [Audit]
     public sealed class RecruitCommandHandler : ICommandHandler<RecruitCommand> {
-        public PlayerRepository _repository;
+        private readonly PlayerRepository _repository;
 
         public RecruitCommandHandler(PlayerRepository repository) {
             _repository = repository;

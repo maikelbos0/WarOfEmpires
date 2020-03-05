@@ -25,15 +25,15 @@ namespace WarOfEmpires.QueryHandlers.Empires {
             return new TaxModel() {
                 Tax = player.Tax.ToString(),
                 BaseGoldPerTurn = Player.BaseGoldPerTurn,
-                BaseFoodPerTurn = player.GetProduction(WorkerType.Farmer).GetBaseProduction(),
-                BaseWoodPerTurn = player.GetProduction(WorkerType.WoodWorker).GetBaseProduction(),
-                BaseStonePerTurn = player.GetProduction(WorkerType.StoneMason).GetBaseProduction(),
-                BaseOrePerTurn = player.GetProduction(WorkerType.OreMiner).GetBaseProduction(),
+                BaseFoodPerTurn = player.GetProduction(WorkerType.Farmers).GetBaseProduction(),
+                BaseWoodPerTurn = player.GetProduction(WorkerType.WoodWorkers).GetBaseProduction(),
+                BaseStonePerTurn = player.GetProduction(WorkerType.StoneMasons).GetBaseProduction(),
+                BaseOrePerTurn = player.GetProduction(WorkerType.OreMiners).GetBaseProduction(),
                 CurrentGoldPerWorkerPerTurn = player.GetGoldPerWorkerPerTurn(),
-                CurrentFoodPerWorkerPerTurn = player.GetProduction(WorkerType.Farmer).GetProductionPerWorker(),
-                CurrentWoodPerWorkerPerTurn = player.GetProduction(WorkerType.WoodWorker).GetProductionPerWorker(),
-                CurrentStonePerWorkerPerTurn = player.GetProduction(WorkerType.StoneMason).GetProductionPerWorker(),
-                CurrentOrePerWorkerPerTurn = player.GetProduction(WorkerType.OreMiner).GetProductionPerWorker()
+                CurrentFoodPerWorkerPerTurn = player.GetProduction(WorkerType.Farmers).GetProductionPerWorker(),
+                CurrentWoodPerWorkerPerTurn = player.GetProduction(WorkerType.WoodWorkers).GetProductionPerWorker(),
+                CurrentStonePerWorkerPerTurn = player.GetProduction(WorkerType.StoneMasons).GetProductionPerWorker(),
+                CurrentOrePerWorkerPerTurn = player.GetProduction(WorkerType.OreMiners).GetProductionPerWorker()
             };
         }
     }

@@ -11,6 +11,7 @@ using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Domain.Siege;
 using WarOfEmpires.Repositories.Players;
 using WarOfEmpires.Test.Utilities;
+using WarOfEmpires.Utilities.Formatting;
 
 namespace WarOfEmpires.CommandHandlers.Tests.Empires {
     [TestClass]
@@ -18,6 +19,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
         private readonly FakeWarContext _context = new FakeWarContext();
         private readonly PlayerRepository _repository;
         private readonly Player _player;
+        private readonly EnumFormatter _formatter = new EnumFormatter();
 
         public BuildSiegeCommandHandlerTests() {
             _repository = new PlayerRepository(_context);
@@ -28,7 +30,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
             var player = Substitute.For<Player>();
             player.User.Returns(user);
-            player.Workers.Returns(new List<Workers>() { new Workers(WorkerType.SiegeEngineer, 20) });
+            player.Workers.Returns(new List<Workers>() { new Workers(WorkerType.SiegeEngineers, 20) });
             player.GetBuildingBonus(BuildingType.SiegeFactory).Returns(6);
             player.CanAfford(Arg.Any<Resources>()).Returns(true);
 
@@ -39,7 +41,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
         [TestMethod]
         public void BuildSiegeCommandHandler_Succceeds() {
-            var handler = new BuildSiegeCommandHandler(_repository);
+            var handler = new BuildSiegeCommandHandler(_repository, _formatter);
             var command = new BuildSiegeCommand("test@test.com", "1", "2", "3");
 
             var result = handler.Execute(command);
@@ -53,7 +55,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
         [TestMethod]
         public void BuildSiegeCommandHandler_Allows_Empty_Values() {
-            var handler = new BuildSiegeCommandHandler(_repository);
+            var handler = new BuildSiegeCommandHandler(_repository, _formatter);
             var command = new BuildSiegeCommand("test@test.com", "", "", "");
 
             var result = handler.Execute(command);
@@ -68,9 +70,9 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
         [DataRow(0, 1, 0, DisplayName = "BatteringRams")]
         [DataRow(0, 0, 1, DisplayName = "ScalingLadders")]
         public void BuildSiegeCommandHandler_Fails_For_Too_Little_Maintenance(int fireArrows, int batteringRams, int scalingLadders) {
-            _player.Workers.Returns(new List<Workers>() { new Workers(WorkerType.SiegeEngineer, 0) });
+            _player.Workers.Returns(new List<Workers>() { new Workers(WorkerType.SiegeEngineers, 0) });
 
-            var handler = new BuildSiegeCommandHandler(_repository);
+            var handler = new BuildSiegeCommandHandler(_repository, _formatter);
             var command = new BuildSiegeCommand("test@test.com", fireArrows.ToString(), batteringRams.ToString(), scalingLadders.ToString());
 
             var result = handler.Execute(command);
@@ -83,7 +85,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
         [TestMethod]
         public void BuildSiegeCommandHandler_Fails_For_Alphanumeric_FireArrows() {
-            var handler = new BuildSiegeCommandHandler(_repository);
+            var handler = new BuildSiegeCommandHandler(_repository, _formatter);
             var command = new BuildSiegeCommand("test@test.com", "A", "2", "2");
 
             var result = handler.Execute(command);
@@ -96,7 +98,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
         [TestMethod]
         public void BuildSiegeCommandHandler_Fails_For_Alphanumeric_BatteringRams() {
-            var handler = new BuildSiegeCommandHandler(_repository);
+            var handler = new BuildSiegeCommandHandler(_repository, _formatter);
             var command = new BuildSiegeCommand("test@test.com", "2", "A", "2");
 
             var result = handler.Execute(command);
@@ -109,7 +111,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
         [TestMethod]
         public void BuildSiegeCommandHandler_Fails_For_Alphanumeric_ScalingLadders() {
-            var handler = new BuildSiegeCommandHandler(_repository);
+            var handler = new BuildSiegeCommandHandler(_repository, _formatter);
             var command = new BuildSiegeCommand("test@test.com", "2", "2", "A");
 
             var result = handler.Execute(command);
@@ -122,7 +124,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
         [TestMethod]
         public void BuildSiegeCommandHandler_Fails_For_Negative_FireArrows() {
-            var handler = new BuildSiegeCommandHandler(_repository);
+            var handler = new BuildSiegeCommandHandler(_repository, _formatter);
             var command = new BuildSiegeCommand("test@test.com", "-1", "2", "2");
 
             var result = handler.Execute(command);
@@ -135,7 +137,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
         [TestMethod]
         public void BuildSiegeCommandHandler_Fails_For_Negative_BatteringRams() {
-            var handler = new BuildSiegeCommandHandler(_repository);
+            var handler = new BuildSiegeCommandHandler(_repository, _formatter);
             var command = new BuildSiegeCommand("test@test.com", "2", "-1", "2");
 
             var result = handler.Execute(command);
@@ -148,7 +150,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
         [TestMethod]
         public void BuildSiegeCommandHandler_Fails_For_Negative_ScalingLadders() {
-            var handler = new BuildSiegeCommandHandler(_repository);
+            var handler = new BuildSiegeCommandHandler(_repository, _formatter);
             var command = new BuildSiegeCommand("test@test.com", "2", "2", "-1");
 
             var result = handler.Execute(command);
@@ -166,7 +168,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
         public void BuildSiegeCommandHandler_Fails_For_Too_Little_Resources(int fireArrows, int batteringRams, int scalingLadders) {
             _player.CanAfford(Arg.Any<Resources>()).Returns(r => r.ArgAt<Resources>(0).Equals(new Resources(0)));
 
-            var handler = new BuildSiegeCommandHandler(_repository);
+            var handler = new BuildSiegeCommandHandler(_repository, _formatter);
             var command = new BuildSiegeCommand("test@test.com", fireArrows.ToString(), batteringRams.ToString(), scalingLadders.ToString());
 
             var result = handler.Execute(command);

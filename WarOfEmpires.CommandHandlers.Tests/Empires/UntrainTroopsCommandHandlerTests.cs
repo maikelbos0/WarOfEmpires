@@ -8,6 +8,7 @@ using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Repositories.Players;
 using WarOfEmpires.Test.Utilities;
+using WarOfEmpires.Utilities.Formatting;
 
 namespace WarOfEmpires.CommandHandlers.Tests.Empires {
     [TestClass]
@@ -15,6 +16,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
         private readonly FakeWarContext _context = new FakeWarContext();
         private readonly PlayerRepository _repository;
         private readonly Player _player;
+        private readonly EnumFormatter _formatter = new EnumFormatter();
 
         public UntrainTroopsCommandHandlerTests() {
             _repository = new PlayerRepository(_context);
@@ -36,7 +38,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
         [TestMethod]
         public void UntrainTroopsCommandHandler_Succeeds() {
-            var handler = new UntrainTroopsCommandHandler(_repository);
+            var handler = new UntrainTroopsCommandHandler(_repository, _formatter);
             var command = new UntrainTroopsCommand("test@test.com", "0", "1", "2", "3", "4", "5");
 
             var result = handler.Execute(command);
@@ -50,7 +52,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
         [TestMethod]
         public void UntrainTroopsCommandHandler_Allows_Empty_Troops() {
-            var handler = new UntrainTroopsCommandHandler(_repository);
+            var handler = new UntrainTroopsCommandHandler(_repository, _formatter);
             var command = new UntrainTroopsCommand("test@test.com", "", "", "", "", "", "");
 
             var result = handler.Execute(command);
@@ -61,7 +63,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
         [TestMethod]
         public void UntrainTroopsCommandHandler_Fails_For_Alphanumeric_Archers() {
-            var handler = new UntrainTroopsCommandHandler(_repository);
+            var handler = new UntrainTroopsCommandHandler(_repository, _formatter);
             var command = new UntrainTroopsCommand("test@test.com", "A", "2", "2", "2", "2", "2");
 
             var result = handler.Execute(command);
@@ -74,20 +76,20 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
         [TestMethod]
         public void UntrainTroopsCommandHandler_Fails_For_Alphanumeric_MercenaryArchers() {
-            var handler = new UntrainTroopsCommandHandler(_repository);
+            var handler = new UntrainTroopsCommandHandler(_repository, _formatter);
             var command = new UntrainTroopsCommand("test@test.com", "2", "A", "2", "2", "2", "2");
 
             var result = handler.Execute(command);
 
             result.Errors.Should().HaveCount(1);
             result.Errors[0].Expression.ToString().Should().Be("c => c.MercenaryArchers");
-            result.Errors[0].Message.Should().Be("Archer mercenaries must be a valid number");
+            result.Errors[0].Message.Should().Be("Mercenary archers must be a valid number");
             _player.DidNotReceiveWithAnyArgs().UntrainTroops(default, default, default);
         }
 
         [TestMethod]
         public void UntrainTroopsCommandHandler_Fails_For_Alphanumeric_Cavalry() {
-            var handler = new UntrainTroopsCommandHandler(_repository);
+            var handler = new UntrainTroopsCommandHandler(_repository, _formatter);
             var command = new UntrainTroopsCommand("test@test.com", "2", "2", "A", "2", "2", "2");
 
             var result = handler.Execute(command);
@@ -100,20 +102,20 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
         [TestMethod]
         public void UntrainTroopsCommandHandler_Fails_For_Alphanumeric_MercenaryCavalry() {
-            var handler = new UntrainTroopsCommandHandler(_repository);
+            var handler = new UntrainTroopsCommandHandler(_repository, _formatter);
             var command = new UntrainTroopsCommand("test@test.com", "2", "2", "2", "A", "2", "2");
 
             var result = handler.Execute(command);
 
             result.Errors.Should().HaveCount(1);
             result.Errors[0].Expression.ToString().Should().Be("c => c.MercenaryCavalry");
-            result.Errors[0].Message.Should().Be("Cavalry mercenaries must be a valid number");
+            result.Errors[0].Message.Should().Be("Mercenary cavalry must be a valid number");
             _player.DidNotReceiveWithAnyArgs().UntrainTroops(default, default, default);
         }
 
         [TestMethod]
         public void UntrainTroopsCommandHandler_Fails_For_Alphanumeric_Footmen() {
-            var handler = new UntrainTroopsCommandHandler(_repository);
+            var handler = new UntrainTroopsCommandHandler(_repository, _formatter);
             var command = new UntrainTroopsCommand("test@test.com", "2", "2", "2", "2", "A", "2");
 
             var result = handler.Execute(command);
@@ -126,20 +128,20 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
         [TestMethod]
         public void UntrainTroopsCommandHandler_Fails_For_Alphanumeric_MercenaryFootmen() {
-            var handler = new UntrainTroopsCommandHandler(_repository);
+            var handler = new UntrainTroopsCommandHandler(_repository, _formatter);
             var command = new UntrainTroopsCommand("test@test.com", "2", "2", "2", "2", "2", "A");
 
             var result = handler.Execute(command);
 
             result.Errors.Should().HaveCount(1);
             result.Errors[0].Expression.ToString().Should().Be("c => c.MercenaryFootmen");
-            result.Errors[0].Message.Should().Be("Footman mercenaries must be a valid number");
+            result.Errors[0].Message.Should().Be("Mercenary footmen must be a valid number");
             _player.DidNotReceiveWithAnyArgs().UntrainTroops(default, default, default);
         }
 
         [TestMethod]
         public void UntrainTroopsCommandHandler_Fails_For_Too_High_Archers() {
-            var handler = new UntrainTroopsCommandHandler(_repository);
+            var handler = new UntrainTroopsCommandHandler(_repository, _formatter);
             var command = new UntrainTroopsCommand("test@test.com", "12", "2", "2", "2", "2", "2");
 
             var result = handler.Execute(command);
@@ -152,46 +154,46 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
         [TestMethod]
         public void UntrainTroopsCommandHandler_Fails_For_Too_High_MercenaryArchers() {
-            var handler = new UntrainTroopsCommandHandler(_repository);
+            var handler = new UntrainTroopsCommandHandler(_repository, _formatter);
             var command = new UntrainTroopsCommand("test@test.com", "2", "12", "2", "2", "2", "2");
 
             var result = handler.Execute(command);
 
             result.Errors.Should().HaveCount(1);
             result.Errors[0].Expression.ToString().Should().Be("c => c.MercenaryArchers");
-            result.Errors[0].Message.Should().Be("You don't have that many archer mercenaries to untrain");
+            result.Errors[0].Message.Should().Be("You don't have that many mercenary archers to untrain");
             _player.DidNotReceiveWithAnyArgs().UntrainTroops(default, default, default);
         }
 
         [TestMethod]
         public void UntrainTroopsCommandHandler_Fails_For_Too_High_Cavalry() {
-            var handler = new UntrainTroopsCommandHandler(_repository);
+            var handler = new UntrainTroopsCommandHandler(_repository, _formatter);
             var command = new UntrainTroopsCommand("test@test.com", "2", "2", "12", "2", "2", "2");
 
             var result = handler.Execute(command);
 
             result.Errors.Should().HaveCount(1);
             result.Errors[0].Expression.ToString().Should().Be("c => c.Cavalry");
-            result.Errors[0].Message.Should().Be("You don't have that many cavalry units to untrain");
+            result.Errors[0].Message.Should().Be("You don't have that many cavalry to untrain");
             _player.DidNotReceiveWithAnyArgs().UntrainTroops(default, default, default);
         }
 
         [TestMethod]
         public void UntrainTroopsCommandHandler_Fails_For_Too_High_MercenaryCavalry() {
-            var handler = new UntrainTroopsCommandHandler(_repository);
+            var handler = new UntrainTroopsCommandHandler(_repository, _formatter);
             var command = new UntrainTroopsCommand("test@test.com", "2", "2", "2", "12", "2", "2");
 
             var result = handler.Execute(command);
 
             result.Errors.Should().HaveCount(1);
             result.Errors[0].Expression.ToString().Should().Be("c => c.MercenaryCavalry");
-            result.Errors[0].Message.Should().Be("You don't have that many cavalry mercenaries to untrain");
+            result.Errors[0].Message.Should().Be("You don't have that many mercenary cavalry to untrain");
             _player.DidNotReceiveWithAnyArgs().UntrainTroops(default, default, default);
         }
 
         [TestMethod]
         public void UntrainTroopsCommandHandler_Fails_For_Too_High_Footmen() {
-            var handler = new UntrainTroopsCommandHandler(_repository);
+            var handler = new UntrainTroopsCommandHandler(_repository, _formatter);
             var command = new UntrainTroopsCommand("test@test.com", "2", "2", "2", "2", "12", "2");
 
             var result = handler.Execute(command);
@@ -204,20 +206,20 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
         [TestMethod]
         public void UntrainTroopsCommandHandler_Fails_For_Too_High_MercenaryFootmen() {
-            var handler = new UntrainTroopsCommandHandler(_repository);
+            var handler = new UntrainTroopsCommandHandler(_repository, _formatter);
             var command = new UntrainTroopsCommand("test@test.com", "2", "2", "2", "2", "2", "12");
 
             var result = handler.Execute(command);
 
             result.Errors.Should().HaveCount(1);
             result.Errors[0].Expression.ToString().Should().Be("c => c.MercenaryFootmen");
-            result.Errors[0].Message.Should().Be("You don't have that many footman mercenaries to untrain");
+            result.Errors[0].Message.Should().Be("You don't have that many mercenary footmen to untrain");
             _player.DidNotReceiveWithAnyArgs().UntrainTroops(default, default, default);
         }
 
         [TestMethod]
         public void UntrainTroopsCommandHandler_Fails_For_Negative_Archers() {
-            var handler = new UntrainTroopsCommandHandler(_repository);
+            var handler = new UntrainTroopsCommandHandler(_repository, _formatter);
             var command = new UntrainTroopsCommand("test@test.com", "-2", "2", "2", "2", "2", "2");
 
             var result = handler.Execute(command);
@@ -230,20 +232,20 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
         [TestMethod]
         public void UntrainTroopsCommandHandler_Fails_For_Negative_MercenaryArchers() {
-            var handler = new UntrainTroopsCommandHandler(_repository);
+            var handler = new UntrainTroopsCommandHandler(_repository, _formatter);
             var command = new UntrainTroopsCommand("test@test.com", "2", "-2", "2", "2", "2", "2");
 
             var result = handler.Execute(command);
 
             result.Errors.Should().HaveCount(1);
             result.Errors[0].Expression.ToString().Should().Be("c => c.MercenaryArchers");
-            result.Errors[0].Message.Should().Be("Archer mercenaries must be a valid number");
+            result.Errors[0].Message.Should().Be("Mercenary archers must be a valid number");
             _player.DidNotReceiveWithAnyArgs().UntrainTroops(default, default, default);
         }
 
         [TestMethod]
         public void UntrainTroopsCommandHandler_Fails_For_Negative_Cavalry() {
-            var handler = new UntrainTroopsCommandHandler(_repository);
+            var handler = new UntrainTroopsCommandHandler(_repository, _formatter);
             var command = new UntrainTroopsCommand("test@test.com", "2", "2", "-2", "2", "2", "2");
 
             var result = handler.Execute(command);
@@ -256,20 +258,20 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
         [TestMethod]
         public void UntrainTroopsCommandHandler_Fails_For_Negative_MercenaryCavalry() {
-            var handler = new UntrainTroopsCommandHandler(_repository);
+            var handler = new UntrainTroopsCommandHandler(_repository, _formatter);
             var command = new UntrainTroopsCommand("test@test.com", "2", "2", "2", "-2", "2", "2");
 
             var result = handler.Execute(command);
 
             result.Errors.Should().HaveCount(1);
             result.Errors[0].Expression.ToString().Should().Be("c => c.MercenaryCavalry");
-            result.Errors[0].Message.Should().Be("Cavalry mercenaries must be a valid number");
+            result.Errors[0].Message.Should().Be("Mercenary cavalry must be a valid number");
             _player.DidNotReceiveWithAnyArgs().UntrainTroops(default, default, default);
         }
 
         [TestMethod]
         public void UntrainTroopsCommandHandler_Fails_For_Negative_Footmen() {
-            var handler = new UntrainTroopsCommandHandler(_repository);
+            var handler = new UntrainTroopsCommandHandler(_repository, _formatter);
             var command = new UntrainTroopsCommand("test@test.com", "2", "2", "2", "2", "-2", "2");
 
             var result = handler.Execute(command);
@@ -282,14 +284,14 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
         [TestMethod]
         public void UntrainTroopsCommandHandler_Fails_For_Negative_MercenaryFootmen() {
-            var handler = new UntrainTroopsCommandHandler(_repository);
+            var handler = new UntrainTroopsCommandHandler(_repository, _formatter);
             var command = new UntrainTroopsCommand("test@test.com", "2", "2", "2", "2", "2", "-2");
 
             var result = handler.Execute(command);
 
             result.Errors.Should().HaveCount(1);
             result.Errors[0].Expression.ToString().Should().Be("c => c.MercenaryFootmen");
-            result.Errors[0].Message.Should().Be("Footman mercenaries must be a valid number");
+            result.Errors[0].Message.Should().Be("Mercenary footmen must be a valid number");
             _player.DidNotReceiveWithAnyArgs().UntrainTroops(default, default, default);
         }
     }

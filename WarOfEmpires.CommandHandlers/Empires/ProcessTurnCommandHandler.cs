@@ -7,7 +7,7 @@ namespace WarOfEmpires.CommandHandlers.Empires {
     [InterfaceInjectable]
     [Audit]
     public sealed class ProcessTurnCommandHandler : ICommandHandler<ProcessTurnCommand> {
-        public PlayerRepository _repository;
+        private readonly PlayerRepository _repository;
 
         public ProcessTurnCommandHandler(PlayerRepository repository) {
             _repository = repository;

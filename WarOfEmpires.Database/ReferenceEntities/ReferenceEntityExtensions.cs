@@ -1,19 +1,21 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
+using WarOfEmpires.Utilities.Formatting;
 
 namespace WarOfEmpires.Database.ReferenceEntities {
     internal static class ReferenceEntityExtensions {
+        private readonly static EnumFormatter _formatter = new EnumFormatter();
+
         public static IEnumerable<TReferenceEntity> GetValues<TEnum, TReferenceEntity>()
             where TEnum : Enum
             where TReferenceEntity : BaseReferenceEntity<TEnum>, new() {
 
             return Enum.GetValues(typeof(TEnum))
                 .Cast<TEnum>()
-                .Select(e => new TReferenceEntity() {
-                    Id = e,
-                    Name = Regex.Replace(e.ToString(), "(\\B[A-Z])", g => $" {g.Value.ToLower()}")
+                .Select(value => new TReferenceEntity() {
+                    Id = value,
+                    Name = _formatter.ToString(value)
                 });
         }
     }

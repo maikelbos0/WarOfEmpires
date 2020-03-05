@@ -9,6 +9,7 @@ using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Domain.Siege;
 using WarOfEmpires.Repositories.Players;
 using WarOfEmpires.Test.Utilities;
+using WarOfEmpires.Utilities.Formatting;
 
 namespace WarOfEmpires.CommandHandlers.Tests.Empires {
     [TestClass]
@@ -16,6 +17,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
         private readonly FakeWarContext _context = new FakeWarContext();
         private readonly PlayerRepository _repository;
         private readonly Player _player;
+        private readonly EnumFormatter _formatter = new EnumFormatter();
 
         public DiscardSiegeCommandHandlerTests() {
             _repository = new PlayerRepository(_context);
@@ -39,7 +41,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
         [TestMethod]
         public void DiscardSiegeCommandHandler_Succeeds() {
-            var handler = new DiscardSiegeCommandHandler(_repository);
+            var handler = new DiscardSiegeCommandHandler(_repository, _formatter);
             var command = new DiscardSiegeCommand("test@test.com", "1", "2", "3");
 
             var result = handler.Execute(command);
@@ -53,7 +55,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
         [TestMethod]
         public void DiscardSiegeCommandHandler_Allows_Empty_Values() {
-            var handler = new DiscardSiegeCommandHandler(_repository);
+            var handler = new DiscardSiegeCommandHandler(_repository, _formatter);
             var command = new DiscardSiegeCommand("test@test.com", "", "", "");
 
             var result = handler.Execute(command);
@@ -65,7 +67,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
         [TestMethod]
         public void DiscardSiegeCommandHandler_Fails_For_Alphanumeric_FireArrows() {
-            var handler = new DiscardSiegeCommandHandler(_repository);
+            var handler = new DiscardSiegeCommandHandler(_repository, _formatter);
             var command = new DiscardSiegeCommand("test@test.com", "A", "2", "2");
 
             var result = handler.Execute(command);
@@ -78,7 +80,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
         [TestMethod]
         public void DiscardSiegeCommandHandler_Fails_For_Alphanumeric_BatteringRams() {
-            var handler = new DiscardSiegeCommandHandler(_repository);
+            var handler = new DiscardSiegeCommandHandler(_repository, _formatter);
             var command = new DiscardSiegeCommand("test@test.com", "2", "A", "2");
 
             var result = handler.Execute(command);
@@ -91,7 +93,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
         [TestMethod]
         public void DiscardSiegeCommandHandler_Fails_For_Alphanumeric_ScalingLadders() {
-            var handler = new DiscardSiegeCommandHandler(_repository);
+            var handler = new DiscardSiegeCommandHandler(_repository, _formatter);
             var command = new DiscardSiegeCommand("test@test.com", "2", "2", "A");
 
             var result = handler.Execute(command);
@@ -104,7 +106,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
         [TestMethod]
         public void DiscardSiegeCommandHandler_Fails_For_Too_High_FireArrows() {
-            var handler = new DiscardSiegeCommandHandler(_repository);
+            var handler = new DiscardSiegeCommandHandler(_repository, _formatter);
             var command = new DiscardSiegeCommand("test@test.com", "4", "2", "2");
 
             var result = handler.Execute(command);
@@ -117,7 +119,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
         [TestMethod]
         public void DiscardSiegeCommandHandler_Fails_For_Too_High_BatteringRams() {
-            var handler = new DiscardSiegeCommandHandler(_repository);
+            var handler = new DiscardSiegeCommandHandler(_repository, _formatter);
             var command = new DiscardSiegeCommand("test@test.com", "2", "4", "2");
 
             var result = handler.Execute(command);
@@ -130,7 +132,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
         [TestMethod]
         public void DiscardSiegeCommandHandler_Fails_For_Too_High_ScalingLadders() {
-            var handler = new DiscardSiegeCommandHandler(_repository);
+            var handler = new DiscardSiegeCommandHandler(_repository, _formatter);
             var command = new DiscardSiegeCommand("test@test.com", "2", "2", "4");
 
             var result = handler.Execute(command);
@@ -143,7 +145,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
         [TestMethod]
         public void DiscardSiegeCommandHandler_Fails_For_Negative_FireArrows() {
-            var handler = new DiscardSiegeCommandHandler(_repository);
+            var handler = new DiscardSiegeCommandHandler(_repository, _formatter);
             var command = new DiscardSiegeCommand("test@test.com", "-1", "2", "2");
 
             var result = handler.Execute(command);
@@ -156,7 +158,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
         [TestMethod]
         public void DiscardSiegeCommandHandler_Fails_For_Negative_BatteringRams() {
-            var handler = new DiscardSiegeCommandHandler(_repository);
+            var handler = new DiscardSiegeCommandHandler(_repository, _formatter);
             var command = new DiscardSiegeCommand("test@test.com", "2", "-1", "2");
 
             var result = handler.Execute(command);
@@ -169,7 +171,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
         [TestMethod]
         public void DiscardSiegeCommandHandler_Fails_For_Negative_ScalingLadders() {
-            var handler = new DiscardSiegeCommandHandler(_repository);
+            var handler = new DiscardSiegeCommandHandler(_repository, _formatter);
             var command = new DiscardSiegeCommand("test@test.com", "2", "2", "-1");
 
             var result = handler.Execute(command);

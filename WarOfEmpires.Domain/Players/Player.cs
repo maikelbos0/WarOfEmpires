@@ -157,10 +157,10 @@ namespace WarOfEmpires.Domain.Players {
         public virtual Resources GetResourcesPerTurn() {
             return new Resources(
                 GetGoldPerTurn(),
-                GetProduction(WorkerType.Farmer).GetTotalProduction(),
-                GetProduction(WorkerType.WoodWorker).GetTotalProduction(),
-                GetProduction(WorkerType.StoneMason).GetTotalProduction(),
-                GetProduction(WorkerType.OreMiner).GetTotalProduction()
+                GetProduction(WorkerType.Farmers).GetTotalProduction(),
+                GetProduction(WorkerType.WoodWorkers).GetTotalProduction(),
+                GetProduction(WorkerType.StoneMasons).GetTotalProduction(),
+                GetProduction(WorkerType.OreMiners).GetTotalProduction()
             );
         }
 

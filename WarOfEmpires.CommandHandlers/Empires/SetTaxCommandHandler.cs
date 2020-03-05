@@ -8,7 +8,7 @@ namespace WarOfEmpires.CommandHandlers.Empires {
     [InterfaceInjectable]
     [Audit]
     public sealed class SetTaxCommandHandler : ICommandHandler<SetTaxCommand> {
-        public PlayerRepository _repository;
+        private readonly PlayerRepository _repository;
 
         public SetTaxCommandHandler(PlayerRepository repository) {
             _repository = repository;
