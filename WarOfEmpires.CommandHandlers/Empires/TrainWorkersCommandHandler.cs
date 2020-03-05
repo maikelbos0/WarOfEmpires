@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using WarOfEmpires.CommandHandlers.Decorators;
 using WarOfEmpires.Commands.Empires;
 using WarOfEmpires.Domain.Empires;
@@ -17,55 +19,33 @@ namespace WarOfEmpires.CommandHandlers.Empires {
             _repository = repository;
         }
 
+        private IEnumerable<WorkerInfo> ParseWorkers(TrainWorkersCommand command,
+                                                     CommandResult<TrainWorkersCommand> result,
+                                                     WorkerType type,
+                                                     Expression<Func<TrainWorkersCommand, object>> workerFunc) {
+
+            var commandWorkers = (string)workerFunc.Compile().Invoke(command);
+            int workers = 0;
+
+            if (!string.IsNullOrEmpty(commandWorkers) && !int.TryParse(commandWorkers, out workers) || workers < 0) {
+                result.AddError(workerFunc, $"{type.ToString()} must be a valid number");
+            }
+
+            if (result.Success && workers > 0) {
+                yield return new WorkerInfo(type, workers);
+            }
+        }
+
         public CommandResult<TrainWorkersCommand> Execute(TrainWorkersCommand command) {
             var result = new CommandResult<TrainWorkersCommand>();
             var player = _repository.Get(command.Email);
             var workers = new List<WorkerInfo>();
-            int value = 0;
 
-            // Farmers
-            if (!string.IsNullOrEmpty(command.Farmers) && !int.TryParse(command.Farmers, out value) || value < 0) {
-                result.AddError(c => c.Farmers, "Farmers must be a valid number");
-            }
-            else if (value > 0) {
-                workers.Add(new WorkerInfo(WorkerType.Farmer, value));
-            }
-
-            // Wood workers
-            value = 0;
-            if (!string.IsNullOrEmpty(command.WoodWorkers) && !int.TryParse(command.WoodWorkers, out value) || value < 0) {
-                result.AddError(c => c.WoodWorkers, "Wood workers must be a valid number");
-            }
-            else if (value > 0) {
-                workers.Add(new WorkerInfo(WorkerType.WoodWorker, value));
-            }
-
-            // Stone masons
-            value = 0;
-            if (!string.IsNullOrEmpty(command.StoneMasons) && !int.TryParse(command.StoneMasons, out value) || value < 0) {
-                result.AddError(c => c.StoneMasons, "Stone masons must be a valid number");
-            }
-            else if (value > 0) {
-                workers.Add(new WorkerInfo(WorkerType.StoneMason, value));
-            }
-
-            // Ore miners
-            value = 0;
-            if (!string.IsNullOrEmpty(command.OreMiners) && !int.TryParse(command.OreMiners, out value) || value < 0) {
-                result.AddError(c => c.OreMiners, "Ore miners must be a valid number");
-            }
-            else if (value > 0) {
-                workers.Add(new WorkerInfo(WorkerType.OreMiner, value));
-            }
-
-            // Siege engineers
-            value = 0;
-            if (!string.IsNullOrEmpty(command.SiegeEngineers) && !int.TryParse(command.SiegeEngineers, out value) || value < 0) {
-                result.AddError(c => c.SiegeEngineers, "Siege engineers must be a valid number");
-            }
-            else if (value > 0) {
-                workers.Add(new WorkerInfo(WorkerType.SiegeEngineer, value));
-            }
+            workers.AddRange(ParseWorkers(command, result, WorkerType.Farmer, c => c.Farmers));
+            workers.AddRange(ParseWorkers(command, result, WorkerType.WoodWorker, c => c.WoodWorkers));
+            workers.AddRange(ParseWorkers(command, result, WorkerType.StoneMason, c => c.StoneMasons));
+            workers.AddRange(ParseWorkers(command, result, WorkerType.OreMiner, c => c.OreMiners));
+            workers.AddRange(ParseWorkers(command, result, WorkerType.SiegeEngineer, c => c.SiegeEngineers));
 
             if (workers.Sum(w => w.Count) > player.Peasants) {
                 result.AddError("You don't have that many peasants available to train");
