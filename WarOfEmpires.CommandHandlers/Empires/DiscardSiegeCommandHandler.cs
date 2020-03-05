@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
 using WarOfEmpires.CommandHandlers.Decorators;
 using WarOfEmpires.Commands.Empires;
 using WarOfEmpires.Domain.Siege;
@@ -15,49 +17,38 @@ namespace WarOfEmpires.CommandHandlers.Empires {
             _repository = repository;
         }
 
+        private IEnumerable<SiegeWeaponInfo> ParseSiegeWeapon(DiscardSiegeCommand command,
+                                                              CommandResult<DiscardSiegeCommand> result,
+                                                              SiegeWeaponType type,
+                                                              Expression<Func<DiscardSiegeCommand, object>> siegeWeaponFunc,
+                                                              int maximumSiegeWeapons) {
+
+            var commandSiegeWeapons = (string)siegeWeaponFunc.Compile().Invoke(command);
+            int siegeWeapons = 0;
+
+            if (!string.IsNullOrEmpty(commandSiegeWeapons) && !int.TryParse(commandSiegeWeapons, out siegeWeapons) || siegeWeapons < 0) {
+                result.AddError(siegeWeaponFunc, $"{type.ToString()} must be a valid number");
+            }
+            else if (siegeWeapons > maximumSiegeWeapons) {
+                result.AddError(siegeWeaponFunc, $"You don't have that many {type.ToString().ToLower()} to discard");
+            }
+
+            if (result.Success && siegeWeapons > 0) {
+                yield return new SiegeWeaponInfo(type, siegeWeapons);
+            }
+        }
+
         public CommandResult<DiscardSiegeCommand> Execute(DiscardSiegeCommand command) {
             var result = new CommandResult<DiscardSiegeCommand>();
             var player = _repository.Get(command.Email);
-            var siege = new List<SiegeWeaponInfo>();
-            int value = 0;
+            var siegeWeapons = new List<SiegeWeaponInfo>();
 
-            // Fire arrows
-            if (!string.IsNullOrEmpty(command.FireArrows) && !int.TryParse(command.FireArrows, out value) || value < 0) {
-                result.AddError(c => c.FireArrows, "Fire arrows must be a valid number");
-            }
-            else if (player.GetSiegeWeaponCount(SiegeWeaponType.FireArrows) < value) {
-                result.AddError(c => c.FireArrows, "You don't have that many fire arrows to discard");
-            }
-            else if (value > 0) {
-                siege.Add(new SiegeWeaponInfo(SiegeWeaponType.FireArrows, value));
-            }
-
-            // Battering rams
-            value = 0;
-            if (!string.IsNullOrEmpty(command.BatteringRams) && !int.TryParse(command.BatteringRams, out value) || value < 0) {
-                result.AddError(c => c.BatteringRams, "Battering rams must be a valid number");
-            }
-            else if (player.GetSiegeWeaponCount(SiegeWeaponType.BatteringRams) < value) {
-                result.AddError(c => c.BatteringRams, "You don't have that many battering rams to discard");
-            }
-            else if (value > 0) {
-                siege.Add(new SiegeWeaponInfo(SiegeWeaponType.BatteringRams, value));
-            }
-
-            // Scaling ladders
-            value = 0;
-            if (!string.IsNullOrEmpty(command.ScalingLadders) && !int.TryParse(command.ScalingLadders, out value) || value < 0) {
-                result.AddError(c => c.ScalingLadders, "Scaling ladders must be a valid number");
-            }
-            else if (player.GetSiegeWeaponCount(SiegeWeaponType.ScalingLadders) < value) {
-                result.AddError(c => c.ScalingLadders, "You don't have that many scaling ladders to discard");
-            }
-            else if (value > 0) {
-                siege.Add(new SiegeWeaponInfo(SiegeWeaponType.ScalingLadders, value));
-            }
-            
+            siegeWeapons.AddRange(ParseSiegeWeapon(command, result, SiegeWeaponType.FireArrows, c => c.FireArrows, player.GetSiegeWeaponCount(SiegeWeaponType.FireArrows)));
+            siegeWeapons.AddRange(ParseSiegeWeapon(command, result, SiegeWeaponType.BatteringRams, c => c.BatteringRams, player.GetSiegeWeaponCount(SiegeWeaponType.BatteringRams)));
+            siegeWeapons.AddRange(ParseSiegeWeapon(command, result, SiegeWeaponType.ScalingLadders, c => c.ScalingLadders, player.GetSiegeWeaponCount(SiegeWeaponType.ScalingLadders)));
+                        
             if (result.Success) {
-                foreach (var info in siege) {
+                foreach (var info in siegeWeapons) {
                     player.DiscardSiege(info.Type, info.Count);
                 }
 
