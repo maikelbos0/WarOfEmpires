@@ -10,6 +10,7 @@ using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Domain.Siege;
 using WarOfEmpires.Repositories.Players;
 using WarOfEmpires.Test.Utilities;
+using WarOfEmpires.Utilities.Formatting;
 
 namespace WarOfEmpires.CommandHandlers.Tests.Empires {
     [TestClass]
@@ -17,6 +18,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
         private readonly FakeWarContext _context = new FakeWarContext();
         private readonly PlayerRepository _repository;
         private readonly Player _player;
+        private readonly EnumFormatter _formatter = new EnumFormatter();
 
         public UntrainWorkersCommandHandlerTests() {
             _repository = new PlayerRepository(_context);
@@ -42,7 +44,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
         [TestMethod]
         public void UntrainWorkersCommandHandler_Succeeds() {
-            var handler = new UntrainWorkersCommandHandler(_repository);
+            var handler = new UntrainWorkersCommandHandler(_repository, _formatter);
             var command = new UntrainWorkersCommand("test@test.com", "5", "4", "3", "2", "1");
 
             var result = handler.Execute(command);
@@ -58,7 +60,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
         [TestMethod]
         public void UntrainWorkersCommandHandler_Allows_Empty_Workers() {
-            var handler = new UntrainWorkersCommandHandler(_repository);
+            var handler = new UntrainWorkersCommandHandler(_repository, _formatter);
             var command = new UntrainWorkersCommand("test@test.com", "", "", "", "", "");
 
             var result = handler.Execute(command);
@@ -69,7 +71,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
         [TestMethod]
         public void UntrainWorkersCommandHandler_Fails_For_Alphanumeric_Farmers() {
-            var handler = new UntrainWorkersCommandHandler(_repository);
+            var handler = new UntrainWorkersCommandHandler(_repository, _formatter);
             var command = new UntrainWorkersCommand("test@test.com", "A", "2", "2", "2", "2");
 
             var result = handler.Execute(command);
@@ -82,7 +84,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
         [TestMethod]
         public void UntrainWorkersCommandHandler_Fails_For_Alphanumeric_WoodWorkers() {
-            var handler = new UntrainWorkersCommandHandler(_repository);
+            var handler = new UntrainWorkersCommandHandler(_repository, _formatter);
             var command = new UntrainWorkersCommand("test@test.com", "2", "A", "2", "2", "2");
 
             var result = handler.Execute(command);
@@ -95,7 +97,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
         [TestMethod]
         public void UntrainWorkersCommandHandler_Fails_For_Alphanumeric_StoneMasons() {
-            var handler = new UntrainWorkersCommandHandler(_repository);
+            var handler = new UntrainWorkersCommandHandler(_repository, _formatter);
             var command = new UntrainWorkersCommand("test@test.com", "2", "2", "A", "2", "2");
 
             var result = handler.Execute(command);
@@ -108,7 +110,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
         [TestMethod]
         public void UntrainWorkersCommandHandler_Fails_For_Alphanumeric_OreMiners() {
-            var handler = new UntrainWorkersCommandHandler(_repository);
+            var handler = new UntrainWorkersCommandHandler(_repository, _formatter);
             var command = new UntrainWorkersCommand("test@test.com", "2", "2", "2", "A", "2");
 
             var result = handler.Execute(command);
@@ -121,7 +123,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
         [TestMethod]
         public void UntrainWorkersCommandHandler_Fails_For_Alphanumeric_SiegeEngineers() {
-            var handler = new UntrainWorkersCommandHandler(_repository);
+            var handler = new UntrainWorkersCommandHandler(_repository, _formatter);
             var command = new UntrainWorkersCommand("test@test.com", "2", "2", "2", "2", "A");
 
             var result = handler.Execute(command);
@@ -134,7 +136,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
         [TestMethod]
         public void UntrainWorkersCommandHandler_Fails_For_Too_High_Farmers() {
-            var handler = new UntrainWorkersCommandHandler(_repository);
+            var handler = new UntrainWorkersCommandHandler(_repository, _formatter);
             var command = new UntrainWorkersCommand("test@test.com", "12", "2", "2", "2", "2");
 
             var result = handler.Execute(command);
@@ -147,7 +149,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
         [TestMethod]
         public void UntrainWorkersCommandHandler_Fails_For_Too_High_WoodWorkers() {
-            var handler = new UntrainWorkersCommandHandler(_repository);
+            var handler = new UntrainWorkersCommandHandler(_repository, _formatter);
             var command = new UntrainWorkersCommand("test@test.com", "2", "12", "2", "2", "2");
 
             var result = handler.Execute(command);
@@ -160,7 +162,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
         [TestMethod]
         public void UntrainWorkersCommandHandler_Fails_For_Too_High_StoneMasons() {
-            var handler = new UntrainWorkersCommandHandler(_repository);
+            var handler = new UntrainWorkersCommandHandler(_repository, _formatter);
             var command = new UntrainWorkersCommand("test@test.com", "2", "2", "12", "2", "2");
 
             var result = handler.Execute(command);
@@ -173,7 +175,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
         [TestMethod]
         public void UntrainWorkersCommandHandler_Fails_For_Too_High_OreMiners() {
-            var handler = new UntrainWorkersCommandHandler(_repository);
+            var handler = new UntrainWorkersCommandHandler(_repository, _formatter);
             var command = new UntrainWorkersCommand("test@test.com", "2", "2", "2", "12", "2");
 
             var result = handler.Execute(command);
@@ -186,7 +188,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
         [TestMethod]
         public void UntrainWorkersCommandHandler_Fails_For_Too_High_SiegeEngineers() {
-            var handler = new UntrainWorkersCommandHandler(_repository);
+            var handler = new UntrainWorkersCommandHandler(_repository, _formatter);
             var command = new UntrainWorkersCommand("test@test.com", "2", "2", "2", "2", "12");
 
             var result = handler.Execute(command);
@@ -199,7 +201,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
         [TestMethod]
         public void UntrainWorkersCommandHandler_Fails_For_Negative_Farmers() {
-            var handler = new UntrainWorkersCommandHandler(_repository);
+            var handler = new UntrainWorkersCommandHandler(_repository, _formatter);
             var command = new UntrainWorkersCommand("test@test.com", "-2", "2", "2", "2", "2");
 
             var result = handler.Execute(command);
@@ -212,7 +214,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
         [TestMethod]
         public void UntrainWorkersCommandHandler_Fails_For_Negative_WoodWorkers() {
-            var handler = new UntrainWorkersCommandHandler(_repository);
+            var handler = new UntrainWorkersCommandHandler(_repository, _formatter);
             var command = new UntrainWorkersCommand("test@test.com", "2", "-2", "2", "2", "2");
 
             var result = handler.Execute(command);
@@ -225,7 +227,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
         [TestMethod]
         public void UntrainWorkersCommandHandler_Fails_For_Negative_StoneMasons() {
-            var handler = new UntrainWorkersCommandHandler(_repository);
+            var handler = new UntrainWorkersCommandHandler(_repository, _formatter);
             var command = new UntrainWorkersCommand("test@test.com", "2", "2", "-2", "2", "2");
 
             var result = handler.Execute(command);
@@ -238,7 +240,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
         [TestMethod]
         public void UntrainWorkersCommandHandler_Fails_For_Negative_OreMiners() {
-            var handler = new UntrainWorkersCommandHandler(_repository);
+            var handler = new UntrainWorkersCommandHandler(_repository, _formatter);
             var command = new UntrainWorkersCommand("test@test.com", "2", "2", "2", "-2", "2");
 
             var result = handler.Execute(command);
@@ -251,7 +253,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
         [TestMethod]
         public void UntrainWorkersCommandHandler_Fails_For_Negative_SiegeEngineers() {
-            var handler = new UntrainWorkersCommandHandler(_repository);
+            var handler = new UntrainWorkersCommandHandler(_repository, _formatter);
             var command = new UntrainWorkersCommand("test@test.com", "2", "2", "2", "2", "-2");
 
             var result = handler.Execute(command);
@@ -271,7 +273,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
                 new SiegeWeapon(SiegeWeaponType.ScalingLadders, 2)
             });
 
-            var handler = new UntrainWorkersCommandHandler(_repository);
+            var handler = new UntrainWorkersCommandHandler(_repository, _formatter);
             var command = new UntrainWorkersCommand("test@test.com", "", "", "", "", "1");
 
             var result = handler.Execute(command);

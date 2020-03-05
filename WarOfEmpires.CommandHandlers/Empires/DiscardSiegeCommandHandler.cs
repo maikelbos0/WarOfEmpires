@@ -6,15 +6,18 @@ using WarOfEmpires.Commands.Empires;
 using WarOfEmpires.Domain.Siege;
 using WarOfEmpires.Repositories.Players;
 using WarOfEmpires.Utilities.Container;
+using WarOfEmpires.Utilities.Formatting;
 
 namespace WarOfEmpires.CommandHandlers.Empires {
     [InterfaceInjectable]
     [Audit]
     public sealed class DiscardSiegeCommandHandler : ICommandHandler<DiscardSiegeCommand> {
         private readonly PlayerRepository _repository;
+        private readonly EnumFormatter _formatter;
 
-        public DiscardSiegeCommandHandler(PlayerRepository repository) {
+        public DiscardSiegeCommandHandler(PlayerRepository repository, EnumFormatter formatter) {
             _repository = repository;
+            _formatter = formatter;
         }
 
         private IEnumerable<SiegeWeaponInfo> ParseSiegeWeapon(DiscardSiegeCommand command,
@@ -27,10 +30,10 @@ namespace WarOfEmpires.CommandHandlers.Empires {
             int siegeWeapons = 0;
 
             if (!string.IsNullOrEmpty(commandSiegeWeapons) && !int.TryParse(commandSiegeWeapons, out siegeWeapons) || siegeWeapons < 0) {
-                result.AddError(siegeWeaponFunc, $"{type.ToString()} must be a valid number");
+                result.AddError(siegeWeaponFunc, $"{_formatter.ToString(type)} must be a valid number");
             }
             else if (siegeWeapons > maximumSiegeWeapons) {
-                result.AddError(siegeWeaponFunc, $"You don't have that many {type.ToString().ToLower()} to discard");
+                result.AddError(siegeWeaponFunc, $"You don't have that many {_formatter.ToString(type, false)} to discard");
             }
 
             if (result.Success && siegeWeapons > 0) {

@@ -9,6 +9,7 @@ using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Repositories.Players;
 using WarOfEmpires.Test.Utilities;
+using WarOfEmpires.Utilities.Formatting;
 
 namespace WarOfEmpires.CommandHandlers.Tests.Empires {
     [TestClass]
@@ -16,6 +17,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
         private readonly FakeWarContext _context = new FakeWarContext();
         private readonly PlayerRepository _repository;
         private readonly Player _player;
+        private readonly EnumFormatter _formatter = new EnumFormatter();
 
         public TrainWorkersCommandHandlerTests() {
             _repository = new PlayerRepository(_context);
@@ -37,7 +39,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
         [TestMethod]
         public void TrainWorkersCommandHandler_Succeeds() {
-            var handler = new TrainWorkersCommandHandler(_repository);
+            var handler = new TrainWorkersCommandHandler(_repository, _formatter);
             var command = new TrainWorkersCommand("test@test.com", "5", "4", "3", "2", "1");
 
             var result = handler.Execute(command);
@@ -53,7 +55,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
         [TestMethod]
         public void TrainWorkersCommandHandler_Allows_Empty_Workers() {
-            var handler = new TrainWorkersCommandHandler(_repository);
+            var handler = new TrainWorkersCommandHandler(_repository, _formatter);
             var command = new TrainWorkersCommand("test@test.com", "", "", "", "", "");
 
             var result = handler.Execute(command);
@@ -66,7 +68,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
         public void TrainWorkersCommandHandler_Fails_For_Too_Little_Huts_Room() {
             _player.Peasants.Returns(30);
 
-            var handler = new TrainWorkersCommandHandler(_repository);
+            var handler = new TrainWorkersCommandHandler(_repository, _formatter);
             var command = new TrainWorkersCommand("test@test.com", "5", "5", "5", "5", "5");
 
             var result = handler.Execute(command);
@@ -79,7 +81,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
         [TestMethod]
         public void TrainWorkersCommandHandler_Fails_For_Alphanumeric_Farmers() {
-            var handler = new TrainWorkersCommandHandler(_repository);
+            var handler = new TrainWorkersCommandHandler(_repository, _formatter);
             var command = new TrainWorkersCommand("test@test.com", "A", "2", "2", "2", "2");
 
             var result = handler.Execute(command);
@@ -92,7 +94,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
         [TestMethod]
         public void TrainWorkersCommandHandler_Fails_For_Alphanumeric_WoodWorkers() {
-            var handler = new TrainWorkersCommandHandler(_repository);
+            var handler = new TrainWorkersCommandHandler(_repository, _formatter);
             var command = new TrainWorkersCommand("test@test.com", "2", "A", "2", "2", "2");
 
             var result = handler.Execute(command);
@@ -105,7 +107,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
         [TestMethod]
         public void TrainWorkersCommandHandler_Fails_For_Alphanumeric_StoneMasons() {
-            var handler = new TrainWorkersCommandHandler(_repository);
+            var handler = new TrainWorkersCommandHandler(_repository, _formatter);
             var command = new TrainWorkersCommand("test@test.com", "2", "2", "A", "2", "2");
 
             var result = handler.Execute(command);
@@ -118,7 +120,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
         [TestMethod]
         public void TrainWorkersCommandHandler_Fails_For_Alphanumeric_OreMiners() {
-            var handler = new TrainWorkersCommandHandler(_repository);
+            var handler = new TrainWorkersCommandHandler(_repository, _formatter);
             var command = new TrainWorkersCommand("test@test.com", "2", "2", "2", "A", "2");
 
             var result = handler.Execute(command);
@@ -131,7 +133,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
         [TestMethod]
         public void TrainWorkersCommandHandler_Fails_For_Alphanumeric_SiegeEngineers() {
-            var handler = new TrainWorkersCommandHandler(_repository);
+            var handler = new TrainWorkersCommandHandler(_repository, _formatter);
             var command = new TrainWorkersCommand("test@test.com", "2", "2", "2", "2", "A");
 
             var result = handler.Execute(command);
@@ -152,7 +154,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
         public void TrainWorkersCommandHandler_Fails_For_Too_High_WorkerCounts(int farmers, int woodWorkers, int stoneMasons, int oreMiners, int siegeEngineers) {
             _player.Peasants.Returns(15);
 
-            var handler = new TrainWorkersCommandHandler(_repository);
+            var handler = new TrainWorkersCommandHandler(_repository, _formatter);
             var command = new TrainWorkersCommand("test@test.com", farmers.ToString(), woodWorkers.ToString(), stoneMasons.ToString(), oreMiners.ToString(), siegeEngineers.ToString());
 
             var result = handler.Execute(command);
@@ -165,7 +167,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
         [TestMethod]
         public void TrainWorkersCommandHandler_Fails_For_Negative_Farmers() {
-            var handler = new TrainWorkersCommandHandler(_repository);
+            var handler = new TrainWorkersCommandHandler(_repository, _formatter);
             var command = new TrainWorkersCommand("test@test.com", "-7", "2", "2", "2", "2");
 
             var result = handler.Execute(command);
@@ -178,7 +180,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
         [TestMethod]
         public void TrainWorkersCommandHandler_Fails_For_Negative_WoodWorkers() {
-            var handler = new TrainWorkersCommandHandler(_repository);
+            var handler = new TrainWorkersCommandHandler(_repository, _formatter);
             var command = new TrainWorkersCommand("test@test.com", "2", "-7", "2", "2", "2");
 
             var result = handler.Execute(command);
@@ -191,7 +193,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
         [TestMethod]
         public void TrainWorkersCommandHandler_Fails_For_Negative_StoneMasons() {
-            var handler = new TrainWorkersCommandHandler(_repository);
+            var handler = new TrainWorkersCommandHandler(_repository, _formatter);
             var command = new TrainWorkersCommand("test@test.com", "2", "2", "-7", "2", "2");
 
             var result = handler.Execute(command);
@@ -204,7 +206,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
         [TestMethod]
         public void TrainWorkersCommandHandler_Fails_For_Negative_OreMiners() {
-            var handler = new TrainWorkersCommandHandler(_repository);
+            var handler = new TrainWorkersCommandHandler(_repository, _formatter);
             var command = new TrainWorkersCommand("test@test.com", "2", "2", "2", "-7", "2");
 
             var result = handler.Execute(command);
@@ -217,7 +219,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
         [TestMethod]
         public void TrainWorkersCommandHandler_Fails_For_Negative_SiegeEngineers() {
-            var handler = new TrainWorkersCommandHandler(_repository);
+            var handler = new TrainWorkersCommandHandler(_repository, _formatter);
             var command = new TrainWorkersCommand("test@test.com", "2", "2", "2", "2", "-7");
 
             var result = handler.Execute(command);
@@ -237,7 +239,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
         public void TrainWorkersCommandHandler_Fails_For_Too_Little_Resources(int farmers, int woodWorkers, int stoneMasons, int oreMiners, int siegeEngineers) {
             _player.CanAfford(Arg.Any<Resources>()).Returns(r => r.ArgAt<Resources>(0).Equals(new Resources(0)));
 
-            var handler = new TrainWorkersCommandHandler(_repository);
+            var handler = new TrainWorkersCommandHandler(_repository, _formatter);
             var command = new TrainWorkersCommand("test@test.com", farmers.ToString(), woodWorkers.ToString(), stoneMasons.ToString(), oreMiners.ToString(), siegeEngineers.ToString());
 
             var result = handler.Execute(command);

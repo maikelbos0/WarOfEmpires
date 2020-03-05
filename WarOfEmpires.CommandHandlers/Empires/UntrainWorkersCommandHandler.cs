@@ -8,15 +8,18 @@ using WarOfEmpires.Domain.Empires;
 using WarOfEmpires.Domain.Siege;
 using WarOfEmpires.Repositories.Players;
 using WarOfEmpires.Utilities.Container;
+using WarOfEmpires.Utilities.Formatting;
 
 namespace WarOfEmpires.CommandHandlers.Empires {
     [InterfaceInjectable]
     [Audit]
     public sealed class UntrainWorkersCommandHandler : ICommandHandler<UntrainWorkersCommand> {
         private readonly PlayerRepository _repository;
+        private readonly EnumFormatter _formatter;
 
-        public UntrainWorkersCommandHandler(PlayerRepository repository) {
+        public UntrainWorkersCommandHandler(PlayerRepository repository, EnumFormatter formatter) {
             _repository = repository;
+            _formatter = formatter;
         }
 
         private IEnumerable<WorkerInfo> ParseWorkers(UntrainWorkersCommand command,
@@ -29,10 +32,10 @@ namespace WarOfEmpires.CommandHandlers.Empires {
             int workers = 0;
 
             if (!string.IsNullOrEmpty(commandWorkers) && !int.TryParse(commandWorkers, out workers) || workers < 0) {
-                result.AddError(workerFunc, $"{type.ToString()} must be a valid number");
+                result.AddError(workerFunc, $"{_formatter.ToString(type)} must be a valid number");
             }
             else if (workers > maximumWorkers) {
-                result.AddError(workerFunc, $"You don't have that many {type.ToString().ToLower()} to untrain");
+                result.AddError(workerFunc, $"You don't have that many {_formatter.ToString(type, false)} to untrain");
             }
 
             if (result.Success && workers > 0) {

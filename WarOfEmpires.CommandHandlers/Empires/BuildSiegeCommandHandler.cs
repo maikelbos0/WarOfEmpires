@@ -8,6 +8,7 @@ using WarOfEmpires.Domain.Empires;
 using WarOfEmpires.Domain.Siege;
 using WarOfEmpires.Repositories.Players;
 using WarOfEmpires.Utilities.Container;
+using WarOfEmpires.Utilities.Formatting;
 using WarOfEmpires.Utilities.Linq;
 
 namespace WarOfEmpires.CommandHandlers.Empires {
@@ -15,9 +16,11 @@ namespace WarOfEmpires.CommandHandlers.Empires {
     [Audit]
     public sealed class BuildSiegeCommandHandler : ICommandHandler<BuildSiegeCommand> {
         private readonly PlayerRepository _repository;
+        private readonly EnumFormatter _formatter;
 
-        public BuildSiegeCommandHandler(PlayerRepository repository) {
+        public BuildSiegeCommandHandler(PlayerRepository repository, EnumFormatter formatter) {
             _repository = repository;
+            _formatter = formatter;
         }
 
         private IEnumerable<SiegeWeaponInfo> ParseSiegeWeapon(BuildSiegeCommand command,
@@ -29,7 +32,7 @@ namespace WarOfEmpires.CommandHandlers.Empires {
             int siegeWeapons = 0;
 
             if (!string.IsNullOrEmpty(commandSiegeWeapons) && !int.TryParse(commandSiegeWeapons, out siegeWeapons) || siegeWeapons < 0) {
-                result.AddError(siegeWeaponFunc, $"{type.ToString()} must be a valid number");
+                result.AddError(siegeWeaponFunc, $"{_formatter.ToString(type)} must be a valid number");
             }
 
             if (result.Success && siegeWeapons > 0) {

@@ -7,6 +7,7 @@ using WarOfEmpires.Commands.Empires;
 using WarOfEmpires.Domain.Empires;
 using WarOfEmpires.Repositories.Players;
 using WarOfEmpires.Utilities.Container;
+using WarOfEmpires.Utilities.Formatting;
 using WarOfEmpires.Utilities.Linq;
 
 namespace WarOfEmpires.CommandHandlers.Empires {
@@ -14,9 +15,11 @@ namespace WarOfEmpires.CommandHandlers.Empires {
     [Audit]
     public sealed class TrainWorkersCommandHandler : ICommandHandler<TrainWorkersCommand> {
         private readonly PlayerRepository _repository;
+        private readonly EnumFormatter _formatter;
 
-        public TrainWorkersCommandHandler(PlayerRepository repository) {
+        public TrainWorkersCommandHandler(PlayerRepository repository, EnumFormatter formatter) {
             _repository = repository;
+            _formatter = formatter;
         }
 
         private IEnumerable<WorkerInfo> ParseWorkers(TrainWorkersCommand command,
@@ -28,7 +31,7 @@ namespace WarOfEmpires.CommandHandlers.Empires {
             int workers = 0;
 
             if (!string.IsNullOrEmpty(commandWorkers) && !int.TryParse(commandWorkers, out workers) || workers < 0) {
-                result.AddError(workerFunc, $"{type.ToString()} must be a valid number");
+                result.AddError(workerFunc, $"{_formatter.ToString(type)} must be a valid number");
             }
 
             if (result.Success && workers > 0) {

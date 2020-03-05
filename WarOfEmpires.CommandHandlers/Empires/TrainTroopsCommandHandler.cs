@@ -8,6 +8,7 @@ using WarOfEmpires.Domain.Attacks;
 using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Repositories.Players;
 using WarOfEmpires.Utilities.Container;
+using WarOfEmpires.Utilities.Formatting;
 using WarOfEmpires.Utilities.Linq;
 
 namespace WarOfEmpires.CommandHandlers.Empires {
@@ -15,9 +16,11 @@ namespace WarOfEmpires.CommandHandlers.Empires {
     [Audit]
     public sealed class TrainTroopsCommandHandler : ICommandHandler<TrainTroopsCommand> {
         private readonly PlayerRepository _repository;
+        private readonly EnumFormatter _formatter;
 
-        public TrainTroopsCommandHandler(PlayerRepository repository) {
+        public TrainTroopsCommandHandler(PlayerRepository repository, EnumFormatter formatter) {
             _repository = repository;
+            _formatter = formatter;
         }
 
         private IEnumerable<TroopInfo> ParseTroops(TrainTroopsCommand command,
@@ -32,11 +35,11 @@ namespace WarOfEmpires.CommandHandlers.Empires {
             int mercenaries = 0;
 
             if (!string.IsNullOrEmpty(commandSoldiers) && !int.TryParse(commandSoldiers, out soldiers) || soldiers < 0) {
-                result.AddError(soldierFunc, $"{type.ToString()} must be a valid number");
+                result.AddError(soldierFunc, $"{_formatter.ToString(type)} must be a valid number");
             }
 
             if (!string.IsNullOrEmpty(commandMercenaries) && !int.TryParse(commandMercenaries, out mercenaries) || mercenaries < 0) {
-                result.AddError(mercenaryFunc, $"Mercenary {type.ToString().ToLower()} must be a valid number");
+                result.AddError(mercenaryFunc, $"Mercenary {_formatter.ToString(type, false)} must be a valid number");
             }
 
             if (result.Success && (soldiers > 0 || mercenaries > 0)) {
