@@ -29,15 +29,15 @@ namespace WarOfEmpires.QueryHandlers.Empires {
                 CurrentPeasants = player.Peasants,
                 CurrentGoldPerWorkerPerTurn = player.GetGoldPerWorkerPerTurn(),
                 CurrentGoldPerTurn = player.GetGoldPerTurn(),
-                FarmerInfo = MapWorkers(player, WorkerType.Farmer),
-                WoodWorkerInfo = MapWorkers(player, WorkerType.WoodWorker),
-                StoneMasonInfo = MapWorkers(player, WorkerType.StoneMason),
-                OreMinerInfo = MapWorkers(player, WorkerType.OreMiner),
+                FarmerInfo = MapWorkers(player, WorkerType.Farmers),
+                WoodWorkerInfo = MapWorkers(player, WorkerType.WoodWorkers),
+                StoneMasonInfo = MapWorkers(player, WorkerType.StoneMasons),
+                OreMinerInfo = MapWorkers(player, WorkerType.OreMiners),
                 SiegeEngineerInfo = new WorkerInfoViewModel() {
-                    Cost = _resourcesMap.ToViewModel(WorkerDefinitionFactory.Get(WorkerType.SiegeEngineer).Cost),
-                    CurrentWorkers = player.GetWorkerCount(WorkerType.SiegeEngineer),
+                    Cost = _resourcesMap.ToViewModel(WorkerDefinitionFactory.Get(WorkerType.SiegeEngineers).Cost),
+                    CurrentWorkers = player.GetWorkerCount(WorkerType.SiegeEngineers),
                     CurrentProductionPerWorkerPerTurn = player.GetBuildingBonus(BuildingType.SiegeFactory),
-                    CurrentProductionPerTurn = player.GetBuildingBonus(BuildingType.SiegeFactory) * player.GetWorkerCount(WorkerType.SiegeEngineer)
+                    CurrentProductionPerTurn = player.GetBuildingBonus(BuildingType.SiegeFactory) * player.GetWorkerCount(WorkerType.SiegeEngineers)
                 },
                 UpkeepPerTurn = _resourcesMap.ToViewModel(player.GetUpkeepPerTurn()),
                 RecruitsPerDay = player.GetRecruitsPerDay(),

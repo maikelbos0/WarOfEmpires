@@ -41,11 +41,11 @@ namespace WarOfEmpires.CommandHandlers.Empires {
             var player = _repository.Get(command.Email);
             var workers = new List<WorkerInfo>();
 
-            workers.AddRange(ParseWorkers(command, result, WorkerType.Farmer, c => c.Farmers));
-            workers.AddRange(ParseWorkers(command, result, WorkerType.WoodWorker, c => c.WoodWorkers));
-            workers.AddRange(ParseWorkers(command, result, WorkerType.StoneMason, c => c.StoneMasons));
-            workers.AddRange(ParseWorkers(command, result, WorkerType.OreMiner, c => c.OreMiners));
-            workers.AddRange(ParseWorkers(command, result, WorkerType.SiegeEngineer, c => c.SiegeEngineers));
+            workers.AddRange(ParseWorkers(command, result, WorkerType.Farmers, c => c.Farmers));
+            workers.AddRange(ParseWorkers(command, result, WorkerType.WoodWorkers, c => c.WoodWorkers));
+            workers.AddRange(ParseWorkers(command, result, WorkerType.StoneMasons, c => c.StoneMasons));
+            workers.AddRange(ParseWorkers(command, result, WorkerType.OreMiners, c => c.OreMiners));
+            workers.AddRange(ParseWorkers(command, result, WorkerType.SiegeEngineers, c => c.SiegeEngineers));
 
             if (workers.Sum(w => w.Count) > player.Peasants) {
                 result.AddError("You don't have that many peasants available to train");

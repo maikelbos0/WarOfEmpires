@@ -45,15 +45,15 @@ namespace WarOfEmpires.CommandHandlers.Empires {
             var player = _repository.Get(command.Email);
             var workers = new List<WorkerInfo>();
 
-            workers.AddRange(ParseWorkers(command, result, WorkerType.Farmer, c => c.Farmers, player.GetWorkerCount(WorkerType.Farmer)));
-            workers.AddRange(ParseWorkers(command, result, WorkerType.WoodWorker, c => c.WoodWorkers, player.GetWorkerCount(WorkerType.WoodWorker)));
-            workers.AddRange(ParseWorkers(command, result, WorkerType.StoneMason, c => c.StoneMasons, player.GetWorkerCount(WorkerType.StoneMason)));
-            workers.AddRange(ParseWorkers(command, result, WorkerType.OreMiner, c => c.OreMiners, player.GetWorkerCount(WorkerType.OreMiner)));
-            workers.AddRange(ParseWorkers(command, result, WorkerType.SiegeEngineer, c => c.SiegeEngineers, player.GetWorkerCount(WorkerType.SiegeEngineer)));
+            workers.AddRange(ParseWorkers(command, result, WorkerType.Farmers, c => c.Farmers, player.GetWorkerCount(WorkerType.Farmers)));
+            workers.AddRange(ParseWorkers(command, result, WorkerType.WoodWorkers, c => c.WoodWorkers, player.GetWorkerCount(WorkerType.WoodWorkers)));
+            workers.AddRange(ParseWorkers(command, result, WorkerType.StoneMasons, c => c.StoneMasons, player.GetWorkerCount(WorkerType.StoneMasons)));
+            workers.AddRange(ParseWorkers(command, result, WorkerType.OreMiners, c => c.OreMiners, player.GetWorkerCount(WorkerType.OreMiners)));
+            workers.AddRange(ParseWorkers(command, result, WorkerType.SiegeEngineers, c => c.SiegeEngineers, player.GetWorkerCount(WorkerType.SiegeEngineers)));
 
-            var siegeEngineers = workers.SingleOrDefault(w => w.Type == WorkerType.SiegeEngineer)?.Count ?? 0;
+            var siegeEngineers = workers.SingleOrDefault(w => w.Type == WorkerType.SiegeEngineers)?.Count ?? 0;
 
-            if (siegeEngineers > 0 && (player.GetWorkerCount(WorkerType.SiegeEngineer) - siegeEngineers) * player.GetBuildingBonus(BuildingType.SiegeFactory) < player.SiegeWeapons.Sum(s => s.Count * SiegeWeaponDefinitionFactory.Get(s.Type).Maintenance)) {
+            if (siegeEngineers > 0 && (player.GetWorkerCount(WorkerType.SiegeEngineers) - siegeEngineers) * player.GetBuildingBonus(BuildingType.SiegeFactory) < player.SiegeWeapons.Sum(s => s.Count * SiegeWeaponDefinitionFactory.Get(s.Type).Maintenance)) {
                 result.AddError(c => c.SiegeEngineers, "Your siege engineers are maintaining too many siege weapons for that many to be untrained");
             }
 

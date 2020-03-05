@@ -28,11 +28,11 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
             var player = Substitute.For<Player>();
             player.User.Returns(user);
             player.Workers.Returns(new List<Workers>() {
-                new Workers(WorkerType.Farmer, 10),
-                new Workers(WorkerType.WoodWorker, 10),
-                new Workers(WorkerType.StoneMason, 10),
-                new Workers(WorkerType.OreMiner, 10),
-                new Workers(WorkerType.SiegeEngineer, 10),
+                new Workers(WorkerType.Farmers, 10),
+                new Workers(WorkerType.WoodWorkers, 10),
+                new Workers(WorkerType.StoneMasons, 10),
+                new Workers(WorkerType.OreMiners, 10),
+                new Workers(WorkerType.SiegeEngineers, 10),
             });
 
             _context.Users.Add(user);
@@ -48,11 +48,11 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
             var result = handler.Execute(command);
 
             result.Success.Should().BeTrue();
-            _player.Received().UntrainWorkers(WorkerType.Farmer, 5);
-            _player.Received().UntrainWorkers(WorkerType.WoodWorker, 4);
-            _player.Received().UntrainWorkers(WorkerType.StoneMason, 3);
-            _player.Received().UntrainWorkers(WorkerType.OreMiner, 2);
-            _player.Received().UntrainWorkers(WorkerType.SiegeEngineer, 1);
+            _player.Received().UntrainWorkers(WorkerType.Farmers, 5);
+            _player.Received().UntrainWorkers(WorkerType.WoodWorkers, 4);
+            _player.Received().UntrainWorkers(WorkerType.StoneMasons, 3);
+            _player.Received().UntrainWorkers(WorkerType.OreMiners, 2);
+            _player.Received().UntrainWorkers(WorkerType.SiegeEngineers, 1);
             _context.CallsToSaveChanges.Should().Be(1);
         }
 

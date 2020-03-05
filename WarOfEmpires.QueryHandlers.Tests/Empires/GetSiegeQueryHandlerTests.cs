@@ -33,7 +33,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
             });
             player.GetBuildingBonus(BuildingType.SiegeFactory).Returns(6);
             player.Workers.Returns(new List<Workers>() {
-                new Workers(WorkerType.SiegeEngineer, 14)
+                new Workers(WorkerType.SiegeEngineers, 14)
             });
 
             _context.Users.Add(user);

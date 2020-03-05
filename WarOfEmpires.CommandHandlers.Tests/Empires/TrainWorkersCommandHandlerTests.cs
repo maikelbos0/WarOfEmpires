@@ -43,11 +43,11 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
             var result = handler.Execute(command);
 
             result.Success.Should().BeTrue();
-            _player.Received().TrainWorkers(WorkerType.Farmer, 5);
-            _player.Received().TrainWorkers(WorkerType.WoodWorker, 4);
-            _player.Received().TrainWorkers(WorkerType.StoneMason, 3);
-            _player.Received().TrainWorkers(WorkerType.OreMiner, 2);
-            _player.Received().TrainWorkers(WorkerType.SiegeEngineer, 1);
+            _player.Received().TrainWorkers(WorkerType.Farmers, 5);
+            _player.Received().TrainWorkers(WorkerType.WoodWorkers, 4);
+            _player.Received().TrainWorkers(WorkerType.StoneMasons, 3);
+            _player.Received().TrainWorkers(WorkerType.OreMiners, 2);
+            _player.Received().TrainWorkers(WorkerType.SiegeEngineers, 1);
             _context.CallsToSaveChanges.Should().Be(1);
         }
 

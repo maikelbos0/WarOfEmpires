@@ -36,11 +36,11 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
 
             player.Peasants.Returns(7);
             player.Workers.Returns(new List<Workers>() {
-                new Workers(WorkerType.Farmer, 5),
-                new Workers(WorkerType.WoodWorker, 12),
-                new Workers(WorkerType.StoneMason, 2),
-                new Workers(WorkerType.OreMiner, 1),
-                new Workers(WorkerType.SiegeEngineer, 3)
+                new Workers(WorkerType.Farmers, 5),
+                new Workers(WorkerType.WoodWorkers, 12),
+                new Workers(WorkerType.StoneMasons, 2),
+                new Workers(WorkerType.OreMiners, 1),
+                new Workers(WorkerType.SiegeEngineers, 3)
             });
             
             player.GetAvailableHousingCapacity().Returns(4);

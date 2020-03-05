@@ -28,7 +28,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
             var player = Substitute.For<Player>();
             player.User.Returns(user);
-            player.Workers.Returns(new List<Workers>() { new Workers(WorkerType.SiegeEngineer, 20) });
+            player.Workers.Returns(new List<Workers>() { new Workers(WorkerType.SiegeEngineers, 20) });
             player.GetBuildingBonus(BuildingType.SiegeFactory).Returns(6);
             player.CanAfford(Arg.Any<Resources>()).Returns(true);
 
@@ -68,7 +68,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
         [DataRow(0, 1, 0, DisplayName = "BatteringRams")]
         [DataRow(0, 0, 1, DisplayName = "ScalingLadders")]
         public void BuildSiegeCommandHandler_Fails_For_Too_Little_Maintenance(int fireArrows, int batteringRams, int scalingLadders) {
-            _player.Workers.Returns(new List<Workers>() { new Workers(WorkerType.SiegeEngineer, 0) });
+            _player.Workers.Returns(new List<Workers>() { new Workers(WorkerType.SiegeEngineers, 0) });
 
             var handler = new BuildSiegeCommandHandler(_repository);
             var command = new BuildSiegeCommand("test@test.com", fireArrows.ToString(), batteringRams.ToString(), scalingLadders.ToString());

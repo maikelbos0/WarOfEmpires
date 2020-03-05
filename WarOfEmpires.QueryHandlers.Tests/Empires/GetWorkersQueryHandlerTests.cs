@@ -28,11 +28,11 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
             player.Id.Returns(1);
             player.Peasants.Returns(1);
             player.Workers.Returns(new List<Workers>() {
-                new Workers(WorkerType.Farmer, 2),
-                new Workers(WorkerType.WoodWorker, 3),
-                new Workers(WorkerType.StoneMason, 4),
-                new Workers(WorkerType.OreMiner, 5),
-                new Workers(WorkerType.SiegeEngineer, 6)
+                new Workers(WorkerType.Farmers, 2),
+                new Workers(WorkerType.WoodWorkers, 3),
+                new Workers(WorkerType.StoneMasons, 4),
+                new Workers(WorkerType.OreMiners, 5),
+                new Workers(WorkerType.SiegeEngineers, 6)
             });            
             player.Tax.Returns(50);
             player.GetRecruitsPerDay().Returns(5);
