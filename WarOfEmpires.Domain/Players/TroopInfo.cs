@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using WarOfEmpires.Domain.Attacks;
 
 namespace WarOfEmpires.Domain.Players {
     public class TroopInfo : ValueObject {
         public Troops Troops { get; }
+        public int SiegeCoverage { get; }
         public long BaseAttack { get; }
         public long BaseDefense { get; }
         public decimal TroopBonusMultiplier { get; }
@@ -13,13 +15,14 @@ namespace WarOfEmpires.Domain.Players {
         protected TroopInfo() {
         }
 
-        public TroopInfo(Troops troops, long baseAttack, long baseDefense, decimal troopBonusMultiplier, decimal forgeBonusMultiplier, decimal armouryBonusMultiplier) {
+        public TroopInfo(Troops troops, long baseAttack, long baseDefense, decimal troopBonusMultiplier, decimal forgeBonusMultiplier, decimal armouryBonusMultiplier, int siegeCoverage) {
             Troops = troops;
             BaseAttack = baseAttack;
             BaseDefense = baseDefense;
             TroopBonusMultiplier = troopBonusMultiplier;
             ForgeBonusMultiplier = forgeBonusMultiplier;
             ArmouryBonusMultiplier = armouryBonusMultiplier;
+            SiegeCoverage = siegeCoverage;
         }
 
         public long GetAttackPerSoldier() {
@@ -31,8 +34,15 @@ namespace WarOfEmpires.Domain.Players {
             return (int)(BaseDefense * TroopBonusMultiplier * ArmouryBonusMultiplier);
         }
 
-        public virtual long GetTotalAttack() {
-            return GetAttackPerSoldier() * Troops.GetTotals();
+        public virtual long GetTotalAttack(double? defenceModifier = null) {
+            if (defenceModifier.HasValue) {
+                var siegeCoverage = Math.Min(Troops.GetTotals(), SiegeCoverage);
+
+                return (long)((siegeCoverage * 0.5 - siegeCoverage * 0.5 * defenceModifier + Troops.GetTotals() * defenceModifier) * GetAttackPerSoldier());
+            }
+            else {
+                return GetAttackPerSoldier() * Troops.GetTotals();
+            }
         }
 
         public long GetTotalDefense() {

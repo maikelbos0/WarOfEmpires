@@ -22,7 +22,7 @@ namespace WarOfEmpires.Domain.Attacks {
                 multiplier = 1.0 / (defender.GetBuildingBonus(BuildingType.Defences) + DefenceDamageModifier) * DefenceDamageModifier;
             }
 
-            return (int)(multiplier * attackerTroopInfo.GetTotalAttack() * Turns * stamina / 100.0);
+            return (int)(attackerTroopInfo.GetTotalAttack(multiplier) * Turns * stamina / 100.0);
         }
 
         public override Resources GetBaseResources() {

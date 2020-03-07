@@ -106,7 +106,8 @@ namespace WarOfEmpires.Domain.Players {
                 definition.BaseDefence,
                 GetBuildingBonusMultiplier(definition.BuildingType),
                 GetBuildingBonusMultiplier(BuildingType.Forge),
-                GetBuildingBonusMultiplier(BuildingType.Armoury)
+                GetBuildingBonusMultiplier(BuildingType.Armoury),
+                GetSiegeWeaponTroopCount(type)
             );
         }
 
