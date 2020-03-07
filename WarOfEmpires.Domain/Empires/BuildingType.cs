@@ -17,6 +17,7 @@
         WoodBank = 15,
         StoneBank = 16,
         OreBank = 17,
-        SiegeFactory = 18
+        SiegeFactory = 18,
+        Market = 19
     }
 }
