@@ -27,6 +27,6 @@ namespace WarOfEmpires.Models.Markets {
         public int TotalMerchants { get; set; }
         public int AvailableMerchants { get; set; }
         public int CaravanCapacity { get; set; }
-        public IEnumerable<CaravanViewModel> CurrentCaravans { get; set; } = new List<CaravanViewModel>();
+        public List<CaravanViewModel> CurrentCaravans { get; set; } = new List<CaravanViewModel>();
     }
 }
