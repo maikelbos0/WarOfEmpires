@@ -8,6 +8,7 @@ namespace WarOfEmpires.Database.Migrations {
     using Attacks = WarOfEmpires.Domain.Attacks;
     using Empires = WarOfEmpires.Domain.Empires;
     using Events = WarOfEmpires.Domain.Events;
+    using Markets = WarOfEmpires.Domain.Markets;
     using Security = WarOfEmpires.Domain.Security;
     using Siege = WarOfEmpires.Domain.Siege;
 
@@ -21,6 +22,7 @@ namespace WarOfEmpires.Database.Migrations {
             SeedEntityType<Attacks.AttackResult, AttackResultEntity>(context);
             SeedEntityType<Attacks.AttackType, AttackTypeEntity>(context);
             SeedEntityType<Siege.SiegeWeaponType, SiegeWeaponTypeEntity>(context);
+            SeedEntityType<Markets.MerchandiseType, MerchandiseTypeEntity>(context);
 
             AddOrUpdateUser(context, "example@test.com", "I am example");
             AddOrUpdateUser(context, "anon@test.com", "Anon");

@@ -4,6 +4,7 @@ using System.Linq;
 using WarOfEmpires.Domain.Attacks;
 using WarOfEmpires.Domain.Common;
 using WarOfEmpires.Domain.Empires;
+using WarOfEmpires.Domain.Markets;
 using WarOfEmpires.Domain.Siege;
 
 namespace WarOfEmpires.Domain.Players {
@@ -43,6 +44,7 @@ namespace WarOfEmpires.Domain.Players {
         public virtual ICollection<Message> ReceivedMessages { get; protected set; } = new List<Message>();
         public virtual ICollection<Attack> ExecutedAttacks { get; protected set; } = new List<Attack>();
         public virtual ICollection<Attack> ReceivedAttacks { get; protected set; } = new List<Attack>();
+        public virtual ICollection<Caravan> Caravans { get; protected set; } = new List<Caravan>();
 
         protected Player() {
         }

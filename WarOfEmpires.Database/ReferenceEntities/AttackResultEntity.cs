@@ -2,7 +2,7 @@
 using WarOfEmpires.Domain.Attacks;
 
 namespace WarOfEmpires.Database.ReferenceEntities {
-    internal class AttackResultEntity : BaseReferenceEntity<AttackResult> {
-        public virtual ICollection<Attack> Attacks { get; set; }
+    internal sealed class AttackResultEntity : BaseReferenceEntity<AttackResult> {
+        public ICollection<Attack> Attacks { get; set; }
     }
 }
