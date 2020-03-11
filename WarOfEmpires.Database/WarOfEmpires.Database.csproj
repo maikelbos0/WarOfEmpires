@@ -174,6 +174,10 @@
     <Compile Include="Migrations\202003111400163_Markets-Caravans.Designer.cs">
       <DependentUpon>202003111400163_Markets-Caravans.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202003111619522_Caravans-Date.cs" />
+    <Compile Include="Migrations\202003111619522_Caravans-Date.Designer.cs">
+      <DependentUpon>202003111619522_Caravans-Date.cs</DependentUpon>
+    </Compile>
     <Compile Include="ReferenceEntities\AttackResultEntity.cs" />
     <Compile Include="ReferenceEntities\AttackTypeEntity.cs" />
     <Compile Include="ReferenceEntities\BaseReferenceEntity.cs" />
@@ -297,6 +301,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202003111400163_Markets-Caravans.resx">
       <DependentUpon>202003111400163_Markets-Caravans.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003111619522_Caravans-Date.resx">
+      <DependentUpon>202003111619522_Caravans-Date.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
