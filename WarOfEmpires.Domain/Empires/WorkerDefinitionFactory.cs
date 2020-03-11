@@ -6,7 +6,9 @@ namespace WarOfEmpires.Domain.Empires {
         private readonly static Dictionary<WorkerType, WorkerDefinition> _workers = new Dictionary<WorkerType, WorkerDefinition>();
 
         static WorkerDefinitionFactory() {
-            foreach (var definition in new[] { GenerateFarmers(), GenerateWoodWorkers(), GenerateStoneMasons(), GenerateOreMiners(), GenerateSiegeEngineers() }) {
+            foreach (var definition in new[] {
+                GenerateFarmers(), GenerateWoodWorkers(), GenerateStoneMasons(), GenerateOreMiners(), GenerateSiegeEngineers(), GenerateMerchants()
+            }) {
                 _workers.Add(definition.Type, definition);
             }
         }
@@ -29,6 +31,10 @@ namespace WarOfEmpires.Domain.Empires {
 
         private static WorkerDefinition GenerateSiegeEngineers() {
             return new WorkerDefinition(WorkerType.SiegeEngineers, BuildingType.SiegeFactory, new Resources(gold: 2500, wood: 250, ore: 500), false);
+        }
+
+        private static WorkerDefinition GenerateMerchants() {
+            return new WorkerDefinition(WorkerType.Merchant, BuildingType.Market, new Resources(gold: 2500, wood: 500, ore: 250), false);
         }
 
         public static WorkerDefinition Get(WorkerType type) {

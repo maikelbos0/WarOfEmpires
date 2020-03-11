@@ -18,6 +18,9 @@ namespace WarOfEmpires.Models.Empires {
         [DisplayName("Siege engineers")]
         [RegularExpression("^\\d{0,6}$", ErrorMessage = "Siege engineers must be a valid number")]
         public string SiegeEngineers { get; set; }
+        [DisplayName("Merchants")]
+        [RegularExpression("^\\d{0,6}$", ErrorMessage = "Merchants must be a valid number")]
+        public string Merchants { get; set; }
         public int CurrentPeasants { get; set; }
         public int CurrentGoldPerWorkerPerTurn { get; set; }
         public int CurrentGoldPerTurn { get; set; }
@@ -26,6 +29,7 @@ namespace WarOfEmpires.Models.Empires {
         public WorkerInfoViewModel StoneMasonInfo { get; set; }
         public WorkerInfoViewModel OreMinerInfo { get; set; }
         public WorkerInfoViewModel SiegeEngineerInfo { get; set; }
+        public WorkerInfoViewModel MerchantInfo { get; set; }
         public ResourcesViewModel UpkeepPerTurn { get; set; }
         public int RecruitsPerDay { get; set; }
         public bool WillUpkeepRunOut { get; set; }
