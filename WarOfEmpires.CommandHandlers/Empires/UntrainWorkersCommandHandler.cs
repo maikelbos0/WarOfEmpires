@@ -53,6 +53,7 @@ namespace WarOfEmpires.CommandHandlers.Empires {
             workers.AddRange(ParseWorkers(command, result, WorkerType.StoneMasons, c => c.StoneMasons, player.GetWorkerCount(WorkerType.StoneMasons)));
             workers.AddRange(ParseWorkers(command, result, WorkerType.OreMiners, c => c.OreMiners, player.GetWorkerCount(WorkerType.OreMiners)));
             workers.AddRange(ParseWorkers(command, result, WorkerType.SiegeEngineers, c => c.SiegeEngineers, player.GetWorkerCount(WorkerType.SiegeEngineers)));
+            workers.AddRange(ParseWorkers(command, result, WorkerType.Merchants, c => c.Merchants, player.GetWorkerCount(WorkerType.Merchants)));
 
             var siegeEngineers = workers.SingleOrDefault(w => w.Type == WorkerType.SiegeEngineers)?.Count ?? 0;
 

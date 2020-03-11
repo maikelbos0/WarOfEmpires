@@ -33,7 +33,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
                 new Workers(WorkerType.StoneMasons, 4),
                 new Workers(WorkerType.OreMiners, 5),
                 new Workers(WorkerType.SiegeEngineers, 6),
-                new Workers(WorkerType.Merchant, 7),
+                new Workers(WorkerType.Merchants, 7),
             });            
             player.Tax.Returns(50);
             player.GetRecruitsPerDay().Returns(5);

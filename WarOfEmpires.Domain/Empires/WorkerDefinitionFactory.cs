@@ -34,7 +34,7 @@ namespace WarOfEmpires.Domain.Empires {
         }
 
         private static WorkerDefinition GenerateMerchants() {
-            return new WorkerDefinition(WorkerType.Merchant, BuildingType.Market, new Resources(gold: 2500, wood: 500, ore: 250), false);
+            return new WorkerDefinition(WorkerType.Merchants, BuildingType.Market, new Resources(gold: 2500, wood: 500, ore: 250), false);
         }
 
         public static WorkerDefinition Get(WorkerType type) {

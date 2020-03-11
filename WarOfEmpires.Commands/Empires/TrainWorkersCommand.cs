@@ -6,14 +6,16 @@
         public string StoneMasons { get; }
         public string OreMiners { get; }
         public string SiegeEngineers { get; }
-        
-        public TrainWorkersCommand(string email, string farmers, string woodWorkers, string stoneMasons, string oreMiners, string siegeEngineers) {
+        public string Merchants { get; }
+
+        public TrainWorkersCommand(string email, string farmers, string woodWorkers, string stoneMasons, string oreMiners, string siegeEngineers, string merchants) {
             Email = email;
             Farmers = farmers;
             WoodWorkers = woodWorkers;
             StoneMasons = stoneMasons;
             OreMiners = oreMiners;
             SiegeEngineers = siegeEngineers;
+            Merchants = merchants;
         }
     }
 }

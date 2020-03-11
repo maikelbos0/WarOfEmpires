@@ -40,10 +40,10 @@ namespace WarOfEmpires.QueryHandlers.Empires {
                     CurrentProductionPerTurn = player.GetBuildingBonus(BuildingType.SiegeFactory) * player.GetWorkerCount(WorkerType.SiegeEngineers)
                 },
                 MerchantInfo = new WorkerInfoViewModel() {
-                    Cost = _resourcesMap.ToViewModel(WorkerDefinitionFactory.Get(WorkerType.Merchant).Cost),
-                    CurrentWorkers = player.GetWorkerCount(WorkerType.Merchant),
+                    Cost = _resourcesMap.ToViewModel(WorkerDefinitionFactory.Get(WorkerType.Merchants).Cost),
+                    CurrentWorkers = player.GetWorkerCount(WorkerType.Merchants),
                     CurrentProductionPerWorkerPerTurn = player.GetBuildingBonus(BuildingType.Market),
-                    CurrentProductionPerTurn = player.GetBuildingBonus(BuildingType.Market) * player.GetWorkerCount(WorkerType.Merchant)
+                    CurrentProductionPerTurn = player.GetBuildingBonus(BuildingType.Market) * player.GetWorkerCount(WorkerType.Merchants)
                 },
                 UpkeepPerTurn = _resourcesMap.ToViewModel(player.GetUpkeepPerTurn()),
                 RecruitsPerDay = player.GetRecruitsPerDay(),
