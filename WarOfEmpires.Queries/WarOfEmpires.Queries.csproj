@@ -57,6 +57,7 @@
     <Compile Include="Empires\GetWorkersQuery.cs" />
     <Compile Include="Events\GetScheduledTasksPausedQuery.cs" />
     <Compile Include="IQuery.cs" />
+    <Compile Include="Markets\GetCaravansQuery.cs" />
     <Compile Include="Messages\GetSentMessageQuery.cs" />
     <Compile Include="Messages\GetReceivedMessageQuery .cs" />
     <Compile Include="Messages\GetMessageRecipientQuery.cs" />
@@ -77,5 +78,6 @@
       <Name>WarOfEmpires.Models</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
