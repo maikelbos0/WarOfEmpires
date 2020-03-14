@@ -6,24 +6,24 @@ namespace WarOfEmpires.Models.Markets {
     public class CaravansModel {
         [DisplayName("Food")]
         [RegularExpression("^\\d{0,6}$", ErrorMessage = "Food must be a valid number")]
-        public int Food { get; set; }
+        public string Food { get; set; }
         [RegularExpression("^\\d{0,6}$", ErrorMessage = "Food price must be a valid number")]
-        public int FoodPrice { get; set; }
+        public string FoodPrice { get; set; }
         [DisplayName("Wood")]
         [RegularExpression("^\\d{0,6}$", ErrorMessage = "Wood must be a valid number")]
-        public int Wood { get; set; }
+        public string Wood { get; set; }
         [RegularExpression("^\\d{0,6}$", ErrorMessage = "Wood price must be a valid number")]
-        public int WoodPrice { get; set; }
+        public string WoodPrice { get; set; }
         [DisplayName("Stone")]
         [RegularExpression("^\\d{0,6}$", ErrorMessage = "Stone must be a valid number")]
-        public int Stone { get; set; }
+        public string Stone { get; set; }
         [RegularExpression("^\\d{0,6}$", ErrorMessage = "Stone price must be a valid number")]
-        public int StonePrice { get; set; }
+        public string StonePrice { get; set; }
         [DisplayName("Ore")]
         [RegularExpression("^\\d{0,6}$", ErrorMessage = "Ore must be a valid number")]
-        public int Ore { get; set; }
+        public string Ore { get; set; }
         [RegularExpression("^\\d{0,6}$", ErrorMessage = "Ore price must be a valid number")]
-        public int OrePrice { get; set; }
+        public string OrePrice { get; set; }
         public int TotalMerchants { get; set; }
         public int AvailableMerchants { get; set; }
         public int CaravanCapacity { get; set; }
