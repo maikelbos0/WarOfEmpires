@@ -441,5 +441,11 @@ namespace WarOfEmpires.Domain.Players {
 
             weapon.Count -= count;
         }
+
+        public virtual void SellResources(IEnumerable<MerchandiseTotals> merchandiseTotals) {
+            var caravanSize = GetBuildingBonus(BuildingType.Market);
+
+            throw new InvalidOperationException();
+        }
     }
 }

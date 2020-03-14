@@ -81,6 +81,7 @@
     <Compile Include="Empires\TurnTaskTriggeredEvent.cs" />
     <Compile Include="Markets\Caravan.cs" />
     <Compile Include="Markets\Merchandise.cs" />
+    <Compile Include="Markets\MerchandiseTotals.cs" />
     <Compile Include="Markets\MerchandiseType.cs" />
     <Compile Include="Players\Message.cs" />
     <Compile Include="Players\ProductionInfo.cs" />
