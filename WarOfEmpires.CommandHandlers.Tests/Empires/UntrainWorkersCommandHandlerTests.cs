@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using WarOfEmpires.CommandHandlers.Empires;
 using WarOfEmpires.Commands.Empires;
 using WarOfEmpires.Domain.Empires;
+using WarOfEmpires.Domain.Markets;
 using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Domain.Siege;
@@ -326,7 +327,20 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
         [TestMethod]
         public void UntrainWorkersCommandHandler_Fails_For_Merchants_In_Use() {
-            throw new System.NotImplementedException();
+            _player.Caravans.Returns(new List<Caravan>() {
+                new Caravan(_player),
+                new Caravan(_player)
+            });
+
+            var handler = new UntrainWorkersCommandHandler(_repository, _formatter);
+            var command = new UntrainWorkersCommand("test@test.com", "", "", "", "", "", "9");
+
+            var result = handler.Execute(command);
+
+            result.Errors.Should().HaveCount(1);
+            result.Errors[0].Expression.ToString().Should().Be("c => c.Merchants");
+            result.Errors[0].Message.Should().Be("You can not untrain merchants that have a caravan on the market");
+            _player.DidNotReceiveWithAnyArgs().UntrainWorkers(default, default);
         }
     }
 }

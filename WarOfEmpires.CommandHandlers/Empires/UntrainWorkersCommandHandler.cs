@@ -61,6 +61,12 @@ namespace WarOfEmpires.CommandHandlers.Empires {
                 result.AddError(c => c.SiegeEngineers, "Your siege engineers are maintaining too many siege weapons for that many to be untrained");
             }
 
+            var merchants = workers.SingleOrDefault(w => w.Type == WorkerType.Merchants)?.Count ?? 0;
+
+            if (merchants > 0 && player.GetWorkerCount(WorkerType.Merchants) - merchants < player.Caravans.Count) {
+                result.AddError(c => c.Merchants, "You can not untrain merchants that have a caravan on the market");
+            }
+
             if (result.Success) {
                 foreach (var workerInfo in workers) {
                     player.UntrainWorkers(workerInfo.Type, workerInfo.Count);
