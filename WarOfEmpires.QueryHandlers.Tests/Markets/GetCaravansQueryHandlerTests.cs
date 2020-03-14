@@ -19,15 +19,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Markets {
         public GetCaravansQueryHandlerTests() {
             var user = Substitute.For<User>();
             var player = Substitute.For<Player>();
-
-            user.Id.Returns(1);
-            user.Status.Returns(UserStatus.Active);
-            user.Email.Returns("test@test.com");
-
-            player.User.Returns(user);
-            player.GetBuildingBonus(BuildingType.Market).Returns(25000);
-            player.Workers.Returns(new List<Workers>() { new Workers(WorkerType.Merchants, 7) });
-            player.Caravans.Returns(new List<Caravan>() {
+            var caravans = new List<Caravan>() {
                 new Caravan(player) {
                     Merchandise = new List<Merchandise>() {
                         new Merchandise(MerchandiseType.Food, 1000, 10),
@@ -39,7 +31,21 @@ namespace WarOfEmpires.QueryHandlers.Tests.Markets {
                 new Caravan(player) {
                     Merchandise = new List<Merchandise>() { new Merchandise(MerchandiseType.Ore, 25000, 4) }
                 }
-            });
+            };
+            var id = 1;
+
+            foreach (var caravan in caravans) {
+                typeof(Caravan).GetProperty(nameof(Caravan.Id)).SetValue(caravan, id++);
+            }
+
+            user.Id.Returns(1);
+            user.Status.Returns(UserStatus.Active);
+            user.Email.Returns("test@test.com");
+
+            player.User.Returns(user);
+            player.GetBuildingBonus(BuildingType.Market).Returns(25000);
+            player.Workers.Returns(new List<Workers>() { new Workers(WorkerType.Merchants, 7) });
+            player.Caravans.Returns(caravans);
 
             _context.Users.Add(user);
             _context.Players.Add(player);
@@ -53,7 +59,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Markets {
             var result = handler.Execute(query);
 
             result.TotalMerchants.Should().Be(7);
-            result.AvailableMerchants.Should().Be(7);
+            result.AvailableMerchants.Should().Be(5);
             result.CaravanCapacity.Should().Be(25000);
         }
 
@@ -66,6 +72,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Markets {
 
             result.CurrentCaravans.Should().HaveCount(2);
 
+            result.CurrentCaravans[0].Id.Should().Be(1);
             result.CurrentCaravans[0].Date.Should().BeCloseTo(DateTime.UtcNow, 1000);
             result.CurrentCaravans[0].Food.Should().Be(1000);
             result.CurrentCaravans[0].FoodPrice.Should().Be(10);
@@ -76,6 +83,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Markets {
             result.CurrentCaravans[0].Ore.Should().Be(4000);
             result.CurrentCaravans[0].OrePrice.Should().Be(7);
 
+            result.CurrentCaravans[1].Id.Should().Be(2);
             result.CurrentCaravans[1].Date.Should().BeCloseTo(DateTime.UtcNow, 1000);
             result.CurrentCaravans[1].Ore.Should().Be(25000);
             result.CurrentCaravans[1].OrePrice.Should().Be(4);            
