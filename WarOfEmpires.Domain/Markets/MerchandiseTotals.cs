@@ -4,6 +4,21 @@ using WarOfEmpires.Domain.Common;
 
 namespace WarOfEmpires.Domain.Markets {
     public sealed class MerchandiseTotals : ValueObject {
+        public static Resources ToResources(MerchandiseType type, int quantity) {
+            switch (type) {
+                case MerchandiseType.Food:
+                    return new Resources(food: quantity);
+                case MerchandiseType.Wood:
+                    return new Resources(wood: quantity);
+                case MerchandiseType.Stone:
+                    return new Resources(stone: quantity);
+                case MerchandiseType.Ore:
+                    return new Resources(ore: quantity);
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+
         public MerchandiseType Type { get; private set; }
         public int Quantity { get; private set; }
         public int Price { get; private set; }
@@ -24,18 +39,7 @@ namespace WarOfEmpires.Domain.Markets {
         }
 
         public Resources ToResources() {
-            switch (Type) {
-                case MerchandiseType.Food:
-                    return new Resources(food: Quantity);
-                case MerchandiseType.Wood:
-                    return new Resources(wood: Quantity);
-                case MerchandiseType.Stone:
-                    return new Resources(stone: Quantity);
-                case MerchandiseType.Ore:
-                    return new Resources(ore: Quantity);
-                default:
-                    throw new NotImplementedException();
-            }
+            return ToResources(Type, Quantity);
         }
     }
 }
