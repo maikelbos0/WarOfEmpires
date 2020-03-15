@@ -393,15 +393,14 @@ namespace WarOfEmpires.Domain.Players {
         }
 
         public virtual void ProcessAttack(Player defender, Resources gainedResources, int attackTurns) {
-            Resources += gainedResources;
+            AddResources(gainedResources);
             defender.Resources -= gainedResources;
             AttackTurns -= attackTurns;
-
-            CheckUpkeep();
         }
 
-        // TODO make sure this function is called whenever resources get added
-        public virtual void CheckUpkeep() {
+        public void AddResources(Resources resources) {
+            Resources += resources;
+
             if (HasUpkeepRunOut && CanAfford(GetUpkeepPerTurn())) {
                 HasUpkeepRunOut = false;
             }
@@ -419,7 +418,6 @@ namespace WarOfEmpires.Domain.Players {
             Resources = Resources.SubtractSafe(resources, out Resources remainder);
             BankedResources -= remainder;
         }
-
 
         public virtual void BuildSiege(SiegeWeaponType type, int count) {
             var definition = SiegeWeaponDefinitionFactory.Get(type);

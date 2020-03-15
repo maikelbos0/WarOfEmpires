@@ -23,5 +23,20 @@ namespace WarOfEmpires.Domain.Markets {
         public void Withdraw() {
             throw new NotImplementedException();
         }
+
+        public void Buy(Player buyer, MerchandiseType type, int quantity) {
+            var merchandise = Merchandise.Single(m => m.Type == type);
+
+            merchandise.Buy(Player, buyer, quantity);
+
+            // TODO this will break in EF
+            if (merchandise.Quantity == 0) {
+                Merchandise.Remove(merchandise);
+
+                if (!Merchandise.Any()) {
+                    Player.Caravans.Remove(this);
+                }
+            }            
+        }
     }
 }
