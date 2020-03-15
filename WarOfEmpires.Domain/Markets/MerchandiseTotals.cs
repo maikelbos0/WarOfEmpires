@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using WarOfEmpires.Domain.Common;
 
 namespace WarOfEmpires.Domain.Markets {
     public sealed class MerchandiseTotals : ValueObject {
@@ -21,8 +22,20 @@ namespace WarOfEmpires.Domain.Markets {
             yield return Quantity;
             yield return Price;
         }
-        public static MerchandiseTotals operator -(MerchandiseTotals totals, int quantity) {
-            return new MerchandiseTotals(totals.Type, totals.Quantity - quantity, totals.Price);
+
+        public Resources ToResources() {
+            switch (Type) {
+                case MerchandiseType.Food:
+                    return new Resources(food: Quantity);
+                case MerchandiseType.Wood:
+                    return new Resources(wood: Quantity);
+                case MerchandiseType.Stone:
+                    return new Resources(stone: Quantity);
+                case MerchandiseType.Ore:
+                    return new Resources(ore: Quantity);
+                default:
+                    throw new NotImplementedException();
+            }
         }
     }
 }

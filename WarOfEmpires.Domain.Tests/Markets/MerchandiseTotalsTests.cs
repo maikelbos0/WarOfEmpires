@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using WarOfEmpires.Domain.Common;
 using WarOfEmpires.Domain.Markets;
 
 namespace WarOfEmpires.Domain.Tests.Markets {
@@ -24,15 +25,15 @@ namespace WarOfEmpires.Domain.Tests.Markets {
             action.Should().Throw<ArgumentOutOfRangeException>();
         }
 
-        [TestMethod]
-        public void MerchandiseTotals_Subtract_Operator_Works() {
-            var totals = new MerchandiseTotals(MerchandiseType.Wood, 15000, 15);
+        [DataTestMethod]
+        [DataRow(MerchandiseType.Food, 1, 0, 1, 0, 0, 0, DisplayName = "Food")]
+        [DataRow(MerchandiseType.Wood, 1, 0, 0, 1, 0, 0, DisplayName = "Wood")]
+        [DataRow(MerchandiseType.Stone, 1, 0, 0, 0, 1, 0, DisplayName = "Stone")]
+        [DataRow(MerchandiseType.Ore, 1, 0, 0, 0, 0, 1, DisplayName = "Ore")]
+        public void MerchandiseTotals_ToResources_Succeeds(MerchandiseType type, int quantity, int expectedGold, int expectedFood, int expectedWood, int expectedStone, int expectedOre) {
+            var totals = new MerchandiseTotals(type, quantity, 5);
 
-            var newTotals = totals - 5000;
-
-            newTotals.Type.Should().Be(MerchandiseType.Wood);
-            newTotals.Quantity.Should().Be(10000);
-            newTotals.Price.Should().Be(15);
+            totals.ToResources().Should().Be(new Resources(expectedGold, expectedFood, expectedWood, expectedStone, expectedOre));
         }
     }
 }

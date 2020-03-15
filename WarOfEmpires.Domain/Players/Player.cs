@@ -443,9 +443,24 @@ namespace WarOfEmpires.Domain.Players {
         }
 
         public virtual void SellResources(IEnumerable<MerchandiseTotals> merchandiseTotals) {
-            var caravanSize = GetBuildingBonus(BuildingType.Market);
+            var maximumCapacity = GetBuildingBonus(BuildingType.Market);
+            var caravan = new Caravan(this);
+            Caravans.Add(caravan);
 
-            throw new InvalidOperationException();
+            foreach (var totals in merchandiseTotals) {
+                var quantity = totals.Quantity;
+                SpendResources(totals.ToResources());
+
+                while (quantity > caravan.GetRemainingCapacity(maximumCapacity)) {
+                    quantity -= caravan.GetRemainingCapacity(maximumCapacity);
+                    caravan.Merchandise.Add(new Merchandise(totals.Type, caravan.GetRemainingCapacity(maximumCapacity), totals.Price));
+
+                    caravan = new Caravan(this);
+                    Caravans.Add(caravan);
+                }
+
+                caravan.Merchandise.Add(new Merchandise(totals.Type, quantity, totals.Price));
+            }
         }
     }
 }
