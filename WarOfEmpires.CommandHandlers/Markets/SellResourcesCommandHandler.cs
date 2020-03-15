@@ -35,11 +35,11 @@ namespace WarOfEmpires.CommandHandlers.Markets {
             int quantity = 0;
             int price = 0;
 
-            if (!string.IsNullOrEmpty(commandResources) && (!int.TryParse(commandResources, out quantity) || quantity < 1)) {
+            if (!string.IsNullOrEmpty(commandResources) && !int.TryParse(commandResources, out quantity) || quantity < 0) {
                 result.AddError(quantityFunc, $"{_formatter.ToString(type)} must be a valid number");
             }
 
-            if (!string.IsNullOrEmpty(commandPrice) && (!int.TryParse(commandPrice, out price) || price < 1)) {
+            if (!string.IsNullOrEmpty(commandPrice) && !int.TryParse(commandPrice, out price) || price < 0) {
                 result.AddError(priceFunc, $"{_formatter.ToString(type)} price must be a valid number");
             }
             else if (quantity > 0 && price <= 0) {

@@ -95,9 +95,9 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
         }
 
         [TestMethod]
-        public void SellResourcesCommandHandler_Fails_For_Zero_Food() {
+        public void SellResourcesCommandHandler_Fails_For_Negative_Food() {
             var handler = new SellResourcesCommandHandler(_repository, _formatter);
-            var command = new SellResourcesCommand("test@test.com", "0", "5", "5", "5", "5", "5", "5", "5");
+            var command = new SellResourcesCommand("test@test.com", "-1", "5", "5", "5", "5", "5", "5", "5");
 
             var result = handler.Execute(command);
 
@@ -136,9 +136,9 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
         }
 
         [TestMethod]
-        public void SellResourcesCommandHandler_Fails_For_Zero_FoodPrice() {
+        public void SellResourcesCommandHandler_Fails_For_Negative_FoodPrice() {
             var handler = new SellResourcesCommandHandler(_repository, _formatter);
-            var command = new SellResourcesCommand("test@test.com", "5", "0", "5", "5", "5", "5", "5", "5");
+            var command = new SellResourcesCommand("test@test.com", "5", "-1", "5", "5", "5", "5", "5", "5");
 
             var result = handler.Execute(command);
 
@@ -151,7 +151,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
         [TestMethod]
         public void SellResourcesCommandHandler_Fails_For_Food_Without_FoodPrice() {
             var handler = new SellResourcesCommandHandler(_repository, _formatter);
-            var command = new SellResourcesCommand("test@test.com", "5", "", "5", "5", "5", "5", "5", "5");
+            var command = new SellResourcesCommand("test@test.com", "5", "0", "5", "5", "5", "5", "5", "5");
 
             var result = handler.Execute(command);
 
@@ -175,9 +175,9 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
         }
 
         [TestMethod]
-        public void SellResourcesCommandHandler_Fails_For_Zero_Wood() {
+        public void SellResourcesCommandHandler_Fails_For_Negative_Wood() {
             var handler = new SellResourcesCommandHandler(_repository, _formatter);
-            var command = new SellResourcesCommand("test@test.com", "5", "5", "0", "5", "5", "5", "5", "5");
+            var command = new SellResourcesCommand("test@test.com", "5", "5", "-1", "5", "5", "5", "5", "5");
 
             var result = handler.Execute(command);
 
@@ -216,9 +216,9 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
         }
 
         [TestMethod]
-        public void SellResourcesCommandHandler_Fails_For_Zero_WoodPrice() {
+        public void SellResourcesCommandHandler_Fails_For_Negative_WoodPrice() {
             var handler = new SellResourcesCommandHandler(_repository, _formatter);
-            var command = new SellResourcesCommand("test@test.com", "5", "5", "5", "0", "5", "5", "5", "5");
+            var command = new SellResourcesCommand("test@test.com", "5", "5", "5", "-1", "5", "5", "5", "5");
 
             var result = handler.Execute(command);
 
@@ -231,7 +231,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
         [TestMethod]
         public void SellResourcesCommandHandler_Fails_For_Wood_Without_WoodPrice() {
             var handler = new SellResourcesCommandHandler(_repository, _formatter);
-            var command = new SellResourcesCommand("test@test.com", "5", "5", "5", "", "5", "5", "5", "5");
+            var command = new SellResourcesCommand("test@test.com", "5", "5", "5", "0", "5", "5", "5", "5");
 
             var result = handler.Execute(command);
 
@@ -255,9 +255,9 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
         }
 
         [TestMethod]
-        public void SellResourcesCommandHandler_Fails_For_Zero_Stone() {
+        public void SellResourcesCommandHandler_Fails_For_Negative_Stone() {
             var handler = new SellResourcesCommandHandler(_repository, _formatter);
-            var command = new SellResourcesCommand("test@test.com", "5", "5", "5", "5", "0", "5", "5", "5");
+            var command = new SellResourcesCommand("test@test.com", "5", "5", "5", "5", "-1", "5", "5", "5");
 
             var result = handler.Execute(command);
 
@@ -296,9 +296,9 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
         }
 
         [TestMethod]
-        public void SellResourcesCommandHandler_Fails_For_Zero_StonePrice() {
+        public void SellResourcesCommandHandler_Fails_For_Negative_StonePrice() {
             var handler = new SellResourcesCommandHandler(_repository, _formatter);
-            var command = new SellResourcesCommand("test@test.com", "5", "5", "5", "5", "5", "0", "5", "5");
+            var command = new SellResourcesCommand("test@test.com", "5", "5", "5", "5", "5", "-1", "5", "5");
 
             var result = handler.Execute(command);
 
@@ -311,7 +311,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
         [TestMethod]
         public void SellResourcesCommandHandler_Fails_For_Stone_Without_StonePrice() {
             var handler = new SellResourcesCommandHandler(_repository, _formatter);
-            var command = new SellResourcesCommand("test@test.com", "5", "5", "5", "5", "5", "", "5", "5");
+            var command = new SellResourcesCommand("test@test.com", "5", "5", "5", "5", "5", "0", "5", "5");
 
             var result = handler.Execute(command);
 
@@ -335,9 +335,9 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
         }
 
         [TestMethod]
-        public void SellResourcesCommandHandler_Fails_For_Zero_Ore() {
+        public void SellResourcesCommandHandler_Fails_For_Negative_Ore() {
             var handler = new SellResourcesCommandHandler(_repository, _formatter);
-            var command = new SellResourcesCommand("test@test.com", "5", "5", "5", "5", "5", "5", "0", "5");
+            var command = new SellResourcesCommand("test@test.com", "5", "5", "5", "5", "5", "5", "-1", "5");
 
             var result = handler.Execute(command);
 
@@ -376,9 +376,9 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
         }
 
         [TestMethod]
-        public void SellResourcesCommandHandler_Fails_For_Zero_OrePrice() {
+        public void SellResourcesCommandHandler_Fails_For_Negative_OrePrice() {
             var handler = new SellResourcesCommandHandler(_repository, _formatter);
-            var command = new SellResourcesCommand("test@test.com", "5", "5", "5", "5", "5", "5", "5", "0");
+            var command = new SellResourcesCommand("test@test.com", "5", "5", "5", "5", "5", "5", "5", "-1");
 
             var result = handler.Execute(command);
 
@@ -391,7 +391,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
         [TestMethod]
         public void SellResourcesCommandHandler_Fails_For_Ore_Without_OrePrice() {
             var handler = new SellResourcesCommandHandler(_repository, _formatter);
-            var command = new SellResourcesCommand("test@test.com", "5", "5", "5", "5", "5", "5", "5", "");
+            var command = new SellResourcesCommand("test@test.com", "5", "5", "5", "5", "5", "5", "5", "0");
 
             var result = handler.Execute(command);
 
