@@ -54,6 +54,8 @@
     <Compile Include="Auditing\ICommandExecutionRepository.cs" />
     <Compile Include="Events\ScheduledTaskRepository.cs" />
     <Compile Include="Events\IScheduledTaskRepository.cs" />
+    <Compile Include="Markets\ICaravanRepository.cs" />
+    <Compile Include="Markets\CaravanRepository.cs" />
     <Compile Include="Players\IPlayerRepository.cs" />
     <Compile Include="Players\PlayerRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

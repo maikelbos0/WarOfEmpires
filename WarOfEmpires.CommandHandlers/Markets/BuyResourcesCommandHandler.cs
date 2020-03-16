@@ -1,6 +1,6 @@
 ﻿using WarOfEmpires.CommandHandlers.Decorators;
 using WarOfEmpires.Commands.Markets;
-using WarOfEmpires.Repositories.Players;
+using WarOfEmpires.Repositories.Markets;
 using WarOfEmpires.Utilities.Container;
 using WarOfEmpires.Utilities.Formatting;
 
@@ -8,10 +8,10 @@ namespace WarOfEmpires.CommandHandlers.Markets {
     [InterfaceInjectable]
     [Audit]
     public sealed class BuyResourcesCommandHandler : ICommandHandler<BuyResourcesCommand> {
-        private readonly PlayerRepository _repository;
+        private readonly CaravanRepository _repository;
         private readonly EnumFormatter _formatter;
 
-        public BuyResourcesCommandHandler(PlayerRepository repository, EnumFormatter formatter) {
+        public BuyResourcesCommandHandler(CaravanRepository repository, EnumFormatter formatter) {
             _repository = repository;
             _formatter = formatter;
         }
