@@ -1,4 +1,5 @@
-﻿using WarOfEmpires.Domain.Common;
+﻿using System;
+using WarOfEmpires.Domain.Common;
 using WarOfEmpires.Domain.Players;
 
 namespace WarOfEmpires.Domain.Markets {
@@ -18,7 +19,8 @@ namespace WarOfEmpires.Domain.Markets {
             Price = price;
         }
 
-        public void Buy(Player seller, Player buyer, int quantity) {
+        public int Buy(Player seller, Player buyer, int requestedQuantity) {
+            var quantity = Math.Min(requestedQuantity, Quantity);
             var cost = quantity * Price;
             var profit = (int)((1 - SalesTax) * cost);
 
@@ -26,6 +28,8 @@ namespace WarOfEmpires.Domain.Markets {
             seller.AddResources(new Resources(gold: profit));
             buyer.SpendResources(new Resources(gold: cost));
             buyer.AddResources(MerchandiseTotals.ToResources(Type, quantity));
+
+            return requestedQuantity - quantity;
         }
     }
 }

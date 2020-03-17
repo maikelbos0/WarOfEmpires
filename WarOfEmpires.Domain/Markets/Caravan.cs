@@ -24,10 +24,9 @@ namespace WarOfEmpires.Domain.Markets {
             throw new NotImplementedException();
         }
 
-        public void Buy(Player buyer, MerchandiseType type, int quantity) {
+        public int Buy(Player buyer, MerchandiseType type, int requestedQuantity) {
             var merchandise = Merchandise.Single(m => m.Type == type);
-
-            merchandise.Buy(Player, buyer, quantity);
+            var remainder = merchandise.Buy(Player, buyer, requestedQuantity);
 
             // TODO this will break in EF
             if (merchandise.Quantity == 0) {
@@ -36,7 +35,9 @@ namespace WarOfEmpires.Domain.Markets {
                 if (!Merchandise.Any()) {
                     Player.Caravans.Remove(this);
                 }
-            }            
+            }
+
+            return remainder;
         }
     }
 }

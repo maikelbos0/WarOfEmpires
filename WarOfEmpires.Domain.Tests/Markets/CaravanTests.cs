@@ -50,10 +50,25 @@ namespace WarOfEmpires.Domain.Tests.Markets {
             seller.Caravans.Add(caravan);
             caravan.Merchandise.Add(new Merchandise(MerchandiseType.Wood, 1000, 6));
 
-            caravan.Buy(buyer, MerchandiseType.Wood, 600);
+            var remainder = caravan.Buy(buyer, MerchandiseType.Wood, 600);
 
             caravan.Merchandise.Should().HaveCount(1);
             caravan.Merchandise.Single().Quantity.Should().Be(400);
+            remainder.Should().Be(0);
+        }
+
+        [TestMethod]
+        public void Caravan_Buy_Returns_Remainder() {
+            var seller = new Player(1, "Seller");
+            var buyer = new Player(2, "Buyer");
+            var caravan = new Caravan(seller);
+
+            seller.Caravans.Add(caravan);
+            caravan.Merchandise.Add(new Merchandise(MerchandiseType.Wood, 1000, 6));
+
+            var remainder = caravan.Buy(buyer, MerchandiseType.Wood, 1600);
+
+            remainder.Should().Be(600);
         }
 
         [TestMethod]
