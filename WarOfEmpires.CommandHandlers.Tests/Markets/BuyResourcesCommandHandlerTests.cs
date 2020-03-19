@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 using System.Collections.Generic;
+using System.Linq;
 using WarOfEmpires.CommandHandlers.Markets;
 using WarOfEmpires.Commands.Markets;
 using WarOfEmpires.Domain.Common;
@@ -43,6 +44,9 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
             _caravans.Add(CreateCaravan(4, MerchandiseType.Food, 10000, 5));
             _caravans.Add(CreateCaravan(5, MerchandiseType.Stone, 10000, 5));
             _caravans.Add(CreateCaravan(6, MerchandiseType.Ore, 10000, 5));
+            _caravans.Add(CreateCaravan(7, MerchandiseType.Food, 10000, 4));
+            _caravans.Add(CreateCaravan(8, MerchandiseType.Stone, 10000, 4));
+            _caravans.Add(CreateCaravan(9, MerchandiseType.Ore, 10000, 4));
 
             _context.Users.Add(user);
             _context.Players.Add(_buyer);
@@ -65,9 +69,13 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
             var result = handler.Execute(command);
 
             result.Success.Should().BeTrue();
+
+            foreach (var caravan in _caravans.Where(c => c != _caravans[0] && c != _caravans[1])) {
+                caravan.DidNotReceiveWithAnyArgs().Buy(default, default, default);
+            }
+
             _caravans[0].Received().Buy(_buyer, MerchandiseType.Wood, 6000);
-            _caravans[1].Received().Buy(_buyer, MerchandiseType.Wood, 10000);
-            _caravans[2].DidNotReceiveWithAnyArgs().Buy(default, default, default);
+            _caravans[1].Received().Buy(_buyer, MerchandiseType.Wood, 16000);
             _context.CallsToSaveChanges.Should().Be(1);
         }
 
@@ -79,6 +87,10 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
             var result = handler.Execute(command);
 
             result.Success.Should().BeTrue();
+
+            foreach (var caravan in _caravans) {
+                caravan.DidNotReceiveWithAnyArgs().Buy(default, default, default);
+            }
         }
 
         [TestMethod]
@@ -101,76 +113,78 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
 
         [TestMethod]
         public void BuyResourcesCommandHandler_Gives_Warning_For_Too_Little_Available_Food() {
-            throw new System.NotImplementedException();
-
-            /*
             var handler = new BuyResourcesCommandHandler(_repository, _formatter);
-            var command = new SellResourcesCommand("test@test.com", "5", "5", "", "", "", "", "", "");
+            var command = new BuyResourcesCommand("test@test.com", "10001", "", "", "", "", "", "", "");
 
             var result = handler.Execute(command);
 
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.ToString().Should().Be("c => c.Food");
-            result.Errors[0].Message.Should().Be("You don't have enough food available to sell that much");
-            _context.CallsToSaveChanges.Should().Be(0);
-            */
+            result.Success.Should().BeTrue();
+            result.Warnings.Should().HaveCount(1);
+            result.Warnings[0].Should().Be("There was not enough food available at that price; all available wood has been purchased");
+
+            foreach (var caravan in _caravans.Where(c => c != _caravans[6])) {
+                caravan.DidNotReceiveWithAnyArgs().Buy(default, default, default);
+            }
+
+            _caravans[6].Received().Buy(_buyer, MerchandiseType.Food, 10001);
+            _context.CallsToSaveChanges.Should().Be(1);
         }
 
         [TestMethod]
         public void BuyResourcesCommandHandler_Gives_Warning_For_Too_Little_Available_Wood() {
-            throw new System.NotImplementedException();
-
-            /*
-            _player.CanAfford(Arg.Any<Resources>()).Returns(false);
-
             var handler = new BuyResourcesCommandHandler(_repository, _formatter);
-            var command = new SellResourcesCommand("test@test.com", "", "", "5", "5", "", "", "", "");
+            var command = new BuyResourcesCommand("test@test.com", "", "", "10001", "4", "", "", "", "");
 
             var result = handler.Execute(command);
 
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.ToString().Should().Be("c => c.Wood");
-            result.Errors[0].Message.Should().Be("You don't have enough wood available to sell that much");
-            _context.CallsToSaveChanges.Should().Be(0);
-            */
+            result.Success.Should().BeTrue();
+            result.Warnings.Should().HaveCount(1);
+            result.Warnings[0].Should().Be("There was not enough wood available at that price; all available wood has been purchased");
+
+            foreach (var caravan in _caravans.Where(c => c != _caravans[1])) {
+                caravan.DidNotReceiveWithAnyArgs().Buy(default, default, default);
+            }
+
+            _caravans[1].Received().Buy(_buyer, MerchandiseType.Wood, 10001);
+            _context.CallsToSaveChanges.Should().Be(1);
         }
 
         [TestMethod]
         public void BuyResourcesCommandHandler_Gives_Warning_For_Too_Little_Available_Stone() {
-            throw new System.NotImplementedException();
-
-            /*
-            _player.CanAfford(Arg.Any<Resources>()).Returns(false);
-
             var handler = new BuyResourcesCommandHandler(_repository, _formatter);
-            var command = new SellResourcesCommand("test@test.com", "", "", "", "", "5", "5", "", "");
+            var command = new BuyResourcesCommand("test@test.com", "", "", "", "", "10001", "", "", "");
 
             var result = handler.Execute(command);
 
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.ToString().Should().Be("c => c.Stone");
-            result.Errors[0].Message.Should().Be("You don't have enough stone available to sell that much");
-            _context.CallsToSaveChanges.Should().Be(0);
-            */
+            result.Success.Should().BeTrue();
+            result.Warnings.Should().HaveCount(1);
+            result.Warnings[0].Should().Be("There was not enough stone available at that price; all available wood has been purchased");
+
+            foreach (var caravan in _caravans.Where(c => c != _caravans[7])) {
+                caravan.DidNotReceiveWithAnyArgs().Buy(default, default, default);
+            }
+
+            _caravans[7].Received().Buy(_buyer, MerchandiseType.Stone, 10001);
+            _context.CallsToSaveChanges.Should().Be(1);
         }
 
         [TestMethod]
         public void BuyResourcesCommandHandler_Gives_Warning_For_Too_Little_Available_Ore() {
-            throw new System.NotImplementedException();
-
-            /*
-            _player.CanAfford(Arg.Any<Resources>()).Returns(false);
-
             var handler = new BuyResourcesCommandHandler(_repository, _formatter);
-            var command = new SellResourcesCommand("test@test.com", "", "", "", "", "", "", "5", "5");
+            var command = new BuyResourcesCommand("test@test.com", "", "", "", "", "", "", "10001", "");
 
             var result = handler.Execute(command);
 
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.ToString().Should().Be("c => c.Ore");
-            result.Errors[0].Message.Should().Be("You don't have enough ore available to sell that much");
-            _context.CallsToSaveChanges.Should().Be(0);
-            */
+            result.Success.Should().BeTrue();
+            result.Warnings.Should().HaveCount(1);
+            result.Warnings[0].Should().Be("There was not enough ore available at that price; all available wood has been purchased");
+
+            foreach (var caravan in _caravans.Where(c => c != _caravans[8])) {
+                caravan.DidNotReceiveWithAnyArgs().Buy(default, default, default);
+            }
+
+            _caravans[8].Received().Buy(_buyer, MerchandiseType.Ore, 10001);
+            _context.CallsToSaveChanges.Should().Be(1);
         }
 
         [TestMethod]
