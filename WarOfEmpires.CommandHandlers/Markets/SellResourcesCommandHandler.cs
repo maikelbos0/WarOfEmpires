@@ -15,10 +15,10 @@ namespace WarOfEmpires.CommandHandlers.Markets {
     [InterfaceInjectable]
     [Audit]
     public sealed class SellResourcesCommandHandler : ICommandHandler<SellResourcesCommand> {
-        private readonly PlayerRepository _repository;
+        private readonly IPlayerRepository _repository;
         private readonly EnumFormatter _formatter;
 
-        public SellResourcesCommandHandler(PlayerRepository repository, EnumFormatter formatter) {
+        public SellResourcesCommandHandler(IPlayerRepository repository, EnumFormatter formatter) {
             _repository = repository;
             _formatter = formatter;
         }

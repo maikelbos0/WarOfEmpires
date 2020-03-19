@@ -4,12 +4,12 @@ using System.Linq;
 using WarOfEmpires.Domain.Players;
 
 namespace WarOfEmpires.Domain.Markets {
-    public sealed class Caravan : Entity {
-        public Player Player { get; private set; }
-        public DateTime Date { get; private set; }
-        public ICollection<Merchandise> Merchandise { get; set; } = new List<Merchandise>();
+    public class Caravan : Entity {
+        public virtual Player Player { get; protected set; }
+        public virtual DateTime Date { get; protected set; }
+        public virtual ICollection<Merchandise> Merchandise { get; set; } = new List<Merchandise>();
 
-        private Caravan() { }
+        protected Caravan() { }
 
         public Caravan(Player player) {
             Player = player;
@@ -24,7 +24,7 @@ namespace WarOfEmpires.Domain.Markets {
             throw new NotImplementedException();
         }
 
-        public int Buy(Player buyer, MerchandiseType type, int requestedQuantity) {
+        public virtual int Buy(Player buyer, MerchandiseType type, int requestedQuantity) {
             var merchandise = Merchandise.Single(m => m.Type == type);
             var remainder = merchandise.Buy(Player, buyer, requestedQuantity);
 
