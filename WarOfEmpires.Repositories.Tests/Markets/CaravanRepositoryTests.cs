@@ -73,20 +73,20 @@ namespace WarOfEmpires.Repositories.Tests.Markets {
         }
 
         [TestMethod]
-        public void CaravanRepository_Delete_Succeeds() {
+        public void CaravanRepository_Remove_Succeeds() {
             var repository = new CaravanRepository(_context);
             var previousCaravanCount = _context.Players.Sum(p => p.Caravans.Count());
 
-            repository.Delete(_context.Players.First().Caravans.First());
+            repository.Remove(_context.Players.First().Caravans.First());
 
             _context.Players.Sum(p => p.Caravans.Count()).Should().Be(previousCaravanCount - 1);
         }
 
         [TestMethod]
-        public void CaravanRepository_Delete_Saves() {
+        public void CaravanRepository_Remove_Saves() {
             var repository = new CaravanRepository(_context);
 
-            repository.Delete(_context.Players.First().Caravans.First());
+            repository.Remove(_context.Players.First().Caravans.First());
 
             _context.CallsToSaveChanges.Should().Be(1);
         }

@@ -27,9 +27,9 @@ namespace WarOfEmpires.Repositories.Markets {
                 .ToList();
         }
 
-        public void Delete(Caravan caravan) {
+        public void Remove(Caravan caravan) {
             caravan.Player.Caravans.Remove(caravan);
-            _context.Caravans.Remove(caravan);
+            _context.Remove(caravan);
             _context.SaveChanges();
         }
 

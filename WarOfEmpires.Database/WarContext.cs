@@ -36,9 +36,12 @@ namespace WarOfEmpires.Database {
         public IDbSet<Security.User> Users { get; set; }
         public IDbSet<Auditing.CommandExecution> CommandExecutions { get; set; }
         public IDbSet<Auditing.QueryExecution> QueryExecutions { get; set; }
-        public IDbSet<Markets.Caravan> Caravans { get; set; }
         public IDbSet<Players.Player> Players { get; set; }
         public IDbSet<Events.ScheduledTask> ScheduledTasks { get; set; }
+
+        public void Remove<TEntity>(TEntity entity) where TEntity : class {
+            Set<TEntity>().Remove(entity);
+        }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder) {
             base.OnModelCreating(modelBuilder);
