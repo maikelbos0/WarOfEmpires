@@ -43,6 +43,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
             sellerUser.Email.Returns("seller@test.com");
             sellerUser.Status.Returns(UserStatus.Active);
 
+            _seller = Substitute.For<Player>();
             _caravans = new List<Caravan>();
             _caravans.Add(CreateCaravan(1, MerchandiseType.Wood, 10000, 5));
             _caravans.Add(CreateCaravan(2, MerchandiseType.Wood, 10000, 4));
@@ -53,9 +54,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
             _caravans.Add(CreateCaravan(7, MerchandiseType.Food, 10000, 4));
             _caravans.Add(CreateCaravan(8, MerchandiseType.Stone, 10000, 4));
             _caravans.Add(CreateCaravan(9, MerchandiseType.Ore, 10000, 4));
-
-            _seller = Substitute.For<Player>();
-            _seller.Caravans.Returns(_caravans);
+            _seller.Caravans.Returns(new List<Caravan>(_caravans));
             _seller.User.Returns(sellerUser);
 
             _context.Users.Add(buyerUser);
@@ -63,13 +62,13 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
             _context.Players.Add(_seller);
         }
 
-        private Caravan CreateCaravan(int id,  MerchandiseType type, int quantity, int price) {
-            var caravan =  Substitute.For<Caravan>();
+        private Caravan CreateCaravan(int id, MerchandiseType type, int quantity, int price) {
+            var caravan = Substitute.For<Caravan>();
 
             caravan.Id.Returns(id);
             caravan.Player.Returns(_seller);
             caravan.Merchandise.Returns(new List<Merchandise>() { new Merchandise(type, quantity, price) });
-            caravan.Buy(Arg.Any<Player>(), type, Arg.Any<int>()).Returns(c => Math.Max(0, c.ArgAt<int>(2) - quantity));
+            caravan.Buy(Arg.Any<Player>(), type, Arg.Any<int>()).Returns(c => caravan.Merchandise.Single().Buy(_seller, c.ArgAt<Player>(0), c.ArgAt<int>(2)));
 
             return caravan;
         }
@@ -89,7 +88,18 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
 
             _caravans[0].Received().Buy(_buyer, MerchandiseType.Wood, 6000);
             _caravans[1].Received().Buy(_buyer, MerchandiseType.Wood, 16000);
-            _context.CallsToSaveChanges.Should().Be(1);
+            _context.CallsToSaveChanges.Should().Be(2);
+        }
+
+        [TestMethod]
+        public void BuyResourcesCommandHandler_Deletes_Empty_Caravans() {
+            var handler = new BuyResourcesCommandHandler(_repository, _playerRepository, _formatter);
+            var command = new BuyResourcesCommand("test@test.com", "", "", "16000", "5", "", "", "", "");
+            var previousCaravanCount = _context.Players.Sum(c => c.Caravans.Count());
+
+            var result = handler.Execute(command);
+
+            _context.Players.Sum(c => c.Caravans.Count()).Should().Be(previousCaravanCount - 1);
         }
 
         [TestMethod]
@@ -142,7 +152,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
             }
 
             _caravans[6].Received().Buy(_buyer, MerchandiseType.Food, 10001);
-            _context.CallsToSaveChanges.Should().Be(1);
+            _context.CallsToSaveChanges.Should().Be(2);
         }
 
         [TestMethod]
@@ -161,7 +171,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
             }
 
             _caravans[1].Received().Buy(_buyer, MerchandiseType.Wood, 10001);
-            _context.CallsToSaveChanges.Should().Be(1);
+            _context.CallsToSaveChanges.Should().Be(2);
         }
 
         [TestMethod]
@@ -180,7 +190,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
             }
 
             _caravans[7].Received().Buy(_buyer, MerchandiseType.Stone, 10001);
-            _context.CallsToSaveChanges.Should().Be(1);
+            _context.CallsToSaveChanges.Should().Be(2);
         }
 
         [TestMethod]
@@ -199,7 +209,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
             }
 
             _caravans[8].Received().Buy(_buyer, MerchandiseType.Ore, 10001);
-            _context.CallsToSaveChanges.Should().Be(1);
+            _context.CallsToSaveChanges.Should().Be(2);
         }
 
         [TestMethod]

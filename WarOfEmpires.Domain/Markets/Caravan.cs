@@ -26,18 +26,8 @@ namespace WarOfEmpires.Domain.Markets {
 
         public virtual int Buy(Player buyer, MerchandiseType type, int requestedQuantity) {
             var merchandise = Merchandise.Single(m => m.Type == type);
-            var remainder = merchandise.Buy(Player, buyer, requestedQuantity);
-
-            // TODO this will break in EF
-            if (merchandise.Quantity == 0) {
-                Merchandise.Remove(merchandise);
-
-                if (!Merchandise.Any()) {
-                    Player.Caravans.Remove(this);
-                }
-            }
-
-            return remainder;
+            
+            return merchandise.Buy(Player, buyer, requestedQuantity);
         }
     }
 }

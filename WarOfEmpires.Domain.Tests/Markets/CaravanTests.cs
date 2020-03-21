@@ -70,35 +70,5 @@ namespace WarOfEmpires.Domain.Tests.Markets {
 
             remainder.Should().Be(600);
         }
-
-        [TestMethod]
-        public void Caravan_Buy_Removes_Merchandise_If_Empty() {
-            var seller = new Player(1, "Seller");
-            var buyer = new Player(2, "Buyer");
-            var caravan = new Caravan(seller);
-
-            seller.Caravans.Add(caravan);
-            caravan.Merchandise.Add(new Merchandise(MerchandiseType.Food, 1000, 5));
-            caravan.Merchandise.Add(new Merchandise(MerchandiseType.Wood, 1000, 6));
-
-            caravan.Buy(buyer, MerchandiseType.Wood, 1000);
-
-            caravan.Merchandise.Should().HaveCount(1);
-            caravan.Merchandise.Single().Type.Should().Be(MerchandiseType.Food);
-        }
-
-        [TestMethod]
-        public void Caravan_Buy_Removes_Self_From_Player_If_Empty() {
-            var seller = new Player(1, "Seller");
-            var buyer = new Player(2, "Buyer");
-            var caravan = new Caravan(seller);
-
-            seller.Caravans.Add(caravan);
-            caravan.Merchandise.Add(new Merchandise(MerchandiseType.Wood, 1000, 6));
-
-            caravan.Buy(buyer, MerchandiseType.Wood, 1000);
-
-            seller.Caravans.Should().HaveCount(0);
-        }
     }
 }

@@ -398,7 +398,7 @@ namespace WarOfEmpires.Domain.Players {
             AttackTurns -= attackTurns;
         }
 
-        public void AddResources(Resources resources) {
+        public virtual void AddResources(Resources resources) {
             Resources += resources;
 
             if (HasUpkeepRunOut && CanAfford(GetUpkeepPerTurn())) {

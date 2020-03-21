@@ -74,6 +74,10 @@ namespace WarOfEmpires.CommandHandlers.Markets {
                     foreach (var caravan in caravans.Where(c => c.Merchandise.Any(m => m.Type == totals.Type && m.Price <= totals.Price))) {
                         quantity = caravan.Buy(player, totals.Type, quantity);
 
+                        if (!caravan.Merchandise.Any(m => m.Quantity > 0)) {
+                            _repository.Delete(caravan);
+                        }
+                        
                         if (quantity == 0) {
                             break;
                         }
