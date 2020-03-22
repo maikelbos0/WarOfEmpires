@@ -69,6 +69,7 @@
     <Compile Include="Common\ResourcesMap.cs" />
     <Compile Include="Events\GetScheduledTasksPausedQueryHandler.cs" />
     <Compile Include="IQueryHandler.cs" />
+    <Compile Include="Markets\GetAvailableMerchandiseQueryHandler.cs" />
     <Compile Include="Markets\GetCaravansQueryHandler.cs" />
     <Compile Include="Messages\GetMessageRecipientQueryHandler.cs" />
     <Compile Include="Messages\GetReceivedMessageQueryHandler.cs" />

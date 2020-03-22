@@ -1,8 +1,7 @@
 ﻿using System;
 
 namespace WarOfEmpires.Models.Markets {
-    public sealed class CaravanViewModel {
-        public int Id { get; set; }
+    public sealed class CaravanViewModel : EntityViewModel {
         public DateTime Date { get; set; }
         public int Food { get; set; }
         public int FoodPrice { get; set; }

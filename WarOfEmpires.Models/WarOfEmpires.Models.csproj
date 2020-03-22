@@ -61,8 +61,10 @@
     <Compile Include="Empires\TroopInfoViewModel.cs" />
     <Compile Include="Empires\TroopModel.cs" />
     <Compile Include="Empires\WorkerInfoViewModel.cs" />
+    <Compile Include="Markets\AvailableMerchandiseModel.cs" />
     <Compile Include="Markets\CaravanViewModel.cs" />
     <Compile Include="Markets\CaravansModel.cs" />
+    <Compile Include="Markets\MerchandiseInfoViewModel.cs" />
     <Compile Include="Messages\MessageModel.cs" />
     <Compile Include="Messages\ReceivedMessageDetailsViewModel.cs" />
     <Compile Include="Messages\ReceivedMessageViewModel.cs" />
