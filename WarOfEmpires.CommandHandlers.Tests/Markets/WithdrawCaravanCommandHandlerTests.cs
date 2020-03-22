@@ -35,12 +35,6 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
             _caravan = Substitute.For<Caravan>();
             _caravan.Id.Returns(1);
             _caravan.Player.Returns(_player);
-            _caravan.Merchandise.Returns(new List<Merchandise>() {
-                new Merchandise(MerchandiseType.Food, 20000, 5),
-                new Merchandise(MerchandiseType.Wood, 20000, 5),
-                new Merchandise(MerchandiseType.Stone, 20000, 5),
-                new Merchandise(MerchandiseType.Ore, 20000, 5)
-            });
             _player.Caravans.Returns(new List<Caravan>() { _caravan });
 
             var user2 = Substitute.For<User>();

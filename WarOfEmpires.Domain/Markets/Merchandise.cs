@@ -19,6 +19,12 @@ namespace WarOfEmpires.Domain.Markets {
             Price = price;
         }
 
+        public void Withdraw(Player player, double percentageSaved) {
+            player.AddResources(MerchandiseTotals.ToResources(Type, (int)(percentageSaved * Quantity)));
+
+            Quantity = 0;
+        }
+
         public int Buy(Player seller, Player buyer, int requestedQuantity) {
             var quantity = Math.Min(requestedQuantity, Quantity);
             var cost = quantity * Price;
