@@ -57,6 +57,16 @@
                             </li>
 
                             <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbar-markets-dropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Market
+                                </a>
+                                <div class="dropdown-menu site-dropdown-menu" aria-labelledby="navbar-markets-dropdown">
+                                    @Html.ActionLink("Manage caravans", "Index", "Market", null, new { id = "caravan-link", @class = "dropdown-item site-dropdown-item" })
+                                    @Html.ActionLink("Buy resources", "BuyIndex", "Market", null, new { @class = "dropdown-item site-dropdown-item" })
+                                </div>
+                            </li>
+
+                            <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbar-empire-dropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Empire
                                 </a>
