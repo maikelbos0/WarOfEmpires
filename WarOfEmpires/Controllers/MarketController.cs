@@ -1,23 +1,24 @@
 ﻿using System.Web.Mvc;
+using WarOfEmpires.Queries.Markets;
 using WarOfEmpires.Services;
 
 namespace WarOfEmpires.Controllers {
     [Authorize]
-    [RoutePrefix("Empire")]
+    [RoutePrefix("Market")]
     public class MarketController : BaseController {
         public MarketController(IAuthenticationService authenticationService, IMessageService messageService) : base(messageService, authenticationService) {
         }
 
-        [Route("Index")]
+        [Route("Caravans")]
         [HttpGet]
-        public ActionResult Index() {
-            return new EmptyResult();
+        public ActionResult Caravans() {
+            return View(_messageService.Dispatch(new GetCaravansQuery(_authenticationService.Identity)));
         }
 
-        [Route("BuyIndex")]
+        [Route("Buy")]
         [HttpGet]
-        public ActionResult BuyIndex() {
-            return new EmptyResult();
+        public ActionResult Buy() {
+            return View(_messageService.Dispatch(new GetAvailableMerchandiseQuery(_authenticationService.Identity)));
         }
     }
 }
