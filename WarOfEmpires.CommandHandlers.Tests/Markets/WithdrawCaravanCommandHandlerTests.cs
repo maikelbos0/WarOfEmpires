@@ -1,6 +1,11 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using FluentAssertions;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
+using System;
+using System.Collections.Generic;
 using WarOfEmpires.CommandHandlers.Markets;
+using WarOfEmpires.Commands.Markets;
+using WarOfEmpires.Domain.Markets;
 using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Repositories.Markets;
@@ -14,6 +19,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
         private readonly PlayerRepository _repository;
         private readonly CaravanRepository _caravanRepository;
         private readonly Player _player;
+        private readonly Caravan _caravan;
 
         public WithdrawCaravanCommandHandlerTests() {
             _repository = new PlayerRepository(_context);
@@ -25,23 +31,86 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
 
             _player = Substitute.For<Player>();
             _player.User.Returns(user);
+
+            _caravan = Substitute.For<Caravan>();
+            _caravan.Id.Returns(1);
+            _caravan.Player.Returns(_player);
+            _caravan.Merchandise.Returns(new List<Merchandise>() {
+                new Merchandise(MerchandiseType.Food, 20000, 5),
+                new Merchandise(MerchandiseType.Wood, 20000, 5),
+                new Merchandise(MerchandiseType.Stone, 20000, 5),
+                new Merchandise(MerchandiseType.Ore, 20000, 5)
+            });
+            _player.Caravans.Returns(new List<Caravan>() { _caravan });
+
+            var user2 = Substitute.For<User>();
+            user2.Email.Returns("not@test.com");
+            user2.Status.Returns(UserStatus.Active);
+
+            var player2 = Substitute.For<Player>();
+            player2.User.Returns(user2);
+
+            _context.Players.Add(_player);
+            _context.Players.Add(player2);
         }
 
         [TestMethod]
         public void WithdrawCaravanCommandHandler_Succeeds() {
             var handler = new WithdrawCaravanCommandHandler(_repository, _caravanRepository);
+            var command = new WithdrawCaravanCommand("test@test.com", "1");
 
-            throw new System.NotImplementedException();
+            var result = handler.Execute(command);
+
+            result.Success.Should().BeTrue();
+
+            _caravan.Received().Withdraw();
+            _player.Caravans.Should().NotContain(_caravan);
+            _context.CallsToSaveChanges.Should().Be(2);
         }
 
         [TestMethod]
-        public void WithdrawCaravanCommandHandler_Destroys_Resources() {
-            throw new System.NotImplementedException();
+        public void WithdrawCaravanCommandHandler_Throws_Exception_For_Alphanumeric_CaravanId() {
+            var handler = new WithdrawCaravanCommandHandler(_repository, _caravanRepository);
+            var command = new WithdrawCaravanCommand("test@test.com", "A");
+
+            Action commandAction = () => {
+                var result = handler.Execute(command);
+            };
+
+            commandAction.Should().Throw<FormatException>();
+            _caravan.DidNotReceiveWithAnyArgs().Withdraw();
+            _player.Caravans.Should().Contain(_caravan);
+            _context.CallsToSaveChanges.Should().Be(0);
+        }
+
+        [TestMethod]
+        public void WithdrawCaravanCommandHandler_Throws_Exception_For_Invalid_CaravanId() {
+            var handler = new WithdrawCaravanCommandHandler(_repository, _caravanRepository);
+            var command = new WithdrawCaravanCommand("test@test.com", "51");
+
+            Action commandAction = () => {
+                var result = handler.Execute(command);
+            };
+
+            commandAction.Should().Throw<InvalidOperationException>();
+            _caravan.DidNotReceiveWithAnyArgs().Withdraw();
+            _player.Caravans.Should().Contain(_caravan);
+            _context.CallsToSaveChanges.Should().Be(0);
         }
 
         [TestMethod]
         public void WithdrawCaravanCommandHandler_Throws_Exception_For_Caravan_Of_Different_Player() {
-            throw new System.NotImplementedException();
+            var handler = new WithdrawCaravanCommandHandler(_repository, _caravanRepository);
+            var command = new WithdrawCaravanCommand("not@test.com", "1");
+
+            Action commandAction = () => {
+                var result = handler.Execute(command);
+            };
+
+            commandAction.Should().Throw<InvalidOperationException>();
+            _caravan.DidNotReceiveWithAnyArgs().Withdraw();
+            _player.Caravans.Should().Contain(_caravan);
+            _context.CallsToSaveChanges.Should().Be(0);
         }
     }
 }

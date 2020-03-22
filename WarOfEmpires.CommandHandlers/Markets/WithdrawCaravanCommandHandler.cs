@@ -1,4 +1,5 @@
-﻿using WarOfEmpires.Commands.Markets;
+﻿using System.Linq;
+using WarOfEmpires.Commands.Markets;
 using WarOfEmpires.Repositories.Markets;
 using WarOfEmpires.Repositories.Players;
 
@@ -13,7 +14,16 @@ namespace WarOfEmpires.CommandHandlers.Markets {
         }
 
         public CommandResult<WithdrawCaravanCommand> Execute(WithdrawCaravanCommand command) {
-            throw new System.NotImplementedException();
+            var result = new CommandResult<WithdrawCaravanCommand>();
+            var player = _repository.Get(command.Email);
+            var caravanId = int.Parse(command.CaravanId);
+            var caravan = player.Caravans.Single(c => c.Id == caravanId);
+
+            caravan.Withdraw();
+            _caravanRepository.Remove(caravan);
+            _caravanRepository.Update();
+
+            return result;
         }
     }
 }

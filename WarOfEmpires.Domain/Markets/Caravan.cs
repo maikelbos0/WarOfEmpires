@@ -20,7 +20,7 @@ namespace WarOfEmpires.Domain.Markets {
             return maximumCapacity - Merchandise.Sum(m => m.Quantity);
         }
 
-        public void Withdraw() {
+        public virtual void Withdraw() {
             throw new NotImplementedException();
         }
 
