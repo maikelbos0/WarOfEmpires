@@ -5,3 +5,147 @@
 }
 
 <h2>Buy resources</h2>
+
+<p>
+    On the market you can buy resources other players are trying to sell.
+</p>
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new {
+    data_success_message = "Your resources have been purchased."
+})) {
+    @Html.HiddenFor(m => m.FoodInfo.AvailableAtMinimumPrice)
+    @Html.HiddenFor(m => m.FoodInfo.MinimumPrice)
+    @Html.HiddenFor(m => m.FoodInfo.TotalAvailable)
+
+    @Html.HiddenFor(m => m.WoodInfo.AvailableAtMinimumPrice)
+    @Html.HiddenFor(m => m.WoodInfo.MinimumPrice)
+    @Html.HiddenFor(m => m.WoodInfo.TotalAvailable)
+
+    @Html.HiddenFor(m => m.StoneInfo.AvailableAtMinimumPrice)
+    @Html.HiddenFor(m => m.StoneInfo.MinimumPrice)
+    @Html.HiddenFor(m => m.StoneInfo.TotalAvailable)
+
+    @Html.HiddenFor(m => m.OreInfo.AvailableAtMinimumPrice)
+    @Html.HiddenFor(m => m.OreInfo.MinimumPrice)
+    @Html.HiddenFor(m => m.OreInfo.TotalAvailable)
+
+    <div class="row">
+        <div class="col-2 col-form-label">
+        </div>
+        <div class="col-2 col-form-label">
+            <strong>Minimum price</strong>
+        </div>
+        <div class="col-2 col-form-label">
+            <strong>Available at minimum price</strong>
+        </div>
+        <div class="col-2 col-form-label">
+            <strong>Total available</strong>
+        </div>
+        <div class="col-2 col-form-label">
+            <strong>Quantity</strong>
+        </div>
+        <div class="col-2 col-form-label">
+            <strong>Price</strong>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-2 col-form-label">
+            @Html.LabelFor(m => m.Food)
+        </div>
+        <div class="col-2 col-form-label">
+            @Model.FoodInfo.MinimumPrice.ToString(StringFormat.Integer) <span class="si si-gold"></span>
+        </div>
+        <div class="col-2 col-form-label">
+            @Model.FoodInfo.AvailableAtMinimumPrice.ToString(StringFormat.Integer) <span class="si si-food"></span>
+        </div>
+        <div class="col-2 col-form-label">
+            @Model.FoodInfo.TotalAvailable.ToString(StringFormat.Integer) <span class="si si-food"></span>
+        </div>
+        <div class="col-2">
+            @Html.TextBoxFor(m => m.Food, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Food, null, new { @class = "small form-text text-danger" })
+        </div>
+        <div class="col-2">
+            @Html.TextBoxFor(m => m.FoodPrice, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.FoodPrice, null, new { @class = "small form-text text-danger" })
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-2 col-form-label">
+            @Html.LabelFor(m => m.Wood)
+        </div>
+        <div class="col-2 col-form-label">
+            @Model.WoodInfo.MinimumPrice.ToString(StringFormat.Integer) <span class="si si-gold"></span>
+        </div>
+        <div class="col-2 col-form-label">
+            @Model.WoodInfo.AvailableAtMinimumPrice.ToString(StringFormat.Integer) <span class="si si-wood"></span>
+        </div>
+        <div class="col-2 col-form-label">
+            @Model.WoodInfo.TotalAvailable.ToString(StringFormat.Integer) <span class="si si-wood"></span>
+        </div>
+        <div class="col-2">
+            @Html.TextBoxFor(m => m.Wood, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Wood, null, new { @class = "small form-text text-danger" })
+        </div>
+        <div class="col-2">
+            @Html.TextBoxFor(m => m.WoodPrice, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.WoodPrice, null, new { @class = "small form-text text-danger" })
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-2 col-form-label">
+            @Html.LabelFor(m => m.Stone)
+        </div>
+        <div class="col-2 col-form-label">
+            @Model.StoneInfo.MinimumPrice.ToString(StringFormat.Integer) <span class="si si-gold"></span>
+        </div>
+        <div class="col-2 col-form-label">
+            @Model.StoneInfo.AvailableAtMinimumPrice.ToString(StringFormat.Integer) <span class="si si-stone"></span>
+        </div>
+        <div class="col-2 col-form-label">
+            @Model.StoneInfo.TotalAvailable.ToString(StringFormat.Integer) <span class="si si-stone"></span>
+        </div>
+        <div class="col-2">
+            @Html.TextBoxFor(m => m.Stone, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Stone, null, new { @class = "small form-text text-danger" })
+        </div>
+        <div class="col-2">
+            @Html.TextBoxFor(m => m.StonePrice, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.StonePrice, null, new { @class = "small form-text text-danger" })
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-2 col-form-label">
+            @Html.LabelFor(m => m.Ore)
+        </div>
+        <div class="col-2 col-form-label">
+            @Model.OreInfo.MinimumPrice.ToString(StringFormat.Integer) <span class="si si-gold"></span>
+        </div>
+        <div class="col-2 col-form-label">
+            @Model.OreInfo.AvailableAtMinimumPrice.ToString(StringFormat.Integer) <span class="si si-ore"></span>
+        </div>
+        <div class="col-2 col-form-label">
+            @Model.OreInfo.TotalAvailable.ToString(StringFormat.Integer) <span class="si si-ore"></span>
+        </div>
+        <div class="col-2">
+            @Html.TextBoxFor(m => m.Ore, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Ore, null, new { @class = "small form-text text-danger" })
+        </div>
+        <div class="col-2">
+            @Html.TextBoxFor(m => m.OrePrice, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.OrePrice, null, new { @class = "small form-text text-danger" })
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-10"></div>
+
+        <div class="col-2">
+            <button type="submit" class="btn btn-primary form-control">Buy</button>
+        </div>
+    </div>
+}
