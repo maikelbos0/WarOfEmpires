@@ -42,8 +42,8 @@ namespace WarOfEmpires.QueryHandlers.Markets {
             var minimumMerchandise = merchandiseInfo.OrderBy(m => m.Price).FirstOrDefault();
 
             return new MerchandiseInfoViewModel() {
-                MinimumPrice = minimumMerchandise?.Price ?? 0,
-                AvailableAtMinimumPrice = minimumMerchandise?.Quantity ?? 0,
+                LowestPrice = minimumMerchandise?.Price ?? 0,
+                AvailableAtLowestPrice = minimumMerchandise?.Quantity ?? 0,
                 TotalAvailable = merchandiseInfo.Sum(m => m.Quantity)
             };
         }

@@ -5,3 +5,240 @@
 }
 
 <h2>Caravans</h2>
+
+<p>
+    Send out new caravans to sell your resources on the market, or call back caravans currently on the market. You are able to send off multiple caravans at once,
+    provided you have enough available merchants.
+</p>
+
+<ul>
+    <li>Total number of merchants: @Model.TotalMerchants.ToString(StringFormat.Integer)</li>
+    <li>Available merchants: @Model.AvailableMerchants.ToString(StringFormat.Integer)</li>
+    <li>Capacity per caravan: @Model.CaravanCapacity.ToString(StringFormat.Integer) <span class="si si-market"></span></li>
+    <li>Total available capacity: @Model.AvailableCapacity.ToString(StringFormat.Integer) <span class="si si-market"></span></li>
+</ul>
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new {
+    data_success_message = "Your resources have been sent to the market."
+})) {
+    @Html.HiddenFor(m => m.FoodInfo.AvailableAtLowestPrice)
+    @Html.HiddenFor(m => m.FoodInfo.LowestPrice)
+    @Html.HiddenFor(m => m.FoodInfo.TotalAvailable)
+
+    @Html.HiddenFor(m => m.WoodInfo.AvailableAtLowestPrice)
+    @Html.HiddenFor(m => m.WoodInfo.LowestPrice)
+    @Html.HiddenFor(m => m.WoodInfo.TotalAvailable)
+
+    @Html.HiddenFor(m => m.StoneInfo.AvailableAtLowestPrice)
+    @Html.HiddenFor(m => m.StoneInfo.LowestPrice)
+    @Html.HiddenFor(m => m.StoneInfo.TotalAvailable)
+
+    @Html.HiddenFor(m => m.OreInfo.AvailableAtLowestPrice)
+    @Html.HiddenFor(m => m.OreInfo.LowestPrice)
+    @Html.HiddenFor(m => m.OreInfo.TotalAvailable)
+
+    for (var i = 0; i < Model.CurrentCaravans.Count; i++) {
+        @Html.HiddenFor(m => m.CurrentCaravans[i].Id)
+        @Html.HiddenFor(m => m.CurrentCaravans[i].Date)
+        @Html.HiddenFor(m => m.CurrentCaravans[i].Food)
+        @Html.HiddenFor(m => m.CurrentCaravans[i].FoodPrice)
+        @Html.HiddenFor(m => m.CurrentCaravans[i].Wood)
+        @Html.HiddenFor(m => m.CurrentCaravans[i].WoodPrice)
+        @Html.HiddenFor(m => m.CurrentCaravans[i].Stone)
+        @Html.HiddenFor(m => m.CurrentCaravans[i].StonePrice)
+        @Html.HiddenFor(m => m.CurrentCaravans[i].Ore)
+        @Html.HiddenFor(m => m.CurrentCaravans[i].OrePrice)
+    }
+
+    <div class="row">
+        <div class="col-2 col-form-label">
+        </div>
+        <div class="col-2 col-form-label">
+            <strong>Minimum price</strong>
+        </div>
+        <div class="col-2 col-form-label">
+            <strong>Available at minimum price</strong>
+        </div>
+        <div class="col-2 col-form-label">
+            <strong>Total available</strong>
+        </div>
+        <div class="col-2 col-form-label">
+            <strong>Quantity</strong>
+        </div>
+        <div class="col-2 col-form-label">
+            <strong>Price</strong>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-2 col-form-label">
+            @Html.LabelFor(m => m.Food)
+        </div>
+        <div class="col-2 col-form-label">
+            @Model.FoodInfo.LowestPrice.ToString(StringFormat.Integer) <span class="si si-gold"></span>
+        </div>
+        <div class="col-2 col-form-label">
+            @Model.FoodInfo.AvailableAtLowestPrice.ToString(StringFormat.Integer) <span class="si si-food"></span>
+        </div>
+        <div class="col-2 col-form-label">
+            @Model.FoodInfo.TotalAvailable.ToString(StringFormat.Integer) <span class="si si-food"></span>
+        </div>
+        <div class="col-2">
+            @Html.TextBoxFor(m => m.Food, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Food, null, new { @class = "small form-text text-danger" })
+        </div>
+        <div class="col-2">
+            @Html.TextBoxFor(m => m.FoodPrice, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.FoodPrice, null, new { @class = "small form-text text-danger" })
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-2 col-form-label">
+            @Html.LabelFor(m => m.Wood)
+        </div>
+        <div class="col-2 col-form-label">
+            @Model.WoodInfo.LowestPrice.ToString(StringFormat.Integer) <span class="si si-gold"></span>
+        </div>
+        <div class="col-2 col-form-label">
+            @Model.WoodInfo.AvailableAtLowestPrice.ToString(StringFormat.Integer) <span class="si si-wood"></span>
+        </div>
+        <div class="col-2 col-form-label">
+            @Model.WoodInfo.TotalAvailable.ToString(StringFormat.Integer) <span class="si si-wood"></span>
+        </div>
+        <div class="col-2">
+            @Html.TextBoxFor(m => m.Wood, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Wood, null, new { @class = "small form-text text-danger" })
+        </div>
+        <div class="col-2">
+            @Html.TextBoxFor(m => m.WoodPrice, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.WoodPrice, null, new { @class = "small form-text text-danger" })
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-2 col-form-label">
+            @Html.LabelFor(m => m.Stone)
+        </div>
+        <div class="col-2 col-form-label">
+            @Model.StoneInfo.LowestPrice.ToString(StringFormat.Integer) <span class="si si-gold"></span>
+        </div>
+        <div class="col-2 col-form-label">
+            @Model.StoneInfo.AvailableAtLowestPrice.ToString(StringFormat.Integer) <span class="si si-stone"></span>
+        </div>
+        <div class="col-2 col-form-label">
+            @Model.StoneInfo.TotalAvailable.ToString(StringFormat.Integer) <span class="si si-stone"></span>
+        </div>
+        <div class="col-2">
+            @Html.TextBoxFor(m => m.Stone, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Stone, null, new { @class = "small form-text text-danger" })
+        </div>
+        <div class="col-2">
+            @Html.TextBoxFor(m => m.StonePrice, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.StonePrice, null, new { @class = "small form-text text-danger" })
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-2 col-form-label">
+            @Html.LabelFor(m => m.Ore)
+        </div>
+        <div class="col-2 col-form-label">
+            @Model.OreInfo.LowestPrice.ToString(StringFormat.Integer) <span class="si si-gold"></span>
+        </div>
+        <div class="col-2 col-form-label">
+            @Model.OreInfo.AvailableAtLowestPrice.ToString(StringFormat.Integer) <span class="si si-ore"></span>
+        </div>
+        <div class="col-2 col-form-label">
+            @Model.OreInfo.TotalAvailable.ToString(StringFormat.Integer) <span class="si si-ore"></span>
+        </div>
+        <div class="col-2">
+            @Html.TextBoxFor(m => m.Ore, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Ore, null, new { @class = "small form-text text-danger" })
+        </div>
+        <div class="col-2">
+            @Html.TextBoxFor(m => m.OrePrice, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.OrePrice, null, new { @class = "small form-text text-danger" })
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-10"></div>
+
+        <div class="col-2">
+            <button type="submit" class="btn btn-primary form-control">Sell</button>
+        </div>
+    </div>
+}
+
+@if (Model.CurrentCaravans.Any()) {
+    <h2>Current caravans</h2>
+
+    <p>
+        When you withdraw a caravan, a random amount of resources will be lost. The longer the caravan has been on the market, the higher the amount of resources
+        will generally be.
+    </p>
+
+    <div class="row">
+        <div class="col-2 col-form-label">
+            <strong>Date</strong>
+        </div>
+
+        <div class="col-2 col-form-label">
+            <strong>Food</strong>
+        </div>
+
+        <div class="col-2 col-form-label">
+            <strong>Wood</strong>
+        </div>
+
+        <div class="col-2 col-form-label">
+            <strong>Stone</strong>
+        </div>
+
+        <div class="col-2 col-form-label">
+            <strong>Ore</strong>
+        </div>
+
+        <div class="col-2 col-form-label">
+        </div>
+    </div>
+
+    for (var i = 0; i < Model.CurrentCaravans.Count; i++) {
+        using (Html.BeginForm("WithdrawCaravan", null, FormMethod.Post, new {
+            data_success_message = "Your caravan has been withdrawn."
+        })) {
+            @Html.Hidden("id", Model.CurrentCaravans[i].Id);
+
+            <div class="row site-spaced-small">
+                <div class="col-2 col-form-label">
+                    @Model.CurrentCaravans[i].Date.ToString(StringFormat.Date)
+                </div>
+
+                <div class="col-2 col-form-label">
+                    @Model.CurrentCaravans[i].Food.ToString(StringFormat.Integer) <span class="si si-food"></span>
+                    at @Model.CurrentCaravans[i].FoodPrice.ToString(StringFormat.Integer) <span class="si si-gold"></span>
+                </div>
+
+                <div class="col-2 col-form-label">
+                    @Model.CurrentCaravans[i].Wood.ToString(StringFormat.Integer) <span class="si si-wood"></span>
+                    at @Model.CurrentCaravans[i].WoodPrice.ToString(StringFormat.Integer) <span class="si si-gold"></span>
+                </div>
+
+                <div class="col-2 col-form-label">
+                    @Model.CurrentCaravans[i].Stone.ToString(StringFormat.Integer) <span class="si si-stone"></span>
+                    at @Model.CurrentCaravans[i].StonePrice.ToString(StringFormat.Integer) <span class="si si-gold"></span>
+                </div>
+
+                <div class="col-2 col-form-label">
+                    @Model.CurrentCaravans[i].Ore.ToString(StringFormat.Integer) <span class="si si-ore"></span>
+                    at @Model.CurrentCaravans[i].OrePrice.ToString(StringFormat.Integer) <span class="si si-gold"></span>
+                </div>
+
+                <div class="col-2">
+                    <button type="submit" class="btn btn-secondary form-control">Withdraw</button>
+                </div>
+            </div>
+        }
+    }
+}

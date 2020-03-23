@@ -53,8 +53,8 @@ namespace WarOfEmpires.QueryHandlers.Tests.Markets {
 
             var result = handler.Execute(query);
 
-            result.FoodInfo.MinimumPrice.Should().Be(5);
-            result.FoodInfo.AvailableAtMinimumPrice.Should().Be(20000);
+            result.FoodInfo.LowestPrice.Should().Be(5);
+            result.FoodInfo.AvailableAtLowestPrice.Should().Be(20000);
             result.FoodInfo.TotalAvailable.Should().Be(60000);
         }
 
@@ -65,8 +65,8 @@ namespace WarOfEmpires.QueryHandlers.Tests.Markets {
 
             var result = handler.Execute(query);
 
-            result.WoodInfo.MinimumPrice.Should().Be(4);
-            result.WoodInfo.AvailableAtMinimumPrice.Should().Be(24000);
+            result.WoodInfo.LowestPrice.Should().Be(4);
+            result.WoodInfo.AvailableAtLowestPrice.Should().Be(24000);
             result.WoodInfo.TotalAvailable.Should().Be(68000);
         }
 
@@ -77,8 +77,8 @@ namespace WarOfEmpires.QueryHandlers.Tests.Markets {
 
             var result = handler.Execute(query);
 
-            result.StoneInfo.MinimumPrice.Should().Be(3);
-            result.StoneInfo.AvailableAtMinimumPrice.Should().Be(28000);
+            result.StoneInfo.LowestPrice.Should().Be(3);
+            result.StoneInfo.AvailableAtLowestPrice.Should().Be(28000);
             result.StoneInfo.TotalAvailable.Should().Be(76000);
         }
 
@@ -89,8 +89,8 @@ namespace WarOfEmpires.QueryHandlers.Tests.Markets {
 
             var result = handler.Execute(query);
 
-            result.OreInfo.MinimumPrice.Should().Be(2);
-            result.OreInfo.AvailableAtMinimumPrice.Should().Be(32000);
+            result.OreInfo.LowestPrice.Should().Be(2);
+            result.OreInfo.AvailableAtLowestPrice.Should().Be(32000);
             result.OreInfo.TotalAvailable.Should().Be(84000);
         }
     }

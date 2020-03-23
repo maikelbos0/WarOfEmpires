@@ -13,20 +13,20 @@
 @using (Html.BeginForm(null, null, FormMethod.Post, new {
     data_success_message = "Your resources have been purchased."
 })) {
-    @Html.HiddenFor(m => m.FoodInfo.AvailableAtMinimumPrice)
-    @Html.HiddenFor(m => m.FoodInfo.MinimumPrice)
+    @Html.HiddenFor(m => m.FoodInfo.AvailableAtLowestPrice)
+    @Html.HiddenFor(m => m.FoodInfo.LowestPrice)
     @Html.HiddenFor(m => m.FoodInfo.TotalAvailable)
 
-    @Html.HiddenFor(m => m.WoodInfo.AvailableAtMinimumPrice)
-    @Html.HiddenFor(m => m.WoodInfo.MinimumPrice)
+    @Html.HiddenFor(m => m.WoodInfo.AvailableAtLowestPrice)
+    @Html.HiddenFor(m => m.WoodInfo.LowestPrice)
     @Html.HiddenFor(m => m.WoodInfo.TotalAvailable)
 
-    @Html.HiddenFor(m => m.StoneInfo.AvailableAtMinimumPrice)
-    @Html.HiddenFor(m => m.StoneInfo.MinimumPrice)
+    @Html.HiddenFor(m => m.StoneInfo.AvailableAtLowestPrice)
+    @Html.HiddenFor(m => m.StoneInfo.LowestPrice)
     @Html.HiddenFor(m => m.StoneInfo.TotalAvailable)
 
-    @Html.HiddenFor(m => m.OreInfo.AvailableAtMinimumPrice)
-    @Html.HiddenFor(m => m.OreInfo.MinimumPrice)
+    @Html.HiddenFor(m => m.OreInfo.AvailableAtLowestPrice)
+    @Html.HiddenFor(m => m.OreInfo.LowestPrice)
     @Html.HiddenFor(m => m.OreInfo.TotalAvailable)
 
     <div class="row">
@@ -54,10 +54,10 @@
             @Html.LabelFor(m => m.Food)
         </div>
         <div class="col-2 col-form-label">
-            @Model.FoodInfo.MinimumPrice.ToString(StringFormat.Integer) <span class="si si-gold"></span>
+            @Model.FoodInfo.LowestPrice.ToString(StringFormat.Integer) <span class="si si-gold"></span>
         </div>
         <div class="col-2 col-form-label">
-            @Model.FoodInfo.AvailableAtMinimumPrice.ToString(StringFormat.Integer) <span class="si si-food"></span>
+            @Model.FoodInfo.AvailableAtLowestPrice.ToString(StringFormat.Integer) <span class="si si-food"></span>
         </div>
         <div class="col-2 col-form-label">
             @Model.FoodInfo.TotalAvailable.ToString(StringFormat.Integer) <span class="si si-food"></span>
@@ -77,10 +77,10 @@
             @Html.LabelFor(m => m.Wood)
         </div>
         <div class="col-2 col-form-label">
-            @Model.WoodInfo.MinimumPrice.ToString(StringFormat.Integer) <span class="si si-gold"></span>
+            @Model.WoodInfo.LowestPrice.ToString(StringFormat.Integer) <span class="si si-gold"></span>
         </div>
         <div class="col-2 col-form-label">
-            @Model.WoodInfo.AvailableAtMinimumPrice.ToString(StringFormat.Integer) <span class="si si-wood"></span>
+            @Model.WoodInfo.AvailableAtLowestPrice.ToString(StringFormat.Integer) <span class="si si-wood"></span>
         </div>
         <div class="col-2 col-form-label">
             @Model.WoodInfo.TotalAvailable.ToString(StringFormat.Integer) <span class="si si-wood"></span>
@@ -100,10 +100,10 @@
             @Html.LabelFor(m => m.Stone)
         </div>
         <div class="col-2 col-form-label">
-            @Model.StoneInfo.MinimumPrice.ToString(StringFormat.Integer) <span class="si si-gold"></span>
+            @Model.StoneInfo.LowestPrice.ToString(StringFormat.Integer) <span class="si si-gold"></span>
         </div>
         <div class="col-2 col-form-label">
-            @Model.StoneInfo.AvailableAtMinimumPrice.ToString(StringFormat.Integer) <span class="si si-stone"></span>
+            @Model.StoneInfo.AvailableAtLowestPrice.ToString(StringFormat.Integer) <span class="si si-stone"></span>
         </div>
         <div class="col-2 col-form-label">
             @Model.StoneInfo.TotalAvailable.ToString(StringFormat.Integer) <span class="si si-stone"></span>
@@ -123,10 +123,10 @@
             @Html.LabelFor(m => m.Ore)
         </div>
         <div class="col-2 col-form-label">
-            @Model.OreInfo.MinimumPrice.ToString(StringFormat.Integer) <span class="si si-gold"></span>
+            @Model.OreInfo.LowestPrice.ToString(StringFormat.Integer) <span class="si si-gold"></span>
         </div>
         <div class="col-2 col-form-label">
-            @Model.OreInfo.AvailableAtMinimumPrice.ToString(StringFormat.Integer) <span class="si si-ore"></span>
+            @Model.OreInfo.AvailableAtLowestPrice.ToString(StringFormat.Integer) <span class="si si-ore"></span>
         </div>
         <div class="col-2 col-form-label">
             @Model.OreInfo.TotalAvailable.ToString(StringFormat.Integer) <span class="si si-ore"></span>

@@ -4,8 +4,10 @@ using System.Linq;
 using WarOfEmpires.Database;
 using WarOfEmpires.Domain.Markets;
 using WarOfEmpires.Domain.Security;
+using WarOfEmpires.Utilities.Container;
 
 namespace WarOfEmpires.Repositories.Markets {
+    [InterfaceInjectable]
     public class CaravanRepository : ICaravanRepository {
         private readonly IWarContext _context;
 

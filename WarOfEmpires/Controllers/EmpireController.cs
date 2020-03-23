@@ -18,6 +18,29 @@ namespace WarOfEmpires.Controllers {
             return View(_messageService.Dispatch(new GetWorkersQuery(_authenticationService.Identity)));
         }
 
+        [Route("Workers")]
+        [HttpPost]
+        public ActionResult Workers(WorkerModel model) {
+            switch (model.Command) {
+                case "train":
+                    return ValidatedCommandResult(model,
+                        new TrainWorkersCommand(_authenticationService.Identity, model.Farmers, model.WoodWorkers, model.StoneMasons, model.OreMiners, model.SiegeEngineers, model.Merchants),
+                        () => Workers());
+                case "untrain":
+                    return ValidatedCommandResult(model,
+                        new UntrainWorkersCommand(_authenticationService.Identity, model.Farmers, model.WoodWorkers, model.StoneMasons, model.OreMiners, model.SiegeEngineers, model.Merchants),
+                        () => Workers());
+                default:
+                    throw new InvalidOperationException($"Invalid operation '{model.Command}' found");
+            }
+        }
+
+        [Route("Troops")]
+        [HttpGet]
+        public ActionResult Troops() {
+            return View(_messageService.Dispatch(new GetTroopsQuery(_authenticationService.Identity)));
+        }
+
         [Route("Troops")]
         [HttpPost]
         public ActionResult Troops(TroopModel model) {
@@ -37,29 +60,6 @@ namespace WarOfEmpires.Controllers {
                 default:
                     throw new InvalidOperationException($"Invalid operation '{model.Command}' found");
 
-            }
-        }
-
-        [Route("Troops")]
-        [HttpGet]
-        public ActionResult Troops() {
-            return View(_messageService.Dispatch(new GetTroopsQuery(_authenticationService.Identity)));
-        }
-
-        [Route("Workers")]
-        [HttpPost]
-        public ActionResult Workers(WorkerModel model) {
-            switch (model.Command) {
-                case "train":
-                    return ValidatedCommandResult(model,
-                        new TrainWorkersCommand(_authenticationService.Identity, model.Farmers, model.WoodWorkers, model.StoneMasons, model.OreMiners, model.SiegeEngineers, model.Merchants),
-                        () => Workers());
-                case "untrain":
-                    return ValidatedCommandResult(model,
-                        new UntrainWorkersCommand(_authenticationService.Identity, model.Farmers, model.WoodWorkers, model.StoneMasons, model.OreMiners, model.SiegeEngineers, model.Merchants),
-                        () => Workers());
-                default:
-                    throw new InvalidOperationException($"Invalid operation '{model.Command}' found");
             }
         }
 

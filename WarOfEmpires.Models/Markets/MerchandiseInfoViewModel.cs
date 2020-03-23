@@ -1,7 +1,7 @@
 ﻿namespace WarOfEmpires.Models.Markets {
     public sealed class MerchandiseInfoViewModel {
-        public int MinimumPrice { get; set; }
-        public int AvailableAtMinimumPrice { get; set; }
+        public int LowestPrice { get; set; }
+        public int AvailableAtLowestPrice { get; set; }
         public int TotalAvailable { get; set; }
     }
 }
