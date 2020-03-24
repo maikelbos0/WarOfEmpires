@@ -2,6 +2,9 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using WarOfEmpires.Domain.Markets;
 using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Repositories.Players;
@@ -15,19 +18,46 @@ namespace WarOfEmpires.Repositories.Tests.Players {
         [TestInitialize]
         public void Initialize() {
             var id = 1;
+            var caravanId = 1;
 
             foreach (var status in new[] { UserStatus.Active, UserStatus.Inactive, UserStatus.New }) {
                 var user = Substitute.For<User>();
                 var player = Substitute.For<Player>();
+                var caravans = new List<Caravan>();
 
                 user.Status.Returns(status);
                 user.Email.Returns($"test_{id}@test.com");
                 user.Id.Returns(id);
                 player.User.Returns(user);
                 player.Id.Returns(id++);
+                player.Caravans.Returns(caravans);
 
                 _context.Users.Add(user);
                 _context.Players.Add(player);
+
+                for (var price = 5; price > 3; price--) {
+                    foreach (var type in new[] { MerchandiseType.Wood, MerchandiseType.Stone }) {
+                        var caravan = Substitute.For<Caravan>();
+
+                        caravan.Id.Returns(caravanId++);
+                        caravan.Player.Returns(player);
+                        caravan.Merchandise.Returns(new List<Merchandise>() {
+                            new Merchandise(type, 10000, price)
+                        });
+
+                        caravans.Add(caravan);
+
+                        var emptyCaravan = Substitute.For<Caravan>();
+
+                        emptyCaravan.Id.Returns(caravanId++);
+                        emptyCaravan.Player.Returns(player);
+                        emptyCaravan.Merchandise.Returns(new List<Merchandise>() {
+                            new Merchandise(type, 0, price)
+                        });
+
+                        caravans.Add(emptyCaravan);
+                    }
+                }
             }
         }
 
@@ -139,6 +169,45 @@ namespace WarOfEmpires.Repositories.Tests.Players {
             var repository = new PlayerRepository(_context);
 
             repository.Update();
+
+            _context.CallsToSaveChanges.Should().Be(1);
+        }
+
+        [TestMethod]
+        public void CaravanRepository_GetForMerchandiseType_Succeeds() {
+            var repository = new PlayerRepository(_context);
+
+            var result = repository.GetCaravans(MerchandiseType.Wood);
+
+            result.Should().HaveCount(2);
+            result.Should().Contain(c => c.Id == 5 && c.Merchandise.Any(m => m.Type == MerchandiseType.Wood && m.Price == 4));
+            result.Should().Contain(c => c.Id == 1 && c.Merchandise.Any(m => m.Type == MerchandiseType.Wood && m.Price == 5));
+        }
+
+        [TestMethod]
+        public void CaravanRepository_GetForMerchandiseType_Does_Not_Save() {
+            var repository = new PlayerRepository(_context);
+
+            repository.GetCaravans(MerchandiseType.Wood);
+
+            _context.CallsToSaveChanges.Should().Be(0);
+        }
+
+        [TestMethod]
+        public void CaravanRepository_Remove_Succeeds() {
+            var repository = new PlayerRepository(_context);
+            var previousCaravanCount = _context.Players.Sum(p => p.Caravans.Count());
+
+            repository.RemoveCaravan(_context.Players.First().Caravans.First());
+
+            _context.Players.Sum(p => p.Caravans.Count()).Should().Be(previousCaravanCount - 1);
+        }
+
+        [TestMethod]
+        public void CaravanRepository_Remove_Saves() {
+            var repository = new PlayerRepository(_context);
+
+            repository.RemoveCaravan(_context.Players.First().Caravans.First());
 
             _context.CallsToSaveChanges.Should().Be(1);
         }

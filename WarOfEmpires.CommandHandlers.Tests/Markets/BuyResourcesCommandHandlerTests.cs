@@ -1,7 +1,6 @@
 ﻿using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using WarOfEmpires.CommandHandlers.Markets;
@@ -10,7 +9,6 @@ using WarOfEmpires.Domain.Common;
 using WarOfEmpires.Domain.Markets;
 using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Domain.Security;
-using WarOfEmpires.Repositories.Markets;
 using WarOfEmpires.Repositories.Players;
 using WarOfEmpires.Test.Utilities;
 using WarOfEmpires.Utilities.Formatting;
@@ -19,16 +17,14 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
     [TestClass]
     public sealed class BuyResourcesCommandHandlerTests {
         private readonly FakeWarContext _context = new FakeWarContext();
-        private readonly CaravanRepository _repository;
-        private readonly PlayerRepository _playerRepository;
+        private readonly PlayerRepository _repository;
         private readonly Player _buyer;
         private readonly Player _seller;
         private readonly List<Caravan> _caravans;
         private readonly EnumFormatter _formatter = new EnumFormatter();
 
         public BuyResourcesCommandHandlerTests() {
-            _repository = new CaravanRepository(_context);
-            _playerRepository = new PlayerRepository(_context);
+            _repository = new PlayerRepository(_context);
 
             var buyerUser = Substitute.For<User>();
             buyerUser.Email.Returns("test@test.com");
@@ -75,7 +71,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
 
         [TestMethod]
         public void BuyResourcesCommandHandler_Succeeds() {
-            var handler = new BuyResourcesCommandHandler(_repository, _playerRepository, _formatter);
+            var handler = new BuyResourcesCommandHandler(_repository, _formatter);
             var command = new BuyResourcesCommand("test@test.com", "", "", "16000", "5", "", "", "", "");
 
             var result = handler.Execute(command);
@@ -92,8 +88,8 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
         }
 
         [TestMethod]
-        public void BuyResourcesCommandHandler_Deletes_Empty_Caravans() {
-            var handler = new BuyResourcesCommandHandler(_repository, _playerRepository, _formatter);
+        public void BuyResourcesCommandHandler_Removes_Empty_Caravans() {
+            var handler = new BuyResourcesCommandHandler(_repository, _formatter);
             var command = new BuyResourcesCommand("test@test.com", "", "", "16000", "5", "", "", "", "");
             var previousCaravanCount = _context.Players.Sum(c => c.Caravans.Count());
 
@@ -104,7 +100,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
 
         [TestMethod]
         public void BuyResourcesCommandHandler_Allows_Empty_Values() {
-            var handler = new BuyResourcesCommandHandler(_repository, _playerRepository, _formatter);
+            var handler = new BuyResourcesCommandHandler(_repository, _formatter);
             var command = new BuyResourcesCommand("test@test.com", "", "", "", "", "", "", "", "");
 
             var result = handler.Execute(command);
@@ -120,7 +116,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
         public void BuyResourcesCommandHandler_Fails_For_Too_Little_Gold() {
             _buyer.CanAfford(Arg.Any<Resources>()).Returns(c => c.ArgAt<Resources>(0).Gold == 0);
 
-            var handler = new BuyResourcesCommandHandler(_repository, _playerRepository, _formatter);
+            var handler = new BuyResourcesCommandHandler(_repository, _formatter);
             var command = new BuyResourcesCommand("test@test.com", "", "", "16000", "5", "", "", "", "");
 
             var result = handler.Execute(command);
@@ -138,7 +134,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
 
         [TestMethod]
         public void BuyResourcesCommandHandler_Gives_Warning_For_Too_Little_Available_Food() {
-            var handler = new BuyResourcesCommandHandler(_repository, _playerRepository, _formatter);
+            var handler = new BuyResourcesCommandHandler(_repository, _formatter);
             var command = new BuyResourcesCommand("test@test.com", "10001", "4", "", "", "", "", "", "");
 
             var result = handler.Execute(command);
@@ -157,7 +153,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
 
         [TestMethod]
         public void BuyResourcesCommandHandler_Gives_Warning_For_Too_Little_Available_Wood() {
-            var handler = new BuyResourcesCommandHandler(_repository, _playerRepository, _formatter);
+            var handler = new BuyResourcesCommandHandler(_repository, _formatter);
             var command = new BuyResourcesCommand("test@test.com", "", "", "10001", "4", "", "", "", "");
 
             var result = handler.Execute(command);
@@ -176,7 +172,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
 
         [TestMethod]
         public void BuyResourcesCommandHandler_Gives_Warning_For_Too_Little_Available_Stone() {
-            var handler = new BuyResourcesCommandHandler(_repository, _playerRepository, _formatter);
+            var handler = new BuyResourcesCommandHandler(_repository, _formatter);
             var command = new BuyResourcesCommand("test@test.com", "", "", "", "", "10001", "4", "", "");
 
             var result = handler.Execute(command);
@@ -195,7 +191,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
 
         [TestMethod]
         public void BuyResourcesCommandHandler_Gives_Warning_For_Too_Little_Available_Ore() {
-            var handler = new BuyResourcesCommandHandler(_repository, _playerRepository, _formatter);
+            var handler = new BuyResourcesCommandHandler(_repository, _formatter);
             var command = new BuyResourcesCommand("test@test.com", "", "", "", "", "", "", "10001", "4");
 
             var result = handler.Execute(command);
@@ -214,7 +210,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
 
         [TestMethod]
         public void BuyResourcesCommandHandler_Fails_For_Alphanumeric_Food() {
-            var handler = new BuyResourcesCommandHandler(_repository, _playerRepository, _formatter);
+            var handler = new BuyResourcesCommandHandler(_repository, _formatter);
             var command = new BuyResourcesCommand("test@test.com", "A", "5", "", "", "", "", "", "");
 
             var result = handler.Execute(command);
@@ -232,7 +228,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
 
         [TestMethod]
         public void BuyResourcesCommandHandler_Fails_For_Negative_Food() {
-            var handler = new BuyResourcesCommandHandler(_repository, _playerRepository, _formatter);
+            var handler = new BuyResourcesCommandHandler(_repository, _formatter);
             var command = new BuyResourcesCommand("test@test.com", "-1", "5", "", "", "", "", "", "");
 
             var result = handler.Execute(command);
@@ -250,7 +246,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
 
         [TestMethod]
         public void BuyResourcesCommandHandler_Fails_For_Alphanumeric_FoodPrice() {
-            var handler = new BuyResourcesCommandHandler(_repository, _playerRepository, _formatter);
+            var handler = new BuyResourcesCommandHandler(_repository, _formatter);
             var command = new BuyResourcesCommand("test@test.com", "5", "A", "", "", "", "", "", "");
 
             var result = handler.Execute(command);
@@ -268,7 +264,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
 
         [TestMethod]
         public void BuyResourcesCommandHandler_Fails_For_Negative_FoodPrice() {
-            var handler = new BuyResourcesCommandHandler(_repository, _playerRepository, _formatter);
+            var handler = new BuyResourcesCommandHandler(_repository, _formatter);
             var command = new BuyResourcesCommand("test@test.com", "5", "-1", "", "", "", "", "", "");
 
             var result = handler.Execute(command);
@@ -286,7 +282,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
 
         [TestMethod]
         public void BuyResourcesCommandHandler_Fails_For_Food_Without_FoodPrice() {
-            var handler = new BuyResourcesCommandHandler(_repository, _playerRepository, _formatter);
+            var handler = new BuyResourcesCommandHandler(_repository, _formatter);
             var command = new BuyResourcesCommand("test@test.com", "5", "", "", "", "", "", "", "");
 
             var result = handler.Execute(command);
@@ -304,7 +300,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
 
         [TestMethod]
         public void BuyResourcesCommandHandler_Fails_For_Alphanumeric_Wood() {
-            var handler = new BuyResourcesCommandHandler(_repository, _playerRepository, _formatter);
+            var handler = new BuyResourcesCommandHandler(_repository, _formatter);
             var command = new BuyResourcesCommand("test@test.com", "", "", "A", "5", "", "", "", "");
 
             var result = handler.Execute(command);
@@ -322,7 +318,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
 
         [TestMethod]
         public void BuyResourcesCommandHandler_Fails_For_Negative_Wood() {
-            var handler = new BuyResourcesCommandHandler(_repository, _playerRepository, _formatter);
+            var handler = new BuyResourcesCommandHandler(_repository, _formatter);
             var command = new BuyResourcesCommand("test@test.com", "", "", "-1", "5", "", "", "", "");
 
             var result = handler.Execute(command);
@@ -340,7 +336,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
 
         [TestMethod]
         public void BuyResourcesCommandHandler_Fails_For_Alphanumeric_WoodPrice() {
-            var handler = new BuyResourcesCommandHandler(_repository, _playerRepository, _formatter);
+            var handler = new BuyResourcesCommandHandler(_repository, _formatter);
             var command = new BuyResourcesCommand("test@test.com", "", "", "5", "A", "", "", "", "");
 
             var result = handler.Execute(command);
@@ -358,7 +354,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
 
         [TestMethod]
         public void BuyResourcesCommandHandler_Fails_For_Negative_WoodPrice() {
-            var handler = new BuyResourcesCommandHandler(_repository, _playerRepository, _formatter);
+            var handler = new BuyResourcesCommandHandler(_repository, _formatter);
             var command = new BuyResourcesCommand("test@test.com", "", "", "5", "-1", "", "", "", "");
 
             var result = handler.Execute(command);
@@ -376,7 +372,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
 
         [TestMethod]
         public void BuyResourcesCommandHandler_Fails_For_Wood_Without_WoodPrice() {
-            var handler = new BuyResourcesCommandHandler(_repository, _playerRepository, _formatter);
+            var handler = new BuyResourcesCommandHandler(_repository, _formatter);
             var command = new BuyResourcesCommand("test@test.com", "", "", "5", "", "", "", "", "");
 
             var result = handler.Execute(command);
@@ -394,7 +390,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
 
         [TestMethod]
         public void BuyResourcesCommandHandler_Fails_For_Alphanumeric_Stone() {
-            var handler = new BuyResourcesCommandHandler(_repository, _playerRepository, _formatter);
+            var handler = new BuyResourcesCommandHandler(_repository, _formatter);
             var command = new BuyResourcesCommand("test@test.com", "", "", "", "", "A", "5", "", "");
 
             var result = handler.Execute(command);
@@ -412,7 +408,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
 
         [TestMethod]
         public void BuyResourcesCommandHandler_Fails_For_Negative_Stone() {
-            var handler = new BuyResourcesCommandHandler(_repository, _playerRepository, _formatter);
+            var handler = new BuyResourcesCommandHandler(_repository, _formatter);
             var command = new BuyResourcesCommand("test@test.com", "", "", "", "", "-1", "5", "", "");
 
             var result = handler.Execute(command);
@@ -430,7 +426,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
 
         [TestMethod]
         public void BuyResourcesCommandHandler_Fails_For_Alphanumeric_StonePrice() {
-            var handler = new BuyResourcesCommandHandler(_repository, _playerRepository, _formatter);
+            var handler = new BuyResourcesCommandHandler(_repository, _formatter);
             var command = new BuyResourcesCommand("test@test.com", "", "", "", "", "5", "A", "", "");
 
             var result = handler.Execute(command);
@@ -448,7 +444,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
 
         [TestMethod]
         public void BuyResourcesCommandHandler_Fails_For_Negative_StonePrice() {
-            var handler = new BuyResourcesCommandHandler(_repository, _playerRepository, _formatter);
+            var handler = new BuyResourcesCommandHandler(_repository, _formatter);
             var command = new BuyResourcesCommand("test@test.com", "", "", "", "", "5", "-1", "", "");
 
             var result = handler.Execute(command);
@@ -466,7 +462,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
 
         [TestMethod]
         public void BuyResourcesCommandHandler_Fails_For_Stone_Without_StonePrice() {
-            var handler = new BuyResourcesCommandHandler(_repository, _playerRepository, _formatter);
+            var handler = new BuyResourcesCommandHandler(_repository, _formatter);
             var command = new BuyResourcesCommand("test@test.com", "", "", "", "", "5", "", "", "");
 
             var result = handler.Execute(command);
@@ -484,7 +480,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
 
         [TestMethod]
         public void BuyResourcesCommandHandler_Fails_For_Alphanumeric_Ore() {
-            var handler = new BuyResourcesCommandHandler(_repository, _playerRepository, _formatter);
+            var handler = new BuyResourcesCommandHandler(_repository, _formatter);
             var command = new BuyResourcesCommand("test@test.com", "", "", "", "", "", "", "A", "5");
 
             var result = handler.Execute(command);
@@ -502,7 +498,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
 
         [TestMethod]
         public void BuyResourcesCommandHandler_Fails_For_Negative_Ore() {
-            var handler = new BuyResourcesCommandHandler(_repository, _playerRepository, _formatter);
+            var handler = new BuyResourcesCommandHandler(_repository, _formatter);
             var command = new BuyResourcesCommand("test@test.com", "", "", "", "", "", "", "-1", "5");
 
             var result = handler.Execute(command);
@@ -520,7 +516,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
 
         [TestMethod]
         public void BuyResourcesCommandHandler_Fails_For_Alphanumeric_OrePrice() {
-            var handler = new BuyResourcesCommandHandler(_repository, _playerRepository, _formatter);
+            var handler = new BuyResourcesCommandHandler(_repository, _formatter);
             var command = new BuyResourcesCommand("test@test.com", "", "", "", "", "", "", "5", "A");
 
             var result = handler.Execute(command);
@@ -538,7 +534,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
 
         [TestMethod]
         public void BuyResourcesCommandHandler_Fails_For_Negative_OrePrice() {
-            var handler = new BuyResourcesCommandHandler(_repository, _playerRepository, _formatter);
+            var handler = new BuyResourcesCommandHandler(_repository, _formatter);
             var command = new BuyResourcesCommand("test@test.com", "", "", "", "", "", "", "5", "-1");
 
             var result = handler.Execute(command);
@@ -556,7 +552,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
 
         [TestMethod]
         public void BuyResourcesCommandHandler_Fails_For_Ore_Without_OrePrice() {
-            var handler = new BuyResourcesCommandHandler(_repository, _playerRepository, _formatter);
+            var handler = new BuyResourcesCommandHandler(_repository, _formatter);
             var command = new BuyResourcesCommand("test@test.com", "", "", "", "", "", "", "5", "");
 
             var result = handler.Execute(command);

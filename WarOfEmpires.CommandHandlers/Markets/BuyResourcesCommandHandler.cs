@@ -6,7 +6,6 @@ using WarOfEmpires.CommandHandlers.Decorators;
 using WarOfEmpires.Commands.Markets;
 using WarOfEmpires.Domain.Common;
 using WarOfEmpires.Domain.Markets;
-using WarOfEmpires.Repositories.Markets;
 using WarOfEmpires.Repositories.Players;
 using WarOfEmpires.Utilities.Container;
 using WarOfEmpires.Utilities.Formatting;
@@ -15,13 +14,11 @@ namespace WarOfEmpires.CommandHandlers.Markets {
     [InterfaceInjectable]
     [Audit]
     public sealed class BuyResourcesCommandHandler : ICommandHandler<BuyResourcesCommand> {
-        private readonly ICaravanRepository _repository;
-        private readonly IPlayerRepository _playerRepository;
+        private readonly IPlayerRepository _repository;
         private readonly EnumFormatter _formatter;
 
-        public BuyResourcesCommandHandler(ICaravanRepository repository, IPlayerRepository playerRepository, EnumFormatter formatter) {
+        public BuyResourcesCommandHandler(IPlayerRepository repository, EnumFormatter formatter) {
             _repository = repository;
-            _playerRepository = playerRepository;
             _formatter = formatter;
         }
 
@@ -55,29 +52,32 @@ namespace WarOfEmpires.CommandHandlers.Markets {
         public CommandResult<BuyResourcesCommand> Execute(BuyResourcesCommand command) {
             var result = new CommandResult<BuyResourcesCommand>();
             var merchandiseTotals = new List<MerchandiseTotals>();
-            var player = _playerRepository.Get(command.Email);
+            var player = _repository.Get(command.Email);
 
             merchandiseTotals.AddRange(ParseMerchandise(command, result, MerchandiseType.Food, c => c.Food, c => c.FoodPrice));
             merchandiseTotals.AddRange(ParseMerchandise(command, result, MerchandiseType.Wood, c => c.Wood, c => c.WoodPrice));
             merchandiseTotals.AddRange(ParseMerchandise(command, result, MerchandiseType.Stone, c => c.Stone, c => c.StonePrice));
             merchandiseTotals.AddRange(ParseMerchandise(command, result, MerchandiseType.Ore, c => c.Ore, c => c.OrePrice));
 
-            if (!player.CanAfford(new Resources(gold:  merchandiseTotals.Sum(m => m.Price * m.Quantity)))) {
+            if (!player.CanAfford(new Resources(gold: merchandiseTotals.Sum(m => m.Price * m.Quantity)))) {
                 result.AddError("You don't have enough gold available to buy this many resources");
             }
 
             if (result.Success) {
                 foreach (var totals in merchandiseTotals) {
-                    var caravans = _repository.GetForMerchandiseType(totals.Type);
                     var quantity = totals.Quantity;
+                    var caravans = _repository.GetCaravans(totals.Type)
+                        .Where(c => c.Merchandise.Any(m => m.Type == totals.Type && m.Price <= totals.Price))
+                        .OrderBy(c => c.Merchandise.Single(m => m.Type == totals.Type).Price)
+                        .ThenBy(c => c.Id);
 
-                    foreach (var caravan in caravans.Where(c => c.Merchandise.Any(m => m.Type == totals.Type && m.Price <= totals.Price))) {
+                    foreach (var caravan in caravans) {
                         quantity = caravan.Buy(player, totals.Type, quantity);
 
                         if (!caravan.Merchandise.Any(m => m.Quantity > 0)) {
-                            _repository.Remove(caravan);
+                            _repository.RemoveCaravan(caravan);
                         }
-                        
+
                         if (quantity == 0) {
                             break;
                         }

@@ -77,7 +77,6 @@
   <ItemGroup>
     <Compile Include="Auditing\CommandExecutionRepositoryTests.cs" />
     <Compile Include="Events\ScheduledTaskRepositoryTests.cs" />
-    <Compile Include="Markets\CaravanRepositoryTests.cs" />
     <Compile Include="Players\PlayerRepositoryTests.cs" />
     <Compile Include="Security\UserRepositoryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

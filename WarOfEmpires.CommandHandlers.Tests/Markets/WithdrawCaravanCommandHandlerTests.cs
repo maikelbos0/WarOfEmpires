@@ -8,7 +8,6 @@ using WarOfEmpires.Commands.Markets;
 using WarOfEmpires.Domain.Markets;
 using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Domain.Security;
-using WarOfEmpires.Repositories.Markets;
 using WarOfEmpires.Repositories.Players;
 using WarOfEmpires.Test.Utilities;
 
@@ -17,13 +16,11 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
     public sealed class WithdrawCaravanCommandHandlerTests {
         private readonly FakeWarContext _context = new FakeWarContext();
         private readonly PlayerRepository _repository;
-        private readonly CaravanRepository _caravanRepository;
         private readonly Player _player;
         private readonly Caravan _caravan;
 
         public WithdrawCaravanCommandHandlerTests() {
             _repository = new PlayerRepository(_context);
-            _caravanRepository = new CaravanRepository(_context);
 
             var user = Substitute.For<User>();
             user.Email.Returns("test@test.com");
@@ -50,7 +47,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
 
         [TestMethod]
         public void WithdrawCaravanCommandHandler_Succeeds() {
-            var handler = new WithdrawCaravanCommandHandler(_repository, _caravanRepository);
+            var handler = new WithdrawCaravanCommandHandler(_repository);
             var command = new WithdrawCaravanCommand("test@test.com", "1");
 
             var result = handler.Execute(command);
@@ -59,12 +56,12 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
 
             _caravan.Received().Withdraw();
             _player.Caravans.Should().NotContain(_caravan);
-            _context.CallsToSaveChanges.Should().Be(2);
+            _context.CallsToSaveChanges.Should().Be(1);
         }
 
         [TestMethod]
         public void WithdrawCaravanCommandHandler_Throws_Exception_For_Alphanumeric_CaravanId() {
-            var handler = new WithdrawCaravanCommandHandler(_repository, _caravanRepository);
+            var handler = new WithdrawCaravanCommandHandler(_repository);
             var command = new WithdrawCaravanCommand("test@test.com", "A");
 
             Action commandAction = () => {
@@ -79,7 +76,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
 
         [TestMethod]
         public void WithdrawCaravanCommandHandler_Throws_Exception_For_Invalid_CaravanId() {
-            var handler = new WithdrawCaravanCommandHandler(_repository, _caravanRepository);
+            var handler = new WithdrawCaravanCommandHandler(_repository);
             var command = new WithdrawCaravanCommand("test@test.com", "51");
 
             Action commandAction = () => {
@@ -94,7 +91,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
 
         [TestMethod]
         public void WithdrawCaravanCommandHandler_Throws_Exception_For_Caravan_Of_Different_Player() {
-            var handler = new WithdrawCaravanCommandHandler(_repository, _caravanRepository);
+            var handler = new WithdrawCaravanCommandHandler(_repository);
             var command = new WithdrawCaravanCommand("not@test.com", "1");
 
             Action commandAction = () => {
