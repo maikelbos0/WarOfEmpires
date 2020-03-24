@@ -52,6 +52,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
             _caravans.Add(CreateCaravan(9, MerchandiseType.Ore, 10000, 4));
             _seller.Caravans.Returns(new List<Caravan>(_caravans));
             _seller.User.Returns(sellerUser);
+            _seller.CanAfford(Arg.Any<Resources>()).Returns(true);
 
             _context.Users.Add(buyerUser);
             _context.Players.Add(_buyer);
@@ -96,6 +97,21 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
             var result = handler.Execute(command);
 
             _context.Players.Sum(c => c.Caravans.Count()).Should().Be(previousCaravanCount - 1);
+        }
+
+        [TestMethod]
+        public void BuyResourcesCommandHandler_Does_Not_Buy_From_Self() {
+            var handler = new BuyResourcesCommandHandler(_repository, _formatter);
+            var command = new BuyResourcesCommand("seller@test.com", "", "", "1", "5", "", "", "", "");
+
+            var result = handler.Execute(command);
+
+            result.Success.Should().BeTrue();
+            result.Warnings.Should().HaveCount(1);
+
+            foreach (var caravan in _caravans) {
+                caravan.DidNotReceiveWithAnyArgs().Buy(default, default, default);
+            }
         }
 
         [TestMethod]

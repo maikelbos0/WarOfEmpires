@@ -68,6 +68,7 @@ namespace WarOfEmpires.CommandHandlers.Markets {
                     var quantity = totals.Quantity;
                     var caravans = _repository.GetCaravans(totals.Type)
                         .Where(c => c.Merchandise.Any(m => m.Type == totals.Type && m.Price <= totals.Price))
+                        .Where(c => c.Player != player)
                         .OrderBy(c => c.Merchandise.Single(m => m.Type == totals.Type).Price)
                         .ThenBy(c => c.Id);
 
