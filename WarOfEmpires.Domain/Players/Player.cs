@@ -45,6 +45,8 @@ namespace WarOfEmpires.Domain.Players {
         public virtual ICollection<Attack> ExecutedAttacks { get; protected set; } = new List<Attack>();
         public virtual ICollection<Attack> ReceivedAttacks { get; protected set; } = new List<Attack>();
         public virtual ICollection<Caravan> Caravans { get; protected set; } = new List<Caravan>();
+        public virtual ICollection<Transaction> BuyTransactions { get; protected set; } = new List<Transaction>();
+        public virtual ICollection<Transaction> SellTransactions { get; protected set; } = new List<Transaction>();
 
         protected Player() {
         }

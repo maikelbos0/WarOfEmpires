@@ -83,6 +83,7 @@
     <Compile Include="Markets\Merchandise.cs" />
     <Compile Include="Markets\MerchandiseTotals.cs" />
     <Compile Include="Markets\MerchandiseType.cs" />
+    <Compile Include="Markets\Transaction.cs" />
     <Compile Include="Players\Message.cs" />
     <Compile Include="Players\ProductionInfo.cs" />
     <Compile Include="Empires\RecruitTaskTriggeredEvent.cs" />

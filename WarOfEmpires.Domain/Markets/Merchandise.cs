@@ -29,11 +29,14 @@ namespace WarOfEmpires.Domain.Markets {
             var quantity = Math.Min(requestedQuantity, Quantity);
             var cost = quantity * Price;
             var profit = (int)((1 - SalesTax) * cost);
+            var transaction = new Transaction(Type, quantity, Price);
 
             Quantity -= quantity;
             seller.AddResources(new Resources(gold: profit));
+            seller.SellTransactions.Add(transaction);
             buyer.SpendResources(new Resources(gold: cost));
             buyer.AddResources(MerchandiseTotals.ToResources(Type, quantity));
+            buyer.BuyTransactions.Add(transaction);
 
             return requestedQuantity - quantity;
         }
