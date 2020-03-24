@@ -178,6 +178,14 @@
     <Compile Include="Migrations\202003111619522_Caravans-Date.Designer.cs">
       <DependentUpon>202003111619522_Caravans-Date.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202003241922198_Markets-Transactions.cs" />
+    <Compile Include="Migrations\202003241922198_Markets-Transactions.Designer.cs">
+      <DependentUpon>202003241922198_Markets-Transactions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202003241929251_Markets-TransactionDate.cs" />
+    <Compile Include="Migrations\202003241929251_Markets-TransactionDate.Designer.cs">
+      <DependentUpon>202003241929251_Markets-TransactionDate.cs</DependentUpon>
+    </Compile>
     <Compile Include="ReferenceEntities\AttackResultEntity.cs" />
     <Compile Include="ReferenceEntities\AttackTypeEntity.cs" />
     <Compile Include="ReferenceEntities\BaseReferenceEntity.cs" />
@@ -304,6 +312,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202003111619522_Caravans-Date.resx">
       <DependentUpon>202003111619522_Caravans-Date.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003241922198_Markets-Transactions.resx">
+      <DependentUpon>202003241922198_Markets-Transactions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003241929251_Markets-TransactionDate.resx">
+      <DependentUpon>202003241929251_Markets-TransactionDate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

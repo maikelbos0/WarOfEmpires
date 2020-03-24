@@ -89,6 +89,8 @@ namespace WarOfEmpires.Database {
             players.HasMany(p => p.ReceivedMessages).WithRequired(m => m.Recipient);
             players.HasMany(p => p.ExecutedAttacks).WithRequired(a => a.Attacker).WillCascadeOnDelete(false);
             players.HasMany(p => p.ReceivedAttacks).WithRequired(a => a.Defender).WillCascadeOnDelete(false);
+            players.HasMany(p => p.BuyTransactions).WithRequired().Map(a => a.MapKey("Buyer_Id"));
+            players.HasMany(p => p.SellTransactions).WithRequired().Map(a => a.MapKey("Seller_Id")).WillCascadeOnDelete(false);
             players.HasMany(p => p.Caravans).WithRequired(a => a.Player);
             players.Property(p => p.DisplayName).IsRequired().HasMaxLength(25);
             players.Property(p => p.Resources.Gold).HasColumnName("Gold");
@@ -126,6 +128,8 @@ namespace WarOfEmpires.Database {
             var merchandiseTypes = modelBuilder.Entity<MerchandiseTypeEntity>().ToTable("MerchandiseTypes", "Markets").HasKey(t => t.Id);
             merchandiseTypes.HasMany(m => m.Merchandise).WithRequired().HasForeignKey(m => m.Type);
             merchandiseTypes.Property(m => m.Name).IsRequired();
+
+            modelBuilder.Entity<Markets.Transaction>().ToTable("Transactions", "Markets");
         }
 
         private void OnAttacksModelCreating(DbModelBuilder modelBuilder) {

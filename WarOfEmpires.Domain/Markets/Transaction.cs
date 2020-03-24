@@ -1,8 +1,11 @@
-﻿namespace WarOfEmpires.Domain.Markets {
+﻿using System;
+
+namespace WarOfEmpires.Domain.Markets {
     public sealed class Transaction : Entity {
         public MerchandiseType Type { get; private set; }
         public int Quantity { get; private set; }
         public int Price { get; private set; }
+        public DateTime Date { get; private set; }
         public bool IsRead { get; set; }
 
         private Transaction() {
@@ -12,6 +15,7 @@
             Type = type;
             Quantity = quantity;
             Price = price;
+            Date = DateTime.UtcNow;
         }
     }
 }
