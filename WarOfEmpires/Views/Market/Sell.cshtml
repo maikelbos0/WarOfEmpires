@@ -1,10 +1,10 @@
-﻿@model WarOfEmpires.Models.Markets.CaravansModel
+﻿@model WarOfEmpires.Models.Markets.MarketModel
 
 @{
-    ViewBag.Title = "Caravans";
+    ViewBag.Title = "Sell resources";
 }
 
-<h2>Caravans</h2>
+<h2>Sell resources</h2>
 
 <p>
     Send out new caravans to sell your resources on the market, or call back caravans currently on the market. You are able to send off multiple caravans at once,
@@ -36,19 +36,6 @@
     @Html.HiddenFor(m => m.OreInfo.AvailableAtLowestPrice)
     @Html.HiddenFor(m => m.OreInfo.LowestPrice)
     @Html.HiddenFor(m => m.OreInfo.TotalAvailable)
-
-    for (var i = 0; i < Model.CurrentCaravans.Count; i++) {
-        @Html.HiddenFor(m => m.CurrentCaravans[i].Id)
-        @Html.HiddenFor(m => m.CurrentCaravans[i].Date)
-        @Html.HiddenFor(m => m.CurrentCaravans[i].Food)
-        @Html.HiddenFor(m => m.CurrentCaravans[i].FoodPrice)
-        @Html.HiddenFor(m => m.CurrentCaravans[i].Wood)
-        @Html.HiddenFor(m => m.CurrentCaravans[i].WoodPrice)
-        @Html.HiddenFor(m => m.CurrentCaravans[i].Stone)
-        @Html.HiddenFor(m => m.CurrentCaravans[i].StonePrice)
-        @Html.HiddenFor(m => m.CurrentCaravans[i].Ore)
-        @Html.HiddenFor(m => m.CurrentCaravans[i].OrePrice)
-    }
 
     <div class="row">
         <div class="col-2 col-form-label">
@@ -171,74 +158,6 @@
     </div>
 }
 
-@if (Model.CurrentCaravans.Any()) {
-    <h2>Current caravans</h2>
-
-    <p>
-        When you withdraw a caravan, a random amount of resources will be lost. The longer the caravan has been on the market, the higher the amount of resources
-        will generally be.
-    </p>
-
-    <div class="row">
-        <div class="col-2 col-form-label">
-            <strong>Date</strong>
-        </div>
-
-        <div class="col-2 col-form-label">
-            <strong>Food</strong>
-        </div>
-
-        <div class="col-2 col-form-label">
-            <strong>Wood</strong>
-        </div>
-
-        <div class="col-2 col-form-label">
-            <strong>Stone</strong>
-        </div>
-
-        <div class="col-2 col-form-label">
-            <strong>Ore</strong>
-        </div>
-
-        <div class="col-2 col-form-label">
-        </div>
-    </div>
-
-    for (var i = 0; i < Model.CurrentCaravans.Count; i++) {
-        using (Html.BeginForm("WithdrawCaravan", null, FormMethod.Post, new {
-            data_success_message = "Your caravan has been withdrawn."
-        })) {
-            @Html.Hidden("id", Model.CurrentCaravans[i].Id);
-
-            <div class="row site-spaced-small">
-                <div class="col-2 col-form-label">
-                    @Model.CurrentCaravans[i].Date.ToString(StringFormat.Date)
-                </div>
-
-                <div class="col-2 col-form-label">
-                    @Model.CurrentCaravans[i].Food.ToString(StringFormat.Integer) <span class="si si-food"></span>
-                    at @Model.CurrentCaravans[i].FoodPrice.ToString(StringFormat.Integer) <span class="si si-gold"></span>
-                </div>
-
-                <div class="col-2 col-form-label">
-                    @Model.CurrentCaravans[i].Wood.ToString(StringFormat.Integer) <span class="si si-wood"></span>
-                    at @Model.CurrentCaravans[i].WoodPrice.ToString(StringFormat.Integer) <span class="si si-gold"></span>
-                </div>
-
-                <div class="col-2 col-form-label">
-                    @Model.CurrentCaravans[i].Stone.ToString(StringFormat.Integer) <span class="si si-stone"></span>
-                    at @Model.CurrentCaravans[i].StonePrice.ToString(StringFormat.Integer) <span class="si si-gold"></span>
-                </div>
-
-                <div class="col-2 col-form-label">
-                    @Model.CurrentCaravans[i].Ore.ToString(StringFormat.Integer) <span class="si si-ore"></span>
-                    at @Model.CurrentCaravans[i].OrePrice.ToString(StringFormat.Integer) <span class="si si-gold"></span>
-                </div>
-
-                <div class="col-2">
-                    <button type="submit" class="btn btn-secondary form-control">Withdraw</button>
-                </div>
-            </div>
-        }
-    }
+@{
+    Html.RenderAction("Caravans");
 }

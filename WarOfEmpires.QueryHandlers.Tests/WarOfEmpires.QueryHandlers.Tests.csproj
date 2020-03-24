@@ -92,7 +92,7 @@
     <Compile Include="Empires\GetWorkersQueryHandlerTests.cs" />
     <Compile Include="Common\ResourcesMapTests.cs" />
     <Compile Include="Events\GetScheduledTasksPausedQueryHandlerTests.cs" />
-    <Compile Include="Markets\GetAvailableMerchandiseQueryHandlerTests.cs" />
+    <Compile Include="Markets\GetMarketQueryHandlerTests.cs" />
     <Compile Include="Markets\GetCaravansQueryHandlerTests.cs" />
     <Compile Include="Messages\GetMessageRecipientQueryHandlerTests.cs" />
     <Compile Include="Messages\GetReceivedMessageQueryHandlerTests.cs" />

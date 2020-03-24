@@ -425,8 +425,9 @@
     <Content Include="Views\Shared\_HiddenResources.cshtml" />
     <Content Include="Views\Empire\SpecialtyBuildings.cshtml" />
     <Content Include="Views\Empire\Siege.cshtml" />
-    <Content Include="Views\Market\Caravans.cshtml" />
+    <Content Include="Views\Market\_Caravans.cshtml" />
     <Content Include="Views\Market\Buy.cshtml" />
+    <Content Include="Views\Market\Sell.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

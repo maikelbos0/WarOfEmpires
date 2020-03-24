@@ -57,7 +57,7 @@
     <Compile Include="Empires\GetWorkersQuery.cs" />
     <Compile Include="Events\GetScheduledTasksPausedQuery.cs" />
     <Compile Include="IQuery.cs" />
-    <Compile Include="Markets\GetAvailableMerchandiseQuery.cs" />
+    <Compile Include="Markets\GetMarketQuery.cs" />
     <Compile Include="Markets\GetCaravansQuery.cs" />
     <Compile Include="Messages\GetSentMessageQuery.cs" />
     <Compile Include="Messages\GetReceivedMessageQuery .cs" />

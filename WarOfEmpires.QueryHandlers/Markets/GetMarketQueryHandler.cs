@@ -1,25 +1,34 @@
 ﻿using System.Linq;
 using WarOfEmpires.Database;
+using WarOfEmpires.Domain.Empires;
 using WarOfEmpires.Domain.Markets;
 using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Models.Markets;
 using WarOfEmpires.Queries.Markets;
 using WarOfEmpires.QueryHandlers.Decorators;
 using WarOfEmpires.Utilities.Container;
+using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Markets {
     [InterfaceInjectable]
     [Audit]
-    public sealed class GetAvailableMerchandiseQueryHandler : IQueryHandler<GetAvailableMerchandiseQuery, AvailableMerchandiseModel> {
+    public sealed class GetMarketQueryHandler : IQueryHandler<GetMarketQuery, MarketModel> {
 
         private readonly IWarContext _context;
 
-        public GetAvailableMerchandiseQueryHandler(IWarContext context) {
+        public GetMarketQueryHandler(IWarContext context) {
             _context = context;
         }
 
-        public AvailableMerchandiseModel Execute(GetAvailableMerchandiseQuery query) {
-            return new AvailableMerchandiseModel() {
+        public MarketModel Execute(GetMarketQuery query) {
+            var player = _context.Players
+                .Single(p => EmailComparisonService.Equals(p.User.Email, query.Email));
+
+            return new MarketModel() {
+                TotalMerchants = player.GetWorkerCount(WorkerType.Merchants),
+                AvailableMerchants = player.GetWorkerCount(WorkerType.Merchants) - player.Caravans.Count,
+                CaravanCapacity = player.GetBuildingBonus(BuildingType.Market),
+                AvailableCapacity = (player.GetWorkerCount(WorkerType.Merchants) - player.Caravans.Count) * player.GetBuildingBonus(BuildingType.Market),
                 FoodInfo = GetMerchandiseInfo(MerchandiseType.Food),
                 WoodInfo = GetMerchandiseInfo(MerchandiseType.Wood),
                 StoneInfo = GetMerchandiseInfo(MerchandiseType.Stone),

@@ -1,10 +1,10 @@
 ﻿using WarOfEmpires.Models.Markets;
 
 namespace WarOfEmpires.Queries.Markets {
-    public sealed class GetAvailableMerchandiseQuery : IQuery<AvailableMerchandiseModel> {
+    public sealed class GetMarketQuery : IQuery<MarketModel> {
         public string Email { get; }
 
-        public GetAvailableMerchandiseQuery(string email) {
+        public GetMarketQuery(string email) {
             Email = email;
         }
     }

@@ -11,18 +11,23 @@ namespace WarOfEmpires.Controllers {
         public MarketController(IAuthenticationService authenticationService, IMessageService messageService) : base(messageService, authenticationService) {
         }
 
-        [Route("Caravans")]
+        [Route("Sell")]
         [HttpGet]
-        public ActionResult Caravans() {
-            return View(_messageService.Dispatch(new GetCaravansQuery(_authenticationService.Identity)));
+        public ActionResult Sell() {
+            return View(_messageService.Dispatch(new GetMarketQuery(_authenticationService.Identity)));
+        }
+
+        [Route("Sell")]
+        [HttpPost]
+        public ActionResult Sell(MarketModel model) {
+            return ValidatedCommandResult(model,
+                new SellResourcesCommand(_authenticationService.Identity, model.Food, model.FoodPrice, model.Wood, model.WoodPrice, model.Stone, model.StonePrice, model.Ore, model.OrePrice),
+                () => Sell());
         }
 
         [Route("Caravans")]
-        [HttpPost]
-        public ActionResult Caravans(CaravansModel model) {
-            return ValidatedCommandResult(model,
-                new SellResourcesCommand(_authenticationService.Identity, model.Food, model.FoodPrice, model.Wood, model.WoodPrice, model.Stone, model.StonePrice, model.Ore, model.OrePrice),
-                () => Caravans());
+        public ActionResult Caravans() {
+            return PartialView("_Caravans", _messageService.Dispatch(new GetCaravansQuery(_authenticationService.Identity)));
         }
 
         [Route("WithdrawCaravan")]
@@ -30,18 +35,18 @@ namespace WarOfEmpires.Controllers {
         public ActionResult WithdrawCaravan(string id) {
             _messageService.Dispatch(new WithdrawCaravanCommand(_authenticationService.Identity, id));
 
-            return RedirectToAction("Caravans");
+            return RedirectToAction("Sell");
         }
 
         [Route("Buy")]
         [HttpGet]
         public ActionResult Buy() {
-            return View(_messageService.Dispatch(new GetAvailableMerchandiseQuery(_authenticationService.Identity)));
+            return View(_messageService.Dispatch(new GetMarketQuery(_authenticationService.Identity)));
         }
 
         [Route("Buy")]
         [HttpPost]
-        public ActionResult Buy(AvailableMerchandiseModel model) {
+        public ActionResult Buy(MarketModel model) {
             return ValidatedCommandResult(model,
                 new BuyResourcesCommand(_authenticationService.Identity, model.Food, model.FoodPrice, model.Wood, model.WoodPrice, model.Stone, model.StonePrice, model.Ore, model.OrePrice),
                 () => Buy());

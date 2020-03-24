@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 
 namespace WarOfEmpires.Models.Markets {
-    public sealed class AvailableMerchandiseModel {
+    public sealed class MarketModel {
         [DisplayName("Food")]
         [RegularExpression("^\\d{0,6}$", ErrorMessage = "Food must be a valid number")]
         public string Food { get; set; }
@@ -23,6 +23,10 @@ namespace WarOfEmpires.Models.Markets {
         public string Ore { get; set; }
         [RegularExpression("^\\d{0,6}$", ErrorMessage = "Ore price must be a valid number")]
         public string OrePrice { get; set; }
+        public int TotalMerchants { get; set; }
+        public int AvailableMerchants { get; set; }
+        public int CaravanCapacity { get; set; }
+        public int AvailableCapacity { get; set; }
         public MerchandiseInfoViewModel FoodInfo { get; set; }
         public MerchandiseInfoViewModel WoodInfo { get; set; }
         public MerchandiseInfoViewModel StoneInfo { get; set; }
