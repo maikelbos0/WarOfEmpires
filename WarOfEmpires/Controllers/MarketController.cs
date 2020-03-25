@@ -1,5 +1,7 @@
-﻿using System.Web.Mvc;
+﻿using System.Collections.Generic;
+using System.Web.Mvc;
 using WarOfEmpires.Commands.Markets;
+using WarOfEmpires.Models;
 using WarOfEmpires.Models.Markets;
 using WarOfEmpires.Queries.Markets;
 using WarOfEmpires.Services;
@@ -8,7 +10,10 @@ namespace WarOfEmpires.Controllers {
     [Authorize]
     [RoutePrefix("Market")]
     public class MarketController : BaseController {
-        public MarketController(IAuthenticationService authenticationService, IMessageService messageService) : base(messageService, authenticationService) {
+        private readonly IDataGridViewService _dataGridViewService;
+
+        public MarketController(IAuthenticationService authenticationService, IMessageService messageService, IDataGridViewService dataGridViewService) : base(messageService, authenticationService) {
+            _dataGridViewService = dataGridViewService;
         }
 
         [Route("Sell")]
@@ -50,6 +55,46 @@ namespace WarOfEmpires.Controllers {
             return ValidatedCommandResult(model,
                 new BuyResourcesCommand(_authenticationService.Identity, model.Food, model.FoodPrice, model.Wood, model.WoodPrice, model.Stone, model.StonePrice, model.Ore, model.OrePrice),
                 () => Buy());
+        }
+
+        [Route("SellTransactions")]
+        [HttpGet]
+        public ActionResult SellTransactions() {
+            // TODO mark as read
+
+            return View();
+        }
+
+        [Route("GetSellTransactions")]
+        [HttpPost]
+        public ActionResult GetSellTransactions(DataGridViewMetaData metaData) {
+            IEnumerable<TransactionViewModel> data = _messageService.Dispatch(new GetSellTransactionsQuery(_authenticationService.Identity));
+
+            data = _dataGridViewService.ApplyMetaData(data, ref metaData);
+
+            return Json(new {
+                metaData,
+                data
+            });
+        }
+
+        [Route("BuyTransactions")]
+        [HttpGet]
+        public ActionResult BuyTransactions() {
+            return View();
+        }
+
+        [Route("GetBuyTransactions")]
+        [HttpPost]
+        public ActionResult GetBuyTransactions(DataGridViewMetaData metaData) {
+            IEnumerable<TransactionViewModel> data = _messageService.Dispatch(new GetBuyTransactionsQuery(_authenticationService.Identity));
+
+            data = _dataGridViewService.ApplyMetaData(data, ref metaData);
+
+            return Json(new {
+                metaData,
+                data
+            });
         }
     }
 }

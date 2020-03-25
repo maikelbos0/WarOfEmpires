@@ -70,6 +70,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Markets {
             transaction.Type.Should().Be("Wood");
             transaction.Quantity.Should().Be(1234);
             transaction.Price.Should().Be(5);
+            transaction.IsRead.Should().BeFalse();
         }
     }
 }

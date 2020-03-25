@@ -428,6 +428,8 @@
     <Content Include="Views\Market\_Caravans.cshtml" />
     <Content Include="Views\Market\Buy.cshtml" />
     <Content Include="Views\Market\Sell.cshtml" />
+    <Content Include="Views\Market\BuyTransactions.cshtml" />
+    <Content Include="Views\Market\SellTransactions.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

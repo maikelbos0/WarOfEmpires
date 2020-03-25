@@ -25,10 +25,12 @@ namespace WarOfEmpires.QueryHandlers.Markets {
                 .Single(p => EmailComparisonService.Equals(p.User.Email, query.Email))
                 .BuyTransactions
                 .Select(m => new TransactionViewModel() {
+                    Id = m.Id,
                     Date = m.Date,
                     Type = _formatter.ToString(m.Type),
                     Quantity = m.Quantity,
-                    Price = m.Price
+                    Price = m.Price,
+                    IsRead = m.IsRead
                 })
                 .ToList();
         }
