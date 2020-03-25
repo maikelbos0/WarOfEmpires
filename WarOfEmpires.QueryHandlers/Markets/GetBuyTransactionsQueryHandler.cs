@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using WarOfEmpires.Database;
 using WarOfEmpires.Models.Markets;
 using WarOfEmpires.Queries.Markets;
 using WarOfEmpires.QueryHandlers.Decorators;
 using WarOfEmpires.Utilities.Container;
 using WarOfEmpires.Utilities.Formatting;
+using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Markets {
     [InterfaceInjectable]
@@ -19,7 +21,16 @@ namespace WarOfEmpires.QueryHandlers.Markets {
         }
 
         public List<TransactionViewModel> Execute(GetBuyTransactionsQuery query) {
-            throw new System.NotImplementedException();
+            return _context.Players
+                .Single(p => EmailComparisonService.Equals(p.User.Email, query.Email))
+                .BuyTransactions
+                .Select(m => new TransactionViewModel() {
+                    Date = m.Date,
+                    Type = _formatter.ToString(m.Type),
+                    Quantity = m.Quantity,
+                    Price = m.Price
+                })
+                .ToList();
         }
     }
 }
