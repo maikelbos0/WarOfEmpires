@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using WarOfEmpires.Database;
-using WarOfEmpires.Domain.Empires;
 using WarOfEmpires.Domain.Markets;
-using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Models.Markets;
 using WarOfEmpires.Queries.Markets;
 using WarOfEmpires.QueryHandlers.Decorators;
