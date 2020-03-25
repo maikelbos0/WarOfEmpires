@@ -60,7 +60,7 @@ namespace WarOfEmpires.Controllers {
         [Route("SellTransactions")]
         [HttpGet]
         public ActionResult SellTransactions() {
-            // TODO mark as read
+            _messageService.Dispatch(new ReadTransactionsCommand(_authenticationService.Identity));
 
             return View();
         }
