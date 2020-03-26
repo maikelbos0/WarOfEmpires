@@ -13,6 +13,7 @@
 @using (Html.BeginForm(null, null, FormMethod.Post, new {
     data_success_message = "Your resources have been purchased."
 })) {
+    @Html.ValidationSummary(true, null, new { @class = "site-validation-summary text-danger" })
     @Html.HiddenFor(m => m.FoodInfo.AvailableAtLowestPrice)
     @Html.HiddenFor(m => m.FoodInfo.LowestPrice)
     @Html.HiddenFor(m => m.FoodInfo.TotalAvailable)
