@@ -186,6 +186,10 @@
     <Compile Include="Migrations\202003241929251_Markets-TransactionDate.Designer.cs">
       <DependentUpon>202003241929251_Markets-TransactionDate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202003281857127_Attacks-CascadePaths.cs" />
+    <Compile Include="Migrations\202003281857127_Attacks-CascadePaths.Designer.cs">
+      <DependentUpon>202003281857127_Attacks-CascadePaths.cs</DependentUpon>
+    </Compile>
     <Compile Include="ReferenceEntities\AttackResultEntity.cs" />
     <Compile Include="ReferenceEntities\AttackTypeEntity.cs" />
     <Compile Include="ReferenceEntities\BaseReferenceEntity.cs" />
@@ -318,6 +322,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202003241929251_Markets-TransactionDate.resx">
       <DependentUpon>202003241929251_Markets-TransactionDate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003281857127_Attacks-CascadePaths.resx">
+      <DependentUpon>202003281857127_Attacks-CascadePaths.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
