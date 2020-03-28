@@ -2,6 +2,7 @@
 using System.Data.Entity;
 using System.Linq;
 using WarOfEmpires.Database;
+using WarOfEmpires.Domain.Markets;
 using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Utilities.Container;
@@ -17,15 +18,15 @@ namespace WarOfEmpires.Repositories.Players {
         }
 
         public Player Get(string email) {
-            return _context.Players.Include(p => p.User).Single(p => p.User.Status == UserStatus.Active && EmailComparisonService.Equals(p.User.Email, email));
+            return _context.Players.Single(p => p.User.Status == UserStatus.Active && EmailComparisonService.Equals(p.User.Email, email));
         }
 
         public Player Get(int id) {
-            return _context.Players.Include(p => p.User).Single(p => p.User.Status == UserStatus.Active && p.Id == id);
+            return _context.Players.Single(p => p.User.Status == UserStatus.Active && p.Id == id);
         }
 
         public IEnumerable<Player> GetAll() {
-            return _context.Players.Include(p => p.User).Where(p => p.User.Status == UserStatus.Active).ToList();
+            return _context.Players.Where(p => p.User.Status == UserStatus.Active).ToList();
         }
 
         public void Add(Player player) {
@@ -34,6 +35,22 @@ namespace WarOfEmpires.Repositories.Players {
         }
 
         public void Update() {
+            _context.SaveChanges();
+        }
+
+        public IEnumerable<Caravan> GetCaravans(MerchandiseType merchandiseType) {
+            return _context.Players
+                .Where(p => p.User.Status == UserStatus.Active)
+                .SelectMany(p => p.Caravans)
+                .Where(c => c.Merchandise.Any(m => m.Type == merchandiseType && m.Quantity > 0))
+                .Include(c => c.Merchandise)
+                .Include(c => c.Player)
+                .ToList();
+        }
+
+        public void RemoveCaravan(Caravan caravan) {
+            caravan.Player.Caravans.Remove(caravan);
+            _context.Remove(caravan);
             _context.SaveChanges();
         }
     }

@@ -4,6 +4,7 @@ using System.Linq;
 using WarOfEmpires.Domain.Attacks;
 using WarOfEmpires.Domain.Common;
 using WarOfEmpires.Domain.Empires;
+using WarOfEmpires.Domain.Markets;
 using WarOfEmpires.Domain.Siege;
 
 namespace WarOfEmpires.Domain.Players {
@@ -43,6 +44,9 @@ namespace WarOfEmpires.Domain.Players {
         public virtual ICollection<Message> ReceivedMessages { get; protected set; } = new List<Message>();
         public virtual ICollection<Attack> ExecutedAttacks { get; protected set; } = new List<Attack>();
         public virtual ICollection<Attack> ReceivedAttacks { get; protected set; } = new List<Attack>();
+        public virtual ICollection<Caravan> Caravans { get; protected set; } = new List<Caravan>();
+        public virtual ICollection<Transaction> BuyTransactions { get; protected set; } = new List<Transaction>();
+        public virtual ICollection<Transaction> SellTransactions { get; protected set; } = new List<Transaction>();
 
         protected Player() {
         }
@@ -391,15 +395,14 @@ namespace WarOfEmpires.Domain.Players {
         }
 
         public virtual void ProcessAttack(Player defender, Resources gainedResources, int attackTurns) {
-            Resources += gainedResources;
+            AddResources(gainedResources);
             defender.Resources -= gainedResources;
             AttackTurns -= attackTurns;
-
-            CheckUpkeep();
         }
 
-        // TODO make sure this function is called whenever resources get added
-        public virtual void CheckUpkeep() {
+        public virtual void AddResources(Resources resources) {
+            Resources += resources;
+
             if (HasUpkeepRunOut && CanAfford(GetUpkeepPerTurn())) {
                 HasUpkeepRunOut = false;
             }
@@ -417,7 +420,6 @@ namespace WarOfEmpires.Domain.Players {
             Resources = Resources.SubtractSafe(resources, out Resources remainder);
             BankedResources -= remainder;
         }
-
 
         public virtual void BuildSiege(SiegeWeaponType type, int count) {
             var definition = SiegeWeaponDefinitionFactory.Get(type);
@@ -438,6 +440,27 @@ namespace WarOfEmpires.Domain.Players {
             var weapon = SiegeWeapons.Single(b => b.Type == type);
 
             weapon.Count -= count;
+        }
+
+        public virtual void SellResources(IEnumerable<MerchandiseTotals> merchandiseTotals) {
+            var maximumCapacity = GetBuildingBonus(BuildingType.Market);
+            var caravan = new Caravan(this);
+            Caravans.Add(caravan);
+
+            foreach (var totals in merchandiseTotals) {
+                var quantity = totals.Quantity;
+                SpendResources(totals.ToResources());
+
+                while (quantity > caravan.GetRemainingCapacity(maximumCapacity)) {
+                    quantity -= caravan.GetRemainingCapacity(maximumCapacity);
+                    caravan.Merchandise.Add(new Merchandise(totals.Type, caravan.GetRemainingCapacity(maximumCapacity), totals.Price));
+
+                    caravan = new Caravan(this);
+                    Caravans.Add(caravan);
+                }
+
+                caravan.Merchandise.Add(new Merchandise(totals.Type, quantity, totals.Price));
+            }
         }
     }
 }

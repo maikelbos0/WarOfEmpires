@@ -35,8 +35,13 @@ namespace WarOfEmpires.Controllers {
                 // We're done so the current model is no longer relevant
                 ModelState.Clear();
 
-                // Let the client know explicitly that everything was valid
-                Response?.AddHeader("X-IsValid", "true");
+                if (result.HasWarnings) {
+                    Response?.AddHeader("X-Warnings", string.Join("|", result.Warnings));
+                }
+                else {
+                    // Let the client know explicitly that everything was valid
+                    Response?.AddHeader("X-IsValid", "true");
+                }
 
                 return onValid(result?.ResultId);
             }

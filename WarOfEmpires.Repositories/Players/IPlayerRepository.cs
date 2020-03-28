@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using WarOfEmpires.Domain.Markets;
 using WarOfEmpires.Domain.Players;
 
 namespace WarOfEmpires.Repositories.Players {
@@ -7,5 +8,7 @@ namespace WarOfEmpires.Repositories.Players {
         Player Get(string email);
         IEnumerable<Player> GetAll();
         void Update();
+        IEnumerable<Caravan> GetCaravans(MerchandiseType merchandiseType);
+        void RemoveCaravan(Caravan caravan);
     }
 }

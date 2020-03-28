@@ -80,6 +80,9 @@
     <Compile Include="Empires\SequenceGeneratorFactoryTests.cs" />
     <Compile Include="Empires\WorkerDefinitionFactoryTests.cs" />
     <Compile Include="Events\ScheduledTaskTests.cs" />
+    <Compile Include="Markets\CaravanTests.cs" />
+    <Compile Include="Markets\MerchandiseTests.cs" />
+    <Compile Include="Markets\MerchandiseTotalsTests.cs" />
     <Compile Include="Players\PlayerTests.cs" />
     <Compile Include="Players\TroopInfoTests.cs" />
     <Compile Include="Attacks\TroopsTests.cs" />

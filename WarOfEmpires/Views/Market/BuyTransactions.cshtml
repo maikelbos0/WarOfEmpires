@@ -1,0 +1,62 @@
+﻿@{
+    ViewBag.Title = "Buy transactions";
+}
+
+<h2>Buy transactions</h2>
+
+<div id="transactionsGrid">
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+        $('#transactionsGrid').datagridview({
+            columns: [
+                {
+                    data: 'DateString',
+                    sortData: 'Date',
+                    header: 'Date',
+                    width: 25
+                },
+                {
+                    data: 'Type',
+                    header: 'Type',
+                    width: 25
+                },
+                {
+                    data: 'QuantityString',
+                    sortData: 'Quantity',
+                    header: 'Quantity',
+                    width: 25
+                },
+                {
+                    data: 'PriceString',
+                    sortData: 'Price',
+                    header: 'Price',
+                    width: 25
+                }
+            ]
+        });
+
+        function populate(metaData) {
+            $.ajax({
+                method: "POST",
+                url: "@Url.Action("GetBuyTransactions")",
+                data: metaData,
+                success: function (d) {
+                    $('#transactionsGrid').datagridview(function () {
+                        this.populate(d.metaData, d.data);
+                    });
+                },
+                error: function () {
+                    toastr.error("An error occurred loading data; please contact support to resolve this issue.");
+                }
+            });
+        }
+
+        populate(new DataGridViewMetaData('Date', true, 0, 25, 0));
+
+        $('#transactionsGrid').on('datagridview.sorted datagridview.paged', function (event, metaData) {
+            populate(metaData);
+        });
+    </script>
+}

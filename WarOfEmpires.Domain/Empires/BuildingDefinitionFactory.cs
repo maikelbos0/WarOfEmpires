@@ -11,7 +11,7 @@ namespace WarOfEmpires.Domain.Empires {
                 GenerateForge(),GenerateArmoury(), GenerateArcheryRange(), GenerateCavalryRange(), GenerateFootmanRange(),
                 GenerateDefences(), GenerateHuts(), GenerateBarracks(),
                 GenerateGoldBank(), GenerateFoodBank(), GenerateWoodBank(), GenerateStoneBank(), GenerateOreBank(),
-                GenerateSiegeFactory()
+                GenerateSiegeFactory(), GenerateMarket()
             }) {
                 _buildings.Add(definition.Type, definition);
             }
@@ -245,6 +245,22 @@ namespace WarOfEmpires.Domain.Empires {
                 new ExpressionGenerator<string>((int level, int levelOffset) => $"Your siege factory allows your siege engineers to set up and maintain siege weapons to aid in your assaults against other players; your current maintenance is {level} per engineer"),
                 new ExpressionGenerator<Resources>(SequenceGeneratorFactory.GetGeneratorFunction(new Resources(gold: 10000, wood: 1000, stone: 250, ore: 500))),
                 new ExpressionGenerator<int>((int currentLevel, int levelOffset) => currentLevel)
+            );
+        }
+
+        private static BuildingDefinition GenerateMarket() {
+            var descriptions = new ExpressionGenerator<string>("Your market allows you to send merchants off to sell your excess resources");
+            descriptions.Add(1, SequenceGeneratorFactory.GetGeneratorFunction((value) => $"Your market allows you to send merchants off to sell your excess resources; each merchant caravan can carry {value * 5000} resources"));
+
+            var bonuses = new ExpressionGenerator<int>(0);
+            bonuses.Add(1, SequenceGeneratorFactory.GetGeneratorFunction(5000));
+
+            return new BuildingDefinition(
+                BuildingType.Market,
+                new ExpressionGenerator<string>((int level, int levelOffset) => $"Market (level {level})"),
+                descriptions,
+                new ExpressionGenerator<Resources>(SequenceGeneratorFactory.GetGeneratorFunction(new Resources(gold: 10000, wood: 1000, stone: 250, ore: 500))),
+                bonuses
             );
         }
 

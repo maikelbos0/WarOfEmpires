@@ -2,8 +2,8 @@
 using WarOfEmpires.Domain.Attacks;
 
 namespace WarOfEmpires.Database.ReferenceEntities {
-    internal class TroopTypeEntity : BaseReferenceEntity<TroopType> {
-        public virtual ICollection<AttackRound> AttackRounds { get; set; }
-        public virtual ICollection<Troops> Troops { get; set; }
+    internal sealed class TroopTypeEntity : BaseReferenceEntity<TroopType> {
+        public ICollection<AttackRound> AttackRounds { get; set; }
+        public ICollection<Troops> Troops { get; set; }
     }
 }

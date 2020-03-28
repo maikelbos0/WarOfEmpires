@@ -40,7 +40,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
         [TestMethod]
         public void TrainWorkersCommandHandler_Succeeds() {
             var handler = new TrainWorkersCommandHandler(_repository, _formatter);
-            var command = new TrainWorkersCommand("test@test.com", "5", "4", "3", "2", "1");
+            var command = new TrainWorkersCommand("test@test.com", "5", "4", "3", "2", "1", "2");
 
             var result = handler.Execute(command);
 
@@ -50,13 +50,14 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
             _player.Received().TrainWorkers(WorkerType.StoneMasons, 3);
             _player.Received().TrainWorkers(WorkerType.OreMiners, 2);
             _player.Received().TrainWorkers(WorkerType.SiegeEngineers, 1);
+            _player.Received().TrainWorkers(WorkerType.Merchants, 2);
             _context.CallsToSaveChanges.Should().Be(1);
         }
 
         [TestMethod]
         public void TrainWorkersCommandHandler_Allows_Empty_Workers() {
             var handler = new TrainWorkersCommandHandler(_repository, _formatter);
-            var command = new TrainWorkersCommand("test@test.com", "", "", "", "", "");
+            var command = new TrainWorkersCommand("test@test.com", "", "", "", "", "", "");
 
             var result = handler.Execute(command);
 
@@ -69,7 +70,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
             _player.Peasants.Returns(30);
 
             var handler = new TrainWorkersCommandHandler(_repository, _formatter);
-            var command = new TrainWorkersCommand("test@test.com", "5", "5", "5", "5", "5");
+            var command = new TrainWorkersCommand("test@test.com", "4", "4", "4", "4", "4", "4");
 
             var result = handler.Execute(command);
 
@@ -82,7 +83,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
         [TestMethod]
         public void TrainWorkersCommandHandler_Fails_For_Alphanumeric_Farmers() {
             var handler = new TrainWorkersCommandHandler(_repository, _formatter);
-            var command = new TrainWorkersCommand("test@test.com", "A", "2", "2", "2", "2");
+            var command = new TrainWorkersCommand("test@test.com", "A", "2", "2", "2", "2", "2");
 
             var result = handler.Execute(command);
 
@@ -95,7 +96,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
         [TestMethod]
         public void TrainWorkersCommandHandler_Fails_For_Alphanumeric_WoodWorkers() {
             var handler = new TrainWorkersCommandHandler(_repository, _formatter);
-            var command = new TrainWorkersCommand("test@test.com", "2", "A", "2", "2", "2");
+            var command = new TrainWorkersCommand("test@test.com", "2", "A", "2", "2", "2", "2");
 
             var result = handler.Execute(command);
 
@@ -108,7 +109,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
         [TestMethod]
         public void TrainWorkersCommandHandler_Fails_For_Alphanumeric_StoneMasons() {
             var handler = new TrainWorkersCommandHandler(_repository, _formatter);
-            var command = new TrainWorkersCommand("test@test.com", "2", "2", "A", "2", "2");
+            var command = new TrainWorkersCommand("test@test.com", "2", "2", "A", "2", "2", "2");
 
             var result = handler.Execute(command);
 
@@ -121,7 +122,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
         [TestMethod]
         public void TrainWorkersCommandHandler_Fails_For_Alphanumeric_OreMiners() {
             var handler = new TrainWorkersCommandHandler(_repository, _formatter);
-            var command = new TrainWorkersCommand("test@test.com", "2", "2", "2", "A", "2");
+            var command = new TrainWorkersCommand("test@test.com", "2", "2", "2", "A", "2", "2");
 
             var result = handler.Execute(command);
 
@@ -134,7 +135,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
         [TestMethod]
         public void TrainWorkersCommandHandler_Fails_For_Alphanumeric_SiegeEngineers() {
             var handler = new TrainWorkersCommandHandler(_repository, _formatter);
-            var command = new TrainWorkersCommand("test@test.com", "2", "2", "2", "2", "A");
+            var command = new TrainWorkersCommand("test@test.com", "2", "2", "2", "2", "A", "2");
 
             var result = handler.Execute(command);
 
@@ -143,19 +144,33 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
             result.Errors[0].Message.Should().Be("Siege engineers must be a valid number");
             _player.DidNotReceiveWithAnyArgs().TrainWorkers(default, default);
         }
+        
+        [TestMethod]
+        public void TrainWorkersCommandHandler_Fails_For_Alphanumeric_Merchants() {
+            var handler = new TrainWorkersCommandHandler(_repository, _formatter);
+            var command = new TrainWorkersCommand("test@test.com", "2", "2", "2", "2", "2", "A");
+
+            var result = handler.Execute(command);
+
+            result.Errors.Should().HaveCount(1);
+            result.Errors[0].Expression.ToString().Should().Be("c => c.Merchants");
+            result.Errors[0].Message.Should().Be("Merchants must be a valid number");
+            _player.DidNotReceiveWithAnyArgs().TrainWorkers(default, default);
+        }
 
         [DataTestMethod]
-        [DataRow(16, 0, 0, 0, 0, DisplayName = "Farmers")]
-        [DataRow(0, 16, 0, 0, 0, DisplayName = "WoodWorkers")]
-        [DataRow(0, 0, 16, 0, 0, DisplayName = "StoneMasons")]
-        [DataRow(0, 0, 0, 16, 0, DisplayName = "OreMiners")]
-        [DataRow(0, 0, 0, 0, 16, DisplayName = "SiegeEngineers")]
-        [DataRow(4, 3, 4, 3, 3, DisplayName = "All")]
-        public void TrainWorkersCommandHandler_Fails_For_Too_High_WorkerCounts(int farmers, int woodWorkers, int stoneMasons, int oreMiners, int siegeEngineers) {
+        [DataRow(16, 0, 0, 0, 0, 0, DisplayName = "Farmers")]
+        [DataRow(0, 16, 0, 0, 0, 0, DisplayName = "WoodWorkers")]
+        [DataRow(0, 0, 16, 0, 0, 0, DisplayName = "StoneMasons")]
+        [DataRow(0, 0, 0, 16, 0, 0, DisplayName = "OreMiners")]
+        [DataRow(0, 0, 0, 0, 16, 0, DisplayName = "SiegeEngineers")]
+        [DataRow(0, 0, 0, 0, 0, 16, DisplayName = "Merchants")]
+        [DataRow(3, 3, 3, 3, 3, 3, DisplayName = "All")]
+        public void TrainWorkersCommandHandler_Fails_For_Too_High_WorkerCounts(int farmers, int woodWorkers, int stoneMasons, int oreMiners, int siegeEngineers, int merchants) {
             _player.Peasants.Returns(15);
 
             var handler = new TrainWorkersCommandHandler(_repository, _formatter);
-            var command = new TrainWorkersCommand("test@test.com", farmers.ToString(), woodWorkers.ToString(), stoneMasons.ToString(), oreMiners.ToString(), siegeEngineers.ToString());
+            var command = new TrainWorkersCommand("test@test.com", farmers.ToString(), woodWorkers.ToString(), stoneMasons.ToString(), oreMiners.ToString(), siegeEngineers.ToString(), merchants.ToString());
 
             var result = handler.Execute(command);
 
@@ -168,7 +183,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
         [TestMethod]
         public void TrainWorkersCommandHandler_Fails_For_Negative_Farmers() {
             var handler = new TrainWorkersCommandHandler(_repository, _formatter);
-            var command = new TrainWorkersCommand("test@test.com", "-7", "2", "2", "2", "2");
+            var command = new TrainWorkersCommand("test@test.com", "-7", "2", "2", "2", "2", "2");
 
             var result = handler.Execute(command);
 
@@ -181,7 +196,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
         [TestMethod]
         public void TrainWorkersCommandHandler_Fails_For_Negative_WoodWorkers() {
             var handler = new TrainWorkersCommandHandler(_repository, _formatter);
-            var command = new TrainWorkersCommand("test@test.com", "2", "-7", "2", "2", "2");
+            var command = new TrainWorkersCommand("test@test.com", "2", "-7", "2", "2", "2", "2");
 
             var result = handler.Execute(command);
 
@@ -194,7 +209,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
         [TestMethod]
         public void TrainWorkersCommandHandler_Fails_For_Negative_StoneMasons() {
             var handler = new TrainWorkersCommandHandler(_repository, _formatter);
-            var command = new TrainWorkersCommand("test@test.com", "2", "2", "-7", "2", "2");
+            var command = new TrainWorkersCommand("test@test.com", "2", "2", "-7", "2", "2", "2");
 
             var result = handler.Execute(command);
 
@@ -207,7 +222,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
         [TestMethod]
         public void TrainWorkersCommandHandler_Fails_For_Negative_OreMiners() {
             var handler = new TrainWorkersCommandHandler(_repository, _formatter);
-            var command = new TrainWorkersCommand("test@test.com", "2", "2", "2", "-7", "2");
+            var command = new TrainWorkersCommand("test@test.com", "2", "2", "2", "-7", "2", "2");
 
             var result = handler.Execute(command);
 
@@ -220,7 +235,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
         [TestMethod]
         public void TrainWorkersCommandHandler_Fails_For_Negative_SiegeEngineers() {
             var handler = new TrainWorkersCommandHandler(_repository, _formatter);
-            var command = new TrainWorkersCommand("test@test.com", "2", "2", "2", "2", "-7");
+            var command = new TrainWorkersCommand("test@test.com", "2", "2", "2", "2", "-7", "2");
 
             var result = handler.Execute(command);
 
@@ -230,17 +245,31 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
             _player.DidNotReceiveWithAnyArgs().TrainWorkers(default, default);
         }
 
+        [TestMethod]
+        public void TrainWorkersCommandHandler_Fails_For_Negative_Merchants() {
+            var handler = new TrainWorkersCommandHandler(_repository, _formatter);
+            var command = new TrainWorkersCommand("test@test.com", "2", "2", "2", "2", "2", "-7");
+
+            var result = handler.Execute(command);
+
+            result.Errors.Should().HaveCount(1);
+            result.Errors[0].Expression.ToString().Should().Be("c => c.Merchants");
+            result.Errors[0].Message.Should().Be("Merchants must be a valid number");
+            _player.DidNotReceiveWithAnyArgs().TrainWorkers(default, default);
+        }
+
         [DataTestMethod]
-        [DataRow(1, 0, 0, 0, 0, DisplayName = "Farmers")]
-        [DataRow(0, 1, 0, 0, 0, DisplayName = "WoodWorkers")]
-        [DataRow(0, 0, 1, 0, 0, DisplayName = "StoneMasons")]
-        [DataRow(0, 0, 0, 1, 0, DisplayName = "OreMiners")]
-        [DataRow(0, 0, 0, 0, 1, DisplayName = "SiegeEngineers")]
-        public void TrainWorkersCommandHandler_Fails_For_Too_Little_Resources(int farmers, int woodWorkers, int stoneMasons, int oreMiners, int siegeEngineers) {
+        [DataRow(1, 0, 0, 0, 0, 0, DisplayName = "Farmers")]
+        [DataRow(0, 1, 0, 0, 0, 0, DisplayName = "WoodWorkers")]
+        [DataRow(0, 0, 1, 0, 0, 0, DisplayName = "StoneMasons")]
+        [DataRow(0, 0, 0, 1, 0, 0, DisplayName = "OreMiners")]
+        [DataRow(0, 0, 0, 0, 1, 0, DisplayName = "SiegeEngineers")]
+        [DataRow(0, 0, 0, 0, 0, 1, DisplayName = "Merchants")]
+        public void TrainWorkersCommandHandler_Fails_For_Too_Little_Resources(int farmers, int woodWorkers, int stoneMasons, int oreMiners, int siegeEngineers, int merchants) {
             _player.CanAfford(Arg.Any<Resources>()).Returns(r => r.ArgAt<Resources>(0).Equals(new Resources(0)));
 
             var handler = new TrainWorkersCommandHandler(_repository, _formatter);
-            var command = new TrainWorkersCommand("test@test.com", farmers.ToString(), woodWorkers.ToString(), stoneMasons.ToString(), oreMiners.ToString(), siegeEngineers.ToString());
+            var command = new TrainWorkersCommand("test@test.com", farmers.ToString(), woodWorkers.ToString(), stoneMasons.ToString(), oreMiners.ToString(), siegeEngineers.ToString(), merchants.ToString());
 
             var result = handler.Execute(command);
 

@@ -12,6 +12,7 @@ namespace WarOfEmpires.Database {
         IDbSet<Auditing.QueryExecution> QueryExecutions { get; set; }
         IDbSet<Players.Player> Players { get; set; }
         IDbSet<Events.ScheduledTask> ScheduledTasks { get; set; }
+        void Remove<TEntity>(TEntity entity) where TEntity : class;
         int SaveChanges();
     }
 }

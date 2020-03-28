@@ -8,6 +8,7 @@ using Attacks = WarOfEmpires.Domain.Attacks;
 using Auditing = WarOfEmpires.Domain.Auditing;
 using Events = WarOfEmpires.Domain.Events;
 using Empires = WarOfEmpires.Domain.Empires;
+using Markets = WarOfEmpires.Domain.Markets;
 using Players = WarOfEmpires.Domain.Players;
 using Security = WarOfEmpires.Domain.Security;
 using Siege = WarOfEmpires.Domain.Siege;
@@ -37,6 +38,10 @@ namespace WarOfEmpires.Database {
         public IDbSet<Auditing.QueryExecution> QueryExecutions { get; set; }
         public IDbSet<Players.Player> Players { get; set; }
         public IDbSet<Events.ScheduledTask> ScheduledTasks { get; set; }
+
+        public void Remove<TEntity>(TEntity entity) where TEntity : class {
+            Set<TEntity>().Remove(entity);
+        }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder) {
             base.OnModelCreating(modelBuilder);
@@ -84,6 +89,9 @@ namespace WarOfEmpires.Database {
             players.HasMany(p => p.ReceivedMessages).WithRequired(m => m.Recipient);
             players.HasMany(p => p.ExecutedAttacks).WithRequired(a => a.Attacker).WillCascadeOnDelete(false);
             players.HasMany(p => p.ReceivedAttacks).WithRequired(a => a.Defender).WillCascadeOnDelete(false);
+            players.HasMany(p => p.BuyTransactions).WithRequired().Map(a => a.MapKey("Buyer_Id"));
+            players.HasMany(p => p.SellTransactions).WithRequired().Map(a => a.MapKey("Seller_Id")).WillCascadeOnDelete(false);
+            players.HasMany(p => p.Caravans).WithRequired(a => a.Player);
             players.Property(p => p.DisplayName).IsRequired().HasMaxLength(25);
             players.Property(p => p.Resources.Gold).HasColumnName("Gold");
             players.Property(p => p.Resources.Food).HasColumnName("Food");
@@ -100,17 +108,28 @@ namespace WarOfEmpires.Database {
             workerTypes.HasMany(w => w.Workers).WithRequired().HasForeignKey(w => w.Type);
             workerTypes.Property(w => w.Name).IsRequired();
 
-            var workers = modelBuilder.Entity<Empires.Workers>().ToTable("Workers", "Empires").HasKey(t => t.Id);
+            modelBuilder.Entity<Empires.Workers>().ToTable("Workers", "Empires").HasKey(t => t.Id);
 
-            var troops = modelBuilder.Entity<Attacks.Troops>().ToTable("Troops", "Attacks").HasKey(t => t.Id);
+            modelBuilder.Entity<Attacks.Troops>().ToTable("Troops", "Attacks").HasKey(t => t.Id);
 
-            var buildings = modelBuilder.Entity<Empires.Building>().ToTable("Buildings", "Empires").HasKey(b => b.Id);
+            modelBuilder.Entity<Empires.Building>().ToTable("Buildings", "Empires").HasKey(b => b.Id);
 
-            var siegeWeapons = modelBuilder.Entity<Siege.SiegeWeapon>().ToTable("SiegeWeapons", "Siege").HasKey(b => b.Id);
+            modelBuilder.Entity<Siege.SiegeWeapon>().ToTable("SiegeWeapons", "Siege").HasKey(b => b.Id);
 
             var messages = modelBuilder.Entity<Players.Message>().ToTable("Messages", "Players").HasKey(m => m.Id);
             messages.Property(m => m.Subject).IsRequired().HasMaxLength(100);
             messages.Property(m => m.Body).IsMaxLength();
+
+            var caravans = modelBuilder.Entity<Markets.Caravan>().ToTable("Caravans", "Markets");
+            caravans.HasMany(c => c.Merchandise).WithRequired();
+
+            modelBuilder.Entity<Markets.Merchandise>().ToTable("Merchandise", "Markets");
+
+            var merchandiseTypes = modelBuilder.Entity<MerchandiseTypeEntity>().ToTable("MerchandiseTypes", "Markets").HasKey(t => t.Id);
+            merchandiseTypes.HasMany(m => m.Merchandise).WithRequired().HasForeignKey(m => m.Type);
+            merchandiseTypes.Property(m => m.Name).IsRequired();
+
+            modelBuilder.Entity<Markets.Transaction>().ToTable("Transactions", "Markets");
         }
 
         private void OnAttacksModelCreating(DbModelBuilder modelBuilder) {
@@ -135,9 +154,9 @@ namespace WarOfEmpires.Database {
             troopTypes.HasMany(t => t.Troops).WithRequired().HasForeignKey(t => t.Type);
             troopTypes.Property(t => t.Name).IsRequired();
 
-            var attackRounds = modelBuilder.Entity<Attacks.AttackRound>().ToTable("AttackRounds", "Attacks").HasKey(r => r.Id);
+            modelBuilder.Entity<Attacks.AttackRound>().ToTable("AttackRounds", "Attacks").HasKey(r => r.Id);
 
-            var casualties = modelBuilder.Entity<Attacks.Casualties>().ToTable("Casualties", "Attacks").HasKey(c => c.Id);
+            modelBuilder.Entity<Attacks.Casualties>().ToTable("Casualties", "Attacks").HasKey(c => c.Id);
         }
 
         private void OnSecurityModelCreating(DbModelBuilder modelBuilder) {

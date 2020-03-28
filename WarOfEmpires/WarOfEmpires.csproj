@@ -24,7 +24,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
-    <TypeScriptToolsVersion>3.5</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -34,6 +34,19 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <TypeScriptTarget>ES5</TypeScriptTarget>
+    <TypeScriptJSXEmit>React</TypeScriptJSXEmit>
+    <TypeScriptModuleKind />
+    <TypeScriptCompileOnSaveEnabled>True</TypeScriptCompileOnSaveEnabled>
+    <TypeScriptNoImplicitAny>False</TypeScriptNoImplicitAny>
+    <TypeScriptRemoveComments>False</TypeScriptRemoveComments>
+    <TypeScriptOutFile />
+    <TypeScriptOutDir />
+    <TypeScriptGeneratesDeclarations>False</TypeScriptGeneratesDeclarations>
+    <TypeScriptNoEmitOnError>True</TypeScriptNoEmitOnError>
+    <TypeScriptSourceMap>True</TypeScriptSourceMap>
+    <TypeScriptMapRoot />
+    <TypeScriptSourceRoot />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -168,6 +181,7 @@
     <Content Include="Content\Icons\claw-hammer.svg" />
     <Content Include="Content\Icons\high-shot.svg" />
     <Content Include="Content\Icons\locked-chest.svg" />
+    <Content Include="Content\Icons\old-wagon.svg" />
     <Content Include="Content\Icons\open-book.svg" />
     <Content Include="Content\Icons\ore.svg" />
     <Content Include="Content\Icons\pine-tree.svg" />
@@ -326,6 +340,7 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\EmpireController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MarketController.cs" />
     <Compile Include="Controllers\MessageController.cs" />
     <Compile Include="Controllers\PlayerController.cs" />
     <Compile Include="Extensions\HtmlHelperExtensions.cs" />
@@ -410,6 +425,11 @@
     <Content Include="Views\Shared\_HiddenResources.cshtml" />
     <Content Include="Views\Empire\SpecialtyBuildings.cshtml" />
     <Content Include="Views\Empire\Siege.cshtml" />
+    <Content Include="Views\Market\_Caravans.cshtml" />
+    <Content Include="Views\Market\Buy.cshtml" />
+    <Content Include="Views\Market\Sell.cshtml" />
+    <Content Include="Views\Market\BuyTransactions.cshtml" />
+    <Content Include="Views\Market\SellTransactions.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

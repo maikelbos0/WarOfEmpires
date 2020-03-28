@@ -4,6 +4,7 @@ using NSubstitute;
 using System.Collections.Generic;
 using WarOfEmpires.Domain.Attacks;
 using WarOfEmpires.Domain.Common;
+using WarOfEmpires.Domain.Markets;
 using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Queries.Players;
@@ -17,6 +18,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
         private readonly Player _player;
         private readonly Message _message;
         private readonly Attack _attack;
+        private readonly Transaction _transaction;
 
         public GetNotificationsQueryHandlerTests() {
             var user = Substitute.For<User>();
@@ -38,6 +40,9 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
 
             _attack = Substitute.For<Attack>();
             _player.ReceivedAttacks.Returns(new List<Attack>() { _attack });
+
+            _transaction = Substitute.For<Transaction>();
+            _player.SellTransactions.Returns(new List<Transaction>() { _transaction });
         }
 
         [TestMethod]
@@ -86,6 +91,30 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
             var result = handler.Execute(query);
 
             result.HasNewAttacks.Should().BeFalse();
+        }
+
+        [TestMethod]
+        public void GetNotificationsQueryHandler_HasNewSales_Is_True_For_Unread_Sales() {
+            _transaction.IsRead.Returns(false);
+
+            var handler = new GetNotificationsQueryHandler(_context);
+            var query = new GetNotificationsQuery("test@test.com");
+
+            var result = handler.Execute(query);
+
+            result.HasNewSales.Should().BeTrue();
+        }
+
+        [TestMethod]
+        public void GetNotificationsQueryHandler_HasNewSales_Is_False_For_Read_Sales() {
+            _transaction.IsRead.Returns(true);
+
+            var handler = new GetNotificationsQueryHandler(_context);
+            var query = new GetNotificationsQuery("test@test.com");
+
+            var result = handler.Execute(query);
+
+            result.HasNewSales.Should().BeFalse();
         }
 
         [TestMethod]

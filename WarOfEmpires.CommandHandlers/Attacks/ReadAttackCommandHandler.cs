@@ -17,10 +17,10 @@ namespace WarOfEmpires.CommandHandlers.Attacks {
         public CommandResult<ReadAttackCommand> Execute(ReadAttackCommand command) {
             var result = new CommandResult<ReadAttackCommand>();
             var player = _repository.Get(command.Email);
-            var AttackId = int.Parse(command.AttackId);
-            var Attack = player.ReceivedAttacks.Single(m => m.Id == AttackId);
+            var attackId = int.Parse(command.AttackId);
+            var attack = player.ReceivedAttacks.Single(m => m.Id == attackId);
 
-            Attack.IsRead = true;
+            attack.IsRead = true;
 
             _repository.Update();
 

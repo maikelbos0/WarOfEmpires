@@ -40,6 +40,10 @@
     background: url('Icons/claw-hammer.svg');
 }
 
+.si.si-market::after {
+    background: url('Icons/old-wagon.svg');
+}
+
 .si.si-menu::after {
     background: url('Icons/open-book.svg');
 }

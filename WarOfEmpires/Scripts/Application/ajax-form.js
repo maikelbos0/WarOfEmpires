@@ -29,6 +29,11 @@ $(function () {
                     if (jqXHR.getResponseHeader("X-IsValid") === "true" && successMessage) {
                         toastr.success(successMessage);
                     }
+                    else if (jqXHR.getResponseHeader("X-Warnings")) {
+                        $.each(decodeURIComponent(jqXHR.getResponseHeader("X-Warnings")).split("|"), function () {
+                            toastr.warning(this);
+                        });
+                    }
                     
                     panel.html(result);
 

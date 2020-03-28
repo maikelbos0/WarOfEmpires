@@ -77,6 +77,10 @@
     <Compile Include="ICommandHandler.cs" />
     <Compile Include="Empires\RecruitCommandHandler.cs" />
     <Compile Include="Empires\RecruitTaskTriggeredEventHandler.cs" />
+    <Compile Include="Markets\BuyResourcesCommandHandler.cs" />
+    <Compile Include="Markets\ReadTransactionsCommandHandler.cs" />
+    <Compile Include="Markets\SellResourcesCommandHandler.cs" />
+    <Compile Include="Markets\WithdrawCaravanCommandHandler.cs" />
     <Compile Include="Messages\ReadMessageCommandHandler.cs" />
     <Compile Include="Messages\SendMessageCommandHandler.cs" />
     <Compile Include="Players\RegisterPlayerCommandHandler.cs" />

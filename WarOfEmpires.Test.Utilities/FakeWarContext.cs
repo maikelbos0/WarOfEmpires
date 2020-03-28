@@ -4,6 +4,7 @@ using Auditing = WarOfEmpires.Domain.Auditing;
 using Events = WarOfEmpires.Domain.Events;
 using Players = WarOfEmpires.Domain.Players;
 using Security = WarOfEmpires.Domain.Security;
+using System.Linq;
 
 namespace WarOfEmpires.Test.Utilities {
     public sealed class FakeWarContext : IWarContext {
@@ -16,6 +17,14 @@ namespace WarOfEmpires.Test.Utilities {
 
         public void Dispose() {
             SaveChanges();
+        }
+
+        public void Remove<TEntity>(TEntity entity) where TEntity : class {
+            var entityProperty = typeof(FakeWarContext).GetProperties().SingleOrDefault(p => p.PropertyType == typeof(IDbSet<TEntity>));
+
+            if (entityProperty != null) {
+                ((IDbSet<TEntity>)entityProperty.GetValue(this)).Remove(entity);
+            }
         }
 
         public int SaveChanges() {

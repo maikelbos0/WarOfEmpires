@@ -32,7 +32,8 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
                 new Workers(WorkerType.WoodWorkers, 3),
                 new Workers(WorkerType.StoneMasons, 4),
                 new Workers(WorkerType.OreMiners, 5),
-                new Workers(WorkerType.SiegeEngineers, 6)
+                new Workers(WorkerType.SiegeEngineers, 6),
+                new Workers(WorkerType.Merchants, 7),
             });            
             player.Tax.Returns(50);
             player.GetRecruitsPerDay().Returns(5);
@@ -40,6 +41,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
             player.GetTotalResources().Returns(new Resources(gold: 1000, food: 100));
             player.GetResourcesPerTurn().Returns(new Resources(gold: 400, food: 20));
             player.GetBuildingBonus(BuildingType.SiegeFactory).Returns(4);
+            player.GetBuildingBonus(BuildingType.Market).Returns(10000);
             player.HasUpkeepRunOut.Returns(true);
 
             _context.Users.Add(user);
@@ -68,6 +70,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
             result.StoneMasonInfo.CurrentWorkers.Should().Be(4);
             result.OreMinerInfo.CurrentWorkers.Should().Be(5);
             result.SiegeEngineerInfo.CurrentWorkers.Should().Be(6);
+            result.MerchantInfo.CurrentWorkers.Should().Be(7);
         }
 
         [TestMethod]
@@ -89,6 +92,8 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
             result.OreMinerInfo.CurrentProductionPerTurn.Should().Be(50);
             result.SiegeEngineerInfo.CurrentProductionPerWorkerPerTurn.Should().Be(4);
             result.SiegeEngineerInfo.CurrentProductionPerTurn.Should().Be(24);
+            result.MerchantInfo.CurrentProductionPerWorkerPerTurn.Should().Be(10000);
+            result.MerchantInfo.CurrentProductionPerTurn.Should().Be(70000);
         }
 
         [TestMethod]
@@ -105,6 +110,9 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
             result.SiegeEngineerInfo.Cost.Gold.Should().Be(2500);
             result.SiegeEngineerInfo.Cost.Wood.Should().Be(250);
             result.SiegeEngineerInfo.Cost.Ore.Should().Be(500);
+            result.MerchantInfo.Cost.Gold.Should().Be(2500);
+            result.MerchantInfo.Cost.Wood.Should().Be(500);
+            result.MerchantInfo.Cost.Ore.Should().Be(250);
             result.WillUpkeepRunOut.Should().BeTrue();
             result.HasUpkeepRunOut.Should().BeTrue();
         }

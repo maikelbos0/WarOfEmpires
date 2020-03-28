@@ -43,9 +43,7 @@ namespace WarOfEmpires.Domain.Common {
         }
 
         public Resources SubtractSafe(Resources value) {
-            Resources remainder;
-
-            return SubtractSafe(value, out remainder);
+            return SubtractSafe(value, out _);
         }
 
         public Resources SubtractSafe(Resources value, out Resources remainder) {

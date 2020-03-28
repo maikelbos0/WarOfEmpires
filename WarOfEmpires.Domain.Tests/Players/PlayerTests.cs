@@ -1,10 +1,12 @@
 ﻿using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using WarOfEmpires.Domain.Attacks;
 using WarOfEmpires.Domain.Common;
 using WarOfEmpires.Domain.Empires;
+using WarOfEmpires.Domain.Markets;
 using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Domain.Siege;
 
@@ -1020,6 +1022,134 @@ namespace WarOfEmpires.Domain.Tests.Players {
             player.Workers.Add(new Workers(WorkerType.OreMiners, 7));
 
             player.GetWorkerCount(WorkerType.OreMiners).Should().Be(7);
+        }
+
+        [TestMethod]
+        public void Player_SellResources_Succeeds_For_Single_Batch_Single_Type() {
+            var player = new Player(0, "Test");
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(0, 100000, 100000, 100000, 100000));
+            player.Buildings.Add(new Building(BuildingType.Market, 3));
+
+            player.SellResources(new List<MerchandiseTotals>() {
+                new MerchandiseTotals(MerchandiseType.Wood, 25000, 12)
+            });
+
+            player.Caravans.Should().HaveCount(1);
+
+            foreach (var caravan in player.Caravans) {
+                caravan.Merchandise.Sum(m => m.Quantity).Should().BeLessOrEqualTo(25000);
+            }
+
+            var totals = player.Caravans.SelectMany(c => c.Merchandise)
+                .GroupBy(m => new { m.Type, m.Price })
+                .ToDictionary(g => g.Key.Type, g => new { g.Key.Price, Quantity = g.Sum(m => m.Quantity) });
+
+            totals.Should().HaveCount(1);
+            totals[MerchandiseType.Wood].Quantity.Should().Be(25000);
+            totals[MerchandiseType.Wood].Price.Should().Be(12);
+        }
+
+        [TestMethod]
+        public void Player_SellResources_Succeeds_For_Multiple_Batches_Single_Type() {
+            var player = new Player(0, "Test");
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(0, 100000, 100000, 100000, 100000));
+            player.Buildings.Add(new Building(BuildingType.Market, 3));
+
+            player.SellResources(new List<MerchandiseTotals>() {
+                new MerchandiseTotals(MerchandiseType.Wood, 80000, 12)
+            });
+
+            player.Caravans.Should().HaveCount(4);
+
+            foreach (var caravan in player.Caravans) {
+                caravan.Merchandise.Sum(m => m.Quantity).Should().BeLessOrEqualTo(25000);
+            }
+
+            var totals = player.Caravans.SelectMany(c => c.Merchandise)
+                .GroupBy(m => new { m.Type, m.Price })
+                .ToDictionary(g => g.Key.Type, g => new { g.Key.Price, Quantity = g.Sum(m => m.Quantity) });
+
+            totals.Should().HaveCount(1);
+            totals[MerchandiseType.Wood].Quantity.Should().Be(80000);
+            totals[MerchandiseType.Wood].Price.Should().Be(12);
+        }
+
+        [TestMethod]
+        public void Player_SellResources_Succeeds_For_Single_Batch_Multiple_Types() {
+            var player = new Player(0, "Test");
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(0, 100000, 100000, 100000, 100000));
+            player.Buildings.Add(new Building(BuildingType.Market, 3));
+
+            player.SellResources(new List<MerchandiseTotals>() {
+                new MerchandiseTotals(MerchandiseType.Wood, 15000, 12),
+                new MerchandiseTotals(MerchandiseType.Stone, 10000, 9)
+            });
+
+            player.Caravans.Should().HaveCount(1);
+
+            foreach (var caravan in player.Caravans) {
+                caravan.Merchandise.Sum(m => m.Quantity).Should().BeLessOrEqualTo(25000);
+            }
+
+            var totals = player.Caravans.SelectMany(c => c.Merchandise)
+                .GroupBy(m => new { m.Type, m.Price })
+                .ToDictionary(g => g.Key.Type, g => new { g.Key.Price, Quantity = g.Sum(m => m.Quantity) });
+
+            totals.Should().HaveCount(2);
+            totals[MerchandiseType.Wood].Quantity.Should().Be(15000);
+            totals[MerchandiseType.Wood].Price.Should().Be(12);
+            totals[MerchandiseType.Stone].Quantity.Should().Be(10000);
+            totals[MerchandiseType.Stone].Price.Should().Be(9);
+        }
+
+        [TestMethod]
+        public void Player_SellResources_Succeeds_For_Multiple_Batches_Multiple_Types() {
+            var player = new Player(0, "Test");
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(0, 100000, 100000, 100000, 100000));
+            player.Buildings.Add(new Building(BuildingType.Market, 3));
+
+            player.SellResources(new List<MerchandiseTotals>() {
+                new MerchandiseTotals(MerchandiseType.Food, 60000, 8),
+                new MerchandiseTotals(MerchandiseType.Wood, 70000, 9),
+                new MerchandiseTotals(MerchandiseType.Stone, 80000, 10),
+                new MerchandiseTotals(MerchandiseType.Ore, 90000, 11)
+            });
+
+            player.Caravans.Should().HaveCount(12);
+
+            foreach (var caravan in player.Caravans) {
+                caravan.Merchandise.Sum(m => m.Quantity).Should().BeLessOrEqualTo(25000);
+            }
+
+            var totals = player.Caravans.SelectMany(c => c.Merchandise)
+                .GroupBy(m => new { m.Type, m.Price })
+                .ToDictionary(g => g.Key.Type, g => new { g.Key.Price, Quantity = g.Sum(m => m.Quantity) });
+
+            totals.Should().HaveCount(4);
+            totals[MerchandiseType.Food].Quantity.Should().Be(60000);
+            totals[MerchandiseType.Food].Price.Should().Be(8);
+            totals[MerchandiseType.Wood].Quantity.Should().Be(70000);
+            totals[MerchandiseType.Wood].Price.Should().Be(9);
+            totals[MerchandiseType.Stone].Quantity.Should().Be(80000);
+            totals[MerchandiseType.Stone].Price.Should().Be(10);
+            totals[MerchandiseType.Ore].Quantity.Should().Be(90000);
+            totals[MerchandiseType.Ore].Price.Should().Be(11);
+        }
+
+        [TestMethod]
+        public void Player_SellResources_Subtracts_Resources() {
+            var player = new Player(0, "Test");
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(0, 100000, 100000, 100000, 100000));
+            player.Buildings.Add(new Building(BuildingType.Market, 3));
+
+            player.SellResources(new List<MerchandiseTotals>() {
+                new MerchandiseTotals(MerchandiseType.Food, 60000, 8),
+                new MerchandiseTotals(MerchandiseType.Wood, 70000, 9),
+                new MerchandiseTotals(MerchandiseType.Stone, 80000, 10),
+                new MerchandiseTotals(MerchandiseType.Ore, 90000, 11)
+            });
+
+            player.Resources.Should().Be(new Resources(0, 40000, 30000, 20000, 10000));
         }
     }
 }

@@ -1,0 +1,169 @@
+﻿@model WarOfEmpires.Models.Markets.MarketModel
+
+@{
+    ViewBag.Title = "Sell resources";
+}
+
+<h2>Sell resources</h2>
+
+<p>
+    Send out new caravans to sell your resources on the market, or call back caravans currently on the market. You are able to send off multiple caravans at once,
+    provided you have enough available merchants. Please note that the game collects a 15% tax on all sales.
+</p>
+
+<ul>
+    <li>Total number of merchants: @Model.TotalMerchants.ToString(StringFormat.Integer)</li>
+    <li>Available merchants: @Model.AvailableMerchants.ToString(StringFormat.Integer)</li>
+    <li>Capacity per caravan: @Model.CaravanCapacity.ToString(StringFormat.Integer) <span class="si si-market"></span></li>
+    <li>Total available capacity: @Model.AvailableCapacity.ToString(StringFormat.Integer) <span class="si si-market"></span></li>
+</ul>
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new {
+    data_success_message = "Your resources have been sent to the market."
+})) {
+    @Html.ValidationSummary(true, null, new { @class = "site-validation-summary text-danger" })
+    @Html.HiddenFor(m => m.TotalMerchants)
+    @Html.HiddenFor(m => m.AvailableMerchants)
+    @Html.HiddenFor(m => m.CaravanCapacity)
+    @Html.HiddenFor(m => m.AvailableCapacity)
+
+    @Html.HiddenFor(m => m.FoodInfo.AvailableAtLowestPrice)
+    @Html.HiddenFor(m => m.FoodInfo.LowestPrice)
+    @Html.HiddenFor(m => m.FoodInfo.TotalAvailable)
+
+    @Html.HiddenFor(m => m.WoodInfo.AvailableAtLowestPrice)
+    @Html.HiddenFor(m => m.WoodInfo.LowestPrice)
+    @Html.HiddenFor(m => m.WoodInfo.TotalAvailable)
+
+    @Html.HiddenFor(m => m.StoneInfo.AvailableAtLowestPrice)
+    @Html.HiddenFor(m => m.StoneInfo.LowestPrice)
+    @Html.HiddenFor(m => m.StoneInfo.TotalAvailable)
+
+    @Html.HiddenFor(m => m.OreInfo.AvailableAtLowestPrice)
+    @Html.HiddenFor(m => m.OreInfo.LowestPrice)
+    @Html.HiddenFor(m => m.OreInfo.TotalAvailable)
+
+    <div class="row">
+        <div class="col-2 col-form-label">
+        </div>
+        <div class="col-2 col-form-label">
+            <strong>Minimum price</strong>
+        </div>
+        <div class="col-2 col-form-label">
+            <strong>Available at minimum price</strong>
+        </div>
+        <div class="col-2 col-form-label">
+            <strong>Total available</strong>
+        </div>
+        <div class="col-2 col-form-label">
+            <strong>Quantity</strong>
+        </div>
+        <div class="col-2 col-form-label">
+            <strong>Price</strong>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-2 col-form-label">
+            @Html.LabelFor(m => m.Food)
+        </div>
+        <div class="col-2 col-form-label">
+            @Model.FoodInfo.LowestPrice.ToString(StringFormat.Integer) <span class="si si-gold"></span>
+        </div>
+        <div class="col-2 col-form-label">
+            @Model.FoodInfo.AvailableAtLowestPrice.ToString(StringFormat.Integer) <span class="si si-food"></span>
+        </div>
+        <div class="col-2 col-form-label">
+            @Model.FoodInfo.TotalAvailable.ToString(StringFormat.Integer) <span class="si si-food"></span>
+        </div>
+        <div class="col-2">
+            @Html.TextBoxFor(m => m.Food, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Food, null, new { @class = "small form-text text-danger" })
+        </div>
+        <div class="col-2">
+            @Html.TextBoxFor(m => m.FoodPrice, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.FoodPrice, null, new { @class = "small form-text text-danger" })
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-2 col-form-label">
+            @Html.LabelFor(m => m.Wood)
+        </div>
+        <div class="col-2 col-form-label">
+            @Model.WoodInfo.LowestPrice.ToString(StringFormat.Integer) <span class="si si-gold"></span>
+        </div>
+        <div class="col-2 col-form-label">
+            @Model.WoodInfo.AvailableAtLowestPrice.ToString(StringFormat.Integer) <span class="si si-wood"></span>
+        </div>
+        <div class="col-2 col-form-label">
+            @Model.WoodInfo.TotalAvailable.ToString(StringFormat.Integer) <span class="si si-wood"></span>
+        </div>
+        <div class="col-2">
+            @Html.TextBoxFor(m => m.Wood, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Wood, null, new { @class = "small form-text text-danger" })
+        </div>
+        <div class="col-2">
+            @Html.TextBoxFor(m => m.WoodPrice, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.WoodPrice, null, new { @class = "small form-text text-danger" })
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-2 col-form-label">
+            @Html.LabelFor(m => m.Stone)
+        </div>
+        <div class="col-2 col-form-label">
+            @Model.StoneInfo.LowestPrice.ToString(StringFormat.Integer) <span class="si si-gold"></span>
+        </div>
+        <div class="col-2 col-form-label">
+            @Model.StoneInfo.AvailableAtLowestPrice.ToString(StringFormat.Integer) <span class="si si-stone"></span>
+        </div>
+        <div class="col-2 col-form-label">
+            @Model.StoneInfo.TotalAvailable.ToString(StringFormat.Integer) <span class="si si-stone"></span>
+        </div>
+        <div class="col-2">
+            @Html.TextBoxFor(m => m.Stone, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Stone, null, new { @class = "small form-text text-danger" })
+        </div>
+        <div class="col-2">
+            @Html.TextBoxFor(m => m.StonePrice, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.StonePrice, null, new { @class = "small form-text text-danger" })
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-2 col-form-label">
+            @Html.LabelFor(m => m.Ore)
+        </div>
+        <div class="col-2 col-form-label">
+            @Model.OreInfo.LowestPrice.ToString(StringFormat.Integer) <span class="si si-gold"></span>
+        </div>
+        <div class="col-2 col-form-label">
+            @Model.OreInfo.AvailableAtLowestPrice.ToString(StringFormat.Integer) <span class="si si-ore"></span>
+        </div>
+        <div class="col-2 col-form-label">
+            @Model.OreInfo.TotalAvailable.ToString(StringFormat.Integer) <span class="si si-ore"></span>
+        </div>
+        <div class="col-2">
+            @Html.TextBoxFor(m => m.Ore, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Ore, null, new { @class = "small form-text text-danger" })
+        </div>
+        <div class="col-2">
+            @Html.TextBoxFor(m => m.OrePrice, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.OrePrice, null, new { @class = "small form-text text-danger" })
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-10"></div>
+
+        <div class="col-2">
+            <button type="submit" class="btn btn-primary form-control">Sell</button>
+        </div>
+    </div>
+}
+
+@{
+    Html.RenderAction("Caravans");
+}

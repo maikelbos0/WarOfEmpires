@@ -17,4 +17,10 @@
             Html.RenderAction("_Building", "Empire", new { BuildingType = "SiegeFactory" });
         }
     </div>
+
+    <div class="col-4 partial-content">
+        @{
+            Html.RenderAction("_Building", "Empire", new { BuildingType = "Market" });
+        }
+    </div>
 </div>
