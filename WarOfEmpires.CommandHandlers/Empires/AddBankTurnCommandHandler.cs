@@ -7,9 +7,9 @@ namespace WarOfEmpires.CommandHandlers.Empires {
     [InterfaceInjectable]
     [Audit]
     public sealed class AddBankTurnCommandHandler : ICommandHandler<AddBankTurnCommand> {
-        private readonly PlayerRepository _repository;
+        private readonly IPlayerRepository _repository;
 
-        public AddBankTurnCommandHandler(PlayerRepository repository) {
+        public AddBankTurnCommandHandler(IPlayerRepository repository) {
             _repository = repository;
         }
 

@@ -9,9 +9,9 @@ namespace WarOfEmpires.CommandHandlers.Empires {
     [InterfaceInjectable]
     [Audit]
     public sealed class HealTroopsCommandHandler : ICommandHandler<HealTroopsCommand> {
-        private readonly PlayerRepository _repository;
+        private readonly IPlayerRepository _repository;
 
-        public HealTroopsCommandHandler(PlayerRepository repository) {
+        public HealTroopsCommandHandler(IPlayerRepository repository) {
             _repository = repository;
         }
 

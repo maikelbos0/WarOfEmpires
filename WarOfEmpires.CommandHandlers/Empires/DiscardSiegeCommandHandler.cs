@@ -12,10 +12,10 @@ namespace WarOfEmpires.CommandHandlers.Empires {
     [InterfaceInjectable]
     [Audit]
     public sealed class DiscardSiegeCommandHandler : ICommandHandler<DiscardSiegeCommand> {
-        private readonly PlayerRepository _repository;
+        private readonly IPlayerRepository _repository;
         private readonly EnumFormatter _formatter;
 
-        public DiscardSiegeCommandHandler(PlayerRepository repository, EnumFormatter formatter) {
+        public DiscardSiegeCommandHandler(IPlayerRepository repository, EnumFormatter formatter) {
             _repository = repository;
             _formatter = formatter;
         }

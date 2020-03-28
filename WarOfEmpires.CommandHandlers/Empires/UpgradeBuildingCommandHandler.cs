@@ -10,9 +10,9 @@ namespace WarOfEmpires.CommandHandlers.Empires {
     [InterfaceInjectable]
     [Audit]
     public sealed class UpgradeBuildingCommandHandler : ICommandHandler<UpgradeBuildingCommand> {
-        private readonly PlayerRepository _repository;
+        private readonly IPlayerRepository _repository;
 
-        public UpgradeBuildingCommandHandler(PlayerRepository repository) {
+        public UpgradeBuildingCommandHandler(IPlayerRepository repository) {
             _repository = repository;
         }
 

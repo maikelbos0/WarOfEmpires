@@ -8,9 +8,9 @@ namespace WarOfEmpires.CommandHandlers.Messages {
     [InterfaceInjectable]
     [Audit]
     public sealed class ReadMessageCommandHandler : ICommandHandler<ReadMessageCommand> {
-        private readonly PlayerRepository _repository;
+        private readonly IPlayerRepository _repository;
 
-        public ReadMessageCommandHandler(PlayerRepository repository) {
+        public ReadMessageCommandHandler(IPlayerRepository repository) {
             _repository = repository;
         }
 

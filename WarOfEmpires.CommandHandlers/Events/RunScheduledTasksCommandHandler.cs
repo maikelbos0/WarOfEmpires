@@ -10,10 +10,10 @@ namespace WarOfEmpires.CommandHandlers.Events {
     [InterfaceInjectable]
     [Audit]
     public sealed class RunScheduledTasksCommandHandler : ICommandHandler<RunScheduledTasksCommand> {
-        private readonly ScheduledTaskRepository _repository;
+        private readonly IScheduledTaskRepository _repository;
         private readonly IEventService _eventService;
 
-        public RunScheduledTasksCommandHandler(ScheduledTaskRepository repository, IEventService eventService) {
+        public RunScheduledTasksCommandHandler(IScheduledTaskRepository repository, IEventService eventService) {
             _repository = repository;
             _eventService = eventService;
         }

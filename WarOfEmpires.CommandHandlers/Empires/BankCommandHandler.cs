@@ -7,9 +7,9 @@ namespace WarOfEmpires.CommandHandlers.Empires {
     [InterfaceInjectable]
     [Audit]
     public sealed class BankCommandHandler : ICommandHandler<BankCommand> {
-        private readonly PlayerRepository _repository;
+        private readonly IPlayerRepository _repository;
 
-        public BankCommandHandler(PlayerRepository repository) {
+        public BankCommandHandler(IPlayerRepository repository) {
             _repository = repository;
         }
 

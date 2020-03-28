@@ -7,9 +7,9 @@ namespace WarOfEmpires.CommandHandlers.Events {
     [InterfaceInjectable]
     [Audit]
     public sealed class UnpauseScheduledTasksCommandHandler : ICommandHandler<UnpauseScheduledTasksCommand> {
-        private readonly ScheduledTaskRepository _repository;
+        private readonly IScheduledTaskRepository _repository;
 
-        public UnpauseScheduledTasksCommandHandler(ScheduledTaskRepository repository) {
+        public UnpauseScheduledTasksCommandHandler(IScheduledTaskRepository repository) {
             _repository = repository;
         }
 

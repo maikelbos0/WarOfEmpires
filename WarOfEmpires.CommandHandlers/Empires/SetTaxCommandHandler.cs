@@ -1,6 +1,5 @@
 ﻿using WarOfEmpires.CommandHandlers.Decorators;
 using WarOfEmpires.Commands.Empires;
-using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Repositories.Players;
 using WarOfEmpires.Utilities.Container;
 
@@ -8,9 +7,9 @@ namespace WarOfEmpires.CommandHandlers.Empires {
     [InterfaceInjectable]
     [Audit]
     public sealed class SetTaxCommandHandler : ICommandHandler<SetTaxCommand> {
-        private readonly PlayerRepository _repository;
+        private readonly IPlayerRepository _repository;
 
-        public SetTaxCommandHandler(PlayerRepository repository) {
+        public SetTaxCommandHandler(IPlayerRepository repository) {
             _repository = repository;
         }
 

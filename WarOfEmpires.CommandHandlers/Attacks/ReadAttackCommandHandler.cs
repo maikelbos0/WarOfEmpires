@@ -8,9 +8,9 @@ namespace WarOfEmpires.CommandHandlers.Attacks {
     [InterfaceInjectable]
     [Audit]
     public sealed class ReadAttackCommandHandler : ICommandHandler<ReadAttackCommand> {
-        private readonly PlayerRepository _repository;
+        private readonly IPlayerRepository _repository;
 
-        public ReadAttackCommandHandler(PlayerRepository repository) {
+        public ReadAttackCommandHandler(IPlayerRepository repository) {
             _repository = repository;
         }
 
