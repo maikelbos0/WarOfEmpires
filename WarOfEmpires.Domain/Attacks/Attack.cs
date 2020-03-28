@@ -80,7 +80,6 @@ namespace WarOfEmpires.Domain.Attacks {
             }
             
             Rounds.Add(new AttackRound(
-                this,
                 troopType,
                 isAggressor,
                 attackerTroopInfo.Troops.GetTotals(),

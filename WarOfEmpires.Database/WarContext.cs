@@ -142,7 +142,7 @@ namespace WarOfEmpires.Database {
             attackTypes.Property(r => r.Name).IsRequired();
 
             var attacks = modelBuilder.Entity<Attacks.Attack>().ToTable("Attacks", "Attacks").HasKey(a => a.Id);
-            attacks.HasMany(a => a.Rounds).WithRequired(r => r.Attack);
+            attacks.HasMany(a => a.Rounds).WithRequired();
             attacks.Property(a => a.Resources.Gold).HasColumnName("Gold");
             attacks.Property(a => a.Resources.Food).HasColumnName("Food");
             attacks.Property(a => a.Resources.Wood).HasColumnName("Wood");

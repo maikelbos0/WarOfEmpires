@@ -2,7 +2,6 @@
 
 namespace WarOfEmpires.Domain.Attacks {
     public class AttackRound : Entity {
-        public virtual Attack Attack { get; protected set; }
         public virtual TroopType TroopType { get; protected set; }
         public virtual bool IsAggressor { get; protected set; }
         public virtual int Troops { get; protected set; }
@@ -11,8 +10,7 @@ namespace WarOfEmpires.Domain.Attacks {
 
         protected AttackRound() { }
 
-        internal AttackRound(Attack attack, TroopType troopType, bool isAggressor, int troops, long damage, ICollection<Casualties> casualties) {
-            Attack = attack;
+        internal AttackRound(TroopType troopType, bool isAggressor, int troops, long damage, ICollection<Casualties> casualties) {
             TroopType = troopType;
             IsAggressor = isAggressor;
             Troops = troops;
