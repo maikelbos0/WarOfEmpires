@@ -22,6 +22,11 @@
     data_success_message = "Your resources have been sent to the market."
 })) {
     @Html.ValidationSummary(true, null, new { @class = "site-validation-summary text-danger" })
+    @Html.HiddenFor(m => m.TotalMerchants)
+    @Html.HiddenFor(m => m.AvailableMerchants)
+    @Html.HiddenFor(m => m.CaravanCapacity)
+    @Html.HiddenFor(m => m.AvailableCapacity)
+
     @Html.HiddenFor(m => m.FoodInfo.AvailableAtLowestPrice)
     @Html.HiddenFor(m => m.FoodInfo.LowestPrice)
     @Html.HiddenFor(m => m.FoodInfo.TotalAvailable)
