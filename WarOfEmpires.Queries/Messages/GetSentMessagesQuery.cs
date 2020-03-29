@@ -2,7 +2,7 @@
 using WarOfEmpires.Models.Messages;
 
 namespace WarOfEmpires.Queries.Messages {
-    public sealed class GetSentMessagesQuery : IQuery<List<SentMessageViewModel>> {
+    public sealed class GetSentMessagesQuery : IQuery<IEnumerable<SentMessageViewModel>> {
         public string Email { get; }
 
         public GetSentMessagesQuery(string email) {

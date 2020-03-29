@@ -10,7 +10,7 @@ using WarOfEmpires.Utilities.Services;
 namespace WarOfEmpires.QueryHandlers.Messages {
     [InterfaceInjectable]
     [Audit]
-    public sealed class GetReceivedMessagesQueryHandler : IQueryHandler<GetReceivedMessagesQuery, List<ReceivedMessageViewModel>> {
+    public sealed class GetReceivedMessagesQueryHandler : IQueryHandler<GetReceivedMessagesQuery, IEnumerable<ReceivedMessageViewModel>> {
 
         private readonly IWarContext _context;
 
@@ -18,7 +18,7 @@ namespace WarOfEmpires.QueryHandlers.Messages {
             _context = context;
         }
 
-        public List<ReceivedMessageViewModel> Execute(GetReceivedMessagesQuery query) {
+        public IEnumerable<ReceivedMessageViewModel> Execute(GetReceivedMessagesQuery query) {
             return _context.Players
                 .Single(p => EmailComparisonService.Equals(p.User.Email, query.Email))
                 .ReceivedMessages

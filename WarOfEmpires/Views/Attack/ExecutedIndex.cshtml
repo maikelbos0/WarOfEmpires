@@ -78,26 +78,6 @@
             ]
         });
 
-        function populate(metaData) {
-            $.ajax({
-                method: "POST",
-                url: "@Url.Action("GetExecutedAttacks")",
-                data: metaData,
-                success: function (d) {
-                    $('#attacksGrid').datagridview(function () {
-                        this.populate(d.metaData, d.data);
-                    });
-                },
-                error: function () {
-                    toastr.error("An error occurred loading data; please contact support to resolve this issue.");
-                }
-            });
-        }
-
-        populate(new DataGridViewMetaData('Date', true, 0, 25, 0));
-
-        $('#attacksGrid').on('datagridview.sorted datagridview.paged', function (event, metaData) {
-            populate(metaData);
-        });
+        GridManager.initialize('#attacksGrid', '@Url.Action("GetExecutedAttacks")', 'Date', true);
     </script>
 }

@@ -8,7 +8,8 @@ using WarOfEmpires.Services;
 namespace WarOfEmpires.Controllers {
     [RoutePrefix("Home")]
     public sealed class HomeController : BaseController {
-        public HomeController(IAuthenticationService authenticationService, IMessageService messageService) : base(messageService, authenticationService) {
+        public HomeController(IAuthenticationService authenticationService, IMessageService messageService, IDataGridViewService dataGridViewService) 
+            : base(messageService, authenticationService, dataGridViewService) {
         }
 
         [Route("~/")]

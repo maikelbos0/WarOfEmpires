@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using WarOfEmpires.Commands.Markets;
 using WarOfEmpires.Models;
 using WarOfEmpires.Models.Markets;
@@ -10,10 +9,8 @@ namespace WarOfEmpires.Controllers {
     [Authorize]
     [RoutePrefix("Market")]
     public class MarketController : BaseController {
-        private readonly IDataGridViewService _dataGridViewService;
-
-        public MarketController(IAuthenticationService authenticationService, IMessageService messageService, IDataGridViewService dataGridViewService) : base(messageService, authenticationService) {
-            _dataGridViewService = dataGridViewService;
+        public MarketController(IAuthenticationService authenticationService, IMessageService messageService, IDataGridViewService dataGridViewService) 
+            : base(messageService, authenticationService, dataGridViewService) {
         }
 
         [Route("Sell")]
@@ -68,14 +65,7 @@ namespace WarOfEmpires.Controllers {
         [Route("GetSellTransactions")]
         [HttpPost]
         public ActionResult GetSellTransactions(DataGridViewMetaData metaData) {
-            IEnumerable<TransactionViewModel> data = _messageService.Dispatch(new GetSellTransactionsQuery(_authenticationService.Identity));
-
-            data = _dataGridViewService.ApplyMetaData(data, ref metaData);
-
-            return Json(new {
-                metaData,
-                data
-            });
+            return GridJson(new GetSellTransactionsQuery(_authenticationService.Identity), metaData);
         }
 
         [Route("BuyTransactions")]
@@ -87,14 +77,7 @@ namespace WarOfEmpires.Controllers {
         [Route("GetBuyTransactions")]
         [HttpPost]
         public ActionResult GetBuyTransactions(DataGridViewMetaData metaData) {
-            IEnumerable<TransactionViewModel> data = _messageService.Dispatch(new GetBuyTransactionsQuery(_authenticationService.Identity));
-
-            data = _dataGridViewService.ApplyMetaData(data, ref metaData);
-
-            return Json(new {
-                metaData,
-                data
-            });
+            return GridJson(new GetBuyTransactionsQuery(_authenticationService.Identity), metaData);
         }
     }
 }

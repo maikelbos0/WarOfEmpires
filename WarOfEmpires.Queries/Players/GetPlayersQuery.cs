@@ -2,6 +2,6 @@
 using WarOfEmpires.Models.Players;
 
 namespace WarOfEmpires.Queries.Players {
-    public sealed class GetPlayersQuery : IQuery<List<PlayerViewModel>> {
+    public sealed class GetPlayersQuery : IQuery<IEnumerable<PlayerViewModel>> {
     }
 }

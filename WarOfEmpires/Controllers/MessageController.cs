@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using WarOfEmpires.Commands.Messages;
 using WarOfEmpires.Models;
 using WarOfEmpires.Models.Messages;
@@ -10,10 +9,8 @@ namespace WarOfEmpires.Controllers {
     [Authorize]
     [RoutePrefix("Message")]
     public class MessageController : BaseController {
-        private readonly IDataGridViewService _dataGridViewService;
-
-        public MessageController(IAuthenticationService authenticationService, IMessageService messageService, IDataGridViewService dataGridViewService) : base(messageService, authenticationService) {
-            _dataGridViewService = dataGridViewService;
+        public MessageController(IAuthenticationService authenticationService, IMessageService messageService, IDataGridViewService dataGridViewService) 
+            : base(messageService, authenticationService, dataGridViewService) {
         }
 
         [Route]
@@ -26,14 +23,7 @@ namespace WarOfEmpires.Controllers {
         [Route("GetReceivedMessages")]
         [HttpPost]
         public ActionResult GetReceivedMessages(DataGridViewMetaData metaData) {
-            IEnumerable<ReceivedMessageViewModel> data = _messageService.Dispatch(new GetReceivedMessagesQuery(_authenticationService.Identity));
-
-            data = _dataGridViewService.ApplyMetaData(data, ref metaData);
-
-            return Json(new {
-                metaData,
-                data
-            });
+            return GridJson(new GetReceivedMessagesQuery(_authenticationService.Identity), metaData);
         }
 
         [Route("Send")]
@@ -78,14 +68,7 @@ namespace WarOfEmpires.Controllers {
         [Route("GetSentMessages")]
         [HttpPost]
         public ActionResult GetSentMessages(DataGridViewMetaData metaData) {
-            IEnumerable<SentMessageViewModel> data = _messageService.Dispatch(new GetSentMessagesQuery(_authenticationService.Identity));
-
-            data = _dataGridViewService.ApplyMetaData(data, ref metaData);
-
-            return Json(new {
-                metaData,
-                data
-            });
+            return GridJson(new GetSentMessagesQuery(_authenticationService.Identity), metaData);
         }
 
         [Route("SentDetails")]

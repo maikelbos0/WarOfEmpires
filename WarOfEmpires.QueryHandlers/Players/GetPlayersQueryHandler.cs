@@ -10,14 +10,14 @@ using WarOfEmpires.Utilities.Container;
 namespace WarOfEmpires.QueryHandlers.Players {
     [InterfaceInjectable]
     [Audit]
-    public sealed class GetPlayersQueryHandler : IQueryHandler<GetPlayersQuery, List<PlayerViewModel>> {
+    public sealed class GetPlayersQueryHandler : IQueryHandler<GetPlayersQuery, IEnumerable<PlayerViewModel>> {
         private readonly IWarContext _context;
 
         public GetPlayersQueryHandler(IWarContext context) {
             _context = context;
         }
 
-        public List<PlayerViewModel> Execute(GetPlayersQuery query) {
+        public IEnumerable<PlayerViewModel> Execute(GetPlayersQuery query) {
             return _context.Players
                 .Where(p => p.User.Status == UserStatus.Active)
                 .Select(p => new PlayerViewModel() {

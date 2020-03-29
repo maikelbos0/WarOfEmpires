@@ -11,7 +11,7 @@ using WarOfEmpires.Utilities.Services;
 namespace WarOfEmpires.QueryHandlers.Markets {
     [InterfaceInjectable]
     [Audit]
-    public sealed class GetSellTransactionsQueryHandler : IQueryHandler<GetSellTransactionsQuery, List<TransactionViewModel>> {
+    public sealed class GetSellTransactionsQueryHandler : IQueryHandler<GetSellTransactionsQuery, IEnumerable<TransactionViewModel>> {
         private readonly IWarContext _context;
         private readonly EnumFormatter _formatter;
 
@@ -20,7 +20,7 @@ namespace WarOfEmpires.QueryHandlers.Markets {
             _formatter = formatter;
         }
 
-        public List<TransactionViewModel> Execute(GetSellTransactionsQuery query) {
+        public IEnumerable<TransactionViewModel> Execute(GetSellTransactionsQuery query) {
             return _context.Players
                 .Single(p => EmailComparisonService.Equals(p.User.Email, query.Email))
                 .SellTransactions

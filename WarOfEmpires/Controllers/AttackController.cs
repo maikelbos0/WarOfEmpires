@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using WarOfEmpires.Commands.Attacks;
 using WarOfEmpires.Models;
 using WarOfEmpires.Models.Attacks;
@@ -10,10 +9,8 @@ namespace WarOfEmpires.Controllers {
     [Authorize]
     [RoutePrefix("Attack")]
     public class AttackController : BaseController {
-        private readonly IDataGridViewService _dataGridViewService;
-
-        public AttackController(IAuthenticationService authenticationService, IMessageService messageService, IDataGridViewService dataGridViewService) : base(messageService, authenticationService) {
-            _dataGridViewService = dataGridViewService;
+        public AttackController(IAuthenticationService authenticationService, IMessageService messageService, IDataGridViewService dataGridViewService)
+            : base(messageService, authenticationService, dataGridViewService) {
         }
 
         [Route]
@@ -26,14 +23,7 @@ namespace WarOfEmpires.Controllers {
         [Route("GetReceivedAttacks")]
         [HttpPost]
         public ActionResult GetReceivedAttacks(DataGridViewMetaData metaData) {
-            IEnumerable<ReceivedAttackViewModel> data = _messageService.Dispatch(new GetReceivedAttacksQuery(_authenticationService.Identity));
-
-            data = _dataGridViewService.ApplyMetaData(data, ref metaData);
-
-            return Json(new {
-                metaData,
-                data
-            });
+            return GridJson(new GetReceivedAttacksQuery(_authenticationService.Identity), metaData);
         }
 
         [Route("ExecutedIndex")]
@@ -45,14 +35,7 @@ namespace WarOfEmpires.Controllers {
         [Route("GetExecutedAttacks")]
         [HttpPost]
         public ActionResult GetExecutedAttacks(DataGridViewMetaData metaData) {
-            IEnumerable<ExecutedAttackViewModel> data = _messageService.Dispatch(new GetExecutedAttacksQuery(_authenticationService.Identity));
-
-            data = _dataGridViewService.ApplyMetaData(data, ref metaData);
-
-            return Json(new {
-                metaData,
-                data
-            });
+            return GridJson(new GetExecutedAttacksQuery(_authenticationService.Identity), metaData);
         }
 
         [Route("Details")]

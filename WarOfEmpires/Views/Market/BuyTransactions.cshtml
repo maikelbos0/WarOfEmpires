@@ -37,26 +37,6 @@
             ]
         });
 
-        function populate(metaData) {
-            $.ajax({
-                method: "POST",
-                url: "@Url.Action("GetBuyTransactions")",
-                data: metaData,
-                success: function (d) {
-                    $('#transactionsGrid').datagridview(function () {
-                        this.populate(d.metaData, d.data);
-                    });
-                },
-                error: function () {
-                    toastr.error("An error occurred loading data; please contact support to resolve this issue.");
-                }
-            });
-        }
-
-        populate(new DataGridViewMetaData('Date', true, 0, 25, 0));
-
-        $('#transactionsGrid').on('datagridview.sorted datagridview.paged', function (event, metaData) {
-            populate(metaData);
-        });
+        GridManager.initialize('#transactionsGrid', '@Url.Action("GetBuyTransactions")', 'Date', true);
     </script>
 }
