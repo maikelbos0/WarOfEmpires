@@ -1,7 +1,76 @@
-﻿.datagridview-footer-element > button {
-    color: #fff;
-    background-color: #6c757d;
-    border-color: #6c757d;
+﻿/* colours */
+:root {
+    --grid-body-bg-color-even: #F5E0B7; /* apricot */
+    --grid-body-bg-color-odd: #f3fcdc; /* pale lemon */
+    --grid-body-txt-hover-color: #6184D8; /* blue */
+    --grid-body-txt-color: #333399; /* dark blue */
+    --grid-border-color: #333399; /* dark blue */
+    --grid-btn-txt-color: #f3fcdc; /* pale lemon */
+    --grid-btn-bg-color: #333399; /* dark blue */
+    --grid-btn-hover-color: #6184D8; /* blue */
+    --grid-header-bg-color: #6184D8; /* blue */
+    --grid-header-txt-color: #333399; /* dark blue */
+    --grid-footer-txt-color: #272775; /* darker blue */
+}
+
+.datagridview {
+    border: 1px solid var(--grid-border-color);
+}
+
+.datagridview-header-cell {
+    font-weight: bold;
+    color: var(--grid-header-txt-color);
+}
+
+.datagridview-header, .datagridview-footer {
+    background-color: var(--grid-header-bg-color);
+}
+
+.datagridview-header-cell {
+    padding-top: 0.2rem;
+    padding-bottom: 0.2rem;
+}
+
+.datagridview-row > div, .datagridview-header-cell {
+    padding-left: 0.2rem;
+    padding-right: calc(0.2rem + 5px);
+}
+
+.datagridview-body {
+    border-top: 1px solid var(--grid-border-color);
+    border-bottom: 1px solid var(--grid-border-color);
+}
+
+.datagridview-row:nth-child(even) {
+    background-color: var(--grid-body-bg-color-even);
+}
+
+.datagridview-row:nth-child(odd) {
+    background-color: var(--grid-body-bg-color-odd);
+}
+
+.datagridview-row a {
+    color: var(--grid-body-txt-color);
+}
+
+.datagridview-row a:hover {
+    color: var(--grid-body-txt-hover-color);
+}
+
+.datagridview-footer {
+    padding: 0.2rem;
+    color: var(--grid-footer-txt-color);
+}
+
+.datagridview-footer input, .datagridview-footer button {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.datagridview-footer-element > button {
+    color: var(--grid-btn-txt-color);
+    background-color: var(--grid-btn-bg-color);
+    border: 1px solid var(--grid-btn-bg-color);
     font-weight: 400;
     border-radius: 0.25rem;
     transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
@@ -18,7 +87,7 @@
 }
 
 .datagridview-footer-element > button:hover {
-    background-color: #343a40;
+    background-color: var(--grid-btn-hover-color);
 }
 
 .datagridview-footer-element > button:disabled {
