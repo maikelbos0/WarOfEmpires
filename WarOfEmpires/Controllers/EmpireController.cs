@@ -9,7 +9,8 @@ namespace WarOfEmpires.Controllers {
     [Authorize]
     [RoutePrefix("Empire")]
     public class EmpireController : BaseController {
-        public EmpireController(IAuthenticationService authenticationService, IMessageService messageService) : base(messageService, authenticationService) {
+        public EmpireController(IAuthenticationService authenticationService, IMessageService messageService, IDataGridViewService dataGridViewService)
+            : base(messageService, authenticationService, dataGridViewService) {
         }
 
         [Route("Workers")]

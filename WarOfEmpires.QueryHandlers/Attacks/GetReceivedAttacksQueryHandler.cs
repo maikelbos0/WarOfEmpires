@@ -10,14 +10,14 @@ using WarOfEmpires.Utilities.Services;
 namespace WarOfEmpires.QueryHandlers.Attacks {
     [InterfaceInjectable]
     [Audit]
-    public sealed class GetReceivedAttacksQueryHandler : IQueryHandler<GetReceivedAttacksQuery, List<ReceivedAttackViewModel>> {
+    public sealed class GetReceivedAttacksQueryHandler : IQueryHandler<GetReceivedAttacksQuery, IEnumerable<ReceivedAttackViewModel>> {
         private readonly IWarContext _context;
 
         public GetReceivedAttacksQueryHandler(IWarContext context) {
             _context = context;
         }
 
-        public List<ReceivedAttackViewModel> Execute(GetReceivedAttacksQuery query) {
+        public IEnumerable<ReceivedAttackViewModel> Execute(GetReceivedAttacksQuery query) {
             return _context.Players
                 .Single(p => EmailComparisonService.Equals(p.User.Email, query.Email))
                 .ReceivedAttacks

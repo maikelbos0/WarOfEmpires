@@ -4,15 +4,20 @@ using WarOfEmpires.Services;
 using System;
 using System.Web.Mvc;
 using WarOfEmpires.CommandHandlers;
+using WarOfEmpires.Queries;
+using System.Collections.Generic;
+using WarOfEmpires.Models;
 
 namespace WarOfEmpires.Controllers {
     public abstract class BaseController : Controller {
         protected readonly IMessageService _messageService;
         protected readonly IAuthenticationService _authenticationService;
+        protected readonly IDataGridViewService _dataGridViewService;
 
-        public BaseController(IMessageService messageService, IAuthenticationService authenticationService) {
+        public BaseController(IMessageService messageService, IAuthenticationService authenticationService, IDataGridViewService dataGridViewService) {
             _messageService = messageService;
             _authenticationService = authenticationService;
+            _dataGridViewService = dataGridViewService;
         }
 
         protected ActionResult ValidatedCommandResult<TCommand>(object model, TCommand command, string onValidViewName) where TCommand : ICommand {
@@ -48,6 +53,17 @@ namespace WarOfEmpires.Controllers {
             else {
                 return View(model);
             }
+        }
+
+        protected JsonResult GridJson<TReturnValue>(IQuery<IEnumerable<TReturnValue>> query, DataGridViewMetaData metaData) where TReturnValue : EntityViewModel {
+            IEnumerable<TReturnValue> data = _messageService.Dispatch(query);
+
+            data = _dataGridViewService.ApplyMetaData(data, ref metaData);
+
+            return Json(new {
+                metaData,
+                data
+            });
         }
     }
 }

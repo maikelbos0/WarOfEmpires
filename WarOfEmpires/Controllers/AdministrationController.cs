@@ -9,7 +9,8 @@ namespace WarOfEmpires.Controllers {
     [AdminAuthorize]
     [RoutePrefix("Administration")]
     public class AdministrationController : BaseController {
-        public AdministrationController(IAuthenticationService authenticationService, IMessageService messageService) : base(messageService, authenticationService) {
+        public AdministrationController(IAuthenticationService authenticationService, IMessageService messageService, IDataGridViewService dataGridViewService)
+            : base(messageService, authenticationService, dataGridViewService) {
         }
 
         [Route]
