@@ -190,6 +190,10 @@
     <Compile Include="Migrations\202003281857127_Attacks-CascadePaths.Designer.cs">
       <DependentUpon>202003281857127_Attacks-CascadePaths.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202003291305356_MerchandiseTypes-Transactions.cs" />
+    <Compile Include="Migrations\202003291305356_MerchandiseTypes-Transactions.Designer.cs">
+      <DependentUpon>202003291305356_MerchandiseTypes-Transactions.cs</DependentUpon>
+    </Compile>
     <Compile Include="ReferenceEntities\AttackResultEntity.cs" />
     <Compile Include="ReferenceEntities\AttackTypeEntity.cs" />
     <Compile Include="ReferenceEntities\BaseReferenceEntity.cs" />
@@ -325,6 +329,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202003281857127_Attacks-CascadePaths.resx">
       <DependentUpon>202003281857127_Attacks-CascadePaths.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003291305356_MerchandiseTypes-Transactions.resx">
+      <DependentUpon>202003291305356_MerchandiseTypes-Transactions.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

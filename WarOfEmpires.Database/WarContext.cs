@@ -127,6 +127,7 @@ namespace WarOfEmpires.Database {
 
             var merchandiseTypes = modelBuilder.Entity<MerchandiseTypeEntity>().ToTable("MerchandiseTypes", "Markets").HasKey(t => t.Id);
             merchandiseTypes.HasMany(m => m.Merchandise).WithRequired().HasForeignKey(m => m.Type);
+            merchandiseTypes.HasMany(m => m.Transactions).WithRequired().HasForeignKey(m => m.Type);
             merchandiseTypes.Property(m => m.Name).IsRequired();
 
             modelBuilder.Entity<Markets.Transaction>().ToTable("Transactions", "Markets");
