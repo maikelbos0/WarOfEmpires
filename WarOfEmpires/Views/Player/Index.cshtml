@@ -31,26 +31,6 @@
             ]
         });
 
-        function populate(metaData) {
-            $.ajax({
-                method: "POST",
-                url: "@Url.Action("GetPlayers")",
-                data: metaData,
-                success: function (d) {
-                    $('#playersGrid').datagridview(function () {
-                        this.populate(d.metaData, d.data);
-                    });
-                },
-                error: function () {
-                    toastr.error("An error occurred loading data; please contact support to resolve this issue.");
-                }
-            });
-        }
-
-        populate();
-
-        $('#playersGrid').on('datagridview.sorted datagridview.paged', function (event, metaData) {
-            populate(metaData);
-        });
+        GridManager.initialize('#playersGrid', '@Url.Action("GetPlayers")');
     </script>
 }
