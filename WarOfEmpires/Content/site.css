@@ -3,22 +3,22 @@
     --btn-primary-color: #533A71; /* dark purple */
     --btn-primary-hover-color: #6184D8; /* blue */
     --content-bg-color: #F5E0B7; /* apricot */
-    --msg-bg-color: #66cc66; /* darker green */
+    --msg-bg-color: #66CC66; /* darker green */
     --nav-bg-color: #6184D8; /* blue */
     --nav-menu-border-color: #533A71; /* dark purple */
     --nav-menu-color: #333399; /* dark blue */
-    --nav-menu-hover-color: #72b4e0; /* light blue */
+    --nav-menu-hover-color: #72b4E0; /* light blue */
     --nav-notify-color: #9CEC5B; /* garish green */
-    --nav-notify-hover-color: #66cc66; /* darker green */
-    --page-bg-color: #f3fcdc; /* pale lemon */
-    --pw-meter-border-color: #ced4da; /* light grey */
-    --pw-meter-1-color: #ee8833; /* orange */
-    --pw-meter-2-color: #eeee33; /* yellow */
-    --pw-meter-3-color: #33ee33; /* green */
+    --nav-notify-hover-color: #66CC66; /* darker green */
+    --page-bg-color: #F3FCDC; /* pale lemon */
+    --pw-meter-border-color: #CED4DA; /* light grey */
+    --pw-meter-1-color: #EE8833; /* orange */
+    --pw-meter-2-color: #EEEE33; /* yellow */
+    --pw-meter-3-color: #33EE33; /* green */
     --rangeslider-thumb-color: #6184D8; /* blue */
     --rangeslider-thumb-border-color: #333399; /* dark blue */
     --rangeslider-track-color: #533A71; /* dark purple */
-    --text-highlighted-color: #dd5500; /* dark orange */
+    --text-highlighted-color: #DD5500; /* dark orange */
     --text-muted-color: #777777; /* dark grey */
 }
 
