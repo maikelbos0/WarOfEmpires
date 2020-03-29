@@ -8,14 +8,14 @@
 
 <div class="row">
     <div class="col-3">Attacker</div>
-
-    <div class="col-9">@Model.Attacker</div>
+    
+    <div class="col-9">@Html.ActionLink(Model.Attacker, "Details", "Player", new { id = Model.AttackerId }, null)</div>
 </div>
 
 <div class="row">
     <div class="col-3">Defender</div>
 
-    <div class="col-9">@Model.Defender</div>
+    <div class="col-9">@Html.ActionLink(Model.Defender, "Details", "Player", new { id = Model.DefenderId }, null)</div>
 </div>
 
 <div class="row">

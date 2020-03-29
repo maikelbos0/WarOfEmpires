@@ -86,7 +86,9 @@ namespace WarOfEmpires.QueryHandlers.Tests.Attacks {
             var result = handler.Execute(query);
 
             result.Id.Should().Be(1);
+            result.AttackerId.Should().Be(1);
             result.Attacker.Should().Be("Attacker 1");
+            result.DefenderId.Should().Be(2);
             result.Defender.Should().Be("Defender 1");
             result.Date.Should().Be(new DateTime(2019, 1, 1));
             result.IsRead.Should().BeFalse();
