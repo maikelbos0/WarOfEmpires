@@ -1,11 +1,11 @@
 ﻿/* colours */
 :root {
     --grid-body-bg-color-even: #F5E0B7; /* apricot */
-    --grid-body-bg-color-odd: #f3fcdc; /* pale lemon */
+    --grid-body-bg-color-odd: #F3FCDC; /* pale lemon */
     --grid-body-txt-hover-color: #6184D8; /* blue */
     --grid-body-txt-color: #333399; /* dark blue */
     --grid-border-color: #333399; /* dark blue */
-    --grid-btn-txt-color: #f3fcdc; /* pale lemon */
+    --grid-btn-txt-color: #F3FCDC; /* pale lemon */
     --grid-btn-bg-color: #333399; /* dark blue */
     --grid-btn-hover-color: #6184D8; /* blue */
     --grid-header-bg-color: #6184D8; /* blue */
