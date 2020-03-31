@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 using System.Collections.Generic;
+using System.Linq;
 using WarOfEmpires.Domain.Empires;
 using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Domain.Security;
@@ -39,39 +40,39 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
             _context.Users.Add(user);
             _context.Players.Add(player);
         }
-
+        
         [TestMethod]
         public void GetSiegeQueryHandler_Returns_Correct_FireArrows() {
             var handler = new GetSiegeQueryHandler(_context, _resourcesMap);
             var query = new GetSiegeQuery("test@test.com");
 
             var result = handler.Execute(query);
+            var siegeWeapon = result.SiegeWeapons.Single(s => s.Type == "FireArrows");
 
-            result.FireArrowsInfo.Should().NotBeNull();
-            result.FireArrowsInfo.Cost.Ore.Should().Be(40);
-            result.FireArrowsInfo.Cost.Wood.Should().Be(80);
-            result.FireArrowsInfo.TroopCount.Should().Be(36);
-            result.FireArrowsInfo.Maintenance.Should().Be(18);
-            result.FireArrowsInfo.CurrentCount.Should().Be(2);
-            result.FireArrowsInfo.CurrentTroopCount.Should().Be(72);
-            result.FireArrowsInfo.Name.Should().Be("Fire arrows");
+            siegeWeapon.Cost.Ore.Should().Be(40);
+            siegeWeapon.Cost.Wood.Should().Be(80);
+            siegeWeapon.TroopCount.Should().Be(36);
+            siegeWeapon.Maintenance.Should().Be(18);
+            siegeWeapon.CurrentCount.Should().Be(2);
+            siegeWeapon.CurrentTroopCount.Should().Be(72);
+            siegeWeapon.Name.Should().Be("Fire arrows");
         }
-
+        
         [TestMethod]
         public void GetSiegeQueryHandler_Returns_Correct_BatteringRams() {
             var handler = new GetSiegeQueryHandler(_context, _resourcesMap);
             var query = new GetSiegeQuery("test@test.com");
 
             var result = handler.Execute(query);
+            var siegeWeapon = result.SiegeWeapons.Single(s => s.Type == "BatteringRams");
 
-            result.BatteringRamsInfo.Should().NotBeNull();
-            result.BatteringRamsInfo.Cost.Ore.Should().Be(100);
-            result.BatteringRamsInfo.Cost.Wood.Should().Be(200);
-            result.BatteringRamsInfo.TroopCount.Should().Be(8);
-            result.BatteringRamsInfo.Maintenance.Should().Be(4);
-            result.BatteringRamsInfo.CurrentCount.Should().Be(3);
-            result.BatteringRamsInfo.CurrentTroopCount.Should().Be(24);
-            result.BatteringRamsInfo.Name.Should().Be("Battering rams");
+            siegeWeapon.Cost.Ore.Should().Be(100);
+            siegeWeapon.Cost.Wood.Should().Be(200);
+            siegeWeapon.TroopCount.Should().Be(8);
+            siegeWeapon.Maintenance.Should().Be(4);
+            siegeWeapon.CurrentCount.Should().Be(3);
+            siegeWeapon.CurrentTroopCount.Should().Be(24);
+            siegeWeapon.Name.Should().Be("Battering rams");
         }
 
         [TestMethod]
@@ -80,17 +81,18 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
             var query = new GetSiegeQuery("test@test.com");
 
             var result = handler.Execute(query);
+            var siegeWeapon = result.SiegeWeapons.Single(s => s.Type == "ScalingLadders");
 
-            result.ScalingLaddersInfo.Should().NotBeNull();
-            result.ScalingLaddersInfo.Cost.Ore.Should().Be(45);
-            result.ScalingLaddersInfo.Cost.Wood.Should().Be(90);
-            result.ScalingLaddersInfo.TroopCount.Should().Be(12);
-            result.ScalingLaddersInfo.Maintenance.Should().Be(6);
-            result.ScalingLaddersInfo.CurrentCount.Should().Be(4);
-            result.ScalingLaddersInfo.CurrentTroopCount.Should().Be(48);
-            result.ScalingLaddersInfo.Name.Should().Be("Scaling ladders");
+            siegeWeapon.Should().NotBeNull();
+            siegeWeapon.Cost.Ore.Should().Be(45);
+            siegeWeapon.Cost.Wood.Should().Be(90);
+            siegeWeapon.TroopCount.Should().Be(12);
+            siegeWeapon.Maintenance.Should().Be(6);
+            siegeWeapon.CurrentCount.Should().Be(4);
+            siegeWeapon.CurrentTroopCount.Should().Be(48);
+            siegeWeapon.Name.Should().Be("Scaling ladders");
         }
-
+        
         [TestMethod]
         public void GetSiegeQueryHandler_Returns_Correct_General_Information() {
             var handler = new GetSiegeQueryHandler(_context, _resourcesMap);

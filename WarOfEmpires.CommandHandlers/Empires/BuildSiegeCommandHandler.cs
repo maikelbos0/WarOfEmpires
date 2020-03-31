@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using WarOfEmpires.CommandHandlers.Decorators;
 using WarOfEmpires.Commands.Empires;
 using WarOfEmpires.Domain.Empires;
 using WarOfEmpires.Domain.Siege;
 using WarOfEmpires.Repositories.Players;
 using WarOfEmpires.Utilities.Container;
-using WarOfEmpires.Utilities.Formatting;
 using WarOfEmpires.Utilities.Linq;
 
 namespace WarOfEmpires.CommandHandlers.Empires {
@@ -16,28 +14,9 @@ namespace WarOfEmpires.CommandHandlers.Empires {
     [Audit]
     public sealed class BuildSiegeCommandHandler : ICommandHandler<BuildSiegeCommand> {
         private readonly IPlayerRepository _repository;
-        private readonly EnumFormatter _formatter;
 
-        public BuildSiegeCommandHandler(IPlayerRepository repository, EnumFormatter formatter) {
+        public BuildSiegeCommandHandler(IPlayerRepository repository) {
             _repository = repository;
-            _formatter = formatter;
-        }
-
-        private IEnumerable<SiegeWeaponInfo> ParseSiegeWeapon(BuildSiegeCommand command,
-                                                              CommandResult<BuildSiegeCommand> result,
-                                                              SiegeWeaponType type,
-                                                              Expression<Func<BuildSiegeCommand, object>> siegeWeaponFunc) {
-
-            var commandSiegeWeapons = (string)siegeWeaponFunc.Compile().Invoke(command);
-            int siegeWeapons = 0;
-
-            if (!string.IsNullOrEmpty(commandSiegeWeapons) && !int.TryParse(commandSiegeWeapons, out siegeWeapons) || siegeWeapons < 0) {
-                result.AddError(siegeWeaponFunc, $"{_formatter.ToString(type)} must be a valid number");
-            }
-
-            if (result.Success && siegeWeapons > 0) {
-                yield return new SiegeWeaponInfo(type, siegeWeapons);
-            }
         }
 
         public CommandResult<BuildSiegeCommand> Execute(BuildSiegeCommand command) {
@@ -47,9 +26,19 @@ namespace WarOfEmpires.CommandHandlers.Empires {
                 - player.SiegeWeapons.Sum(s => s.Count * SiegeWeaponDefinitionFactory.Get(s.Type).Maintenance);
             var siegeWeapons = new List<SiegeWeaponInfo>();
 
-            siegeWeapons.AddRange(ParseSiegeWeapon(command, result, SiegeWeaponType.FireArrows, c => c.FireArrows));
-            siegeWeapons.AddRange(ParseSiegeWeapon(command, result, SiegeWeaponType.BatteringRams, c => c.BatteringRams));
-            siegeWeapons.AddRange(ParseSiegeWeapon(command, result, SiegeWeaponType.ScalingLadders, c => c.ScalingLadders));
+            for (var index = 0; index < command.SiegeWeapons.Count; index++) {
+                var i = index; // Don't use iterator in lambdas                
+                var type = (SiegeWeaponType)Enum.Parse(typeof(SiegeWeaponType), command.SiegeWeapons[i].Type);
+                int count = 0;
+
+                if (!string.IsNullOrEmpty(command.SiegeWeapons[i].Count) && !int.TryParse(command.SiegeWeapons[i].Count, out count) || count < 0) {
+                    result.AddError(c => c.SiegeWeapons[i].Count, "Invalid number");
+                }
+
+                if (result.Success && count > 0) {
+                    siegeWeapons.Add(new SiegeWeaponInfo(type, count));
+                }
+            }
 
             if (availableMaintenance < siegeWeapons.Sum(s => s.Count * SiegeWeaponDefinitionFactory.Get(s.Type).Maintenance)) {
                 result.AddError("You don't have enough siege maintenance available to build that much siege");

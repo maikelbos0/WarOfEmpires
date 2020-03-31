@@ -33,7 +33,7 @@ namespace WarOfEmpires.Controllers {
 
             if (ModelState.IsValid) {
                 result = _messageService.Dispatch(command);
-                ModelState.Merge(model, result);
+                ModelState.Merge(result);
             }
 
             if (ModelState.IsValid) {
