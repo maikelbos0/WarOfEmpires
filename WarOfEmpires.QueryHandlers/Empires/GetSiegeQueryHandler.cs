@@ -45,7 +45,7 @@ namespace WarOfEmpires.QueryHandlers.Empires {
             var count = player.GetSiegeWeaponCount(type);
 
             return new SiegeWeaponModel() {
-                Type = definition.Type.ToString("G"),
+                Type = definition.Type.ToString(),
                 Name = definition.Name,
                 Description = definition.Description,
                 Maintenance = definition.Maintenance,
