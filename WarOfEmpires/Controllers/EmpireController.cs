@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Web.Mvc;
 using WarOfEmpires.Commands.Empires;
 using WarOfEmpires.Models.Empires;
@@ -169,11 +170,11 @@ namespace WarOfEmpires.Controllers {
             switch (model.Command) {
                 case "build":
                     return ValidatedCommandResult(model,
-                        new BuildSiegeCommand(_authenticationService.Identity, model.FireArrows, model.BatteringRams, model.ScalingLadders),
+                        new BuildSiegeCommand(_authenticationService.Identity, model.SiegeWeapons.Select(d => new SiegeWeaponInfo(d.Type, d.Count))),
                         () => Siege());
                 case "discard":
                     return ValidatedCommandResult(model,
-                        new DiscardSiegeCommand(_authenticationService.Identity, model.FireArrows, model.BatteringRams, model.ScalingLadders),
+                        new DiscardSiegeCommand(_authenticationService.Identity, model.SiegeWeapons.Select(d => new SiegeWeaponInfo(d.Type, d.Count))),
                         () => Siege());
                 default:
                     throw new InvalidOperationException($"Invalid operation '{model.Command}' found");

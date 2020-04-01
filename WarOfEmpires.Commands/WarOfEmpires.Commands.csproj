@@ -46,6 +46,7 @@
     <Compile Include="Empires\AddBankTurnCommand.cs" />
     <Compile Include="Empires\BankCommand.cs" />
     <Compile Include="Empires\BuildSiegeCommand.cs" />
+    <Compile Include="Empires\SiegeWeaponInfo.cs" />
     <Compile Include="Empires\DiscardSiegeCommand.cs" />
     <Compile Include="Empires\HealTroopsCommand.cs" />
     <Compile Include="Empires\ProcessTurnCommand.cs" />

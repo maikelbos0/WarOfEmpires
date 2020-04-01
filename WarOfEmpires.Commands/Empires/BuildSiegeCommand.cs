@@ -1,15 +1,14 @@
-﻿namespace WarOfEmpires.Commands.Empires {
+﻿using System.Collections.Generic;
+using System.Linq;
+
+namespace WarOfEmpires.Commands.Empires {
     public sealed class BuildSiegeCommand : ICommand {
         public string Email { get; }
-        public string FireArrows { get; }
-        public string BatteringRams { get; }
-        public string ScalingLadders { get; }
+        public List<SiegeWeaponInfo> SiegeWeapons { get; }
 
-        public BuildSiegeCommand(string email, string fireArrows, string batteringRams, string scalingLadders) {
+        public BuildSiegeCommand(string email, IEnumerable<SiegeWeaponInfo> details) {
             Email = email;
-            FireArrows = fireArrows;
-            BatteringRams = batteringRams;
-            ScalingLadders = scalingLadders;
+            SiegeWeapons = details.ToList();
         }
     }
 }
