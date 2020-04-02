@@ -12,7 +12,7 @@ using WarOfEmpires.Utilities.Services;
 namespace WarOfEmpires.QueryHandlers.Empires {
     [InterfaceInjectable]
     [Audit]
-    public sealed class GetTroopsQueryHandler : IQueryHandler<GetTroopsQuery, TroopModel> {
+    public sealed class GetTroopsQueryHandler : IQueryHandler<GetTroopsQuery, TroopsModel> {
         private readonly IWarContext _context;
         private readonly ResourcesMap _resourcesMap;
 
@@ -21,11 +21,11 @@ namespace WarOfEmpires.QueryHandlers.Empires {
             _resourcesMap = resourcesMap;
         }
 
-        public TroopModel Execute(GetTroopsQuery query) {
+        public TroopsModel Execute(GetTroopsQuery query) {
             var player = _context.Players
                 .Single(p => EmailComparisonService.Equals(p.User.Email, query.Email));
 
-            return new TroopModel() {
+            return new TroopsModel() {
                 CurrentPeasants = player.Peasants,
                 ArcherInfo = MapTroops(player, TroopType.Archers),
                 CavalryInfo = MapTroops(player, TroopType.Cavalry),
@@ -39,11 +39,11 @@ namespace WarOfEmpires.QueryHandlers.Empires {
             };
         }
 
-        private TroopInfoViewModel MapTroops(Player player, TroopType type) {
+        private TroopModel MapTroops(Player player, TroopType type) {
             var definition = TroopDefinitionFactory.Get(type);
             var troops = player.GetTroops(type);
 
-            return new TroopInfoViewModel() {
+            return new TroopModel() {
                 Cost = _resourcesMap.ToViewModel(definition.Cost),
                 CurrentSoldiers = troops.Soldiers,
                 CurrentMercenaries = troops.Mercenaries

@@ -12,7 +12,7 @@ using WarOfEmpires.Utilities.Services;
 namespace WarOfEmpires.QueryHandlers.Empires {
     [InterfaceInjectable]
     [Audit]
-    public sealed class GetWorkersQueryHandler : IQueryHandler<GetWorkersQuery, WorkerModel> {
+    public sealed class GetWorkersQueryHandler : IQueryHandler<GetWorkersQuery, WorkersModel> {
         private readonly IWarContext _context;
         private readonly ResourcesMap _resourcesMap;
 
@@ -21,11 +21,11 @@ namespace WarOfEmpires.QueryHandlers.Empires {
             _resourcesMap = resourcesMap;
         }
 
-        public WorkerModel Execute(GetWorkersQuery query) {
+        public WorkersModel Execute(GetWorkersQuery query) {
             var player = _context.Players
                 .Single(p => EmailComparisonService.Equals(p.User.Email, query.Email));
 
-            return new WorkerModel() {
+            return new WorkersModel() {
                 CurrentPeasants = player.Peasants,
                 CurrentGoldPerWorkerPerTurn = player.GetGoldPerWorkerPerTurn(),
                 CurrentGoldPerTurn = player.GetGoldPerTurn(),
@@ -33,13 +33,13 @@ namespace WarOfEmpires.QueryHandlers.Empires {
                 WoodWorkerInfo = MapWorkers(player, WorkerType.WoodWorkers),
                 StoneMasonInfo = MapWorkers(player, WorkerType.StoneMasons),
                 OreMinerInfo = MapWorkers(player, WorkerType.OreMiners),
-                SiegeEngineerInfo = new WorkerInfoViewModel() {
+                SiegeEngineerInfo = new WorkerModel() {
                     Cost = _resourcesMap.ToViewModel(WorkerDefinitionFactory.Get(WorkerType.SiegeEngineers).Cost),
                     CurrentWorkers = player.GetWorkerCount(WorkerType.SiegeEngineers),
                     CurrentProductionPerWorkerPerTurn = player.GetBuildingBonus(BuildingType.SiegeFactory),
                     CurrentProductionPerTurn = player.GetBuildingBonus(BuildingType.SiegeFactory) * player.GetWorkerCount(WorkerType.SiegeEngineers)
                 },
-                MerchantInfo = new WorkerInfoViewModel() {
+                MerchantInfo = new WorkerModel() {
                     Cost = _resourcesMap.ToViewModel(WorkerDefinitionFactory.Get(WorkerType.Merchants).Cost),
                     CurrentWorkers = player.GetWorkerCount(WorkerType.Merchants),
                     CurrentProductionPerWorkerPerTurn = player.GetBuildingBonus(BuildingType.Market),
@@ -52,11 +52,11 @@ namespace WarOfEmpires.QueryHandlers.Empires {
             };
         }
 
-        private WorkerInfoViewModel MapWorkers(Player player, WorkerType type) {
+        private WorkerModel MapWorkers(Player player, WorkerType type) {
             var definition = WorkerDefinitionFactory.Get(type);
             var productionInfo = player.GetProduction(type);
 
-            return new WorkerInfoViewModel() {
+            return new WorkerModel() {
                 Cost = _resourcesMap.ToViewModel(definition.Cost),
                 CurrentWorkers = player.GetWorkerCount(type),
                 CurrentProductionPerWorkerPerTurn = productionInfo.GetProductionPerWorker(),

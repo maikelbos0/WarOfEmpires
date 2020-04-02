@@ -22,7 +22,7 @@ namespace WarOfEmpires.Controllers {
 
         [Route("Workers")]
         [HttpPost]
-        public ActionResult Workers(WorkerModel model) {
+        public ActionResult Workers(WorkersModel model) {
             switch (model.Command) {
                 case "train":
                     return ValidatedCommandResult(model,
@@ -45,7 +45,7 @@ namespace WarOfEmpires.Controllers {
 
         [Route("Troops")]
         [HttpPost]
-        public ActionResult Troops(TroopModel model) {
+        public ActionResult Troops(TroopsModel model) {
             switch (model.Command) {
                 case "train":
                     return ValidatedCommandResult(model,
