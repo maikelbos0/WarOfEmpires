@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using WarOfEmpires.CommandHandlers.Decorators;
 using WarOfEmpires.Commands.Empires;
 using WarOfEmpires.Domain.Empires;
 using WarOfEmpires.Repositories.Players;
 using WarOfEmpires.Utilities.Container;
-using WarOfEmpires.Utilities.Formatting;
 using WarOfEmpires.Utilities.Linq;
 
 namespace WarOfEmpires.CommandHandlers.Empires {
@@ -15,28 +13,9 @@ namespace WarOfEmpires.CommandHandlers.Empires {
     [Audit]
     public sealed class TrainWorkersCommandHandler : ICommandHandler<TrainWorkersCommand> {
         private readonly IPlayerRepository _repository;
-        private readonly EnumFormatter _formatter;
 
-        public TrainWorkersCommandHandler(IPlayerRepository repository, EnumFormatter formatter) {
+        public TrainWorkersCommandHandler(IPlayerRepository repository) {
             _repository = repository;
-            _formatter = formatter;
-        }
-
-        private IEnumerable<WorkerInfo> ParseWorkers(TrainWorkersCommand command,
-                                                     CommandResult<TrainWorkersCommand> result,
-                                                     WorkerType type,
-                                                     Expression<Func<TrainWorkersCommand, object>> workerFunc) {
-
-            var commandWorkers = (string)workerFunc.Compile().Invoke(command);
-            int workers = 0;
-
-            if (!string.IsNullOrEmpty(commandWorkers) && !int.TryParse(commandWorkers, out workers) || workers < 0) {
-                result.AddError(workerFunc, $"{_formatter.ToString(type)} must be a valid number");
-            }
-
-            if (result.Success && workers > 0) {
-                yield return new WorkerInfo(type, workers);
-            }
         }
 
         public CommandResult<TrainWorkersCommand> Execute(TrainWorkersCommand command) {
@@ -44,12 +23,19 @@ namespace WarOfEmpires.CommandHandlers.Empires {
             var player = _repository.Get(command.Email);
             var workers = new List<WorkerInfo>();
 
-            workers.AddRange(ParseWorkers(command, result, WorkerType.Farmers, c => c.Farmers));
-            workers.AddRange(ParseWorkers(command, result, WorkerType.WoodWorkers, c => c.WoodWorkers));
-            workers.AddRange(ParseWorkers(command, result, WorkerType.StoneMasons, c => c.StoneMasons));
-            workers.AddRange(ParseWorkers(command, result, WorkerType.OreMiners, c => c.OreMiners));
-            workers.AddRange(ParseWorkers(command, result, WorkerType.SiegeEngineers, c => c.SiegeEngineers));
-            workers.AddRange(ParseWorkers(command, result, WorkerType.Merchants, c => c.Merchants));
+            for (var index = 0; index < command.Workers.Count; index++) {
+                var i = index; // Don't use iterator in lambdas
+                var type = (WorkerType)Enum.Parse(typeof(WorkerType), command.Workers[i].Type);
+                int count = 0;
+
+                if (!string.IsNullOrEmpty(command.Workers[i].Count) && !int.TryParse(command.Workers[i].Count, out count) || count < 0) {
+                    result.AddError(c => c.Workers[i].Count, "Invalid number");
+                }
+
+                if (result.Success && count > 0) {
+                    workers.Add(new WorkerInfo(type, count));
+                }
+            }
 
             if (workers.Sum(w => w.Count) > player.Peasants) {
                 result.AddError("You don't have that many peasants available to train");

@@ -1,6 +1,8 @@
 ﻿using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
+using System;
+using System.Collections.Generic;
 using WarOfEmpires.CommandHandlers.Empires;
 using WarOfEmpires.Commands.Empires;
 using WarOfEmpires.Domain.Common;
@@ -9,7 +11,6 @@ using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Repositories.Players;
 using WarOfEmpires.Test.Utilities;
-using WarOfEmpires.Utilities.Formatting;
 
 namespace WarOfEmpires.CommandHandlers.Tests.Empires {
     [TestClass]
@@ -17,7 +18,6 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
         private readonly FakeWarContext _context = new FakeWarContext();
         private readonly PlayerRepository _repository;
         private readonly Player _player;
-        private readonly EnumFormatter _formatter = new EnumFormatter();
 
         public TrainWorkersCommandHandlerTests() {
             _repository = new PlayerRepository(_context);
@@ -39,8 +39,15 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
         [TestMethod]
         public void TrainWorkersCommandHandler_Succeeds() {
-            var handler = new TrainWorkersCommandHandler(_repository, _formatter);
-            var command = new TrainWorkersCommand("test@test.com", "5", "4", "3", "2", "1", "2");
+            var handler = new TrainWorkersCommandHandler(_repository);
+            var command = new TrainWorkersCommand("test@test.com", new List<WorkerInfo>() {
+                new WorkerInfo("Farmers", "5"),
+                new WorkerInfo("WoodWorkers", "4"),
+                new WorkerInfo("StoneMasons", "3"),
+                new WorkerInfo("OreMiners", "2"),
+                new WorkerInfo("SiegeEngineers", "1"),
+                new WorkerInfo("Merchants", "2")
+            });
 
             var result = handler.Execute(command);
 
@@ -53,230 +60,123 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
             _player.Received().TrainWorkers(WorkerType.Merchants, 2);
             _context.CallsToSaveChanges.Should().Be(1);
         }
-
+        
         [TestMethod]
-        public void TrainWorkersCommandHandler_Allows_Empty_Workers() {
-            var handler = new TrainWorkersCommandHandler(_repository, _formatter);
-            var command = new TrainWorkersCommand("test@test.com", "", "", "", "", "", "");
+        public void TrainWorkersCommandHandler_Allows_Empty_Values() {
+            var handler = new TrainWorkersCommandHandler(_repository);
+            var command = new TrainWorkersCommand("test@test.com", new List<WorkerInfo>() {
+                new WorkerInfo("Farmers", ""),
+                new WorkerInfo("WoodWorkers", ""),
+                new WorkerInfo("StoneMasons", ""),
+                new WorkerInfo("OreMiners", ""),
+                new WorkerInfo("SiegeEngineers", ""),
+                new WorkerInfo("Merchants", "")
+            });
 
             var result = handler.Execute(command);
 
             result.Success.Should().BeTrue();
             _player.DidNotReceiveWithAnyArgs().TrainWorkers(default, default);
         }
-
+        
         [TestMethod]
         public void TrainWorkersCommandHandler_Fails_For_Too_Little_Huts_Room() {
             _player.Peasants.Returns(30);
 
-            var handler = new TrainWorkersCommandHandler(_repository, _formatter);
-            var command = new TrainWorkersCommand("test@test.com", "4", "4", "4", "4", "4", "4");
+            var handler = new TrainWorkersCommandHandler(_repository);
+            var command = new TrainWorkersCommand("test@test.com", new List<WorkerInfo>() {
+                new WorkerInfo("Farmers", "4"),
+                new WorkerInfo("WoodWorkers", "4"),
+                new WorkerInfo("StoneMasons", "4"),
+                new WorkerInfo("OreMiners", "4"),
+                new WorkerInfo("SiegeEngineers", "4"),
+                new WorkerInfo("Merchants", "4")
+            });
 
             var result = handler.Execute(command);
 
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.Should().BeNull();
-            result.Errors[0].Message.Should().Be("You don't have enough huts available to train that many workers");
+            result.Should().HaveError("You don't have enough huts available to train that many workers");
             _player.DidNotReceiveWithAnyArgs().TrainWorkers(default, default);
+            _context.CallsToSaveChanges.Should().Be(0);
         }
 
         [TestMethod]
-        public void TrainWorkersCommandHandler_Fails_For_Alphanumeric_Farmers() {
-            var handler = new TrainWorkersCommandHandler(_repository, _formatter);
-            var command = new TrainWorkersCommand("test@test.com", "A", "2", "2", "2", "2", "2");
+        public void TrainWorkersCommandHandler_Throws_Exception_For_Invalid_Type() {
+            var handler = new TrainWorkersCommandHandler(_repository);
+            var command = new TrainWorkersCommand("test@test.com", new List<WorkerInfo>() {
+                new WorkerInfo("Test", "1")
+            });
 
-            var result = handler.Execute(command);
+            Action action = () => handler.Execute(command);
 
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.ToString().Should().Be("c => c.Farmers");
-            result.Errors[0].Message.Should().Be("Farmers must be a valid number");
+            action.Should().Throw<ArgumentException>();
             _player.DidNotReceiveWithAnyArgs().TrainWorkers(default, default);
+            _context.CallsToSaveChanges.Should().Be(0);
         }
 
         [TestMethod]
-        public void TrainWorkersCommandHandler_Fails_For_Alphanumeric_WoodWorkers() {
-            var handler = new TrainWorkersCommandHandler(_repository, _formatter);
-            var command = new TrainWorkersCommand("test@test.com", "2", "A", "2", "2", "2", "2");
+        public void TrainWorkersCommandHandler_Fails_For_Alphanumeric_Count() {
+            var handler = new TrainWorkersCommandHandler(_repository);
+            var command = new TrainWorkersCommand("test@test.com", new List<WorkerInfo>() {
+                new WorkerInfo("Farmers", "A")
+            });
 
             var result = handler.Execute(command);
 
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.ToString().Should().Be("c => c.WoodWorkers");
-            result.Errors[0].Message.Should().Be("Wood workers must be a valid number");
+            result.Should().HaveError("Workers[0].Count", "Invalid number");
             _player.DidNotReceiveWithAnyArgs().TrainWorkers(default, default);
+            _context.CallsToSaveChanges.Should().Be(0);
         }
 
         [TestMethod]
-        public void TrainWorkersCommandHandler_Fails_For_Alphanumeric_StoneMasons() {
-            var handler = new TrainWorkersCommandHandler(_repository, _formatter);
-            var command = new TrainWorkersCommand("test@test.com", "2", "2", "A", "2", "2", "2");
+        public void TrainWorkersCommandHandler_Fails_For_Negative_Count() {
+            var handler = new TrainWorkersCommandHandler(_repository);
+            var command = new TrainWorkersCommand("test@test.com", new List<WorkerInfo>() {
+                new WorkerInfo("Farmers", "-1")
+            });
 
             var result = handler.Execute(command);
 
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.ToString().Should().Be("c => c.StoneMasons");
-            result.Errors[0].Message.Should().Be("Stone masons must be a valid number");
+            result.Should().HaveError("Workers[0].Count", "Invalid number");
             _player.DidNotReceiveWithAnyArgs().TrainWorkers(default, default);
+            _context.CallsToSaveChanges.Should().Be(0);
         }
 
         [TestMethod]
-        public void TrainWorkersCommandHandler_Fails_For_Alphanumeric_OreMiners() {
-            var handler = new TrainWorkersCommandHandler(_repository, _formatter);
-            var command = new TrainWorkersCommand("test@test.com", "2", "2", "2", "A", "2", "2");
-
-            var result = handler.Execute(command);
-
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.ToString().Should().Be("c => c.OreMiners");
-            result.Errors[0].Message.Should().Be("Ore miners must be a valid number");
-            _player.DidNotReceiveWithAnyArgs().TrainWorkers(default, default);
-        }
-
-        [TestMethod]
-        public void TrainWorkersCommandHandler_Fails_For_Alphanumeric_SiegeEngineers() {
-            var handler = new TrainWorkersCommandHandler(_repository, _formatter);
-            var command = new TrainWorkersCommand("test@test.com", "2", "2", "2", "2", "A", "2");
-
-            var result = handler.Execute(command);
-
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.ToString().Should().Be("c => c.SiegeEngineers");
-            result.Errors[0].Message.Should().Be("Siege engineers must be a valid number");
-            _player.DidNotReceiveWithAnyArgs().TrainWorkers(default, default);
-        }
-        
-        [TestMethod]
-        public void TrainWorkersCommandHandler_Fails_For_Alphanumeric_Merchants() {
-            var handler = new TrainWorkersCommandHandler(_repository, _formatter);
-            var command = new TrainWorkersCommand("test@test.com", "2", "2", "2", "2", "2", "A");
-
-            var result = handler.Execute(command);
-
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.ToString().Should().Be("c => c.Merchants");
-            result.Errors[0].Message.Should().Be("Merchants must be a valid number");
-            _player.DidNotReceiveWithAnyArgs().TrainWorkers(default, default);
-        }
-
-        [DataTestMethod]
-        [DataRow(16, 0, 0, 0, 0, 0, DisplayName = "Farmers")]
-        [DataRow(0, 16, 0, 0, 0, 0, DisplayName = "WoodWorkers")]
-        [DataRow(0, 0, 16, 0, 0, 0, DisplayName = "StoneMasons")]
-        [DataRow(0, 0, 0, 16, 0, 0, DisplayName = "OreMiners")]
-        [DataRow(0, 0, 0, 0, 16, 0, DisplayName = "SiegeEngineers")]
-        [DataRow(0, 0, 0, 0, 0, 16, DisplayName = "Merchants")]
-        [DataRow(3, 3, 3, 3, 3, 3, DisplayName = "All")]
-        public void TrainWorkersCommandHandler_Fails_For_Too_High_WorkerCounts(int farmers, int woodWorkers, int stoneMasons, int oreMiners, int siegeEngineers, int merchants) {
+        public void TrainWorkersCommandHandler_Fails_For_Too_High_Count() {
             _player.Peasants.Returns(15);
 
-            var handler = new TrainWorkersCommandHandler(_repository, _formatter);
-            var command = new TrainWorkersCommand("test@test.com", farmers.ToString(), woodWorkers.ToString(), stoneMasons.ToString(), oreMiners.ToString(), siegeEngineers.ToString(), merchants.ToString());
+            var handler = new TrainWorkersCommandHandler(_repository);
+            var command = new TrainWorkersCommand("test@test.com", new List<WorkerInfo>() {
+                new WorkerInfo("Farmers", "3"),
+                new WorkerInfo("WoodWorkers", "3"),
+                new WorkerInfo("StoneMasons", "3"),
+                new WorkerInfo("OreMiners", "3"),
+                new WorkerInfo("SiegeEngineers", "2"),
+                new WorkerInfo("Merchants", "2")
+            });
 
             var result = handler.Execute(command);
 
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.Should().BeNull();
-            result.Errors[0].Message.Should().Be("You don't have that many peasants available to train");
+            result.Should().HaveError("You don't have that many peasants available to train");
             _player.DidNotReceiveWithAnyArgs().TrainWorkers(default, default);
+            _context.CallsToSaveChanges.Should().Be(0);
         }
 
         [TestMethod]
-        public void TrainWorkersCommandHandler_Fails_For_Negative_Farmers() {
-            var handler = new TrainWorkersCommandHandler(_repository, _formatter);
-            var command = new TrainWorkersCommand("test@test.com", "-7", "2", "2", "2", "2", "2");
-
-            var result = handler.Execute(command);
-
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.ToString().Should().Be("c => c.Farmers");
-            result.Errors[0].Message.Should().Be("Farmers must be a valid number");
-            _player.DidNotReceiveWithAnyArgs().TrainWorkers(default, default);
-        }
-
-        [TestMethod]
-        public void TrainWorkersCommandHandler_Fails_For_Negative_WoodWorkers() {
-            var handler = new TrainWorkersCommandHandler(_repository, _formatter);
-            var command = new TrainWorkersCommand("test@test.com", "2", "-7", "2", "2", "2", "2");
-
-            var result = handler.Execute(command);
-
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.ToString().Should().Be("c => c.WoodWorkers");
-            result.Errors[0].Message.Should().Be("Wood workers must be a valid number");
-            _player.DidNotReceiveWithAnyArgs().TrainWorkers(default, default);
-        }
-
-        [TestMethod]
-        public void TrainWorkersCommandHandler_Fails_For_Negative_StoneMasons() {
-            var handler = new TrainWorkersCommandHandler(_repository, _formatter);
-            var command = new TrainWorkersCommand("test@test.com", "2", "2", "-7", "2", "2", "2");
-
-            var result = handler.Execute(command);
-
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.ToString().Should().Be("c => c.StoneMasons");
-            result.Errors[0].Message.Should().Be("Stone masons must be a valid number");
-            _player.DidNotReceiveWithAnyArgs().TrainWorkers(default, default);
-        }
-
-        [TestMethod]
-        public void TrainWorkersCommandHandler_Fails_For_Negative_OreMiners() {
-            var handler = new TrainWorkersCommandHandler(_repository, _formatter);
-            var command = new TrainWorkersCommand("test@test.com", "2", "2", "2", "-7", "2", "2");
-
-            var result = handler.Execute(command);
-
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.ToString().Should().Be("c => c.OreMiners");
-            result.Errors[0].Message.Should().Be("Ore miners must be a valid number");
-            _player.DidNotReceiveWithAnyArgs().TrainWorkers(default, default);
-        }
-
-        [TestMethod]
-        public void TrainWorkersCommandHandler_Fails_For_Negative_SiegeEngineers() {
-            var handler = new TrainWorkersCommandHandler(_repository, _formatter);
-            var command = new TrainWorkersCommand("test@test.com", "2", "2", "2", "2", "-7", "2");
-
-            var result = handler.Execute(command);
-
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.ToString().Should().Be("c => c.SiegeEngineers");
-            result.Errors[0].Message.Should().Be("Siege engineers must be a valid number");
-            _player.DidNotReceiveWithAnyArgs().TrainWorkers(default, default);
-        }
-
-        [TestMethod]
-        public void TrainWorkersCommandHandler_Fails_For_Negative_Merchants() {
-            var handler = new TrainWorkersCommandHandler(_repository, _formatter);
-            var command = new TrainWorkersCommand("test@test.com", "2", "2", "2", "2", "2", "-7");
-
-            var result = handler.Execute(command);
-
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.ToString().Should().Be("c => c.Merchants");
-            result.Errors[0].Message.Should().Be("Merchants must be a valid number");
-            _player.DidNotReceiveWithAnyArgs().TrainWorkers(default, default);
-        }
-
-        [DataTestMethod]
-        [DataRow(1, 0, 0, 0, 0, 0, DisplayName = "Farmers")]
-        [DataRow(0, 1, 0, 0, 0, 0, DisplayName = "WoodWorkers")]
-        [DataRow(0, 0, 1, 0, 0, 0, DisplayName = "StoneMasons")]
-        [DataRow(0, 0, 0, 1, 0, 0, DisplayName = "OreMiners")]
-        [DataRow(0, 0, 0, 0, 1, 0, DisplayName = "SiegeEngineers")]
-        [DataRow(0, 0, 0, 0, 0, 1, DisplayName = "Merchants")]
-        public void TrainWorkersCommandHandler_Fails_For_Too_Little_Resources(int farmers, int woodWorkers, int stoneMasons, int oreMiners, int siegeEngineers, int merchants) {
+        public void TrainWorkersCommandHandler_Fails_For_Too_Little_Resources() {
             _player.CanAfford(Arg.Any<Resources>()).Returns(r => r.ArgAt<Resources>(0).Equals(new Resources(0)));
 
-            var handler = new TrainWorkersCommandHandler(_repository, _formatter);
-            var command = new TrainWorkersCommand("test@test.com", farmers.ToString(), woodWorkers.ToString(), stoneMasons.ToString(), oreMiners.ToString(), siegeEngineers.ToString(), merchants.ToString());
+            var handler = new TrainWorkersCommandHandler(_repository);
+            var command = new TrainWorkersCommand("test@test.com", new List<WorkerInfo>() {
+                new WorkerInfo("Farmers", "1")
+            });
 
             var result = handler.Execute(command);
 
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.Should().BeNull();
-            result.Errors[0].Message.Should().Be("You don't have enough gold to train these peasants");
+            result.Should().HaveError("You don't have enough gold to train these peasants");
             _player.DidNotReceiveWithAnyArgs().TrainWorkers(default, default);
+            _context.CallsToSaveChanges.Should().Be(0);
         }
     }
 }

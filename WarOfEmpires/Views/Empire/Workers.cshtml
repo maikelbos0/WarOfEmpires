@@ -1,4 +1,4 @@
-﻿@model WarOfEmpires.Models.Empires.WorkerModel
+﻿@model WarOfEmpires.Models.Empires.WorkersModel
 
 @{
     ViewBag.Title = "Workers";
@@ -12,9 +12,7 @@
 
 <ul>
     <li>Peasants available for training: @Model.CurrentPeasants.ToString(StringFormat.Integer)</li>
-    <li>Worker training cost: @Html.DisplayFor(m => m.FarmerInfo.Cost)</li>
-    <li>Siege engineer training cost: @Html.DisplayFor(m => m.SiegeEngineerInfo.Cost)</li>
-    <li>Merchant training cost: @Html.DisplayFor(m => m.MerchantInfo.Cost)</li>
+    <li>Worker training cost: @Html.DisplayFor(m => m.WorkerCost)</li>
     <li>Gold production per turn: @Model.CurrentGoldPerTurn.ToString(StringFormat.Integer) <span class="si si-gold" /></li>
     <li>Upkeep per turn: @Html.DisplayFor(m => m.UpkeepPerTurn)</li>
     <li>Recruits per day: @Model.RecruitsPerDay.ToString(StringFormat.Integer)</li>
@@ -39,41 +37,12 @@
     @Html.HiddenFor(m => m.CurrentGoldPerTurn)
     @Html.HiddenFor(m => m.CurrentGoldPerWorkerPerTurn)
     @Html.HiddenFor(m => m.CurrentPeasants)
+    @Html.HiddenFor(m => m.WorkerCost)
     @Html.HiddenFor(m => m.UpkeepPerTurn)
     @Html.HiddenFor(m => m.RecruitsPerDay)
     @Html.HiddenFor(m => m.WillUpkeepRunOut)
     @Html.HiddenFor(m => m.HasUpkeepRunOut)
-
-    @Html.HiddenFor(m => m.FarmerInfo.Cost)
-    @Html.HiddenFor(m => m.FarmerInfo.CurrentProductionPerWorkerPerTurn)
-    @Html.HiddenFor(m => m.FarmerInfo.CurrentProductionPerTurn)
-    @Html.HiddenFor(m => m.FarmerInfo.CurrentWorkers)
-
-    @Html.HiddenFor(m => m.WoodWorkerInfo.Cost)
-    @Html.HiddenFor(m => m.WoodWorkerInfo.CurrentProductionPerWorkerPerTurn)
-    @Html.HiddenFor(m => m.WoodWorkerInfo.CurrentProductionPerTurn)
-    @Html.HiddenFor(m => m.WoodWorkerInfo.CurrentWorkers)
-
-    @Html.HiddenFor(m => m.StoneMasonInfo.Cost)
-    @Html.HiddenFor(m => m.StoneMasonInfo.CurrentProductionPerWorkerPerTurn)
-    @Html.HiddenFor(m => m.StoneMasonInfo.CurrentProductionPerTurn)
-    @Html.HiddenFor(m => m.StoneMasonInfo.CurrentWorkers)
-
-    @Html.HiddenFor(m => m.OreMinerInfo.Cost)
-    @Html.HiddenFor(m => m.OreMinerInfo.CurrentProductionPerWorkerPerTurn)
-    @Html.HiddenFor(m => m.OreMinerInfo.CurrentProductionPerTurn)
-    @Html.HiddenFor(m => m.OreMinerInfo.CurrentWorkers)
-
-    @Html.HiddenFor(m => m.SiegeEngineerInfo.Cost)
-    @Html.HiddenFor(m => m.SiegeEngineerInfo.CurrentProductionPerWorkerPerTurn)
-    @Html.HiddenFor(m => m.SiegeEngineerInfo.CurrentProductionPerTurn)
-    @Html.HiddenFor(m => m.SiegeEngineerInfo.CurrentWorkers)
-
-    @Html.HiddenFor(m => m.MerchantInfo.Cost)
-    @Html.HiddenFor(m => m.MerchantInfo.CurrentProductionPerWorkerPerTurn)
-    @Html.HiddenFor(m => m.MerchantInfo.CurrentProductionPerTurn)
-    @Html.HiddenFor(m => m.MerchantInfo.CurrentWorkers)
-
+    
     <div class="row">
         <div class="col-4 col-form-label">
         </div>
@@ -90,81 +59,40 @@
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-4 col-form-label">
-            @Html.LabelFor(m => m.Farmers)
-        </div>
-        <div class="col-2 col-form-label">
-            @Model.FarmerInfo.CurrentWorkers.ToString(StringFormat.Integer)
-        </div>
-        <div class="col-2 col-form-label">
-            @Model.FarmerInfo.CurrentProductionPerWorkerPerTurn.ToString(StringFormat.Integer) <span class="si si-food"></span>
-        </div>
-        <div class="col-2 col-form-label">
-            @Model.FarmerInfo.CurrentProductionPerTurn.ToString(StringFormat.Integer) <span class="si si-food"></span>
-        </div>
-        <div class="col-2">
-            @Html.TextBoxFor(m => m.Farmers, new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.Farmers, null, new { @class = "small form-text text-danger" })
-        </div>
-    </div>
+    for (var i = 0; i < Model.Workers.Count; i++) {
+        if (!Model.Workers[i].IsProducer) {
+            continue;
+        }
 
-    <div class="row">
-        <div class="col-4 col-form-label">
-            @Html.LabelFor(m => m.WoodWorkers)
-        </div>
-        <div class="col-2 col-form-label">
-            @Model.WoodWorkerInfo.CurrentWorkers.ToString(StringFormat.Integer)
-        </div>
-        <div class="col-2 col-form-label">
-            @Model.WoodWorkerInfo.CurrentProductionPerWorkerPerTurn.ToString(StringFormat.Integer) <span class="si si-wood"></span>
-        </div>
-        <div class="col-2 col-form-label">
-            @Model.WoodWorkerInfo.CurrentProductionPerTurn.ToString(StringFormat.Integer) <span class="si si-wood"></span>
-        </div>
-        <div class="col-2">
-            @Html.TextBoxFor(m => m.WoodWorkers, new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.WoodWorkers, null, new { @class = "small form-text text-danger" })
-        </div>
-    </div>
+        @Html.HiddenFor(m => m.Workers[i].Type)
+        @Html.HiddenFor(m => m.Workers[i].IsProducer)
+        @Html.HiddenFor(m => m.Workers[i].Name)
+        @Html.HiddenFor(m => m.Workers[i].Cost)
+        @Html.HiddenFor(m => m.Workers[i].CurrentProductionPerWorkerPerTurn)
+        @Html.HiddenFor(m => m.Workers[i].CurrentProductionPerTurn)
+        @Html.HiddenFor(m => m.Workers[i].CurrentWorkers)
 
-    <div class="row">
-        <div class="col-4 col-form-label">
-            @Html.LabelFor(m => m.StoneMasons)
+        <div class="row">
+            <div class="col-4 col-form-label">
+                <strong>@Model.Workers[i].Name</strong>
+            </div>
+            <div class="col-2 col-form-label">
+                @Model.Workers[i].CurrentWorkers.ToString(StringFormat.Integer)
+            </div>
+            <div class="col-2 col-form-label">
+                @Model.Workers[i].CurrentProductionPerWorkerPerTurn.ToString(StringFormat.Integer)
+                @Html.IconFor(m => m.Workers[i].Type)
+            </div>
+            <div class="col-2 col-form-label">
+                @Model.Workers[i].CurrentProductionPerTurn.ToString(StringFormat.Integer)
+                @Html.IconFor(m => m.Workers[i].Type)
+            </div>
+            <div class="col-2">
+                @Html.TextBoxFor(m => m.Workers[i].Count, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Workers[i].Count, null, new { @class = "small form-text text-danger" })
+            </div>
         </div>
-        <div class="col-2 col-form-label">
-            @Model.StoneMasonInfo.CurrentWorkers.ToString(StringFormat.Integer)
-        </div>
-        <div class="col-2 col-form-label">
-            @Model.StoneMasonInfo.CurrentProductionPerWorkerPerTurn.ToString(StringFormat.Integer) <span class="si si-stone"></span>
-        </div>
-        <div class="col-2 col-form-label">
-            @Model.StoneMasonInfo.CurrentProductionPerTurn.ToString(StringFormat.Integer) <span class="si si-stone"></span>
-        </div>
-        <div class="col-2">
-            @Html.TextBoxFor(m => m.StoneMasons, new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.StoneMasons, null, new { @class = "small form-text text-danger" })
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-4 col-form-label">
-            @Html.LabelFor(m => m.OreMiners)
-        </div>
-        <div class="col-2 col-form-label">
-            @Model.OreMinerInfo.CurrentWorkers.ToString(StringFormat.Integer)
-        </div>
-        <div class="col-2 col-form-label">
-            @Model.OreMinerInfo.CurrentProductionPerWorkerPerTurn.ToString(StringFormat.Integer) <span class="si si-ore"></span>
-        </div>
-        <div class="col-2 col-form-label">
-            @Model.OreMinerInfo.CurrentProductionPerTurn.ToString(StringFormat.Integer) <span class="si si-ore"></span>
-        </div>
-        <div class="col-2">
-            @Html.TextBoxFor(m => m.OreMiners, new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.OreMiners, null, new { @class = "small form-text text-danger" })
-        </div>
-    </div>
+    }
 
     <div class="row">
         <div class="col-4 col-form-label">
@@ -182,43 +110,45 @@
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-4 col-form-label">
-            @Html.LabelFor(m => m.SiegeEngineers)
-        </div>
-        <div class="col-2 col-form-label">
-            @Model.SiegeEngineerInfo.CurrentWorkers.ToString(StringFormat.Integer)
-        </div>
-        <div class="col-2 col-form-label">
-            @Model.SiegeEngineerInfo.CurrentProductionPerWorkerPerTurn.ToString(StringFormat.Integer) <span class="si si-maintenance"></span>
-        </div>
-        <div class="col-2 col-form-label">
-            @Model.SiegeEngineerInfo.CurrentProductionPerTurn.ToString(StringFormat.Integer) <span class="si si-maintenance"></span>
-        </div>
-        <div class="col-2">
-            @Html.TextBoxFor(m => m.SiegeEngineers, new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.SiegeEngineers, null, new { @class = "small form-text text-danger" })
-        </div>
-    </div>
 
-    <div class="row">
-        <div class="col-4 col-form-label">
-            @Html.LabelFor(m => m.Merchants)
+    for (var i = 0; i < Model.Workers.Count; i++) {
+        if (Model.Workers[i].IsProducer) {
+            continue;
+        }
+
+        @Html.HiddenFor(m => m.Workers[i].Type)
+        @Html.HiddenFor(m => m.Workers[i].IsProducer)
+        @Html.HiddenFor(m => m.Workers[i].Name)
+        @Html.HiddenFor(m => m.Workers[i].Cost)
+        @Html.HiddenFor(m => m.Workers[i].CurrentProductionPerWorkerPerTurn)
+        @Html.HiddenFor(m => m.Workers[i].CurrentProductionPerTurn)
+        @Html.HiddenFor(m => m.Workers[i].CurrentWorkers)
+
+        <div class="row">
+            <div class="col-4 col-form-label">
+                <strong>@Model.Workers[i].Name</strong>
+            </div>
+            <div class="col-2 col-form-label">
+                @Model.Workers[i].CurrentWorkers.ToString(StringFormat.Integer)
+            </div>
+            <div class="col-2 col-form-label">
+                @Model.Workers[i].CurrentProductionPerWorkerPerTurn.ToString(StringFormat.Integer)
+                @Html.IconFor(m => m.Workers[i].Type)
+            </div>
+            <div class="col-2 col-form-label">
+                @Model.Workers[i].CurrentProductionPerTurn.ToString(StringFormat.Integer)
+                @Html.IconFor(m => m.Workers[i].Type)
+            </div>
+            <div class="col-2">
+                @Html.TextBoxFor(m => m.Workers[i].Count, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Workers[i].Count, null, new { @class = "small form-text text-danger" })
+            </div>
         </div>
-        <div class="col-2 col-form-label">
-            @Model.MerchantInfo.CurrentWorkers.ToString(StringFormat.Integer)
-        </div>
-        <div class="col-2 col-form-label">
-            @Model.MerchantInfo.CurrentProductionPerWorkerPerTurn.ToString(StringFormat.Integer) <span class="si si-market"></span>
-        </div>
-        <div class="col-2 col-form-label">
-            @Model.MerchantInfo.CurrentProductionPerTurn.ToString(StringFormat.Integer) <span class="si si-market"></span>
-        </div>
-        <div class="col-2">
-            @Html.TextBoxFor(m => m.Merchants, new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.Merchants, null, new { @class = "small form-text text-danger" })
-        </div>
-    </div>
+
+        <ul>
+            <li>Training cost: @Html.DisplayFor(m => m.Workers[i].Cost)</li>
+        </ul>
+    }
 
     <div class="row">
         <div class="col-10"></div>
