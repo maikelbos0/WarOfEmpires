@@ -6,9 +6,9 @@ namespace WarOfEmpires.Commands.Empires {
         public string Email { get; }
         public List<SiegeWeaponInfo> SiegeWeapons { get; }
 
-        public DiscardSiegeCommand(string email, IEnumerable<SiegeWeaponInfo> details) {
+        public DiscardSiegeCommand(string email, IEnumerable<SiegeWeaponInfo> siegeWeapons) {
             Email = email;
-            SiegeWeapons = details.ToList();
+            SiegeWeapons = siegeWeapons.ToList();
         }
     }
 }

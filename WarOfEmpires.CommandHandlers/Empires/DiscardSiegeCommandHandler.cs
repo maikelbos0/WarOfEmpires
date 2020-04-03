@@ -25,7 +25,7 @@ namespace WarOfEmpires.CommandHandlers.Empires {
             var siegeWeapons = new List<SiegeWeaponInfo>();
 
             for (var index = 0; index < command.SiegeWeapons.Count; index++) {
-                var i = index; // Don't use iterator in lambdas                 
+                var i = index; // Don't use iterator in lambdas
                 var type = (SiegeWeaponType)Enum.Parse(typeof(SiegeWeaponType), command.SiegeWeapons[i].Type);
                 int count = 0;
 

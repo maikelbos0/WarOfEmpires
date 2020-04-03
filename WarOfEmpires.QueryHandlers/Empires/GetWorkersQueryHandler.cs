@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using WarOfEmpires.Database;
 using WarOfEmpires.Domain.Empires;
 using WarOfEmpires.Domain.Players;
@@ -7,44 +8,40 @@ using WarOfEmpires.Queries.Empires;
 using WarOfEmpires.QueryHandlers.Common;
 using WarOfEmpires.QueryHandlers.Decorators;
 using WarOfEmpires.Utilities.Container;
+using WarOfEmpires.Utilities.Formatting;
 using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Empires {
     [InterfaceInjectable]
     [Audit]
-    public sealed class GetWorkersQueryHandler : IQueryHandler<GetWorkersQuery, WorkerModel> {
+    public sealed class GetWorkersQueryHandler : IQueryHandler<GetWorkersQuery, WorkersModel> {
         private readonly IWarContext _context;
         private readonly ResourcesMap _resourcesMap;
+        private readonly EnumFormatter _formatter;
 
-        public GetWorkersQueryHandler(IWarContext context, ResourcesMap resourcesMap) {
+        public GetWorkersQueryHandler(IWarContext context, ResourcesMap resourcesMap, EnumFormatter formatter) {
             _context = context;
             _resourcesMap = resourcesMap;
+            _formatter = formatter;
         }
 
-        public WorkerModel Execute(GetWorkersQuery query) {
+        public WorkersModel Execute(GetWorkersQuery query) {
             var player = _context.Players
                 .Single(p => EmailComparisonService.Equals(p.User.Email, query.Email));
 
-            return new WorkerModel() {
+            return new WorkersModel() {
                 CurrentPeasants = player.Peasants,
                 CurrentGoldPerWorkerPerTurn = player.GetGoldPerWorkerPerTurn(),
                 CurrentGoldPerTurn = player.GetGoldPerTurn(),
-                FarmerInfo = MapWorkers(player, WorkerType.Farmers),
-                WoodWorkerInfo = MapWorkers(player, WorkerType.WoodWorkers),
-                StoneMasonInfo = MapWorkers(player, WorkerType.StoneMasons),
-                OreMinerInfo = MapWorkers(player, WorkerType.OreMiners),
-                SiegeEngineerInfo = new WorkerInfoViewModel() {
-                    Cost = _resourcesMap.ToViewModel(WorkerDefinitionFactory.Get(WorkerType.SiegeEngineers).Cost),
-                    CurrentWorkers = player.GetWorkerCount(WorkerType.SiegeEngineers),
-                    CurrentProductionPerWorkerPerTurn = player.GetBuildingBonus(BuildingType.SiegeFactory),
-                    CurrentProductionPerTurn = player.GetBuildingBonus(BuildingType.SiegeFactory) * player.GetWorkerCount(WorkerType.SiegeEngineers)
+                Workers = new List<WorkerModel>() {
+                    MapWorkers(player, WorkerType.Farmers),
+                    MapWorkers(player, WorkerType.WoodWorkers),
+                    MapWorkers(player, WorkerType.StoneMasons),
+                    MapWorkers(player, WorkerType.OreMiners),
+                    MapWorkers(player, WorkerType.SiegeEngineers),
+                    MapWorkers(player, WorkerType.Merchants),
                 },
-                MerchantInfo = new WorkerInfoViewModel() {
-                    Cost = _resourcesMap.ToViewModel(WorkerDefinitionFactory.Get(WorkerType.Merchants).Cost),
-                    CurrentWorkers = player.GetWorkerCount(WorkerType.Merchants),
-                    CurrentProductionPerWorkerPerTurn = player.GetBuildingBonus(BuildingType.Market),
-                    CurrentProductionPerTurn = player.GetBuildingBonus(BuildingType.Market) * player.GetWorkerCount(WorkerType.Merchants)
-                },
+                WorkerCost = _resourcesMap.ToViewModel(WorkerDefinitionFactory.Get(WorkerType.WoodWorkers).Cost),
                 UpkeepPerTurn = _resourcesMap.ToViewModel(player.GetUpkeepPerTurn()),
                 RecruitsPerDay = player.GetRecruitsPerDay(),
                 WillUpkeepRunOut = !(player.GetTotalResources() + player.GetResourcesPerTurn() * 48).CanAfford(player.GetUpkeepPerTurn() * 48),
@@ -52,16 +49,28 @@ namespace WarOfEmpires.QueryHandlers.Empires {
             };
         }
 
-        private WorkerInfoViewModel MapWorkers(Player player, WorkerType type) {
+        private WorkerModel MapWorkers(Player player, WorkerType type) {
             var definition = WorkerDefinitionFactory.Get(type);
-            var productionInfo = player.GetProduction(type);
-
-            return new WorkerInfoViewModel() {
+            var model = new WorkerModel() {
+                Type = type.ToString(),
+                IsProducer = definition.IsProducer,
+                Name = _formatter.ToString(type),
                 Cost = _resourcesMap.ToViewModel(definition.Cost),
-                CurrentWorkers = player.GetWorkerCount(type),
-                CurrentProductionPerWorkerPerTurn = productionInfo.GetProductionPerWorker(),
-                CurrentProductionPerTurn = productionInfo.GetTotalProduction()
+                CurrentWorkers = player.GetWorkerCount(type)
             };
+
+            if (definition.IsProducer) {
+                var productionInfo = player.GetProduction(type);
+
+                model.CurrentProductionPerWorkerPerTurn = productionInfo.GetProductionPerWorker();
+                model.CurrentProductionPerTurn = productionInfo.GetTotalProduction();
+            }
+            else {
+                model.CurrentProductionPerWorkerPerTurn = player.GetBuildingBonus(definition.BuildingType);
+                model.CurrentProductionPerTurn = player.GetBuildingBonus(definition.BuildingType) * model.CurrentWorkers;
+            }
+
+            return model;
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
+using System;
 using System.Collections.Generic;
 using WarOfEmpires.CommandHandlers.Empires;
 using WarOfEmpires.Commands.Empires;
@@ -47,7 +48,14 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
         [TestMethod]
         public void UntrainWorkersCommandHandler_Succeeds() {
             var handler = new UntrainWorkersCommandHandler(_repository, _formatter);
-            var command = new UntrainWorkersCommand("test@test.com", "5", "4", "3", "2", "1", "6");
+            var command = new UntrainWorkersCommand("test@test.com", new List<WorkerInfo>() {
+                new WorkerInfo("Farmers", "5"),
+                new WorkerInfo("WoodWorkers", "4"),
+                new WorkerInfo("StoneMasons", "3"),
+                new WorkerInfo("OreMiners", "2"),
+                new WorkerInfo("SiegeEngineers", "1"),
+                new WorkerInfo("Merchants", "6")
+            });
 
             var result = handler.Execute(command);
 
@@ -57,13 +65,21 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
             _player.Received().UntrainWorkers(WorkerType.StoneMasons, 3);
             _player.Received().UntrainWorkers(WorkerType.OreMiners, 2);
             _player.Received().UntrainWorkers(WorkerType.SiegeEngineers, 1);
+            _player.Received().UntrainWorkers(WorkerType.Merchants, 6);
             _context.CallsToSaveChanges.Should().Be(1);
         }
 
         [TestMethod]
         public void UntrainWorkersCommandHandler_Allows_Empty_Workers() {
             var handler = new UntrainWorkersCommandHandler(_repository, _formatter);
-            var command = new UntrainWorkersCommand("test@test.com", "", "", "", "", "", "");
+            var command = new UntrainWorkersCommand("test@test.com", new List<WorkerInfo>() {
+                new WorkerInfo("Farmers", ""),
+                new WorkerInfo("WoodWorkers", ""),
+                new WorkerInfo("StoneMasons", ""),
+                new WorkerInfo("OreMiners", ""),
+                new WorkerInfo("SiegeEngineers", ""),
+                new WorkerInfo("Merchants", "")
+            });
 
             var result = handler.Execute(command);
 
@@ -72,237 +88,59 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
         }
 
         [TestMethod]
-        public void UntrainWorkersCommandHandler_Fails_For_Alphanumeric_Farmers() {
+        public void UntrainWorkersCommandHandler_Throws_Exception_For_Invalid_Type() {
             var handler = new UntrainWorkersCommandHandler(_repository, _formatter);
-            var command = new UntrainWorkersCommand("test@test.com", "A", "2", "2", "2", "2", "2");
+            var command = new UntrainWorkersCommand("test@test.com", new List<WorkerInfo>() {
+                new WorkerInfo("Test", "1")
+            });
 
-            var result = handler.Execute(command);
+            Action action = () => handler.Execute(command);
 
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.ToString().Should().Be("c => c.Farmers");
-            result.Errors[0].Message.Should().Be("Farmers must be a valid number");
-            _player.DidNotReceiveWithAnyArgs().UntrainWorkers(default, default);
+            action.Should().Throw<ArgumentException>();
+            _player.DidNotReceiveWithAnyArgs().TrainWorkers(default, default);
+            _context.CallsToSaveChanges.Should().Be(0);
         }
 
         [TestMethod]
-        public void UntrainWorkersCommandHandler_Fails_For_Alphanumeric_WoodWorkers() {
+        public void UntrainWorkersCommandHandler_Fails_For_Alphanumeric_Count() {
             var handler = new UntrainWorkersCommandHandler(_repository, _formatter);
-            var command = new UntrainWorkersCommand("test@test.com", "2", "A", "2", "2", "2", "2");
+            var command = new UntrainWorkersCommand("test@test.com", new List<WorkerInfo>() {
+                new WorkerInfo("Farmers", "A")
+            });
 
             var result = handler.Execute(command);
 
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.ToString().Should().Be("c => c.WoodWorkers");
-            result.Errors[0].Message.Should().Be("Wood workers must be a valid number");
+            result.Should().HaveError("Workers[0].Count", "Invalid number");
             _player.DidNotReceiveWithAnyArgs().UntrainWorkers(default, default);
+            _context.CallsToSaveChanges.Should().Be(0);
         }
 
         [TestMethod]
-        public void UntrainWorkersCommandHandler_Fails_For_Alphanumeric_StoneMasons() {
+        public void UntrainWorkersCommandHandler_Fails_For_Negative_Count() {
             var handler = new UntrainWorkersCommandHandler(_repository, _formatter);
-            var command = new UntrainWorkersCommand("test@test.com", "2", "2", "A", "2", "2", "2");
+            var command = new UntrainWorkersCommand("test@test.com", new List<WorkerInfo>() {
+                new WorkerInfo("Farmers", "-1")
+            });
 
             var result = handler.Execute(command);
 
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.ToString().Should().Be("c => c.StoneMasons");
-            result.Errors[0].Message.Should().Be("Stone masons must be a valid number");
+            result.Should().HaveError("Workers[0].Count", "Invalid number");
             _player.DidNotReceiveWithAnyArgs().UntrainWorkers(default, default);
+            _context.CallsToSaveChanges.Should().Be(0);
         }
 
         [TestMethod]
-        public void UntrainWorkersCommandHandler_Fails_For_Alphanumeric_OreMiners() {
+        public void UntrainWorkersCommandHandler_Fails_For_Too_High_Count() {
             var handler = new UntrainWorkersCommandHandler(_repository, _formatter);
-            var command = new UntrainWorkersCommand("test@test.com", "2", "2", "2", "A", "2", "2");
+            var command = new UntrainWorkersCommand("test@test.com", new List<WorkerInfo>() {
+                new WorkerInfo("Farmers", "12")
+            });
 
             var result = handler.Execute(command);
 
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.ToString().Should().Be("c => c.OreMiners");
-            result.Errors[0].Message.Should().Be("Ore miners must be a valid number");
+            result.Should().HaveError("Workers[0].Count", "You don't have that many farmers to untrain");
             _player.DidNotReceiveWithAnyArgs().UntrainWorkers(default, default);
-        }
-
-        [TestMethod]
-        public void UntrainWorkersCommandHandler_Fails_For_Alphanumeric_SiegeEngineers() {
-            var handler = new UntrainWorkersCommandHandler(_repository, _formatter);
-            var command = new UntrainWorkersCommand("test@test.com", "2", "2", "2", "2", "A", "2");
-
-            var result = handler.Execute(command);
-
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.ToString().Should().Be("c => c.SiegeEngineers");
-            result.Errors[0].Message.Should().Be("Siege engineers must be a valid number");
-            _player.DidNotReceiveWithAnyArgs().UntrainWorkers(default, default);
-        }
-
-        [TestMethod]
-        public void UntrainWorkersCommandHandler_Fails_For_Alphanumeric_Merchants() {
-            var handler = new UntrainWorkersCommandHandler(_repository, _formatter);
-            var command = new UntrainWorkersCommand("test@test.com", "2", "2", "2", "2", "2", "A");
-
-            var result = handler.Execute(command);
-
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.ToString().Should().Be("c => c.Merchants");
-            result.Errors[0].Message.Should().Be("Merchants must be a valid number");
-            _player.DidNotReceiveWithAnyArgs().UntrainWorkers(default, default);
-        }
-
-        [TestMethod]
-        public void UntrainWorkersCommandHandler_Fails_For_Too_High_Farmers() {
-            var handler = new UntrainWorkersCommandHandler(_repository, _formatter);
-            var command = new UntrainWorkersCommand("test@test.com", "12", "2", "2", "2", "2", "2");
-
-            var result = handler.Execute(command);
-
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.ToString().Should().Be("c => c.Farmers");
-            result.Errors[0].Message.Should().Be("You don't have that many farmers to untrain");
-            _player.DidNotReceiveWithAnyArgs().UntrainWorkers(default, default);
-        }
-
-        [TestMethod]
-        public void UntrainWorkersCommandHandler_Fails_For_Too_High_WoodWorkers() {
-            var handler = new UntrainWorkersCommandHandler(_repository, _formatter);
-            var command = new UntrainWorkersCommand("test@test.com", "2", "12", "2", "2", "2", "2");
-
-            var result = handler.Execute(command);
-
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.ToString().Should().Be("c => c.WoodWorkers");
-            result.Errors[0].Message.Should().Be("You don't have that many wood workers to untrain");
-            _player.DidNotReceiveWithAnyArgs().UntrainWorkers(default, default);
-        }
-
-        [TestMethod]
-        public void UntrainWorkersCommandHandler_Fails_For_Too_High_StoneMasons() {
-            var handler = new UntrainWorkersCommandHandler(_repository, _formatter);
-            var command = new UntrainWorkersCommand("test@test.com", "2", "2", "12", "2", "2", "2");
-
-            var result = handler.Execute(command);
-
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.ToString().Should().Be("c => c.StoneMasons");
-            result.Errors[0].Message.Should().Be("You don't have that many stone masons to untrain");
-            _player.DidNotReceiveWithAnyArgs().UntrainWorkers(default, default);
-        }
-
-        [TestMethod]
-        public void UntrainWorkersCommandHandler_Fails_For_Too_High_OreMiners() {
-            var handler = new UntrainWorkersCommandHandler(_repository, _formatter);
-            var command = new UntrainWorkersCommand("test@test.com", "2", "2", "2", "12", "2", "2");
-
-            var result = handler.Execute(command);
-
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.ToString().Should().Be("c => c.OreMiners");
-            result.Errors[0].Message.Should().Be("You don't have that many ore miners to untrain");
-            _player.DidNotReceiveWithAnyArgs().UntrainWorkers(default, default);
-        }
-
-        [TestMethod]
-        public void UntrainWorkersCommandHandler_Fails_For_Too_High_SiegeEngineers() {
-            var handler = new UntrainWorkersCommandHandler(_repository, _formatter);
-            var command = new UntrainWorkersCommand("test@test.com", "2", "2", "2", "2", "12", "2");
-
-            var result = handler.Execute(command);
-
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.ToString().Should().Be("c => c.SiegeEngineers");
-            result.Errors[0].Message.Should().Be("You don't have that many siege engineers to untrain");
-            _player.DidNotReceiveWithAnyArgs().UntrainWorkers(default, default);
-        }
-
-        [TestMethod]
-        public void UntrainWorkersCommandHandler_Fails_For_Too_High_Merchants() {
-            var handler = new UntrainWorkersCommandHandler(_repository, _formatter);
-            var command = new UntrainWorkersCommand("test@test.com", "2", "2", "2", "2", "2", "12");
-
-            var result = handler.Execute(command);
-
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.ToString().Should().Be("c => c.Merchants");
-            result.Errors[0].Message.Should().Be("You don't have that many merchants to untrain");
-            _player.DidNotReceiveWithAnyArgs().UntrainWorkers(default, default);
-        }
-
-        [TestMethod]
-        public void UntrainWorkersCommandHandler_Fails_For_Negative_Farmers() {
-            var handler = new UntrainWorkersCommandHandler(_repository, _formatter);
-            var command = new UntrainWorkersCommand("test@test.com", "-2", "2", "2", "2", "2", "2");
-
-            var result = handler.Execute(command);
-
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.ToString().Should().Be("c => c.Farmers");
-            result.Errors[0].Message.Should().Be("Farmers must be a valid number");
-            _player.DidNotReceiveWithAnyArgs().UntrainWorkers(default, default);
-        }
-
-        [TestMethod]
-        public void UntrainWorkersCommandHandler_Fails_For_Negative_WoodWorkers() {
-            var handler = new UntrainWorkersCommandHandler(_repository, _formatter);
-            var command = new UntrainWorkersCommand("test@test.com", "2", "-2", "2", "2", "2", "2");
-
-            var result = handler.Execute(command);
-
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.ToString().Should().Be("c => c.WoodWorkers");
-            result.Errors[0].Message.Should().Be("Wood workers must be a valid number");
-            _player.DidNotReceiveWithAnyArgs().UntrainWorkers(default, default);
-        }
-
-        [TestMethod]
-        public void UntrainWorkersCommandHandler_Fails_For_Negative_StoneMasons() {
-            var handler = new UntrainWorkersCommandHandler(_repository, _formatter);
-            var command = new UntrainWorkersCommand("test@test.com", "2", "2", "-2", "2", "2", "2");
-
-            var result = handler.Execute(command);
-
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.ToString().Should().Be("c => c.StoneMasons");
-            result.Errors[0].Message.Should().Be("Stone masons must be a valid number");
-            _player.DidNotReceiveWithAnyArgs().UntrainWorkers(default, default);
-        }
-
-        [TestMethod]
-        public void UntrainWorkersCommandHandler_Fails_For_Negative_OreMiners() {
-            var handler = new UntrainWorkersCommandHandler(_repository, _formatter);
-            var command = new UntrainWorkersCommand("test@test.com", "2", "2", "2", "-2", "2", "2");
-
-            var result = handler.Execute(command);
-
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.ToString().Should().Be("c => c.OreMiners");
-            result.Errors[0].Message.Should().Be("Ore miners must be a valid number");
-            _player.DidNotReceiveWithAnyArgs().UntrainWorkers(default, default);
-        }
-
-        [TestMethod]
-        public void UntrainWorkersCommandHandler_Fails_For_Negative_SiegeEngineers() {
-            var handler = new UntrainWorkersCommandHandler(_repository, _formatter);
-            var command = new UntrainWorkersCommand("test@test.com", "2", "2", "2", "2", "-2", "2");
-
-            var result = handler.Execute(command);
-
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.ToString().Should().Be("c => c.SiegeEngineers");
-            result.Errors[0].Message.Should().Be("Siege engineers must be a valid number");
-            _player.DidNotReceiveWithAnyArgs().UntrainWorkers(default, default);
-        }
-
-        [TestMethod]
-        public void UntrainWorkersCommandHandler_Fails_For_Negative_Merchants() {
-            var handler = new UntrainWorkersCommandHandler(_repository, _formatter);
-            var command = new UntrainWorkersCommand("test@test.com", "2", "2", "2", "2", "2", "-2");
-
-            var result = handler.Execute(command);
-
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.ToString().Should().Be("c => c.Merchants");
-            result.Errors[0].Message.Should().Be("Merchants must be a valid number");
-            _player.DidNotReceiveWithAnyArgs().UntrainWorkers(default, default);
+            _context.CallsToSaveChanges.Should().Be(0);
         }
 
         [TestMethod]
@@ -315,14 +153,15 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
             });
 
             var handler = new UntrainWorkersCommandHandler(_repository, _formatter);
-            var command = new UntrainWorkersCommand("test@test.com", "", "", "", "", "1", "");
+            var command = new UntrainWorkersCommand("test@test.com", new List<WorkerInfo>() {
+                new WorkerInfo("SiegeEngineers", "1")
+            });
 
             var result = handler.Execute(command);
 
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.ToString().Should().Be("c => c.SiegeEngineers");
-            result.Errors[0].Message.Should().Be("Your siege engineers are maintaining too many siege weapons for that many to be untrained");
+            result.Should().HaveError("Workers[0].Count", "Your siege engineers are maintaining too many siege weapons for that many to be untrained");
             _player.DidNotReceiveWithAnyArgs().UntrainWorkers(default, default);
+            _context.CallsToSaveChanges.Should().Be(0);
         }
 
         [TestMethod]
@@ -333,14 +172,15 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
             });
 
             var handler = new UntrainWorkersCommandHandler(_repository, _formatter);
-            var command = new UntrainWorkersCommand("test@test.com", "", "", "", "", "", "9");
+            var command = new UntrainWorkersCommand("test@test.com", new List<WorkerInfo>() {
+                new WorkerInfo("Merchants", "9")
+            });
 
             var result = handler.Execute(command);
 
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.ToString().Should().Be("c => c.Merchants");
-            result.Errors[0].Message.Should().Be("You can not untrain merchants that have a caravan on the market");
+            result.Should().HaveError("Workers[0].Count", "You can't untrain merchants that have a caravan on the market");
             _player.DidNotReceiveWithAnyArgs().UntrainWorkers(default, default);
+            _context.CallsToSaveChanges.Should().Be(0);
         }
     }
 }

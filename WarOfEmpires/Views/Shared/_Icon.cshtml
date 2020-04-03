@@ -1,0 +1,52 @@
+﻿@model string
+
+@{
+    string iconClass;
+
+    switch (Model.ToLower()) {
+        case "farmers":
+        case "food":
+            iconClass = "food";
+            break;
+        case "woodworkers":
+        case "wood":
+            iconClass = "wood";
+            break;
+        case "stonemasons":
+        case "stone":
+            iconClass = "stone";
+            break;
+        case "oreminers":
+        case "ore":
+            iconClass = "ore";
+            break;
+        case "gold":
+            iconClass = "gold";
+            break;
+        case "attacks":
+        case "attackturns":
+            iconClass = "attack";
+            break;
+        case "bank":
+        case "bankturns":
+            iconClass = "bank";
+            break;
+        case "siege":
+        case "siegeweapons":
+        case "siegeengineers":
+        case "maintenance":
+            iconClass = "maintenance";
+            break;
+        case "merchants":
+        case "market":
+            iconClass = "market";
+            break;
+        case "menu":
+            iconClass = "menu";
+            break;
+        default:
+            throw new ArgumentException($"Invalid icon expression found: '{Model}'");
+    }
+}
+
+<span class="si si-@iconClass"></span>

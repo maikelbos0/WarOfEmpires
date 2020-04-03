@@ -17,7 +17,7 @@ namespace WarOfEmpires.Database {
     [InterfaceInjectable]
     public sealed class WarContext : DbContext, IWarContext {
         static WarContext() {
-            // When adding migrations the context can not be instantiated
+            // When adding migrations the context can't be instantiated
             // So far I have not worked out how to detect that the model has changed manually
             try {
                 using (var context = new WarContext()) {
