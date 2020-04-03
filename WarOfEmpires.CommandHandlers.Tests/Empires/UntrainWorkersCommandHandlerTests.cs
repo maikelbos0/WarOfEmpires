@@ -178,7 +178,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
             var result = handler.Execute(command);
 
-            result.Should().HaveError("Workers[0].Count", "You can not untrain merchants that have a caravan on the market");
+            result.Should().HaveError("Workers[0].Count", "You can't untrain merchants that have a caravan on the market");
             _player.DidNotReceiveWithAnyArgs().UntrainWorkers(default, default);
             _context.CallsToSaveChanges.Should().Be(0);
         }

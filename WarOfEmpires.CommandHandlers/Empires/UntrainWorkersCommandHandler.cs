@@ -44,7 +44,7 @@ namespace WarOfEmpires.CommandHandlers.Empires {
                 }
 
                 if (type == WorkerType.Merchants && count > 0 && player.GetWorkerCount(WorkerType.Merchants) - count < player.Caravans.Count) {
-                    result.AddError(c => c.Workers[i].Count, "You can not untrain merchants that have a caravan on the market");
+                    result.AddError(c => c.Workers[i].Count, "You can't untrain merchants that have a caravan on the market");
                 }
 
                 if (result.Success && count > 0) {
