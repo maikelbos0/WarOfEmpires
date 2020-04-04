@@ -7,37 +7,49 @@
 <h2>Attack details</h2>
 
 <div class="row">
-    <div class="col-3">Attacker</div>
-    
+    <div class="col-3">
+        <strong>Attacker</strong>
+    </div>
+
     <div class="col-9">@Html.ActionLink(Model.Attacker, "Details", "Player", new { id = Model.AttackerId }, null)</div>
 </div>
 
 <div class="row">
-    <div class="col-3">Defender</div>
+    <div class="col-3">
+        <strong>Defender</strong>
+    </div>
 
     <div class="col-9">@Html.ActionLink(Model.Defender, "Details", "Player", new { id = Model.DefenderId }, null)</div>
 </div>
 
 <div class="row">
-    <div class="col-3">Date</div>
+    <div class="col-3">
+        <strong>Date</strong>
+    </div>
 
     <div class="col-9">@Model.Date.ToString(StringFormat.Date)</div>
 </div>
 
 <div class="row">
-    <div class="col-3">Attack type</div>
+    <div class="col-3">
+        <strong>Attack type</strong>
+    </div>
 
     <div class="col-9">@Model.Type</div>
 </div>
 
 <div class="row">
-    <div class="col-3">Number of turns</div>
+    <div class="col-3">
+        <strong>Number of turns</strong>
+    </div>
 
     <div class="col-9">@Model.Turns.ToString(StringFormat.Integer)</div>
 </div>
 
 <div class="row">
-    <div class="col-3">Result</div>
+    <div class="col-3">
+        <strong>Result</strong>
+    </div>
 
     <div class="col-9">@Model.Result</div>
 </div>

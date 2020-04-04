@@ -15,7 +15,9 @@
     @Html.HiddenFor(m => m.Recipient)
 
     <div class="row">
-        <div class="col-3 col-form-label">Recipient</div>
+        <div class="col-3 col-form-label">
+            <strong>Recipient</strong>
+        </div>
 
         <div class="col-9 col-form-label">
             @Model.Recipient
@@ -23,7 +25,9 @@
     </div>
 
     <div class="row">
-        <div class="col-3 col-form-label">@Html.LabelFor(m => m.Subject, new { @class = "site-required" })</div>
+        <div class="col-3 col-form-label">
+            <strong>@Html.LabelFor(m => m.Subject, new { @class = "site-required" })</strong>
+        </div>
 
         <div class="col-9">
             @Html.TextBoxFor(m => m.Subject, new { @class = "form-control" })
@@ -32,7 +36,9 @@
     </div>
 
     <div class="row">
-        <div class="col-3 col-form-label">@Html.LabelFor(m => m.Body)</div>
+        <div class="col-3 col-form-label">
+            <strong>@Html.LabelFor(m => m.Body)</strong>
+        </div>
 
         <div class="col-9">
             @Html.TextAreaFor(m => m.Body, new { @class = "form-control", rows = 8 })

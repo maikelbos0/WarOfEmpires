@@ -9,19 +9,25 @@
 <p>@Html.ActionLink("Reply", "Reply", new { messageId = Model.Id })</p>
 
 <div class="row">
-    <div class="col-3">Sender</div>
+    <div class="col-3">
+        <strong>Sender</strong>
+    </div>
 
     <div class="col-9">@Model.Sender</div>
 </div>
 
 <div class="row">
-    <div class="col-3">Date received</div>
+    <div class="col-3">
+        <strong>Date received</strong>
+    </div>
 
     <div class="col-9">@Model.Date.ToString(StringFormat.Date)</div>
 </div>
 
 <div class="row">
-    <div class="col-3">Subject</div>
+    <div class="col-3">
+        <strong>Subject</strong>
+    </div>
 
     <div class="col-9">@Model.Subject</div>
 </div>

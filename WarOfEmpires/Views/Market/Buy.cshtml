@@ -52,7 +52,7 @@
 
     <div class="row">
         <div class="col-2 col-form-label">
-            @Html.LabelFor(m => m.Food)
+            <strong>@Html.LabelFor(m => m.Food)</strong>
         </div>
         <div class="col-2 col-form-label">
             @Model.FoodInfo.LowestPrice.ToString(StringFormat.Integer) <span class="si si-gold"></span>
@@ -75,7 +75,7 @@
 
     <div class="row">
         <div class="col-2 col-form-label">
-            @Html.LabelFor(m => m.Wood)
+            <strong>@Html.LabelFor(m => m.Wood)</strong>
         </div>
         <div class="col-2 col-form-label">
             @Model.WoodInfo.LowestPrice.ToString(StringFormat.Integer) <span class="si si-gold"></span>
@@ -98,7 +98,7 @@
 
     <div class="row">
         <div class="col-2 col-form-label">
-            @Html.LabelFor(m => m.Stone)
+            <strong>@Html.LabelFor(m => m.Stone)</strong>
         </div>
         <div class="col-2 col-form-label">
             @Model.StoneInfo.LowestPrice.ToString(StringFormat.Integer) <span class="si si-gold"></span>
@@ -121,7 +121,7 @@
 
     <div class="row">
         <div class="col-2 col-form-label">
-            @Html.LabelFor(m => m.Ore)
+            <strong>@Html.LabelFor(m => m.Ore)</strong>
         </div>
         <div class="col-2 col-form-label">
             @Model.OreInfo.LowestPrice.ToString(StringFormat.Integer) <span class="si si-gold"></span>
