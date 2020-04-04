@@ -70,6 +70,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
             var result = handler.Execute(query);
             var worker = result.Workers.Single(s => s.Type == "Farmers");
 
+            worker.Name.Should().Be("Farmers");
             worker.CurrentWorkers.Should().Be(2);
             worker.CurrentProductionPerWorkerPerTurn.Should().Be(10);
             worker.CurrentProductionPerTurn.Should().Be(20);
@@ -83,6 +84,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
             var result = handler.Execute(query);
             var worker = result.Workers.Single(s => s.Type == "WoodWorkers");
 
+            worker.Name.Should().Be("Wood workers");
             worker.CurrentWorkers.Should().Be(3);
             worker.CurrentProductionPerWorkerPerTurn.Should().Be(10);
             worker.CurrentProductionPerTurn.Should().Be(30);
@@ -96,6 +98,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
             var result = handler.Execute(query);
             var worker = result.Workers.Single(s => s.Type == "StoneMasons");
 
+            worker.Name.Should().Be("Stone masons");
             worker.CurrentWorkers.Should().Be(4);
             worker.CurrentProductionPerWorkerPerTurn.Should().Be(10);
             worker.CurrentProductionPerTurn.Should().Be(40);
@@ -109,6 +112,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
             var result = handler.Execute(query);
             var worker = result.Workers.Single(s => s.Type == "OreMiners");
 
+            worker.Name.Should().Be("Ore miners");
             worker.CurrentWorkers.Should().Be(5);
             worker.CurrentProductionPerWorkerPerTurn.Should().Be(10);
             worker.CurrentProductionPerTurn.Should().Be(50);
@@ -122,6 +126,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
             var result = handler.Execute(query);
             var worker = result.Workers.Single(s => s.Type == "SiegeEngineers");
 
+            worker.Name.Should().Be("Siege engineers");
             worker.CurrentWorkers.Should().Be(6);
             worker.CurrentProductionPerWorkerPerTurn.Should().Be(4);
             worker.CurrentProductionPerTurn.Should().Be(24);
@@ -138,6 +143,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
             var result = handler.Execute(query);
             var worker = result.Workers.Single(s => s.Type == "Merchants");
 
+            worker.Name.Should().Be("Merchants");
             worker.CurrentWorkers.Should().Be(7);
             worker.CurrentProductionPerWorkerPerTurn.Should().Be(10000);
             worker.CurrentProductionPerTurn.Should().Be(70000);

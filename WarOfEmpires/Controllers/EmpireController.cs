@@ -47,14 +47,14 @@ namespace WarOfEmpires.Controllers {
         [HttpPost]
         public ActionResult Troops(TroopsModel model) {
             switch (model.Command) {
-                case "train":
-                    return ValidatedCommandResult(model,
-                        new TrainTroopsCommand(_authenticationService.Identity, model.Archers, model.MercenaryArchers, model.Cavalry, model.MercenaryCavalry, model.Footmen, model.MercenaryFootmen),
-                        () => Troops());
-                case "untrain":
-                    return ValidatedCommandResult(model,
-                        new UntrainTroopsCommand(_authenticationService.Identity, model.Archers, model.MercenaryArchers, model.Cavalry, model.MercenaryCavalry, model.Footmen, model.MercenaryFootmen),
-                        () => Troops());
+                //case "train":
+                //    return ValidatedCommandResult(model,
+                //        new TrainTroopsCommand(_authenticationService.Identity, model.Archers, model.MercenaryArchers, model.Cavalry, model.MercenaryCavalry, model.Footmen, model.MercenaryFootmen),
+                //        () => Troops());
+                //case "untrain":
+                //    return ValidatedCommandResult(model,
+                //        new UntrainTroopsCommand(_authenticationService.Identity, model.Archers, model.MercenaryArchers, model.Cavalry, model.MercenaryCavalry, model.Footmen, model.MercenaryFootmen),
+                //        () => Troops());
                 case "heal":
                     return ValidatedCommandResult(model,
                         new HealTroopsCommand(_authenticationService.Identity, model.StaminaToHeal),

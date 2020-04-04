@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using WarOfEmpires.Database;
 using WarOfEmpires.Domain.Attacks;
 using WarOfEmpires.Domain.Players;
@@ -7,6 +8,7 @@ using WarOfEmpires.Queries.Empires;
 using WarOfEmpires.QueryHandlers.Common;
 using WarOfEmpires.QueryHandlers.Decorators;
 using WarOfEmpires.Utilities.Container;
+using WarOfEmpires.Utilities.Formatting;
 using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Empires {
@@ -15,10 +17,12 @@ namespace WarOfEmpires.QueryHandlers.Empires {
     public sealed class GetTroopsQueryHandler : IQueryHandler<GetTroopsQuery, TroopsModel> {
         private readonly IWarContext _context;
         private readonly ResourcesMap _resourcesMap;
+        private readonly EnumFormatter _formatter;
 
-        public GetTroopsQueryHandler(IWarContext context, ResourcesMap resourcesMap) {
+        public GetTroopsQueryHandler(IWarContext context, ResourcesMap resourcesMap, EnumFormatter formatter) {
             _context = context;
             _resourcesMap = resourcesMap;
+            _formatter = formatter;
         }
 
         public TroopsModel Execute(GetTroopsQuery query) {
@@ -27,9 +31,11 @@ namespace WarOfEmpires.QueryHandlers.Empires {
 
             return new TroopsModel() {
                 CurrentPeasants = player.Peasants,
-                ArcherInfo = MapTroops(player, TroopType.Archers),
-                CavalryInfo = MapTroops(player, TroopType.Cavalry),
-                FootmanInfo = MapTroops(player, TroopType.Footmen),
+                Troops = new List<TroopModel>() {
+                    MapTroops(player, TroopType.Archers),
+                    MapTroops(player, TroopType.Cavalry),
+                    MapTroops(player, TroopType.Footmen)
+                },
                 MercenaryTrainingCost = _resourcesMap.ToViewModel(Player.MercenaryTrainingCost),
                 WillUpkeepRunOut = !(player.GetTotalResources() + player.GetResourcesPerTurn() * 48).CanAfford(player.GetUpkeepPerTurn() * 48),
                 HasUpkeepRunOut = player.HasUpkeepRunOut,
@@ -45,6 +51,8 @@ namespace WarOfEmpires.QueryHandlers.Empires {
 
             return new TroopModel() {
                 Cost = _resourcesMap.ToViewModel(definition.Cost),
+                Type = type.ToString(),
+                Name = _formatter.ToString(type),
                 CurrentSoldiers = troops.Soldiers,
                 CurrentMercenaries = troops.Mercenaries
             };
