@@ -56,11 +56,11 @@
     <Compile Include="Empires\HousingTotalsViewModel.cs" />
     <Compile Include="Empires\ResourceHeaderViewModel.cs" />
     <Compile Include="Empires\ResourcesViewModel.cs" />
-    <Compile Include="Empires\SiegeWeaponInfoViewModel.cs" />
+    <Compile Include="Empires\SiegeWeaponModel.cs" />
     <Compile Include="Empires\TaxModel.cs" />
-    <Compile Include="Empires\TroopInfoViewModel.cs" />
     <Compile Include="Empires\TroopModel.cs" />
-    <Compile Include="Empires\WorkerInfoViewModel.cs" />
+    <Compile Include="Empires\TroopsModel.cs" />
+    <Compile Include="Empires\WorkerModel.cs" />
     <Compile Include="Markets\MarketModel.cs" />
     <Compile Include="Markets\CaravanViewModel.cs" />
     <Compile Include="Markets\MerchandiseInfoViewModel.cs" />
@@ -73,7 +73,7 @@
     <Compile Include="Players\NotificationsViewModel.cs" />
     <Compile Include="Players\PlayerDetailsViewModel.cs" />
     <Compile Include="Players\PlayerViewModel.cs" />
-    <Compile Include="Empires\WorkerModel.cs" />
+    <Compile Include="Empires\WorkersModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security\ChangeUserEmailModel.cs" />
     <Compile Include="Security\ChangeUserPasswordModel.cs" />

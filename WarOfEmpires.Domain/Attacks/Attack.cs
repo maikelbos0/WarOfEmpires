@@ -36,7 +36,7 @@ namespace WarOfEmpires.Domain.Attacks {
         }
 
         public void Execute() {
-            if (Result != AttackResult.Undefined) throw new InvalidOperationException("An attack can not be executed more than once");
+            if (Result != AttackResult.Undefined) throw new InvalidOperationException("An attack can't be executed more than once");
 
             var attackerStamina = Attacker.Stamina;
             var defenderStamina = Defender.Stamina;            

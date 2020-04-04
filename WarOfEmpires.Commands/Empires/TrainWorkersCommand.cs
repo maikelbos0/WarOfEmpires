@@ -1,21 +1,14 @@
-﻿namespace WarOfEmpires.Commands.Empires {
+﻿using System.Collections.Generic;
+using System.Linq;
+
+namespace WarOfEmpires.Commands.Empires {
     public sealed class TrainWorkersCommand : ICommand {
         public string Email { get; }
-        public string Farmers { get; }
-        public string WoodWorkers { get; }
-        public string StoneMasons { get; }
-        public string OreMiners { get; }
-        public string SiegeEngineers { get; }
-        public string Merchants { get; }
+        public List<WorkerInfo> Workers { get; }
 
-        public TrainWorkersCommand(string email, string farmers, string woodWorkers, string stoneMasons, string oreMiners, string siegeEngineers, string merchants) {
+        public TrainWorkersCommand(string email, IEnumerable<WorkerInfo> workers) {
             Email = email;
-            Farmers = farmers;
-            WoodWorkers = woodWorkers;
-            StoneMasons = stoneMasons;
-            OreMiners = oreMiners;
-            SiegeEngineers = siegeEngineers;
-            Merchants = merchants;
+            Workers = workers.ToList();
         }
     }
 }

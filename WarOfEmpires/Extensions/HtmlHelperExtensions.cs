@@ -22,6 +22,16 @@ namespace WarOfEmpires.Extensions {
             };
 
             return html.Partial("_HiddenResources", model, viewData);
+        }        
+
+        public static MvcHtmlString IconFor<TModel>(this HtmlHelper<TModel> html, Expression<Func<TModel, string>> expression) {
+            var model = expression.Compile().Invoke(html.ViewData.Model);
+
+            return html.Icon(model);
+        }
+
+        public static MvcHtmlString Icon(this HtmlHelper html, string expression) {
+            return html.Partial("_Icon", expression);
         }
     }
 }

@@ -46,6 +46,7 @@
     <Compile Include="Empires\AddBankTurnCommand.cs" />
     <Compile Include="Empires\BankCommand.cs" />
     <Compile Include="Empires\BuildSiegeCommand.cs" />
+    <Compile Include="Empires\SiegeWeaponInfo.cs" />
     <Compile Include="Empires\DiscardSiegeCommand.cs" />
     <Compile Include="Empires\HealTroopsCommand.cs" />
     <Compile Include="Empires\ProcessTurnCommand.cs" />
@@ -53,6 +54,7 @@
     <Compile Include="Empires\TrainTroopsCommand.cs" />
     <Compile Include="Empires\UntrainTroopsCommand.cs" />
     <Compile Include="Empires\UpgradeBuildingCommand.cs" />
+    <Compile Include="Empires\WorkerInfo.cs" />
     <Compile Include="Events\PauseScheduledTasksCommand.cs" />
     <Compile Include="Events\RunScheduledTasksCommand.cs" />
     <Compile Include="Events\UnpauseScheduledTasksCommand.cs" />

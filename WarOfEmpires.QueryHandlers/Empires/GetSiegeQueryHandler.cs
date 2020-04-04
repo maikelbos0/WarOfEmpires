@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using WarOfEmpires.Database;
 using WarOfEmpires.Domain.Empires;
 using WarOfEmpires.Domain.Players;
@@ -31,17 +32,20 @@ namespace WarOfEmpires.QueryHandlers.Empires {
                 TotalMaintenance = player.GetWorkerCount(WorkerType.SiegeEngineers) * player.GetBuildingBonus(BuildingType.SiegeFactory),
                 AvailableMaintenance = player.GetWorkerCount(WorkerType.SiegeEngineers) * player.GetBuildingBonus(BuildingType.SiegeFactory)
                     - player.SiegeWeapons.Sum(s => s.Count * SiegeWeaponDefinitionFactory.Get(s.Type).Maintenance),
-                FireArrowsInfo = MapSiegeWeapon(player, SiegeWeaponType.FireArrows),
-                BatteringRamsInfo = MapSiegeWeapon(player, SiegeWeaponType.BatteringRams),
-                ScalingLaddersInfo = MapSiegeWeapon(player, SiegeWeaponType.ScalingLadders)
+                SiegeWeapons = new List<SiegeWeaponModel>() {
+                    MapSiegeWeapon(player, SiegeWeaponType.FireArrows),
+                    MapSiegeWeapon(player, SiegeWeaponType.BatteringRams),
+                    MapSiegeWeapon(player, SiegeWeaponType.ScalingLadders)
+                }
             };
         }
 
-        private SiegeWeaponInfoViewModel MapSiegeWeapon(Player player, SiegeWeaponType type) {
+        private SiegeWeaponModel MapSiegeWeapon(Player player, SiegeWeaponType type) {
             var definition = SiegeWeaponDefinitionFactory.Get(type);
             var count = player.GetSiegeWeaponCount(type);
 
-            return new SiegeWeaponInfoViewModel() {
+            return new SiegeWeaponModel() {
+                Type = definition.Type.ToString(),
                 Name = definition.Name,
                 Description = definition.Description,
                 Maintenance = definition.Maintenance,
