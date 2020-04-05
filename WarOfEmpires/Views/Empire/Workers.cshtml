@@ -10,7 +10,7 @@
     Here you can train or untrain your workers to make sure you produce the resources you require.
 </p>
 
-<ul>
+<ul class="information-list">
     <li>Peasants available for training: @Model.CurrentPeasants.ToString(StringFormat.Integer)</li>
     <li>Worker training cost: @Html.DisplayFor(m => m.WorkerCost)</li>
     <li>Gold production per turn: @Model.CurrentGoldPerTurn.ToString(StringFormat.Integer) @Html.Icon("Gold")</li>
@@ -145,7 +145,7 @@
             </div>
         </div>
 
-        <ul>
+        <ul class="information-list">
             <li>Training cost: @Html.DisplayFor(m => m.Workers[i].Cost)</li>
         </ul>
     }

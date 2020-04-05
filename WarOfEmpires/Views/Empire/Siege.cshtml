@@ -11,7 +11,7 @@
     not be used by other types.
 </p>
 
-<ul>
+<ul class="information-list">
     <li>Siege engineers: @Model.Engineers.ToString(StringFormat.Integer)</li>
     <li>Total siege maintenance provided: @Model.TotalMaintenance.ToString(StringFormat.Integer) @Html.Icon("Maintenance")</li>
     <li>Available siege maintenance: @Model.AvailableMaintenance.ToString(StringFormat.Integer) @Html.Icon("Maintenance")</li>
@@ -79,7 +79,7 @@
             </div>
         </div>
 
-        <ul>
+        <ul class="information-list">
             <li>@Model.SiegeWeapons[i].Description</li>
             <li>Build cost: @Html.DisplayFor(m => m.SiegeWeapons[i].Cost)</li>
         </ul>
