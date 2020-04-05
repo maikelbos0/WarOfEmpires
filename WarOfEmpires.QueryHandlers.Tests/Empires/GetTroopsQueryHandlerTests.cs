@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
+using System.Linq;
 using WarOfEmpires.Domain.Attacks;
 using WarOfEmpires.Domain.Common;
 using WarOfEmpires.Domain.Players;
@@ -9,11 +10,14 @@ using WarOfEmpires.Queries.Empires;
 using WarOfEmpires.QueryHandlers.Common;
 using WarOfEmpires.QueryHandlers.Empires;
 using WarOfEmpires.Test.Utilities;
+using WarOfEmpires.Utilities.Formatting;
 
 namespace WarOfEmpires.QueryHandlers.Tests.Empires {
     [TestClass]
     public sealed class GetTroopsQueryHandlerTests {
         private readonly FakeWarContext _context = new FakeWarContext();
+        private readonly ResourcesMap _resourcesMap = new ResourcesMap();
+        private readonly EnumFormatter _formatter = new EnumFormatter();
 
         public GetTroopsQueryHandlerTests() {
             var user = Substitute.For<User>();
@@ -43,7 +47,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
         [TestMethod]
         public void GetTroopsQueryHandler_Returns_Correct_Peasants() {
             var query = new GetTroopsQuery("test@test.com");
-            var handler = new GetTroopsQueryHandler(_context, new ResourcesMap());
+            var handler = new GetTroopsQueryHandler(_context, _resourcesMap, _formatter);
 
             var result = handler.Execute(query);
 
@@ -51,36 +55,60 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
         }
 
         [TestMethod]
-        public void GetTroopsQueryHandler_Returns_Correct_Troops() {
+        public void GetTroopsQueryHandler_Returns_Correct_Archers() {
             var query = new GetTroopsQuery("test@test.com");
-            var handler = new GetTroopsQueryHandler(_context, new ResourcesMap());
+            var handler = new GetTroopsQueryHandler(_context, _resourcesMap, _formatter);
 
             var result = handler.Execute(query);
+            var troop = result.Troops.Single(t => t.Type == "Archers");
 
-            result.ArcherInfo.CurrentSoldiers.Should().Be(7);
-            result.ArcherInfo.CurrentMercenaries.Should().Be(6);
-            result.CavalryInfo.CurrentSoldiers.Should().Be(5);
-            result.CavalryInfo.CurrentMercenaries.Should().Be(4);
-            result.FootmanInfo.CurrentSoldiers.Should().Be(3);
-            result.FootmanInfo.CurrentMercenaries.Should().Be(2);
+            troop.Name.Should().Be("Archers");
+            troop.CurrentSoldiers.Should().Be(7);
+            troop.CurrentMercenaries.Should().Be(6);
+            troop.Cost.Gold.Should().Be(5000);
+            troop.Cost.Wood.Should().Be(1000);
+            troop.Cost.Ore.Should().Be(500);
+        }
+
+        [TestMethod]
+        public void GetTroopsQueryHandler_Returns_Correct_Cavalry() {
+            var query = new GetTroopsQuery("test@test.com");
+            var handler = new GetTroopsQueryHandler(_context, _resourcesMap, _formatter);
+
+            var result = handler.Execute(query);
+            var troop = result.Troops.Single(t => t.Type == "Cavalry");
+
+            troop.Name.Should().Be("Cavalry");
+            troop.CurrentSoldiers.Should().Be(5);
+            troop.CurrentMercenaries.Should().Be(4);
+            troop.Cost.Gold.Should().Be(5000);
+            troop.Cost.Wood.Should().Be(0);
+            troop.Cost.Ore.Should().Be(1500);
+        }
+
+        [TestMethod]
+        public void GetTroopsQueryHandler_Returns_Correct_Footmen() {
+            var query = new GetTroopsQuery("test@test.com");
+            var handler = new GetTroopsQueryHandler(_context, _resourcesMap, _formatter);
+
+            var result = handler.Execute(query);
+            var troop = result.Troops.Single(t => t.Type == "Footmen");
+
+            troop.Name.Should().Be("Footmen");
+            troop.CurrentSoldiers.Should().Be(3);
+            troop.CurrentMercenaries.Should().Be(2);
+            troop.Cost.Gold.Should().Be(5000);
+            troop.Cost.Wood.Should().Be(500);
+            troop.Cost.Ore.Should().Be(1000);
         }
 
         [TestMethod]
         public void GetTroopsQueryHandler_Returns_Correct_Additional_Information() {
             var query = new GetTroopsQuery("test@test.com");
-            var handler = new GetTroopsQueryHandler(_context, new ResourcesMap());
+            var handler = new GetTroopsQueryHandler(_context, _resourcesMap, _formatter);
 
             var result = handler.Execute(query);
 
-            result.ArcherInfo.Cost.Gold.Should().Be(5000);
-            result.ArcherInfo.Cost.Wood.Should().Be(1000);
-            result.ArcherInfo.Cost.Ore.Should().Be(500);
-            result.CavalryInfo.Cost.Gold.Should().Be(5000);
-            result.CavalryInfo.Cost.Wood.Should().Be(0);
-            result.CavalryInfo.Cost.Ore.Should().Be(1500);
-            result.FootmanInfo.Cost.Gold.Should().Be(5000);
-            result.FootmanInfo.Cost.Wood.Should().Be(500);
-            result.FootmanInfo.Cost.Ore.Should().Be(1000);
             result.MercenaryTrainingCost.Gold.Should().Be(5000);
             result.WillUpkeepRunOut.Should().BeTrue();
             result.HasUpkeepRunOut.Should().BeTrue();
@@ -90,19 +118,14 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
         [TestMethod]
         public void GetTroopsQueryHandler_Returns_Correct_Stamina() {
             var query = new GetTroopsQuery("test@test.com");
-            var handler = new GetTroopsQueryHandler(_context, new ResourcesMap());
+            var handler = new GetTroopsQueryHandler(_context, _resourcesMap, _formatter);
+
             var result = handler.Execute(query);
+
             result.CurrentStamina.Should().Be(100);
+            result.StaminaToHeal.Should().Be("0");
         }
 
         // TODO add tests for troop strength if/when implemented
-
-        [TestMethod]
-        public void GetTroopsQueryHandler_Returns_Correct_StaminaToHeal() {
-            var query = new GetTroopsQuery("test@test.com");
-            var handler = new GetTroopsQueryHandler(_context, new ResourcesMap());
-            var result = handler.Execute(query);
-            result.StaminaToHeal.Should().Be("0");
-        }
     }
 }

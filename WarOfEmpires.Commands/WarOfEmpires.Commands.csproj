@@ -52,6 +52,7 @@
     <Compile Include="Empires\ProcessTurnCommand.cs" />
     <Compile Include="Empires\SetTaxCommand.cs" />
     <Compile Include="Empires\TrainTroopsCommand.cs" />
+    <Compile Include="Empires\TroopInfo.cs" />
     <Compile Include="Empires\UntrainTroopsCommand.cs" />
     <Compile Include="Empires\UpgradeBuildingCommand.cs" />
     <Compile Include="Empires\WorkerInfo.cs" />

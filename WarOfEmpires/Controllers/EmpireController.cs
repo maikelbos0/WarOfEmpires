@@ -49,11 +49,11 @@ namespace WarOfEmpires.Controllers {
             switch (model.Command) {
                 case "train":
                     return ValidatedCommandResult(model,
-                        new TrainTroopsCommand(_authenticationService.Identity, model.Archers, model.MercenaryArchers, model.Cavalry, model.MercenaryCavalry, model.Footmen, model.MercenaryFootmen),
+                        new TrainTroopsCommand(_authenticationService.Identity, model.Troops.Select(t => new TroopInfo(t.Type, t.Soldiers, t.Mercenaries))),
                         () => Troops());
                 case "untrain":
                     return ValidatedCommandResult(model,
-                        new UntrainTroopsCommand(_authenticationService.Identity, model.Archers, model.MercenaryArchers, model.Cavalry, model.MercenaryCavalry, model.Footmen, model.MercenaryFootmen),
+                        new UntrainTroopsCommand(_authenticationService.Identity, model.Troops.Select(t => new TroopInfo(t.Type, t.Soldiers, t.Mercenaries))),
                         () => Troops());
                 case "heal":
                     return ValidatedCommandResult(model,
@@ -61,7 +61,6 @@ namespace WarOfEmpires.Controllers {
                         () => Troops());
                 default:
                     throw new InvalidOperationException($"Invalid operation '{model.Command}' found");
-
             }
         }
 
