@@ -14,8 +14,8 @@
 <ul>
     <li>Total number of merchants: @Model.TotalMerchants.ToString(StringFormat.Integer)</li>
     <li>Available merchants: @Model.AvailableMerchants.ToString(StringFormat.Integer)</li>
-    <li>Capacity per caravan: @Model.CaravanCapacity.ToString(StringFormat.Integer) <span class="si si-market"></span></li>
-    <li>Total available capacity: @Model.AvailableCapacity.ToString(StringFormat.Integer) <span class="si si-market"></span></li>
+    <li>Capacity per caravan: @Model.CaravanCapacity.ToString(StringFormat.Integer) @Html.Icon("Market")</li>
+    <li>Total available capacity: @Model.AvailableCapacity.ToString(StringFormat.Integer) @Html.Icon("Market")</li>
 </ul>
 
 @using (Html.BeginForm(null, null, FormMethod.Post, new {
@@ -68,13 +68,13 @@
             <strong>@Html.LabelFor(m => m.Food)</strong>
         </div>
         <div class="col-2 col-form-label">
-            @Model.FoodInfo.LowestPrice.ToString(StringFormat.Integer) <span class="si si-gold"></span>
+            @Model.FoodInfo.LowestPrice.ToString(StringFormat.Integer) @Html.Icon("Gold")
         </div>
         <div class="col-2 col-form-label">
-            @Model.FoodInfo.AvailableAtLowestPrice.ToString(StringFormat.Integer) <span class="si si-food"></span>
+            @Model.FoodInfo.AvailableAtLowestPrice.ToString(StringFormat.Integer) @Html.Icon("Food")
         </div>
         <div class="col-2 col-form-label">
-            @Model.FoodInfo.TotalAvailable.ToString(StringFormat.Integer) <span class="si si-food"></span>
+            @Model.FoodInfo.TotalAvailable.ToString(StringFormat.Integer) @Html.Icon("Food")
         </div>
         <div class="col-2">
             @Html.TextBoxFor(m => m.Food, new { @class = "form-control" })
@@ -91,13 +91,13 @@
             <strong>@Html.LabelFor(m => m.Wood)</strong>
         </div>
         <div class="col-2 col-form-label">
-            @Model.WoodInfo.LowestPrice.ToString(StringFormat.Integer) <span class="si si-gold"></span>
+            @Model.WoodInfo.LowestPrice.ToString(StringFormat.Integer) @Html.Icon("Gold")
         </div>
         <div class="col-2 col-form-label">
-            @Model.WoodInfo.AvailableAtLowestPrice.ToString(StringFormat.Integer) <span class="si si-wood"></span>
+            @Model.WoodInfo.AvailableAtLowestPrice.ToString(StringFormat.Integer) @Html.Icon("Wood")
         </div>
         <div class="col-2 col-form-label">
-            @Model.WoodInfo.TotalAvailable.ToString(StringFormat.Integer) <span class="si si-wood"></span>
+            @Model.WoodInfo.TotalAvailable.ToString(StringFormat.Integer) @Html.Icon("Wood")
         </div>
         <div class="col-2">
             @Html.TextBoxFor(m => m.Wood, new { @class = "form-control" })
@@ -114,13 +114,13 @@
             <strong>@Html.LabelFor(m => m.Stone)</strong>
         </div>
         <div class="col-2 col-form-label">
-            @Model.StoneInfo.LowestPrice.ToString(StringFormat.Integer) <span class="si si-gold"></span>
+            @Model.StoneInfo.LowestPrice.ToString(StringFormat.Integer) @Html.Icon("Gold")
         </div>
         <div class="col-2 col-form-label">
-            @Model.StoneInfo.AvailableAtLowestPrice.ToString(StringFormat.Integer) <span class="si si-stone"></span>
+            @Model.StoneInfo.AvailableAtLowestPrice.ToString(StringFormat.Integer) @Html.Icon("Stone")
         </div>
         <div class="col-2 col-form-label">
-            @Model.StoneInfo.TotalAvailable.ToString(StringFormat.Integer) <span class="si si-stone"></span>
+            @Model.StoneInfo.TotalAvailable.ToString(StringFormat.Integer) @Html.Icon("Stone")
         </div>
         <div class="col-2">
             @Html.TextBoxFor(m => m.Stone, new { @class = "form-control" })
@@ -137,13 +137,13 @@
             <strong>@Html.LabelFor(m => m.Ore)</strong>
         </div>
         <div class="col-2 col-form-label">
-            @Model.OreInfo.LowestPrice.ToString(StringFormat.Integer) <span class="si si-gold"></span>
+            @Model.OreInfo.LowestPrice.ToString(StringFormat.Integer) @Html.Icon("Gold")
         </div>
         <div class="col-2 col-form-label">
-            @Model.OreInfo.AvailableAtLowestPrice.ToString(StringFormat.Integer) <span class="si si-ore"></span>
+            @Model.OreInfo.AvailableAtLowestPrice.ToString(StringFormat.Integer) @Html.Icon("Ore")
         </div>
         <div class="col-2 col-form-label">
-            @Model.OreInfo.TotalAvailable.ToString(StringFormat.Integer) <span class="si si-ore"></span>
+            @Model.OreInfo.TotalAvailable.ToString(StringFormat.Integer) @Html.Icon("Ore")
         </div>
         <div class="col-2">
             @Html.TextBoxFor(m => m.Ore, new { @class = "form-control" })

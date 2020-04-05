@@ -1,6 +1,6 @@
 ﻿@model WarOfEmpires.Models.Empires.BuildingTotalsViewModel
 
 <ul>
-    <li>Total spent on buildings: @Model.TotalGoldSpent.ToString(StringFormat.Integer) <span class="si si-gold"></span></li>
-    <li>Next recruiting level: @Model.NextRecruitingLevel.ToString(StringFormat.Integer) <span class="si si-gold"></span></li>
+    <li>Total spent on buildings: @Model.TotalGoldSpent.ToString(StringFormat.Integer) @Html.Icon("Gold")</li>
+    <li>Next recruiting level: @Model.NextRecruitingLevel.ToString(StringFormat.Integer) @Html.Icon("Gold")</li>
 </ul>

@@ -1,23 +1,23 @@
 ﻿@model WarOfEmpires.Models.Empires.ResourcesViewModel
 
 @if (Model.Gold > 0) {
-    @Model.Gold.ToString(StringFormat.Integer) <span class="si si-gold"></span>
+    @Model.Gold.ToString(StringFormat.Integer) @Html.Icon("Gold")
 }
 
 @if (Model.Food > 0) {
-    @Model.Food.ToString(StringFormat.Integer) <span class="si si-food"></span>
+    @Model.Food.ToString(StringFormat.Integer) @Html.Icon("Food")
 }
 
 @if (Model.Wood > 0) {
-    @Model.Wood.ToString(StringFormat.Integer) <span class="si si-wood"></span>
+    @Model.Wood.ToString(StringFormat.Integer) @Html.Icon("Wood")
 }
 
 @if (Model.Stone > 0) {
-    @Model.Stone.ToString(StringFormat.Integer) <span class="si si-stone"></span>
+    @Model.Stone.ToString(StringFormat.Integer) @Html.Icon("Stone")
 }
 
 @if (Model.Ore > 0) {
-    @Model.Ore.ToString(StringFormat.Integer) <span class="si si-ore"></span>
+    @Model.Ore.ToString(StringFormat.Integer) @Html.Icon("Ore")
 }
 
 @if (Model.Gold == 0 && Model.Food == 0 && Model.Wood == 0 && Model.Stone == 0 && Model.Ore == 0) {

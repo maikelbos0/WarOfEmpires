@@ -13,8 +13,8 @@
 
 <ul>
     <li>Siege engineers: @Model.Engineers.ToString(StringFormat.Integer)</li>
-    <li>Total siege maintenance provided: @Model.TotalMaintenance.ToString(StringFormat.Integer) <span class="si si-maintenance"></span></li>
-    <li>Available siege maintenance: @Model.AvailableMaintenance.ToString(StringFormat.Integer) <span class="si si-maintenance"></span></li>
+    <li>Total siege maintenance provided: @Model.TotalMaintenance.ToString(StringFormat.Integer) @Html.Icon("Maintenance")</li>
+    <li>Available siege maintenance: @Model.AvailableMaintenance.ToString(StringFormat.Integer) @Html.Icon("Maintenance")</li>
 </ul>
 
 @using (Html.BeginForm(null, null, FormMethod.Post, new {
@@ -62,7 +62,7 @@
                 <strong>@Model.SiegeWeapons[i].Name</strong>
             </div>
             <div class="col-2 col-form-label">
-                @Model.SiegeWeapons[i].Maintenance.ToString(StringFormat.Integer) <span class="si si-maintenance"></span>
+                @Model.SiegeWeapons[i].Maintenance.ToString(StringFormat.Integer) @Html.Icon("Maintenance")
             </div>
             <div class="col-2 col-form-label">
                 @Model.SiegeWeapons[i].TroopCount.ToString(StringFormat.Integer)
