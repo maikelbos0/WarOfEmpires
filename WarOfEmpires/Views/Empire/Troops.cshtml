@@ -1,4 +1,4 @@
-﻿@model WarOfEmpires.Models.Empires.TroopModel
+﻿@model WarOfEmpires.Models.Empires.TroopsModel
 
 @{
     ViewBag.Title = "Troops";
@@ -12,9 +12,6 @@
 
 <ul>
     <li>Peasants available for training: @Model.CurrentPeasants.ToString(StringFormat.Integer)</li>
-    <li>Archer training cost: @Html.DisplayFor(m => m.ArcherInfo.Cost)</li>
-    <li>Cavalry training cost: @Html.DisplayFor(m => m.CavalryInfo.Cost)</li>
-    <li>Footman training cost: @Html.DisplayFor(m => m.FootmanInfo.Cost)</li>
     <li>Mercenary training cost: @Html.DisplayFor(m => m.MercenaryTrainingCost)</li>
 
     @if (Model.HasUpkeepRunOut) {
@@ -40,21 +37,12 @@
     @Html.ValidationSummary(true, null, new { @class = "site-validation-summary text-danger" })
     @Html.HiddenFor(m => m.Command)
     @Html.HiddenFor(m => m.CurrentPeasants)
-    @Html.HiddenFor(m => m.ArcherInfo.Cost)
-    @Html.HiddenFor(m => m.ArcherInfo.CurrentSoldiers)
-    @Html.HiddenFor(m => m.ArcherInfo.CurrentMercenaries)
-    @Html.HiddenFor(m => m.CavalryInfo.Cost)
-    @Html.HiddenFor(m => m.CavalryInfo.CurrentSoldiers)
-    @Html.HiddenFor(m => m.CavalryInfo.CurrentMercenaries)
-    @Html.HiddenFor(m => m.FootmanInfo.Cost)
-    @Html.HiddenFor(m => m.FootmanInfo.CurrentSoldiers)
-    @Html.HiddenFor(m => m.FootmanInfo.CurrentMercenaries)
     @Html.HiddenFor(m => m.MercenaryTrainingCost)
     @Html.HiddenFor(m => m.CurrentStamina)
 
     <div class="row">
         <div class="col-6 col-form-label">
-            @Html.LabelFor(m => m.StaminaToHeal)
+            <strong>@Html.LabelFor(m => m.StaminaToHeal)</strong>
         </div>
         <div class="col-2 col-form-label">
             @Model.CurrentStamina.ToString(StringFormat.Integer)
@@ -86,65 +74,37 @@
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-4 col-form-label">
-            @Html.LabelFor(m => m.Archers)
-        </div>
-        <div class="col-2 col-form-label">
-            @Model.ArcherInfo.CurrentSoldiers.ToString(StringFormat.Integer)
-        </div>
-        <div class="col-2 col-form-label">
-            @Model.ArcherInfo.CurrentMercenaries.ToString(StringFormat.Integer)
-        </div>
-        <div class="col-2">
-            @Html.TextBoxFor(m => m.Archers, new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.Archers, null, new { @class = "small form-text text-danger" })
-        </div>
-        <div class="col-2">
-            @Html.TextBoxFor(m => m.MercenaryArchers, new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.MercenaryArchers, null, new { @class = "small form-text text-danger" })
-        </div>
-    </div>
+    for (var i = 0; i < Model.Troops.Count; i++) {
+        @Html.HiddenFor(m => m.Troops[i].Type)
+        @Html.HiddenFor(m => m.Troops[i].Name)
+        @Html.HiddenFor(m => m.Troops[i].Cost)
+        @Html.HiddenFor(m => m.Troops[i].CurrentSoldiers)
+        @Html.HiddenFor(m => m.Troops[i].CurrentMercenaries)
 
-    <div class="row">
-        <div class="col-4 col-form-label">
-            @Html.LabelFor(m => m.Cavalry)
+        <div class="row">
+            <div class="col-4 col-form-label">
+                <strong>@Model.Troops[i].Name</strong>
+            </div>
+            <div class="col-2 col-form-label">
+                @Model.Troops[i].CurrentSoldiers.ToString(StringFormat.Integer)
+            </div>
+            <div class="col-2 col-form-label">
+                @Model.Troops[i].CurrentMercenaries.ToString(StringFormat.Integer)
+            </div>
+            <div class="col-2">
+                @Html.TextBoxFor(m => m.Troops[i].Soldiers, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Troops[i].Soldiers, null, new { @class = "small form-text text-danger" })
+            </div>
+            <div class="col-2">
+                @Html.TextBoxFor(m => m.Troops[i].Mercenaries, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Troops[i].Mercenaries, null, new { @class = "small form-text text-danger" })
+            </div>
         </div>
-        <div class="col-2 col-form-label">
-            @Model.CavalryInfo.CurrentSoldiers.ToString(StringFormat.Integer)
-        </div>
-        <div class="col-2 col-form-label">
-            @Model.CavalryInfo.CurrentMercenaries.ToString(StringFormat.Integer)
-        </div>
-        <div class="col-2">
-            @Html.TextBoxFor(m => m.Cavalry, new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.Cavalry, null, new { @class = "small form-text text-danger" })
-        </div>
-        <div class="col-2">
-            @Html.TextBoxFor(m => m.MercenaryCavalry, new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.MercenaryCavalry, null, new { @class = "small form-text text-danger" })
-        </div>
-    </div>
 
-    <div class="row">
-        <div class="col-4 col-form-label">
-            @Html.LabelFor(m => m.Footmen)
-        </div>
-        <div class="col-2 col-form-label">
-            @Model.FootmanInfo.CurrentSoldiers.ToString(StringFormat.Integer)
-        </div>
-        <div class="col-2 col-form-label">
-            @Model.FootmanInfo.CurrentMercenaries.ToString(StringFormat.Integer)
-        </div>
-        <div class="col-2">
-            @Html.TextBoxFor(m => m.Footmen, new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.Footmen, null, new { @class = "small form-text text-danger" })
-        </div>
-        <div class="col-2">
-            @Html.TextBoxFor(m => m.MercenaryFootmen, new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.MercenaryFootmen, null, new { @class = "small form-text text-danger" })
-        </div>
-    </div>
+        <ul>
+            <li>Training cost: @Html.DisplayFor(m => m.Troops[i].Cost)</li>
+        </ul>
+    }
 
     <div class="row">
         <div class="col-10"></div>
