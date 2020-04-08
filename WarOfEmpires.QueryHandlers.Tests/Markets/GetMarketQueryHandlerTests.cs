@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 using System.Collections.Generic;
+using System.Linq;
 using WarOfEmpires.Domain.Empires;
 using WarOfEmpires.Domain.Markets;
 using WarOfEmpires.Domain.Players;
@@ -9,11 +10,13 @@ using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Queries.Markets;
 using WarOfEmpires.QueryHandlers.Markets;
 using WarOfEmpires.Test.Utilities;
+using WarOfEmpires.Utilities.Formatting;
 
 namespace WarOfEmpires.QueryHandlers.Tests.Markets {
     [TestClass]
     public sealed class GetMarketQueryHandlerTests {
         private readonly FakeWarContext _context = new FakeWarContext();
+        private readonly EnumFormatter _formatter = new EnumFormatter();
 
         public GetMarketQueryHandlerTests() {
             var user = Substitute.For<User>();
@@ -76,8 +79,8 @@ namespace WarOfEmpires.QueryHandlers.Tests.Markets {
         }
 
         [TestMethod]
-        public void GetMarketQueryHandler() {
-            var handler = new GetMarketQueryHandler(_context);
+        public void GetMarketQueryHandler_Returns_Correct_Additional_Information() {
+            var handler = new GetMarketQueryHandler(_context, _formatter);
             var query = new GetMarketQuery("test@test.com");
 
             var result = handler.Execute(query);
@@ -90,50 +93,58 @@ namespace WarOfEmpires.QueryHandlers.Tests.Markets {
 
         [TestMethod]
         public void GetMarketQueryHandler_Returns_Correct_Food() {
-            var handler = new GetMarketQueryHandler(_context);
+            var handler = new GetMarketQueryHandler(_context, _formatter);
             var query = new GetMarketQuery("test@test.com");
 
             var result = handler.Execute(query);
+            var merchandise = result.Merchandise.Single(m => m.Type == "Food");
 
-            result.FoodInfo.LowestPrice.Should().Be(5);
-            result.FoodInfo.AvailableAtLowestPrice.Should().Be(20000);
-            result.FoodInfo.TotalAvailable.Should().Be(60000);
+            merchandise.Name.Should().Be("Food");
+            merchandise.LowestPrice.Should().Be(5);
+            merchandise.AvailableAtLowestPrice.Should().Be(20000);
+            merchandise.TotalAvailable.Should().Be(60000);
         }
 
         [TestMethod]
         public void GetMarketQueryHandler_Returns_Correct_Wood() {
-            var handler = new GetMarketQueryHandler(_context);
+            var handler = new GetMarketQueryHandler(_context, _formatter);
             var query = new GetMarketQuery("test@test.com");
 
             var result = handler.Execute(query);
+            var merchandise = result.Merchandise.Single(m => m.Type == "Wood");
 
-            result.WoodInfo.LowestPrice.Should().Be(4);
-            result.WoodInfo.AvailableAtLowestPrice.Should().Be(24000);
-            result.WoodInfo.TotalAvailable.Should().Be(93000);
+            merchandise.Name.Should().Be("Wood");
+            merchandise.LowestPrice.Should().Be(4);
+            merchandise.AvailableAtLowestPrice.Should().Be(24000);
+            merchandise.TotalAvailable.Should().Be(93000);
         }
 
         [TestMethod]
         public void GetMarketQueryHandler_Returns_Correct_Stone() {
-            var handler = new GetMarketQueryHandler(_context);
+            var handler = new GetMarketQueryHandler(_context, _formatter);
             var query = new GetMarketQuery("test@test.com");
 
             var result = handler.Execute(query);
+            var merchandise = result.Merchandise.Single(m => m.Type == "Stone");
 
-            result.StoneInfo.LowestPrice.Should().Be(3);
-            result.StoneInfo.AvailableAtLowestPrice.Should().Be(28000);
-            result.StoneInfo.TotalAvailable.Should().Be(76000);
+            merchandise.Name.Should().Be("Stone");
+            merchandise.LowestPrice.Should().Be(3);
+            merchandise.AvailableAtLowestPrice.Should().Be(28000);
+            merchandise.TotalAvailable.Should().Be(76000);
         }
 
         [TestMethod]
         public void GetMarketQueryHandler_Returns_Correct_Ore() {
-            var handler = new GetMarketQueryHandler(_context);
+            var handler = new GetMarketQueryHandler(_context, _formatter);
             var query = new GetMarketQuery("test@test.com");
 
             var result = handler.Execute(query);
+            var merchandise = result.Merchandise.Single(m => m.Type == "Ore");
 
-            result.OreInfo.LowestPrice.Should().Be(2);
-            result.OreInfo.AvailableAtLowestPrice.Should().Be(32000);
-            result.OreInfo.TotalAvailable.Should().Be(109000);
+            merchandise.Name.Should().Be("Ore");
+            merchandise.LowestPrice.Should().Be(2);
+            merchandise.AvailableAtLowestPrice.Should().Be(32000);
+            merchandise.TotalAvailable.Should().Be(109000);
         }
     }
 }

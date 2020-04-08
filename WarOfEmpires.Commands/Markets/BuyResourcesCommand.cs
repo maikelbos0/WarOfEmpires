@@ -1,25 +1,14 @@
-﻿namespace WarOfEmpires.Commands.Markets {
+﻿using System.Collections.Generic;
+using System.Linq;
+
+namespace WarOfEmpires.Commands.Markets {
     public sealed class BuyResourcesCommand : ICommand {
         public string Email { get; }
-        public string Food { get; set; }
-        public string FoodPrice { get; set; }
-        public string Wood { get; set; }
-        public string WoodPrice { get; set; }
-        public string Stone { get; set; }
-        public string StonePrice { get; set; }
-        public string Ore { get; set; }
-        public string OrePrice { get; set; }
+        public List<MerchandiseInfo> Merchandise { get; }
 
-        public BuyResourcesCommand(string email, string food, string foodPrice, string wood, string woodPrice, string stone, string stonePrice, string ore, string orePrice) {
+        public BuyResourcesCommand(string email, IEnumerable<MerchandiseInfo> merchandise) {
             Email = email;
-            Food = food;
-            FoodPrice = foodPrice;
-            Wood = wood;
-            WoodPrice = woodPrice;
-            Stone = stone;
-            StonePrice = stonePrice;
-            Ore = ore;
-            OrePrice = orePrice;
+            Merchandise = merchandise.ToList();
         }
     }
 }

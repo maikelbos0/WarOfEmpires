@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using WarOfEmpires.CommandHandlers.Markets;
@@ -69,11 +70,13 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
 
             return caravan;
         }
-
+        
         [TestMethod]
         public void BuyResourcesCommandHandler_Succeeds() {
             var handler = new BuyResourcesCommandHandler(_repository, _formatter);
-            var command = new BuyResourcesCommand("test@test.com", "", "", "16000", "5", "", "", "", "");
+            var command = new BuyResourcesCommand("test@test.com", new List<MerchandiseInfo>() {
+                new MerchandiseInfo("Wood", "16000", "5")
+            });
 
             var result = handler.Execute(command);
 
@@ -90,19 +93,23 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
 
         [TestMethod]
         public void BuyResourcesCommandHandler_Removes_Empty_Caravans() {
-            var handler = new BuyResourcesCommandHandler(_repository, _formatter);
-            var command = new BuyResourcesCommand("test@test.com", "", "", "16000", "5", "", "", "", "");
             var previousCaravanCount = _context.Players.Sum(c => c.Caravans.Count());
+            var handler = new BuyResourcesCommandHandler(_repository, _formatter);
+            var command = new BuyResourcesCommand("test@test.com", new List<MerchandiseInfo>() {
+                new MerchandiseInfo("Wood", "16000", "5")
+            });
 
             var result = handler.Execute(command);
 
             _context.Players.Sum(c => c.Caravans.Count()).Should().Be(previousCaravanCount - 1);
         }
-
+        
         [TestMethod]
         public void BuyResourcesCommandHandler_Does_Not_Buy_From_Self() {
             var handler = new BuyResourcesCommandHandler(_repository, _formatter);
-            var command = new BuyResourcesCommand("seller@test.com", "", "", "1", "5", "", "", "", "");
+            var command = new BuyResourcesCommand("seller@test.com", new List<MerchandiseInfo>() {
+                new MerchandiseInfo("Wood", "1", "5")
+            });
 
             var result = handler.Execute(command);
 
@@ -113,11 +120,16 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
                 caravan.DidNotReceiveWithAnyArgs().Buy(default, default, default);
             }
         }
-
+        
         [TestMethod]
         public void BuyResourcesCommandHandler_Allows_Empty_Values() {
             var handler = new BuyResourcesCommandHandler(_repository, _formatter);
-            var command = new BuyResourcesCommand("test@test.com", "", "", "", "", "", "", "", "");
+            var command = new BuyResourcesCommand("test@test.com", new List<MerchandiseInfo>() {
+                new MerchandiseInfo("Food", "", ""),
+                new MerchandiseInfo("Wood", "", ""),
+                new MerchandiseInfo("Stone", "", ""),
+                new MerchandiseInfo("Ore", "", "")
+            });
 
             var result = handler.Execute(command);
 
@@ -129,11 +141,31 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
         }
 
         [TestMethod]
+        public void BuyResourcesCommandHandler_Throws_Exception_For_Invalid_Type() {
+            var handler = new BuyResourcesCommandHandler(_repository, _formatter);
+            var command = new BuyResourcesCommand("test@test.com", new List<MerchandiseInfo>() {
+                new MerchandiseInfo("Test", "1", "1")
+            });
+
+            Action action = () => handler.Execute(command);
+
+            action.Should().Throw<ArgumentException>();
+
+            foreach (var caravan in _caravans) {
+                caravan.DidNotReceiveWithAnyArgs().Buy(default, default, default);
+            }
+
+            _context.CallsToSaveChanges.Should().Be(0);
+        }
+
+        [TestMethod]
         public void BuyResourcesCommandHandler_Fails_For_Too_Little_Gold() {
             _buyer.CanAfford(Arg.Any<Resources>()).Returns(c => c.ArgAt<Resources>(0).Gold == 0);
 
             var handler = new BuyResourcesCommandHandler(_repository, _formatter);
-            var command = new BuyResourcesCommand("test@test.com", "", "", "16000", "5", "", "", "", "");
+            var command = new BuyResourcesCommand("test@test.com", new List<MerchandiseInfo>() {
+                new MerchandiseInfo("Wood", "16000", "5")
+            });
 
             var result = handler.Execute(command);
 
@@ -147,11 +179,13 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
 
             _context.CallsToSaveChanges.Should().Be(0);
         }
-
+        
         [TestMethod]
-        public void BuyResourcesCommandHandler_Gives_Warning_For_Too_Little_Available_Food() {
+        public void BuyResourcesCommandHandler_Gives_Warning_For_Too_Low_Available_Quantity() {
             var handler = new BuyResourcesCommandHandler(_repository, _formatter);
-            var command = new BuyResourcesCommand("test@test.com", "10001", "4", "", "", "", "", "", "");
+            var command = new BuyResourcesCommand("test@test.com", new List<MerchandiseInfo>() {
+                new MerchandiseInfo("Food", "10001", "4")
+            });
 
             var result = handler.Execute(command);
 
@@ -166,74 +200,53 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
             _caravans[6].Received().Buy(_buyer, MerchandiseType.Food, 10001);
             _context.CallsToSaveChanges.Should().Be(2);
         }
-
+        
         [TestMethod]
-        public void BuyResourcesCommandHandler_Gives_Warning_For_Too_Little_Available_Wood() {
+        public void BuyResourcesCommandHandler_Fails_For_Alphanumeric_Quantity() {
             var handler = new BuyResourcesCommandHandler(_repository, _formatter);
-            var command = new BuyResourcesCommand("test@test.com", "", "", "10001", "4", "", "", "", "");
+            var command = new BuyResourcesCommand("test@test.com", new List<MerchandiseInfo>() {
+                new MerchandiseInfo("Food", "A", "5")
+            });
 
             var result = handler.Execute(command);
 
-            result.Success.Should().BeTrue();
-            result.Warnings.Should().HaveCount(1);
-            result.Warnings[0].Should().Be("There was not enough wood available at that price; all available wood has been purchased");
+            result.Should().HaveError("Merchandise[0].Quantity", "Invalid number");
 
-            foreach (var caravan in _caravans.Where(c => c != _caravans[1])) {
+            foreach (var caravan in _caravans) {
                 caravan.DidNotReceiveWithAnyArgs().Buy(default, default, default);
             }
 
-            _caravans[1].Received().Buy(_buyer, MerchandiseType.Wood, 10001);
-            _context.CallsToSaveChanges.Should().Be(2);
+            _context.CallsToSaveChanges.Should().Be(0);
         }
-
+        
         [TestMethod]
-        public void BuyResourcesCommandHandler_Gives_Warning_For_Too_Little_Available_Stone() {
+        public void BuyResourcesCommandHandler_Fails_For_Negative_Quantity() {
             var handler = new BuyResourcesCommandHandler(_repository, _formatter);
-            var command = new BuyResourcesCommand("test@test.com", "", "", "", "", "10001", "4", "", "");
+            var command = new BuyResourcesCommand("test@test.com", new List<MerchandiseInfo>() {
+                new MerchandiseInfo("Wood", "-1", "5")
+            });
 
             var result = handler.Execute(command);
 
-            result.Success.Should().BeTrue();
-            result.Warnings.Should().HaveCount(1);
-            result.Warnings[0].Should().Be("There was not enough stone available at that price; all available stone has been purchased");
+            result.Should().HaveError("Merchandise[0].Quantity", "Invalid number");
 
-            foreach (var caravan in _caravans.Where(c => c != _caravans[7])) {
+            foreach (var caravan in _caravans) {
                 caravan.DidNotReceiveWithAnyArgs().Buy(default, default, default);
             }
 
-            _caravans[7].Received().Buy(_buyer, MerchandiseType.Stone, 10001);
-            _context.CallsToSaveChanges.Should().Be(2);
+            _context.CallsToSaveChanges.Should().Be(0);
         }
-
+        
         [TestMethod]
-        public void BuyResourcesCommandHandler_Gives_Warning_For_Too_Little_Available_Ore() {
+        public void BuyResourcesCommandHandler_Fails_For_Alphanumeric_Price() {
             var handler = new BuyResourcesCommandHandler(_repository, _formatter);
-            var command = new BuyResourcesCommand("test@test.com", "", "", "", "", "", "", "10001", "4");
+            var command = new BuyResourcesCommand("test@test.com", new List<MerchandiseInfo>() {
+                new MerchandiseInfo("Wood", "16000", "A")
+            });
 
             var result = handler.Execute(command);
 
-            result.Success.Should().BeTrue();
-            result.Warnings.Should().HaveCount(1);
-            result.Warnings[0].Should().Be("There was not enough ore available at that price; all available ore has been purchased");
-
-            foreach (var caravan in _caravans.Where(c => c != _caravans[8])) {
-                caravan.DidNotReceiveWithAnyArgs().Buy(default, default, default);
-            }
-
-            _caravans[8].Received().Buy(_buyer, MerchandiseType.Ore, 10001);
-            _context.CallsToSaveChanges.Should().Be(2);
-        }
-
-        [TestMethod]
-        public void BuyResourcesCommandHandler_Fails_For_Alphanumeric_Food() {
-            var handler = new BuyResourcesCommandHandler(_repository, _formatter);
-            var command = new BuyResourcesCommand("test@test.com", "A", "5", "", "", "", "", "", "");
-
-            var result = handler.Execute(command);
-
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.ToString().Should().Be("c => c.Food");
-            result.Errors[0].Message.Should().Be("Food must be a valid number");
+            result.Should().HaveError("Merchandise[0].Price", "Invalid number");
 
             foreach (var caravan in _caravans) {
                 caravan.DidNotReceiveWithAnyArgs().Buy(default, default, default);
@@ -243,15 +256,15 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
         }
 
         [TestMethod]
-        public void BuyResourcesCommandHandler_Fails_For_Negative_Food() {
+        public void BuyResourcesCommandHandler_Fails_For_Negative_Price() {
             var handler = new BuyResourcesCommandHandler(_repository, _formatter);
-            var command = new BuyResourcesCommand("test@test.com", "-1", "5", "", "", "", "", "", "");
+            var command = new BuyResourcesCommand("test@test.com", new List<MerchandiseInfo>() {
+                new MerchandiseInfo("Wood", "16000", "-1")
+            });
 
             var result = handler.Execute(command);
 
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.ToString().Should().Be("c => c.Food");
-            result.Errors[0].Message.Should().Be("Food must be a valid number");
+            result.Should().HaveError("Merchandise[0].Price", "Invalid number");
 
             foreach (var caravan in _caravans) {
                 caravan.DidNotReceiveWithAnyArgs().Buy(default, default, default);
@@ -259,323 +272,17 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
 
             _context.CallsToSaveChanges.Should().Be(0);
         }
-
+        
         [TestMethod]
-        public void BuyResourcesCommandHandler_Fails_For_Alphanumeric_FoodPrice() {
+        public void BuyResourcesCommandHandler_Fails_For_Quantity_Without_Price() {
             var handler = new BuyResourcesCommandHandler(_repository, _formatter);
-            var command = new BuyResourcesCommand("test@test.com", "5", "A", "", "", "", "", "", "");
+            var command = new BuyResourcesCommand("test@test.com", new List<MerchandiseInfo>() {
+                new MerchandiseInfo("Wood", "16000", "")
+            });
 
             var result = handler.Execute(command);
 
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.ToString().Should().Be("c => c.FoodPrice");
-            result.Errors[0].Message.Should().Be("Food price must be a valid number");
-
-            foreach (var caravan in _caravans) {
-                caravan.DidNotReceiveWithAnyArgs().Buy(default, default, default);
-            }
-
-            _context.CallsToSaveChanges.Should().Be(0);
-        }
-
-        [TestMethod]
-        public void BuyResourcesCommandHandler_Fails_For_Negative_FoodPrice() {
-            var handler = new BuyResourcesCommandHandler(_repository, _formatter);
-            var command = new BuyResourcesCommand("test@test.com", "5", "-1", "", "", "", "", "", "");
-
-            var result = handler.Execute(command);
-
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.ToString().Should().Be("c => c.FoodPrice");
-            result.Errors[0].Message.Should().Be("Food price must be a valid number");
-
-            foreach (var caravan in _caravans) {
-                caravan.DidNotReceiveWithAnyArgs().Buy(default, default, default);
-            }
-
-            _context.CallsToSaveChanges.Should().Be(0);
-        }
-
-        [TestMethod]
-        public void BuyResourcesCommandHandler_Fails_For_Food_Without_FoodPrice() {
-            var handler = new BuyResourcesCommandHandler(_repository, _formatter);
-            var command = new BuyResourcesCommand("test@test.com", "5", "", "", "", "", "", "", "");
-
-            var result = handler.Execute(command);
-
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.ToString().Should().Be("c => c.FoodPrice");
-            result.Errors[0].Message.Should().Be("Food price is required when buying food");
-
-            foreach (var caravan in _caravans) {
-                caravan.DidNotReceiveWithAnyArgs().Buy(default, default, default);
-            }
-
-            _context.CallsToSaveChanges.Should().Be(0);
-        }
-
-        [TestMethod]
-        public void BuyResourcesCommandHandler_Fails_For_Alphanumeric_Wood() {
-            var handler = new BuyResourcesCommandHandler(_repository, _formatter);
-            var command = new BuyResourcesCommand("test@test.com", "", "", "A", "5", "", "", "", "");
-
-            var result = handler.Execute(command);
-
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.ToString().Should().Be("c => c.Wood");
-            result.Errors[0].Message.Should().Be("Wood must be a valid number");
-
-            foreach (var caravan in _caravans) {
-                caravan.DidNotReceiveWithAnyArgs().Buy(default, default, default);
-            }
-
-            _context.CallsToSaveChanges.Should().Be(0);
-        }
-
-        [TestMethod]
-        public void BuyResourcesCommandHandler_Fails_For_Negative_Wood() {
-            var handler = new BuyResourcesCommandHandler(_repository, _formatter);
-            var command = new BuyResourcesCommand("test@test.com", "", "", "-1", "5", "", "", "", "");
-
-            var result = handler.Execute(command);
-
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.ToString().Should().Be("c => c.Wood");
-            result.Errors[0].Message.Should().Be("Wood must be a valid number");
-
-            foreach (var caravan in _caravans) {
-                caravan.DidNotReceiveWithAnyArgs().Buy(default, default, default);
-            }
-
-            _context.CallsToSaveChanges.Should().Be(0);
-        }
-
-        [TestMethod]
-        public void BuyResourcesCommandHandler_Fails_For_Alphanumeric_WoodPrice() {
-            var handler = new BuyResourcesCommandHandler(_repository, _formatter);
-            var command = new BuyResourcesCommand("test@test.com", "", "", "5", "A", "", "", "", "");
-
-            var result = handler.Execute(command);
-
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.ToString().Should().Be("c => c.WoodPrice");
-            result.Errors[0].Message.Should().Be("Wood price must be a valid number");
-
-            foreach (var caravan in _caravans) {
-                caravan.DidNotReceiveWithAnyArgs().Buy(default, default, default);
-            }
-
-            _context.CallsToSaveChanges.Should().Be(0);
-        }
-
-        [TestMethod]
-        public void BuyResourcesCommandHandler_Fails_For_Negative_WoodPrice() {
-            var handler = new BuyResourcesCommandHandler(_repository, _formatter);
-            var command = new BuyResourcesCommand("test@test.com", "", "", "5", "-1", "", "", "", "");
-
-            var result = handler.Execute(command);
-
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.ToString().Should().Be("c => c.WoodPrice");
-            result.Errors[0].Message.Should().Be("Wood price must be a valid number");
-
-            foreach (var caravan in _caravans) {
-                caravan.DidNotReceiveWithAnyArgs().Buy(default, default, default);
-            }
-
-            _context.CallsToSaveChanges.Should().Be(0);
-        }
-
-        [TestMethod]
-        public void BuyResourcesCommandHandler_Fails_For_Wood_Without_WoodPrice() {
-            var handler = new BuyResourcesCommandHandler(_repository, _formatter);
-            var command = new BuyResourcesCommand("test@test.com", "", "", "5", "", "", "", "", "");
-
-            var result = handler.Execute(command);
-
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.ToString().Should().Be("c => c.WoodPrice");
-            result.Errors[0].Message.Should().Be("Wood price is required when buying wood");
-
-            foreach (var caravan in _caravans) {
-                caravan.DidNotReceiveWithAnyArgs().Buy(default, default, default);
-            }
-
-            _context.CallsToSaveChanges.Should().Be(0);
-        }
-
-        [TestMethod]
-        public void BuyResourcesCommandHandler_Fails_For_Alphanumeric_Stone() {
-            var handler = new BuyResourcesCommandHandler(_repository, _formatter);
-            var command = new BuyResourcesCommand("test@test.com", "", "", "", "", "A", "5", "", "");
-
-            var result = handler.Execute(command);
-
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.ToString().Should().Be("c => c.Stone");
-            result.Errors[0].Message.Should().Be("Stone must be a valid number");
-
-            foreach (var caravan in _caravans) {
-                caravan.DidNotReceiveWithAnyArgs().Buy(default, default, default);
-            }
-
-            _context.CallsToSaveChanges.Should().Be(0);
-        }
-
-        [TestMethod]
-        public void BuyResourcesCommandHandler_Fails_For_Negative_Stone() {
-            var handler = new BuyResourcesCommandHandler(_repository, _formatter);
-            var command = new BuyResourcesCommand("test@test.com", "", "", "", "", "-1", "5", "", "");
-
-            var result = handler.Execute(command);
-
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.ToString().Should().Be("c => c.Stone");
-            result.Errors[0].Message.Should().Be("Stone must be a valid number");
-
-            foreach (var caravan in _caravans) {
-                caravan.DidNotReceiveWithAnyArgs().Buy(default, default, default);
-            }
-
-            _context.CallsToSaveChanges.Should().Be(0);
-        }
-
-        [TestMethod]
-        public void BuyResourcesCommandHandler_Fails_For_Alphanumeric_StonePrice() {
-            var handler = new BuyResourcesCommandHandler(_repository, _formatter);
-            var command = new BuyResourcesCommand("test@test.com", "", "", "", "", "5", "A", "", "");
-
-            var result = handler.Execute(command);
-
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.ToString().Should().Be("c => c.StonePrice");
-            result.Errors[0].Message.Should().Be("Stone price must be a valid number");
-
-            foreach (var caravan in _caravans) {
-                caravan.DidNotReceiveWithAnyArgs().Buy(default, default, default);
-            }
-
-            _context.CallsToSaveChanges.Should().Be(0);
-        }
-
-        [TestMethod]
-        public void BuyResourcesCommandHandler_Fails_For_Negative_StonePrice() {
-            var handler = new BuyResourcesCommandHandler(_repository, _formatter);
-            var command = new BuyResourcesCommand("test@test.com", "", "", "", "", "5", "-1", "", "");
-
-            var result = handler.Execute(command);
-
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.ToString().Should().Be("c => c.StonePrice");
-            result.Errors[0].Message.Should().Be("Stone price must be a valid number");
-
-            foreach (var caravan in _caravans) {
-                caravan.DidNotReceiveWithAnyArgs().Buy(default, default, default);
-            }
-
-            _context.CallsToSaveChanges.Should().Be(0);
-        }
-
-        [TestMethod]
-        public void BuyResourcesCommandHandler_Fails_For_Stone_Without_StonePrice() {
-            var handler = new BuyResourcesCommandHandler(_repository, _formatter);
-            var command = new BuyResourcesCommand("test@test.com", "", "", "", "", "5", "", "", "");
-
-            var result = handler.Execute(command);
-
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.ToString().Should().Be("c => c.StonePrice");
-            result.Errors[0].Message.Should().Be("Stone price is required when buying stone");
-
-            foreach (var caravan in _caravans) {
-                caravan.DidNotReceiveWithAnyArgs().Buy(default, default, default);
-            }
-
-            _context.CallsToSaveChanges.Should().Be(0);
-        }
-
-        [TestMethod]
-        public void BuyResourcesCommandHandler_Fails_For_Alphanumeric_Ore() {
-            var handler = new BuyResourcesCommandHandler(_repository, _formatter);
-            var command = new BuyResourcesCommand("test@test.com", "", "", "", "", "", "", "A", "5");
-
-            var result = handler.Execute(command);
-
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.ToString().Should().Be("c => c.Ore");
-            result.Errors[0].Message.Should().Be("Ore must be a valid number");
-
-            foreach (var caravan in _caravans) {
-                caravan.DidNotReceiveWithAnyArgs().Buy(default, default, default);
-            }
-
-            _context.CallsToSaveChanges.Should().Be(0);
-        }
-
-        [TestMethod]
-        public void BuyResourcesCommandHandler_Fails_For_Negative_Ore() {
-            var handler = new BuyResourcesCommandHandler(_repository, _formatter);
-            var command = new BuyResourcesCommand("test@test.com", "", "", "", "", "", "", "-1", "5");
-
-            var result = handler.Execute(command);
-
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.ToString().Should().Be("c => c.Ore");
-            result.Errors[0].Message.Should().Be("Ore must be a valid number");
-
-            foreach (var caravan in _caravans) {
-                caravan.DidNotReceiveWithAnyArgs().Buy(default, default, default);
-            }
-
-            _context.CallsToSaveChanges.Should().Be(0);
-        }
-
-        [TestMethod]
-        public void BuyResourcesCommandHandler_Fails_For_Alphanumeric_OrePrice() {
-            var handler = new BuyResourcesCommandHandler(_repository, _formatter);
-            var command = new BuyResourcesCommand("test@test.com", "", "", "", "", "", "", "5", "A");
-
-            var result = handler.Execute(command);
-
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.ToString().Should().Be("c => c.OrePrice");
-            result.Errors[0].Message.Should().Be("Ore price must be a valid number");
-
-            foreach (var caravan in _caravans) {
-                caravan.DidNotReceiveWithAnyArgs().Buy(default, default, default);
-            }
-
-            _context.CallsToSaveChanges.Should().Be(0);
-        }
-
-        [TestMethod]
-        public void BuyResourcesCommandHandler_Fails_For_Negative_OrePrice() {
-            var handler = new BuyResourcesCommandHandler(_repository, _formatter);
-            var command = new BuyResourcesCommand("test@test.com", "", "", "", "", "", "", "5", "-1");
-
-            var result = handler.Execute(command);
-
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.ToString().Should().Be("c => c.OrePrice");
-            result.Errors[0].Message.Should().Be("Ore price must be a valid number");
-
-            foreach (var caravan in _caravans) {
-                caravan.DidNotReceiveWithAnyArgs().Buy(default, default, default);
-            }
-
-            _context.CallsToSaveChanges.Should().Be(0);
-        }
-
-        [TestMethod]
-        public void BuyResourcesCommandHandler_Fails_For_Ore_Without_OrePrice() {
-            var handler = new BuyResourcesCommandHandler(_repository, _formatter);
-            var command = new BuyResourcesCommand("test@test.com", "", "", "", "", "", "", "5", "");
-
-            var result = handler.Execute(command);
-
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.ToString().Should().Be("c => c.OrePrice");
-            result.Errors[0].Message.Should().Be("Ore price is required when buying ore");
+            result.Should().HaveError("Merchandise[0].Price", "Wood price is required when buying wood");
 
             foreach (var caravan in _caravans) {
                 caravan.DidNotReceiveWithAnyArgs().Buy(default, default, default);

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using WarOfEmpires.Database;
 using WarOfEmpires.Domain.Empires;
 using WarOfEmpires.Domain.Markets;
@@ -7,17 +8,19 @@ using WarOfEmpires.Models.Markets;
 using WarOfEmpires.Queries.Markets;
 using WarOfEmpires.QueryHandlers.Decorators;
 using WarOfEmpires.Utilities.Container;
+using WarOfEmpires.Utilities.Formatting;
 using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Markets {
     [InterfaceInjectable]
     [Audit]
     public sealed class GetMarketQueryHandler : IQueryHandler<GetMarketQuery, MarketModel> {
-
         private readonly IWarContext _context;
+        private readonly EnumFormatter _formatter;
 
-        public GetMarketQueryHandler(IWarContext context) {
+        public GetMarketQueryHandler(IWarContext context, EnumFormatter formatter) {
             _context = context;
+            _formatter = formatter;
         }
 
         public MarketModel Execute(GetMarketQuery query) {
@@ -29,14 +32,16 @@ namespace WarOfEmpires.QueryHandlers.Markets {
                 AvailableMerchants = player.GetWorkerCount(WorkerType.Merchants) - player.Caravans.Count,
                 CaravanCapacity = player.GetBuildingBonus(BuildingType.Market),
                 AvailableCapacity = (player.GetWorkerCount(WorkerType.Merchants) - player.Caravans.Count) * player.GetBuildingBonus(BuildingType.Market),
-                FoodInfo = GetMerchandiseInfo(MerchandiseType.Food),
-                WoodInfo = GetMerchandiseInfo(MerchandiseType.Wood),
-                StoneInfo = GetMerchandiseInfo(MerchandiseType.Stone),
-                OreInfo = GetMerchandiseInfo(MerchandiseType.Ore)
+                Merchandise = new List<MerchandiseModel>() {
+                    MapMerchandise(MerchandiseType.Food),
+                    MapMerchandise(MerchandiseType.Wood),
+                    MapMerchandise(MerchandiseType.Stone),
+                    MapMerchandise(MerchandiseType.Ore)
+                }
             };
         }
 
-        private MerchandiseInfoViewModel GetMerchandiseInfo(MerchandiseType type) {
+        private MerchandiseModel MapMerchandise(MerchandiseType type) {
             var merchandiseInfo = _context.Players
                 .Where(p => p.User.Status == UserStatus.Active)
                 .SelectMany(p => p.Caravans)
@@ -50,7 +55,9 @@ namespace WarOfEmpires.QueryHandlers.Markets {
                 .ToList();
             var minimumMerchandise = merchandiseInfo.OrderBy(m => m.Price).FirstOrDefault();
 
-            return new MerchandiseInfoViewModel() {
+            return new MerchandiseModel() {
+                Type = type.ToString(),
+                Name = _formatter.ToString(type),
                 LowestPrice = minimumMerchandise?.Price ?? 0,
                 AvailableAtLowestPrice = minimumMerchandise?.Quantity ?? 0,
                 TotalAvailable = merchandiseInfo.Sum(m => m.Quantity)
