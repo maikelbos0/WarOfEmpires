@@ -23,38 +23,6 @@ namespace WarOfEmpires.CommandHandlers.Markets {
             _formatter = formatter;
         }
 
-        private IEnumerable<MerchandiseTotals> ParseMerchandise(SellResourcesCommand command,
-                                                                CommandResult<SellResourcesCommand> result,
-                                                                MerchandiseType type,
-                                                                Player player,
-                                                                Expression<Func<SellResourcesCommand, object>> quantityFunc,
-                                                                Expression<Func<SellResourcesCommand, object>> priceFunc) {
-
-            var commandResources = (string)quantityFunc.Compile().Invoke(command);
-            var commandPrice = (string)priceFunc.Compile().Invoke(command);
-            int quantity = 0;
-            int price = 0;
-
-            if (!string.IsNullOrEmpty(commandResources) && !int.TryParse(commandResources, out quantity) || quantity < 0) {
-                result.AddError(quantityFunc, $"{_formatter.ToString(type)} must be a valid number");
-            }
-
-            if (!string.IsNullOrEmpty(commandPrice) && !int.TryParse(commandPrice, out price) || price < 0) {
-                result.AddError(priceFunc, $"{_formatter.ToString(type)} price must be a valid number");
-            }
-            else if (quantity > 0 && price <= 0) {
-                result.AddError(priceFunc, $"{_formatter.ToString(type)} price is required when selling {_formatter.ToString(type, false)}");
-            }
-
-            if (quantity > 0 && !player.CanAfford(MerchandiseTotals.ToResources(type, quantity))) {
-                result.AddError(quantityFunc, $"You don't have enough {_formatter.ToString(type, false)} available to sell that much");
-            }
-
-            if (result.Success && price > 0 && quantity > 0) {
-                yield return new MerchandiseTotals(type, quantity, price);
-            }
-        }
-
         public CommandResult<SellResourcesCommand> Execute(SellResourcesCommand command) {
             var result = new CommandResult<SellResourcesCommand>();
             var merchandiseTotals = new List<MerchandiseTotals>();
@@ -62,10 +30,31 @@ namespace WarOfEmpires.CommandHandlers.Markets {
             var availableMerchants = player.GetWorkerCount(WorkerType.Merchants) - player.Caravans.Count();
             var caravanCapacity = player.GetBuildingBonus(BuildingType.Market);
 
-            merchandiseTotals.AddRange(ParseMerchandise(command, result, MerchandiseType.Food, player, c => c.Food, c => c.FoodPrice));
-            merchandiseTotals.AddRange(ParseMerchandise(command, result, MerchandiseType.Wood, player, c => c.Wood, c => c.WoodPrice));
-            merchandiseTotals.AddRange(ParseMerchandise(command, result, MerchandiseType.Stone, player, c => c.Stone, c => c.StonePrice));
-            merchandiseTotals.AddRange(ParseMerchandise(command, result, MerchandiseType.Ore, player, c => c.Ore, c => c.OrePrice));
+            for (var index = 0; index < command.Merchandise.Count; index++) {
+                var i = index; // Don't use iterator in lambdas
+                var type = (MerchandiseType)Enum.Parse(typeof(MerchandiseType), command.Merchandise[i].Type);
+                int quantity = 0;
+                int price = 0;
+
+                if (!string.IsNullOrEmpty(command.Merchandise[i].Quantity) && !int.TryParse(command.Merchandise[i].Quantity, out quantity) || quantity < 0) {
+                    result.AddError(c => c.Merchandise[i].Quantity, "Invalid number");
+                }
+
+                if (!string.IsNullOrEmpty(command.Merchandise[i].Price) && !int.TryParse(command.Merchandise[i].Price, out price) || price < 0) {
+                    result.AddError(c => c.Merchandise[i].Price, "Invalid number");
+                }
+                else if (quantity > 0 && price <= 0) {
+                    result.AddError(c => c.Merchandise[i].Price, $"{_formatter.ToString(type)} price is required when selling {_formatter.ToString(type, false)}");
+                }
+
+                if (quantity > 0 && !player.CanAfford(MerchandiseTotals.ToResources(type, quantity))) {
+                    result.AddError(c => c.Merchandise[i].Quantity, $"You don't have enough {_formatter.ToString(type, false)} available to sell that much");
+                }
+
+                if (result.Success && price > 0 && quantity > 0) {
+                    merchandiseTotals.Add(new MerchandiseTotals(type, quantity, price));
+                }
+            }
 
             if (merchandiseTotals.Sum(m => m.Quantity) > availableMerchants * caravanCapacity) {
                 result.AddError("You don't have enough merchants available to send this many to the market");

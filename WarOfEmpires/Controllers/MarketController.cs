@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System.Linq;
+using System.Web.Mvc;
 using WarOfEmpires.Commands.Markets;
 using WarOfEmpires.Models;
 using WarOfEmpires.Models.Markets;
@@ -23,7 +24,7 @@ namespace WarOfEmpires.Controllers {
         [HttpPost]
         public ActionResult Sell(MarketModel model) {
             return ValidatedCommandResult(model,
-                new SellResourcesCommand(_authenticationService.Identity, model.Food, model.FoodPrice, model.Wood, model.WoodPrice, model.Stone, model.StonePrice, model.Ore, model.OrePrice),
+                new SellResourcesCommand(_authenticationService.Identity, model.Merchandise.Select(m => new MerchandiseInfo(m.Type, m.Quantity, m.Price))),
                 () => Sell());
         }
 
@@ -50,7 +51,7 @@ namespace WarOfEmpires.Controllers {
         [HttpPost]
         public ActionResult Buy(MarketModel model) {
             return ValidatedCommandResult(model,
-                new BuyResourcesCommand(_authenticationService.Identity, model.Food, model.FoodPrice, model.Wood, model.WoodPrice, model.Stone, model.StonePrice, model.Ore, model.OrePrice),
+                new BuyResourcesCommand(_authenticationService.Identity, model.Merchandise.Select(m => new MerchandiseInfo(m.Type, m.Quantity, m.Price))),
                 () => Buy());
         }
 

@@ -62,6 +62,7 @@
     <Compile Include="ICommand.cs" />
     <Compile Include="Empires\RecruitCommand.cs" />
     <Compile Include="Markets\BuyResourcesCommand.cs" />
+    <Compile Include="Markets\MerchandiseInfo.cs" />
     <Compile Include="Markets\ReadTransactionsCommand.cs" />
     <Compile Include="Markets\SellResourcesCommand.cs" />
     <Compile Include="Markets\WithdrawCaravanCommand.cs" />

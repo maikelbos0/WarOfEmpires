@@ -22,42 +22,32 @@ namespace WarOfEmpires.CommandHandlers.Markets {
             _formatter = formatter;
         }
 
-        private IEnumerable<MerchandiseTotals> ParseMerchandise(BuyResourcesCommand command,
-                                                                CommandResult<BuyResourcesCommand> result,
-                                                                MerchandiseType type,
-                                                                Expression<Func<BuyResourcesCommand, object>> quantityFunc,
-                                                                Expression<Func<BuyResourcesCommand, object>> priceFunc) {
-
-            var commandResources = (string)quantityFunc.Compile().Invoke(command);
-            var commandPrice = (string)priceFunc.Compile().Invoke(command);
-            int quantity = 0;
-            int price = 0;
-
-            if (!string.IsNullOrEmpty(commandResources) && !int.TryParse(commandResources, out quantity) || quantity < 0) {
-                result.AddError(quantityFunc, $"{_formatter.ToString(type)} must be a valid number");
-            }
-
-            if (!string.IsNullOrEmpty(commandPrice) && !int.TryParse(commandPrice, out price) || price < 0) {
-                result.AddError(priceFunc, $"{_formatter.ToString(type)} price must be a valid number");
-            }
-            else if (quantity > 0 && price <= 0) {
-                result.AddError(priceFunc, $"{_formatter.ToString(type)} price is required when buying {_formatter.ToString(type, false)}");
-            }
-
-            if (result.Success && price > 0 && quantity > 0) {
-                yield return new MerchandiseTotals(type, quantity, price);
-            }
-        }
-
         public CommandResult<BuyResourcesCommand> Execute(BuyResourcesCommand command) {
             var result = new CommandResult<BuyResourcesCommand>();
             var merchandiseTotals = new List<MerchandiseTotals>();
             var player = _repository.Get(command.Email);
+            
+            for (var index = 0; index < command.Merchandise.Count; index++) {
+                var i = index; // Don't use iterator in lambdas
+                var type = (MerchandiseType)Enum.Parse(typeof(MerchandiseType), command.Merchandise[i].Type);
+                int quantity = 0;
+                int price = 0;
 
-            merchandiseTotals.AddRange(ParseMerchandise(command, result, MerchandiseType.Food, c => c.Food, c => c.FoodPrice));
-            merchandiseTotals.AddRange(ParseMerchandise(command, result, MerchandiseType.Wood, c => c.Wood, c => c.WoodPrice));
-            merchandiseTotals.AddRange(ParseMerchandise(command, result, MerchandiseType.Stone, c => c.Stone, c => c.StonePrice));
-            merchandiseTotals.AddRange(ParseMerchandise(command, result, MerchandiseType.Ore, c => c.Ore, c => c.OrePrice));
+                if (!string.IsNullOrEmpty(command.Merchandise[i].Quantity) && !int.TryParse(command.Merchandise[i].Quantity, out quantity) || quantity < 0) {
+                    result.AddError(c => c.Merchandise[i].Quantity, "Invalid number");
+                }
+
+                if (!string.IsNullOrEmpty(command.Merchandise[i].Price) && !int.TryParse(command.Merchandise[i].Price, out price) || price < 0) {
+                    result.AddError(c => c.Merchandise[i].Price, "Invalid number");
+                }
+                else if (quantity > 0 && price <= 0) {
+                    result.AddError(c => c.Merchandise[i].Price, $"{_formatter.ToString(type)} price is required when buying {_formatter.ToString(type, false)}");
+                }
+
+                if (result.Success && price > 0 && quantity > 0) {
+                    merchandiseTotals.Add(new MerchandiseTotals(type, quantity, price));
+                }
+            }
 
             if (!player.CanAfford(new Resources(gold: merchandiseTotals.Sum(m => m.Price * m.Quantity)))) {
                 result.AddError("You don't have enough gold available to buy this many resources");
