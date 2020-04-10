@@ -114,7 +114,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
             var result = handler.Execute(command);
 
             result.Success.Should().BeTrue();
-            result.Warnings.Should().HaveCount(1);
+            result.Should().HaveWarning("There was not enough wood available at that price; all available wood has been purchased");
 
             foreach (var caravan in _caravans) {
                 caravan.DidNotReceiveWithAnyArgs().Buy(default, default, default);
@@ -190,8 +190,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
             var result = handler.Execute(command);
 
             result.Success.Should().BeTrue();
-            result.Warnings.Should().HaveCount(1);
-            result.Warnings[0].Should().Be("There was not enough food available at that price; all available food has been purchased");
+            result.Should().HaveWarning("There was not enough food available at that price; all available food has been purchased");
 
             foreach (var caravan in _caravans.Where(c => c != _caravans[6])) {
                 caravan.DidNotReceiveWithAnyArgs().Buy(default, default, default);
