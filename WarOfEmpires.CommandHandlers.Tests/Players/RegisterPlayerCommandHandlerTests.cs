@@ -35,7 +35,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Players {
             var result = handler.Execute(command);
             var player = _context.Players.SingleOrDefault();
 
-            result.Errors.Should().BeEmpty();
+            result.Success.Should().BeTrue();
             player.Should().NotBeNull();
             player.DisplayName.Should().Be("My name");
             _context.CallsToSaveChanges.Should().Be(1);

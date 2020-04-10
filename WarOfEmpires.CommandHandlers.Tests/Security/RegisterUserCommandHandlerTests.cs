@@ -33,7 +33,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Security {
             var result = handler.Execute(command);
             var user = _context.Users.SingleOrDefault();
 
-            result.Errors.Should().BeEmpty();
+            result.Success.Should().BeTrue();
             user.Should().NotBeNull();
             user.Status.Should().Be(UserStatus.New);
             user.UserEvents.Should().HaveCount(1);

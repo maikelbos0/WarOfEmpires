@@ -31,7 +31,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Security {
 
             var result = handler.Execute(command);
 
-            result.Errors.Should().BeEmpty();
+            result.Success.Should().BeTrue();
             user.Received().Activate();
             user.DidNotReceive().ActivationFailed();
             _context.CallsToSaveChanges.Should().Be(1);

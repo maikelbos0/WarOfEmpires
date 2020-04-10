@@ -64,8 +64,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Decorators {
 
             var result = decorator.Execute(command);
 
-            result.Errors.Should().HaveCount(1);
-            result.Errors.First().Message.Should().Be("Error success");
+            result.Should().HaveError("Error success");
         }
     }
 }
