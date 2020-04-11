@@ -9,6 +9,7 @@ using WarOfEmpires.Queries.Empires;
 using WarOfEmpires.QueryHandlers.Common;
 using WarOfEmpires.QueryHandlers.Decorators;
 using WarOfEmpires.Utilities.Container;
+using WarOfEmpires.Utilities.Formatting;
 using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Empires {
@@ -17,10 +18,12 @@ namespace WarOfEmpires.QueryHandlers.Empires {
     public class GetSiegeQueryHandler : IQueryHandler<GetSiegeQuery, SiegeModel> {
         private readonly IWarContext _context;
         private readonly ResourcesMap _resourcesMap;
+        private readonly EnumFormatter _formatter;
 
-        public GetSiegeQueryHandler(IWarContext context, ResourcesMap resourcesMap) {
+        public GetSiegeQueryHandler(IWarContext context, ResourcesMap resourcesMap, EnumFormatter formatter) {
             _context = context;
             _resourcesMap = resourcesMap;
+            _formatter = formatter;
         }
 
         public SiegeModel Execute(GetSiegeQuery query) {
@@ -46,7 +49,7 @@ namespace WarOfEmpires.QueryHandlers.Empires {
 
             return new SiegeWeaponModel() {
                 Type = definition.Type.ToString(),
-                Name = definition.Name,
+                Name = _formatter.ToString(definition.Type),
                 Description = definition.Description,
                 Maintenance = definition.Maintenance,
                 TroopCount = definition.TroopCount,

@@ -10,11 +10,13 @@ using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Queries.Attacks;
 using WarOfEmpires.QueryHandlers.Attacks;
 using WarOfEmpires.Test.Utilities;
+using WarOfEmpires.Utilities.Formatting;
 
 namespace WarOfEmpires.QueryHandlers.Tests.Attacks {
     [TestClass]
     public sealed class GetReceivedAttacksQueryHandlerTests {
         private readonly FakeWarContext _context = new FakeWarContext();
+        private readonly EnumFormatter _formatter = new EnumFormatter();
         private readonly Player _defender;
         private readonly Player _attacker1;
         private readonly Player _attacker2;
@@ -87,7 +89,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Attacks {
             AddAttack(_attacker1, 10, new List<Casualties>[] { new List<Casualties>() { new Casualties(TroopType.Archers, 0, 15), new Casualties(TroopType.Footmen, 0, 0), new Casualties(TroopType.Cavalry, 0, 0) } }, new List<Casualties>[] { new List<Casualties>() { new Casualties(TroopType.Archers, 0, 15), new Casualties(TroopType.Footmen, 0, 0), new Casualties(TroopType.Cavalry, 0, 0) } });
             AddAttack(_attacker2, 10, new List<Casualties>[] { new List<Casualties>() { new Casualties(TroopType.Archers, 0, 15), new Casualties(TroopType.Footmen, 0, 0), new Casualties(TroopType.Cavalry, 0, 0) } }, new List<Casualties>[] { new List<Casualties>() { new Casualties(TroopType.Archers, 0, 15), new Casualties(TroopType.Footmen, 0, 0), new Casualties(TroopType.Cavalry, 0, 0) } });
 
-            var handler = new GetReceivedAttacksQueryHandler(_context);
+            var handler = new GetReceivedAttacksQueryHandler(_context, _formatter);
             var query = new GetReceivedAttacksQuery("test@test.com");
 
             var result = handler.Execute(query);
@@ -105,7 +107,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Attacks {
                 new List<Casualties>() { new Casualties(TroopType.Archers, 3, 20), new Casualties(TroopType.Footmen, 2, 5), new Casualties(TroopType.Cavalry, 1, 3) }
             });
 
-            var handler = new GetReceivedAttacksQueryHandler(_context);
+            var handler = new GetReceivedAttacksQueryHandler(_context, _formatter);
             var query = new GetReceivedAttacksQuery("test@test.com");
 
             var result = handler.Execute(query);

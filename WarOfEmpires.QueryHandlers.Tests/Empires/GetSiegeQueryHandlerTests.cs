@@ -11,12 +11,14 @@ using WarOfEmpires.Queries.Empires;
 using WarOfEmpires.QueryHandlers.Common;
 using WarOfEmpires.QueryHandlers.Empires;
 using WarOfEmpires.Test.Utilities;
+using WarOfEmpires.Utilities.Formatting;
 
 namespace WarOfEmpires.QueryHandlers.Tests.Empires {
     [TestClass]
     public sealed class GetSiegeQueryHandlerTests {
         private readonly FakeWarContext _context = new FakeWarContext();
         private readonly ResourcesMap _resourcesMap = new ResourcesMap();
+        private readonly EnumFormatter _formatter = new EnumFormatter();
 
         public GetSiegeQueryHandlerTests() {
             var user = Substitute.For<User>();
@@ -43,7 +45,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
         
         [TestMethod]
         public void GetSiegeQueryHandler_Returns_Correct_FireArrows() {
-            var handler = new GetSiegeQueryHandler(_context, _resourcesMap);
+            var handler = new GetSiegeQueryHandler(_context, _resourcesMap, _formatter);
             var query = new GetSiegeQuery("test@test.com");
 
             var result = handler.Execute(query);
@@ -60,7 +62,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
         
         [TestMethod]
         public void GetSiegeQueryHandler_Returns_Correct_BatteringRams() {
-            var handler = new GetSiegeQueryHandler(_context, _resourcesMap);
+            var handler = new GetSiegeQueryHandler(_context, _resourcesMap, _formatter);
             var query = new GetSiegeQuery("test@test.com");
 
             var result = handler.Execute(query);
@@ -77,7 +79,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
 
         [TestMethod]
         public void GetSiegeQueryHandler_Returns_Correct_ScalingLadders() {
-            var handler = new GetSiegeQueryHandler(_context, _resourcesMap);
+            var handler = new GetSiegeQueryHandler(_context, _resourcesMap, _formatter);
             var query = new GetSiegeQuery("test@test.com");
 
             var result = handler.Execute(query);
@@ -95,7 +97,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
         
         [TestMethod]
         public void GetSiegeQueryHandler_Returns_Correct_General_Information() {
-            var handler = new GetSiegeQueryHandler(_context, _resourcesMap);
+            var handler = new GetSiegeQueryHandler(_context, _resourcesMap, _formatter);
             var query = new GetSiegeQuery("test@test.com");
 
             var result = handler.Execute(query);

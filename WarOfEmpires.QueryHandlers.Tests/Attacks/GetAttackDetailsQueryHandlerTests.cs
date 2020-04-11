@@ -11,11 +11,14 @@ using WarOfEmpires.Queries.Attacks;
 using WarOfEmpires.QueryHandlers.Attacks;
 using WarOfEmpires.QueryHandlers.Common;
 using WarOfEmpires.Test.Utilities;
+using WarOfEmpires.Utilities.Formatting;
 
 namespace WarOfEmpires.QueryHandlers.Tests.Attacks {
     [TestClass]
     public sealed class GetAttackDetailsQueryHandlerTests {
         private readonly FakeWarContext _context = new FakeWarContext();
+        private readonly ResourcesMap _resourceMap = new ResourcesMap();
+        private readonly EnumFormatter _formatter = new EnumFormatter();
         private readonly Player _attacker;
         private readonly Player _defender;
 
@@ -80,7 +83,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Attacks {
 
         [TestMethod]
         public void GetAttackDetailsQueryHandler_Returns_Correct_Information() {
-            var handler = new GetAttackDetailsQueryHandler(_context, new ResourcesMap());
+            var handler = new GetAttackDetailsQueryHandler(_context, _resourceMap, _formatter);
             var query = new GetAttackDetailsQuery("defender@test.com", "1");
 
             var result = handler.Execute(query);
@@ -114,7 +117,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Attacks {
 
         [TestMethod]
         public void GetAttackDetailsQueryHandler_Succeeds_For_Defender() {
-            var handler = new GetAttackDetailsQueryHandler(_context, new ResourcesMap());
+            var handler = new GetAttackDetailsQueryHandler(_context, _resourceMap, _formatter);
             var query = new GetAttackDetailsQuery("defender@test.com", "1");
 
             var result = handler.Execute(query);
@@ -124,7 +127,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Attacks {
 
         [TestMethod]
         public void GetAttackDetailsQueryHandler_Succeeds_For_Attacker() {
-            var handler = new GetAttackDetailsQueryHandler(_context, new ResourcesMap());
+            var handler = new GetAttackDetailsQueryHandler(_context, _resourceMap, _formatter);
             var query = new GetAttackDetailsQuery("attacker@test.com", "1");
 
             var result = handler.Execute(query);
@@ -134,7 +137,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Attacks {
 
         [TestMethod]
         public void GetAttackDetailsQueryHandler_IsRead_Is_Always_True_For_Attacker() {
-            var handler = new GetAttackDetailsQueryHandler(_context, new ResourcesMap());
+            var handler = new GetAttackDetailsQueryHandler(_context, _resourceMap, _formatter);
             var query = new GetAttackDetailsQuery("attacker@test.com", "1");
 
             var result = handler.Execute(query);
@@ -144,7 +147,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Attacks {
 
         [TestMethod]
         public void GetAttackDetailsQueryHandler_Throws_Exception_For_Alphanumeric_AttackId() {
-            var handler = new GetAttackDetailsQueryHandler(_context, new ResourcesMap());
+            var handler = new GetAttackDetailsQueryHandler(_context, _resourceMap, _formatter);
             var query = new GetAttackDetailsQuery("attacker@test.com", "A");
 
             Action action = () => handler.Execute(query);
@@ -154,7 +157,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Attacks {
 
         [TestMethod]
         public void GetAttackDetailsQueryHandler_Throws_Exception_For_Attack_On_And_By_Different_Player() {
-            var handler = new GetAttackDetailsQueryHandler(_context, new ResourcesMap());
+            var handler = new GetAttackDetailsQueryHandler(_context, _resourceMap, _formatter);
             var query = new GetAttackDetailsQuery("random@test.com", "1");
 
             Action action = () => handler.Execute(query);

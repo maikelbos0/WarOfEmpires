@@ -6,6 +6,7 @@ using WarOfEmpires.QueryHandlers.Decorators;
 using WarOfEmpires.QueryHandlers.Common;
 using WarOfEmpires.Utilities.Container;
 using WarOfEmpires.Utilities.Services;
+using WarOfEmpires.Utilities.Formatting;
 
 namespace WarOfEmpires.QueryHandlers.Attacks {
     [InterfaceInjectable]
@@ -13,10 +14,12 @@ namespace WarOfEmpires.QueryHandlers.Attacks {
     public sealed class GetAttackDetailsQueryHandler : IQueryHandler<GetAttackDetailsQuery, AttackDetailsViewModel> {
         private readonly IWarContext _context;
         private readonly ResourcesMap _resourcesMap;
+        private readonly EnumFormatter _formatter;
 
-        public GetAttackDetailsQueryHandler(IWarContext context, ResourcesMap resourcesMap) {
+        public GetAttackDetailsQueryHandler(IWarContext context, ResourcesMap resourcesMap, EnumFormatter formatter) {
             _context = context;
             _resourcesMap = resourcesMap;
+            _formatter = formatter;
         }
 
         public AttackDetailsViewModel Execute(GetAttackDetailsQuery query) {
@@ -35,20 +38,20 @@ namespace WarOfEmpires.QueryHandlers.Attacks {
             return new AttackDetailsViewModel() {
                 Id = attack.Id,
                 Date = attack.Date,
-                Type = attack.Type.ToString(),
+                Type = _formatter.ToString(attack.Type),
                 IsRead = isRead,
                 AttackerId = attack.Attacker.Id,
                 Attacker = attack.Attacker.DisplayName,
                 DefenderId = attack.Defender.Id,
                 Defender = attack.Defender.DisplayName,
                 Turns = attack.Turns,
-                Result = attack.Result.ToString(),
+                Result = _formatter.ToString(attack.Result),
                 Resources = _resourcesMap.ToViewModel(attack.Resources),
                 Rounds = attack.Rounds.Select(r => new AttackRoundDetailsViewModel() {
                     IsAggressor = r.IsAggressor,
                     Attacker = r.IsAggressor ? attack.Attacker.DisplayName : attack.Defender.DisplayName,
                     Defender = r.IsAggressor ? attack.Defender.DisplayName : attack.Attacker.DisplayName,
-                    TroopType = r.TroopType.ToString(),
+                    TroopType = _formatter.ToString(r.TroopType),
                     Troops = r.Troops,
                     Damage = r.Damage,
                     SoldierCasualties = r.Casualties.Sum(c => c.Soldiers),

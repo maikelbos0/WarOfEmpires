@@ -9,17 +9,15 @@ namespace WarOfEmpires.Domain.Siege {
         public int TroopCount { get; }
         public double ChanceToDestroy { get; }
         public int Maintenance { get; }
-        public string Name { get; }
         public string Description { get; }
 
-        public SiegeWeaponDefinition(SiegeWeaponType type, Resources cost, TroopType troopType, int troopCount, double chanceToDestroy, int maintenance, string name, string description) {
+        public SiegeWeaponDefinition(SiegeWeaponType type, Resources cost, TroopType troopType, int troopCount, double chanceToDestroy, int maintenance, string description) {
             Type = type;
             Cost = cost;
             TroopType = troopType;
             TroopCount = troopCount;
             ChanceToDestroy = chanceToDestroy;
             Maintenance = maintenance;
-            Name = name;
             Description = description;
         }
     }

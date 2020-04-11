@@ -22,7 +22,6 @@ namespace WarOfEmpires.Domain.Siege {
                 36,
                 0.9,
                 18,
-                "Fire arrows",
                 "Archers can fire flaming arrows to cause havoc behind enemy walls; it is however rare to recover any from the battle site"
             );
         }
@@ -35,7 +34,6 @@ namespace WarOfEmpires.Domain.Siege {
                 8,
                 0.1,
                 4,
-                "Battering rams",
                 "Cavalry can keep any defences' gates down with battering rams; they can normally be reused"
             );
         }
@@ -48,7 +46,6 @@ namespace WarOfEmpires.Domain.Siege {
                 12,
                 0.3,
                 6,
-                "Scaling ladders",
                 "Footmen can use ladders to scale any defences; they can usually be recovered from the battlefield"
             );
         }
