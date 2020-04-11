@@ -124,9 +124,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Attacks {
 
             var result = handler.Execute(command);
 
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.ToString().Should().Be("c => c.Turns");
-            result.Errors[0].Message.Should().Be("Turns must be a valid number");
+            result.Should().HaveError("Turns", "Turns must be a valid number");
             _attacker.ExecutedAttacks.Should().BeEmpty();
             _defender.ReceivedAttacks.Should().BeEmpty();
         }
@@ -139,10 +137,8 @@ namespace WarOfEmpires.CommandHandlers.Tests.Attacks {
             _attacker.AttackTurns.Returns(9);
 
             var result = handler.Execute(command);
-
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.ToString().Should().Be("c => c.Turns");
-            result.Errors[0].Message.Should().Be("You don't have enough attack turns");
+            
+            result.Should().HaveError("Turns", "You don't have enough attack turns");
             _attacker.ExecutedAttacks.Should().BeEmpty();
             _defender.ReceivedAttacks.Should().BeEmpty();
         }
@@ -154,9 +150,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Attacks {
 
             var result = handler.Execute(command);
 
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.ToString().Should().Be("c => c.Turns");
-            result.Errors[0].Message.Should().Be("Turns must be a valid number");
+            result.Should().HaveError("Turns", "Turns must be a valid number");
             _attacker.ExecutedAttacks.Should().BeEmpty();
             _defender.ReceivedAttacks.Should().BeEmpty();
         }
@@ -167,10 +161,8 @@ namespace WarOfEmpires.CommandHandlers.Tests.Attacks {
             var command = new AttackCommand("Raid", "test@test.com", "2", "11");
 
             var result = handler.Execute(command);
-
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.ToString().Should().Be("c => c.Turns");
-            result.Errors[0].Message.Should().Be("Turns must be a valid number");
+            
+            result.Should().HaveError("Turns", "Turns must be a valid number");
             _attacker.ExecutedAttacks.Should().BeEmpty();
             _defender.ReceivedAttacks.Should().BeEmpty();
         }

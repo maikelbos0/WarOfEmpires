@@ -57,9 +57,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
             var result = handler.Execute(command);
 
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.ToString().Should().Be("c => c.StaminaToHeal");
-            result.Errors[0].Message.Should().Be("Stamina to heal must be a valid number");
+            result.Should().HaveError("StaminaToHeal", "Stamina to heal must be a valid number");
             _player.DidNotReceiveWithAnyArgs().HealTroops(default);
         }
 
@@ -70,9 +68,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
             var result = handler.Execute(command);
 
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.ToString().Should().Be("c => c.StaminaToHeal");
-            result.Errors[0].Message.Should().Be("Stamina to heal must be a valid number");
+            result.Should().HaveError("StaminaToHeal", "Stamina to heal must be a valid number");
             _player.DidNotReceiveWithAnyArgs().HealTroops(default);
         }
 
@@ -83,9 +79,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
             var result = handler.Execute(command);
 
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.ToString().Should().Be("c => c.StaminaToHeal");
-            result.Errors[0].Message.Should().Be("You cannot heal above 100%");
+            result.Should().HaveError("StaminaToHeal", "You cannot heal above 100%");
             _player.DidNotReceiveWithAnyArgs().HealTroops(default);
         }
 
@@ -98,9 +92,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
             var result = handler.Execute(command);
 
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.Should().Be(null);
-            result.Errors[0].Message.Should().Be("You don't have enough food to heal these troops");
+            result.Should().HaveError("You don't have enough food to heal these troops");
             _player.DidNotReceiveWithAnyArgs().HealTroops(default);
         }
     }

@@ -74,9 +74,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Security {
 
             var result = handler.Execute(command);
 
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.ToString().Should().Be("c => c.Password");
-            result.Errors[0].Message.Should().Be("Invalid password");
+            result.Should().HaveError("Password", "Invalid password");
             user.DidNotReceive().RequestEmailChange(Arg.Any<string>());
             user.Received().RequestEmailChangeFailed();
             _mailClient.SentMessages.Should().BeEmpty();
@@ -100,9 +98,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Security {
 
             var result = handler.Execute(command);
 
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.ToString().Should().Be("c => c.NewEmail");
-            result.Errors[0].Message.Should().Be("Email address already exists");
+            result.Should().HaveError("NewEmail", "Email address already exists");
             user.DidNotReceive().RequestEmailChange(Arg.Any<string>());
             user.Received().RequestEmailChangeFailed();
             _mailClient.SentMessages.Should().BeEmpty();

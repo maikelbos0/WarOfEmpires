@@ -54,9 +54,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Security {
 
             var result = handler.Execute(command);
 
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.Should().BeNull();
-            result.Errors[0].Message.Should().Be("The password reset link has expired; please request a new one");
+            result.Should().HaveError("The password reset link has expired; please request a new one");
             user.DidNotReceive().ResetPassword(Arg.Any<string>());
             user.Received().ResetPasswordFailed();
         }
@@ -75,9 +73,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Security {
 
             var result = handler.Execute(command);
 
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.Should().BeNull();
-            result.Errors[0].Message.Should().Be("The password reset link has expired; please request a new one");
+            result.Should().HaveError("The password reset link has expired; please request a new one");
             user.DidNotReceive().ResetPassword(Arg.Any<string>());
             user.Received().ResetPasswordFailed();
         }
@@ -96,9 +92,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Security {
 
             var result = handler.Execute(command);
 
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.Should().BeNull();
-            result.Errors[0].Message.Should().Be("The password reset link has expired; please request a new one");
+            result.Should().HaveError("The password reset link has expired; please request a new one");
             user.DidNotReceive().ResetPassword(Arg.Any<string>());
             user.Received().ResetPasswordFailed();
         }

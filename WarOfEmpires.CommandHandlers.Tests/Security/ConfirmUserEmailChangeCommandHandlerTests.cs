@@ -44,9 +44,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Security {
 
             var result = handler.Execute(command);
 
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.ToString().Should().Be("c => c.ConfirmationCode");
-            result.Errors[0].Message.Should().Be("This confirmation code is invalid");
+            result.Should().HaveError("ConfirmationCode", "This confirmation code is invalid");
         }
 
         [TestMethod]
@@ -63,9 +61,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Security {
 
             var result = handler.Execute(command);
 
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.ToString().Should().Be("c => c.ConfirmationCode");
-            result.Errors[0].Message.Should().Be("This confirmation code is invalid");
+            result.Should().HaveError("ConfirmationCode", "This confirmation code is invalid");
             user.DidNotReceive().ChangeEmail();
             user.Received().ChangeEmailFailed();
         }
@@ -84,9 +80,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Security {
 
             var result = handler.Execute(command);
 
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.ToString().Should().Be("c => c.ConfirmationCode");
-            result.Errors[0].Message.Should().Be("This confirmation code is invalid");
+            result.Should().HaveError("ConfirmationCode", "This confirmation code is invalid");
             user.DidNotReceive().ChangeEmail();
             user.Received().ChangeEmailFailed();
         }
@@ -105,9 +99,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Security {
 
             var result = handler.Execute(command);
 
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.ToString().Should().Be("c => c.ConfirmationCode");
-            result.Errors[0].Message.Should().Be("This confirmation code is invalid");
+            result.Should().HaveError("ConfirmationCode", "This confirmation code is invalid");
             user.DidNotReceive().ChangeEmail();
             user.Received().ChangeEmailFailed();
         }

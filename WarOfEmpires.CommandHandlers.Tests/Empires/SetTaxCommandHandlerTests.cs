@@ -54,10 +54,8 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
             var handler = new SetTaxCommandHandler(_repository);
 
             var result = handler.Execute(command);
-
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.ToString().Should().Be("c => c.Tax");
-            result.Errors[0].Message.Should().Be("Tax must be a valid number");
+            
+            result.Should().HaveError("Tax", "Tax must be a valid number");
             _player.DidNotReceive().Tax = Arg.Any<int>();
         }
     }

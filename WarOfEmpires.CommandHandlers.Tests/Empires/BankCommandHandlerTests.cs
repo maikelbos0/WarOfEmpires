@@ -53,9 +53,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
             var result = handler.Execute(command);
 
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.Should().BeNull();
-            result.Errors[0].Message.Should().Be("You don't have any bank turns available");
+            result.Should().HaveError("You don't have any bank turns available");
             _player.DidNotReceive().Bank();
         }
     }

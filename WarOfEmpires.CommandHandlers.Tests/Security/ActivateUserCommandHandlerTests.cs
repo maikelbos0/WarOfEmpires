@@ -51,9 +51,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Security {
 
             var result = handler.Execute(command);
 
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.ToString().Should().Be("p => p.ActivationCode");
-            result.Errors[0].Message.Should().Be("This activation code is invalid");
+            result.Should().HaveError("ActivationCode", "This activation code is invalid");
             user.DidNotReceive().Activate();
             user.DidNotReceive().ActivationFailed();
         }
@@ -72,9 +70,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Security {
 
             var result = handler.Execute(command);
 
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.ToString().Should().Be("p => p.ActivationCode");
-            result.Errors[0].Message.Should().Be("This activation code is invalid");
+            result.Should().HaveError("ActivationCode", "This activation code is invalid");
             user.DidNotReceive().Activate();
             user.Received().ActivationFailed();
         }
@@ -93,9 +89,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Security {
 
             var result = handler.Execute(command);
 
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.ToString().Should().Be("p => p.ActivationCode");
-            result.Errors[0].Message.Should().Be("This activation code is invalid");
+            result.Should().HaveError("ActivationCode", "This activation code is invalid");
             user.DidNotReceive().Activate();
             user.Received().ActivationFailed();
         }
@@ -113,10 +107,8 @@ namespace WarOfEmpires.CommandHandlers.Tests.Security {
             _context.Users.Add(user);
 
             var result = handler.Execute(command);
-
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.ToString().Should().Be("p => p.ActivationCode");
-            result.Errors[0].Message.Should().Be("This activation code is invalid");
+            
+            result.Should().HaveError("ActivationCode", "This activation code is invalid");
             user.DidNotReceive().Activate();
             user.Received().ActivationFailed();
         }

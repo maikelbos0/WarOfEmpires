@@ -43,9 +43,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Security {
 
             var result = handler.Execute(command);
 
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.Should().BeNull();
-            result.Errors[0].Message.Should().Be("Invalid email or password");
+            result.Should().HaveError("Invalid email or password");
         }
 
         [TestMethod]
@@ -61,9 +59,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Security {
 
             var result = handler.Execute(command);
 
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.Should().BeNull();
-            result.Errors[0].Message.Should().Be("Invalid email or password");
+            result.Should().HaveError("Invalid email or password");
             user.DidNotReceive().LogIn();
             user.Received().LogInFailed();
         }
@@ -81,9 +77,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Security {
 
             var result = handler.Execute(command);
 
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.Should().BeNull();
-            result.Errors[0].Message.Should().Be("Invalid email or password");
+            result.Should().HaveError("Invalid email or password");
             user.DidNotReceive().LogIn();
             user.Received().LogInFailed();
         }
@@ -101,9 +95,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Security {
 
             var result = handler.Execute(command);
 
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.Should().BeNull();
-            result.Errors[0].Message.Should().Be("Invalid email or password");
+            result.Should().HaveError("Invalid email or password");
             user.DidNotReceive().LogIn();
             user.Received().LogInFailed();
         }

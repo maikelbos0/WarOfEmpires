@@ -83,9 +83,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
             var result = handler.Execute(command);
 
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.Should().BeNull();
-            result.Errors[0].Message.Should().Be("You don't have enough siege maintenance available to build that much siege");
+            result.Should().HaveError("You don't have enough siege maintenance available to build that much siege");
             _player.DidNotReceiveWithAnyArgs().BuildSiege(default, default);
         }
 

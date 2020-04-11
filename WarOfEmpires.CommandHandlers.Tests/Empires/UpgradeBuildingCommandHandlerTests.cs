@@ -81,10 +81,8 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
             var command = new UpgradeBuildingCommand("test@test.com", "Farm");
 
             var result = handler.Execute(command);
-            
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.Should().BeNull();
-            result.Errors[0].Message.Should().Be("You don't have enough resources to upgrade your Farm (level 2)");
+
+            result.Should().HaveError("You don't have enough resources to upgrade your Farm (level 2)");
             _player.DidNotReceive().UpgradeBuilding(BuildingType.Farm);
         }
     }

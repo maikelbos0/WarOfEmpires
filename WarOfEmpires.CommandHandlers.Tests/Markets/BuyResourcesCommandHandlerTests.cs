@@ -169,9 +169,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
 
             var result = handler.Execute(command);
 
-            result.Errors.Should().HaveCount(1);
-            result.Errors[0].Expression.Should().BeNull();
-            result.Errors[0].Message.Should().Be("You don't have enough gold available to buy this many resources");
+            result.Should().HaveError("You don't have enough gold available to buy this many resources");
 
             foreach (var caravan in _caravans) {
                 caravan.DidNotReceiveWithAnyArgs().Buy(default, default, default);
