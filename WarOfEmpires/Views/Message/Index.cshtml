@@ -17,30 +17,32 @@
             }
         }
 
-        $('#messagesGrid').datagridview({
-            columns: [
-                {
-                    data: 'DateString',
-                    sortData: 'Date',
-                    header: 'Received',
-                    width: 15,
-                    renderer: messageRenderer
-                },
-                {
-                    data: 'Sender',
-                    header: 'Sender',
-                    width: 20,
-                    renderer: messageRenderer
-                },
-                {
-                    data: 'Subject',
-                    header: 'Subject',
-                    width: 65,
-                    renderer: messageRenderer
-                }
-            ]
-        });
+        $(function () {
+            $('#messagesGrid').datagridview({
+                columns: [
+                    {
+                        data: 'DateString',
+                        sortData: 'Date',
+                        header: 'Received',
+                        width: 15,
+                        renderer: messageRenderer
+                    },
+                    {
+                        data: 'Sender',
+                        header: 'Sender',
+                        width: 20,
+                        renderer: messageRenderer
+                    },
+                    {
+                        data: 'Subject',
+                        header: 'Subject',
+                        width: 65,
+                        renderer: messageRenderer
+                    }
+                ]
+            });
 
-        GridManager.initialize('#messagesGrid', '@Url.Action("GetReceivedMessages")', 'Date', true);
+            GridManager.initialize('#messagesGrid', '@Url.Action("GetReceivedMessages")', 'Date', true);
+        });
     </script>
 }

@@ -52,7 +52,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
             }
 
             var handler = new GetPlayersQueryHandler(_context);
-            var query = new GetPlayersQuery();
+            var query = new GetPlayersQuery(null);
 
             var result = handler.Execute(query);
 
@@ -62,7 +62,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
         [TestMethod]
         public void GetPlayersQueryHandler_Returns_Correct_Information() {
             var handler = new GetPlayersQueryHandler(_context);
-            var query = new GetPlayersQuery();
+            var query = new GetPlayersQuery(null);
 
             AddPlayer(1, "test@test.com", "Test display name", UserStatus.Active);
 
@@ -72,6 +72,20 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
             result.Single().Id.Should().Be(1);
             result.Single().DisplayName.Should().Be("Test display name");
             result.Single().Population.Should().Be(49);
+        }
+
+        [TestMethod]
+        public void GetPlayersQueryHandler_Searches() {
+            var handler = new GetPlayersQueryHandler(_context);
+            var query = new GetPlayersQuery("Test");
+
+            AddPlayer(1, "test@test.com", "Test display name", UserStatus.Active);
+            AddPlayer(2, "test@test.com", "Somebody else", UserStatus.Active);
+
+            var result = handler.Execute(query);
+
+            result.Should().HaveCount(1);
+            result.Single().DisplayName.Should().Be("Test display name");
         }
     }
 }

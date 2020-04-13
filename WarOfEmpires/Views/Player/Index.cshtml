@@ -1,10 +1,24 @@
-﻿@{
+﻿@model WarOfEmpires.Models.Players.PlayerSearchModel
+
+@{
     ViewBag.Title = "Players";
 }
 
 <h2>Players</h2>
 
-<div id="playersGrid">
+<form id="playersSearch" class="search-form">
+    <div class="row">
+        <div class="col-2 col-form-label">
+            @Html.LabelFor(m => m.DisplayName)
+        </div>
+
+        <div class="col-4">
+            @Html.TextBoxFor(m => m.DisplayName, new { @class = "form-control" })
+        </div>
+    </div>
+</form>
+
+<div id="playersGrid" class="site-spaced-small">
 </div>
 
 @section Scripts{
@@ -13,24 +27,26 @@
             cell.append($('<a>', { title: value, href: '@Url.Action("Details")?id=' + dataRow.Id }).text(value));
         }
 
-        $('#playersGrid').datagridview({
-            columns: [
-                {
-                    data: 'DisplayName',
-                    header: 'Display name',
-                    width: 80,
-                    renderer: playerRenderer
-                },
-                {
-                    data: 'PopulationString',
-                    sortData: 'Population',
-                    header: 'Population',
-                    width: 20,
-                    renderer: playerRenderer
-                }
-            ]
-        });
+        $(function () {
+            $('#playersGrid').datagridview({
+                columns: [
+                    {
+                        data: 'DisplayName',
+                        header: 'Display name',
+                        width: 80,
+                        renderer: playerRenderer
+                    },
+                    {
+                        data: 'PopulationString',
+                        sortData: 'Population',
+                        header: 'Population',
+                        width: 20,
+                        renderer: playerRenderer
+                    }
+                ]
+            });
 
-        GridManager.initialize('#playersGrid', '@Url.Action("GetPlayers")');
+            GridManager.initialize('#playersGrid', '@Url.Action("GetPlayers")', null, null, '#playersSearch');
+        });
     </script>
 }

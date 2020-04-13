@@ -18,8 +18,14 @@ namespace WarOfEmpires.QueryHandlers.Players {
         }
 
         public IEnumerable<PlayerViewModel> Execute(GetPlayersQuery query) {
-            return _context.Players
-                .Where(p => p.User.Status == UserStatus.Active)
+            var players = _context.Players
+                .Where(p => p.User.Status == UserStatus.Active);
+
+            if (!string.IsNullOrEmpty(query.DisplayName)) {
+                players = players.Where(p => p.DisplayName.Contains(query.DisplayName));
+            }
+
+            return players
                 .Select(p => new PlayerViewModel() {
                     Id = p.Id,
                     DisplayName = p.DisplayName,

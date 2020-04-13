@@ -1,5 +1,6 @@
 using System.Web.Mvc;
 using WarOfEmpires.Models;
+using WarOfEmpires.Models.Players;
 using WarOfEmpires.Queries.Players;
 using WarOfEmpires.Services;
 
@@ -15,13 +16,13 @@ namespace WarOfEmpires.Controllers {
         [Route("Index")]
         [HttpGet]
         public ActionResult Index() {
-            return View();
+            return View(new PlayerSearchModel());
         }
 
         [Route("GetPlayers")]
         [HttpPost]
-        public ActionResult GetPlayers(DataGridViewMetaData metaData) {
-            return GridJson(new GetPlayersQuery(), metaData);
+        public ActionResult GetPlayers(DataGridViewMetaData metaData, PlayerSearchModel search) {
+            return GridJson(new GetPlayersQuery(search.DisplayName), metaData);
         }
 
         [Route("Details")]

@@ -9,34 +9,36 @@
 
 @section Scripts{
     <script type="text/javascript">
-        $('#transactionsGrid').datagridview({
-            columns: [
-                {
-                    data: 'DateString',
-                    sortData: 'Date',
-                    header: 'Date',
-                    width: 25
-                },
-                {
-                    data: 'Type',
-                    header: 'Type',
-                    width: 25
-                },
-                {
-                    data: 'QuantityString',
-                    sortData: 'Quantity',
-                    header: 'Quantity',
-                    width: 25
-                },
-                {
-                    data: 'PriceString',
-                    sortData: 'Price',
-                    header: 'Price',
-                    width: 25
-                }
-            ]
-        });
+        $(function () {
+            $('#transactionsGrid').datagridview({
+                columns: [
+                    {
+                        data: 'DateString',
+                        sortData: 'Date',
+                        header: 'Date',
+                        width: 25
+                    },
+                    {
+                        data: 'Type',
+                        header: 'Type',
+                        width: 25
+                    },
+                    {
+                        data: 'QuantityString',
+                        sortData: 'Quantity',
+                        header: 'Quantity',
+                        width: 25
+                    },
+                    {
+                        data: 'PriceString',
+                        sortData: 'Price',
+                        header: 'Price',
+                        width: 25
+                    }
+                ]
+            });
 
-        GridManager.initialize('#transactionsGrid', '@Url.Action("GetBuyTransactions")', 'Date', true);
+            GridManager.initialize('#transactionsGrid', '@Url.Action("GetBuyTransactions")', 'Date', true);
+        });
     </script>
 }

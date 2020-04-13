@@ -72,6 +72,7 @@
     <Compile Include="Messages\SentMessageViewModel.cs" />
     <Compile Include="Players\NotificationsViewModel.cs" />
     <Compile Include="Players\PlayerDetailsViewModel.cs" />
+    <Compile Include="Players\PlayerSearchModel.cs" />
     <Compile Include="Players\PlayerViewModel.cs" />
     <Compile Include="Empires\WorkersModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

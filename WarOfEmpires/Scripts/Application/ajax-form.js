@@ -3,7 +3,7 @@ let AjaxManager = {
 }
 
 $(function () {
-    $('body').on('submit', 'form:not(.html-only)', function () {        
+    $('body').on('submit', 'form:not(.html-only):not(.search-form)', function () {        
         let form = $(this);
         let panel = form.closest('.site-content, .partial-content');
         let submitButtons = form.find('button[type="submit"]');
