@@ -194,6 +194,10 @@
     <Compile Include="Migrations\202003291305356_MerchandiseTypes-Transactions.Designer.cs">
       <DependentUpon>202003291305356_MerchandiseTypes-Transactions.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202004131219399_Players-Rank.cs" />
+    <Compile Include="Migrations\202004131219399_Players-Rank.Designer.cs">
+      <DependentUpon>202004131219399_Players-Rank.cs</DependentUpon>
+    </Compile>
     <Compile Include="ReferenceEntities\AttackResultEntity.cs" />
     <Compile Include="ReferenceEntities\AttackTypeEntity.cs" />
     <Compile Include="ReferenceEntities\BaseReferenceEntity.cs" />
@@ -332,6 +336,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202003291305356_MerchandiseTypes-Transactions.resx">
       <DependentUpon>202003291305356_MerchandiseTypes-Transactions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004131219399_Players-Rank.resx">
+      <DependentUpon>202004131219399_Players-Rank.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
