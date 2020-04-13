@@ -8,16 +8,16 @@ namespace WarOfEmpires.Domain.Tests.Players {
     public sealed class TroopInfoTests {
         [TestMethod]
         public void TroopInfo_GetTotalAttack_Succeeds() {
-            var troopInfo = new TroopInfo(new Troops(TroopType.Archers, 15, 5), 60, 40, 2.25m, 2.5m, 1.5m, 0);
+            var troopInfo = new TroopInfo(new Troops(TroopType.Archers, 15, 5), 50, 30, 1.5m, 1.6m, 1.2m, 0);
 
-            troopInfo.GetTotalAttack().Should().Be(20 * (int)(60 * 2.25m * 2.5m));
+            troopInfo.GetTotalAttack().Should().Be(20 * (int)(50 * 1.5m * 1.6m));
         }
 
         [TestMethod]
         public void TroopInfo_GetTotalDefense_Succeeds() {
-            var troopInfo = new TroopInfo(new Troops(TroopType.Archers, 15, 5), 60, 40, 2.25m, 2.5m, 1.5m, 0);
+            var troopInfo = new TroopInfo(new Troops(TroopType.Archers, 15, 5), 50, 30, 1.5m, 1.6m, 1.2m, 0);
 
-            troopInfo.GetTotalDefense().Should().Be(20 * (int)(40 * 2.25m * 1.5m));
+            troopInfo.GetTotalDefense().Should().Be(20 * (int)(30 * 1.5m * 1.2m));
         }
 
         [DataTestMethod]
