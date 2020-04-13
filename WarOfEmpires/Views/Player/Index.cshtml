@@ -31,9 +31,16 @@
             $('#playersGrid').datagridview({
                 columns: [
                     {
+                        data: 'RankString',
+                        sortData: 'Rank',
+                        header: 'Rank',
+                        width: 15,
+                        renderer: playerRenderer
+                    },
+                    {
                         data: 'DisplayName',
                         header: 'Display name',
-                        width: 80,
+                        width: 65,
                         renderer: playerRenderer
                     },
                     {
@@ -46,7 +53,7 @@
                 ]
             });
 
-            GridManager.initialize('#playersGrid', '@Url.Action("GetPlayers")', null, null, '#playersSearch');
+            GridManager.initialize('#playersGrid', '@Url.Action("GetPlayers")', 'Rank', false, '#playersSearch');
         });
     </script>
 }
