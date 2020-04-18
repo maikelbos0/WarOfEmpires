@@ -72,6 +72,7 @@
     <Compile Include="Empires\Building.cs" />
     <Compile Include="Empires\ExpressionGenerator.cs" />
     <Compile Include="Empires\BuildingType.cs" />
+    <Compile Include="Empires\UpdateRankTaskTriggeredEvent.cs" />
     <Compile Include="Empires\WorkerDefinition.cs" />
     <Compile Include="Empires\WorkerDefinitionFactory.cs" />
     <Compile Include="Empires\Workers.cs" />

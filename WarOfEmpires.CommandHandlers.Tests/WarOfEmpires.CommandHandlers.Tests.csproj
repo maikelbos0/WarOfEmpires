@@ -108,6 +108,7 @@
     <Compile Include="Empires\SetTaxCommandHandlerTests.cs" />
     <Compile Include="Empires\TrainTroopsCommandHandlerTests.cs" />
     <Compile Include="Empires\UntrainTroopsCommandHandlerTests.cs" />
+    <Compile Include="Empires\UpdateRankCommandHandlerTests.cs" />
     <Compile Include="Empires\UpgradeBuildingCommandHandlerTests.cs" />
     <Compile Include="Events\PauseScheduledTasksCommandHandlerTests.cs" />
     <Compile Include="Events\RunScheduledTasksCommandHandlerTests.cs" />

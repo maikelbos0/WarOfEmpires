@@ -63,6 +63,8 @@
     <Compile Include="Empires\DiscardSiegeCommandHandler.cs" />
     <Compile Include="Empires\HealTroopsCommandHandler.cs" />
     <Compile Include="Empires\ProcessTurnCommandHandler.cs" />
+    <Compile Include="Empires\UpdateRankCommandHandler.cs" />
+    <Compile Include="Empires\UpdateRankTaskTriggeredEventHandler.cs" />
     <Compile Include="Empires\WorkerInfo.cs" />
     <Compile Include="Empires\SiegeWeaponInfo.cs" />
     <Compile Include="Empires\TrainTroopsCommandHandler.cs" />

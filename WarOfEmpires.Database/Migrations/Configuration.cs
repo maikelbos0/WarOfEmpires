@@ -24,6 +24,11 @@ namespace WarOfEmpires.Database.Migrations {
             SeedEntityType<Siege.SiegeWeaponType, SiegeWeaponTypeEntity>(context);
             SeedEntityType<Markets.MerchandiseType, MerchandiseTypeEntity>(context);
 
+            AddScheduledTask<Empires.RecruitTaskTriggeredEvent>(context, new TimeSpan(1, 0, 0));
+            AddScheduledTask<Empires.TurnTaskTriggeredEvent>(context, new TimeSpan(0, 10, 0));
+            AddScheduledTask<Empires.BankTurnTaskTriggeredEvent>(context, new TimeSpan(4, 0, 0));
+            AddScheduledTask<Empires.UpdateRankTaskTriggeredEvent>(context, new TimeSpan(0, 2, 0));
+
             AddOrUpdateUser(context, "example@test.com", "I am example");
             AddOrUpdateUser(context, "anon@test.com", "Anon");
             AddOrUpdateUser(context, "you@test.com", "You");
@@ -33,8 +38,6 @@ namespace WarOfEmpires.Database.Migrations {
             for (var i = 0; i < 100; i++) {
                 AddOrUpdateUser(context, $"user{i}@test.com", $"User {i}");
             }
-
-            AddOrUpdateScheduledTasks(context);
         }
 
         private void SeedEntityType<TEnum, TReferenceEntity>(WarContext context)
@@ -73,26 +76,12 @@ namespace WarOfEmpires.Database.Migrations {
             context.SaveChanges();
         }
 
-        private void AddOrUpdateScheduledTasks(WarContext context) {
-            var recruitTask = context.ScheduledTasks.SingleOrDefault(t => t.EventType == typeof(Empires.RecruitTaskTriggeredEvent).AssemblyQualifiedName);
+        private void AddScheduledTask<TEvent>(WarContext context, TimeSpan timeSpan) where TEvent : Events.IEvent, new() {
+            var task = context.ScheduledTasks.SingleOrDefault(t => t.EventType == typeof(TEvent).AssemblyQualifiedName);
 
-            if (recruitTask == null) {
-                recruitTask = Events.ScheduledTask.Create<Empires.RecruitTaskTriggeredEvent>(new TimeSpan(1, 0, 0));
-                context.ScheduledTasks.Add(recruitTask);
-            }
-
-            var turnTask = context.ScheduledTasks.SingleOrDefault(t => t.EventType == typeof(Empires.TurnTaskTriggeredEvent).AssemblyQualifiedName);
-
-            if (turnTask == null) {
-                turnTask = Events.ScheduledTask.Create<Empires.TurnTaskTriggeredEvent>(new TimeSpan(0, 10, 0));
-                context.ScheduledTasks.Add(turnTask);
-            }
-
-            var bankTurnTask = context.ScheduledTasks.SingleOrDefault(t => t.EventType == typeof(Empires.BankTurnTaskTriggeredEvent).AssemblyQualifiedName);
-
-            if (bankTurnTask == null) {
-                bankTurnTask = Events.ScheduledTask.Create<Empires.BankTurnTaskTriggeredEvent>(new TimeSpan(4, 0, 0));
-                context.ScheduledTasks.Add(bankTurnTask);
+            if (task == null) {
+                task = Events.ScheduledTask.Create<TEvent>(timeSpan);
+                context.ScheduledTasks.Add(task);
             }
 
             context.SaveChanges();

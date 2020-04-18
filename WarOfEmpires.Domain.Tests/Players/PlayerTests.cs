@@ -163,18 +163,9 @@ namespace WarOfEmpires.Domain.Tests.Players {
             var player = new Player(0, "Test");
             typeof(Player).GetProperty(nameof(Player.Stamina)).SetValue(player, 66);
 
-            player.ProcessTurn(1);
+            player.ProcessTurn();
 
             player.Stamina.Should().Be(67);
-        }
-
-        [TestMethod]
-        public void Player_ProcessTurn_Sets_Rank() {
-            var player = new Player(0, "Test");
-
-            player.ProcessTurn(5);
-
-            player.Rank.Should().Be(5);
         }
 
         [TestMethod]
@@ -189,7 +180,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
             var previousResources = player.Resources;
 
             player.Tax = 80;
-            player.ProcessTurn(1);
+            player.ProcessTurn();
 
             player.Resources.Should().Be(previousResources + new Resources(
                 player.GetGoldPerTurn(),
@@ -207,7 +198,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
             var previousAttackTurns = player.AttackTurns;
 
             player.Tax = 80;
-            player.ProcessTurn(1);
+            player.ProcessTurn();
 
             player.AttackTurns.Should().Be(previousAttackTurns + 1);
         }
@@ -216,7 +207,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
         public void Player_ProcessTurn_Does_Not_Increase_Stamina_When_Full() {
             var player = new Player(0, "Test");
 
-            player.ProcessTurn(1);
+            player.ProcessTurn();
 
             player.Stamina.Should().Be(100);
         }
@@ -231,12 +222,12 @@ namespace WarOfEmpires.Domain.Tests.Players {
             player.Tax = 85;
 
             while (player.CanAfford(player.GetUpkeepPerTurn())) {
-                player.ProcessTurn(1);
+                player.ProcessTurn();
             }
 
             var previousResources = player.Resources;
 
-            player.ProcessTurn(1);
+            player.ProcessTurn();
 
             player.Resources.Should().Be(previousResources - new Resources(food: previousResources.Food));
             player.HasUpkeepRunOut.Should().BeTrue();
@@ -247,12 +238,12 @@ namespace WarOfEmpires.Domain.Tests.Players {
             var player = new Player(0, "Test");
 
             while (player.CanAfford(player.GetUpkeepPerTurn())) {
-                player.ProcessTurn(1);
+                player.ProcessTurn();
             }
 
             var previousAttackTurns = player.AttackTurns;
 
-            player.ProcessTurn(1);
+            player.ProcessTurn();
 
             player.AttackTurns.Should().Be(previousAttackTurns + 1);
         }
@@ -262,12 +253,12 @@ namespace WarOfEmpires.Domain.Tests.Players {
             var player = new Player(0, "Test");
 
             while (player.CanAfford(player.GetUpkeepPerTurn())) {
-                player.ProcessTurn(1);
+                player.ProcessTurn();
             }
 
             typeof(Player).GetProperty(nameof(Player.Stamina)).SetValue(player, 66);
 
-            player.ProcessTurn(1);
+            player.ProcessTurn();
 
             player.Stamina.Should().Be(67);
         }
@@ -278,14 +269,14 @@ namespace WarOfEmpires.Domain.Tests.Players {
             player.Tax = 85;
 
             while (player.Resources.CanAfford(player.GetUpkeepPerTurn())) {
-                player.ProcessTurn(1);
+                player.ProcessTurn();
             }
 
             player.Troops.Add(new Troops(TroopType.Archers, 1, 1));
             player.Troops.Add(new Troops(TroopType.Cavalry, 1, 1));
             player.Troops.Add(new Troops(TroopType.Footmen, 1, 1));
 
-            player.ProcessTurn(1);
+            player.ProcessTurn();
 
             player.Troops.Should().NotContain(t => t.Mercenaries > 0);
         }
