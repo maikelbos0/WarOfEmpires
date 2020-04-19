@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using WarOfEmpires.Domain.Empires;
 
 namespace WarOfEmpires.Domain.Players {
@@ -7,7 +8,7 @@ namespace WarOfEmpires.Domain.Players {
         public const double WorkerModifier = 10.0;
         public const double DefenceModifier = 1000.0;
 
-        public virtual double GetRankPoints(Player player) {
+        public virtual double GetPoints(Player player) {
             var troops = player.Troops.Select(t => player.GetTroopInfo(t.Type)).Sum(t => t.GetTotalAttack() + t.GetTotalDefense());
             var workers = player.Workers.Sum(w => w.Count);
             var defences = player.GetBuildingBonus(BuildingType.Defences);
@@ -15,6 +16,17 @@ namespace WarOfEmpires.Domain.Players {
             return troops * TroopModifier
                 + workers * WorkerModifier
                 + defences * DefenceModifier;
+        }
+
+        public virtual void Update(IEnumerable<Player> players) {
+            var rank = 1;
+
+            foreach (var player in players
+                .Select(p => new { Player = p, RankPoints = GetPoints(p) })
+                .OrderByDescending(p => p.RankPoints)
+                .Select(p => p.Player)) {
+                player.Rank = rank++;
+            }
         }
     }
 }

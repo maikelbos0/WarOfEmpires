@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using WarOfEmpires.CommandHandlers.Decorators;
+﻿using WarOfEmpires.CommandHandlers.Decorators;
 using WarOfEmpires.Commands.Empires;
 using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Repositories.Players;
@@ -19,15 +18,8 @@ namespace WarOfEmpires.CommandHandlers.Empires {
 
         public CommandResult<UpdateRankCommand> Execute(UpdateRankCommand command) {
             var result = new CommandResult<UpdateRankCommand>();
-            var rank = 1;
 
-            foreach (var player in _repository.GetAll()
-                .Select(p => new { Player = p, RankPoints = _rankService.GetRankPoints(p) })
-                .OrderByDescending(p => p.RankPoints)
-                .Select(p => p.Player)) {
-                player.Rank = rank++;
-            }
-
+            _rankService.Update(_repository.GetAll());
             _repository.Update();
 
             return result;
