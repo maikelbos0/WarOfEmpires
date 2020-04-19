@@ -36,6 +36,7 @@ namespace WarOfEmpires.Domain.Players {
         public virtual int BankTurns { get; protected set; } = 6;
         public virtual int Stamina { get; protected set; } = 100;
         public virtual bool HasUpkeepRunOut { get; protected set; } = false;
+        public virtual int Rank { get; set; } = int.MaxValue;
         public virtual ICollection<Workers> Workers { get; protected set; } = new List<Workers>();
         public virtual ICollection<Troops> Troops { get; protected set; } = new List<Troops>();
         public virtual ICollection<Building> Buildings { get; protected set; } = new List<Building>();
@@ -294,7 +295,7 @@ namespace WarOfEmpires.Domain.Players {
             // Get recruiting for defences
             recruiting += GetBuildingBonus(BuildingType.Defences);
 
-            // Adjust for havnig not enough soldiers
+            // Adjust for not having enough soldiers
             recruiting -= GetSoldierRecruitsPenalty();
 
             if (recruiting > 25) {

@@ -23,6 +23,7 @@ namespace WarOfEmpires.QueryHandlers.Players {
 
             return new PlayerDetailsViewModel() {
                 Id = player.Id,
+                Rank = player.Rank,
                 DisplayName = player.DisplayName,
                 Population = player.Peasants + player.Workers.Sum(w => w.Count) + player.Troops.Sum(t => t.GetTotals())
             };

@@ -16,7 +16,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
     public sealed class GetPlayerDetailsQueryHandlerTests {
         private readonly FakeWarContext _context = new FakeWarContext();
 
-        public void AddPlayer(int id, string email, string displayName, UserStatus status) {
+        public void AddPlayer(int id, int rank, string email, string displayName, UserStatus status) {
             var user = Substitute.For<User>();
             var player = Substitute.For<Player>();
 
@@ -26,6 +26,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
 
             player.User.Returns(user);
             player.Id.Returns(id);
+            player.Rank.Returns(rank);
             player.DisplayName.Returns(displayName);
             player.Peasants.Returns(5);
             player.Workers.Returns(new List<Workers>() {
@@ -50,12 +51,13 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
             var handler = new GetPlayerDetailsQueryHandler(_context);
             var query = new GetPlayerDetailsQuery("2");
 
-            AddPlayer(1, "test1@test.com", "Test display name 1", UserStatus.Active);
-            AddPlayer(2, "test2@test.com", "Test display name 2", UserStatus.Active);
+            AddPlayer(1, 2, "test1@test.com", "Test display name 1", UserStatus.Active);
+            AddPlayer(2, 1, "test2@test.com", "Test display name 2", UserStatus.Active);
 
             var result = handler.Execute(query);
 
             result.Id.Should().Be(2);
+            result.Rank.Should().Be(1);
             result.DisplayName.Should().Be("Test display name 2");
             result.Population.Should().Be(49);
         }
@@ -65,7 +67,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
             var handler = new GetPlayerDetailsQueryHandler(_context);
             var query = new GetPlayerDetailsQuery("A");
 
-            AddPlayer(1, "test1@test.com", "Test display name 1", UserStatus.Active);
+            AddPlayer(1, 2, "test1@test.com", "Test display name 1", UserStatus.Active);
 
             Action action = () => handler.Execute(query);
 
@@ -77,7 +79,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
             var handler = new GetPlayerDetailsQueryHandler(_context);
             var query = new GetPlayerDetailsQuery("5");
 
-            AddPlayer(1, "test1@test.com", "Test display name 1", UserStatus.Active);
+            AddPlayer(1, 2, "test1@test.com", "Test display name 1", UserStatus.Active);
 
             Action action = () => handler.Execute(query);
 

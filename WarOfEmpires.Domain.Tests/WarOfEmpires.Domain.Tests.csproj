@@ -84,6 +84,7 @@
     <Compile Include="Markets\MerchandiseTests.cs" />
     <Compile Include="Markets\MerchandiseTotalsTests.cs" />
     <Compile Include="Players\PlayerTests.cs" />
+    <Compile Include="Players\RankServiceTests.cs" />
     <Compile Include="Players\TroopInfoTests.cs" />
     <Compile Include="Attacks\TroopsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
