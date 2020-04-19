@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using WarOfEmpires.Commands;
 using WarOfEmpires.Domain.Auditing;
 using WarOfEmpires.Repositories.Auditing;
@@ -15,9 +16,14 @@ namespace WarOfEmpires.CommandHandlers.Decorators {
         }
 
         public CommandResult<TCommand> Execute(TCommand command) {
-            _repository.Add(new CommandExecution(typeof(TCommand).FullName, _serializer.SerializeToJson(command)));
+            var stopwatch = Stopwatch.StartNew();
+            var result = Handler.Execute(command);
 
-            return Handler.Execute(command);
+            stopwatch.Stop();
+
+            _repository.Add(new CommandExecution(typeof(TCommand).FullName, _serializer.SerializeToJson(command), stopwatch.Elapsed.TotalMilliseconds));
+
+            return result;
         }
     }
 }

@@ -12,7 +12,7 @@ namespace WarOfEmpires.Repositories.Tests.Auditing {
         [TestMethod]
         public void CommandExecutionRepository_Add_Succeeds() {
             var repository = new CommandExecutionRepository(_context);
-            var execution = new CommandExecution("test", "test");
+            var execution = new CommandExecution("test", "test", 1.0);
 
             repository.Add(execution);
 
@@ -23,7 +23,7 @@ namespace WarOfEmpires.Repositories.Tests.Auditing {
         public void CommandExecutionRepository_Add_Saves() {
             var repository = new CommandExecutionRepository(_context);
 
-            repository.Add(new CommandExecution("test", "test"));
+            repository.Add(new CommandExecution("test", "test", 1.0));
 
             _context.CallsToSaveChanges.Should().Be(1);
         }

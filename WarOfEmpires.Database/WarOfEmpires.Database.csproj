@@ -198,6 +198,10 @@
     <Compile Include="Migrations\202004131219399_Players-Rank.Designer.cs">
       <DependentUpon>202004131219399_Players-Rank.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202004191304424_Auditing-ElapsedMilliseconds.cs" />
+    <Compile Include="Migrations\202004191304424_Auditing-ElapsedMilliseconds.Designer.cs">
+      <DependentUpon>202004191304424_Auditing-ElapsedMilliseconds.cs</DependentUpon>
+    </Compile>
     <Compile Include="ReferenceEntities\AttackResultEntity.cs" />
     <Compile Include="ReferenceEntities\AttackTypeEntity.cs" />
     <Compile Include="ReferenceEntities\BaseReferenceEntity.cs" />
@@ -339,6 +343,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202004131219399_Players-Rank.resx">
       <DependentUpon>202004131219399_Players-Rank.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004191304424_Auditing-ElapsedMilliseconds.resx">
+      <DependentUpon>202004191304424_Auditing-ElapsedMilliseconds.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

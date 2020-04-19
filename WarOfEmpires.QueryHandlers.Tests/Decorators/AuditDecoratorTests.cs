@@ -41,6 +41,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Decorators {
             _context.QueryExecutions.First().Date.Should().BeCloseTo(DateTime.UtcNow, 1000);
             _context.QueryExecutions.First().QueryType.Should().Be("WarOfEmpires.QueryHandlers.Tests.Decorators.AuditDecoratorTests+TestQuery");
             _context.QueryExecutions.First().QueryData.Should().Be(_serializer.SerializeToJson(query));
+            _context.QueryExecutions.First().ElapsedMilliseconds.Should().BeInRange(0, 1000);
             _context.CallsToSaveChanges.Should().Be(1);
         }
 
