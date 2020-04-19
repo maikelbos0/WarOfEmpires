@@ -295,7 +295,7 @@ namespace WarOfEmpires.Domain.Players {
             // Get recruiting for defences
             recruiting += GetBuildingBonus(BuildingType.Defences);
 
-            // Adjust for having not enough soldiers
+            // Adjust for not having enough soldiers
             recruiting -= GetSoldierRecruitsPenalty();
 
             if (recruiting > 25) {
