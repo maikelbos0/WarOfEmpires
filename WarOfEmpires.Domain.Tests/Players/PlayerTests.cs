@@ -1151,5 +1151,15 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
             player.Resources.Should().Be(new Resources(0, 40000, 30000, 20000, 10000));
         }
+
+        [TestMethod]
+        public void Player_UpdateRank_Succeeds() {
+            var player = new Player(0, "Test");
+
+            player.UpdateRank(5, TitleType.SubChieftain);
+
+            player.Rank.Should().Be(5);
+            player.Title.Should().Be(TitleType.SubChieftain);
+        }
     }
 }

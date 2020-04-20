@@ -1,11 +1,12 @@
 ﻿namespace WarOfEmpires.Domain.Players {
     public enum TitleType {
-        PeasantLeader = 1
+        PeasantLeader = 1,
+        BanditLeader = 2,
+        WarbandLeader = 3,
+        SubChieftain = 4
+
         /*
          * 
-        # 1=Bandit Leader,Bandit Leader
-        # 2=Warband Leader,Warband Leader
-        # 3=Sub-Chieftain,Sub-Chieftain
         # 4=Chief,Chief
         # 5=Warlord,Warlord
         # 6=Baron,Baroness
@@ -16,9 +17,6 @@
         # 11=Overlord,Overlady
         # 12=Grand Overlord,Grand Overlady
         
-        TITLE1=Bandit Leader,Bandit Leader
-        TITLE2=Free Company Leader,Free Company Leader
-        TITLE3=Sub-Chieftain,Sub-Chieftain
         TITLE4=Chief,Chief
         TITLE5=Warlord,Warlord
         TITLE6=Baron,Baroness
@@ -28,10 +26,7 @@
         TITLE10=Emperor,Empress
         TITLE11=Overlord,Overlady
         TITLE12=Grand Overlord,Grand Overlady
-
-        1=8,15
-        2=16,25
-        3=24,40
+        
         4=32,75
         5=40,110
         6=48,150

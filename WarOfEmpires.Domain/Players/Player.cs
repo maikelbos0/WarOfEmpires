@@ -36,7 +36,8 @@ namespace WarOfEmpires.Domain.Players {
         public virtual int BankTurns { get; protected set; } = 6;
         public virtual int Stamina { get; protected set; } = 100;
         public virtual bool HasUpkeepRunOut { get; protected set; } = false;
-        public virtual int Rank { get; set; } = int.MaxValue;
+        public virtual int Rank { get; protected set; } = int.MaxValue;
+        public virtual TitleType Title { get; protected set; } = TitleType.PeasantLeader;
         public virtual ICollection<Workers> Workers { get; protected set; } = new List<Workers>();
         public virtual ICollection<Troops> Troops { get; protected set; } = new List<Troops>();
         public virtual ICollection<Building> Buildings { get; protected set; } = new List<Building>();
@@ -462,6 +463,11 @@ namespace WarOfEmpires.Domain.Players {
 
                 caravan.Merchandise.Add(new Merchandise(totals.Type, quantity, totals.Price));
             }
+        }
+
+        public virtual void UpdateRank(int rank, TitleType title) {
+            Rank = rank;
+            Title = title;
         }
     }
 }
