@@ -3,7 +3,8 @@
         PeasantLeader = 1,
         BanditLeader = 2,
         WarbandLeader = 3,
-        SubChieftain = 4
+        SubChieftain = 4,
+        GrandOverlord = 13
 
         /*
          * 

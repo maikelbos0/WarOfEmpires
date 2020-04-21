@@ -22,7 +22,8 @@ namespace WarOfEmpires.Domain.Players {
 
         public virtual TitleType GetTitle(Player player) {
             return _titles.First(title => title.RequiredDefenceLevel <= player.GetBuildingBonus(BuildingType.Defences) 
-                && title.RequiredSoldiers <= player.Troops.Sum(t => t.Soldiers)).Type;
+                && title.RequiredSoldiers <= player.Troops.Sum(t => t.Soldiers)
+                && title.MeetsAdditionalRequirements(player)).Type;
         }
 
         public virtual void Update(IEnumerable<Player> players) {
