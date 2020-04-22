@@ -9,6 +9,7 @@ namespace WarOfEmpires.Domain.Players {
         static TitleDefinitionFactory() {
             foreach (var definition in new[] {
                 GeneratePeasantLeader(), GenerateBanditLeader(), GenerateWarbandLeader(), GenerateSubChieftain(),
+                GenerateChief(), GenerateWarlord(), GenerateBaron(),
                 GenerateGrandOverlord()
             }) {
                 _titles.Add(definition.Type, definition);
@@ -29,6 +30,18 @@ namespace WarOfEmpires.Domain.Players {
 
         private static TitleDefinition GenerateSubChieftain() {
             return new TitleDefinition(TitleType.SubChieftain, 3, 40);
+        }
+
+        private static TitleDefinition GenerateChief() {
+            return new TitleDefinition(TitleType.Chief, 4, 60);
+        }
+
+        private static TitleDefinition GenerateWarlord() {
+            return new TitleDefinition(TitleType.Warlord, 5, 100);
+        }
+
+        private static TitleDefinition GenerateBaron() {
+            return new TitleDefinition(TitleType.Baron, 6, 150);
         }
 
         private static TitleDefinition GenerateGrandOverlord() {
