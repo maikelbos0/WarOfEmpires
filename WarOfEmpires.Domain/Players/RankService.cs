@@ -8,7 +8,7 @@ namespace WarOfEmpires.Domain.Players {
         public const double WorkerModifier = 10.0;
         public const double DefenceModifier = 1000.0;
 
-        private List<TitleDefinition> _titles = TitleDefinitionFactory.GetAll().OrderByDescending(t => t.Type).ToList();
+        private readonly List<TitleDefinition> _titles = TitleDefinitionFactory.GetAll().OrderByDescending(t => t.Type).ToList();
 
         public double GetPoints(Player player) {
             var troops = player.Troops.Select(t => player.GetTroopInfo(t.Type)).Sum(t => t.GetTotalAttack() + t.GetTotalDefense());

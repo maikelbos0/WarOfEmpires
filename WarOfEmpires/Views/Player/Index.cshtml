@@ -40,14 +40,20 @@
                     {
                         data: 'DisplayName',
                         header: 'Display name',
-                        width: 65,
+                        width: 40,
+                        renderer: playerRenderer
+                    },
+                    {
+                        data: 'Title',
+                        header: 'Title',
+                        width: 30,
                         renderer: playerRenderer
                     },
                     {
                         data: 'PopulationString',
                         sortData: 'Population',
                         header: 'Population',
-                        width: 20,
+                        width: 15,
                         renderer: playerRenderer
                     }
                 ]
