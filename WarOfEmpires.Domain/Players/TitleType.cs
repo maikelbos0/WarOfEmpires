@@ -7,30 +7,14 @@
         Chief = 5,
         Warlord = 6,
         Baron = 7,
-
-        GrandOverlord = 13
-
-        /*
-        # 7=Duke,Duchess
-        # 8=Prince,Princess
-        # 9=King,Queen
-        # 10=Emperor,Empress
-        # 11=Overlord,Overlady
-        # 12=Grand Overlord,Grand Overlady
-        
-        TITLE7=Duke,Duchess
-        TITLE8=Prince,Princess
-        TITLE9=King,Queen
-        TITLE10=Emperor,Empress
-        TITLE11=Overlord,Overlady
-        TITLE12=Grand Overlord,Grand Overlady
-        
-        7=56,220
-        8=64,350
-        9=72,480
-        10=80,650
-        11=88,850
-        12=96,1100
-         */
+        Viscount = 8,
+        Earl = 9,
+        Marquis = 10,
+        Duke = 11,
+        Prince = 12,
+        King = 13,
+        Emperor = 14,
+        Overlord = 15,
+        GrandOverlord = 16
     }
 }
