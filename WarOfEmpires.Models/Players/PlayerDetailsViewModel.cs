@@ -3,5 +3,6 @@
         public string DisplayName { get; set; }
         public int Population { get; set; }
         public int Rank { get; set; }
+        public string Title { get; set; }
     }
 }

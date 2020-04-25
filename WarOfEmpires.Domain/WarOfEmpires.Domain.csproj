@@ -89,6 +89,9 @@
     <Compile Include="Players\ProductionInfo.cs" />
     <Compile Include="Empires\RecruitTaskTriggeredEvent.cs" />
     <Compile Include="Players\RankService.cs" />
+    <Compile Include="Players\TitleDefinitionFactory.cs" />
+    <Compile Include="Players\TitleType.cs" />
+    <Compile Include="Players\TitleDefinition.cs" />
     <Compile Include="Players\TroopInfo.cs" />
     <Compile Include="Attacks\Troops.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

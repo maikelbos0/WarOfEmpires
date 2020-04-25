@@ -6,15 +6,18 @@ using WarOfEmpires.Models.Players;
 using WarOfEmpires.Queries.Players;
 using WarOfEmpires.QueryHandlers.Decorators;
 using WarOfEmpires.Utilities.Container;
+using WarOfEmpires.Utilities.Formatting;
 
 namespace WarOfEmpires.QueryHandlers.Players {
     [InterfaceInjectable]
     [Audit]
     public sealed class GetPlayersQueryHandler : IQueryHandler<GetPlayersQuery, IEnumerable<PlayerViewModel>> {
         private readonly IWarContext _context;
+        private readonly EnumFormatter _formatter;
 
-        public GetPlayersQueryHandler(IWarContext context) {
+        public GetPlayersQueryHandler(IWarContext context, EnumFormatter formatter) {
             _context = context;
+            _formatter = formatter;
         }
 
         public IEnumerable<PlayerViewModel> Execute(GetPlayersQuery query) {
@@ -25,17 +28,26 @@ namespace WarOfEmpires.QueryHandlers.Players {
                 players = players.Where(p => p.DisplayName.Contains(query.DisplayName));
             }
 
+            // Materialize before setting the title
             return players
-                .Select(p => new PlayerViewModel() {
-                    Id = p.Id,
-                    Rank = p.Rank,
-                    DisplayName = p.DisplayName,
-                    Population = p.Peasants 
+                .Select(p => new {
+                    p.Id,
+                    p.Rank,
+                    p.Title,
+                    p.DisplayName,
+                    Population = p.Peasants
                         + (p.Workers.Sum(w => (int?)w.Count) ?? 0)
                         + (p.Troops.Sum(t => (int?)t.Soldiers) ?? 0)
                         + (p.Troops.Sum(t => (int?)t.Mercenaries) ?? 0)
                 })
-                .ToList();
+                .ToList()
+                .Select(p => new PlayerViewModel() {
+                    Id = p.Id,
+                    Rank = p.Rank,
+                    Title = _formatter.ToString(p.Title),
+                    DisplayName = p.DisplayName,
+                    Population = p.Population
+                });
         }
     }
 }

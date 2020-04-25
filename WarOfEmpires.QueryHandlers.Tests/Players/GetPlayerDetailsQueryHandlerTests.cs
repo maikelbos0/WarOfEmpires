@@ -10,11 +10,13 @@ using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Queries.Players;
 using WarOfEmpires.QueryHandlers.Players;
 using WarOfEmpires.Test.Utilities;
+using WarOfEmpires.Utilities.Formatting;
 
 namespace WarOfEmpires.QueryHandlers.Tests.Players {
     [TestClass]
     public sealed class GetPlayerDetailsQueryHandlerTests {
         private readonly FakeWarContext _context = new FakeWarContext();
+        private readonly EnumFormatter _formatter = new EnumFormatter();
 
         public void AddPlayer(int id, int rank, string email, string displayName, UserStatus status) {
             var user = Substitute.For<User>();
@@ -27,6 +29,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
             player.User.Returns(user);
             player.Id.Returns(id);
             player.Rank.Returns(rank);
+            player.Title.Returns(TitleType.SubChieftain);
             player.DisplayName.Returns(displayName);
             player.Peasants.Returns(5);
             player.Workers.Returns(new List<Workers>() {
@@ -48,7 +51,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
 
         [TestMethod]
         public void GetPlayerDetailsQueryHandler_Returns_Correct_Information() {
-            var handler = new GetPlayerDetailsQueryHandler(_context);
+            var handler = new GetPlayerDetailsQueryHandler(_context, _formatter);
             var query = new GetPlayerDetailsQuery("2");
 
             AddPlayer(1, 2, "test1@test.com", "Test display name 1", UserStatus.Active);
@@ -58,13 +61,14 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
 
             result.Id.Should().Be(2);
             result.Rank.Should().Be(1);
+            result.Title.Should().Be("Sub chieftain");
             result.DisplayName.Should().Be("Test display name 2");
             result.Population.Should().Be(49);
         }
 
         [TestMethod]
         public void GetPlayerDetailsQueryHandler_Throws_Exception_For_Alphanumeric_Id() {
-            var handler = new GetPlayerDetailsQueryHandler(_context);
+            var handler = new GetPlayerDetailsQueryHandler(_context, _formatter);
             var query = new GetPlayerDetailsQuery("A");
 
             AddPlayer(1, 2, "test1@test.com", "Test display name 1", UserStatus.Active);
@@ -76,7 +80,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
 
         [TestMethod]
         public void GetPlayerDetailsQueryHandler_Throws_Exception_For_Nonexistent_Id() {
-            var handler = new GetPlayerDetailsQueryHandler(_context);
+            var handler = new GetPlayerDetailsQueryHandler(_context, _formatter);
             var query = new GetPlayerDetailsQuery("5");
 
             AddPlayer(1, 2, "test1@test.com", "Test display name 1", UserStatus.Active);
