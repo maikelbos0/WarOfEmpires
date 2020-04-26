@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AggregateRoot.cs" />
+    <Compile Include="Alliances\Alliance.cs" />
     <Compile Include="Attacks\AttackFactory.cs" />
     <Compile Include="Attacks\AttackResult.cs" />
     <Compile Include="Attacks\AttackRound.cs" />

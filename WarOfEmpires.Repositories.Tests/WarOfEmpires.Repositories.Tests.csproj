@@ -75,6 +75,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Alliances\AllianceRepositoryTests.cs" />
     <Compile Include="Auditing\CommandExecutionRepositoryTests.cs" />
     <Compile Include="Events\ScheduledTaskRepositoryTests.cs" />
     <Compile Include="Players\PlayerRepositoryTests.cs" />
