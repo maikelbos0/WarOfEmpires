@@ -68,6 +68,10 @@ namespace WarOfEmpires.Database {
         private void OnEventsModelCreating(DbModelBuilder modelBuilder) {
             var scheduledTasks = modelBuilder.Entity<Events.ScheduledTask>().ToTable("ScheduledTasks", "Events").HasKey(t => t.Id);
             scheduledTasks.Property(e => e.EventType).IsRequired();
+
+            var executionModes = modelBuilder.Entity<TaskExecutionModeEntity>().ToTable("TaskExecutionModes", "Events").HasKey(t => t.Id);
+            executionModes.HasMany(m => m.ScheduledTasks).WithRequired().HasForeignKey(e => e.ExecutionMode);
+            executionModes.Property(m => m.Name).IsRequired();
         }
 
         private void OnPlayersModelCreating(DbModelBuilder modelBuilder) {

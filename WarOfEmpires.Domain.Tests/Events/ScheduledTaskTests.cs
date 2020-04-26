@@ -16,7 +16,7 @@ namespace WarOfEmpires.Domain.Tests.Events {
 
         [TestMethod]
         public void ScheduledTask_Is_Created_Paused() {
-            var task = ScheduledTask.Create<TestEvent>(new TimeSpan(0, 5, 0));
+            var task = ScheduledTask.Create<TestEvent>(new TimeSpan(0, 5, 0), TaskExecutionMode.ExecuteAllIntervals);
 
             task.IsPaused.Should().BeTrue();
             task.LastExecutionDate.Should().BeNull();
@@ -24,7 +24,7 @@ namespace WarOfEmpires.Domain.Tests.Events {
 
         [TestMethod]
         public void ScheduledTask_Unpause_Succeeds() {
-            var task = ScheduledTask.Create<TestEvent>(new TimeSpan(0, 5, 0));
+            var task = ScheduledTask.Create<TestEvent>(new TimeSpan(0, 5, 0), TaskExecutionMode.ExecuteAllIntervals);
 
             task.Unpause();
             task.IsPaused.Should().BeFalse();
@@ -34,7 +34,7 @@ namespace WarOfEmpires.Domain.Tests.Events {
 
         [TestMethod]
         public void ScheduledTask_Pause_Succeeds() {
-            var task = ScheduledTask.Create<TestEvent>(new TimeSpan(0, 5, 0));
+            var task = ScheduledTask.Create<TestEvent>(new TimeSpan(0, 5, 0), TaskExecutionMode.ExecuteAllIntervals);
 
             task.Unpause();
             task.Pause();
@@ -45,23 +45,27 @@ namespace WarOfEmpires.Domain.Tests.Events {
 
         [TestMethod]
         public void ScheduledTask_Execute_Does_Nothing_When_Paused() {
-            var task = ScheduledTask.Create<TestEvent>(new TimeSpan(0, 5, 0));
+            var task = ScheduledTask.Create<TestEvent>(new TimeSpan(0, 5, 0), TaskExecutionMode.ExecuteAllIntervals);
 
             task.Execute().Should().BeFalse();
         }
 
-        [TestMethod]
-        public void ScheduledTask_Execute_Does_Nothing_When_Not_Scheduled_Yet() {
-            var task = ScheduledTask.Create<TestEvent>(new TimeSpan(0, 5, 0));
+        [DataTestMethod]
+        [DataRow(TaskExecutionMode.ExecuteAllIntervals)]
+        [DataRow(TaskExecutionMode.ExecuteOnce)]
+        public void ScheduledTask_Execute_Does_Nothing_When_Not_Scheduled_Yet(TaskExecutionMode executionMode) {
+            var task = ScheduledTask.Create<TestEvent>(new TimeSpan(0, 5, 0), executionMode);
 
             task.Unpause();
 
             task.Execute().Should().BeFalse();
         }
 
-        [TestMethod]
-        public void ScheduledTask_Execute_Succeeds() {
-            var task = ScheduledTask.Create<TestEvent>(new TimeSpan(0, 5, 0));
+        [DataTestMethod]
+        [DataRow(TaskExecutionMode.ExecuteAllIntervals)]
+        [DataRow(TaskExecutionMode.ExecuteOnce)]
+        public void ScheduledTask_Execute_Succeeds(TaskExecutionMode executionMode) {
+            var task = ScheduledTask.Create<TestEvent>(new TimeSpan(0, 5, 0), executionMode);
 
             task.Unpause();
             MoveTaskDate(task, new TimeSpan(0, -5, 0));
@@ -70,15 +74,19 @@ namespace WarOfEmpires.Domain.Tests.Events {
             task.NextExecutionDate.Should().BeAfter(DateTime.UtcNow);
         }
 
-        [TestMethod]
-        public void ScheduledTask_Execute_Executes_Twice_When_Behind() {
-            var task = ScheduledTask.Create<TestEvent>(new TimeSpan(0, 5, 0));
+        [DataTestMethod]
+        [DataRow(TaskExecutionMode.ExecuteAllIntervals, 3)]
+        [DataRow(TaskExecutionMode.ExecuteOnce, 1)]
+        public void ScheduledTask_Execute_Succeeds_When_Behind(TaskExecutionMode executionMode, int expectedExecutions) {
+            var task = ScheduledTask.Create<TestEvent>(new TimeSpan(0, 5, 0), executionMode);
 
             task.Unpause();
-            MoveTaskDate(task, new TimeSpan(0, -10, 0));
+            MoveTaskDate(task, new TimeSpan(0, -15, 0));
 
-            task.Execute().Should().BeTrue();
-            task.Execute().Should().BeTrue();
+            for (var i = 0; i < expectedExecutions; i++) {
+                task.Execute().Should().BeTrue();
+            }
+
             task.Execute().Should().BeFalse();
         }
     }

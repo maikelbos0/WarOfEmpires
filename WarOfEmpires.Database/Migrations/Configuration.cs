@@ -23,11 +23,12 @@ namespace WarOfEmpires.Database.Migrations {
             SeedEntityType<Attacks.AttackType, AttackTypeEntity>(context);
             SeedEntityType<Siege.SiegeWeaponType, SiegeWeaponTypeEntity>(context);
             SeedEntityType<Markets.MerchandiseType, MerchandiseTypeEntity>(context);
+            SeedEntityType<Events.TaskExecutionMode, TaskExecutionModeEntity>(context);
 
-            AddScheduledTask<Empires.RecruitTaskTriggeredEvent>(context, new TimeSpan(1, 0, 0));
-            AddScheduledTask<Empires.TurnTaskTriggeredEvent>(context, new TimeSpan(0, 10, 0));
-            AddScheduledTask<Empires.BankTurnTaskTriggeredEvent>(context, new TimeSpan(4, 0, 0));
-            AddScheduledTask<Empires.UpdateRankTaskTriggeredEvent>(context, new TimeSpan(0, 2, 0));
+            AddScheduledTask<Empires.RecruitTaskTriggeredEvent>(context, new TimeSpan(1, 0, 0), Events.TaskExecutionMode.ExecuteAllIntervals);
+            AddScheduledTask<Empires.TurnTaskTriggeredEvent>(context, new TimeSpan(0, 10, 0), Events.TaskExecutionMode.ExecuteAllIntervals);
+            AddScheduledTask<Empires.BankTurnTaskTriggeredEvent>(context, new TimeSpan(4, 0, 0), Events.TaskExecutionMode.ExecuteAllIntervals);
+            AddScheduledTask<Empires.UpdateRankTaskTriggeredEvent>(context, new TimeSpan(0, 2, 0), Events.TaskExecutionMode.ExecuteOnce);
 
             AddOrUpdateUser(context, "example@test.com", "I am example");
             AddOrUpdateUser(context, "anon@test.com", "Anon");
@@ -76,12 +77,16 @@ namespace WarOfEmpires.Database.Migrations {
             context.SaveChanges();
         }
 
-        private void AddScheduledTask<TEvent>(WarContext context, TimeSpan timeSpan) where TEvent : Events.IEvent, new() {
+        private void AddScheduledTask<TEvent>(WarContext context, TimeSpan interval, Events.TaskExecutionMode executionMode) where TEvent : Events.IEvent, new() {
             var task = context.ScheduledTasks.SingleOrDefault(t => t.EventType == typeof(TEvent).AssemblyQualifiedName);
 
             if (task == null) {
-                task = Events.ScheduledTask.Create<TEvent>(timeSpan);
+                task = Events.ScheduledTask.Create<TEvent>(interval, executionMode);
                 context.ScheduledTasks.Add(task);
+            }
+            else {
+                task.Interval = interval;
+                task.ExecutionMode = executionMode;
             }
 
             context.SaveChanges();

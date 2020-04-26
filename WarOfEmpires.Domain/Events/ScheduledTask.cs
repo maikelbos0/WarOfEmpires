@@ -2,26 +2,46 @@
 
 namespace WarOfEmpires.Domain.Events {
     public class ScheduledTask : AggregateRoot {
-        public virtual TimeSpan Interval { get; protected set; }
+        public virtual TimeSpan Interval { get; set; }
         public virtual string EventType { get; protected set; }
         public virtual bool IsPaused { get; protected set; } = true;
+        public virtual TaskExecutionMode ExecutionMode { get; set; }
         public virtual DateTime? LastExecutionDate { get; protected set; }
         public virtual DateTime? NextExecutionDate {
             get {
-                return LastExecutionDate + Interval;
+                if (LastExecutionDate == null) {
+                    return null;
+                }
+
+                switch (ExecutionMode) {
+                    case TaskExecutionMode.ExecuteOnce:
+                        var timeSinceLastExecution = DateTime.UtcNow - LastExecutionDate.Value;
+
+                        if (timeSinceLastExecution < Interval) {
+                            return LastExecutionDate + Interval;
+                        }
+                        else {
+                            return LastExecutionDate + new TimeSpan(timeSinceLastExecution.Ticks / Interval.Ticks * Interval.Ticks);
+                        }
+                    case TaskExecutionMode.ExecuteAllIntervals:
+                        return LastExecutionDate + Interval;
+                    default:
+                        throw new NotImplementedException();
+                }
             }
         }
 
-        public static ScheduledTask Create<TEvent>(TimeSpan interval) where TEvent : IEvent, new() {
-            return new ScheduledTask(interval, typeof(TEvent).AssemblyQualifiedName);
+        public static ScheduledTask Create<TEvent>(TimeSpan interval, TaskExecutionMode executionMode) where TEvent : IEvent, new() {
+            return new ScheduledTask(interval, typeof(TEvent).AssemblyQualifiedName, executionMode);
         }
 
         protected ScheduledTask() {
         }
 
-        protected ScheduledTask(TimeSpan interval, string eventType) {
+        protected ScheduledTask(TimeSpan interval, string eventType, TaskExecutionMode executionMode) {
             Interval = interval;
             EventType = eventType;
+            ExecutionMode = executionMode;
         }
 
         public virtual void Pause() {
@@ -31,11 +51,7 @@ namespace WarOfEmpires.Domain.Events {
 
         public virtual void Unpause() {
             IsPaused = false;
-            LastExecutionDate = DateTime.UtcNow.Date;
-
-            while (NextExecutionDate < DateTime.UtcNow) {
-                LastExecutionDate = NextExecutionDate;
-            }
+            LastExecutionDate = DateTime.UtcNow.Date + new TimeSpan(DateTime.UtcNow.TimeOfDay.Ticks / Interval.Ticks * Interval.Ticks);
         }
 
         public virtual bool Execute() {

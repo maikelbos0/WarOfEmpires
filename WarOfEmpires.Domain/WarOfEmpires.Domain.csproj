@@ -80,6 +80,7 @@
     <Compile Include="Entity.cs" />
     <Compile Include="Events\IEvent.cs" />
     <Compile Include="Empires\TurnTaskTriggeredEvent.cs" />
+    <Compile Include="Events\TaskExecutionMode.cs" />
     <Compile Include="Markets\Caravan.cs" />
     <Compile Include="Markets\Merchandise.cs" />
     <Compile Include="Markets\MerchandiseTotals.cs" />

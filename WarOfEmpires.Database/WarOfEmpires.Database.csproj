@@ -206,6 +206,10 @@
     <Compile Include="Migrations\202004201755200_Players-Title.Designer.cs">
       <DependentUpon>202004201755200_Players-Title.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202004260741534_ScheduledTasks-ExecutionMode.cs" />
+    <Compile Include="Migrations\202004260741534_ScheduledTasks-ExecutionMode.Designer.cs">
+      <DependentUpon>202004260741534_ScheduledTasks-ExecutionMode.cs</DependentUpon>
+    </Compile>
     <Compile Include="ReferenceEntities\AttackResultEntity.cs" />
     <Compile Include="ReferenceEntities\AttackTypeEntity.cs" />
     <Compile Include="ReferenceEntities\BaseReferenceEntity.cs" />
@@ -214,6 +218,7 @@
     <Compile Include="ReferenceEntities\BuildingTypeEntity.cs" />
     <Compile Include="ReferenceEntities\MerchandiseTypeEntity.cs" />
     <Compile Include="ReferenceEntities\SiegeWeaponTypeEntity.cs" />
+    <Compile Include="ReferenceEntities\TaskExecutionModeEntity.cs" />
     <Compile Include="ReferenceEntities\TroopTypeEntity.cs" />
     <Compile Include="ReferenceEntities\WorkerTypeEntity.cs" />
     <Compile Include="WarContext.cs" />
@@ -353,6 +358,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202004201755200_Players-Title.resx">
       <DependentUpon>202004201755200_Players-Title.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004260741534_ScheduledTasks-ExecutionMode.resx">
+      <DependentUpon>202004260741534_ScheduledTasks-ExecutionMode.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
