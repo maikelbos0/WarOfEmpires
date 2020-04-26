@@ -1,6 +1,6 @@
 ﻿namespace WarOfEmpires.Models.Empires {
     public sealed class BuildingTotalsViewModel {
-        public int TotalGoldSpent { get; set; }
-        public int NextRecruitingLevel { get; set; }
+        public long TotalGoldSpent { get; set; }
+        public long NextRecruitingLevel { get; set; }
     }
 }

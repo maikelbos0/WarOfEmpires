@@ -12,7 +12,7 @@ namespace WarOfEmpires.Domain.Players {
         public const int RecruitingEffortStep = 24;
         public const int BaseGoldPerTurn = 500;
         public const int BaseResourceProduction = 20;
-        public static int[] BuildingRecruitingLevels = { 50000, 100000, 200000, 300000, 500000, 800000, 1200000, 2000000, 3000000, 5000000, 8000000, 12000000, 20000000, 30000000, 40000000, 50000000, 60000000, 70000000, 80000000, 90000000, 100000000, 110000000, 120000000, 130000000, 140000000, 150000000 };
+        public static long[] BuildingRecruitingLevels = { 50000, 100000, 200000, 300000, 500000, 800000, 1200000, 2000000, 3000000, 5000000, 8000000, 12000000, 20000000, 30000000, 40000000, 50000000, 60000000, 70000000, 80000000, 90000000, 100000000, 110000000, 120000000, 130000000, 140000000, 150000000 };
         public const int AttackDamageModifier = 200;
         public const int AttackStaminaDrainModifier = 2;
 
@@ -336,7 +336,7 @@ namespace WarOfEmpires.Domain.Players {
             return Math.Min(housingCapacity, recruiting);
         }
 
-        public int GetTotalGoldSpentOnBuildings() {
+        public long GetTotalGoldSpentOnBuildings() {
             var startingBuildings = GetStartingBuildings().ToDictionary(b => b.Type, b => b.Level);
             var buildingTotals = Buildings
                 .Where(b => b.Type != BuildingType.Defences)

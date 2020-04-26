@@ -210,6 +210,10 @@
     <Compile Include="Migrations\202004260741534_ScheduledTasks-ExecutionMode.Designer.cs">
       <DependentUpon>202004260741534_ScheduledTasks-ExecutionMode.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202004261022350_Resources-Long.cs" />
+    <Compile Include="Migrations\202004261022350_Resources-Long.Designer.cs">
+      <DependentUpon>202004261022350_Resources-Long.cs</DependentUpon>
+    </Compile>
     <Compile Include="ReferenceEntities\AttackResultEntity.cs" />
     <Compile Include="ReferenceEntities\AttackTypeEntity.cs" />
     <Compile Include="ReferenceEntities\BaseReferenceEntity.cs" />
@@ -361,6 +365,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202004260741534_ScheduledTasks-ExecutionMode.resx">
       <DependentUpon>202004260741534_ScheduledTasks-ExecutionMode.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004261022350_Resources-Long.resx">
+      <DependentUpon>202004261022350_Resources-Long.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
