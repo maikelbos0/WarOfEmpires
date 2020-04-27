@@ -433,6 +433,8 @@
     <Content Include="Views\Market\BuyTransactions.cshtml" />
     <Content Include="Views\Market\SellTransactions.cshtml" />
     <Content Include="Views\Shared\_Icon.cshtml" />
+    <Content Include="Views\Alliance\Create.cshtml" />
+    <Content Include="Views\Alliance\Home.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -472,9 +474,7 @@
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\index.d.ts" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\Alliance\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

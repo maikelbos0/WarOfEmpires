@@ -26,7 +26,7 @@ namespace WarOfEmpires.CommandHandlers.Alliances {
             }
 
             if (result.Success) {
-                _repository.Add( new Alliance(player, command.Code, command.Name));
+                _repository.Add(new Alliance(player, command.Code, command.Name));
             }
 
             return result;
