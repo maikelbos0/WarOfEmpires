@@ -15,8 +15,7 @@ namespace WarOfEmpires.Repositories.Tests.Players {
     public sealed class PlayerRepositoryTests {
         private readonly FakeWarContext _context = new FakeWarContext();
 
-        [TestInitialize]
-        public void Initialize() {
+        public PlayerRepositoryTests() {
             var id = 1;
             var caravanId = 1;
 

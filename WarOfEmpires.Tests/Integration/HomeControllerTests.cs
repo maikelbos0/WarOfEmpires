@@ -26,8 +26,7 @@ namespace WarOfEmpires.Tests.Integration {
             }
         };
 
-        [TestInitialize]
-        public void Initialize() {
+        public HomeControllerTests() {
             UnityConfig.Container.RegisterInstance<IAuthenticationService>(_authenticationService);
             UnityConfig.Container.RegisterInstance<IWarContext>(_context);
             UnityConfig.Container.RegisterInstance<IMailClient>(_mailClient);

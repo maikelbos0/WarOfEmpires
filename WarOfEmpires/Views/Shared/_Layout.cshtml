@@ -82,11 +82,11 @@
                                     Alliance
                                 </a>
                                 <div class="dropdown-menu site-dropdown-menu" aria-labelledby="navbar-alliance-dropdown">
-                                    @if (true) {
-                                        @Html.ActionLink("Create", "Create", "Alliance", null, new { @class = "dropdown-item site-dropdown-item" })
+                                    @if (identityService.IsInAlliance()) {
+                                        // TODO: add in-empire actions
                                     }
                                     else {
-                                        // TODO: add in-empire actions
+                                        @Html.ActionLink("Create", "Create", "Alliance", null, new { @class = "dropdown-item site-dropdown-item" })
                                     }
                                 </div>
                             </li>

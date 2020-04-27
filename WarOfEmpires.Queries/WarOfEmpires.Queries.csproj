@@ -69,6 +69,7 @@
     <Compile Include="Messages\GetReplyToMessageQuery.cs" />
     <Compile Include="Players\GetNotificationsQuery.cs" />
     <Compile Include="Players\GetPlayerDetailsQuery.cs" />
+    <Compile Include="Players\GetPlayerIsInAllianceQuery.cs" />
     <Compile Include="Players\GetPlayersQuery.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security\GetUserIsAdminQuery.cs" />

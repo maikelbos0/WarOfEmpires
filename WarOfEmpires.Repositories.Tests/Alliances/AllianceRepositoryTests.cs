@@ -11,8 +11,7 @@ namespace WarOfEmpires.Repositories.Tests.Alliances {
     public sealed class AllianceRepositoryTests {
         private readonly FakeWarContext _context = new FakeWarContext();
 
-        [TestInitialize]
-        public void Initialize() {
+        public AllianceRepositoryTests() {
             var id = 1;
 
             foreach (var status in new[] { true, false }) {
