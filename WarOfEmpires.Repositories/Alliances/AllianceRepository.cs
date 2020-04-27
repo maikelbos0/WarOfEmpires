@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using WarOfEmpires.Database;
 using WarOfEmpires.Domain.Alliances;
 using WarOfEmpires.Utilities.Container;
@@ -12,20 +13,21 @@ namespace WarOfEmpires.Repositories.Alliances {
             _context = context;
         }
 
-        public void Add(Alliance alliance) {
-            throw new System.NotImplementedException();
-        }
-
         public Alliance Get(int id) {
-            throw new System.NotImplementedException();
+            return _context.Alliances.Single(a => a.IsActive && a.Id == id);
         }
 
         public IEnumerable<Alliance> GetAll() {
-            throw new System.NotImplementedException();
+            return _context.Alliances.Where(a => a.IsActive).ToList();
+        }
+
+        public void Add(Alliance alliance) {
+            _context.Alliances.Add(alliance);
+            _context.SaveChanges();
         }
 
         public void Update() {
-            throw new System.NotImplementedException();
+            _context.SaveChanges();
         }
     }
 }

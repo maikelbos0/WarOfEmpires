@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NSubstitute;
 using System;
 using WarOfEmpires.Domain.Alliances;
 using WarOfEmpires.Repositories.Alliances;
@@ -9,6 +10,20 @@ namespace WarOfEmpires.Repositories.Tests.Alliances {
     [TestClass]
     public sealed class AllianceRepositoryTests {
         private readonly FakeWarContext _context = new FakeWarContext();
+
+        [TestInitialize]
+        public void Initialize() {
+            var id = 1;
+
+            foreach (var status in new[] { true, false }) {
+                var alliance = Substitute.For<Alliance>();
+
+                alliance.IsActive.Returns(status);
+                alliance.Id.Returns(id++);
+
+                _context.Alliances.Add(alliance);
+            }
+        }
 
         [TestMethod]
         public void AllianceRepository_Get_Succeeds() {
