@@ -4,6 +4,7 @@ using NSubstitute;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using WarOfEmpires.Domain.Alliances;
 using WarOfEmpires.Domain.Markets;
 using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Domain.Security;
@@ -57,6 +58,17 @@ namespace WarOfEmpires.Repositories.Tests.Players {
                         caravans.Add(emptyCaravan);
                     }
                 }
+            }
+
+            id = 1;
+
+            foreach (var status in new[] { true, false }) {
+                var alliance = Substitute.For<Alliance>();
+
+                alliance.IsActive.Returns(status);
+                alliance.Id.Returns(id++);
+
+                _context.Alliances.Add(alliance);
             }
         }
 
@@ -210,5 +222,82 @@ namespace WarOfEmpires.Repositories.Tests.Players {
 
             _context.CallsToSaveChanges.Should().Be(1);
         }
+
+
+        [TestMethod]
+        public void PlayerRepository_GetAlliance_Succeeds() {
+            var repository = new PlayerRepository(_context);
+
+            var alliance = repository.GetAlliance(1);
+
+            alliance.Should().NotBeNull();
+            alliance.Id.Should().Be(1);
+        }
+
+        [TestMethod]
+        public void PlayerRepository_GetAlliance_Throws_Exception_For_Nonexistent_Id() {
+            var repository = new PlayerRepository(_context);
+
+            Action action = () => repository.GetAlliance(-1);
+
+            action.Should().Throw<InvalidOperationException>();
+        }
+
+        [TestMethod]
+        public void PlayerRepository_GetAlliance_Throws_Exception_For_Not_Active() {
+            var repository = new PlayerRepository(_context);
+
+            Action action = () => repository.GetAlliance(2);
+
+            action.Should().Throw<InvalidOperationException>();
+        }
+
+        [TestMethod]
+        public void PlayerRepository_GetAlliance_Does_Not_Save() {
+            var repository = new PlayerRepository(_context);
+
+            repository.GetAlliance(1);
+
+            _context.CallsToSaveChanges.Should().Be(0);
+        }
+
+        [TestMethod]
+        public void PlayerRepository_GetAllAlliances_Succeeds() {
+            var repository = new PlayerRepository(_context);
+
+            var alliances = repository.GetAllAlliances();
+
+            alliances.Should().NotBeNull();
+            alliances.Should().HaveCount(1);
+        }
+
+        [TestMethod]
+        public void PlayerRepository_GetAllAlliances_Does_Not_Save() {
+            var repository = new PlayerRepository(_context);
+
+            repository.GetAllAlliances();
+
+            _context.CallsToSaveChanges.Should().Be(0);
+        }
+
+        [TestMethod]
+        public void PlayerRepository_AddAlliance_Succeeds() {
+            var repository = new PlayerRepository(_context);
+            var alliance = new Alliance(null, "ALLY", "The Alliance");
+
+            repository.AddAlliance(alliance);
+
+            _context.Alliances.Should().Contain(alliance);
+        }
+
+        [TestMethod]
+        public void PlayerRepository_AddAlliance_Saves() {
+            var repository = new PlayerRepository(_context);
+
+            repository.AddAlliance(new Alliance(null, "ALLY", "The Alliance"));
+
+            _context.CallsToSaveChanges.Should().Be(1);
+        }
+
     }
 }

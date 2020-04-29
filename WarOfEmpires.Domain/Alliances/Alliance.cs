@@ -16,7 +16,6 @@ namespace WarOfEmpires.Domain.Alliances {
             Leader = leader;
             Code = code;
             Name = name;
-            Members.Add(leader);
         }
     }
 }

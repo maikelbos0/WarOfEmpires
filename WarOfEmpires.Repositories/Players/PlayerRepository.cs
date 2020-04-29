@@ -2,6 +2,7 @@
 using System.Data.Entity;
 using System.Linq;
 using WarOfEmpires.Database;
+using WarOfEmpires.Domain.Alliances;
 using WarOfEmpires.Domain.Markets;
 using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Domain.Security;
@@ -51,6 +52,19 @@ namespace WarOfEmpires.Repositories.Players {
         public void RemoveCaravan(Caravan caravan) {
             caravan.Player.Caravans.Remove(caravan);
             _context.Remove(caravan);
+            _context.SaveChanges();
+        }
+
+        public Alliance GetAlliance(int id) {
+            return _context.Alliances.Single(a => a.IsActive && a.Id == id);
+        }
+
+        public IEnumerable<Alliance> GetAllAlliances() {
+            return _context.Alliances.Where(a => a.IsActive).ToList();
+        }
+
+        public void AddAlliance(Alliance alliance) {
+            _context.Alliances.Add(alliance);
             _context.SaveChanges();
         }
     }

@@ -7,7 +7,6 @@ using WarOfEmpires.CommandHandlers.Alliances;
 using WarOfEmpires.Commands.Alliances;
 using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Domain.Security;
-using WarOfEmpires.Repositories.Alliances;
 using WarOfEmpires.Repositories.Players;
 using WarOfEmpires.Test.Utilities;
 
@@ -15,13 +14,11 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
     [TestClass]
     public sealed class CreateAllianceCommandHandlerTests {
         private readonly FakeWarContext _context = new FakeWarContext();
-        private readonly AllianceRepository _repository;
-        private readonly PlayerRepository _playerRepository;
+        private readonly PlayerRepository _repository;
         private readonly Player _player;
 
         public CreateAllianceCommandHandlerTests() {
-            _repository = new AllianceRepository(_context);
-            _playerRepository = new PlayerRepository(_context);
+            _repository = new PlayerRepository(_context);
 
             var user = Substitute.For<User>();
             user.Email.Returns("test@test.com");
@@ -34,7 +31,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
 
         [TestMethod]
         public void CreateAllianceCommandHandler_Succeeds() {
-            var handler = new CreateAllianceCommandHandler(_repository, _playerRepository);
+            var handler = new CreateAllianceCommandHandler(_repository);
             var command = new CreateAllianceCommand("test@test.com", "CODE", "The Alliance");
 
             var result = handler.Execute(command);
@@ -46,12 +43,12 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
             alliance.Name.Should().Be("The Alliance");
             alliance.Leader.Should().Be(_player);
             alliance.Members.Should().Contain(_player);
-            _context.CallsToSaveChanges.Should().Be(1);
+            _context.CallsToSaveChanges.Should().Be(2);
         }
 
         [TestMethod]
         public void CreateAllianceCommandHandler_Throws_Exception_For_Nonexistent_Player() {
-            var handler = new CreateAllianceCommandHandler(_repository, _playerRepository);
+            var handler = new CreateAllianceCommandHandler(_repository);
             var command = new CreateAllianceCommand("wrong@test.com", "CODE", "The Alliance");
 
             Action action = () => handler.Execute(command);
@@ -63,7 +60,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
 
         [TestMethod]
         public void CreateAllianceCommandHandler_Fails_For_Too_Long_Code() {
-            var handler = new CreateAllianceCommandHandler(_repository, _playerRepository);
+            var handler = new CreateAllianceCommandHandler(_repository);
             var command = new CreateAllianceCommand("test@test.com", "CODE1", "The Alliance");
 
             var result = handler.Execute(command);
