@@ -10,7 +10,7 @@
     In an alliance, a group of players can share information, resources and work together towards a common goal.
 </p>
 
-@using (Html.BeginForm()) {
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "html-only" })) {
     <div class="row">
         <div class="col-3"></div>
 
