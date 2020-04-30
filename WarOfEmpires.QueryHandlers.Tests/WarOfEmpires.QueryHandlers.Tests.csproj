@@ -75,6 +75,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Alliances\GetAlliancesQueryHandlerTests.cs" />
     <Compile Include="Attacks\GetAttackDetailsQueryHandlerTests.cs" />
     <Compile Include="Attacks\GetDefenderQueryHandlerTests.cs" />
     <Compile Include="Attacks\GetExecutedAttacksQueryHandlerTests.cs" />

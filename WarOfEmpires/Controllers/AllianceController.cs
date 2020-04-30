@@ -1,6 +1,8 @@
 ﻿using System.Web.Mvc;
 using WarOfEmpires.Commands.Alliances;
+using WarOfEmpires.Models;
 using WarOfEmpires.Models.Alliances;
+using WarOfEmpires.Queries.Alliances;
 using WarOfEmpires.Services;
 
 namespace WarOfEmpires.Controllers {
@@ -9,6 +11,19 @@ namespace WarOfEmpires.Controllers {
     public class AllianceController : BaseController {
         public AllianceController(IAuthenticationService authenticationService, IMessageService messageService, IDataGridViewService dataGridViewService)
             : base(messageService, authenticationService, dataGridViewService) {
+        }
+
+        [HttpGet]
+        [Route]
+        [Route("Index")]
+        public ActionResult Index() {
+            return View(new AllianceSearchModel());
+        }
+
+        [Route("GetAlliances")]
+        [HttpPost]
+        public ActionResult GetAlliances(DataGridViewMetaData metaData, AllianceSearchModel search) {
+            return GridJson(new GetAlliancesQuery(search.Code, search.Name), metaData);
         }
 
         [HttpGet]
