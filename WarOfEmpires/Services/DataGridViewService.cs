@@ -12,7 +12,7 @@ namespace WarOfEmpires.Services {
         private IEnumerable<TEntityViewModel> Sort<TEntityViewModel>(IEnumerable<TEntityViewModel> query, DataGridViewMetaData metaData) where TEntityViewModel : EntityViewModel {
             Func<TEntityViewModel, object> orderBy = null;
 
-            if (metaData.sortColumn != null) {
+            if (!string.IsNullOrEmpty(metaData.sortColumn)) {
                 var property = typeof(TEntityViewModel).GetProperty(metaData.sortColumn);
 
                 if (property != null) {

@@ -3,34 +3,32 @@
 <div id="@Model.Id">
 </div>
 
-@section Scripts{
-    <script type="text/javascript">
-        $(function () {
-            var columns = [];
+<script type="text/javascript">
+    $(function () {
+        var columns = [];
 
-            @foreach (var column in Model.Columns) {
-                @:var column = {
-                @:  width: @column.Width,
-                @:  data: '@column.Data'
-                @:  header: '@column.Header'
-                @:};
+        @foreach (var column in Model.Columns) {
+            @:var column = {
+            @:  width: @column.Width,
+            @:  data: '@column.Data',
+            @:  header: '@column.Header'
+            @:};
 
-                if (!string.IsNullOrEmpty(column.SortData)) {
-                    @:column.sortData = '@(column.SortData ?? column.Data)';
-                }
-
-                if (!string.IsNullOrEmpty(Model.Renderer)) {
-                    @:column.renderer = '@Model.Renderer';
-                }
-
-                @:columns.push(column);
+            if (!string.IsNullOrEmpty(column.SortData)) {
+                @:column.sortData = '@column.SortData';
             }
 
-            $('#@Model.Id').datagridview({
-                columns
-            });
+            if (!string.IsNullOrEmpty(Model.Renderer)) {
+                @:column.renderer = '@Model.Renderer';
+            }
 
-            GridManager.initialize('#@Model.Id', '@Model.DataUrl', '@(Model.SortColumn ?? "null")', (@Model.SortDescending ? "true" : "false"), '#@Model.SearchFormId');
+            @:columns.push(column);
+        }
+
+        $('#@Model.Id').datagridview({
+            columns
         });
-    </script>
-}
+
+        GridManager.initialize('#@Model.Id', '@Model.DataUrl', '@Model.SortColumn', @(Model.SortDescending ? "true" : "false"), '#@Model.SearchFormId');
+    });
+</script>
