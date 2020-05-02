@@ -181,6 +181,7 @@
     <Content Include="Content\Icons\claw-hammer.svg" />
     <Content Include="Content\Icons\high-shot.svg" />
     <Content Include="Content\Icons\locked-chest.svg" />
+    <Content Include="Content\Icons\magnifying-glass.svg" />
     <Content Include="Content\Icons\old-wagon.svg" />
     <Content Include="Content\Icons\open-book.svg" />
     <Content Include="Content\Icons\ore.svg" />
@@ -337,6 +338,7 @@
     <Compile Include="App_Start\UnityMvcActivator.cs" />
     <Compile Include="Attributes\AdminAuthorizeAttribute.cs" />
     <Compile Include="Controllers\AdministrationController.cs" />
+    <Compile Include="Controllers\AllianceController.cs" />
     <Compile Include="Controllers\AttackController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\EmpireController.cs" />
@@ -432,6 +434,9 @@
     <Content Include="Views\Market\BuyTransactions.cshtml" />
     <Content Include="Views\Market\SellTransactions.cshtml" />
     <Content Include="Views\Shared\_Icon.cshtml" />
+    <Content Include="Views\Alliance\Create.cshtml" />
+    <Content Include="Views\Alliance\Home.cshtml" />
+    <Content Include="Views\Alliance\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

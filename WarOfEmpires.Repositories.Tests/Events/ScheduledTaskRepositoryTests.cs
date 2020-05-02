@@ -11,8 +11,7 @@ namespace WarOfEmpires.Repositories.Tests.Events {
     public sealed class ScheduledTaskRepositoryTests {
         private readonly FakeWarContext _context = new FakeWarContext();
 
-        [TestInitialize]
-        public void Initialize() {
+        public ScheduledTaskRepositoryTests() {
             var task1 = Substitute.For<ScheduledTask>();
 
             task1.Id.Returns(1);

@@ -1,5 +1,7 @@
 ﻿/* colours */
 :root {
+    --btn-info-color: #6184D8; /* blue */
+    --btn-info-hover-color: #72b4E0; /* blue */
     --btn-primary-color: #533A71; /* dark purple */
     --btn-primary-hover-color: #6184D8; /* blue */
     --content-bg-color: #F5E0B7; /* apricot */
@@ -160,6 +162,15 @@ body {
 .btn-primary:hover, .btn-primary:focus {
     background-color: var(--btn-primary-hover-color);
     border-color: var(--btn-primary-hover-color);
+}
+
+.btn-info {
+    background-color: var(--btn-info-color);
+    border-color: var(--btn-info-color);
+}
+
+.btn-info:hover, .btn-info:focus {
+    background-color: var(--btn-info-hover-color);
 }
 
 .site-table {

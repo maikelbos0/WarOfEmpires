@@ -96,6 +96,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Alliances\CreateAllianceCommandHandlerTests.cs" />
     <Compile Include="Attacks\AttackCommandHandlerTests.cs" />
     <Compile Include="Attacks\ReadAttackCommandHandlerTests.cs" />
     <Compile Include="Decorators\AuditDecoratorTests.cs" />

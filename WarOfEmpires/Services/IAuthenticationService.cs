@@ -4,6 +4,7 @@ namespace WarOfEmpires.Services {
         string Identity { get; }
         string GetUserName();
         bool IsAdmin();
+        bool IsInAlliance();
         void SignIn(string identity);
         void SignOut();
     }

@@ -10,8 +10,7 @@ namespace WarOfEmpires.Repositories.Tests.Security {
     public sealed class UserRepositoryTests {
         private readonly FakeWarContext _context = new FakeWarContext();
 
-        [TestInitialize]
-        public void Initialize() {
+        public UserRepositoryTests() {
             _context.Users.Add(new User("first@test.com", "test"));
             _context.Users.Add(new User("test@test.com", "test"));
             _context.Users.Add(new User("wrong@test.com", "test"));
