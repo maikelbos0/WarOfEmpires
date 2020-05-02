@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using WarOfEmpires.Models;
+using WarOfEmpires.Models.Grids;
 
 namespace WarOfEmpires.Services {
     public interface IDataGridViewService {

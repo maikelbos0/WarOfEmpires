@@ -1,10 +1,12 @@
 using WarOfEmpires.Models;
+using WarOfEmpires.Models.Grids;
 using WarOfEmpires.Utilities.Container;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace WarOfEmpires.Services {
+    // TODO refactor this into custom action result?
     [InterfaceInjectable]
     public sealed class DataGridViewService : IDataGridViewService {
         private IEnumerable<TEntityViewModel> Sort<TEntityViewModel>(IEnumerable<TEntityViewModel> query, DataGridViewMetaData metaData) where TEntityViewModel : EntityViewModel {

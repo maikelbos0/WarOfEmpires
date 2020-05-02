@@ -1,0 +1,36 @@
+﻿@model WarOfEmpires.Models.Grids.GridViewModel
+
+<div id="@Model.Id">
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+        $(function () {
+            var columns = [];
+
+            @foreach (var column in Model.Columns) {
+                @:var column = {
+                @:  width: @column.Width,
+                @:  data: '@column.Data'
+                @:  header: '@column.Header'
+                @:};
+
+                if (!string.IsNullOrEmpty(column.SortData)) {
+                    @:column.sortData = '@(column.SortData ?? column.Data)';
+                }
+
+                if (!string.IsNullOrEmpty(Model.Renderer)) {
+                    @:column.renderer = '@Model.Renderer';
+                }
+
+                @:columns.push(column);
+            }
+
+            $('#@Model.Id').datagridview({
+                columns
+            });
+
+            GridManager.initialize('#@Model.Id', '@Model.DataUrl', '@(Model.SortColumn ?? "null")', (@Model.SortDescending ? "true" : "false"), '#@Model.SearchFormId');
+        });
+    </script>
+}
