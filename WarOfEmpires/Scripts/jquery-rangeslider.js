@@ -142,10 +142,12 @@
 
     // Remove the entire slider; resets the base element to its former state
     Rangeslider.prototype.remove = function () {
-        this.element.removeClass('slider');
+        this.element.removeClass('rangeslider');
         this.thumb.remove();
         this.track.remove();
         this.input.remove();
+        this.element.removeData('rangeslider');
+        this.element.off('click', eventHandlers.click);
         this.element.children().show();
     }
 
