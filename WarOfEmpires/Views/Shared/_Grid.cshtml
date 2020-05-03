@@ -8,21 +8,17 @@
         var columns = [];
 
         @foreach (var column in Model.Columns) {
-            @:var column = {
+            @:columns.push({
             @:  width: @column.Width,
             @:  data: '@column.Data',
-            @:  header: '@column.Header'
-            @:};
-
+            @:  header: '@column.Header',
             if (!string.IsNullOrEmpty(column.SortData)) {
-                @:column.sortData = '@column.SortData';
+                @:sortData: '@column.SortData',
             }
-
             if (!string.IsNullOrEmpty(Model.Renderer)) {
-                @:column.renderer = '@Model.Renderer';
+                @:renderer: @Model.Renderer,
             }
-
-            @:columns.push(column);
+            @:});
         }
 
         $('#@Model.Id').datagridview({
