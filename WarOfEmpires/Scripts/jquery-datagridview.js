@@ -72,6 +72,10 @@
         isMultiselect: function (element) {
             return $(element).data('multiselect') !== undefined && $(element).data('multiselect') != false;
         },
+        // If multiselect is enabled, add checkboxes for selection
+        hasMultiselectCheckboxes: function (element) {
+            return $(element).data('multiselect-checkboxes') !== undefined && $(element).data('multiselect-checkboxes') != false;
+        },
         // Use below functions to add attributes to the different elements the datagridview creates
         // The content container is the scroll container for the header and body
         // It always gets at least the class 'datagridview-content-container' and in multiselect the class 'datagridview-container-multiselect'
@@ -121,6 +125,16 @@
         // The cells are the data cells inside the rows
         // They always get at least a column-specific class
         getCellAttributes: function () {
+            return {};
+        },
+        // The total row is the row that gets added if there is total data
+        // It always gets at least the class 'datagridview-total-row'
+        getTotalRowAttributes: function () {
+            return {};
+        },
+        // The total cells are the data cells inside the total row
+        // They always get at least a column-specific class
+        getTotalCellAttributes: function () {
             return {};
         },
         // The footer is the container for the footer (paging) elements
@@ -246,6 +260,7 @@
         }
         this.allowSelect = this.options.allowSelect(this.element);
         this.isMultiselect = this.allowSelect && this.options.isMultiselect(this.element);
+        this.hasMultiselectCheckboxes = this.isMultiselect && this.options.hasMultiselectCheckboxes(this.element);
         this.selectState = {
             selecting: false,
             dragging: false
@@ -271,6 +286,12 @@
 
         this.style = this.createElement('<style>', null, this.options.getStyleAttributes(), { type: 'text/css' });
         $('body').append(this.style);
+
+        // Create checkbox column header
+        if (this.hasMultiselectCheckboxes) {
+            this.header.append(this.createElement('<div>', 'datagridview-checkbox-header-cell', base.options.getHeaderCellAttributes())
+                .append(this.createElement('<input>', 'select-checkbox', { type: 'checkbox' })));
+        }
 
         // Create columns
         this.options.columns.forEach(function (column) {
@@ -334,6 +355,13 @@
             this.element.on('mouseenter', 'div.datagridview-row', this, eventHandlers.rowSelect);
             this.element.on('mouseup', 'div.datagridview-row', this, eventHandlers.rowSelectEnd);
         }
+
+        if (this.hasMultiselectCheckboxes) {
+            this.header.on('click', 'div.datagridview-checkbox-header-cell > input.select-checkbox', this, eventHandlers.headerCheckboxClick);
+            this.element.on('click', 'div.datagridview-checkbox-cell > input.select-checkbox', this, eventHandlers.rowCheckboxClick);
+            this.element.on('mousedown', 'div.datagridview-checkbox-cell', this, eventHandlers.checkboxCellMouseDown);
+            this.element.on('click', 'div.datagridview-checkbox-header-cell, div.datagridview-checkbox-cell', this, eventHandlers.checkboxCellClick);
+        }
     }
 
     // Set the column styles
@@ -356,12 +384,17 @@
     }
 
     // Fill the grid with the data
-    DataGridView.prototype.populate = function (metaData, data) {
+    DataGridView.prototype.populate = function (metaData, data, totals) {
         let newBody = this.createElement('<div>', 'datagridview-body', this.options.getBodyAttributes());
 
         for (let r = 0; r < data.length; r++) {
             let dataRow = data[r];
             let row = this.createElement('<div>', 'datagridview-row', this.options.getRowAttributes());
+
+            if (this.hasMultiselectCheckboxes) {
+                row.append(this.createElement('<div>', 'datagridview-checkbox-cell', this.options.getCellAttributes())
+                    .append(this.createElement('<input>', 'select-checkbox', { type: 'checkbox' })));
+            }
 
             for (let c = 0; c < this.options.columns.length; c++) {
                 let column = this.options.columns[c];
@@ -383,6 +416,34 @@
 
             newBody.append(row);
         };
+        
+        if (totals) {
+            let totalRow = this.createElement('<div>', 'datagridview-total-row', this.options.getTotalRowAttributes());
+
+            if (this.hasMultiselectCheckboxes) {
+                totalRow.append(this.createElement('<div>', 'datagridview-checkbox-cell', this.options.getTotalCellAttributes()));
+            }
+
+            for (let c = 0; c < this.options.columns.length; c++) {
+                let column = this.options.columns[c];
+                let cell = this.createElement('<div>', column.columnClass, this.options.getTotalCellAttributes());
+
+                if (column.class) {
+                    cell.addClass(column.class);
+                }
+
+                if (column.renderer) {
+                    column.renderer(cell, totals[column.data], totals);
+                }
+                else {
+                    cell.text(totals[column.data] || "").attr('title', totals[column.data] || "");
+                }
+
+                totalRow.append(cell);
+            }
+
+            newBody.append(totalRow);
+        }
 
         this.body.replaceWith(newBody);
         this.body = newBody;
@@ -422,6 +483,15 @@
         this.contentContainer.remove();
         this.footer.remove();
         this.style.remove();
+        this.element.removeData('datagridview');
+
+        this.element.off('mousedown', 'div.datagridview-row', eventHandlers.rowSelectStart);
+        this.element.off('mouseenter', 'div.datagridview-row', eventHandlers.rowSelect);
+        this.element.off('mouseup', 'div.datagridview-row', eventHandlers.rowSelectEnd);
+
+        this.element.off('click', 'div.datagridview-checkbox-cell > input.select-checkbox', eventHandlers.rowCheckboxClick);
+        this.element.off('mousedown', 'div.datagridview-checkbox-cell', eventHandlers.checkboxCellMouseDown);
+        this.element.off('click', 'div.datagridview-checkbox-header-cell, div.datagridview-checkbox-cell', eventHandlers.checkboxCellClick);
     }
 
     // Get meta currently in use; these can be edited and passed back via populate
@@ -539,6 +609,12 @@
         }
 
         if (selectionChanged) {
+            if (this.hasMultiselectCheckboxes) {
+                this.rows.filter('.datagridview-row-selected').find('input.select-checkbox:not(:checked)').prop('checked', true);
+                this.rows.filter(':not(.datagridview-row-selected)').find('input.select-checkbox:checked').prop('checked', false);
+                this.header.find('input.select-checkbox').prop('checked', this.rows.filter(':not(.datagridview-row-selected)').length === 0);
+            }
+
             this.element.trigger('datagridview.selectionChanged', [this.getSelectedData()]);
         }
     }
@@ -803,7 +879,6 @@
             e.data.headerResizeState.dragging = false;
         },
         rowSelectStart: function (e) {
-            e.data.test = 'rowSelectStart';
             e.data.selectState.selecting = true;
             e.data.selectState.dragElement = $(this);
             e.data.selectState.dragElement.addClass('datagridview-row-selecting');
@@ -855,6 +930,26 @@
             e.data.selectState.dragElement = null;
             e.data.selectState.selecting = false;
             e.data.selectState.dragging = false;
+        },
+        headerCheckboxClick: function (e) {
+            if ($(this).is(':checked')) {
+                e.data.setSelectedRows('*');
+            }
+            else {
+                e.data.setSelectedRows(false);
+            }
+
+            e.stopPropagation();
+        },
+        rowCheckboxClick: function (e) {
+            e.data.alterSelection($(this).closest('div.datagridview-row'), true, false);
+            e.stopPropagation();
+        },
+        checkboxCellMouseDown: function (e) {
+            e.stopPropagation();
+        },
+        checkboxCellClick: function(e) {
+            $(this).find('input.select-checkbox').click();
         }
     }
 
