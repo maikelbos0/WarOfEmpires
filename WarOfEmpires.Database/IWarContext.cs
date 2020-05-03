@@ -1,5 +1,6 @@
 using System;
 using System.Data.Entity;
+using Alliances = WarOfEmpires.Domain.Alliances;
 using Auditing = WarOfEmpires.Domain.Auditing;
 using Events = WarOfEmpires.Domain.Events;
 using Players = WarOfEmpires.Domain.Players;
@@ -10,6 +11,7 @@ namespace WarOfEmpires.Database {
         IDbSet<Security.User> Users { get; set; }
         IDbSet<Auditing.CommandExecution> CommandExecutions { get; set; }
         IDbSet<Auditing.QueryExecution> QueryExecutions { get; set; }
+        IDbSet<Alliances.Alliance> Alliances { get; set; }
         IDbSet<Players.Player> Players { get; set; }
         IDbSet<Events.ScheduledTask> ScheduledTasks { get; set; }
         void Remove<TEntity>(TEntity entity) where TEntity : class;

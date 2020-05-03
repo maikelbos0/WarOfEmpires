@@ -47,3 +47,7 @@
 .si.si-menu::after {
     background: url('Icons/open-book.svg');
 }
+
+.si.si-search::after {
+    background: url('Icons/magnifying-glass.svg');
+}

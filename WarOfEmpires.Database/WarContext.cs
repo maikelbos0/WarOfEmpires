@@ -4,6 +4,7 @@ using WarOfEmpires.Utilities.Container;
 using System;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
+using Alliances = WarOfEmpires.Domain.Alliances;
 using Attacks = WarOfEmpires.Domain.Attacks;
 using Auditing = WarOfEmpires.Domain.Auditing;
 using Events = WarOfEmpires.Domain.Events;
@@ -36,6 +37,7 @@ namespace WarOfEmpires.Database {
         public IDbSet<Security.User> Users { get; set; }
         public IDbSet<Auditing.CommandExecution> CommandExecutions { get; set; }
         public IDbSet<Auditing.QueryExecution> QueryExecutions { get; set; }
+        public IDbSet<Alliances.Alliance> Alliances { get; set; }
         public IDbSet<Players.Player> Players { get; set; }
         public IDbSet<Events.ScheduledTask> ScheduledTasks { get; set; }
 
@@ -49,6 +51,7 @@ namespace WarOfEmpires.Database {
             OnAuditingModelCreating(modelBuilder);
             OnEventsModelCreating(modelBuilder);
             OnPlayersModelCreating(modelBuilder);
+            OnAllianceModelCreating(modelBuilder);
             OnAttacksModelCreating(modelBuilder);
             OnSecurityModelCreating(modelBuilder);
         }
@@ -135,6 +138,12 @@ namespace WarOfEmpires.Database {
             merchandiseTypes.Property(m => m.Name).IsRequired();
 
             modelBuilder.Entity<Markets.Transaction>().ToTable("Transactions", "Markets");
+        }
+
+        private void OnAllianceModelCreating(DbModelBuilder modelBuilder) {
+            var alliances = modelBuilder.Entity<Alliances.Alliance>().ToTable("Alliances", "Alliances").HasKey(a => a.Id);
+            alliances.HasMany(a => a.Members).WithOptional(p => p.Alliance);
+            alliances.HasRequired(a => a.Leader);//.WithOptional();
         }
 
         private void OnAttacksModelCreating(DbModelBuilder modelBuilder) {

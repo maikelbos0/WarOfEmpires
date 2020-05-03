@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using WarOfEmpires.Domain.Alliances;
 using WarOfEmpires.Domain.Attacks;
 using WarOfEmpires.Domain.Common;
 using WarOfEmpires.Domain.Empires;
@@ -38,6 +39,7 @@ namespace WarOfEmpires.Domain.Players {
         public virtual bool HasUpkeepRunOut { get; protected set; } = false;
         public virtual int Rank { get; protected set; } = int.MaxValue;
         public virtual TitleType Title { get; protected set; } = TitleType.PeasantLeader;
+        public virtual Alliance Alliance { get; protected set; }
         public virtual ICollection<Workers> Workers { get; protected set; } = new List<Workers>();
         public virtual ICollection<Troops> Troops { get; protected set; } = new List<Troops>();
         public virtual ICollection<Building> Buildings { get; protected set; } = new List<Building>();

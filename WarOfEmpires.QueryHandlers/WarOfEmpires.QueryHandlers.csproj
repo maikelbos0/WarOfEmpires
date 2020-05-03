@@ -50,6 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Alliances\GetAlliancesQueryHandler.cs" />
     <Compile Include="Attacks\GetAttackDetailsQueryHandler.cs" />
     <Compile Include="Attacks\GetDefenderQueryHandler.cs" />
     <Compile Include="Attacks\GetExecutedAttacksQueryHandler.cs" />
@@ -80,6 +81,7 @@
     <Compile Include="Messages\GetSentMessagesQueryHandler.cs" />
     <Compile Include="Players\GetNotificationsQueryHandler.cs" />
     <Compile Include="Players\GetPlayerDetailsQueryHandler.cs" />
+    <Compile Include="Players\GetPlayerIsInAllianceQueryHandler.cs" />
     <Compile Include="Players\GetPlayersQueryHandler.cs" />
     <Compile Include="Messages\GetReceivedMessagesQueryHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

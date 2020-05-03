@@ -7,13 +7,19 @@
 <h2>Players</h2>
 
 <form id="playersSearch" class="search-form">
-    <div class="row">
-        <div class="col-2 col-form-label">
-            @Html.LabelFor(m => m.DisplayName)
+    <div class="d-flex flex-row">
+        <div class="row flex-grow-1">
+            <div class="col-2 col-form-label">
+                @Html.LabelFor(m => m.DisplayName)
+            </div>
+
+            <div class="col-4">
+                @Html.TextBoxFor(m => m.DisplayName, new { @class = "form-control" })
+            </div>
         </div>
 
-        <div class="col-4">
-            @Html.TextBoxFor(m => m.DisplayName, new { @class = "form-control" })
+        <div class="pl-2">
+            <button type="submit" class="btn btn-info form-control">@Html.Icon("search")</button>
         </div>
     </div>
 </form>
