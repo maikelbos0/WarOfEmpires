@@ -4,6 +4,8 @@
 
 <h2>Executed attacks</h2>
 
+@(Html.Grid<WarOfEmpires.Models.Attacks.ExecutedAttackViewModel>("attacksGrid", Url.Action("GetExecutedAttacks"), "attackRenderer"))
+
 <div id="attacksGrid">
 </div>
 
@@ -12,74 +14,5 @@
         function attackRenderer(cell, value, dataRow) {
             cell.append($('<a>', { title: value, href: '@Url.Action("Details")?id=' + dataRow.Id }).text(value));
         }
-
-        $(function () {
-            $('#attacksGrid').datagridview({
-                columns: [
-                    {
-                        data: 'DateString',
-                        sortData: 'Date',
-                        header: 'Date',
-                        width: 15,
-                        renderer: attackRenderer
-                    },
-                    {
-                        data: 'Type',
-                        header: 'Type',
-                        width: 10,
-                        renderer: attackRenderer
-                    },
-                    {
-                        data: 'TurnsString',
-                        sortData: 'Turns',
-                        header: 'Turns',
-                        width: 10,
-                        renderer: attackRenderer
-                    },
-                    {
-                        data: 'AttackerSoldierCasualtiesString',
-                        sortData: 'AttackerSoldierCasualties',
-                        header: 'Soldiers lost',
-                        width: 10,
-                        renderer: attackRenderer
-                    },
-                    {
-                        data: 'AttackerMercenaryCasualtiesString',
-                        sortData: 'AttackerMercenaryCasualties',
-                        header: 'Mercenaries lost',
-                        width: 10,
-                        renderer: attackRenderer
-                    },
-                    {
-                        data: 'Defender',
-                        header: 'Defender',
-                        width: 15,
-                        renderer: attackRenderer
-                    },
-                    {
-                        data: 'DefenderSoldierCasualtiesString',
-                        sortData: 'DefenderSoldierCasualties',
-                        header: 'Soldiers lost',
-                        width: 10,
-                        renderer: attackRenderer
-                    },
-                    {
-                        data: 'DefenderMercenaryCasualtiesString',
-                        sortData: 'DefenderMercenaryCasualties',
-                        header: 'Mercenaries lost',
-                        width: 10,
-                        renderer: attackRenderer
-                    },
-                    {
-                        data: 'Result',
-                        header: 'Result',
-                        width: 10,
-                        renderer: attackRenderer
-                    }
-                ]
-            });
-
-            GridManager.initialize('#attacksGrid', '@Url.Action("GetExecutedAttacks")', 'Date', true);
-        });
     </script>
 }
