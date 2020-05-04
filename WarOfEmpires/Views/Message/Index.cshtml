@@ -4,8 +4,7 @@
 
 <h2>Received messages</h2>
 
-<div id="messagesGrid">
-</div>
+@(Html.Grid<WarOfEmpires.Models.Messages.ReceivedMessageViewModel>("messagesGrid", Url.Action("GetReceivedMessages"), "messageRenderer"))
 
 @section Scripts{
     <script type="text/javascript">
@@ -16,33 +15,5 @@
                 cell.addClass("font-weight-bold");
             }
         }
-
-        $(function () {
-            $('#messagesGrid').datagridview({
-                columns: [
-                    {
-                        data: 'DateString',
-                        sortData: 'Date',
-                        header: 'Received',
-                        width: 15,
-                        renderer: messageRenderer
-                    },
-                    {
-                        data: 'Sender',
-                        header: 'Sender',
-                        width: 20,
-                        renderer: messageRenderer
-                    },
-                    {
-                        data: 'Subject',
-                        header: 'Subject',
-                        width: 65,
-                        renderer: messageRenderer
-                    }
-                ]
-            });
-
-            GridManager.initialize('#messagesGrid', '@Url.Action("GetReceivedMessages")', 'Date', true);
-        });
     </script>
 }

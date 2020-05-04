@@ -25,6 +25,11 @@
             columns
         });
 
-        GridManager.initialize('#@Model.Id', '@Model.DataUrl', '@Model.SortColumn', @(Model.SortDescending ? "true" : "false"), '#@Model.SearchFormId');
+        @if (string.IsNullOrEmpty(Model.SearchFormId)) {
+            @:GridManager.initialize('#@Model.Id', '@Model.DataUrl', '@Model.SortColumn', @(Model.SortDescending ? "true" : "false"));
+        }
+        else {
+            @:GridManager.initialize('#@Model.Id', '@Model.DataUrl', '@Model.SortColumn', @(Model.SortDescending ? "true" : "false"), '#@Model.SearchFormId');
+        }          
     });
 </script>
