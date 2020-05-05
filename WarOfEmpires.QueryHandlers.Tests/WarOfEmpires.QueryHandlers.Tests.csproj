@@ -103,6 +103,7 @@
     <Compile Include="Messages\GetReplyToMessageQueryHandlerTests.cs" />
     <Compile Include="Messages\GetSentMessageQueryHandlerTests.cs" />
     <Compile Include="Messages\GetSentMessagesQueryHandlerTests.cs" />
+    <Compile Include="Players\GetCurrentPlayerQueryHandlerTests.cs" />
     <Compile Include="Players\GetNotificationsQueryHandlerTests.cs" />
     <Compile Include="Players\GetPlayerDetailsQueryHandlerTests.cs" />
     <Compile Include="Players\GetPlayerIsInAllianceQueryHandlerTests.cs" />
