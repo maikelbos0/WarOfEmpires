@@ -24,12 +24,4 @@
     </div>
 </form>
 
-@(Html.Grid<WarOfEmpires.Models.Players.PlayerViewModel>("playersGrid", Url.Action("GetPlayers"), "playerRenderer", "playersSearch"))
-
-@section Scripts{
-    <script type="text/javascript">
-        function playerRenderer(cell, value, dataRow) {
-            cell.append($('<a>', { title: value, href: '@Url.Action("Details")?id=' + dataRow.Id }).text(value));
-        }
-    </script>
-}
+@(Html.Grid<WarOfEmpires.Models.Players.PlayerViewModel>("playersGrid", Url.Action("GetPlayers"), @Url.Action("Details"), "playersSearch"))

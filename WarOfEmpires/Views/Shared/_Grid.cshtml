@@ -5,31 +5,20 @@
 
 <script type="text/javascript">
     $(function () {
-        var columns = [];
-
+        var grid = new Grid('@Model.Id', '@Model.DataUrl', '@Model.DetailUrl');
+        @if (!string.IsNullOrEmpty(Model.DetailUrl)) {
+        @:grid.detailUrl = '@Model.DetailUrl';
+        }
+        @if (!string.IsNullOrEmpty(Model.SearchFormId)) {
+        @:grid.searchFormId = '@Model.SearchFormId';
+        }
+        @if (!string.IsNullOrEmpty(Model.SortColumn)) {
+        @:grid.sortColumn = '@Model.SortColumn';
+        @:grid.sortDescending = @Model.SortDescending.ToString().ToLower();
+        }
         @foreach (var column in Model.Columns) {
-            @:columns.push({
-            @:  width: @column.Width,
-            @:  data: '@column.Data',
-            @:  header: '@column.Header',
-            if (!string.IsNullOrEmpty(column.SortData)) {
-                @:sortData: '@column.SortData',
-            }
-            if (!string.IsNullOrEmpty(Model.Renderer)) {
-                @:renderer: @Model.Renderer,
-            }
-            @:});
+        @:grid.addColumn(@column.Width, '@column.Data', '@column.Header', '@column.SortData');
         }
-
-        $('#@Model.Id').datagridview({
-            columns
-        });
-
-        @if (string.IsNullOrEmpty(Model.SearchFormId)) {
-            @:GridManager.initialize('#@Model.Id', '@Model.DataUrl', '@Model.SortColumn', @(Model.SortDescending ? "true" : "false"));
-        }
-        else {
-            @:GridManager.initialize('#@Model.Id', '@Model.DataUrl', '@Model.SortColumn', @(Model.SortDescending ? "true" : "false"), '#@Model.SearchFormId');
-        }          
+        grid.initialize();
     });
 </script>

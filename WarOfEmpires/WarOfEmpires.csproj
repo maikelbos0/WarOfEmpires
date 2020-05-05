@@ -207,7 +207,7 @@
     <Content Include="Global.asax" />
     <Content Include="Scripts\Application\building-totals-manager.js" />
     <Content Include="Scripts\Application\command.js" />
-    <Content Include="Scripts\Application\grid-manager.js" />
+    <Content Include="Scripts\Application\grid.js" />
     <Content Include="Scripts\Application\housing-totals-manager.js" />
     <Content Include="Scripts\Application\jquery-datagridview-defaults.js" />
     <Content Include="Scripts\Application\html-form.js" />

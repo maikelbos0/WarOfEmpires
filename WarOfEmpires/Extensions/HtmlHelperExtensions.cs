@@ -38,7 +38,7 @@ namespace WarOfEmpires.Extensions {
             return html.Partial("_Icon", expression);
         }
 
-        public static MvcHtmlString Grid<TGridItem>(this HtmlHelper html, string id, string dataUrl, string renderer, string searchFormId = null) where TGridItem : EntityViewModel {
+        public static MvcHtmlString Grid<TGridItem>(this HtmlHelper html, string id, string dataUrl, string detailUrl = null, string searchFormId = null) where TGridItem : EntityViewModel {
             var gridSorting = typeof(TGridItem).GetCustomAttribute<GridSortingAttribute>();
             var gridColumns = typeof(TGridItem).GetProperties()
                 .Select(p => new {
@@ -51,14 +51,14 @@ namespace WarOfEmpires.Extensions {
                     Width = c.Attribute.Width,
                     Header = c.Attribute.Header,
                     Data = c.Property.Name,
-                    SortData = c.Attribute.SortData
+                    SortData = c.Attribute.SortData ?? c.Property.Name
                 })
                 .ToList();
 
             return html.Partial("_Grid", new GridViewModel() {
                 Id = id,
                 DataUrl = dataUrl,
-                Renderer = renderer,
+                DetailUrl = detailUrl,
                 SearchFormId = searchFormId,
                 Columns = gridColumns,
                 SortColumn = gridSorting?.Column,

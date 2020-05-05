@@ -19,7 +19,7 @@ namespace WarOfEmpires.App_Start {
                 "~/Scripts/application/ajax-form.js",
                 "~/Scripts/application/building-totals-manager.js",
                 "~/Scripts/application/command.js",
-                "~/Scripts/application/grid-manager.js",
+                "~/Scripts/application/grid.js",
                 "~/Scripts/application/housing-totals-manager.js",
                 "~/Scripts/application/html-form.js",
                 "~/Scripts/application/notification-manager.js",

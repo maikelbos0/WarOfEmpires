@@ -4,16 +4,4 @@
 
 <h2>Sent messages</h2>
 
-@(Html.Grid<WarOfEmpires.Models.Messages.ReceivedMessageViewModel>("messagesGrid", Url.Action("GetSentMessages"), "messageRenderer"))
-
-@section Scripts{
-    <script type="text/javascript">
-        function messageRenderer(cell, value, dataRow) {
-            cell.append($('<a>', { title: value, href: '@Url.Action("SentDetails")?id=' + dataRow.Id }).text(value));
-
-            if (!dataRow.IsRead) {
-                cell.addClass("font-weight-bold");
-            }
-        }
-    </script>
-}
+@(Html.Grid<WarOfEmpires.Models.Messages.ReceivedMessageViewModel>("messagesGrid", Url.Action("GetSentMessages"), Url.Action("SentDetails")))
