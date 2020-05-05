@@ -1,4 +1,5 @@
 using WarOfEmpires.Models;
+using WarOfEmpires.Models.Grids;
 using WarOfEmpires.Services;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

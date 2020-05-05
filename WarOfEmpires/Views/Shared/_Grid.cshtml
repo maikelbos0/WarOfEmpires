@@ -1,0 +1,24 @@
+﻿@model WarOfEmpires.Models.Grids.GridViewModel
+
+<div id="@Model.Id">
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        var grid = new Grid('@Model.Id', '@Model.DataUrl', '@Model.DetailUrl');
+        @if (!string.IsNullOrEmpty(Model.DetailUrl)) {
+        @:grid.detailUrl = '@Model.DetailUrl';
+        }
+        @if (!string.IsNullOrEmpty(Model.SearchFormId)) {
+        @:grid.searchFormId = '@Model.SearchFormId';
+        }
+        @if (!string.IsNullOrEmpty(Model.SortColumn)) {
+        @:grid.sortColumn = '@Model.SortColumn';
+        @:grid.sortDescending = @Model.SortDescending.ToString().ToLower();
+        }
+        @foreach (var column in Model.Columns) {
+        @:grid.addColumn(@column.Width, '@column.Data', '@column.Header', '@column.SortData');
+        }
+        grid.initialize();
+    });
+</script>

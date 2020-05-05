@@ -1,4 +1,4 @@
-namespace WarOfEmpires.Models {
+namespace WarOfEmpires.Models.Grids {
     public class DataGridViewMetaData {
 #pragma warning disable IDE1006 // Naming Styles
         public string sortColumn { get; set; }

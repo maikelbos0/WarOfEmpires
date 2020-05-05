@@ -50,7 +50,7 @@
     <Compile Include="Attacks\ExecuteAttackModel.cs" />
     <Compile Include="Attacks\ExecutedAttackViewModel.cs" />
     <Compile Include="Attacks\ReceivedAttackViewModel.cs" />
-    <Compile Include="DataGridViewMetaData.cs" />
+    <Compile Include="Grids\DataGridViewMetaData.cs" />
     <Compile Include="Empires\BankedResourcesViewModel.cs" />
     <Compile Include="Empires\BuildingModel.cs" />
     <Compile Include="Empires\BuildingTotalsViewModel.cs" />
@@ -64,6 +64,10 @@
     <Compile Include="Empires\TroopModel.cs" />
     <Compile Include="Empires\TroopsModel.cs" />
     <Compile Include="Empires\WorkerModel.cs" />
+    <Compile Include="Grids\GridColumnAttribute.cs" />
+    <Compile Include="Grids\GridColumnViewModel.cs" />
+    <Compile Include="Grids\GridSortingAttribute.cs" />
+    <Compile Include="Grids\GridViewModel.cs" />
     <Compile Include="Markets\MarketModel.cs" />
     <Compile Include="Markets\CaravanViewModel.cs" />
     <Compile Include="Markets\MerchandiseModel.cs" />

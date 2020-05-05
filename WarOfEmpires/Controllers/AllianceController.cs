@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 using WarOfEmpires.Commands.Alliances;
-using WarOfEmpires.Models;
+using WarOfEmpires.Models.Grids;
 using WarOfEmpires.Models.Alliances;
 using WarOfEmpires.Queries.Alliances;
 using WarOfEmpires.Services;

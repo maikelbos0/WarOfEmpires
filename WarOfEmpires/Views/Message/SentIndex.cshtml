@@ -4,45 +4,4 @@
 
 <h2>Sent messages</h2>
 
-<div id="messagesGrid">
-</div>
-
-@section Scripts{
-    <script type="text/javascript">
-        function messageRenderer(cell, value, dataRow) {
-            cell.append($('<a>', { title: value, href: '@Url.Action("SentDetails")?id=' + dataRow.Id }).text(value));
-
-            if (!dataRow.IsRead) {
-                cell.addClass("font-weight-bold");
-            }
-        }
-
-        $(function () {
-            $('#messagesGrid').datagridview({
-                columns: [
-                    {
-                        data: 'DateString',
-                        sortData: 'Date',
-                        header: 'Sent',
-                        width: 15,
-                        renderer: messageRenderer
-                    },
-                    {
-                        data: 'Recipient',
-                        header: 'Recipient',
-                        width: 20,
-                        renderer: messageRenderer
-                    },
-                    {
-                        data: 'Subject',
-                        header: 'Subject',
-                        width: 65,
-                        renderer: messageRenderer
-                    }
-                ]
-            });
-
-            GridManager.initialize('#messagesGrid', '@Url.Action("GetSentMessages")', 'Date', true);
-        });
-    </script>
-}
+@(Html.Grid<WarOfEmpires.Models.Messages.ReceivedMessageViewModel>("messagesGrid", Url.Action("GetSentMessages"), Url.Action("SentDetails")))

@@ -32,47 +32,4 @@
     </div>
 </form>
 
-<div id="alliancesGrid">
-</div>
-
-@section Scripts{
-    <script type="text/javascript">
-        function allianceRenderer(cell, value, dataRow) {
-            cell.append($('<a>', { title: value, href: '@Url.Action("Details")?id=' + dataRow.Id }).text(value));
-        }
-
-        $(function () {
-            $('#alliancesGrid').datagridview({
-                columns: [
-                    {
-                        data: 'Code',
-                        header: 'Code',
-                        width: 15,
-                        renderer: allianceRenderer
-                    },
-                    {
-                        data: 'Name',
-                        header: 'Name',
-                        width: 40,
-                        renderer: allianceRenderer
-                    },
-                    {
-                        data: 'MembersString',
-                        sortData: 'Members',
-                        header: 'Members',
-                        width: 15,
-                        renderer: allianceRenderer
-                    },
-                    {
-                        data: 'Leader',
-                        header: 'Leader',
-                        width: 30,
-                        renderer: allianceRenderer
-                    }
-                ]
-            });
-
-            GridManager.initialize('#alliancesGrid', '@Url.Action("GetAlliances")', null, null, '#alliancesSearch');
-        });
-    </script>
-}
+@(Html.Grid<WarOfEmpires.Models.Alliances.AllianceViewModel>("alliancesGrid", Url.Action("GetAlliances"), Url.Action("Details"), "alliancesSearch"))

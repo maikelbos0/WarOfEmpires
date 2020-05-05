@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 using WarOfEmpires.Commands.Attacks;
-using WarOfEmpires.Models;
+using WarOfEmpires.Models.Grids;
 using WarOfEmpires.Models.Attacks;
 using WarOfEmpires.Queries.Attacks;
 using WarOfEmpires.Services;

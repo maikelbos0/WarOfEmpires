@@ -207,7 +207,7 @@
     <Content Include="Global.asax" />
     <Content Include="Scripts\Application\building-totals-manager.js" />
     <Content Include="Scripts\Application\command.js" />
-    <Content Include="Scripts\Application\grid-manager.js" />
+    <Content Include="Scripts\Application\grid.js" />
     <Content Include="Scripts\Application\housing-totals-manager.js" />
     <Content Include="Scripts\Application\jquery-datagridview-defaults.js" />
     <Content Include="Scripts\Application\html-form.js" />
@@ -424,6 +424,7 @@
     <Content Include="Views\Market\BuyTransactions.cshtml" />
     <Content Include="Views\Market\SellTransactions.cshtml" />
     <Content Include="Views\Shared\_Icon.cshtml" />
+    <Content Include="Views\Shared\_Grid.cshtml" />
     <Content Include="Views\Alliance\Create.cshtml" />
     <Content Include="Views\Alliance\Home.cshtml" />
     <Content Include="Views\Alliance\Index.cshtml" />

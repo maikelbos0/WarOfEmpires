@@ -24,48 +24,4 @@
     </div>
 </form>
 
-<div id="playersGrid" class="site-spaced-small">
-</div>
-
-@section Scripts{
-    <script type="text/javascript">
-        function playerRenderer(cell, value, dataRow) {
-            cell.append($('<a>', { title: value, href: '@Url.Action("Details")?id=' + dataRow.Id }).text(value));
-        }
-
-        $(function () {
-            $('#playersGrid').datagridview({
-                columns: [
-                    {
-                        data: 'RankString',
-                        sortData: 'Rank',
-                        header: 'Rank',
-                        width: 15,
-                        renderer: playerRenderer
-                    },
-                    {
-                        data: 'DisplayName',
-                        header: 'Display name',
-                        width: 40,
-                        renderer: playerRenderer
-                    },
-                    {
-                        data: 'Title',
-                        header: 'Title',
-                        width: 30,
-                        renderer: playerRenderer
-                    },
-                    {
-                        data: 'PopulationString',
-                        sortData: 'Population',
-                        header: 'Population',
-                        width: 15,
-                        renderer: playerRenderer
-                    }
-                ]
-            });
-
-            GridManager.initialize('#playersGrid', '@Url.Action("GetPlayers")', 'Rank', false, '#playersSearch');
-        });
-    </script>
-}
+@(Html.Grid<WarOfEmpires.Models.Players.PlayerViewModel>("playersGrid", Url.Action("GetPlayers"), @Url.Action("Details"), "playersSearch"))

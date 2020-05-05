@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
 using WarOfEmpires.Commands.Markets;
-using WarOfEmpires.Models;
+using WarOfEmpires.Models.Grids;
 using WarOfEmpires.Models.Markets;
 using WarOfEmpires.Queries.Markets;
 using WarOfEmpires.Services;

@@ -1,12 +1,13 @@
-using WarOfEmpires.Commands;
-using WarOfEmpires.Extensions;
-using WarOfEmpires.Services;
 using System;
+using System.Collections.Generic;
 using System.Web.Mvc;
 using WarOfEmpires.CommandHandlers;
-using WarOfEmpires.Queries;
-using System.Collections.Generic;
+using WarOfEmpires.Commands;
+using WarOfEmpires.Extensions;
 using WarOfEmpires.Models;
+using WarOfEmpires.Models.Grids;
+using WarOfEmpires.Queries;
+using WarOfEmpires.Services;
 
 namespace WarOfEmpires.Controllers {
     public abstract class BaseController : Controller {

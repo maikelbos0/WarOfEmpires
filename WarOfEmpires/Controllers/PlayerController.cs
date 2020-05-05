@@ -1,5 +1,5 @@
 using System.Web.Mvc;
-using WarOfEmpires.Models;
+using WarOfEmpires.Models.Grids;
 using WarOfEmpires.Models.Players;
 using WarOfEmpires.Queries.Players;
 using WarOfEmpires.Services;
