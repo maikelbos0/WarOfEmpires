@@ -1,8 +1,11 @@
-﻿using WarOfEmpires.Database;
+﻿using System.Data.Entity;
+using System.Linq;
+using WarOfEmpires.Database;
 using WarOfEmpires.Models.Players;
 using WarOfEmpires.Queries.Players;
 using WarOfEmpires.QueryHandlers.Decorators;
 using WarOfEmpires.Utilities.Container;
+using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Players {
     [InterfaceInjectable]
@@ -15,7 +18,17 @@ namespace WarOfEmpires.QueryHandlers.Players {
         }
 
         public CurrentPlayerViewModel Execute(GetCurrentPlayerQuery query) {
-            throw new System.NotImplementedException();
+            var player = _context.Players
+                .Include(p => p.User)
+                .Include(p => p.Alliance)
+                .Single(p => EmailComparisonService.Equals(p.User.Email, query.Email));
+
+            return new CurrentPlayerViewModel() {
+                IsAuthenticated = true,
+                IsAdmin = player.User.IsAdmin,
+                IsInAlliance = player.Alliance != null,
+                DisplayName = player.DisplayName
+            };                
         }
     }
 }
