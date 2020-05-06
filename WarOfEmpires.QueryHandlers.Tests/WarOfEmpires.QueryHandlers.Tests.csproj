@@ -106,13 +106,11 @@
     <Compile Include="Players\GetCurrentPlayerQueryHandlerTests.cs" />
     <Compile Include="Players\GetNotificationsQueryHandlerTests.cs" />
     <Compile Include="Players\GetPlayerDetailsQueryHandlerTests.cs" />
-    <Compile Include="Players\GetPlayerIsInAllianceQueryHandlerTests.cs" />
     <Compile Include="Players\GetPlayersQueryHandlerTests.cs" />
     <Compile Include="Messages\GetReceivedMessagesQueryHandlerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security\GetUserIsAdminQueryHandlerTests.cs" />
     <Compile Include="Security\GetUserNewEmailQueryHandlerTests.cs" />
-    <Compile Include="Security\GetUserNameQueryHandlerTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WarOfEmpires.Database\WarOfEmpires.Database.csproj">
