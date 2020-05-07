@@ -345,6 +345,7 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\EmpireController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LayoutController.cs" />
     <Compile Include="Controllers\MarketController.cs" />
     <Compile Include="Controllers\MessageController.cs" />
     <Compile Include="Controllers\PlayerController.cs" />
@@ -438,6 +439,7 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
+    <Content Include="Views\Layout\_Menu.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

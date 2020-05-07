@@ -1,0 +1,132 @@
+﻿@model WarOfEmpires.Models.Players.CurrentPlayerViewModel
+
+<nav class="navbar navbar-expand-lg navbar-toggleable-lg site-navbar">
+    <div class="container">
+        @Html.ActionLink("War of Empires", "Index", "Home", null, new { @class = "navbar-brand" })
+        
+        <button class="navbar-toggler btn shadow-none" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon site-toggler-icon"></span>
+        </button>
+
+        <div class="navbar-collapse collapse d-lg-inline-flex flex-lg-row-reverse">
+            <ul class="navbar-nav ml-auto">
+                @if (Model.IsAuthenticated) {
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbar-player-dropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Players
+                        </a>
+                        <div class="dropdown-menu site-dropdown-menu" aria-labelledby="navbar-player-dropdown">
+                            @Html.ActionLink("Players", "Index", "Player", null, new { @class = "nav-link" })
+                            @Html.ActionLink("Alliances", "Index", "Alliance", null, new { @class = "nav-link" })
+                        </div>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbar-attack-dropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Attacks
+                        </a>
+                        <div class="dropdown-menu site-dropdown-menu" aria-labelledby="navbar-attack-dropdown">
+                            @Html.ActionLink("Received", "Index", "Attack", null, new { id = "attack-link", @class = "dropdown-item site-dropdown-item" })
+                            @Html.ActionLink("Executed", "ExecutedIndex", "Attack", null, new { @class = "dropdown-item site-dropdown-item" })
+                        </div>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbar-message-dropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Messages
+                        </a>
+                        <div class="dropdown-menu site-dropdown-menu" aria-labelledby="navbar-message-dropdown">
+                            @Html.ActionLink("Received", "Index", "Message", null, new { id = "message-link", @class = "dropdown-item site-dropdown-item" })
+                            @Html.ActionLink("Sent", "SentIndex", "Message", null, new { @class = "dropdown-item site-dropdown-item" })
+                        </div>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbar-market-dropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Market
+                        </a>
+                        <div class="dropdown-menu site-dropdown-menu" aria-labelledby="navbar-markets-dropdown">
+                            @Html.ActionLink("Sell resources", "Sell", "Market", null, new { @class = "dropdown-item site-dropdown-item" })
+                            @Html.ActionLink("Transactions", "SellTransactions", "Market", null, new { id = "market-link", @class = "dropdown-item site-dropdown-item" })
+                            <div class="dropdown-divider site-dropdown-divider"></div>
+                            @Html.ActionLink("Buy resources", "Buy", "Market", null, new { @class = "dropdown-item site-dropdown-item" })
+                            @Html.ActionLink("Transactions", "BuyTransactions", "Market", null, new { @class = "dropdown-item site-dropdown-item" })
+                        </div>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbar-alliance-dropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Alliance
+                        </a>
+                        <div class="dropdown-menu site-dropdown-menu" aria-labelledby="navbar-alliance-dropdown">
+                            @if (Model.IsInAlliance) {
+                                @Html.ActionLink("Home", "Home", "Alliance", null, new { @class = "dropdown-item site-dropdown-item" })
+                            }
+                            else {
+                                @Html.ActionLink("Create", "Create", "Alliance", null, new { @class = "dropdown-item site-dropdown-item" })
+                            }
+                        </div>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbar-empire-dropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Empire
+                        </a>
+                        <div class="dropdown-menu site-dropdown-menu" aria-labelledby="navbar-empire-dropdown">
+                            @Html.ActionLink("Workers", "Workers", "Empire", null, new { id = "worker-link", @class = "dropdown-item site-dropdown-item" })
+                            @Html.ActionLink("Tax rate", "Tax", "Empire", null, new { @class = "dropdown-item site-dropdown-item" })
+                            @Html.ActionLink("Troops", "Troops", "Empire", null, new { id = "troops-link", @class = "dropdown-item site-dropdown-item" })
+                            @Html.ActionLink("Siege", "Siege", "Empire", null, new { @class = "dropdown-item site-dropdown-item" })
+                            @Html.ActionLink("Banking", "Banking", "Empire", null, new { @class = "dropdown-item site-dropdown-item" })
+                            <div class="dropdown-divider site-dropdown-divider"></div>
+                            @Html.ActionLink("Empire buildings", "EmpireBuildings", "Empire", null, new { id = "empire-buildings-link", @class = "dropdown-item site-dropdown-item" })
+                            @Html.ActionLink("Resource buildings", "ResourceBuildings", "Empire", null, new { @class = "dropdown-item site-dropdown-item" })
+                            @Html.ActionLink("Troop buildings", "TroopBuildings", "Empire", null, new { @class = "dropdown-item site-dropdown-item" })
+                            @Html.ActionLink("Bank buildings", "BankBuildings", "Empire", null, new { @class = "dropdown-item site-dropdown-item" })
+                            @Html.ActionLink("Specialty buildings", "SpecialtyBuildings", "Empire", null, new { @class = "dropdown-item site-dropdown-item" })
+                        </div>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbar-login-dropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            @Model.DisplayName
+                        </a>
+                        <div class="dropdown-menu site-dropdown-menu" aria-labelledby="navbar-login-dropdown">
+                            @Html.ActionLink("Change email address", "ChangeEmail", "Home", null, new { @class = "dropdown-item site-dropdown-item" })
+                            @Html.ActionLink("Change password", "ChangePassword", "Home", null, new { @class = "dropdown-item site-dropdown-item" })
+                            <div class="dropdown-divider site-dropdown-divider"></div>
+                            @if (Model.IsAdmin) {
+                                @Html.ActionLink("Administration tools", "Index", "Administration", null, new { @class = "dropdown-item site-dropdown-item" })
+                                <div class="dropdown-divider site-dropdown-divider"></div>
+                            }
+                            @Html.ActionLink("Deactivate account", "Deactivate", "Home", null, new { @class = "dropdown-item site-dropdown-item" })
+                            <div class="dropdown-divider site-dropdown-divider"></div>
+                            @using (Html.BeginForm("LogOut", "Home", FormMethod.Post, new { @class = "html-only d-inline" })) {
+                                <button type="submit" class="btn btn-link dropdown-item site-dropdown-item">Log out</button>
+                            }
+                        </div>
+                    </li>
+                }
+                else {
+                    @Html.ActionLink("Log in", "LogIn", "Home", null, new { @class = "nav-link" })
+                    @Html.ActionLink("Register", "Register", "Home", null, new { @class = "nav-link" })
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbar-authentication-dropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Options
+                        </a>
+                        <div class="dropdown-menu site-dropdown-menu" aria-labelledby="navbar-authentication-dropdown">
+                            @Html.ActionLink("Resend activation", "SendActivation", "Home", null, new { @class = "dropdown-item site-dropdown-item" })
+                            @Html.ActionLink("Forgot password", "ForgotPassword", "Home", null, new { @class = "dropdown-item site-dropdown-item" })
+                        </div>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+</nav>
+
+@if (Model.IsAuthenticated) {
+    <div id="empire-resources" class="partial-content">
+    </div>
+}

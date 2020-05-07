@@ -80,15 +80,14 @@
     <Compile Include="Messages\GetReplyToMessageQueryHandler.cs" />
     <Compile Include="Messages\GetSentMessageQueryHandler.cs" />
     <Compile Include="Messages\GetSentMessagesQueryHandler.cs" />
+    <Compile Include="Players\GetCurrentPlayerQueryHandler.cs" />
     <Compile Include="Players\GetNotificationsQueryHandler.cs" />
     <Compile Include="Players\GetPlayerDetailsQueryHandler.cs" />
-    <Compile Include="Players\GetPlayerIsInAllianceQueryHandler.cs" />
     <Compile Include="Players\GetPlayersQueryHandler.cs" />
     <Compile Include="Messages\GetReceivedMessagesQueryHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security\GetUserIsAdminQueryHandler.cs" />
     <Compile Include="Security\GetUserNewEmailQueryHandler.cs" />
-    <Compile Include="Security\GetUserNameQueryHandler.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
