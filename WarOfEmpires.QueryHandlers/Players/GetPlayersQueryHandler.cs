@@ -38,7 +38,8 @@ namespace WarOfEmpires.QueryHandlers.Players {
                     Population = p.Peasants
                         + (p.Workers.Sum(w => (int?)w.Count) ?? 0)
                         + (p.Troops.Sum(t => (int?)t.Soldiers) ?? 0)
-                        + (p.Troops.Sum(t => (int?)t.Mercenaries) ?? 0)
+                        + (p.Troops.Sum(t => (int?)t.Mercenaries) ?? 0),
+                    Alliance = p.Alliance.Code
                 })
                 .ToList()
                 .Select(p => new PlayerViewModel() {
@@ -46,7 +47,8 @@ namespace WarOfEmpires.QueryHandlers.Players {
                     Rank = p.Rank,
                     Title = _formatter.ToString(p.Title),
                     DisplayName = p.DisplayName,
-                    Population = p.Population
+                    Population = p.Population,
+                    Alliance = p.Alliance
                 });
         }
     }

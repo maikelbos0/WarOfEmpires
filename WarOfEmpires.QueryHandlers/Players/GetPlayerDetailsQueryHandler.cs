@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Data.Entity;
+using System.Linq;
 using WarOfEmpires.Database;
 using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Models.Players;
@@ -22,6 +23,9 @@ namespace WarOfEmpires.QueryHandlers.Players {
         public PlayerDetailsViewModel Execute(GetPlayerDetailsQuery query) {
             var id = int.Parse(query.Id);
             var player = _context.Players
+                .Include(p => p.Alliance)
+                .Include(p => p.Workers)
+                .Include(p => p.Troops)
                 .Single(p => p.User.Status == UserStatus.Active && p.Id == id);
 
             return new PlayerDetailsViewModel() {
@@ -29,7 +33,9 @@ namespace WarOfEmpires.QueryHandlers.Players {
                 Rank = player.Rank,
                 Title = _formatter.ToString(player.Title),
                 DisplayName = player.DisplayName,
-                Population = player.Peasants + player.Workers.Sum(w => w.Count) + player.Troops.Sum(t => t.GetTotals())
+                Population = player.Peasants + player.Workers.Sum(w => w.Count) + player.Troops.Sum(t => t.GetTotals()),
+                AllianceCode = player.Alliance?.Code,
+                AllianceName = player.Alliance?.Name
             };
         }
     }
