@@ -44,5 +44,11 @@ namespace WarOfEmpires.Controllers {
             // Explicitly name view so it works from Create
             return View("Home");
         }
+
+        [HttpGet]
+        [Route("Details")]
+        public ActionResult Details(string id) {
+            return View(_messageService.Dispatch(new GetAllianceDetailsQuery(id)));
+        }
     }
 }
