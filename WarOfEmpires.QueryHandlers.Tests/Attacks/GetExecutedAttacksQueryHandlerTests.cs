@@ -4,6 +4,7 @@ using NSubstitute;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using WarOfEmpires.Domain.Alliances;
 using WarOfEmpires.Domain.Attacks;
 using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Domain.Security;
@@ -24,11 +25,11 @@ namespace WarOfEmpires.QueryHandlers.Tests.Attacks {
 
         public GetExecutedAttacksQueryHandlerTests() {
             _attacker = AddPlayer(1, "test@test.com", "Test", UserStatus.Active);
-            _defender1 = AddPlayer(2, "defender1@test.com", "Defender 1", UserStatus.Active);
+            _defender1 = AddPlayer(2, "defender1@test.com", "Defender 1", UserStatus.Active, "DEF");
             _defender2 = AddPlayer(3, "defender2@test.com", "Defender 2", UserStatus.Inactive);
         }
 
-        public Player AddPlayer(int id, string email, string displayName, UserStatus status) {
+        public Player AddPlayer(int id, string email, string displayName, UserStatus status, string allianceCode = null) {
             var user = Substitute.For<User>();
             var player = Substitute.For<Player>();
 
@@ -41,6 +42,12 @@ namespace WarOfEmpires.QueryHandlers.Tests.Attacks {
             player.DisplayName.Returns(displayName);
             player.ExecutedAttacks.Returns(new List<Attack>());
             player.ReceivedAttacks.Returns(new List<Attack>());
+
+            if (!string.IsNullOrEmpty(allianceCode)) {
+                var alliance = Substitute.For<Alliance>();
+                player.Alliance.Returns(alliance);
+                alliance.Code.Returns(allianceCode);
+            }
 
             _context.Users.Add(user);
             _context.Players.Add(player);
@@ -116,6 +123,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Attacks {
             result.Single().Turns.Should().Be(7);
             result.Single().Type.Should().Be("Raid");
             result.Single().Defender.Should().Be("Defender 1");
+            result.Single().DefenderAlliance.Should().Be("DEF");
             result.Single().DefenderSoldierCasualties.Should().Be(6);
             result.Single().DefenderMercenaryCasualties.Should().Be(53);
             result.Single().AttackerSoldierCasualties.Should().Be(9);
