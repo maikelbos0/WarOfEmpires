@@ -7,10 +7,10 @@ namespace WarOfEmpires.Models.Players {
         public int Rank { get; set; }
         [GridColumn(0, 10, "Rank", SortData = nameof(Rank))]
         public string RankString { get { return Rank.ToString(StringFormat.Integer); } }
-        [GridColumn(1, 10, "Alliance")]
-        public string Alliance { get; set; }
-        [GridColumn(2, 35, "Display name")]
+        [GridColumn(1, 35, "Display name")]
         public string DisplayName { get; set; }
+        [GridColumn(2, 10, "Alliance")]
+        public string Alliance { get; set; }
         [GridColumn(3, 25, "Title")]
         public string Title { get; set; }
         public int Population { get; set; }

@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 using System;
 using System.Collections.Generic;
+using WarOfEmpires.Domain.Alliances;
 using WarOfEmpires.Domain.Attacks;
 using WarOfEmpires.Domain.Common;
 using WarOfEmpires.Domain.Players;
@@ -27,8 +28,18 @@ namespace WarOfEmpires.QueryHandlers.Tests.Attacks {
             _defender = AddPlayer(2, "defender@test.com", "Defender 1");
             AddPlayer(3, "random@test.com", "Random");
 
+            var attackerAlliance = Substitute.For<Alliance>();
+            var defenderAlliance = Substitute.For<Alliance>();
             var attack = Substitute.For<Attack>();
             var rounds = new List<AttackRound>();
+
+            _attacker.Alliance.Returns(attackerAlliance);
+            attackerAlliance.Code.Returns("ATK");
+            attackerAlliance.Name.Returns("The Attackers");
+
+            _defender.Alliance.Returns(defenderAlliance);
+            defenderAlliance.Code.Returns("DEF");
+            defenderAlliance.Name.Returns("The Defenders");
 
             attack.Id.Returns(1);
             attack.Date.Returns(new DateTime(2019, 1, 1));
@@ -91,8 +102,12 @@ namespace WarOfEmpires.QueryHandlers.Tests.Attacks {
             result.Id.Should().Be(1);
             result.AttackerId.Should().Be(1);
             result.Attacker.Should().Be("Attacker 1");
+            result.AttackerAllianceCode.Should().Be("ATK");
+            result.AttackerAllianceName.Should().Be("The Attackers");
             result.DefenderId.Should().Be(2);
             result.Defender.Should().Be("Defender 1");
+            result.DefenderAllianceCode.Should().Be("DEF");
+            result.DefenderAllianceName.Should().Be("The Defenders");
             result.Date.Should().Be(new DateTime(2019, 1, 1));
             result.IsRead.Should().BeFalse();
             result.Turns.Should().Be(10);
