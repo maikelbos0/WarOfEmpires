@@ -3,6 +3,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace WarOfEmpires.Models.Security {
     public sealed class LogInUserModel {
+        public string ReturnUrl { get; set; }
+
         [DisplayName("Email address")]
         [Required(ErrorMessage = "Email address is required")]
         [EmailAddress(ErrorMessage = "This email address is invalid")]

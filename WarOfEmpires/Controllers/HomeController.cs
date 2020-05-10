@@ -63,7 +63,9 @@ namespace WarOfEmpires.Controllers {
         [Route("LogIn")]
         [HttpGet]
         public ActionResult LogIn() {
-            return View(new LogInUserModel());
+            return View(new LogInUserModel() {
+                ReturnUrl = Request.QueryString["ReturnUrl"]
+            });
         }
 
         [Route("LogIn")]
@@ -73,7 +75,13 @@ namespace WarOfEmpires.Controllers {
                 new LogInUserCommand(model.Email, model.Password),
                 () => {
                     _authenticationService.SignIn(model.Email);
-                    return RedirectToAction("Index");
+
+                    if (string.IsNullOrEmpty(model.ReturnUrl)) {
+                        return RedirectToAction("Index");
+                    }
+                    else {
+                        return Redirect(model.ReturnUrl);
+                    }
                 });
         }
 

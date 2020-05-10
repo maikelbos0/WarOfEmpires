@@ -7,6 +7,8 @@
 <h2>Log in</h2>
 
 @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "html-only" })) {
+    @Html.HiddenFor(m => m.ReturnUrl)
+
     <div class="row">
         <div class="col-3"></div>
 
