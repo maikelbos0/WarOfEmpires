@@ -1,7 +1,6 @@
 ﻿using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
-using System;
 using System.Linq;
 using WarOfEmpires.Domain.Alliances;
 using WarOfEmpires.Domain.Players;

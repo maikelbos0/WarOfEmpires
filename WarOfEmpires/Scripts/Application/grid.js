@@ -25,9 +25,17 @@
                 }, {})
             },
             success: function (d) {
-                grid.datagridview(function () {
-                    this.populate(d.metaData, d.data);
-                });
+                if (d && d.data && d.metaData) {
+                    grid.datagridview(function () {
+                        this.populate(d.metaData, d.data);
+                    });
+                }
+                else if (typeof d === "string" && d.indexOf("Log in") > -1) {
+                    window.location.reload();
+                }
+                else {
+                    toastr.error("An error occurred loading data; please contact support to resolve this issue.");
+                }
             },
             error: function () {
                 toastr.error("An error occurred loading data; please contact support to resolve this issue.");
