@@ -42,6 +42,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Alliances\AllianceDetailsViewModel.cs" />
+    <Compile Include="Alliances\AllianceMemberViewModel.cs" />
     <Compile Include="Alliances\AllianceViewModel.cs" />
     <Compile Include="Alliances\CreateAllianceModel.cs" />
     <Compile Include="Alliances\AllianceSearchModel.cs" />

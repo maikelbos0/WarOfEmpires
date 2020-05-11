@@ -14,7 +14,7 @@
 
 <div class="row">
     <div class="col-3">
-        Rank
+        <strong>Rank</strong>
     </div>
     <div class="col-9">
         @Model.Rank.ToString(StringFormat.Integer)
@@ -23,16 +23,38 @@
 
 <div class="row">
     <div class="col-3">
-        Display name
+        <strong>Display name</strong>
     </div>
     <div class="col-9">
         @Model.DisplayName
     </div>
 </div>
 
+@if (!string.IsNullOrEmpty(Model.AllianceCode)) {
+    <div class="row">
+        <div class="col-3">
+            <strong>Alliance code</strong>
+        </div>
+        <div class="col-9">
+            @Model.AllianceCode
+        </div>
+    </div>
+}
+
+@if (!string.IsNullOrEmpty(Model.AllianceName)) {
+    <div class="row">
+        <div class="col-3">
+            <strong>Alliance name</strong>
+        </div>
+        <div class="col-9">
+            @Model.AllianceName
+        </div>
+    </div>
+}
+
 <div class="row">
     <div class="col-3">
-        Title
+        <strong>Title</strong>
     </div>
     <div class="col-9">
         @Model.Title
@@ -41,7 +63,7 @@
 
 <div class="row">
     <div class="col-3">
-        Population
+        <strong>Population</strong>
     </div>
     <div class="col-9">
         @Model.Population.ToString(StringFormat.Integer)

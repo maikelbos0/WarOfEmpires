@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Alliances\GetAllianceDetailsQuery.cs" />
     <Compile Include="Alliances\GetAlliancesQuery.cs" />
     <Compile Include="Attacks\GetAttackDetailsQuery.cs" />
     <Compile Include="Attacks\GetDefenderQuery.cs" />

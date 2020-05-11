@@ -8,10 +8,10 @@ namespace WarOfEmpires.Models.Attacks {
         public DateTime Date { get; set; }
         [GridColumn(0, 15, "Date", SortData = nameof(Date))]
         public string DateString { get { return Date.ToString(StringFormat.Date); } }
-        [GridColumn(1, 10, "Type")]
+        [GridColumn(1, 8, "Type")]
         public string Type { get; set; }
         public int Turns { get; set; }
-        [GridColumn(2, 10, "Turns", SortData = nameof(Turns))]
+        [GridColumn(2, 6, "Turns", SortData = nameof(Turns))]
         public string TurnsString { get { return Turns.ToString(StringFormat.Integer); } }
         public int AttackerSoldierCasualties { get; set; }
         [GridColumn(3, 10, "Soldiers lost", SortData = nameof(AttackerSoldierCasualties))]
@@ -21,13 +21,15 @@ namespace WarOfEmpires.Models.Attacks {
         public string AttackerMercenaryCasualtiesString { get { return AttackerMercenaryCasualties.ToString(StringFormat.Integer); } }
         [GridColumn(5, 15, "Defender")]
         public string Defender { get; set; }
+        [GridColumn(6, 7, "Alliance")]
+        public string DefenderAlliance { get; set; }
         public int DefenderSoldierCasualties { get; set; }
-        [GridColumn(6, 10, "Soldiers lost", SortData = nameof(DefenderSoldierCasualties))]
+        [GridColumn(7, 10, "Soldiers lost", SortData = nameof(DefenderSoldierCasualties))]
         public string DefenderSoldierCasualtiesString { get { return DefenderSoldierCasualties.ToString(StringFormat.Integer); } }
         public int DefenderMercenaryCasualties { get; set; }
-        [GridColumn(7, 10, "Mercenaries lost", SortData = nameof(DefenderMercenaryCasualties))]
+        [GridColumn(8, 10, "Mercenaries lost", SortData = nameof(DefenderMercenaryCasualties))]
         public string DefenderMercenaryCasualtiesString { get { return DefenderMercenaryCasualties.ToString(StringFormat.Integer); } }
-        [GridColumn(8, 10, "Result")]
+        [GridColumn(9, 9, "Result")]
         public string Result { get; set; }
     }
 }

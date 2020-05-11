@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 using System;
 using System.Collections.Generic;
+using WarOfEmpires.Domain.Alliances;
 using WarOfEmpires.Domain.Attacks;
 using WarOfEmpires.Domain.Empires;
 using WarOfEmpires.Domain.Players;
@@ -20,13 +21,18 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
 
         public void AddPlayer(int id, int rank, string email, string displayName, UserStatus status) {
             var user = Substitute.For<User>();
+            var alliance = Substitute.For<Alliance>();
             var player = Substitute.For<Player>();
 
             user.Id.Returns(id);
             user.Status.Returns(status);
             user.Email.Returns(email);
 
+            alliance.Code.Returns("Ally");
+            alliance.Name.Returns("The allies");
+
             player.User.Returns(user);
+            player.Alliance.Returns(alliance);
             player.Id.Returns(id);
             player.Rank.Returns(rank);
             player.Title.Returns(TitleType.SubChieftain);
@@ -64,6 +70,8 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
             result.Title.Should().Be("Sub chieftain");
             result.DisplayName.Should().Be("Test display name 2");
             result.Population.Should().Be(49);
+            result.AllianceCode.Should().Be("Ally");
+            result.AllianceName.Should().Be("The allies");
         }
 
         [TestMethod]

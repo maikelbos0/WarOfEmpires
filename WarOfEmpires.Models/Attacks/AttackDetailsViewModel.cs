@@ -9,8 +9,12 @@ namespace WarOfEmpires.Models.Attacks {
         public string Type { get; set; }
         public int AttackerId { get; set; }
         public string Attacker { get; set; }
+        public string AttackerAllianceCode { get; set; }
+        public string AttackerAllianceName { get; set; }
         public int DefenderId { get; set; }
         public string Defender { get; set; }
+        public string DefenderAllianceCode { get; set; }
+        public string DefenderAllianceName { get; set; }
         public int Turns { get; set; }
         public List<AttackRoundDetailsViewModel> Rounds { get; set; } = new List<AttackRoundDetailsViewModel>();
         public string Result { get; set; }

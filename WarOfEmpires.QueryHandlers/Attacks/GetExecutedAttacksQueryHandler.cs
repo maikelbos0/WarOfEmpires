@@ -30,6 +30,7 @@ namespace WarOfEmpires.QueryHandlers.Attacks {
                     Turns = a.Turns,
                     Type = _formatter.ToString(a.Type),
                     Defender = a.Defender.DisplayName,
+                    DefenderAlliance = a.Defender.Alliance?.Code,
                     DefenderSoldierCasualties = a.Rounds.Where(r => r.IsAggressor).Sum(r => r.Casualties.Sum(c => c.Soldiers)),
                     DefenderMercenaryCasualties = a.Rounds.Where(r => r.IsAggressor).Sum(r => r.Casualties.Sum(c => c.Mercenaries)),
                     AttackerSoldierCasualties = a.Rounds.Where(r => !r.IsAggressor).Sum(r => r.Casualties.Sum(c => c.Soldiers)),
