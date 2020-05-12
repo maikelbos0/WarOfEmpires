@@ -56,11 +56,11 @@ namespace WarOfEmpires.Repositories.Players {
         }
 
         public Alliance GetAlliance(int id) {
-            return _context.Alliances.Single(a => a.IsActive && a.Id == id);
+            return _context.Alliances.Single(a => a.Id == id);
         }
 
         public IEnumerable<Alliance> GetAllAlliances() {
-            return _context.Alliances.Where(a => a.IsActive).ToList();
+            return _context.Alliances.ToList();
         }
 
         public void AddAlliance(Alliance alliance) {

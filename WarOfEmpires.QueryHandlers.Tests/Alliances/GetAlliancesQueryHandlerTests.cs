@@ -13,12 +13,11 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
     public sealed class GetAlliancesQueryHandlerTests {
         private readonly FakeWarContext _context = new FakeWarContext();
 
-        private void AddAlliance(int id, bool isActive, string code, string name, int members, string leader) {
+        private void AddAlliance(int id, string code, string name, int members, string leader) {
             var alliance = Substitute.For<Alliance>();
             var players = Enumerable.Range(1, members).Select(n => Substitute.For<Player>()).ToList();
 
             alliance.Id.Returns(id);
-            alliance.IsActive.Returns(isActive);
             alliance.Code.Returns(code);
             alliance.Name.Returns(name);
             alliance.Members.Returns(players);
@@ -30,10 +29,9 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
         }
 
         [TestMethod]
-        public void GetAlliancesQueryHandler_Returns_All_Active_Alliances() {
-            AddAlliance(1, false, "c1", "n1", 3, null);
-            AddAlliance(2, true, "c2", "n2", 4, null);
-            AddAlliance(3, true, "c3", "n3", 5, null);
+        public void GetAlliancesQueryHandler_Returns_All_Alliances() {
+            AddAlliance(2, "c2", "n2", 4, null);
+            AddAlliance(3, "c3", "n3", 5, null);
 
             var handler = new GetAlliancesQueryHandler(_context);
             var query = new GetAlliancesQuery(null, null);
@@ -45,7 +43,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
 
         [TestMethod]
         public void GetAlliancesQueryHandler_Returns_Correct_Information() {
-            AddAlliance(2, true, "c2", "n2", 4, "Capitain");
+            AddAlliance(2, "c2", "n2", 4, "Capitain");
 
             var handler = new GetAlliancesQueryHandler(_context);
             var query = new GetAlliancesQuery(null, null);
@@ -62,10 +60,10 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
 
         [TestMethod]
         public void GetAlliancesQueryHandler_Searches_By_Code() {
-            AddAlliance(1, true, "c1", "n1", 3, null);
-            AddAlliance(2, true, "cod2", "n2", 4, null);
-            AddAlliance(3, true, "cod3", "n3", 5, null);
-            AddAlliance(4, true, "c4", "n4", 6, null);
+            AddAlliance(1, "c1", "n1", 3, null);
+            AddAlliance(2, "cod2", "n2", 4, null);
+            AddAlliance(3, "cod3", "n3", 5, null);
+            AddAlliance(4, "c4", "n4", 6, null);
 
             var handler = new GetAlliancesQueryHandler(_context);
             var query = new GetAlliancesQuery("od", null);
@@ -77,10 +75,10 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
 
         [TestMethod]
         public void GetAlliancesQueryHandler_Searches_By_Name() {
-            AddAlliance(1, true, "c1", "name1", 3, null);
-            AddAlliance(2, true, "c2", "n", 4, null);
-            AddAlliance(3, true, "c3", "name3", 5, null);
-            AddAlliance(4, true, "c4", "name4", 6, null);
+            AddAlliance(1, "c1", "name1", 3, null);
+            AddAlliance(2, "c2", "n", 4, null);
+            AddAlliance(3, "c3", "name3", 5, null);
+            AddAlliance(4, "c4", "name4", 6, null);
 
             var handler = new GetAlliancesQueryHandler(_context);
             var query = new GetAlliancesQuery(null, "ame");

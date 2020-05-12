@@ -17,8 +17,7 @@ namespace WarOfEmpires.QueryHandlers.Alliances {
         }
 
         public IEnumerable<AllianceViewModel> Execute(GetAlliancesQuery query) {
-            var alliances = _context.Alliances
-                .Where(a => a.IsActive);
+            var alliances = _context.Alliances.AsQueryable();
 
             if (!string.IsNullOrEmpty(query.Name)) {
                 alliances = alliances.Where(a => a.Name.Contains(query.Name));

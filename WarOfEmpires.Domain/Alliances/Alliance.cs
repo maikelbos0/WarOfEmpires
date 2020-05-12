@@ -3,7 +3,6 @@ using WarOfEmpires.Domain.Players;
 
 namespace WarOfEmpires.Domain.Alliances {
     public class Alliance : Entity {
-        public virtual bool IsActive { get; protected set; } = true;
         public virtual Player Leader { get; protected set; }
         public virtual string Code { get; protected set; }
         public virtual string Name { get; protected set; }

@@ -62,11 +62,11 @@ namespace WarOfEmpires.Repositories.Tests.Players {
 
             id = 1;
 
-            foreach (var status in new[] { true, false }) {
+            foreach (var name in new[] { "Alliance", "The Enemy" }) {
                 var alliance = Substitute.For<Alliance>();
 
-                alliance.IsActive.Returns(status);
                 alliance.Id.Returns(id++);
+                alliance.Name.Returns(name);
 
                 _context.Alliances.Add(alliance);
             }
@@ -185,7 +185,7 @@ namespace WarOfEmpires.Repositories.Tests.Players {
         }
 
         [TestMethod]
-        public void CaravanRepository_GetForMerchandiseType_Succeeds() {
+        public void PlayerRepository_GetCaravans_Succeeds() {
             var repository = new PlayerRepository(_context);
 
             var result = repository.GetCaravans(MerchandiseType.Wood);
@@ -196,7 +196,7 @@ namespace WarOfEmpires.Repositories.Tests.Players {
         }
 
         [TestMethod]
-        public void CaravanRepository_GetForMerchandiseType_Does_Not_Save() {
+        public void PlayerRepository_GetCaravans_Does_Not_Save() {
             var repository = new PlayerRepository(_context);
 
             repository.GetCaravans(MerchandiseType.Wood);
@@ -205,7 +205,7 @@ namespace WarOfEmpires.Repositories.Tests.Players {
         }
 
         [TestMethod]
-        public void CaravanRepository_Remove_Succeeds() {
+        public void PlayerRepository_RemoveCaravan_Succeeds() {
             var repository = new PlayerRepository(_context);
             var previousCaravanCount = _context.Players.Sum(p => p.Caravans.Count());
 
@@ -215,14 +215,13 @@ namespace WarOfEmpires.Repositories.Tests.Players {
         }
 
         [TestMethod]
-        public void CaravanRepository_Remove_Saves() {
+        public void PlayerRepository_RemoveCaravan_Saves() {
             var repository = new PlayerRepository(_context);
 
             repository.RemoveCaravan(_context.Players.First().Caravans.First());
 
             _context.CallsToSaveChanges.Should().Be(1);
         }
-
 
         [TestMethod]
         public void PlayerRepository_GetAlliance_Succeeds() {
@@ -244,15 +243,6 @@ namespace WarOfEmpires.Repositories.Tests.Players {
         }
 
         [TestMethod]
-        public void PlayerRepository_GetAlliance_Throws_Exception_For_Not_Active() {
-            var repository = new PlayerRepository(_context);
-
-            Action action = () => repository.GetAlliance(2);
-
-            action.Should().Throw<InvalidOperationException>();
-        }
-
-        [TestMethod]
         public void PlayerRepository_GetAlliance_Does_Not_Save() {
             var repository = new PlayerRepository(_context);
 
@@ -268,7 +258,7 @@ namespace WarOfEmpires.Repositories.Tests.Players {
             var alliances = repository.GetAllAlliances();
 
             alliances.Should().NotBeNull();
-            alliances.Should().HaveCount(1);
+            alliances.Should().HaveCount(2);
         }
 
         [TestMethod]
