@@ -2,9 +2,11 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using WarOfEmpires.CommandHandlers.Alliances;
 using WarOfEmpires.Commands.Alliances;
+using WarOfEmpires.Domain.Alliances;
 using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Repositories.Players;
@@ -25,6 +27,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
             user.Status.Returns(UserStatus.Active);
             _player = Substitute.For<Player>();
             _player.User.Returns(user);
+            _player.Alliance.Returns((Alliance)null);
             _context.Players.Add(_player);
         }
 
@@ -68,6 +71,25 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
             result.Should().HaveError("Code", "Code must be 4 characters or less");
             _context.Alliances.Should().BeEmpty();
             _context.CallsToSaveChanges.Should().Be(0);
+        }
+
+        [TestMethod]
+        public void CreateAllianceCommandHandler_Fails_For_Player_In_Alliance() {
+            var alliance = Substitute.For<Alliance>();
+
+            alliance.Members.Returns(new List<Player>() { _player });
+            _player.Alliance.Returns(alliance);
+            _context.Alliances.Add(alliance);
+
+            var handler = new CreateAllianceCommandHandler(_repository);
+            var command = new CreateAllianceCommand("test@test.com", "CODE", "The Alliance");
+
+            var result = handler.Execute(command);
+
+            result.Should().HaveError("You are already in an alliance; you have to leave before you can create an alliance");
+            _context.Alliances.Should().HaveCount(1);
+            _context.CallsToSaveChanges.Should().Be(0);
+
         }
     }
 }

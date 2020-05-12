@@ -22,6 +22,10 @@ namespace WarOfEmpires.CommandHandlers.Alliances {
                 result.AddError(c => c.Code, "Code must be 4 characters or less");
             }
 
+            if (player.Alliance != null) {
+                result.AddError("You are already in an alliance; you have to leave before you can create an alliance");
+            }
+
             if (result.Success) {
                 var alliance = new Alliance(player, command.Code, command.Name);
 
