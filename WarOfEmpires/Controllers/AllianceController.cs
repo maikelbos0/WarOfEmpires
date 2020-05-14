@@ -42,7 +42,7 @@ namespace WarOfEmpires.Controllers {
         [Route("Home")]
         public ActionResult Home() {
             // Explicitly name view so it works from Create
-            return View("Home", _messageService.Dispatch(new GetCurrentAllianceQuery(_authenticationService.Identity)));
+            return View("Home", _messageService.Dispatch(new GetAllianceHomeQuery(_authenticationService.Identity)));
         }
 
         [HttpGet]

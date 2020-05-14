@@ -15,12 +15,12 @@ using WarOfEmpires.Utilities.Formatting;
 
 namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
     [TestClass]
-    public sealed class GetCurrentAllianceQueryHandlerTests {
+    public sealed class GetAllianceHomeQueryHandlerTests {
         private readonly FakeWarContext _context = new FakeWarContext();
         private readonly EnumFormatter _formatter = new EnumFormatter();
         private readonly Alliance _alliance;
 
-        public GetCurrentAllianceQueryHandlerTests() {
+        public GetAllianceHomeQueryHandlerTests() {
             _alliance = Substitute.For<Alliance>();
 
             _alliance.Id.Returns(1);
@@ -74,9 +74,9 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
         }
 
         [TestMethod]
-        public void GetCurrentAllianceQueryHandler_Returns_Correct_Information() {
-            var handler = new GetCurrentAllianceQueryHandler(_context, _formatter);
-            var query = new GetCurrentAllianceQuery("test1@test.com");
+        public void GetAllianceHomeQueryHandler_Returns_Correct_Information() {
+            var handler = new GetAllianceHomeQueryHandler(_context, _formatter);
+            var query = new GetAllianceHomeQuery("test1@test.com");
 
             var result = handler.Execute(query);
 

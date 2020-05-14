@@ -12,16 +12,16 @@ using WarOfEmpires.Utilities.Services;
 namespace WarOfEmpires.QueryHandlers.Alliances {
     [InterfaceInjectable]
     [Audit]
-    public sealed class GetCurrentAllianceQueryHandler : IQueryHandler<GetCurrentAllianceQuery, AllianceDetailsViewModel> {
+    public sealed class GetAllianceHomeQueryHandler : IQueryHandler<GetAllianceHomeQuery, AllianceHomeViewModel> {
         private readonly IWarContext _context;
         private readonly EnumFormatter _formatter;
 
-        public GetCurrentAllianceQueryHandler(IWarContext context, EnumFormatter formatter) {
+        public GetAllianceHomeQueryHandler(IWarContext context, EnumFormatter formatter) {
             _formatter = formatter;
             _context = context;
         }
 
-        public AllianceDetailsViewModel Execute(GetCurrentAllianceQuery query) {
+        public AllianceHomeViewModel Execute(GetAllianceHomeQuery query) {
             var alliance = _context.Players
                 .Include(p => p.Alliance.Leader)
                 .Single(p => EmailComparisonService.Equals(p.User.Email, query.Email))
@@ -33,13 +33,13 @@ namespace WarOfEmpires.QueryHandlers.Alliances {
                 .OrderBy(p => p.Rank)
                 .ToList();
 
-            return new AllianceDetailsViewModel() {
+            return new AllianceHomeViewModel() {
                 Id = alliance.Id,
                 Code = alliance.Code,
                 Name = alliance.Name,
                 LeaderId = alliance.Leader.Id,
                 Leader = alliance.Leader.DisplayName,
-                Members = members.Select(p => new AllianceMemberViewModel() {
+                Members = members.Select(p => new AllianceHomeMemberViewModel() {
                     Id = p.Id,
                     Rank = p.Rank,
                     DisplayName = p.DisplayName,

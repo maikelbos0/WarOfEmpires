@@ -1,10 +1,10 @@
 ﻿using WarOfEmpires.Models.Alliances;
 
 namespace WarOfEmpires.Queries.Alliances {
-    public sealed class GetCurrentAllianceQuery : IQuery<AllianceDetailsViewModel> {
+    public sealed class GetAllianceHomeQuery : IQuery<AllianceHomeViewModel> {
         public string Email { get; set; }
 
-        public GetCurrentAllianceQuery(string email) {
+        public GetAllianceHomeQuery(string email) {
             Email = email;
         }
     }
