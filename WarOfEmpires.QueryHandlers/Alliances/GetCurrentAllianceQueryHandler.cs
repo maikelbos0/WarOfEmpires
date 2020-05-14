@@ -23,7 +23,7 @@ namespace WarOfEmpires.QueryHandlers.Alliances {
 
         public AllianceDetailsViewModel Execute(GetCurrentAllianceQuery query) {
             var alliance = _context.Players
-                .Include(p => p.Alliance)
+                .Include(p => p.Alliance.Leader)
                 .Single(p => EmailComparisonService.Equals(p.User.Email, query.Email))
                 .Alliance;
             var members = _context.Players
@@ -37,6 +37,8 @@ namespace WarOfEmpires.QueryHandlers.Alliances {
                 Id = alliance.Id,
                 Code = alliance.Code,
                 Name = alliance.Name,
+                LeaderId = alliance.Leader.Id,
+                Leader = alliance.Leader.DisplayName,
                 Members = members.Select(p => new AllianceMemberViewModel() {
                     Id = p.Id,
                     Rank = p.Rank,

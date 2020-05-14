@@ -35,6 +35,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
             };
 
             _alliance.Members.Returns(members);
+            _alliance.Leader.Returns(members.Last());
 
             _context.Alliances.Add(_alliance);
         }
@@ -83,6 +84,8 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
             result.Id.Should().Be(1);
             result.Code.Should().Be("FS");
             result.Name.Should().Be("Føroyskir Samgonga");
+            result.LeaderId.Should().Be(3);
+            result.Leader.Should().Be("Test display name 3");
             result.Members.Should().HaveCount(2);
             result.Members.First().Id.Should().Be(3);
             result.Members.First().Rank.Should().Be(2);

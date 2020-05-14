@@ -23,6 +23,7 @@ namespace WarOfEmpires.QueryHandlers.Alliances {
         public AllianceDetailsViewModel Execute(GetAllianceDetailsQuery query) {
             var id = int.Parse(query.Id);
             var alliance = _context.Alliances
+                .Include(a => a.Leader)
                 .Single(a => a.Id == id);
             var members = _context.Players
                 .Include(p => p.Workers)
@@ -35,6 +36,8 @@ namespace WarOfEmpires.QueryHandlers.Alliances {
                 Id = id,
                 Code = alliance.Code,
                 Name = alliance.Name,
+                LeaderId = alliance.Leader.Id,
+                Leader = alliance.Leader.DisplayName,
                 Members = members.Select(p => new AllianceMemberViewModel() {
                     Id = p.Id,
                     Rank = p.Rank,

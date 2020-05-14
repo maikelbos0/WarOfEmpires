@@ -26,6 +26,15 @@
 
 <div class="row">
     <div class="col-3">
+        <strong>Leader</strong>
+    </div>
+    <div class="col-9">
+        @Html.ActionLink(Model.Leader, "Details", "Player", new { id = Model.LeaderId }, null)
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-3">
         <strong>Members</strong>
     </div>
     <div class="col-9">
