@@ -1,5 +1,65 @@
-﻿@{
-    ViewBag.Title = "Alliance home";
+﻿@model WarOfEmpires.Models.Alliances.AllianceHomeViewModel
+
+@{
+    ViewBag.Title = $"{Model.Name} - Alliance home";
 }
 
-<h2>Alliance home</h2>
+<h2>@Model.Name - Alliance home</h2>
+
+<div class="row">
+    <div class="col-3">
+        <strong>Code</strong>
+    </div>
+    <div class="col-9">
+        @Model.Code
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-3">
+        <strong>Name</strong>
+    </div>
+    <div class="col-9">
+        @Model.Name
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-3">
+        <strong>Leader</strong>
+    </div>
+    <div class="col-9">
+        @Html.ActionLink(Model.Leader, "Details", "Player", new { id = Model.LeaderId }, null)
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-3">
+        <strong>Members</strong>
+    </div>
+    <div class="col-9">
+        <div class="row">
+            <div class="col-1"><strong>Rank</strong></div>
+            <div class="col-5"><strong>Display name</strong></div>
+            <div class="col-3"><strong>Title</strong></div>
+            <div class="col-3"><strong>Population</strong></div>
+        </div>
+
+        @foreach (var member in Model.Members) {
+            <div class="row">
+                <div class="col-1">
+                    @Html.ActionLink(member.Rank.ToString(StringFormat.Integer), "Details", "Player", new { id = member.Id }, null)
+                </div>
+                <div class="col-5">
+                    @Html.ActionLink(member.DisplayName, "Details", "Player", new { id = member.Id }, null)
+                </div>
+                <div class="col-3">
+                    @Html.ActionLink(member.Title, "Details", "Player", new { id = member.Id }, null)
+                </div>
+                <div class="col-3">
+                    @Html.ActionLink(member.Population.ToString(StringFormat.Integer), "Details", "Player", new { id = member.Id }, null)
+                </div>
+            </div>
+        }
+    </div>
+</div>

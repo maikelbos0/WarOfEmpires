@@ -42,6 +42,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Alliances\AllianceHomeMemberViewModel.cs" />
+    <Compile Include="Alliances\AllianceHomeViewModel.cs" />
     <Compile Include="Alliances\AllianceDetailsViewModel.cs" />
     <Compile Include="Alliances\AllianceMemberViewModel.cs" />
     <Compile Include="Alliances\AllianceViewModel.cs" />

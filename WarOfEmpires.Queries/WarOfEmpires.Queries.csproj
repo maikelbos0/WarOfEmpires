@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="Alliances\GetAllianceDetailsQuery.cs" />
     <Compile Include="Alliances\GetAlliancesQuery.cs" />
+    <Compile Include="Alliances\GetAllianceHomeQuery.cs" />
     <Compile Include="Attacks\GetAttackDetailsQuery.cs" />
     <Compile Include="Attacks\GetDefenderQuery.cs" />
     <Compile Include="Attacks\GetExecutedAttacksQuery.cs" />

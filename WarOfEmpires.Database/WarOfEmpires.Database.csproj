@@ -219,6 +219,10 @@
     <Compile Include="Migrations\202004261903066_Alliances-Alliances.Designer.cs">
       <DependentUpon>202004261903066_Alliances-Alliances.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202005121725555_Alliances-IsActive-Removed.cs" />
+    <Compile Include="Migrations\202005121725555_Alliances-IsActive-Removed.designer.cs">
+      <DependentUpon>202005121725555_Alliances-IsActive-Removed.cs</DependentUpon>
+    </Compile>
     <Compile Include="ReferenceEntities\AttackResultEntity.cs" />
     <Compile Include="ReferenceEntities\AttackTypeEntity.cs" />
     <Compile Include="ReferenceEntities\BaseReferenceEntity.cs" />
@@ -376,6 +380,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202004261903066_Alliances-Alliances.resx">
       <DependentUpon>202004261903066_Alliances-Alliances.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202005121725555_Alliances-IsActive-Removed.resx">
+      <DependentUpon>202005121725555_Alliances-IsActive-Removed.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

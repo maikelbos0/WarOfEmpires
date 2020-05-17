@@ -1,7 +1,6 @@
 ﻿using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using WarOfEmpires.Domain.Alliances;
@@ -16,12 +15,12 @@ using WarOfEmpires.Utilities.Formatting;
 
 namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
     [TestClass]
-    public sealed class GetAllianceDetailsQueryHandlerTests {
+    public sealed class GetAllianceHomeQueryHandlerTests {
         private readonly FakeWarContext _context = new FakeWarContext();
         private readonly EnumFormatter _formatter = new EnumFormatter();
         private readonly Alliance _alliance;
 
-        public GetAllianceDetailsQueryHandlerTests() {
+        public GetAllianceHomeQueryHandlerTests() {
             _alliance = Substitute.For<Alliance>();
 
             _alliance.Id.Returns(1);
@@ -75,9 +74,9 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
         }
 
         [TestMethod]
-        public void GetAllianceDetailsQueryHandler_Returns_Correct_Information() {
-            var handler = new GetAllianceDetailsQueryHandler(_context, _formatter);
-            var query = new GetAllianceDetailsQuery("1");
+        public void GetAllianceHomeQueryHandler_Returns_Correct_Information() {
+            var handler = new GetAllianceHomeQueryHandler(_context, _formatter);
+            var query = new GetAllianceHomeQuery("test1@test.com");
 
             var result = handler.Execute(query);
 
@@ -92,26 +91,6 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
             result.Members.First().DisplayName.Should().Be("Test display name 3");
             result.Members.First().Title.Should().Be("Sub chieftain");
             result.Members.First().Population.Should().Be(49);
-        }
-
-        [TestMethod]
-        public void GetAllianceDetailsQueryHandler_Throws_Exception_For_Alphanumeric_Id() {
-            var handler = new GetAllianceDetailsQueryHandler(_context, _formatter);
-            var query = new GetAllianceDetailsQuery("A");
-
-            Action action = () => handler.Execute(query);
-
-            action.Should().Throw<FormatException>();
-        }
-
-        [TestMethod]
-        public void GetAllianceDetailsQueryHandler_Throws_Exception_For_Nonexistent_Id() {
-            var handler = new GetAllianceDetailsQueryHandler(_context, _formatter);
-            var query = new GetAllianceDetailsQuery("5");
-
-            Action action = () => handler.Execute(query);
-
-            action.Should().Throw<InvalidOperationException>();
         }
     }
 }
