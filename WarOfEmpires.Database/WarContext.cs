@@ -99,6 +99,7 @@ namespace WarOfEmpires.Database {
             players.HasMany(p => p.SellTransactions).WithRequired().Map(a => a.MapKey("Seller_Id")).WillCascadeOnDelete(false);
             players.HasMany(p => p.BuyTransactions).WithRequired().Map(a => a.MapKey("Buyer_Id"));
             players.HasMany(p => p.Caravans).WithRequired(a => a.Player);
+            players.HasMany(p => p.Invites).WithRequired(i => i.Player).WillCascadeOnDelete(false);
             players.Property(p => p.DisplayName).IsRequired().HasMaxLength(25);
             players.Property(p => p.Resources.Gold).HasColumnName("Gold");
             players.Property(p => p.Resources.Food).HasColumnName("Food");
@@ -121,7 +122,7 @@ namespace WarOfEmpires.Database {
 
             modelBuilder.Entity<Empires.Building>().ToTable("Buildings", "Empires").HasKey(b => b.Id);
 
-            modelBuilder.Entity<Siege.SiegeWeapon>().ToTable("SiegeWeapons", "Siege").HasKey(b => b.Id);
+            modelBuilder.Entity<Siege.SiegeWeapon>().ToTable("SiegeWeapons", "Siege").HasKey(w => w.Id);
 
             var messages = modelBuilder.Entity<Players.Message>().ToTable("Messages", "Players").HasKey(m => m.Id);
             messages.Property(m => m.Subject).IsRequired().HasMaxLength(100);
@@ -143,7 +144,11 @@ namespace WarOfEmpires.Database {
         private void OnAllianceModelCreating(DbModelBuilder modelBuilder) {
             var alliances = modelBuilder.Entity<Alliances.Alliance>().ToTable("Alliances", "Alliances").HasKey(a => a.Id);
             alliances.HasMany(a => a.Members).WithOptional(p => p.Alliance);
-            alliances.HasRequired(a => a.Leader);//.WithOptional();
+            alliances.HasMany(a => a.Invites).WithRequired(i => i.Alliance);
+            alliances.HasRequired(a => a.Leader);
+
+            var invites = modelBuilder.Entity<Alliances.Invite>().ToTable("Invites", "Alliances").HasKey(i => i.Id);
+            invites.Property(i => i.Message).IsMaxLength();
         }
 
         private void OnAttacksModelCreating(DbModelBuilder modelBuilder) {
