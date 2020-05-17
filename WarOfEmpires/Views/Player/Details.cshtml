@@ -30,24 +30,22 @@
     </div>
 </div>
 
-@if (!string.IsNullOrEmpty(Model.AllianceCode)) {
+@if (Model.AllianceId.HasValue) {
     <div class="row">
         <div class="col-3">
             <strong>Alliance code</strong>
         </div>
         <div class="col-9">
-            @Model.AllianceCode
+            @Html.ActionLink(Model.AllianceCode, "Details", "Alliance", new { id = Model.AllianceId }, null)
         </div>
     </div>
-}
 
-@if (!string.IsNullOrEmpty(Model.AllianceName)) {
     <div class="row">
         <div class="col-3">
             <strong>Alliance name</strong>
         </div>
         <div class="col-9">
-            @Model.AllianceName
+            @Html.ActionLink(Model.AllianceName, "Details", "Alliance", new { id = Model.AllianceId }, null)
         </div>
     </div>
 }

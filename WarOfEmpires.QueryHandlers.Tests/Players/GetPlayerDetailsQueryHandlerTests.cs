@@ -28,6 +28,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
             user.Status.Returns(status);
             user.Email.Returns(email);
 
+            alliance.Id.Returns(14);
             alliance.Code.Returns("Ally");
             alliance.Name.Returns("The allies");
 
@@ -70,6 +71,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
             result.Title.Should().Be("Sub chieftain");
             result.DisplayName.Should().Be("Test display name 2");
             result.Population.Should().Be(49);
+            result.AllianceId.Should().Be(14);
             result.AllianceCode.Should().Be("Ally");
             result.AllianceName.Should().Be("The allies");
         }
