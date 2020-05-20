@@ -10,6 +10,9 @@
     @Html.ActionLink("Send message", "Send", "Message", new { RecipientId = Model.Id }, null)
     |
     @Html.ActionLink("Attack", "Execute", "Attack", new { DefenderId = Model.Id }, null)
+    |
+    @*TODO: hide when current user is not allowed to invite or not in an alliance*@
+    @Html.ActionLink("Invite into alliance", "Invite", "Alliance", new { PlayerId = Model.Id}, null)
 </p>
 
 <div class="row">

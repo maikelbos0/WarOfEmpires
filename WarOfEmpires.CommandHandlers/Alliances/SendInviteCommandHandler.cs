@@ -8,15 +8,15 @@ using WarOfEmpires.Utilities.Container;
 namespace WarOfEmpires.CommandHandlers.Alliances {
     [InterfaceInjectable]
     [Audit]
-    public sealed class SendAllianceInviteCommandHandler : ICommandHandler<SendAllianceInviteCommand> {
+    public sealed class SendInviteCommandHandler : ICommandHandler<SendInviteCommand> {
         private readonly IPlayerRepository _repository;
 
-        public SendAllianceInviteCommandHandler(IPlayerRepository repository) {
+        public SendInviteCommandHandler(IPlayerRepository repository) {
             _repository = repository;
         }
 
-        public CommandResult<SendAllianceInviteCommand> Execute(SendAllianceInviteCommand command) {
-            var result = new CommandResult<SendAllianceInviteCommand>();
+        public CommandResult<SendInviteCommand> Execute(SendInviteCommand command) {
+            var result = new CommandResult<SendInviteCommand>();
             var player = _repository.Get(int.Parse(command.PlayerId));
             var member = _repository.Get(command.Email);
             var alliance = member.Alliance;

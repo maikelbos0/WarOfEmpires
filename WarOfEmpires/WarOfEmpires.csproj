@@ -441,6 +441,7 @@
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Layout\_Menu.cshtml" />
     <Content Include="Views\Alliance\Details.cshtml" />
+    <Content Include="Views\Alliance\Invite.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

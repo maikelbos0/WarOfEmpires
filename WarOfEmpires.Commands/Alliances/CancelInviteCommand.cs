@@ -1,5 +1,5 @@
 ﻿namespace WarOfEmpires.Commands.Alliances {
-    public sealed class AcceptAllianceInviteCommand : ICommand {
+    public sealed class CancelInviteCommand : ICommand {
         // TODO implement
     }
 }

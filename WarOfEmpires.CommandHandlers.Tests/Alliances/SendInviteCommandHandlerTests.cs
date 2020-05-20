@@ -14,14 +14,14 @@ using WarOfEmpires.Test.Utilities;
 
 namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
     [TestClass]
-    public sealed class SendAllianceInviteCommandHandlerTests {
+    public sealed class SendInviteCommandHandlerTests {
         private readonly FakeWarContext _context = new FakeWarContext();
         private readonly PlayerRepository _repository;
         private readonly Alliance _alliance;
         private readonly Player _member;
         private readonly Player _player;
 
-        public SendAllianceInviteCommandHandlerTests() {
+        public SendInviteCommandHandlerTests() {
             _repository = new PlayerRepository(_context);
 
             _alliance = Substitute.For<Alliance>();
@@ -51,9 +51,9 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
         }
 
         [TestMethod]
-        public void SendAllianceInviteCommandHandler_Succeeds() {
-            var handler = new SendAllianceInviteCommandHandler(_repository);
-            var command = new SendAllianceInviteCommand("test@test.com", "2", "Test message");
+        public void SendInviteCommandHandler_Succeeds() {
+            var handler = new SendInviteCommandHandler(_repository);
+            var command = new SendInviteCommand("test@test.com", "2", "Test message");
 
             var result = handler.Execute(command);
 
@@ -66,11 +66,11 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
         }
 
         [TestMethod]
-        public void SendAllianceInviteCommandHandler_Fails_For_Player_Already_Invited() {
+        public void SendInviteCommandHandler_Fails_For_Player_Already_Invited() {
             _alliance.Invites.Returns(new List<Invite>() { new Invite(_alliance, _player, null) });
 
-            var handler = new SendAllianceInviteCommandHandler(_repository);
-            var command = new SendAllianceInviteCommand("test@test.com", "2", "Test message");
+            var handler = new SendInviteCommandHandler(_repository);
+            var command = new SendInviteCommand("test@test.com", "2", "Test message");
 
             var result = handler.Execute(command);
 
@@ -80,9 +80,9 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
         }
 
         [TestMethod]
-        public void SendAllianceInviteCommandHandler_Throws_Exception_For_Member_Not_In_Empire() {
-            var handler = new SendAllianceInviteCommandHandler(_repository);
-            var command = new SendAllianceInviteCommand("invite@test.com", "2", "Test message");
+        public void SendInviteCommandHandler_Throws_Exception_For_Member_Not_In_Empire() {
+            var handler = new SendInviteCommandHandler(_repository);
+            var command = new SendInviteCommand("invite@test.com", "2", "Test message");
 
             Action action = () => handler.Execute(command);
 
@@ -92,9 +92,9 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
         }
 
         [TestMethod]
-        public void SendAllianceInviteCommandHandler_Throws_Exception_For_Alphanumeric_Player_Id() {
-            var handler = new SendAllianceInviteCommandHandler(_repository);
-            var command = new SendAllianceInviteCommand("test@test.com", "A", "Test message");
+        public void SendInviteCommandHandler_Throws_Exception_For_Alphanumeric_Player_Id() {
+            var handler = new SendInviteCommandHandler(_repository);
+            var command = new SendInviteCommand("test@test.com", "A", "Test message");
 
             Action action = () => handler.Execute(command);
 
@@ -104,9 +104,9 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
         }
 
         [TestMethod]
-        public void SendAllianceInviteCommandHandler_Throws_Exception_For_Nonexistent_Player_Id() {
-            var handler = new SendAllianceInviteCommandHandler(_repository);
-            var command = new SendAllianceInviteCommand("test@test.com", "3", "Test message");
+        public void SendInviteCommandHandler_Throws_Exception_For_Nonexistent_Player_Id() {
+            var handler = new SendInviteCommandHandler(_repository);
+            var command = new SendInviteCommand("test@test.com", "3", "Test message");
 
             Action action = () => handler.Execute(command);
 

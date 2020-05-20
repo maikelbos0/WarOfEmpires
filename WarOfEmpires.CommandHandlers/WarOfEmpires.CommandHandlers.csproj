@@ -52,7 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Alliances\CreateAllianceCommandHandler.cs" />
-    <Compile Include="Alliances\SendAllianceInviteCommandHandler.cs" />
+    <Compile Include="Alliances\SendInviteCommandHandler.cs" />
     <Compile Include="Attacks\AttackCommandHandler.cs" />
     <Compile Include="Attacks\ReadAttackCommandHandler.cs" />
     <Compile Include="CommandError.cs" />

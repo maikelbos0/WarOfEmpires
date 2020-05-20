@@ -41,11 +41,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Alliances\AcceptAllianceInviteCommand.cs" />
-    <Compile Include="Alliances\CancelAllianceInviteCommand.cs" />
+    <Compile Include="Alliances\AcceptInviteCommand.cs" />
+    <Compile Include="Alliances\CancelInviteCommand.cs" />
     <Compile Include="Alliances\CreateAllianceCommand.cs" />
-    <Compile Include="Alliances\RejectAllianceInviteCommand.cs" />
-    <Compile Include="Alliances\SendAllianceInviteCommand.cs" />
+    <Compile Include="Alliances\RejectInviteCommand.cs" />
+    <Compile Include="Alliances\SendInviteCommand.cs" />
     <Compile Include="Attacks\AttackCommand.cs" />
     <Compile Include="Attacks\ReadAttackCommand.cs" />
     <Compile Include="Empires\AddBankTurnCommand.cs" />
