@@ -1,0 +1,55 @@
+﻿@model WarOfEmpires.Models.Alliances.InvitesViewModel
+
+@{
+    ViewBag.Title = $"{Model.Name} - Invites";
+}
+
+<h2>@Model.Name - Invites</h2>
+
+<div class="row">
+
+    <div class="col-3 col-form-label">
+        <strong>Player</strong>
+    </div>
+
+    <div class="col-1 col-form-label">
+        <strong>Is read</strong>
+    </div>
+
+    <div class="col-2 col-form-label">
+        <strong>Date</strong>
+    </div>
+
+    <div class="col-4 col-form-label">
+        <strong>Message</strong>
+    </div>
+
+    <div class="col-2">
+    </div>
+</div>
+
+@foreach (var invite in Model.Invites) {
+    using (Html.BeginForm("WithdrawInvite", null, FormMethod.Post, new {
+        data_success_message = "The invite has been withdrawn."
+    })) {
+        <div class="row site-spaced-small">
+            <div class="col-3 col-form-label">
+                @invite.PlayerName
+            </div>
+
+            <div class="col-1 col-form-label">
+                @(invite.IsRead ? "Yes" : "No")
+            </div>
+
+            <div class="col-2 col-form-label">
+                @invite.Date.ToString(StringFormat.Date)
+            </div>
+
+            <div class="col-4 col-form-label site-user-text-inline">@invite.Message</div>
+
+            <div class="col-2">
+                <button type="submit" class="btn btn-secondary form-control">Withdraw</button>
+            </div>
+        </div>
+    }
+}

@@ -60,8 +60,14 @@ namespace WarOfEmpires.Controllers {
         [HttpPost]
         [Route("Invite")]
         public ActionResult Invite(SendInviteModel model) {
-            // TODO redirect to open invites
-            return ValidatedCommandResult(model, new SendInviteCommand(_authenticationService.Identity, model.PlayerId, model.Message), () => Home());
+            return ValidatedCommandResult(model, new SendInviteCommand(_authenticationService.Identity, model.PlayerId, model.Message), () => Invites());
+        }
+
+        [HttpGet]
+        [Route("Invites")]
+        public ActionResult Invites() {
+            // Explicitly name view so it works from Invite
+            return View("Invites", _messageService.Dispatch(new GetInvitesQuery(_authenticationService.Identity)));
         }
     }
 }

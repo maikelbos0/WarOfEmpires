@@ -3,9 +3,9 @@ using WarOfEmpires.Domain.Players;
 
 namespace WarOfEmpires.Domain.Alliances {
     public class Invite : Entity {
-        public Alliance Alliance { get; protected set; }
-        public Player Player { get; protected set; }
-        public DateTime Date { get; protected set; }
+        public virtual Alliance Alliance { get; protected set; }
+        public virtual Player Player { get; protected set; }
+        public virtual DateTime Date { get; protected set; }
         public virtual bool IsRead { get; set; }
         public virtual string Message { get; protected set; }
 

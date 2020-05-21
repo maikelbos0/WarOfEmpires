@@ -42,7 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Alliances\AcceptInviteCommand.cs" />
-    <Compile Include="Alliances\CancelInviteCommand.cs" />
+    <Compile Include="Alliances\WithdrawInviteCommand.cs" />
     <Compile Include="Alliances\CreateAllianceCommand.cs" />
     <Compile Include="Alliances\RejectInviteCommand.cs" />
     <Compile Include="Alliances\SendInviteCommand.cs" />

@@ -6,14 +6,13 @@
 
 <h2>@Model.DisplayName</h2>
 
-<p>
-    @Html.ActionLink("Send message", "Send", "Message", new { RecipientId = Model.Id }, null)
-    |
-    @Html.ActionLink("Attack", "Execute", "Attack", new { DefenderId = Model.Id }, null)
-    |
+<div class="action-list">
+    <span>@Html.ActionLink("Send message", "Send", "Message", new { RecipientId = Model.Id }, null)</span>
+    <span>@Html.ActionLink("Attack", "Execute", "Attack", new { DefenderId = Model.Id }, null)</span>
+
     @*TODO: hide when current user is not allowed to invite or not in an alliance*@
-    @Html.ActionLink("Invite into alliance", "Invite", "Alliance", new { PlayerId = Model.Id}, null)
-</p>
+    <span>@Html.ActionLink("Invite into alliance", "Invite", "Alliance", new { PlayerId = Model.Id }, null)</span>
+</div>
 
 <div class="row">
     <div class="col-3">
