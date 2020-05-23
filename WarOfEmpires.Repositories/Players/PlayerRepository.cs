@@ -67,5 +67,11 @@ namespace WarOfEmpires.Repositories.Players {
             _context.Alliances.Add(alliance);
             _context.SaveChanges();
         }
+
+        public void RemoveInvite(Invite invite) {
+            invite.Alliance.Invites.Remove(invite);
+            _context.Remove(invite);
+            _context.SaveChanges();
+        }
     }
 }

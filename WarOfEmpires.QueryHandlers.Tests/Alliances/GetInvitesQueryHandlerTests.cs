@@ -56,6 +56,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
             player.User.Returns(user);
             player.DisplayName.Returns(displayName);
 
+            invite.Id.Returns(id);
             invite.Alliance.Returns(_alliance);
             invite.Message.Returns(message);
             invite.IsRead.Returns(isRead);
@@ -77,13 +78,15 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
 
             result.Name.Should().Be("Føroyskir Samgonga");
             result.Invites.Should().HaveCount(2);
+            result.Invites[0].Id.Should().Be(3);
             result.Invites[0].PlayerName.Should().Be("Test display name 3");
             result.Invites[0].IsRead.Should().BeTrue();
-            result.Invites[0].Date.Should().Be(new DateTime(2020, 2, 15));
+            result.Invites[0].Date.Should().Be(new DateTime(2020, 1, 10));
             result.Invites[0].Message.Should().Be("Another message");
+            result.Invites[1].Id.Should().Be(1);
             result.Invites[1].PlayerName.Should().Be("Test display name 1");
             result.Invites[1].IsRead.Should().BeFalse();
-            result.Invites[1].Date.Should().Be(new DateTime(2020, 1, 10));
+            result.Invites[1].Date.Should().Be(new DateTime(2020, 2, 15));
             result.Invites[1].Message.Should().Be("Message");
         }
     }

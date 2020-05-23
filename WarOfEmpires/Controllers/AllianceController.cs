@@ -69,5 +69,13 @@ namespace WarOfEmpires.Controllers {
             // Explicitly name view so it works from Invite
             return View("Invites", _messageService.Dispatch(new GetInvitesQuery(_authenticationService.Identity)));
         }
+
+        [HttpPost]
+        [Route("WithdrawInvite")]
+        public ActionResult WithdrawInvite(string id) {
+            _messageService.Dispatch(new WithdrawInviteCommand(_authenticationService.Identity, id));
+
+            return RedirectToAction("Invites");
+        }
     }
 }

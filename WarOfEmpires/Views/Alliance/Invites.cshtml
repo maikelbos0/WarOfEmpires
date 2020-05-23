@@ -32,6 +32,8 @@
     using (Html.BeginForm("WithdrawInvite", null, FormMethod.Post, new {
         data_success_message = "The invite has been withdrawn."
     })) {
+        @Html.Hidden("id", invite.Id);
+
         <div class="row site-spaced-small">
             <div class="col-3 col-form-label">
                 @invite.PlayerName

@@ -64,12 +64,16 @@ namespace WarOfEmpires.Repositories.Tests.Players {
 
             foreach (var name in new[] { "Alliance", "The Enemy" }) {
                 var alliance = Substitute.For<Alliance>();
+                var invite = Substitute.For<Invite>();
+
+                invite.Alliance.Returns(alliance);
 
                 alliance.Id.Returns(id++);
                 alliance.Name.Returns(name);
+                alliance.Invites.Returns(new List<Invite>(){ invite });
 
                 _context.Alliances.Add(alliance);
-            }
+            }            
         }
 
         [TestMethod]
@@ -289,5 +293,23 @@ namespace WarOfEmpires.Repositories.Tests.Players {
             _context.CallsToSaveChanges.Should().Be(1);
         }
 
+        [TestMethod]
+        public void PlayerRepository_RemoveInvite_Succeeds() {
+            var repository = new PlayerRepository(_context);
+            var previousInviteCount = _context.Alliances.Sum(a => a.Invites.Count());
+
+            repository.RemoveInvite(_context.Alliances.First().Invites.First());
+
+            _context.Alliances.Sum(a => a.Invites.Count()).Should().Be(previousInviteCount - 1);
+        }
+
+        [TestMethod]
+        public void PlayerRepository_RemoveInvite_Saves() {
+            var repository = new PlayerRepository(_context);
+
+            repository.RemoveInvite(_context.Alliances.First().Invites.First());
+
+            _context.CallsToSaveChanges.Should().Be(1);
+        }
     }
 }

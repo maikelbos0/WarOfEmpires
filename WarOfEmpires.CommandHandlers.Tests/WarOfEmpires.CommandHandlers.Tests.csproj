@@ -99,6 +99,7 @@
   <ItemGroup>
     <Compile Include="Alliances\CreateAllianceCommandHandlerTests.cs" />
     <Compile Include="Alliances\SendInviteCommandHandlerTests.cs" />
+    <Compile Include="Alliances\WithdrawInviteCommandHandlerTests.cs" />
     <Compile Include="Attacks\AttackCommandHandlerTests.cs" />
     <Compile Include="Attacks\ReadAttackCommandHandlerTests.cs" />
     <Compile Include="Decorators\AuditDecoratorTests.cs" />
