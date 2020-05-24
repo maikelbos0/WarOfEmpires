@@ -1,0 +1,44 @@
+﻿@model WarOfEmpires.Models.Alliances.SendInviteModel
+
+@{
+    ViewBag.Title = "Send alliance invite";
+}
+
+<h2>Send alliance invite</h2>
+
+<p>
+    Send an alliance invite to another player below.
+</p>
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new {
+    data_success_message = "An invite has been sent."
+})) {
+    @Html.ValidationSummary(true, null, new { @class = "site-validation-summary text-danger" })
+    @Html.HiddenFor(m => m.PlayerId)
+    @Html.HiddenFor(m => m.PlayerName)
+
+    <div class="row">
+        <div class="col-3 col-form-label">
+            <strong>Player</strong>
+        </div>
+
+        <div class="col-9 col-form-label">
+            @Model.PlayerName
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-3 col-form-label">
+            <strong>@Html.LabelFor(m => m.Message)</strong>
+        </div>
+
+        <div class="col-9">
+            @Html.TextAreaFor(m => m.Message, new { @class = "form-control", rows = 8 })
+        </div>
+    </div>
+
+    <div class="row site-spaced-small">
+        <div class="col-9"></div>
+        <div class="col-3"><button type="submit" class="btn btn-primary form-control">Send</button></div>
+    </div>
+}

@@ -54,6 +54,8 @@
     <Compile Include="Alliances\GetAllianceHomeQueryHandler.cs" />
     <Compile Include="Alliances\GetAllianceDetailsQueryHandler.cs" />
     <Compile Include="Alliances\GetAlliancesQueryHandler.cs" />
+    <Compile Include="Alliances\GetInvitePlayerQueryHandler.cs" />
+    <Compile Include="Alliances\GetInvitesQueryHandler.cs" />
     <Compile Include="Attacks\GetAttackDetailsQueryHandler.cs" />
     <Compile Include="Attacks\GetDefenderQueryHandler.cs" />
     <Compile Include="Attacks\GetExecutedAttacksQueryHandler.cs" />

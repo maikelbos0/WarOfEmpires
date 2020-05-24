@@ -34,6 +34,7 @@ namespace WarOfEmpires.QueryHandlers.Players {
                 Title = _formatter.ToString(player.Title),
                 DisplayName = player.DisplayName,
                 Population = player.Peasants + player.Workers.Sum(w => w.Count) + player.Troops.Sum(t => t.GetTotals()),
+                AllianceId = player.Alliance?.Id,
                 AllianceCode = player.Alliance?.Code,
                 AllianceName = player.Alliance?.Name
             };

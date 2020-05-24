@@ -34,10 +34,12 @@ namespace WarOfEmpires.QueryHandlers.Tests.Attacks {
             var rounds = new List<AttackRound>();
 
             _attacker.Alliance.Returns(attackerAlliance);
+            attackerAlliance.Id.Returns(27);
             attackerAlliance.Code.Returns("ATK");
             attackerAlliance.Name.Returns("The Attackers");
 
             _defender.Alliance.Returns(defenderAlliance);
+            defenderAlliance.Id.Returns(14);
             defenderAlliance.Code.Returns("DEF");
             defenderAlliance.Name.Returns("The Defenders");
 
@@ -102,10 +104,12 @@ namespace WarOfEmpires.QueryHandlers.Tests.Attacks {
             result.Id.Should().Be(1);
             result.AttackerId.Should().Be(1);
             result.Attacker.Should().Be("Attacker 1");
+            result.AttackerAllianceId.Should().Be(27);
             result.AttackerAllianceCode.Should().Be("ATK");
             result.AttackerAllianceName.Should().Be("The Attackers");
             result.DefenderId.Should().Be(2);
             result.Defender.Should().Be("Defender 1");
+            result.DefenderAllianceId.Should().Be(14);
             result.DefenderAllianceCode.Should().Be("DEF");
             result.DefenderAllianceName.Should().Be("The Defenders");
             result.Date.Should().Be(new DateTime(2019, 1, 1));

@@ -14,24 +14,22 @@
     <div class="col-9">@Html.ActionLink(Model.Attacker, "Details", "Player", new { id = Model.AttackerId }, null)</div>
 </div>
 
-@if (!string.IsNullOrEmpty(Model.AttackerAllianceCode)) {
+@if (Model.AttackerAllianceId.HasValue) {
     <div class="row">
         <div class="col-3">
             <strong>Alliance code</strong>
         </div>
         <div class="col-9">
-            @Model.AttackerAllianceCode
+            @Html.ActionLink(Model.AttackerAllianceCode, "Details", "Alliance", new { id = Model.AttackerAllianceId }, null)
         </div>
     </div>
-}
 
-@if (!string.IsNullOrEmpty(Model.AttackerAllianceName)) {
     <div class="row">
         <div class="col-3">
             <strong>Alliance name</strong>
         </div>
         <div class="col-9">
-            @Model.AttackerAllianceName
+            @Html.ActionLink(Model.AttackerAllianceName, "Details", "Alliance", new { id = Model.AttackerAllianceId }, null)
         </div>
     </div>
 }
@@ -44,24 +42,22 @@
     <div class="col-9">@Html.ActionLink(Model.Defender, "Details", "Player", new { id = Model.DefenderId }, null)</div>
 </div>
 
-@if (!string.IsNullOrEmpty(Model.DefenderAllianceCode)) {
+@if (Model.DefenderAllianceId.HasValue) {
     <div class="row">
         <div class="col-3">
             <strong>Alliance code</strong>
         </div>
         <div class="col-9">
-            @Model.DefenderAllianceCode
+            @Html.ActionLink(Model.DefenderAllianceCode, "Details", "Alliance", new { id = Model.DefenderAllianceId }, null)
         </div>
     </div>
-}
 
-@if (!string.IsNullOrEmpty(Model.DefenderAllianceName)) {
     <div class="row">
         <div class="col-3">
             <strong>Alliance name</strong>
         </div>
         <div class="col-9">
-            @Model.DefenderAllianceName
+            @Html.ActionLink(Model.DefenderAllianceName, "Details", "Alliance", new { id = Model.DefenderAllianceId }, null)
         </div>
     </div>
 }

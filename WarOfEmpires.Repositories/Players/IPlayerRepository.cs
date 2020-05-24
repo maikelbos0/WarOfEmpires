@@ -15,5 +15,6 @@ namespace WarOfEmpires.Repositories.Players {
         Alliance GetAlliance(int id);
         IEnumerable<Alliance> GetAllAlliances();
         void AddAlliance(Alliance alliance);
+        void RemoveInvite(Invite invite);
     }
 }

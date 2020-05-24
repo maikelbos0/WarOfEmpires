@@ -139,9 +139,13 @@ body {
     background-color: var(--pw-meter-3-color);
 }
 
-.site-user-text {
+.site-user-text, .site-user-text-inline {
     white-space: pre-wrap;
     background-color: var(--msg-bg-color);
+    border-radius: 0.25em;
+}
+
+.site-user-text {
     padding: 0.5rem;
     margin-top: 0.5rem;
 }
@@ -222,4 +226,8 @@ body {
 
 .partial-content + :not(.partial-content):not(.information-list), .information-list + :not(.partial-content):not(.information-list) {
     margin-top: 1em;
+}
+
+.action-list > *:not(:last-child)::after {
+    content: " |";
 }

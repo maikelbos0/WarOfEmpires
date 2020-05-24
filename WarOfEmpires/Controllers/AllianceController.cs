@@ -50,5 +50,32 @@ namespace WarOfEmpires.Controllers {
         public ActionResult Details(string id) {
             return View(_messageService.Dispatch(new GetAllianceDetailsQuery(id)));
         }
+
+        [HttpGet]
+        [Route("Invite")]
+        public ActionResult Invite(string playerId) {
+            return View(_messageService.Dispatch(new GetInvitePlayerQuery(playerId)));
+        }
+
+        [HttpPost]
+        [Route("Invite")]
+        public ActionResult Invite(SendInviteModel model) {
+            return ValidatedCommandResult(model, new SendInviteCommand(_authenticationService.Identity, model.PlayerId, model.Message), () => Invites());
+        }
+
+        [HttpGet]
+        [Route("Invites")]
+        public ActionResult Invites() {
+            // Explicitly name view so it works from Invite
+            return View("Invites", _messageService.Dispatch(new GetInvitesQuery(_authenticationService.Identity)));
+        }
+
+        [HttpPost]
+        [Route("WithdrawInvite")]
+        public ActionResult WithdrawInvite(string id) {
+            _messageService.Dispatch(new WithdrawInviteCommand(_authenticationService.Identity, id));
+
+            return RedirectToAction("Invites");
+        }
     }
 }

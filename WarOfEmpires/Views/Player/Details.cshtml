@@ -6,11 +6,13 @@
 
 <h2>@Model.DisplayName</h2>
 
-<p>
-    @Html.ActionLink("Send message", "Send", "Message", new { RecipientId = Model.Id }, null)
-    |
-    @Html.ActionLink("Attack", "Execute", "Attack", new { DefenderId = Model.Id }, null)
-</p>
+<div class="action-list">
+    <span>@Html.ActionLink("Send message", "Send", "Message", new { RecipientId = Model.Id }, null)</span>
+    <span>@Html.ActionLink("Attack", "Execute", "Attack", new { DefenderId = Model.Id }, null)</span>
+
+    @*TODO: hide when current user is not allowed to invite or not in an alliance*@
+    <span>@Html.ActionLink("Invite into alliance", "Invite", "Alliance", new { PlayerId = Model.Id }, null)</span>
+</div>
 
 <div class="row">
     <div class="col-3">
@@ -30,24 +32,22 @@
     </div>
 </div>
 
-@if (!string.IsNullOrEmpty(Model.AllianceCode)) {
+@if (Model.AllianceId.HasValue) {
     <div class="row">
         <div class="col-3">
             <strong>Alliance code</strong>
         </div>
         <div class="col-9">
-            @Model.AllianceCode
+            @Html.ActionLink(Model.AllianceCode, "Details", "Alliance", new { id = Model.AllianceId }, null)
         </div>
     </div>
-}
 
-@if (!string.IsNullOrEmpty(Model.AllianceName)) {
     <div class="row">
         <div class="col-3">
             <strong>Alliance name</strong>
         </div>
         <div class="col-9">
-            @Model.AllianceName
+            @Html.ActionLink(Model.AllianceName, "Details", "Alliance", new { id = Model.AllianceId }, null)
         </div>
     </div>
 }

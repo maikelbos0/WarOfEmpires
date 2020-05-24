@@ -45,10 +45,13 @@
     <Compile Include="Alliances\AllianceHomeMemberViewModel.cs" />
     <Compile Include="Alliances\AllianceHomeViewModel.cs" />
     <Compile Include="Alliances\AllianceDetailsViewModel.cs" />
+    <Compile Include="Alliances\InvitesViewModel.cs" />
+    <Compile Include="Alliances\InviteViewModel.cs" />
     <Compile Include="Alliances\AllianceMemberViewModel.cs" />
     <Compile Include="Alliances\AllianceViewModel.cs" />
     <Compile Include="Alliances\CreateAllianceModel.cs" />
     <Compile Include="Alliances\AllianceSearchModel.cs" />
+    <Compile Include="Alliances\SendInviteModel.cs" />
     <Compile Include="Attacks\AttackDetailsViewModel.cs" />
     <Compile Include="Attacks\AttackRoundDetailsViewModel.cs" />
     <Compile Include="Attacks\ExecuteAttackModel.cs" />
