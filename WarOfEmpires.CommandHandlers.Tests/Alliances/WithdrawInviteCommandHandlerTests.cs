@@ -57,7 +57,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
         }
 
         [TestMethod]
-        public void WithdrawInviteCommandHandler_Throws_Exception_For_Member_Not_In_Empire() {
+        public void WithdrawInviteCommandHandler_Throws_Exception_For_Sender_Not_Empire_Member() {
             _alliance.Members.Returns(new List<Player>());
             _member.Alliance.Returns((Alliance)null);
 

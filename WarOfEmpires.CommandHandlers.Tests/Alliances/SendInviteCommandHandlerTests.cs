@@ -80,7 +80,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
         }
 
         [TestMethod]
-        public void SendInviteCommandHandler_Throws_Exception_For_Member_Not_In_Empire() {
+        public void SendInviteCommandHandler_Throws_Exception_For_Sender_Not_Empire_Member() {
             var handler = new SendInviteCommandHandler(_repository);
             var command = new SendInviteCommand("invite@test.com", "2", "Test message");
 
