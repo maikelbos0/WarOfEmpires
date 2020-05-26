@@ -32,6 +32,7 @@ namespace WarOfEmpires.QueryHandlers.Alliances {
                 Name = alliance.Name,
                 Invites = invites.Select(i => new InviteViewModel() {
                     Id = i.Id,
+                    PlayerId = i.Player.Id,
                     PlayerName = i.Player.DisplayName,
                     IsRead = i.IsRead,
                     Date = i.Date,

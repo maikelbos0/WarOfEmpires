@@ -36,7 +36,7 @@
 
         <div class="row site-spaced-small">
             <div class="col-3 col-form-label">
-                @invite.PlayerName
+                @Html.ActionLink(invite.PlayerName, "Details", "Player", new { id = invite.PlayerId }, null)
             </div>
 
             <div class="col-1 col-form-label">
