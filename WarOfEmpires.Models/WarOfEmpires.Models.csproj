@@ -51,6 +51,7 @@
     <Compile Include="Alliances\AllianceViewModel.cs" />
     <Compile Include="Alliances\CreateAllianceModel.cs" />
     <Compile Include="Alliances\AllianceSearchModel.cs" />
+    <Compile Include="Alliances\ReceivedInviteViewModel.cs" />
     <Compile Include="Alliances\SendInviteModel.cs" />
     <Compile Include="Attacks\AttackDetailsViewModel.cs" />
     <Compile Include="Attacks\AttackRoundDetailsViewModel.cs" />

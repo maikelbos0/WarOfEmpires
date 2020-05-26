@@ -77,5 +77,11 @@ namespace WarOfEmpires.Controllers {
 
             return RedirectToAction("Invites");
         }
+
+        [HttpGet]
+        [Route("ReceivedInvites")]
+        public ActionResult ReceivedInvites() {
+            return View(_messageService.Dispatch(new GetReceivedInvitesQuery(_authenticationService.Identity)));
+        }
     }
 }
