@@ -6,5 +6,6 @@
         public bool HasHousingShortage { get; set; }
         public bool HasUpkeepShortage { get; set; }
         public bool HasSoldierShortage { get; set; }
+        public bool HasNewInvites { get; set; }
     }
 }

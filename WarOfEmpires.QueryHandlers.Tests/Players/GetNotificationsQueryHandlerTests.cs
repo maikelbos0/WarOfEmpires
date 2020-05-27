@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 using System.Collections.Generic;
+using WarOfEmpires.Domain.Alliances;
 using WarOfEmpires.Domain.Attacks;
 using WarOfEmpires.Domain.Common;
 using WarOfEmpires.Domain.Markets;
@@ -19,6 +20,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
         private readonly Message _message;
         private readonly Attack _attack;
         private readonly Transaction _transaction;
+        private readonly Invite _invite;
 
         public GetNotificationsQueryHandlerTests() {
             var user = Substitute.For<User>();
@@ -43,6 +45,9 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
 
             _transaction = Substitute.For<Transaction>();
             _player.SellTransactions.Returns(new List<Transaction>() { _transaction });
+
+            _invite = Substitute.For<Invite>();
+            _player.Invites.Returns(new List<Invite>() { _invite });
         }
 
         [TestMethod]
@@ -51,7 +56,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
 
             var handler = new GetNotificationsQueryHandler(_context);
             var query = new GetNotificationsQuery("test@test.com");
-            
+
             var result = handler.Execute(query);
 
             result.HasNewMessages.Should().BeTrue();
@@ -201,6 +206,30 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
             var result = handler.Execute(query);
 
             result.HasSoldierShortage.Should().BeFalse();
+        }
+
+        [TestMethod]
+        public void GetNotificationsQueryHandler_HasNewInvites_Is_True_For_Unread_Invites() {
+            _invite.IsRead.Returns(false);
+
+            var handler = new GetNotificationsQueryHandler(_context);
+            var query = new GetNotificationsQuery("test@test.com");
+
+            var result = handler.Execute(query);
+
+            result.HasNewInvites.Should().BeTrue();
+        }
+
+        [TestMethod]
+        public void GetNotificationsQueryHandler_HasNewInvites_Is_False_For_Read_Invites() {
+            _invite.IsRead.Returns(true);
+
+            var handler = new GetNotificationsQueryHandler(_context);
+            var query = new GetNotificationsQuery("test@test.com");
+
+            var result = handler.Execute(query);
+
+            result.HasNewInvites.Should().BeFalse();
         }
     }
 }
