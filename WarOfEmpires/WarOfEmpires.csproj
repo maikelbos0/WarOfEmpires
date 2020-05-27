@@ -443,6 +443,7 @@
     <Content Include="Views\Alliance\Details.cshtml" />
     <Content Include="Views\Alliance\Invite.cshtml" />
     <Content Include="Views\Alliance\Invites.cshtml" />
+    <Content Include="Views\Alliance\ReceivedInvites.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

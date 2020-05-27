@@ -1,0 +1,54 @@
+﻿@model System.Collections.Generic.IEnumerable<WarOfEmpires.Models.Alliances.ReceivedInviteViewModel>
+
+@{
+    ViewBag.Title = "Received invites";
+}
+
+<h2>Received invites</h2>
+
+<p>Below are the invites you have received from alliances.</p>
+
+<div class="row">
+    <div class="col-1 col-form-label">
+        <strong>Alliance</strong>
+    </div>
+
+    <div class="col-2 col-form-label">
+        <strong>Alliance name</strong>
+    </div>
+
+    <div class="col-2 col-form-label">
+        <strong>Date</strong>
+    </div>
+
+    <div class="col-3 col-form-label">
+        <strong>Message</strong>
+    </div>
+
+    <div class="col-2">
+    </div>
+
+    <div class="col-2">
+    </div>
+</div>
+
+@foreach (var invite in Model) {
+    <div class="row site-spaced-small">
+        <div class="col-1 col-form-label">
+            @Html.ActionLink(invite.AllianceCode, "Details", "Alliance", new { id = invite.AllianceId }, null)
+        </div>
+
+        <div class="col-2 col-form-label">
+            @Html.ActionLink(invite.AllianceName, "Details", "Alliance", new { id = invite.AllianceId }, null)
+        </div>
+
+        <div class="col-2 col-form-label">
+            @invite.Date.ToString(StringFormat.Date)
+        </div>
+
+        <div class="col-3 col-form-label site-user-text-inline">@invite.Message</div>
+
+        <div class="col-2">
+        </div>
+    </div>
+}

@@ -37,6 +37,8 @@
                         </a>
                         <div class="dropdown-menu site-dropdown-menu" aria-labelledby="navbar-message-dropdown">
                             @Html.ActionLink("Received", "Index", "Message", null, new { id = "message-link", @class = "dropdown-item site-dropdown-item" })
+                            @* TODO add notification for received alliance invite *@
+                            @Html.ActionLink("Alliance invites", "ReceivedInvites", "Alliance", null, new { id = "invite-link", @class = "dropdown-item site-dropdown-item" })
                             @Html.ActionLink("Sent", "SentIndex", "Message", null, new { @class = "dropdown-item site-dropdown-item" })
                         </div>
                     </li>
