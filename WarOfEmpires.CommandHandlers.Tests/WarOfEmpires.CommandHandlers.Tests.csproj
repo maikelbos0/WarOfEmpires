@@ -97,7 +97,10 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Alliances\AcceptInviteCommandHandlerTests.cs" />
     <Compile Include="Alliances\CreateAllianceCommandHandlerTests.cs" />
+    <Compile Include="Alliances\ReadInvitesCommandHandlerTests.cs" />
+    <Compile Include="Alliances\RejectInviteCommandHandlerTests.cs" />
     <Compile Include="Alliances\SendInviteCommandHandlerTests.cs" />
     <Compile Include="Alliances\WithdrawInviteCommandHandlerTests.cs" />
     <Compile Include="Attacks\AttackCommandHandlerTests.cs" />

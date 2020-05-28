@@ -81,7 +81,25 @@ namespace WarOfEmpires.Controllers {
         [HttpGet]
         [Route("ReceivedInvites")]
         public ActionResult ReceivedInvites() {
+            _messageService.Dispatch(new ReadInvitesCommand(_authenticationService.Identity));
+
             return View(_messageService.Dispatch(new GetReceivedInvitesQuery(_authenticationService.Identity)));
+        }
+
+        [HttpPost]
+        [Route("AcceptInvite")]
+        public ActionResult AcceptInvite(string id) {
+            _messageService.Dispatch(new AcceptInviteCommand(_authenticationService.Identity, id));
+
+            return RedirectToAction("Home");
+        }
+
+        [HttpPost]
+        [Route("RejectInvite")]
+        public ActionResult RejectInvite(string id) {
+            _messageService.Dispatch(new WithdrawInviteCommand(_authenticationService.Identity, id));
+
+            return RedirectToAction("Invites");
         }
     }
 }
