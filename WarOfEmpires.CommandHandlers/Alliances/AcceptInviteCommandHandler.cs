@@ -1,4 +1,5 @@
-﻿using WarOfEmpires.CommandHandlers.Decorators;
+﻿using System.Linq;
+using WarOfEmpires.CommandHandlers.Decorators;
 using WarOfEmpires.Commands.Alliances;
 using WarOfEmpires.Repositories.Players;
 using WarOfEmpires.Utilities.Container;
@@ -14,7 +15,20 @@ namespace WarOfEmpires.CommandHandlers.Alliances {
         }
 
         public CommandResult<AcceptInviteCommand> Execute(AcceptInviteCommand command) {
-            throw new System.NotImplementedException();
+            var result = new CommandResult<AcceptInviteCommand>();
+            var player = _repository.Get(command.Email);
+            var invite = player.Invites.Single(i => i.Id == int.Parse(command.InviteId));
+
+            if (player.Alliance != null) {
+                result.AddError("You are already in an alliance; leave your current alliance before accepting an invite");
+            }
+
+            if (result.Success) {
+                invite.Alliance.AddMember(player);
+                _repository.RemoveInvite(invite);
+            }
+
+            return result;
         }
     }
 }

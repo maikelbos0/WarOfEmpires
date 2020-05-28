@@ -32,7 +32,7 @@ namespace WarOfEmpires.CommandHandlers.Alliances {
                 _repository.AddAlliance(alliance);
 
                 // Add player as member separately to make sure EF understands us
-                alliance.Members.Add(player);
+                alliance.AddMember(player);
                 _repository.Update();
             }
 

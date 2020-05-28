@@ -17,5 +17,9 @@ namespace WarOfEmpires.Domain.Alliances {
             Code = code;
             Name = name;
         }
+
+        public virtual void AddMember(Player member) {
+            Members.Add(member);
+        }
     }
 }

@@ -68,6 +68,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Alliances\AllianceTests.cs" />
     <Compile Include="Attacks\AttackFactoryTests.cs" />
     <Compile Include="Attacks\AttackTests.cs" />
     <Compile Include="Attacks\AssaultTests.cs" />
