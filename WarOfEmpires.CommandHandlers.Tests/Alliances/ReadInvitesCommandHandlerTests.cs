@@ -20,11 +20,11 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
         public ReadInvitesCommandHandlerTests() {
             _repository = new PlayerRepository(_context);
 
+            _invite = Substitute.For<Invite>();
+
             var user = Substitute.For<User>();
             user.Email.Returns("test@test.com");
             user.Status.Returns(UserStatus.Active);
-
-            _invite = Substitute.For<Invite>();
 
             var player = Substitute.For<Player>();
             player.Invites.Returns(new List<Invite>() { _invite });

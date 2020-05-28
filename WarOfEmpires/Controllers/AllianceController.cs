@@ -97,9 +97,9 @@ namespace WarOfEmpires.Controllers {
         [HttpPost]
         [Route("RejectInvite")]
         public ActionResult RejectInvite(string id) {
-            _messageService.Dispatch(new WithdrawInviteCommand(_authenticationService.Identity, id));
+            _messageService.Dispatch(new RejectInviteCommand(_authenticationService.Identity, id));
 
-            return RedirectToAction("Invites");
+            return RedirectToAction("ReceivedInvites");
         }
     }
 }
