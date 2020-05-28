@@ -1,4 +1,5 @@
-﻿using WarOfEmpires.CommandHandlers.Decorators;
+﻿using System.Linq;
+using WarOfEmpires.CommandHandlers.Decorators;
 using WarOfEmpires.Commands.Alliances;
 using WarOfEmpires.Repositories.Players;
 using WarOfEmpires.Utilities.Container;
@@ -14,7 +15,18 @@ namespace WarOfEmpires.CommandHandlers.Alliances {
         }
 
         public CommandResult<ReadInvitesCommand> Execute(ReadInvitesCommand command) {
-            throw new System.NotImplementedException();
+            var result = new CommandResult<ReadInvitesCommand>();
+            var player = _repository.Get(command.Email);
+
+            if (player.Invites.Any(i => !i.IsRead)) {
+                foreach (var invite in player.Invites.Where(i => !i.IsRead)) {
+                    invite.IsRead = true;
+                }
+
+                _repository.Update();
+            }
+
+            return result;
         }
     }
 }
