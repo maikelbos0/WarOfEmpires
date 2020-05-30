@@ -1,33 +1,33 @@
 ﻿let NotificationManager = {
+    showNotifications: false,
     url: null,
 
     refresh: function () {
-        let messageElements = $('#navbar-message-dropdown, #message-link');
-        let attackElements = $('#navbar-attack-dropdown, #attack-link');
-        let marketElements = $('#navbar-market-dropdown, #market-link');
-        let empireElements = $('#navbar-empire-dropdown');
-        let housingElements = $('#empire-buildings-link');
-        let upkeepElements = $('#worker-link');
-        let troopElements = $('#troops-link');
-
-        if (messageElements.length > 0) {
-            $.ajax({
-                url: NotificationManager.url,
-                method: "POST",
-                success: function (result) {
-                    messageElements.toggleClass("notify", result.HasNewMessages);
-                    attackElements.toggleClass("notify", result.HasNewAttacks);
-                    marketElements.toggleClass("notify", result.HasNewSales);
-                    empireElements.toggleClass("notify", result.HasHousingShortage || result.HasUpkeepShortage || result.HasSoldierShortage);
-                    housingElements.toggleClass("notify", result.HasHousingShortage);
-                    upkeepElements.toggleClass("notify", result.HasUpkeepShortage);
-                    troopElements.toggleClass("notify", result.HasSoldierShortage);
-                },
-                error: function () {
-                    toastr.error("An error occurred loading notitications; please refresh the page for accurate values.");
-                }
-            });
+        if (!NotificationManager.showNotifications) {
+            return;
         }
+
+        $.ajax({
+            url: NotificationManager.url,
+            method: "POST",
+            success: function (result) {
+                $('#navbar-message-dropdown').toggleClass("notify", result.HasNewInvites || result.HasNewMessages);
+                $('#invite-link').toggleClass("notify", result.HasNewInvites);
+                $('#message-link').toggleClass("notify", result.HasNewMessages);
+
+                $('#navbar-attack-dropdown, #attack-link').toggleClass("notify", result.HasNewAttacks);
+
+                $('#navbar-market-dropdown, #market-link').toggleClass("notify", result.HasNewSales);
+
+                $('#navbar-empire-dropdown').toggleClass("notify", result.HasHousingShortage || result.HasUpkeepShortage || result.HasSoldierShortage);
+                $('#empire-buildings-link').toggleClass("notify", result.HasHousingShortage);
+                $('#worker-link').toggleClass("notify", result.HasUpkeepShortage);
+                $('#troops-link').toggleClass("notify", result.HasSoldierShortage);
+            },
+            error: function () {
+                toastr.error("An error occurred loading notitications; please refresh the page for accurate values.");
+            }
+        });
     }
 }
 

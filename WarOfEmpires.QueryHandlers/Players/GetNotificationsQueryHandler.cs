@@ -26,7 +26,8 @@ namespace WarOfEmpires.QueryHandlers.Players {
                 HasNewSales = player.SellTransactions.Any(t => !t.IsRead),
                 HasHousingShortage = player.GetTheoreticalRecruitsPerDay() > player.GetAvailableHousingCapacity(),
                 HasUpkeepShortage = player.HasUpkeepRunOut || !(player.GetTotalResources() + player.GetResourcesPerTurn() * 48).CanAfford(player.GetUpkeepPerTurn() * 48),
-                HasSoldierShortage = player.GetSoldierRecruitsPenalty() > 0
+                HasSoldierShortage = player.GetSoldierRecruitsPenalty() > 0,
+                HasNewInvites = player.Invites.Any(i => !i.IsRead)
             };
         }
     }

@@ -49,6 +49,22 @@
         <div class="col-3 col-form-label site-user-text-inline">@invite.Message</div>
 
         <div class="col-2">
+            @using (Html.BeginForm("AcceptInvite", null, FormMethod.Post, new {
+                data_success_message = "The invite has been accepted."
+            })) {
+                @Html.Hidden("id", invite.Id)
+
+                <button type="submit" class="btn btn-primary form-control">Accept</button>
+            }
+        </div>
+
+        <div class="col-2">
+            @using (Html.BeginForm("RejectInvite", null, FormMethod.Post, new {
+                data_success_message = "The invite has been rejected."
+            })) {
+                @Html.Hidden("id", invite.Id)
+                <button type="submit" class="btn btn-secondary form-control">Reject</button>
+            }
         </div>
     </div>
 }
