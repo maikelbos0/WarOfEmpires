@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using WarOfEmpires.Domain.Alliances;
@@ -28,9 +29,9 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
             _alliance.Name.Returns("Føroyskir Samgonga");
             
             var members = new List<Player>() {
-                AddPlayer(1, 3, "test1@test.com", "Test display name 1", UserStatus.Active),
-                AddPlayer(2, 0, "test2@test.com", "Test display name 2", UserStatus.Inactive),
-                AddPlayer(3, 2, "test3@test.com", "Test display name 3", UserStatus.Active)
+                AddPlayer(1, 3, "test1@test.com", "Test display name 1", UserStatus.Active, new DateTime(2020, 1, 5)),
+                AddPlayer(2, 0, "test2@test.com", "Test display name 2", UserStatus.Inactive, new DateTime(2020, 1, 6)),
+                AddPlayer(3, 2, "test3@test.com", "Test display name 3", UserStatus.Active, new DateTime(2020, 1, 10))
             };
 
             _alliance.Members.Returns(members);
@@ -39,13 +40,14 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
             _context.Alliances.Add(_alliance);
         }
 
-        public Player AddPlayer(int id, int rank, string email, string displayName, UserStatus status) {
+        public Player AddPlayer(int id, int rank, string email, string displayName, UserStatus status, DateTime lastOnline) {
             var user = Substitute.For<User>();
             var player = Substitute.For<Player>();
 
             user.Id.Returns(id);
             user.Status.Returns(status);
             user.Email.Returns(email);
+            user.LastOnline.Returns(lastOnline);
 
             player.User.Returns(user);
             player.Alliance.Returns(_alliance);
@@ -87,6 +89,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
             result.Leader.Should().Be("Test display name 3");
             result.Members.Should().HaveCount(2);
             result.Members.First().Id.Should().Be(3);
+            result.Members.First().LastOnline.Should().Be(new DateTime(2020, 1, 10));
             result.Members.First().Rank.Should().Be(2);
             result.Members.First().DisplayName.Should().Be("Test display name 3");
             result.Members.First().Title.Should().Be("Sub chieftain");

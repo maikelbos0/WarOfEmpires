@@ -29,6 +29,7 @@ namespace WarOfEmpires.QueryHandlers.Alliances {
             var members = _context.Players
                 .Include(p => p.Workers)
                 .Include(p => p.Troops)
+                .Include(p => p.User)
                 .Where(p => p.User.Status == UserStatus.Active && p.Alliance.Id == alliance.Id)
                 .OrderBy(p => p.Rank)
                 .ToList();
@@ -41,6 +42,7 @@ namespace WarOfEmpires.QueryHandlers.Alliances {
                 Leader = alliance.Leader.DisplayName,
                 Members = members.Select(p => new AllianceHomeMemberViewModel() {
                     Id = p.Id,
+                    LastOnline = p.User.LastOnline,
                     Rank = p.Rank,
                     DisplayName = p.DisplayName,
                     Title = _formatter.ToString(p.Title),

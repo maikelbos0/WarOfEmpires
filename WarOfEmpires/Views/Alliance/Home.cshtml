@@ -37,24 +37,28 @@
 
 <div class="row">
     <div class="col-1"><strong>Rank</strong></div>
-    <div class="col-5"><strong>Display name</strong></div>
+    <div class="col-4"><strong>Display name</strong></div>
     <div class="col-3"><strong>Title</strong></div>
-    <div class="col-3"><strong>Population</strong></div>
+    <div class="col-2"><strong>Population</strong></div>
+    <div class="col-2"><strong>Last online</strong></div>
 </div>
 
 @foreach (var member in Model.Members) {
-    <div class="row">
+    <div class="row @(member.LastOnline > DateTime.UtcNow.AddMinutes(-30) ? "bg-highlight" : "")">
         <div class="col-1">
             @Html.ActionLink(member.Rank.ToString(StringFormat.Integer), "Details", "Player", new { id = member.Id }, null)
         </div>
-        <div class="col-5">
+        <div class="col-4">
             @Html.ActionLink(member.DisplayName, "Details", "Player", new { id = member.Id }, null)
         </div>
         <div class="col-3">
             @Html.ActionLink(member.Title, "Details", "Player", new { id = member.Id }, null)
         </div>
-        <div class="col-3">
+        <div class="col-2">
             @Html.ActionLink(member.Population.ToString(StringFormat.Integer), "Details", "Player", new { id = member.Id }, null)
+        </div>
+        <div class="col-2">
+            @Html.ActionLink(member.LastOnline?.ToString(StringFormat.Date), "Details", "Player", new { id = member.Id }, null)
         </div>
     </div>
 }
