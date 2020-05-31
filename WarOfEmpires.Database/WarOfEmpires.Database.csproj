@@ -227,6 +227,10 @@
     <Compile Include="Migrations\202005171809548_Alliance-Invites.designer.cs">
       <DependentUpon>202005171809548_Alliance-Invites.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202005311607264_User-LastOnline.cs" />
+    <Compile Include="Migrations\202005311607264_User-LastOnline.designer.cs">
+      <DependentUpon>202005311607264_User-LastOnline.cs</DependentUpon>
+    </Compile>
     <Compile Include="ReferenceEntities\AttackResultEntity.cs" />
     <Compile Include="ReferenceEntities\AttackTypeEntity.cs" />
     <Compile Include="ReferenceEntities\BaseReferenceEntity.cs" />
@@ -390,6 +394,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202005171809548_Alliance-Invites.resx">
       <DependentUpon>202005171809548_Alliance-Invites.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202005311607264_User-LastOnline.resx">
+      <DependentUpon>202005311607264_User-LastOnline.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

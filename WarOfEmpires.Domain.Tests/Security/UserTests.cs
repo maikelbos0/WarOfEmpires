@@ -231,5 +231,14 @@ namespace WarOfEmpires.Domain.Tests.Security {
             user.UserEvents.Last().Type.Should().Be(UserEventType.FailedEmailChange);
             user.UserEvents.Last().Date.Should().BeCloseTo(DateTime.UtcNow, 1000);
         }
+
+        [TestMethod]
+        public void User_WasOnline_Succeeds() {
+            var user = new User("test@test.com", "test");
+
+            user.WasOnline();
+
+            user.LastOnline.Should().BeCloseTo(DateTime.UtcNow, 1000);
+        }
     }
 }

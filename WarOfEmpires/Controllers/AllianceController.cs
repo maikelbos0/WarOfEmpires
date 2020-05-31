@@ -4,9 +4,11 @@ using WarOfEmpires.Models.Grids;
 using WarOfEmpires.Models.Alliances;
 using WarOfEmpires.Queries.Alliances;
 using WarOfEmpires.Services;
+using WarOfEmpires.Attributes;
 
 namespace WarOfEmpires.Controllers {
     [Authorize]
+    [UserOnline]
     [RoutePrefix("Alliance")]
     public class AllianceController : BaseController {
         public AllianceController(IAuthenticationService authenticationService, IMessageService messageService, IDataGridViewService dataGridViewService)

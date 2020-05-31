@@ -107,6 +107,7 @@
     <Compile Include="Security\ResetUserPasswordCommandHandler.cs" />
     <Compile Include="Security\SendUserActivationCommandHandler.cs" />
     <Compile Include="Security\LogInUserCommandHandler.cs" />
+    <Compile Include="Security\UpdateUserLastOnlineCommandHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

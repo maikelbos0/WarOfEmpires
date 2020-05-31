@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Web.Mvc;
+using WarOfEmpires.Attributes;
 using WarOfEmpires.Commands.Empires;
 using WarOfEmpires.Models.Empires;
 using WarOfEmpires.Queries.Empires;
@@ -8,6 +9,7 @@ using WarOfEmpires.Services;
 
 namespace WarOfEmpires.Controllers {
     [Authorize]
+    [UserOnline]
     [RoutePrefix("Empire")]
     public class EmpireController : BaseController {
         public EmpireController(IAuthenticationService authenticationService, IMessageService messageService, IDataGridViewService dataGridViewService)

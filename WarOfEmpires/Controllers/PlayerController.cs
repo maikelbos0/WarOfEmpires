@@ -1,4 +1,5 @@
 using System.Web.Mvc;
+using WarOfEmpires.Attributes;
 using WarOfEmpires.Models.Grids;
 using WarOfEmpires.Models.Players;
 using WarOfEmpires.Queries.Players;
@@ -6,6 +7,7 @@ using WarOfEmpires.Services;
 
 namespace WarOfEmpires.Controllers {
     [Authorize]
+    [UserOnline]
     [RoutePrefix("Player")]
     public sealed class PlayerController : BaseController {
         public PlayerController(IAuthenticationService authenticationService, IMessageService messageService, IDataGridViewService dataGridViewService) 

@@ -4,9 +4,11 @@ using WarOfEmpires.Models.Grids;
 using WarOfEmpires.Models.Attacks;
 using WarOfEmpires.Queries.Attacks;
 using WarOfEmpires.Services;
+using WarOfEmpires.Attributes;
 
 namespace WarOfEmpires.Controllers {
     [Authorize]
+    [UserOnline]
     [RoutePrefix("Attack")]
     public class AttackController : BaseController {
         public AttackController(IAuthenticationService authenticationService, IMessageService messageService, IDataGridViewService dataGridViewService)

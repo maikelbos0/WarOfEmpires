@@ -90,6 +90,7 @@
     <Compile Include="Security\RegisterUserCommand.cs" />
     <Compile Include="Security\ResetUserPasswordCommand.cs" />
     <Compile Include="Security\SendUserActivationCommand.cs" />
+    <Compile Include="Security\UpdateUserLastOnlineCommand.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

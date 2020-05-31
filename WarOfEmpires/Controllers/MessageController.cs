@@ -1,4 +1,5 @@
 ﻿using System.Web.Mvc;
+using WarOfEmpires.Attributes;
 using WarOfEmpires.Commands.Messages;
 using WarOfEmpires.Models.Grids;
 using WarOfEmpires.Models.Messages;
@@ -7,6 +8,7 @@ using WarOfEmpires.Services;
 
 namespace WarOfEmpires.Controllers {
     [Authorize]
+    [UserOnline]
     [RoutePrefix("Message")]
     public class MessageController : BaseController {
         public MessageController(IAuthenticationService authenticationService, IMessageService messageService, IDataGridViewService dataGridViewService) 

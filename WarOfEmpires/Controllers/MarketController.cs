@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
+using WarOfEmpires.Attributes;
 using WarOfEmpires.Commands.Markets;
 using WarOfEmpires.Models.Grids;
 using WarOfEmpires.Models.Markets;
@@ -8,6 +9,7 @@ using WarOfEmpires.Services;
 
 namespace WarOfEmpires.Controllers {
     [Authorize]
+    [UserOnline]
     [RoutePrefix("Market")]
     public class MarketController : BaseController {
         public MarketController(IAuthenticationService authenticationService, IMessageService messageService, IDataGridViewService dataGridViewService) 

@@ -143,6 +143,7 @@
     <Compile Include="Security\ForgotUserPasswordCommandHandlerTests.cs" />
     <Compile Include="Security\ResetUserPasswordCommandHandlerTests.cs" />
     <Compile Include="Security\SendUserActivationCommandHandlerTests.cs" />
+    <Compile Include="Security\UpdateUserLastOnlineCommandHandlerTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WarOfEmpires.CommandHandlers\WarOfEmpires.CommandHandlers.csproj">
