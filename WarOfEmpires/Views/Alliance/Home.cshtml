@@ -65,6 +65,26 @@
 
 <h3 class="site-spaced">Chat</h3>
 
+@using (Html.BeginForm("PostChatMessage", null, FormMethod.Post, new {
+    data_success_message = "Your message has been posted."
+})) {
+    <div class="row">
+        <div class="col-3">
+            <strong>@Html.LabelFor(m => m.ChatMessage)</strong>
+        </div>
+
+        <div class="col-9">
+            @Html.TextAreaFor(m => m.ChatMessage, new { @class = "form-control", rows = 8 })
+            @Html.ValidationMessageFor(m => m.ChatMessage, null, new { @class = "small form-text text-danger" })
+        </div>
+    </div>
+
+    <div class="row site-spaced-small">
+        <div class="col-9"></div>
+        <div class="col-3"><button type="submit" class="btn btn-primary form-control">Post</button></div>
+    </div>
+}
+
 @foreach (var chatMessage in Model.ChatMessages) {
     <div class="site-spaced">
         <div>

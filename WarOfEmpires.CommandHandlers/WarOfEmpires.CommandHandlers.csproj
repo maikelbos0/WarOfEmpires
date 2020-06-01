@@ -53,6 +53,7 @@
   <ItemGroup>
     <Compile Include="Alliances\AcceptInviteCommandHandler.cs" />
     <Compile Include="Alliances\CreateAllianceCommandHandler.cs" />
+    <Compile Include="Alliances\PostChatMessageCommandHandler.cs" />
     <Compile Include="Alliances\ReadInvitesCommandHandler.cs" />
     <Compile Include="Alliances\RejectInviteCommandHandler.cs" />
     <Compile Include="Alliances\SendInviteCommandHandler.cs" />
