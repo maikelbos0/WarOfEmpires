@@ -235,6 +235,10 @@
     <Compile Include="Migrations\202006010739266_Alliances-ChatMessages.designer.cs">
       <DependentUpon>202006010739266_Alliances-ChatMessages.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202006010751403_Alliances-RequiredFields.cs" />
+    <Compile Include="Migrations\202006010751403_Alliances-RequiredFields.designer.cs">
+      <DependentUpon>202006010751403_Alliances-RequiredFields.cs</DependentUpon>
+    </Compile>
     <Compile Include="ReferenceEntities\AttackResultEntity.cs" />
     <Compile Include="ReferenceEntities\AttackTypeEntity.cs" />
     <Compile Include="ReferenceEntities\BaseReferenceEntity.cs" />
@@ -404,6 +408,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202006010739266_Alliances-ChatMessages.resx">
       <DependentUpon>202006010739266_Alliances-ChatMessages.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006010751403_Alliances-RequiredFields.resx">
+      <DependentUpon>202006010751403_Alliances-RequiredFields.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
