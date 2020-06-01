@@ -22,5 +22,9 @@ namespace WarOfEmpires.Domain.Alliances {
         public virtual void AddMember(Player member) {
             Members.Add(member);
         }
+
+        public virtual void PostChatMessage(Player member, string message) {
+            ChatMessages.Add(new ChatMessage(member, message));
+        }
     }
 }
