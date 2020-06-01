@@ -1,4 +1,5 @@
-﻿using System.Data.Entity;
+﻿using System;
+using System.Data.Entity;
 using System.Linq;
 using WarOfEmpires.Database;
 using WarOfEmpires.Domain.Security;
@@ -33,6 +34,10 @@ namespace WarOfEmpires.QueryHandlers.Alliances {
                 .Where(p => p.User.Status == UserStatus.Active && p.Alliance.Id == alliance.Id)
                 .OrderBy(p => p.Rank)
                 .ToList();
+            var chatMessages = _context.Alliances
+                .Include(a => a.ChatMessages.Select(m => m.Player.User))
+                .Single(a => a.Id == alliance.Id)
+                .ChatMessages;
 
             return new AllianceHomeViewModel() {
                 Id = alliance.Id,
@@ -47,8 +52,19 @@ namespace WarOfEmpires.QueryHandlers.Alliances {
                     DisplayName = p.DisplayName,
                     Title = _formatter.ToString(p.Title),
                     Population = p.Peasants + p.Workers.Sum(w => w.Count) + p.Troops.Sum(t => t.GetTotals())
-                }).ToList()
-            };
+                }).ToList(),
+                ChatMessages = chatMessages
+                    .Where(m => m.Date >= DateTime.UtcNow.AddDays(-7))
+                    .OrderByDescending(m => m.Date)
+                    .Select(m => new ChatMessageViewModel() { 
+                        Id = m.Id,
+                        PlayerId = m.Player.User.Status == UserStatus.Active ? m.Player.Id : default(int?),
+                        Player = m.Player.DisplayName,
+                        Date = m.Date,
+                        Message = m.Message
+                    })
+                    .ToList()
+        };
         }
     }
 }

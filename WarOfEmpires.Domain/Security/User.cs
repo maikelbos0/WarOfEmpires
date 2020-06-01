@@ -159,7 +159,7 @@ namespace WarOfEmpires.Domain.Security {
             }
         }
 
-        public void WasOnline() {
+        public virtual void WasOnline() {
             LastOnline = DateTime.UtcNow;
         }
     }

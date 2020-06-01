@@ -37,6 +37,14 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
             _alliance.Members.Returns(members);
             _alliance.Leader.Returns(members.Last());
 
+            var chatMessages = new List<ChatMessage>() {
+                CreateChatMessage(members.First(), new DateTime(2020,2,2), "Hidden"),
+                CreateChatMessage(members.First(), DateTime.UtcNow.Date, "Displayed"),
+                CreateChatMessage(members[1], DateTime.UtcNow.Date.AddDays(-1), "Visible")
+            };
+
+            _alliance.ChatMessages.Returns(chatMessages);
+
             _context.Alliances.Add(_alliance);
         }
 
@@ -75,6 +83,16 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
             return player;
         }
 
+        public ChatMessage CreateChatMessage(Player player, DateTime date, string message) {
+            var chatMessage = Substitute.For<ChatMessage>();
+
+            chatMessage.Player.Returns(player);
+            chatMessage.Date.Returns(date);
+            chatMessage.Message.Returns(message);
+
+            return chatMessage;
+        }
+
         [TestMethod]
         public void GetAllianceHomeQueryHandler_Returns_Correct_Information() {
             var handler = new GetAllianceHomeQueryHandler(_context, _formatter);
@@ -94,6 +112,22 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
             result.Members.First().DisplayName.Should().Be("Test display name 3");
             result.Members.First().Title.Should().Be("Sub chieftain");
             result.Members.First().Population.Should().Be(49);
+        }
+
+        [TestMethod]
+        public void GetAllianceHomeQueryHandler_Returns_Only_Recent_ChatMessages() {
+            var handler = new GetAllianceHomeQueryHandler(_context, _formatter);
+            var query = new GetAllianceHomeQuery("test1@test.com");
+
+            var result = handler.Execute(query);
+
+            result.ChatMessages.Should().HaveCount(2);
+            result.ChatMessages.First().PlayerId.Should().Be(1);
+            result.ChatMessages.First().Player.Should().Be("Test display name 1");
+            result.ChatMessages.First().Message.Should().Be("Displayed");
+            result.ChatMessages.Last().PlayerId.Should().Be(null);
+            result.ChatMessages.Last().Player.Should().Be("Test display name 2");
+            result.ChatMessages.Last().Message.Should().Be("Visible");
         }
     }
 }

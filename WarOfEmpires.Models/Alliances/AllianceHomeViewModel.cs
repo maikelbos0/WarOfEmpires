@@ -7,5 +7,6 @@ namespace WarOfEmpires.Models.Alliances {
         public int LeaderId { get; set; }
         public string Leader { get; set; }
         public List<AllianceHomeMemberViewModel> Members { get; set; }
+        public List<ChatMessageViewModel> ChatMessages { get; set; }
     }
 }

@@ -33,7 +33,7 @@
     </div>
 </div>
 
-<h3>Members</h3>
+<h3 class="site-spaced">Members</h3>
 
 <div class="row">
     <div class="col-1"><strong>Rank</strong></div>
@@ -60,5 +60,26 @@
         <div class="col-2">
             @Html.ActionLink(member.LastOnline?.ToString(StringFormat.Date), "Details", "Player", new { id = member.Id }, null)
         </div>
+    </div>
+}
+
+<h3 class="site-spaced">Chat</h3>
+
+@foreach (var chatMessage in Model.ChatMessages) {
+    <div class="site-spaced">
+        <div>
+            <strong>
+                @if (chatMessage.PlayerId == null) {
+                    @chatMessage.Player
+                }
+                else {
+                    @Html.ActionLink(chatMessage.Player, "Details", "Player", new { id = chatMessage.PlayerId }, null)
+                }
+
+                @chatMessage.Date.ToString(StringFormat.Date)
+            </strong>
+        </div>
+
+        <div class="site-user-text">@chatMessage.Message</div>
     </div>
 }
