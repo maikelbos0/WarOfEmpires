@@ -1,5 +1,9 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using FluentAssertions;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
+using System;
+using WarOfEmpires.CommandHandlers.Alliances;
+using WarOfEmpires.Commands.Alliances;
 using WarOfEmpires.Domain.Alliances;
 using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Domain.Security;
@@ -34,19 +38,26 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
 
         [TestMethod]
         public void PostChatMessageCommandHandler_Succeeds() {
-            throw new System.NotImplementedException();
-        }
+            var handler = new PostChatMessageCommandHandler(_repository);
+            var command = new PostChatMessageCommand("test@test.com", "Test message");
 
-        [TestMethod]
-        public void PostChatMessageCommandHandler_Fails_For_No_Message() {
-            throw new System.NotImplementedException();
+            var result = handler.Execute(command);
+
+            result.Success.Should().BeTrue();
+            _alliance.Received().PostChatMessage(_player, "Test message");
+            _context.CallsToSaveChanges.Should().Be(1);
         }
 
         [TestMethod]
         public void PostChatMessageCommandHandler__Throws_Exception_For_Player_Not_Empire_Member() {
             _player.Alliance.Returns((Alliance)null);
 
-            throw new System.NotImplementedException();
+            var handler = new PostChatMessageCommandHandler(_repository);
+            var command = new PostChatMessageCommand("test@test.com", "Test message");
+
+            Action action = () => handler.Execute(command);
+
+            action.Should().Throw<NullReferenceException>();
         }
     }
 }

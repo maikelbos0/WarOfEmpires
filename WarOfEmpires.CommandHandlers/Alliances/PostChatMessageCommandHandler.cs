@@ -14,7 +14,13 @@ namespace WarOfEmpires.CommandHandlers.Alliances {
         }
 
         public CommandResult<PostChatMessageCommand> Execute(PostChatMessageCommand command) {
-            throw new System.NotImplementedException();
+            var result = new CommandResult<PostChatMessageCommand>();
+            var player = _repository.Get(command.Email);
+
+            player.Alliance.PostChatMessage(player, command.Message);
+            _repository.Update();
+
+            return result;
         }
     }
 }
