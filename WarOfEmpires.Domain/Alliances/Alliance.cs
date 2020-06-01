@@ -8,6 +8,7 @@ namespace WarOfEmpires.Domain.Alliances {
         public virtual string Name { get; protected set; }
         public virtual ICollection<Player> Members { get; protected set; } = new List<Player>();
         public virtual ICollection<Invite> Invites { get; protected set; } = new List<Invite>();
+        public virtual ICollection<ChatMessage> ChatMessages { get; protected set; } = new List<ChatMessage>();
 
         protected Alliance() {
         }
