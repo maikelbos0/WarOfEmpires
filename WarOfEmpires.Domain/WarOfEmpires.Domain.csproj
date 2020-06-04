@@ -53,6 +53,7 @@
   <ItemGroup>
     <Compile Include="AggregateRoot.cs" />
     <Compile Include="Alliances\Alliance.cs" />
+    <Compile Include="Alliances\ChatMessage.cs" />
     <Compile Include="Alliances\Invite.cs" />
     <Compile Include="Attacks\AttackFactory.cs" />
     <Compile Include="Attacks\AttackResult.cs" />

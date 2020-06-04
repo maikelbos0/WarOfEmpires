@@ -339,6 +339,7 @@
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\UnityMvcActivator.cs" />
     <Compile Include="Attributes\AdminAuthorizeAttribute.cs" />
+    <Compile Include="Attributes\UserOnlineAttribute.cs" />
     <Compile Include="Controllers\AdministrationController.cs" />
     <Compile Include="Controllers\AllianceController.cs" />
     <Compile Include="Controllers\AttackController.cs" />

@@ -1,4 +1,5 @@
 using System.Web.Mvc;
+using WarOfEmpires.Attributes;
 using WarOfEmpires.Commands.Players;
 using WarOfEmpires.Commands.Security;
 using WarOfEmpires.Models.Security;
@@ -12,6 +13,7 @@ namespace WarOfEmpires.Controllers {
             : base(messageService, authenticationService, dataGridViewService) {
         }
 
+        [UserOnline]
         [Route("~/")]
         [Route]
         [Route("Index")]
@@ -85,6 +87,7 @@ namespace WarOfEmpires.Controllers {
                 });
         }
 
+        [UserOnline]
         [Route("LogOut")]
         [HttpPost]
         [Authorize]
@@ -94,6 +97,7 @@ namespace WarOfEmpires.Controllers {
             return RedirectToAction("Index");
         }
 
+        [UserOnline]
         [Route("ChangePassword")]
         [HttpGet]
         [Authorize]
@@ -101,6 +105,7 @@ namespace WarOfEmpires.Controllers {
             return View(new ChangeUserPasswordModel());
         }
 
+        [UserOnline]
         [Route("ChangePassword")]
         [HttpPost]
         [Authorize]
@@ -132,6 +137,7 @@ namespace WarOfEmpires.Controllers {
             return ValidatedCommandResult(model, new ResetUserPasswordCommand(email, token, model.NewPassword), "PasswordReset");
         }
 
+        [UserOnline]
         [Route("Deactivate")]
         [HttpGet]
         [Authorize]
@@ -139,6 +145,7 @@ namespace WarOfEmpires.Controllers {
             return View(new DeactivateUserModel());
         }
 
+        [UserOnline]
         [Route("Deactivate")]
         [HttpPost]
         [Authorize]
@@ -151,6 +158,7 @@ namespace WarOfEmpires.Controllers {
                 });
         }
 
+        [UserOnline]
         [Route("ChangeEmail")]
         [HttpGet]
         [Authorize]
@@ -158,6 +166,7 @@ namespace WarOfEmpires.Controllers {
             return View(new ChangeUserEmailModel());
         }
 
+        [UserOnline]
         [Route("ChangeEmail")]
         [HttpPost]
         [Authorize]
@@ -165,6 +174,7 @@ namespace WarOfEmpires.Controllers {
             return ValidatedCommandResult(model, new ChangeUserEmailCommand(_authenticationService.Identity, model.Password, model.NewEmail), "EmailChangeRequested");
         }
 
+        [UserOnline]
         [Route("ConfirmEmail")]
         [HttpGet]
         public ActionResult ConfirmEmail(string confirmationCode, string email) {
@@ -183,6 +193,7 @@ namespace WarOfEmpires.Controllers {
             }
         }
 
+        [UserOnline]
         [Route("EmailChangeConfirmed")]
         [HttpGet]
         [Authorize]

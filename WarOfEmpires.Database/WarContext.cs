@@ -145,10 +145,16 @@ namespace WarOfEmpires.Database {
             var alliances = modelBuilder.Entity<Alliances.Alliance>().ToTable("Alliances", "Alliances").HasKey(a => a.Id);
             alliances.HasMany(a => a.Members).WithOptional(p => p.Alliance);
             alliances.HasMany(a => a.Invites).WithRequired(i => i.Alliance);
+            alliances.HasMany(a => a.ChatMessages).WithRequired();
             alliances.HasRequired(a => a.Leader);
+            alliances.Property(a => a.Code).IsRequired();
+            alliances.Property(a => a.Name).IsRequired();
 
             var invites = modelBuilder.Entity<Alliances.Invite>().ToTable("Invites", "Alliances").HasKey(i => i.Id);
             invites.Property(i => i.Message).IsMaxLength();
+
+            var chatMessages = modelBuilder.Entity<Alliances.ChatMessage>().ToTable("ChatMessages", "Alliances").HasKey(m => m.Id);
+            chatMessages.Property(m => m.Message).IsRequired().IsMaxLength();
         }
 
         private void OnAttacksModelCreating(DbModelBuilder modelBuilder) {

@@ -7,6 +7,7 @@ using WarOfEmpires.Services;
 namespace WarOfEmpires.Controllers {
     [Authorize]
     [AdminAuthorize]
+    [UserOnline]
     [RoutePrefix("Administration")]
     public class AdministrationController : BaseController {
         public AdministrationController(IAuthenticationService authenticationService, IMessageService messageService, IDataGridViewService dataGridViewService)
