@@ -1,9 +1,5 @@
 ﻿/* colours */
 :root {
-    --btn-info-color: #6184D8; /* blue */
-    --btn-info-hover-color: #72b4E0; /* blue */
-    --btn-primary-color: #533A71; /* dark purple */
-    --btn-primary-hover-color: #6184D8; /* blue */
     --content-bg-color: #F5E0B7; /* apricot */
     --msg-bg-color: #66CC66; /* darker green */
     --nav-bg-color: #6184D8; /* blue */
@@ -12,7 +8,6 @@
     --nav-menu-hover-color: #72b4E0; /* light blue */
     --nav-notify-color: #9CEC5B; /* garish green */
     --nav-notify-hover-color: #66CC66; /* darker green */
-    --page-bg-color: #F3FCDC; /* pale lemon */
     --pw-meter-border-color: #CED4DA; /* light grey */
     --pw-meter-1-color: #EE8833; /* orange */
     --pw-meter-2-color: #EEEE33; /* yellow */
@@ -31,10 +26,6 @@
     --rangeslider-thumb-height: calc(70% + 0.3em);
     --rangeslider-thumb-width: 0.8em;
     --rangeslider-track-height: 0.3em;
-}
-
-body {
-    background-color: var(--page-bg-color);
 }
 
 .site-container {
