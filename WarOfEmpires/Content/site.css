@@ -35,15 +35,6 @@
     color: var(--nav-notify-hover-color) !important;
 }
 
-.site-spaced {
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-}
-
-.site-spaced-small {
-    margin-top: 0.25rem;
-}
-
 .site-control {
     width: 100%;
     line-height: 1.2em;

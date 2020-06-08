@@ -33,7 +33,7 @@
 </div>
 
 @foreach (var invite in Model) {
-    <div class="row site-spaced-small">
+    <div class="row mt-1">
         <div class="col-1 col-form-label">
             @Html.ActionLink(invite.AllianceCode, "Details", "Alliance", new { id = invite.AllianceId }, null)
         </div>
