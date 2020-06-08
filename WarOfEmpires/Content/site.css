@@ -24,16 +24,6 @@
     --rangeslider-track-height: 0.3em;
 }
 
-.site-content {
-    background-color: var(--content-bg-color);
-    padding: 1rem;
-}
-
-#empire-resources {
-    background-color: var(--content-bg-color);
-    padding: 0 0.5rem;
-}
-
 .navbar * {
     font-weight: bold;
 }

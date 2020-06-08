@@ -1,10 +1,10 @@
 ﻿@model WarOfEmpires.Models.Empires.ResourceHeaderViewModel
 
 <div class="navbar-expand-lg d-flex flex-row-reverse justify-content-between align-items-start">
-    <button class="navbar-toggler btn shadow-none" type="button" data-toggle="collapse" data-target=".site-resourcebar-collapse" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler btn shadow-none" type="button" data-toggle="collapse" data-target="#empire-resources-collapse" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <div class="px-2 py-1">@Html.Icon("Menu")</div>
     </button>
-    <div class="site-resourcebar-collapse collapse d-lg-flex justify-content-end align-items-center">
+    <div id="empire-resources-collapse" class="collapse d-lg-flex justify-content-end align-items-center">
         <div class="p-1 d-flex flex-row align-items-center">
             <div class="p-1">
                 <div class="site-resources-open">@Model.Resources.Gold.ToString(StringFormat.Integer)</div>

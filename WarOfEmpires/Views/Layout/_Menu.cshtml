@@ -4,11 +4,11 @@
     <div class="container">
         @Html.ActionLink("War of Empires", "Index", "Home", null, new { @class = "navbar-brand" })
         
-        <button class="navbar-toggler btn shadow-none" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler btn shadow-none" type="button" data-toggle="collapse" data-target="#navbar-collapse" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        <div class="navbar-collapse collapse d-lg-inline-flex flex-lg-row-reverse">
+        <div id="navbar-collapse" class="collapse d-lg-inline-flex flex-lg-row-reverse">
             <ul class="navbar-nav ml-auto">
                 @if (Model.IsAuthenticated) {
                     <li class="nav-item dropdown">
@@ -129,7 +129,7 @@
 </nav>
 
 @if (Model.IsAuthenticated) {
-    <div id="empire-resources" class="partial-content">
+    <div id="empire-resources" class="partial-content bg-light px-2 py-0">
     </div>
 
     <script type="text/javascript">
