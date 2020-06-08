@@ -24,10 +24,6 @@
     --rangeslider-track-height: 0.3em;
 }
 
-.site-container {
-    padding: 1rem;
-}
-
 .site-content {
     background-color: var(--content-bg-color);
     padding: 1rem;
