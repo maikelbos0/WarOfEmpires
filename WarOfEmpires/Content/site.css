@@ -10,7 +10,6 @@
     --rangeslider-thumb-color: #6184D8; /* blue */
     --rangeslider-thumb-border-color: #333399; /* dark blue */
     --rangeslider-track-color: #533A71; /* dark purple */
-    --text-highlighted-color: #DD5500; /* dark orange */
     --text-muted-color: #777777; /* dark grey */
     --background-highlighted-color: #FFBB88; /* light orange */
 }
@@ -78,14 +77,6 @@
 .site-user-text {
     padding: 0.5rem;
     margin-top: 0.5rem;
-}
-
-.site-resources-open {
-    color: var(--text-highlighted-color);
-}
-
-.site-resources-banked {
-    color: var(--text-muted-color);
 }
 
 .rangeslider {
