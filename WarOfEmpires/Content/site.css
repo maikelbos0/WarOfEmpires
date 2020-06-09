@@ -35,11 +35,6 @@
     color: var(--nav-notify-hover-color) !important;
 }
 
-.site-control {
-    width: 100%;
-    line-height: 1.2em;
-}
-
 .site-required:after {
     content: "*";
     font-weight: bold;
@@ -83,10 +78,6 @@
 .site-user-text {
     padding: 0.5rem;
     margin-top: 0.5rem;
-}
-
-.site-table {
-    width: 100%;
 }
 
 .site-resources-open {
