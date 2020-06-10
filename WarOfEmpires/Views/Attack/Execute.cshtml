@@ -37,11 +37,11 @@
         <div class="col-9">
             <div class="form-check">
                 @Html.RadioButtonFor(m => m.AttackType, "Raid", new { id = "AttackType-Raid", @class = "form-check-input", @checked = "checked" })
-                <label class="form-check-label" for="AttackType-Raid">Raid <span class="information">- charge your opponent's workers and try to take their resources</span></label>
+                <label class="form-check-label" for="AttackType-Raid">Raid <span class="text-muted">- charge your opponent's workers and try to take their resources</span></label>
             </div>
             <div class="form-check">
                 @Html.RadioButtonFor(m => m.AttackType, "Assault", new { id = "AttackType-Assault", @class = "form-check-input" })
-                <label class="form-check-label" for="AttackType-Assault">Assault <span class="information">- charge your opponent's defences and try to take their gold</span></label>
+                <label class="form-check-label" for="AttackType-Assault">Assault <span class="text-muted">- charge your opponent's defences and try to take their gold</span></label>
             </div>
             @Html.ValidationMessageFor(m => m.AttackType, null, new { @class = "small form-text text-danger" })
         </div>

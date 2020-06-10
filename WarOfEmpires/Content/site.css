@@ -10,7 +10,6 @@
     --rangeslider-thumb-color: #6184D8; /* blue */
     --rangeslider-thumb-border-color: #333399; /* dark blue */
     --rangeslider-track-color: #533A71; /* dark purple */
-    --text-muted-color: #777777; /* dark grey */
     --background-highlighted-color: #FFBB88; /* light orange */
 }
 
@@ -102,20 +101,8 @@
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(51, 51, 153, 1)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='3' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
 }
 
-.information, .information-list {
-    color: var(--text-muted-color);
-}
-
-.information .si:after, .information-list .si:after {
+.text-muted .si:after {
     opacity: 0.5;
-}
-
-.information-list {
-    margin-bottom: 0;
-}
-
-.partial-content + :not(.partial-content):not(.information-list), .information-list + :not(.partial-content):not(.information-list) {
-    margin-top: 1em;
 }
 
 .action-list > *:not(:last-child)::after {
