@@ -10,7 +10,7 @@
     Here you can train or untrain your troops.
 </p>
 
-<ul class="information-list">
+<ul class="text-muted">
     <li>Peasants available for training: @Model.CurrentPeasants.ToString(StringFormat.Integer)</li>
     <li>Mercenary training cost: @Html.DisplayFor(m => m.MercenaryTrainingCost)</li>
 
@@ -101,7 +101,7 @@
             </div>
         </div>
 
-        <ul class="information-list">
+        <ul class="text-muted">
             <li>Training cost: @Html.DisplayFor(m => m.Troops[i].Cost)</li>
         </ul>
     }
@@ -114,7 +114,7 @@
         </div>
     </div>
 
-    <div class="row site-spaced-small">
+    <div class="row mt-1">
         <div class="col-10"></div>
 
         <div class="col-2">

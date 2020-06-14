@@ -35,7 +35,7 @@
     })) {
         @Html.Hidden("id", invite.Id);
 
-        <div class="row site-spaced-small">
+        <div class="row mt-1">
             <div class="col-3 col-form-label">
                 @Html.ActionLink(invite.PlayerName, "Details", "Player", new { id = invite.PlayerId }, null)
             </div>

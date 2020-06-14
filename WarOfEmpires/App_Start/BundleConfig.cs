@@ -29,7 +29,7 @@ namespace WarOfEmpires.App_Start {
                 "~/Scripts/application/toastr-defaults.js"));
 
             bundles.Add(new StyleBundle("~/Content/css-bootstrap").Include(
-                "~/Content/bootstrap.css"));
+                "~/Content/bootstrap-site.css"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                 "~/Content/site.css",

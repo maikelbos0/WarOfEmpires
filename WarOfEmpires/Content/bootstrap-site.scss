@@ -1,0 +1,42 @@
+﻿// Site color definitions
+$site-light-blue: #72b4E0;
+$site-medium-blue: #6184D8;
+$site-dark-blue: #333399;
+$site-dark-purple: #533A71;
+$site-pale-lemon: #F3FCDC;
+$site-apricot: #F5E0B7;
+$site-dark-grey: #777777;
+$site-dark-orange: #DD5500;
+
+// Bootstrap overrides
+$primary: $site-dark-purple;
+$info: $site-medium-blue;
+$warning: $site-dark-orange;
+$light: $site-apricot;
+
+$body-bg: $site-pale-lemon;
+
+$text-muted: $site-dark-grey;
+
+$navbar-light-color: $site-dark-blue;
+$navbar-light-hover-color: $site-light-blue;
+$navbar-light-active-color: $site-light-blue;
+$navbar-light-brand-color: $site-dark-blue;
+
+$navbar-toggler-padding-y: 0;
+$navbar-toggler-padding-x: 0;
+
+$dropdown-border-color: $site-dark-purple;
+$dropdown-border-radius: 0;
+$dropdown-divider-bg: $site-dark-purple;
+$dropdown-item-padding-x: 0.75rem;
+
+$dropdown-link-color: $site-dark-blue;
+$dropdown-link-hover-color: $site-light-blue;
+$dropdown-link-hover-bg: transparent;
+
+$dropdown-link-active-color: $site-light-blue;
+$dropdown-link-active-bg: transparent;
+
+// Import bootstrap
+@import "bootstrap/bootstrap.scss";
