@@ -4,6 +4,10 @@
 
 <p>@Model.Description (@Html.ActionLink("more information", "BuildingUpgrades", "Empire", new { BuildingType = Model.BuildingType }, null))</p>
 
+<ul class="text-muted">
+    <li>Upgrade cost: @Html.DisplayFor(m => m.UpdateCost)</li>
+</ul>
+
 @using (Html.BeginForm(null, null, FormMethod.Post, new { data_success_message = $"Your {Model.Name} was upgraded." })) {
     @Html.HiddenFor(m => m.Name)
     @Html.HiddenFor(m => m.Description)
@@ -14,5 +18,3 @@
 
     <button type="submit" class="btn btn-primary form-control">Upgrade</button>
 }
-
-<p class="text-muted">@Html.DisplayFor(m => m.UpdateCost)</p>

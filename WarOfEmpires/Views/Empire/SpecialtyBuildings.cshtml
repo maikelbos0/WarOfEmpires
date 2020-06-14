@@ -12,13 +12,13 @@
 </div>
 
 <div class="row">
-    <div class="col-4 partial-content">
+    <div class="col-12 col-md-6 col-lg-4 partial-content">
         @{
             Html.RenderAction("_Building", "Empire", new { BuildingType = "SiegeFactory" });
         }
     </div>
 
-    <div class="col-4 partial-content">
+    <div class="col-12 col-md-6 col-lg-4 partial-content">
         @{
             Html.RenderAction("_Building", "Empire", new { BuildingType = "Market" });
         }
