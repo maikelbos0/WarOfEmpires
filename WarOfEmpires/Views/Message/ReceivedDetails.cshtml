@@ -6,34 +6,29 @@
 
 <h2>Message</h2>
 
-<p>@Html.ActionLink("Reply", "Reply", new { messageId = Model.Id })</p>
-
 <div class="row">
-    <div class="col-3">
-        <strong>Sender</strong>
-    </div>
+    <div class="col-12 col-md-6 offset-md-3">
+        <div class="text-right">
+            <div class="btn-group">
+                @Html.ActionLink("Reply", "Reply", new { messageId = Model.Id }, new { @class = "btn btn-primary float-right" })
+            </div>
+        </div>
 
-    <div class="col-9">@Model.Sender</div>
-</div>
+        <div class="form-group">
+            Sender
+            @Html.TextBox(nameof(Model.Sender), Model.Sender, new { @class = "form-control", @readonly = "readonly" })
+        </div>
 
-<div class="row">
-    <div class="col-3">
-        <strong>Date received</strong>
-    </div>
+        <div class="form-group">
+            Date received
+            @Html.TextBox(nameof(Model.Date), Model.Date.ToString(StringFormat.Date), new { @class = "form-control", @readonly = "readonly" })
+        </div>
 
-    <div class="col-9">@Model.Date.ToString(StringFormat.Date)</div>
-</div>
+        <div class="form-group">
+            Subject
+            @Html.TextBox(nameof(Model.Subject), Model.Subject, new { @class = "form-control", @readonly = "readonly" })
+        </div>
 
-<div class="row">
-    <div class="col-3">
-        <strong>Subject</strong>
-    </div>
-
-    <div class="col-9">@Model.Subject</div>
-</div>
-
-<div class="row">
-    <div class="col-12">
         <div class="site-user-text">@Model.Body</div>
     </div>
 </div>

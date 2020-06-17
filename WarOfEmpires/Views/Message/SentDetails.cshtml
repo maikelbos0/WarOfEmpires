@@ -7,31 +7,22 @@
 <h2>Sent message</h2>
 
 <div class="row">
-    <div class="col-3">
-        <strong>Recipient</strong>
-    </div>
+    <div class="col-12 col-md-6 offset-md-3">
+        <div class="form-group">
+            Recipient
+            @Html.TextBox(nameof(Model.Recipient), Model.Recipient, new { @class = "form-control", @readonly = "readonly" })
+        </div>
 
-    <div class="col-9">@Model.Recipient</div>
-</div>
+        <div class="form-group">
+            Date received
+            @Html.TextBox(nameof(Model.Date), Model.Date.ToString(StringFormat.Date), new { @class = "form-control", @readonly = "readonly" })
+        </div>
 
-<div class="row">
-    <div class="col-3">
-        <strong>Date received</strong>
-    </div>
+        <div class="form-group">
+            Subject
+            @Html.TextBox(nameof(Model.Subject), Model.Subject, new { @class = "form-control", @readonly = "readonly" })
+        </div>
 
-    <div class="col-9">@Model.Date.ToString(StringFormat.Date)</div>
-</div>
-
-<div class="row">
-    <div class="col-3">
-        <strong>Subject</strong>
-    </div>
-
-    <div class="col-9">@Model.Subject</div>
-</div>
-
-<div class="row">
-    <div class="col-12">
         <div class="site-user-text">@Model.Body</div>
     </div>
 </div>
