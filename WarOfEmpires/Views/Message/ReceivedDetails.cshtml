@@ -15,17 +15,17 @@
         </div>
 
         <div class="form-group">
-            Sender
+            <label>Sender</label>
             @Html.TextBox(nameof(Model.Sender), Model.Sender, new { @class = "form-control", @readonly = "readonly" })
         </div>
 
         <div class="form-group">
-            Date received
+            <label>Date received</label>            
             @Html.TextBox(nameof(Model.Date), Model.Date.ToString(StringFormat.Date), new { @class = "form-control", @readonly = "readonly" })
         </div>
 
         <div class="form-group">
-            Subject
+            <label>Subject</label>
             @Html.TextBox(nameof(Model.Subject), Model.Subject, new { @class = "form-control", @readonly = "readonly" })
         </div>
 
