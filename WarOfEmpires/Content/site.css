@@ -104,10 +104,6 @@
     opacity: 0.5;
 }
 
-.action-list > *:not(:last-child)::after {
-    content: " |";
-}
-
 .bg-highlight {
     background-color: var(--background-highlighted-color);
 }
