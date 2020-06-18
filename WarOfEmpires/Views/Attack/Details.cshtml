@@ -7,92 +7,53 @@
 <h2>Attack details</h2>
 
 <div class="row">
-    <div class="col-3">
-        <strong>Attacker</strong>
-    </div>
+    <div class="col-12 col-md-6 offset-md-3">
+        <div class="form-group">
+            <label>Attacker</label>
+            @Html.ActionLink(Model.Attacker, "Details", "Player", new { id = Model.AttackerId }, new { @class = "form-control btn btn-secondary text-left" })
+        </div>
 
-    <div class="col-9">@Html.ActionLink(Model.Attacker, "Details", "Player", new { id = Model.AttackerId }, null)</div>
+        @if (Model.AttackerAllianceId.HasValue) {
+            <div class="form-group">
+                <label>Attacker alliance</label>
+                @Html.ActionLink($"{Model.AttackerAllianceCode} - {Model.AttackerAllianceName}", "Details", "Alliance", new { id = Model.AttackerAllianceId }, new { @class = "form-control btn btn-secondary text-left" })
+            </div>
+        }
+
+        <div class="form-group">
+            <label>Defender</label>
+            @Html.ActionLink(Model.Defender, "Details", "Player", new { id = Model.DefenderId }, new { @class = "form-control btn btn-secondary text-left" })
+        </div>
+
+        @if (Model.DefenderAllianceId.HasValue) {
+            <div class="form-group">
+                <label>Defender alliance</label>
+                @Html.ActionLink($"{Model.DefenderAllianceCode} - {Model.DefenderAllianceName}", "Details", "Alliance", new { id = Model.DefenderAllianceId }, new { @class = "form-control btn btn-secondary text-left" })
+            </div>
+        }
+
+        <div class="form-group">
+            <label>Date</label>
+            @Html.TextBox(nameof(Model.Date), Model.Date.ToString(StringFormat.Date), new { @class = "form-control", @readonly = "readonly" })
+        </div>
+
+        <div class="form-group">
+            <label>Attack type</label>
+            @Html.TextBox(nameof(Model.Type), Model.Type, new { @class = "form-control", @readonly = "readonly" })
+        </div>
+
+        <div class="form-group">
+            <label>Number of turns</label>
+            @Html.TextBox(nameof(Model.Turns), Model.Turns.ToString(StringFormat.Integer), new { @class = "form-control", @readonly = "readonly" })
+        </div>
+
+        <div class="form-group">
+            <label>Result</label>
+            @Html.TextBox(nameof(Model.Result), Model.Result, new { @class = "form-control", @readonly = "readonly" })
+        </div>
+    </div>
 </div>
 
-@if (Model.AttackerAllianceId.HasValue) {
-    <div class="row">
-        <div class="col-3">
-            <strong>Alliance code</strong>
-        </div>
-        <div class="col-9">
-            @Html.ActionLink(Model.AttackerAllianceCode, "Details", "Alliance", new { id = Model.AttackerAllianceId }, null)
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-3">
-            <strong>Alliance name</strong>
-        </div>
-        <div class="col-9">
-            @Html.ActionLink(Model.AttackerAllianceName, "Details", "Alliance", new { id = Model.AttackerAllianceId }, null)
-        </div>
-    </div>
-}
-
-<div class="row">
-    <div class="col-3">
-        <strong>Defender</strong>
-    </div>
-
-    <div class="col-9">@Html.ActionLink(Model.Defender, "Details", "Player", new { id = Model.DefenderId }, null)</div>
-</div>
-
-@if (Model.DefenderAllianceId.HasValue) {
-    <div class="row">
-        <div class="col-3">
-            <strong>Alliance code</strong>
-        </div>
-        <div class="col-9">
-            @Html.ActionLink(Model.DefenderAllianceCode, "Details", "Alliance", new { id = Model.DefenderAllianceId }, null)
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-3">
-            <strong>Alliance name</strong>
-        </div>
-        <div class="col-9">
-            @Html.ActionLink(Model.DefenderAllianceName, "Details", "Alliance", new { id = Model.DefenderAllianceId }, null)
-        </div>
-    </div>
-}
-
-<div class="row">
-    <div class="col-3">
-        <strong>Date</strong>
-    </div>
-
-    <div class="col-9">@Model.Date.ToString(StringFormat.Date)</div>
-</div>
-
-<div class="row">
-    <div class="col-3">
-        <strong>Attack type</strong>
-    </div>
-
-    <div class="col-9">@Model.Type</div>
-</div>
-
-<div class="row">
-    <div class="col-3">
-        <strong>Number of turns</strong>
-    </div>
-
-    <div class="col-9">@Model.Turns.ToString(StringFormat.Integer)</div>
-</div>
-
-<div class="row">
-    <div class="col-3">
-        <strong>Result</strong>
-    </div>
-
-    <div class="col-9">@Model.Result</div>
-</div>
 
 @foreach (var round in Model.Rounds) {
     <p>

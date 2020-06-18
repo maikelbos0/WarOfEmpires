@@ -31,13 +31,8 @@
 
         @if (Model.AllianceId.HasValue) {
             <div class="form-group">
-                <label>Alliance code</label>
-                @Html.TextBox(nameof(Model.AllianceCode), Model.AllianceCode, new { @class = "form-control", @readonly = "readonly" })
-            </div>
-
-            <div class="form-group">
-                <label>Alliance name</label>
-                @Html.TextBox(nameof(Model.AllianceName), Model.AllianceName, new { @class = "form-control", @readonly = "readonly" })
+                <label>Alliance</label>
+                @Html.ActionLink($"{Model.AllianceCode} - {Model.AllianceName}", "Details", "Alliance", new { id = Model.AllianceId }, new { @class = "form-control btn btn-secondary text-left " })
             </div>
         }
 

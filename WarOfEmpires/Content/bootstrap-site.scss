@@ -1,15 +1,19 @@
 ﻿// Site color definitions
-$site-light-blue: #72b4E0;
+$site-pale-blue: #B0C8E0;
+$site-light-blue: #72B4E0;
 $site-medium-blue: #6184D8;
 $site-dark-blue: #333399;
 $site-dark-purple: #533A71;
 $site-pale-lemon: #F3FCDC;
+$site-light-apricot: #F8E8C4;
 $site-apricot: #F5E0B7;
+$site-grey-apricot: #DACCB2;
 $site-dark-grey: #777777;
 $site-dark-orange: #DD5500;
 
 // Bootstrap overrides
 $primary: $site-dark-purple;
+$secondary: $site-pale-blue;
 $info: $site-medium-blue;
 $warning: $site-dark-orange;
 $light: $site-apricot;
@@ -17,6 +21,9 @@ $light: $site-apricot;
 $body-bg: $site-pale-lemon;
 
 $text-muted: $site-dark-grey;
+
+$input-disabled-bg: $site-light-apricot;
+$input-border-color: $site-grey-apricot;
 
 $navbar-light-color: $site-dark-blue;
 $navbar-light-hover-color: $site-light-blue;

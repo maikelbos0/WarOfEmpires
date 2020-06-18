@@ -6,63 +6,45 @@
 
 <h2>Attack @Model.DisplayName</h2>
 
-<div class="row">
-    <div class="col-3">
-        <strong>Display name</strong>
-    </div>
-
-    <div class="col-9">
-        @Model.DisplayName
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-3">
-        <strong>Population</strong>
-    </div>
-    
-    <div class="col-9">
-        @Model.Population
-    </div>
-</div>
-
 @using (Html.BeginForm()) {
     @Html.HiddenFor(m => m.DefenderId)
 
     <div class="row">
-        <div class="col-3">
-            <strong>@Html.LabelFor(m => m.AttackType)</strong>
-        </div>
+        <div class="col-12 col-md-6 offset-md-3">
+            @Html.ValidationSummary(true, null, new { @class = "site-validation-summary text-danger" })
 
-        <div class="col-9">
-            <div class="form-check">
-                @Html.RadioButtonFor(m => m.AttackType, "Raid", new { id = "AttackType-Raid", @class = "form-check-input", @checked = "checked" })
-                <label class="form-check-label" for="AttackType-Raid">Raid <span class="text-muted">- charge your opponent's workers and try to take their resources</span></label>
+            <div class="form-group">
+                <label>Display name</label>
+                @Html.TextBox(nameof(Model.DisplayName), Model.DisplayName, new { @class = "form-control", @readonly = "readonly" })
             </div>
-            <div class="form-check">
-                @Html.RadioButtonFor(m => m.AttackType, "Assault", new { id = "AttackType-Assault", @class = "form-check-input" })
-                <label class="form-check-label" for="AttackType-Assault">Assault <span class="text-muted">- charge your opponent's defences and try to take their gold</span></label>
+
+            <div class="form-group">
+                <label>Population</label>
+                @Html.TextBox(nameof(Model.Population), Model.Population.ToString(StringFormat.Integer), new { @class = "form-control", @readonly = "readonly" })
             </div>
-            @Html.ValidationMessageFor(m => m.AttackType, null, new { @class = "small form-text text-danger" })
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.AttackType)
+                <div class="form-check">
+                    @Html.RadioButtonFor(m => m.AttackType, "Raid", new { id = "AttackType-Raid", @class = "form-check-input", @checked = "checked" })
+                    <label class="form-check-label" for="AttackType-Raid">Raid <span class="text-muted">- charge your opponent's workers and try to take their resources</span></label>
+                </div>
+                <div class="form-check">
+                    @Html.RadioButtonFor(m => m.AttackType, "Assault", new { id = "AttackType-Assault", @class = "form-check-input" })
+                    <label class="form-check-label" for="AttackType-Assault">Assault <span class="text-muted">- charge your opponent's defences and try to take their gold</span></label>
+                </div>
+                @Html.ValidationMessageFor(m => m.AttackType, null, new { @class = "small form-text text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Turns)
+                @Html.TextBoxFor(m => m.Turns, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Turns, null, new { @class = "small form-text text-danger" })
+            </div>
         </div>
     </div>
 
     <div class="row">
-        <div class="col-3 col-form-label">
-            <strong>@Html.LabelFor(m => m.Turns)</strong>
-        </div>
-
-        <div class="col-3">
-            @Html.TextBoxFor(m => m.Turns, new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.Turns, null, new { @class = "small form-text text-danger" })
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-3"></div>
-
-        <div class="col-3">
-            <button type="submit" class="btn btn-primary form-control">Attack</button>
-        </div>
+        <div class="col-6 offset-6 col-md-3"><button type="submit" class="btn btn-primary form-control">Attack</button></div>
     </div>
 }
