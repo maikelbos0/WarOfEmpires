@@ -1,5 +1,4 @@
-﻿@{ /* TODO Make responsive */ }
-@{ /* TODO Make responsive grid */ }
+﻿@{ /* TODO Make responsive grid */ }
 
 @model WarOfEmpires.Models.Players.PlayerSearchModel
 
@@ -10,19 +9,16 @@
 <h2>Players</h2>
 
 <form id="playersSearch" class="search-form">
-    <div class="d-flex flex-row">
-        <div class="row flex-grow-1">
-            <div class="col-2 col-form-label">
+    <div class="row align-items-end">
+        <div class="col-12 col-md-6">
+            <div class="form-group">
                 @Html.LabelFor(m => m.DisplayName)
-            </div>
-
-            <div class="col-4">
                 @Html.TextBoxFor(m => m.DisplayName, new { @class = "form-control" })
             </div>
         </div>
 
-        <div class="pl-2">
-            <button type="submit" class="btn btn-info form-control">@Html.Icon("search")</button>
+        <div class="col-12 col-md-6 text-right pb-3">
+            <button type="submit" class="btn btn-info">@Html.Icon("search")</button>
         </div>
     </div>
 </form>

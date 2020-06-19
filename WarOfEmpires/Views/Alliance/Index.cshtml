@@ -1,5 +1,4 @@
-﻿@{ /* TODO Make responsive */ }
-@{ /* TODO Make responsive grid */ }
+﻿@{ /* TODO Make responsive grid */ }
 
 @model WarOfEmpires.Models.Alliances.AllianceSearchModel
 
@@ -10,27 +9,25 @@
 <h2>Alliances</h2>
 
 <form id="alliancesSearch" class="search-form">
-    <div class="d-flex flex-row">
-        <div class="row flex-grow-1">
-            <div class="col-2 col-form-label">
-                @Html.LabelFor(a => a.Code)
-            </div>
-
-            <div class="col-4">
-                @Html.TextBoxFor(a => a.Code, new { @class = "form-control" })
-            </div>
-
-            <div class="col-2 col-form-label">
-                @Html.LabelFor(a => a.Name)
-            </div>
-
-            <div class="col-4">
-                @Html.TextBoxFor(a => a.Name, new { @class = "form-control" })
+    <div class="row">
+        <div class="col-12 col-md-6">
+            <div class="form-group">
+                @Html.LabelFor(m => m.Code)
+                @Html.TextBoxFor(m => m.Code, new { @class = "form-control" })
             </div>
         </div>
 
-        <div class="pl-2">
-            <button type="submit" class="btn btn-info form-control">@Html.Icon("search")</button>
+        <div class="col-12 col-md-6">
+            <div class="form-group">
+                @Html.LabelFor(m => m.Name)
+                @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12 text-right pb-3">
+            <button type="submit" class="btn btn-info">@Html.Icon("search")</button>
         </div>
     </div>
 </form>
