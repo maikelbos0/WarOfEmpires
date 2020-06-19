@@ -7,54 +7,52 @@
 <h2>@Model.Name</h2>
 
 <div class="row">
-    <div class="col-3">
-        <strong>Code</strong>
-    </div>
-    <div class="col-9">
-        @Model.Code
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-3">
-        <strong>Name</strong>
-    </div>
-    <div class="col-9">
-        @Model.Name
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-3">
-        <strong>Leader</strong>
-    </div>
-    <div class="col-9">
-        @Html.ActionLink(Model.Leader, "Details", "Player", new { id = Model.LeaderId }, null)
-    </div>
-</div>
-
-<h3 class="mt-3">Members</h3>
-
-<div class="row">
-    <div class="col-1"><strong>Rank</strong></div>
-    <div class="col-5"><strong>Display name</strong></div>
-    <div class="col-3"><strong>Title</strong></div>
-    <div class="col-3"><strong>Population</strong></div>
-</div>
-
-@foreach (var member in Model.Members) {
-    <div class="row">
-        <div class="col-1">
-            @Html.ActionLink(member.Rank.ToString(StringFormat.Integer), "Details", "Player", new { id = member.Id }, null)
+    <div class="col-12 col-lg-6">
+        <div class="form-group">
+            <label>Code</label>
+            @Html.TextBox(nameof(Model.Code), Model.Code, new { @class = "form-control", @readonly = "readonly" })
         </div>
-        <div class="col-5">
-            @Html.ActionLink(member.DisplayName, "Details", "Player", new { id = member.Id }, null)
+
+        <div class="form-group">
+            <label>Name</label>
+            @Html.TextBox(nameof(Model.Name), Model.Name, new { @class = "form-control", @readonly = "readonly" })
         </div>
-        <div class="col-3">
-            @Html.ActionLink(member.Title, "Details", "Player", new { id = member.Id }, null)
-        </div>
-        <div class="col-3">
-            @Html.ActionLink(member.Population.ToString(StringFormat.Integer), "Details", "Player", new { id = member.Id }, null)
+
+        <div class="form-group">
+            <label>Leader</label>
+            @Html.ActionLink(Model.Leader, "Details", "Player", new { id = Model.LeaderId }, new { @class = "form-control btn btn-secondary text-left" })
         </div>
     </div>
-}
+
+    <div class="col-12 col-lg-6">
+        <table class="table table-borderless table-striped">
+            <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>Display name</th>
+                    <th>Title</th>
+                    <th>Population</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var member in Model.Members) {
+                    <tr>
+                        <td>
+                            @Html.ActionLink(member.Rank.ToString(StringFormat.Integer), "Details", "Player", new { id = member.Id }, null)
+                        </td>
+                        <td>
+                            @Html.ActionLink(member.DisplayName, "Details", "Player", new { id = member.Id }, null)
+                        </td>
+                        <td>
+                            @Html.ActionLink(member.Title, "Details", "Player", new { id = member.Id }, null)
+                        </td>
+                        <td>
+                            @Html.ActionLink(member.Population.ToString(StringFormat.Integer), "Details", "Player", new { id = member.Id }, null)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
