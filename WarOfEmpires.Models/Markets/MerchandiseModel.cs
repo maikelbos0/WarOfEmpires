@@ -11,11 +11,8 @@ namespace WarOfEmpires.Models.Markets {
         public string Price { get; set; }
         public string Type { get; set; }
         public string Name { get; set; }
-        [DisplayName("Minimum price")]
         public int LowestPrice { get; set; }
-        [DisplayName("Available at minimum price")]
         public int AvailableAtLowestPrice { get; set; }
-        [DisplayName("Total available")]
         public int TotalAvailable { get; set; }
     }
 }

@@ -25,21 +25,21 @@
             @Html.HiddenFor(m => m.Merchandise[i].LowestPrice)
             @Html.HiddenFor(m => m.Merchandise[i].TotalAvailable)
             <div class="col-12 col-md-6 col-lg-3">
-                <h3>@Model.Merchandise[i].Name</h3>
+                <h4>@Model.Merchandise[i].Name</h4>
 
                 <div class="form-group">
-                    @Html.LabelFor(m => Model.Merchandise[i].LowestPrice)
-                    @Html.TextBox(nameof(MerchandiseModel.LowestPrice), Model.Merchandise[i].LowestPrice.ToString(StringFormat.Integer), new { @class = "form-control", @readonly = "readonly" })
+                    <label>Minimum price</label>
+                    <div class="form-control" readonly="readonly">@Model.Merchandise[i].LowestPrice.ToString(StringFormat.Integer)</div>                    
                 </div>
 
                 <div class="form-group">
-                    @Html.LabelFor(m => Model.Merchandise[i].AvailableAtLowestPrice)
-                    @Html.TextBox(nameof(MerchandiseModel.AvailableAtLowestPrice), Model.Merchandise[i].AvailableAtLowestPrice.ToString(StringFormat.Integer), new { @class = "form-control", @readonly = "readonly" })
+                    <label>Available at minimum price</label>
+                    <div class="form-control" readonly="readonly">@Model.Merchandise[i].AvailableAtLowestPrice.ToString(StringFormat.Integer)</div>
                 </div>
 
                 <div class="form-group">
-                    @Html.LabelFor(m => m.Merchandise[i].TotalAvailable)
-                    @Html.TextBox(nameof(MerchandiseModel.TotalAvailable), Model.Merchandise[i].TotalAvailable.ToString(StringFormat.Integer), new { @class = "form-control", @readonly = "readonly" })
+                    <label>Total available</label>
+                    <div class="form-control" readonly="readonly">@Model.Merchandise[i].TotalAvailable.ToString(StringFormat.Integer)</div>
                 </div>
 
                 <div class="form-group">

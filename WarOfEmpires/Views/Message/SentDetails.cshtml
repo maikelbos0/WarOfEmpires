@@ -10,17 +10,17 @@
     <div class="col-12 col-md-6 offset-md-3">
         <div class="form-group">
             <label>Recipient</label>
-            @Html.TextBox(nameof(Model.Recipient), Model.Recipient, new { @class = "form-control", @readonly = "readonly" })
+            <div class="form-control" readonly="readonly">@Model.Recipient</div>
         </div>
 
         <div class="form-group">
             <label>Date received</label>
-            @Html.TextBox(nameof(Model.Date), Model.Date.ToString(StringFormat.Date), new { @class = "form-control", @readonly = "readonly" })
+            <div class="form-control" readonly="readonly">@Model.Date.ToString(StringFormat.Date)</div>
         </div>
 
         <div class="form-group">
             <label>Subject</label>
-            @Html.TextBox(nameof(Model.Subject), Model.Subject, new { @class = "form-control", @readonly = "readonly" })
+            <div class="form-control" readonly="readonly">@Model.Subject</div>
         </div>
 
         <div class="site-user-text">@Model.Body</div>

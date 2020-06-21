@@ -41,26 +41,24 @@
     @Html.HiddenFor(m => m.CurrentStamina)
 
     <div class="row">
-        <div class="col-12 col-md-6 offset-md-3">
+        <div class="col-12 col-md-6 col-xl-3">
             <h4 class="mt-3">Stamina</h4>
 
-            <ul class="text-muted">
-                <li>Current stamina: @Model.CurrentStamina.ToString(StringFormat.Integer)</li>
-            </ul>
+            <div class="form-group">
+                <label>Current stamina</label>
+                <div class="form-control" readonly="readonly">@Model.CurrentStamina.ToString(StringFormat.Integer)</div>
+            </div>
 
             <div class="form-group">
                 @Html.LabelFor(m => m.StaminaToHeal)
                 @Html.TextBoxFor(m => m.StaminaToHeal, new { @class = "form-control" })
                 @Html.ValidationMessageFor(m => m.StaminaToHeal, null, new { @class = "small form-text text-danger" })
             </div>
+
+            <div class="row">
+                <div class="col-6 offset-6 col-xl-12 offset-xl-0"><button type="submit" class="btn btn-primary form-control" value="heal">Heal Troops</button></div>
+            </div>
         </div>
-    </div>
-
-    <div class="row">
-        <div class="col-6 offset-6 col-md-3"><button type="submit" class="btn btn-primary form-control" value="heal">Heal Troops</button></div>
-    </div>
-
-    <div class="row">
 
         @for (var i = 0; i < Model.Troops.Count; i++) {
             @Html.HiddenFor(m => m.Troops[i].Type)
@@ -69,14 +67,22 @@
             @Html.HiddenFor(m => m.Troops[i].CurrentSoldiers)
             @Html.HiddenFor(m => m.Troops[i].CurrentMercenaries)
 
-            <div class="col-12 col-md-6 col-lg-4">
+            <div class="col-12 col-md-6 col-xl-3">
                 <h4 class="mt-3">@Model.Troops[i].Name</h4>
 
                 <ul class="text-muted">
                     <li>Training cost: @Html.DisplayFor(m => m.Troops[i].Cost)</li>
-                    <li>Current soldiers: @Model.Troops[i].CurrentSoldiers.ToString(StringFormat.Integer)</li>
-                    <li>Current mercenaries: @Model.Troops[i].CurrentMercenaries.ToString(StringFormat.Integer)</li>
                 </ul>
+
+                <div class="form-group">
+                    <label>Current soldiers</label>
+                    <div class="form-control" readonly="readonly">@Model.Troops[i].CurrentSoldiers.ToString(StringFormat.Integer)</div>
+                </div>
+
+                <div class="form-group">
+                    <label>Current mercenaries</label>
+                    <div class="form-control" readonly="readonly">@Model.Troops[i].CurrentMercenaries.ToString(StringFormat.Integer)</div>
+                </div>
 
                 <div class="form-group">
                     @Html.Label("Soldiers")
