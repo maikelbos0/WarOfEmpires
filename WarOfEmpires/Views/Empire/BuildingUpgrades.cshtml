@@ -13,10 +13,11 @@
         <tr>
             <th>Name</th>
             <th>Gold</th>
-            <th>Food</th>
-            <th>Wood</th>
-            <th>Stone</th>
-            <th>Ore</th>
+            <th class="d-none d-md-table-cell">Food</th>
+            <th class="d-none d-md-table-cell">Wood</th>
+            <th class="d-none d-md-table-cell">Stone</th>
+            <th class="d-none d-md-table-cell">Ore</th>
+            <th class="d-md-none">Resources</th>
             <th>Bonus</th>
         </tr>
     </thead>
@@ -26,10 +27,11 @@
         <tr>
             <td>@upgrade.Name</td>
             <td>@upgrade.Resources.Gold.ToString(StringFormat.Integer)</td>
-            <td>@upgrade.Resources.Food.ToString(StringFormat.Integer)</td>
-            <td>@upgrade.Resources.Wood.ToString(StringFormat.Integer)</td>
-            <td>@upgrade.Resources.Stone.ToString(StringFormat.Integer)</td>
-            <td>@upgrade.Resources.Ore.ToString(StringFormat.Integer)</td>
+            <td class="d-none d-md-table-cell">@upgrade.Resources.Food.ToString(StringFormat.Integer)</td>
+            <td class="d-none d-md-table-cell">@upgrade.Resources.Wood.ToString(StringFormat.Integer)</td>
+            <td class="d-none d-md-table-cell">@upgrade.Resources.Stone.ToString(StringFormat.Integer)</td>
+            <td class="d-none d-md-table-cell">@upgrade.Resources.Ore.ToString(StringFormat.Integer)</td>
+            <td class="d-md-none">@upgrade.Resources.TotalResources.ToString(StringFormat.Integer)</td>
             <td>@upgrade.Bonus.ToString(StringFormat.Integer)</td>
         </tr>
         }
