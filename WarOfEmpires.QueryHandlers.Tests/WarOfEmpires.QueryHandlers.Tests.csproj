@@ -78,6 +78,7 @@
   <ItemGroup>
     <Compile Include="Alliances\GetAllianceHomeQueryHandlerTests.cs" />
     <Compile Include="Alliances\GetAllianceDetailsQueryHandlerTests.cs" />
+    <Compile Include="Alliances\GetAllianceNameQueryHandlerTests.cs" />
     <Compile Include="Alliances\GetAlliancesQueryHandlerTests.cs" />
     <Compile Include="Alliances\GetInvitePlayerQueryHandlerTests.cs" />
     <Compile Include="Alliances\GetInvitesQueryHandlerTests.cs" />

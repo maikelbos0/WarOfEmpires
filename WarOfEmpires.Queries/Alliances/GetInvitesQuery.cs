@@ -1,7 +1,8 @@
-﻿using WarOfEmpires.Models.Alliances;
+﻿using System.Collections.Generic;
+using WarOfEmpires.Models.Alliances;
 
 namespace WarOfEmpires.Queries.Alliances {
-    public sealed class GetInvitesQuery : IQuery<InvitesViewModel> {
+    public sealed class GetInvitesQuery : IQuery<IEnumerable<InviteViewModel>> {
         public string Email { get; set; }
 
         public GetInvitesQuery(string email) {

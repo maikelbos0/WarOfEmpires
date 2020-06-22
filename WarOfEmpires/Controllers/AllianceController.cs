@@ -71,7 +71,13 @@ namespace WarOfEmpires.Controllers {
         [Route("Invites")]
         public ActionResult Invites() {
             // Explicitly name view so it works from Invite
-            return View("Invites", _messageService.Dispatch(new GetInvitesQuery(_authenticationService.Identity)));
+            return View("Invites", (object)_messageService.Dispatch(new GetAllianceNameQuery(_authenticationService.Identity)));
+        }
+
+        [Route("GetInvites")]
+        [HttpPost]
+        public ActionResult GetInvites(DataGridViewMetaData metaData) {
+            return GridJson(new GetInvitesQuery(_authenticationService.Identity), metaData);
         }
 
         [HttpPost]
@@ -85,9 +91,16 @@ namespace WarOfEmpires.Controllers {
         [HttpGet]
         [Route("ReceivedInvites")]
         public ActionResult ReceivedInvites() {
+            // TODO move marking as read to individual invite
             _messageService.Dispatch(new ReadInvitesCommand(_authenticationService.Identity));
 
             return View(_messageService.Dispatch(new GetReceivedInvitesQuery(_authenticationService.Identity)));
+        }
+
+        [Route("GetReceivedInvites")]
+        [HttpPost]
+        public ActionResult GetReceivedInvites(DataGridViewMetaData metaData) {
+            return GridJson(new GetReceivedInvitesQuery(_authenticationService.Identity), metaData);
         }
 
         [HttpPost]

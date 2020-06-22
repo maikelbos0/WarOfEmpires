@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using WarOfEmpires.Database;
 using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Models.Alliances;
@@ -10,35 +11,28 @@ using WarOfEmpires.Utilities.Services;
 namespace WarOfEmpires.QueryHandlers.Alliances {
     [InterfaceInjectable]
     [Audit]
-    public sealed class GetInvitesQueryHandler : IQueryHandler<GetInvitesQuery, InvitesViewModel> {
+    public sealed class GetInvitesQueryHandler : IQueryHandler<GetInvitesQuery, IEnumerable<InviteViewModel>> {
         private readonly IWarContext _context;
 
         public GetInvitesQueryHandler(IWarContext context) {
             _context = context;
         }
 
-        public InvitesViewModel Execute(GetInvitesQuery query) {
-            var alliance = _context.Players
+        public IEnumerable<InviteViewModel> Execute(GetInvitesQuery query) {
+            return _context.Players
                 .Single(p => EmailComparisonService.Equals(p.User.Email, query.Email))
-                .Alliance;
-
-            var invites = alliance
+                .Alliance
                 .Invites
                 .Where(i => i.Player.User.Status == UserStatus.Active)
-                .OrderBy(i => i.Date)
-                .ToList();
-
-            return new InvitesViewModel() {
-                Name = alliance.Name,
-                Invites = invites.Select(i => new InviteViewModel() {
+                .Select(i => new InviteViewModel() {
                     Id = i.Id,
                     PlayerId = i.Player.Id,
                     PlayerName = i.Player.DisplayName,
                     IsRead = i.IsRead,
                     Date = i.Date,
                     Subject = i.Subject
-                }).ToList()
-            };
+                })
+                .ToList();
         }
     }
 }

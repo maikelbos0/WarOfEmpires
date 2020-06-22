@@ -46,7 +46,6 @@
     <Compile Include="Alliances\AllianceHomeViewModel.cs" />
     <Compile Include="Alliances\AllianceDetailsViewModel.cs" />
     <Compile Include="Alliances\ChatMessageViewModel.cs" />
-    <Compile Include="Alliances\InvitesViewModel.cs" />
     <Compile Include="Alliances\InviteViewModel.cs" />
     <Compile Include="Alliances\AllianceMemberViewModel.cs" />
     <Compile Include="Alliances\AllianceViewModel.cs" />
