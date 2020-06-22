@@ -5,6 +5,7 @@ using WarOfEmpires.Models.Alliances;
 using WarOfEmpires.Queries.Alliances;
 using WarOfEmpires.Services;
 using WarOfEmpires.Attributes;
+using System;
 
 namespace WarOfEmpires.Controllers {
     [Authorize]
@@ -62,7 +63,8 @@ namespace WarOfEmpires.Controllers {
         [HttpPost]
         [Route("Invite")]
         public ActionResult Invite(SendInviteModel model) {
-            return ValidatedCommandResult(model, new SendInviteCommand(_authenticationService.Identity, model.PlayerId, model.Message), () => Invites());
+            throw new NotImplementedException("Need to split message into subject and body on model and on view after merging responsive");
+            // return ValidatedCommandResult(model, new SendInviteCommand(_authenticationService.Identity, model.PlayerId, model.Message), () => Invites());
         }
 
         [HttpGet]

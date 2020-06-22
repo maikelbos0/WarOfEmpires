@@ -151,7 +151,8 @@ namespace WarOfEmpires.Database {
             alliances.Property(a => a.Name).IsRequired();
 
             var invites = modelBuilder.Entity<Alliances.Invite>().ToTable("Invites", "Alliances").HasKey(i => i.Id);
-            invites.Property(i => i.Message).IsMaxLength();
+            invites.Property(i => i.Subject).IsRequired().HasMaxLength(100);
+            invites.Property(i => i.Body).IsMaxLength();
 
             var chatMessages = modelBuilder.Entity<Alliances.ChatMessage>().ToTable("ChatMessages", "Alliances").HasKey(m => m.Id);
             chatMessages.Property(m => m.Message).IsRequired().IsMaxLength();

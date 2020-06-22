@@ -7,15 +7,17 @@ namespace WarOfEmpires.Domain.Alliances {
         public virtual Player Player { get; protected set; }
         public virtual DateTime Date { get; protected set; }
         public virtual bool IsRead { get; set; }
-        public virtual string Message { get; protected set; }
+        public virtual string Subject { get; protected set; }
+        public virtual string Body { get; protected set; }
 
         protected Invite() {
         }
 
-        public Invite(Alliance alliance, Player player, string message) {
+        public Invite(Alliance alliance, Player player, string subject, string body) {
             Alliance = alliance;
             Player = player;
-            Message = message;
+            Subject = subject;
+            Body = body;
             Date = DateTime.UtcNow;
             IsRead = false;
         }

@@ -27,7 +27,7 @@ namespace WarOfEmpires.QueryHandlers.Alliances {
                     AllianceId = i.Alliance.Id,
                     AllianceCode = i.Alliance.Code,
                     AllianceName = i.Alliance.Name,
-                    Message = i.Message
+                    Subject = i.Subject
                 })
                 .ToList();
         }

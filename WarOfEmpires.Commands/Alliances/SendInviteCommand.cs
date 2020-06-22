@@ -2,12 +2,14 @@
     public sealed class SendInviteCommand : ICommand {
         public string Email { get; }
         public string PlayerId { get; }
-        public string Message { get; }
+        public string Subject { get; }
+        public string Body { get; }
 
-        public SendInviteCommand(string email, string playerId, string message) {
+        public SendInviteCommand(string email, string playerId, string subject, string body) {
             Email = email;
             PlayerId = playerId;
-            Message = message;
+            Subject = subject;
+            Body = body;
         }
     }
 }

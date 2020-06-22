@@ -36,7 +36,7 @@ namespace WarOfEmpires.QueryHandlers.Alliances {
                     PlayerName = i.Player.DisplayName,
                     IsRead = i.IsRead,
                     Date = i.Date,
-                    Message = i.Message
+                    Subject = i.Subject
                 }).ToList()
             };
         }

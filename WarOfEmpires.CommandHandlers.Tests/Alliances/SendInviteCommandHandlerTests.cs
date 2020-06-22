@@ -53,13 +53,14 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
         [TestMethod]
         public void SendInviteCommandHandler_Succeeds() {
             var handler = new SendInviteCommandHandler(_repository);
-            var command = new SendInviteCommand("test@test.com", "2", "Test message");
+            var command = new SendInviteCommand("test@test.com", "2", "Test message", "Message body");
 
             var result = handler.Execute(command);
 
             result.Success.Should().BeTrue();
             _alliance.Invites.Should().HaveCount(1);
-            _alliance.Invites.Single().Message.Should().Be("Test message");
+            _alliance.Invites.Single().Subject.Should().Be("Test message");
+            _alliance.Invites.Single().Body.Should().Be("Message body");
             _alliance.Invites.Single().Player.Should().Be(_player);
             _alliance.Invites.Single().Alliance.Should().Be(_alliance);
             _context.CallsToSaveChanges.Should().Be(1);
@@ -67,10 +68,10 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
 
         [TestMethod]
         public void SendInviteCommandHandler_Fails_For_Player_Already_Invited() {
-            _alliance.Invites.Returns(new List<Invite>() { new Invite(_alliance, _player, null) });
+            _alliance.Invites.Returns(new List<Invite>() { new Invite(_alliance, _player, null, null) });
 
             var handler = new SendInviteCommandHandler(_repository);
-            var command = new SendInviteCommand("test@test.com", "2", "Test message");
+            var command = new SendInviteCommand("test@test.com", "2", "Test message", "Message body");
 
             var result = handler.Execute(command);
 
@@ -82,7 +83,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
         [TestMethod]
         public void SendInviteCommandHandler_Throws_Exception_For_Sender_Not_Empire_Member() {
             var handler = new SendInviteCommandHandler(_repository);
-            var command = new SendInviteCommand("invite@test.com", "2", "Test message");
+            var command = new SendInviteCommand("invite@test.com", "2", "Test message", "Message body");
 
             Action action = () => handler.Execute(command);
 
@@ -94,7 +95,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
         [TestMethod]
         public void SendInviteCommandHandler_Throws_Exception_For_Alphanumeric_Player_Id() {
             var handler = new SendInviteCommandHandler(_repository);
-            var command = new SendInviteCommand("test@test.com", "A", "Test message");
+            var command = new SendInviteCommand("test@test.com", "A", "Test message", "Message body");
 
             Action action = () => handler.Execute(command);
 
@@ -106,7 +107,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
         [TestMethod]
         public void SendInviteCommandHandler_Throws_Exception_For_Nonexistent_Player_Id() {
             var handler = new SendInviteCommandHandler(_repository);
-            var command = new SendInviteCommand("test@test.com", "3", "Test message");
+            var command = new SendInviteCommand("test@test.com", "3", "Test message", "Message body");
 
             Action action = () => handler.Execute(command);
 
