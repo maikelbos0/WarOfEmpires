@@ -46,7 +46,9 @@
     <Compile Include="Alliances\GetAlliancesQuery.cs" />
     <Compile Include="Alliances\GetAllianceHomeQuery.cs" />
     <Compile Include="Alliances\GetInvitePlayerQuery.cs" />
+    <Compile Include="Alliances\GetInviteQuery.cs" />
     <Compile Include="Alliances\GetInvitesQuery.cs" />
+    <Compile Include="Alliances\GetReceivedInviteQuery.cs" />
     <Compile Include="Alliances\GetReceivedInvitesQuery.cs" />
     <Compile Include="Attacks\GetAttackDetailsQuery.cs" />
     <Compile Include="Attacks\GetDefenderQuery.cs" />
