@@ -16,7 +16,6 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
     public sealed class GetReceivedInvitesQueryHandlerTest {
         private readonly FakeWarContext _context = new FakeWarContext();
 
-
         public GetReceivedInvitesQueryHandlerTest() {
             var user = Substitute.For<User>();
             var player = Substitute.For<Player>();
