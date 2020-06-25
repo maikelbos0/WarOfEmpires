@@ -74,8 +74,7 @@
 }
 
 .site-user-text {
-    padding: 0.5rem;
-    margin-top: 0.5rem;
+    padding: 0.375rem 0.75rem;
 }
 
 .rangeslider {
@@ -103,10 +102,6 @@
 
 .text-muted .si:after {
     opacity: 0.5;
-}
-
-.action-list > *:not(:last-child)::after {
-    content: " |";
 }
 
 .bg-highlight {

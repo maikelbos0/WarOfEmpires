@@ -36,119 +36,61 @@
     @Html.HiddenFor(m => m.BankableResources.Stone)
     @Html.HiddenFor(m => m.BankableResources.Ore)
 
-    <div class="row">
-        <div class="col-4 col-form-label">
-        </div>
-        <div class="col-2 col-form-label">
-            <strong>Capacity</strong>
-        </div>
-        <div class="col-2 col-form-label">
-            <strong>Banked</strong>
-        </div>
-        <div class="col-2 col-form-label">
-            <strong>Available capacity</strong>
-        </div>
-        <div class="col-2 col-form-label">
-            <strong>Bankable resources</strong>
-        </div>
-    </div>
+    <table class="table table-borderless table-striped">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Capacity</th>
+                <th class="d-none d-md-table-cell">Banked</th>
+                <th class="d-none d-md-table-cell">Available capacity</th>
+                <th>Bankable resources</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr>
+                <td>Gold</td>
+                <td>@Model.Capacity.Gold.ToString(StringFormat.Integer) @Html.Icon("Gold")</td>
+                <td class="d-none d-md-table-cell">@Model.BankedResources.Gold.ToString(StringFormat.Integer) @Html.Icon("Gold")</td>
+                <td class="d-none d-md-table-cell">@Model.AvailableCapacity.Gold.ToString(StringFormat.Integer) @Html.Icon("Gold")</td>
+                <td>@Model.BankableResources.Gold.ToString(StringFormat.Integer) @Html.Icon("Gold")</td>
+            </tr>
+
+            <tr>
+                <td>Food</td>
+                <td>@Model.Capacity.Food.ToString(StringFormat.Integer) @Html.Icon("Food")</td>
+                <td class="d-none d-md-table-cell">@Model.BankedResources.Food.ToString(StringFormat.Integer) @Html.Icon("Food")</td>
+                <td class="d-none d-md-table-cell">@Model.AvailableCapacity.Food.ToString(StringFormat.Integer) @Html.Icon("Food")</td>
+                <td>@Model.BankableResources.Food.ToString(StringFormat.Integer) @Html.Icon("Food")</td>
+            </tr>
+
+            <tr>
+                <td>Wood</td>
+                <td>@Model.Capacity.Wood.ToString(StringFormat.Integer) @Html.Icon("Wood")</td>
+                <td class="d-none d-md-table-cell">@Model.BankedResources.Wood.ToString(StringFormat.Integer) @Html.Icon("Wood")</td>
+                <td class="d-none d-md-table-cell">@Model.AvailableCapacity.Wood.ToString(StringFormat.Integer) @Html.Icon("Wood")</td>
+                <td>@Model.BankableResources.Wood.ToString(StringFormat.Integer) @Html.Icon("Wood")</td>
+            </tr>
+
+            <tr>
+                <td>Stone</td>
+                <td>@Model.Capacity.Stone.ToString(StringFormat.Integer) @Html.Icon("Stone")</td>
+                <td class="d-none d-md-table-cell">@Model.BankedResources.Stone.ToString(StringFormat.Integer) @Html.Icon("Stone")</td>
+                <td class="d-none d-md-table-cell">@Model.AvailableCapacity.Stone.ToString(StringFormat.Integer) @Html.Icon("Stone")</td>
+                <td>@Model.BankableResources.Stone.ToString(StringFormat.Integer) @Html.Icon("Stone")</td>
+            </tr>
+
+            <tr>
+                <td>Ore</td>
+                <td>@Model.Capacity.Ore.ToString(StringFormat.Integer) @Html.Icon("Ore")</td>
+                <td class="d-none d-md-table-cell">@Model.BankedResources.Ore.ToString(StringFormat.Integer) @Html.Icon("Ore")</td>
+                <td class="d-none d-md-table-cell">@Model.AvailableCapacity.Ore.ToString(StringFormat.Integer) @Html.Icon("Ore")</td>
+                <td>@Model.BankableResources.Ore.ToString(StringFormat.Integer) @Html.Icon("Ore")</td>
+            </tr>
+        </tbody>
+    </table>
 
     <div class="row">
-        <div class="col-4 col-form-label">
-            <strong>Gold</strong>
-        </div>
-        <div class="col-2 col-form-label">
-            @Model.Capacity.Gold.ToString(StringFormat.Integer) @Html.Icon("Gold")
-        </div>
-        <div class="col-2 col-form-label">
-            @Model.BankedResources.Gold.ToString(StringFormat.Integer) @Html.Icon("Gold")
-        </div>
-        <div class="col-2 col-form-label">
-            @Model.AvailableCapacity.Gold.ToString(StringFormat.Integer) @Html.Icon("Gold")
-        </div>
-        <div class="col-2 col-form-label">
-            <strong>@Model.BankableResources.Gold.ToString(StringFormat.Integer)</strong> @Html.Icon("Gold")
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-4 col-form-label">
-            <strong>Food</strong>
-        </div>
-        <div class="col-2 col-form-label">
-            @Model.Capacity.Food.ToString(StringFormat.Integer) @Html.Icon("Food")
-        </div>
-        <div class="col-2 col-form-label">
-            @Model.BankedResources.Food.ToString(StringFormat.Integer) @Html.Icon("Food")
-        </div>
-        <div class="col-2 col-form-label">
-            @Model.AvailableCapacity.Food.ToString(StringFormat.Integer) @Html.Icon("Food")
-        </div>
-        <div class="col-2 col-form-label">
-            <strong>@Model.BankableResources.Food.ToString(StringFormat.Integer)</strong> @Html.Icon("Food")
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-4 col-form-label">
-            <strong>Wood</strong>
-        </div>
-        <div class="col-2 col-form-label">
-            @Model.Capacity.Wood.ToString(StringFormat.Integer) @Html.Icon("Wood")
-        </div>
-        <div class="col-2 col-form-label">
-            @Model.BankedResources.Wood.ToString(StringFormat.Integer) @Html.Icon("Wood")
-        </div>
-        <div class="col-2 col-form-label">
-            @Model.AvailableCapacity.Wood.ToString(StringFormat.Integer) @Html.Icon("Wood")
-        </div>
-        <div class="col-2 col-form-label">
-            <strong>@Model.BankableResources.Wood.ToString(StringFormat.Integer)</strong> @Html.Icon("Wood")
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-4 col-form-label">
-            <strong>Stone</strong>
-        </div>
-        <div class="col-2 col-form-label">
-            @Model.Capacity.Stone.ToString(StringFormat.Integer) @Html.Icon("Stone")
-        </div>
-        <div class="col-2 col-form-label">
-            @Model.BankedResources.Stone.ToString(StringFormat.Integer) @Html.Icon("Stone")
-        </div>
-        <div class="col-2 col-form-label">
-            @Model.AvailableCapacity.Stone.ToString(StringFormat.Integer) @Html.Icon("Stone")
-        </div>
-        <div class="col-2 col-form-label">
-            <strong>@Model.BankableResources.Stone.ToString(StringFormat.Integer)</strong> @Html.Icon("Stone")
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-4 col-form-label">
-            <strong>Ore</strong>
-        </div>
-        <div class="col-2 col-form-label">
-            @Model.Capacity.Ore.ToString(StringFormat.Integer) @Html.Icon("Ore")
-        </div>
-        <div class="col-2 col-form-label col-form-label">
-            @Model.BankedResources.Ore.ToString(StringFormat.Integer) @Html.Icon("Ore")
-        </div>
-        <div class="col-2 col-form-label">
-            @Model.AvailableCapacity.Ore.ToString(StringFormat.Integer) @Html.Icon("Ore")
-        </div>
-        <div class="col-2 col-form-label">
-            <strong>@Model.BankableResources.Ore.ToString(StringFormat.Integer)</strong> @Html.Icon("Ore")
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-10">
-        </div>
-
-        <div class="col-2">
-            <button type="submit" class="btn btn-secondary form-control">Bank</button>
-        </div>
+        <div class="col-6 offset-6 col-md-3 offset-md-9"><button type="submit" class="btn btn-primary form-control">Bank</button></div>
     </div>
 }

@@ -10,9 +10,7 @@
     @Html.HiddenFor(m => m.ReturnUrl)
 
     <div class="row">
-        <div class="col-3"></div>
-
-        <div class="col-6">
+        <div class="col-12 col-md-6 offset-md-3">
             @Html.ValidationSummary(true, null, new { @class = "site-validation-summary text-danger" })
 
             <div class="form-group">
@@ -27,13 +25,9 @@
                 @Html.ValidationMessageFor(m => m.Password, null, new { @class = "small form-text text-danger" })
             </div>
         </div>
-
-        <div class="col-3"></div>
     </div>
 
     <div class="row">
-        <div class="col-6"></div>
-        <div class="col-3"><button type="submit" class="btn btn-primary form-control">Submit</button></div>
-        <div class="col-3"></div>
+        <div class="col-6 offset-6 col-md-3"><button type="submit" class="btn btn-primary form-control">Submit</button></div>
     </div>
 }

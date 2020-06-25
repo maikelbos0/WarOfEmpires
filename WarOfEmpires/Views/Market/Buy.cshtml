@@ -1,4 +1,6 @@
-﻿@model WarOfEmpires.Models.Markets.MarketModel
+﻿@using WarOfEmpires.Models.Markets;
+
+@model WarOfEmpires.Models.Markets.MarketModel
 
 @{
     ViewBag.Title = "Buy resources";
@@ -16,61 +18,46 @@
     @Html.ValidationSummary(true, null, new { @class = "site-validation-summary text-danger" })
 
     <div class="row">
-        <div class="col-2 col-form-label">
-        </div>
-        <div class="col-2 col-form-label">
-            <strong>Minimum price</strong>
-        </div>
-        <div class="col-2 col-form-label">
-            <strong>Available at minimum price</strong>
-        </div>
-        <div class="col-2 col-form-label">
-            <strong>Total available</strong>
-        </div>
-        <div class="col-2 col-form-label">
-            <strong>Quantity</strong>
-        </div>
-        <div class="col-2 col-form-label">
-            <strong>Price</strong>
-        </div>
+        @for (var i = 0; i < Model.Merchandise.Count; i++) {
+            @Html.HiddenFor(m => m.Merchandise[i].Type)
+            @Html.HiddenFor(m => m.Merchandise[i].Name)
+            @Html.HiddenFor(m => m.Merchandise[i].AvailableAtLowestPrice)
+            @Html.HiddenFor(m => m.Merchandise[i].LowestPrice)
+            @Html.HiddenFor(m => m.Merchandise[i].TotalAvailable)
+            <div class="col-12 col-md-6 col-lg-3">
+                <h4>@Model.Merchandise[i].Name</h4>
+
+                <div class="form-group">
+                    <label>Minimum price</label>
+                    <div class="form-control" readonly="readonly">@Model.Merchandise[i].LowestPrice.ToString(StringFormat.Integer)</div>                    
+                </div>
+
+                <div class="form-group">
+                    <label>Available at minimum price</label>
+                    <div class="form-control" readonly="readonly">@Model.Merchandise[i].AvailableAtLowestPrice.ToString(StringFormat.Integer)</div>
+                </div>
+
+                <div class="form-group">
+                    <label>Total available</label>
+                    <div class="form-control" readonly="readonly">@Model.Merchandise[i].TotalAvailable.ToString(StringFormat.Integer)</div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Merchandise[i].Quantity)
+                    @Html.TextBoxFor(m => m.Merchandise[i].Quantity, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Merchandise[i].Quantity, null, new { @class = "small form-text text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Merchandise[i].Price)
+                    @Html.TextBoxFor(m => m.Merchandise[i].Price, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Merchandise[i].Price, null, new { @class = "small form-text text-danger" })
+                </div>
+            </div>
+        }
     </div>
 
-    for (var i = 0; i < Model.Merchandise.Count; i++) {
-        @Html.HiddenFor(m => m.Merchandise[i].Type)
-        @Html.HiddenFor(m => m.Merchandise[i].Name)
-        @Html.HiddenFor(m => m.Merchandise[i].AvailableAtLowestPrice)
-        @Html.HiddenFor(m => m.Merchandise[i].LowestPrice)
-        @Html.HiddenFor(m => m.Merchandise[i].TotalAvailable)
-
-        <div class="row">
-            <div class="col-2 col-form-label">
-                <strong>@Model.Merchandise[i].Name</strong>
-            </div>
-            <div class="col-2 col-form-label">
-                @Model.Merchandise[i].LowestPrice.ToString(StringFormat.Integer) @Html.Icon("Gold")
-            </div>
-            <div class="col-2 col-form-label">
-                @Model.Merchandise[i].AvailableAtLowestPrice.ToString(StringFormat.Integer) @Html.Icon(Model.Merchandise[i].Type)
-            </div>
-            <div class="col-2 col-form-label">
-                @Model.Merchandise[i].TotalAvailable.ToString(StringFormat.Integer) @Html.Icon(Model.Merchandise[i].Type)
-            </div>
-            <div class="col-2">
-                @Html.TextBoxFor(m => m.Merchandise[i].Quantity, new { @class = "form-control" })
-                @Html.ValidationMessageFor(m => m.Merchandise[i].Quantity, null, new { @class = "small form-text text-danger" })
-            </div>
-            <div class="col-2">
-                @Html.TextBoxFor(m => m.Merchandise[i].Price, new { @class = "form-control" })
-                @Html.ValidationMessageFor(m => m.Merchandise[i].Price, null, new { @class = "small form-text text-danger" })
-            </div>
-        </div>
-    }
-
     <div class="row">
-        <div class="col-10"></div>
-
-        <div class="col-2">
-            <button type="submit" class="btn btn-primary form-control">Buy</button>
-        </div>
+        <div class="col-6 offset-6 col-md-3 offset-md-9"><button type="submit" class="btn btn-primary form-control">Buy</button></div>
     </div>
 }

@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace WarOfEmpires.Models.Empires {
     public sealed class TroopsModel {
-        [DisplayName("Stamina")]
+        [DisplayName("Stamina to heal")]
         [RegularExpression("^\\d{1,3}$", ErrorMessage = "Stamina to heal must be a valid number")]
         public string StaminaToHeal { get; set; }
         public int CurrentPeasants { get; set; }

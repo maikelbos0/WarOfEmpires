@@ -5,5 +5,10 @@
         public long Wood { get; set; }
         public long Stone { get; set; }
         public long Ore { get; set; }
+        public long TotalResources {
+            get {
+                return Food + Wood + Stone + Ore;
+            }
+        }
     }
 }
