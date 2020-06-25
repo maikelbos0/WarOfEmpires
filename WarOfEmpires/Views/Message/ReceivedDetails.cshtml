@@ -6,34 +6,29 @@
 
 <h2>Message</h2>
 
-<p>@Html.ActionLink("Reply", "Reply", new { messageId = Model.Id })</p>
-
 <div class="row">
-    <div class="col-3">
-        <strong>Sender</strong>
-    </div>
+    <div class="col-12 col-md-6 offset-md-3">
+        <div class="text-right">
+            <div class="btn-group">
+                @Html.ActionLink("Reply", "Reply", new { messageId = Model.Id }, new { @class = "btn btn-primary" })
+            </div>
+        </div>
 
-    <div class="col-9">@Model.Sender</div>
-</div>
+        <div class="form-group">
+            <label>Sender</label>
+            <div class="form-control" readonly="readonly">@Model.Sender</div>
+        </div>
 
-<div class="row">
-    <div class="col-3">
-        <strong>Date received</strong>
-    </div>
+        <div class="form-group">
+            <label>Date received</label>
+            <div class="form-control" readonly="readonly">@Model.Date.ToString(StringFormat.Date)</div>
+        </div>
 
-    <div class="col-9">@Model.Date.ToString(StringFormat.Date)</div>
-</div>
+        <div class="form-group">
+            <label>Subject</label>
+            <div class="form-control" readonly="readonly">@Model.Subject</div>
+        </div>
 
-<div class="row">
-    <div class="col-3">
-        <strong>Subject</strong>
-    </div>
-
-    <div class="col-9">@Model.Subject</div>
-</div>
-
-<div class="row">
-    <div class="col-12">
         <div class="site-user-text">@Model.Body</div>
     </div>
 </div>

@@ -11,7 +11,6 @@
 </p>
 
 @using (Html.BeginForm(null, null, FormMethod.Post, new { data_success_message = "Your tax rate was changed." })) {
-    @Html.ValidationSummary(true, null, new { @class = "site-validation-summary text-danger" })
     @Html.HiddenFor(m => m.BaseGoldPerTurn)
     @Html.HiddenFor(m => m.BaseFoodPerTurn)
     @Html.HiddenFor(m => m.BaseWoodPerTurn)
@@ -19,68 +18,56 @@
     @Html.HiddenFor(m => m.BaseOrePerTurn)
 
     <div class="row">
-        <div class="col-4 col-form-label">
-            <strong>@Html.LabelFor(m => m.Tax)</strong>
-        </div>
-        <div class="col-4">
-            <div id="tax-rangeslider" data-range-start="0" data-step-size="5" data-step-count="20" data-value="@Model.Tax"></div>
-        </div>
-        <div class="col-2">
-            @Html.TextBoxFor(m => m.Tax, new { @class = "form-control", @readonly = "readonly" })
-            @Html.ValidationMessageFor(m => m.Tax, null, new { @class = "small form-text text-danger" })
-        </div>
-        <div class="col-2">
-            <button type="submit" class="btn btn-primary form-control">Set</button>
+        <div class="col-12 col-md-6 offset-md-3">
+            @Html.ValidationSummary(true, null, new { @class = "site-validation-summary text-danger" })
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Tax)
+                @Html.TextBoxFor(m => m.Tax, new { @class = "form-control", @readonly = "readonly" })
+                <div id="tax-rangeslider" data-range-start="0" data-step-size="5" data-step-count="20" data-value="@Model.Tax"></div>
+                @Html.ValidationMessageFor(m => m.Tax, null, new { @class = "small form-text text-danger" })
+            </div>
         </div>
     </div>
 
     <div class="row">
-        <div class="col-8 col-form-label">
-            Gold production
-        </div>
-
-        <div class="col-2">
-            @Html.TextBoxFor(m => m.CurrentGoldPerWorkerPerTurn, new { @class = "form-control", @readonly = "readonly", tabindex = -1 })
-        </div>
+        <div class="col-6 offset-6 col-md-3 mb-3"><button type="submit" class="btn btn-primary form-control">Set</button></div>
     </div>
 
     <div class="row">
-        <div class="col-8 col-form-label">
-            Food production
+        <div class="col-6 col-md-3 col-xl-2 offset-xl-1">
+            <div class="form-group">
+                <label>Gold production</label>
+                @Html.TextBoxFor(m => m.CurrentGoldPerWorkerPerTurn, new { @class = "form-control", @readonly = "readonly", tabindex = -1 })
+            </div>
         </div>
 
-        <div class="col-2">
-            @Html.TextBoxFor(m => m.CurrentFoodPerWorkerPerTurn, new { @class = "form-control", @readonly = "readonly", tabindex = -1 })
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-8 col-form-label">
-            Wood production
+        <div class="col-6 col-md-3 col-xl-2">
+            <div class="form-group">
+                <label>Food production</label>
+                @Html.TextBoxFor(m => m.CurrentFoodPerWorkerPerTurn, new { @class = "form-control", @readonly = "readonly", tabindex = -1 })
+            </div>
         </div>
 
-        <div class="col-2">
-            @Html.TextBoxFor(m => m.CurrentWoodPerWorkerPerTurn, new { @class = "form-control", @readonly = "readonly", tabindex = -1 })
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-8 col-form-label">
-            Stone production
+        <div class="col-6 col-md-3 col-xl-2">
+            <div class="form-group">
+                <label>Wood production</label>
+                @Html.TextBoxFor(m => m.CurrentWoodPerWorkerPerTurn, new { @class = "form-control", @readonly = "readonly", tabindex = -1 })
+            </div>
         </div>
 
-        <div class="col-2">
-            @Html.TextBoxFor(m => m.CurrentStonePerWorkerPerTurn, new { @class = "form-control", @readonly = "readonly", tabindex = -1 })
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-8 col-form-label">
-            Ore production
+        <div class="col-6 col-md-3 col-xl-2">
+            <div class="form-group">
+                <label>Stone production</label>
+                @Html.TextBoxFor(m => m.CurrentStonePerWorkerPerTurn, new { @class = "form-control", @readonly = "readonly", tabindex = -1 })
+            </div>
         </div>
 
-        <div class="col-2">
-            @Html.TextBoxFor(m => m.CurrentOrePerWorkerPerTurn, new { @class = "form-control", @readonly = "readonly", tabindex = -1 })
+        <div class="col-6 col-md-3 col-xl-2">
+            <div class="form-group">
+                <label>Ore production</label>
+                @Html.TextBoxFor(m => m.CurrentOrePerWorkerPerTurn, new { @class = "form-control", @readonly = "readonly", tabindex = -1 })
+            </div>
         </div>
     </div>
 }
@@ -89,7 +76,6 @@
     $(function () {
         $('#tax-rangeslider').rangeslider();
         $('#tax-rangeslider').on('rangeslider.valueChanged', function (event, tax) {
-
             $('#Tax').val(tax);
             $('#CurrentGoldPerWorkerPerTurn').val(Math.floor(tax / 100 * @Model.BaseGoldPerTurn));
             $('#CurrentFoodPerWorkerPerTurn').val(Math.floor((100 - tax) / 100 * @Model.BaseFoodPerTurn));

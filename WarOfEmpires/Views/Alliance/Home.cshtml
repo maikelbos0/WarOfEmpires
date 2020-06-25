@@ -7,99 +7,95 @@
 <h2>@Model.Name - Alliance home</h2>
 
 <div class="row">
-    <div class="col-3">
-        <strong>Code</strong>
+    <div class="col-12 col-lg-6">
+        <div class="form-group">
+            <label>Code</label>
+            <div class="form-control" readonly="readonly">@Model.Code</div>
+        </div>
+
+        <div class="form-group">
+            <label>Name</label>
+            <div class="form-control" readonly="readonly">@Model.Name</div>
+        </div>
+
+        <div class="form-group">
+            <label>Leader</label>
+            @Html.ActionLink(Model.Leader, "Details", "Player", new { id = Model.LeaderId }, new { @class = "form-control btn btn-secondary text-left" })
+        </div>
     </div>
-    <div class="col-9">
-        @Model.Code
+
+    <div class="col-12 col-lg-6">
+        <table class="table table-borderless table-striped">
+            <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>Display name</th>
+                    <th>Population</th>
+                    <th>Last online</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var member in Model.Members) {
+                    <tr>
+                        <td class="@(member.LastOnline > DateTime.UtcNow.AddMinutes(-30) ? "bg-highlight" : "")">
+                            @Html.ActionLink(member.Rank.ToString(StringFormat.Integer), "Details", "Player", new { id = member.Id }, null)
+                        </td>
+                        <td class="@(member.LastOnline > DateTime.UtcNow.AddMinutes(-30) ? "bg-highlight" : "")">
+                            @Html.ActionLink(member.DisplayName, "Details", "Player", new { id = member.Id }, null)
+                        </td>
+                        <td class="@(member.LastOnline > DateTime.UtcNow.AddMinutes(-30) ? "bg-highlight" : "")">
+                            @Html.ActionLink(member.Population.ToString(StringFormat.Integer), "Details", "Player", new { id = member.Id }, null)
+                        </td>
+                        <td class="@(member.LastOnline > DateTime.UtcNow.AddMinutes(-30) ? "bg-highlight" : "")">
+                            @if (member.LastOnline.HasValue) {
+                                @Html.ActionLink(member.LastOnline.Value.ToString(StringFormat.Date), "Details", "Player", new { id = member.Id }, null)
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
     </div>
 </div>
-
-<div class="row">
-    <div class="col-3">
-        <strong>Name</strong>
-    </div>
-    <div class="col-9">
-        @Model.Name
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-3">
-        <strong>Leader</strong>
-    </div>
-    <div class="col-9">
-        @Html.ActionLink(Model.Leader, "Details", "Player", new { id = Model.LeaderId }, null)
-    </div>
-</div>
-
-<h3 class="mt-3">Members</h3>
-
-<div class="row">
-    <div class="col-1"><strong>Rank</strong></div>
-    <div class="col-4"><strong>Display name</strong></div>
-    <div class="col-3"><strong>Title</strong></div>
-    <div class="col-2"><strong>Population</strong></div>
-    <div class="col-2"><strong>Last online</strong></div>
-</div>
-
-@foreach (var member in Model.Members) {
-    <div class="row @(member.LastOnline > DateTime.UtcNow.AddMinutes(-30) ? "bg-highlight" : "")">
-        <div class="col-1">
-            @Html.ActionLink(member.Rank.ToString(StringFormat.Integer), "Details", "Player", new { id = member.Id }, null)
-        </div>
-        <div class="col-4">
-            @Html.ActionLink(member.DisplayName, "Details", "Player", new { id = member.Id }, null)
-        </div>
-        <div class="col-3">
-            @Html.ActionLink(member.Title, "Details", "Player", new { id = member.Id }, null)
-        </div>
-        <div class="col-2">
-            @Html.ActionLink(member.Population.ToString(StringFormat.Integer), "Details", "Player", new { id = member.Id }, null)
-        </div>
-        <div class="col-2">
-            @Html.ActionLink(member.LastOnline?.ToString(StringFormat.Date), "Details", "Player", new { id = member.Id }, null)
-        </div>
-    </div>
-}
 
 <h3 class="mt-3">Chat</h3>
 
-@using (Html.BeginForm("PostChatMessage", null, FormMethod.Post, new {
-    data_success_message = "Your message has been posted."
-})) {
-    <div class="row">
-        <div class="col-3">
-            <strong>@Html.LabelFor(m => m.ChatMessage)</strong>
-        </div>
+<div class="row">
+    <div class="col-12 col-lg-6">
+        @using (Html.BeginForm("PostChatMessage", null, FormMethod.Post, new {
+            data_success_message = "Your message has been posted."
+        })) {
+            <div class="form-group">
+                @Html.LabelFor(m => m.ChatMessage, new { @class = "site-required" })
+                @Html.TextAreaFor(m => m.ChatMessage, new { @class = "form-control", rows = 8 })
+                @Html.ValidationMessageFor(m => m.ChatMessage, null, new { @class = "small form-text text-danger" })
+            </div>
 
-        <div class="col-9">
-            @Html.TextAreaFor(m => m.ChatMessage, new { @class = "form-control", rows = 8 })
-            @Html.ValidationMessageFor(m => m.ChatMessage, null, new { @class = "small form-text text-danger" })
-        </div>
+            <div class="row">
+                <div class="col-12 col-md-6 offset-md-6"><button type="submit" class="btn btn-primary form-control">Post</button></div>
+            </div>
+        }
+
     </div>
 
-    <div class="row mt-1">
-        <div class="col-9"></div>
-        <div class="col-3"><button type="submit" class="btn btn-primary form-control">Post</button></div>
+    <div class="col-12 col-lg-6">
+
+        @foreach (var chatMessage in Model.ChatMessages) {
+            <div class="mb-3">
+                <label>
+                    @if (chatMessage.PlayerId == null) {
+                        @chatMessage.Player
+                    }
+                    else {
+                        @Html.ActionLink(chatMessage.Player, "Details", "Player", new { id = chatMessage.PlayerId }, null)
+                    }
+
+                    posted on @chatMessage.Date.ToString(StringFormat.Date)
+                </label>
+
+                <div class="site-user-text">@chatMessage.Message</div>
+            </div>
+        }
     </div>
-}
-
-@foreach (var chatMessage in Model.ChatMessages) {
-    <div class="mt-3">
-        <div>
-            <strong>
-                @if (chatMessage.PlayerId == null) {
-                    @chatMessage.Player
-                }
-                else {
-                    @Html.ActionLink(chatMessage.Player, "Details", "Player", new { id = chatMessage.PlayerId }, null)
-                }
-
-                @chatMessage.Date.ToString(StringFormat.Date)
-            </strong>
-        </div>
-
-        <div class="site-user-text">@chatMessage.Message</div>
-    </div>
-}
+</div>

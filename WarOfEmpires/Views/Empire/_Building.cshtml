@@ -1,8 +1,13 @@
 ﻿@model WarOfEmpires.Models.Empires.BuildingModel
 
-<h4>@Model.Name</h4>
+<h4 class="mt-3">@Model.Name</h4>
 
-<p>@Model.Description (@Html.ActionLink("more information", "BuildingUpgrades", "Empire", new { BuildingType = Model.BuildingType }, null))</p>
+<p>@Model.Description</p>
+
+<ul class="text-muted">
+    <li>Upgrade cost: @Html.DisplayFor(m => m.UpdateCost)</li>
+    <li>@Html.ActionLink("More information", "BuildingUpgrades", "Empire", new { BuildingType = Model.BuildingType }, null)</li>
+</ul>
 
 @using (Html.BeginForm(null, null, FormMethod.Post, new { data_success_message = $"Your {Model.Name} was upgraded." })) {
     @Html.HiddenFor(m => m.Name)
@@ -14,5 +19,3 @@
 
     <button type="submit" class="btn btn-primary form-control">Upgrade</button>
 }
-
-<p class="text-muted">@Html.DisplayFor(m => m.UpdateCost)</p>

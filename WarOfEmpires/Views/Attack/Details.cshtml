@@ -7,104 +7,70 @@
 <h2>Attack details</h2>
 
 <div class="row">
-    <div class="col-3">
-        <strong>Attacker</strong>
+    <div class="col-12 col-md-6">
+        <div class="form-group">
+            <label>Attacker</label>
+            @Html.ActionLink(Model.Attacker, "Details", "Player", new { id = Model.AttackerId }, new { @class = "form-control btn btn-secondary text-left" })
+        </div>
+
+        @if (Model.AttackerAllianceId.HasValue) {
+            <div class="form-group">
+                <label>Attacker alliance</label>
+                @Html.ActionLink($"{Model.AttackerAllianceCode} - {Model.AttackerAllianceName}", "Details", "Alliance", new { id = Model.AttackerAllianceId }, new { @class = "form-control btn btn-secondary text-left" })
+            </div>
+        }
     </div>
 
-    <div class="col-9">@Html.ActionLink(Model.Attacker, "Details", "Player", new { id = Model.AttackerId }, null)</div>
+    <div class="col-12 col-md-6">
+        <div class="form-group">
+            <label>Defender</label>
+            @Html.ActionLink(Model.Defender, "Details", "Player", new { id = Model.DefenderId }, new { @class = "form-control btn btn-secondary text-left" })
+        </div>
+
+        @if (Model.DefenderAllianceId.HasValue) {
+            <div class="form-group">
+                <label>Defender alliance</label>
+                @Html.ActionLink($"{Model.DefenderAllianceCode} - {Model.DefenderAllianceName}", "Details", "Alliance", new { id = Model.DefenderAllianceId }, new { @class = "form-control btn btn-secondary text-left" })
+            </div>
+        }
+    </div>
+
+    <div class="col-12 col-md-6">
+        <div class="form-group">
+            <label>Date</label>
+            <div class="form-control" readonly="readonly">@Model.Date.ToString(StringFormat.Date)</div>
+        </div>
+
+        <div class="form-group">
+            <label>Attack type</label>
+            <div class="form-control" readonly="readonly">@Model.Type</div>
+        </div>
+
+        <div class="form-group">
+            <label>Number of turns</label>
+            <div class="form-control" readonly="readonly">@Model.Turns.ToString(StringFormat.Integer)</div>
+        </div>
+
+        <div class="form-group">
+            <label>Result</label>
+            <div class="form-control" readonly="readonly">@Model.Result</div>
+        </div>
+    </div>
+
+    <div class="col-12 col-md-6">
+        @foreach (var round in Model.Rounds) {
+            <p>
+                <strong>@round.Attacker</strong>'s @round.Troops.ToString(StringFormat.Integer) @round.TroopType charge at the enemy and attack for @round.Damage.ToString(StringFormat.Integer) damage.
+                <strong>@round.MercenaryCasualties.ToString(StringFormat.Integer) mercenaries and @round.SoldierCasualties.ToString(StringFormat.Integer) soldiers</strong> die as a result.
+            </p>
+        }
+
+        @if (@Model.Result == "Won" || @Model.Result == "Surrendered") {
+            <p>
+                <strong>
+                    @Model.Attacker's troops are victorious and take as tribute: @Html.DisplayFor(m => m.Resources)
+                </strong>
+            </p>
+        }
+    </div>
 </div>
-
-@if (Model.AttackerAllianceId.HasValue) {
-    <div class="row">
-        <div class="col-3">
-            <strong>Alliance code</strong>
-        </div>
-        <div class="col-9">
-            @Html.ActionLink(Model.AttackerAllianceCode, "Details", "Alliance", new { id = Model.AttackerAllianceId }, null)
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-3">
-            <strong>Alliance name</strong>
-        </div>
-        <div class="col-9">
-            @Html.ActionLink(Model.AttackerAllianceName, "Details", "Alliance", new { id = Model.AttackerAllianceId }, null)
-        </div>
-    </div>
-}
-
-<div class="row">
-    <div class="col-3">
-        <strong>Defender</strong>
-    </div>
-
-    <div class="col-9">@Html.ActionLink(Model.Defender, "Details", "Player", new { id = Model.DefenderId }, null)</div>
-</div>
-
-@if (Model.DefenderAllianceId.HasValue) {
-    <div class="row">
-        <div class="col-3">
-            <strong>Alliance code</strong>
-        </div>
-        <div class="col-9">
-            @Html.ActionLink(Model.DefenderAllianceCode, "Details", "Alliance", new { id = Model.DefenderAllianceId }, null)
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-3">
-            <strong>Alliance name</strong>
-        </div>
-        <div class="col-9">
-            @Html.ActionLink(Model.DefenderAllianceName, "Details", "Alliance", new { id = Model.DefenderAllianceId }, null)
-        </div>
-    </div>
-}
-
-<div class="row">
-    <div class="col-3">
-        <strong>Date</strong>
-    </div>
-
-    <div class="col-9">@Model.Date.ToString(StringFormat.Date)</div>
-</div>
-
-<div class="row">
-    <div class="col-3">
-        <strong>Attack type</strong>
-    </div>
-
-    <div class="col-9">@Model.Type</div>
-</div>
-
-<div class="row">
-    <div class="col-3">
-        <strong>Number of turns</strong>
-    </div>
-
-    <div class="col-9">@Model.Turns.ToString(StringFormat.Integer)</div>
-</div>
-
-<div class="row">
-    <div class="col-3">
-        <strong>Result</strong>
-    </div>
-
-    <div class="col-9">@Model.Result</div>
-</div>
-
-@foreach (var round in Model.Rounds) {
-    <p>
-        <strong>@round.Attacker</strong>'s @round.Troops.ToString(StringFormat.Integer) @round.TroopType charge at the enemy and attack for @round.Damage.ToString(StringFormat.Integer) damage.
-        <strong>@round.MercenaryCasualties.ToString(StringFormat.Integer) mercenaries and @round.SoldierCasualties.ToString(StringFormat.Integer) soldiers</strong> die as a result.
-    </p>
-}
-
-@if (@Model.Result == "Won" || @Model.Result == "Surrendered") {
-    <p>
-        <strong>
-            @Model.Attacker's troops are victorious and take as tribute: @Html.DisplayFor(m => m.Resources)
-        </strong>
-    </p>
-}

@@ -6,66 +6,44 @@
 
 <h2>@Model.DisplayName</h2>
 
-<div class="action-list">
-    <span>@Html.ActionLink("Send message", "Send", "Message", new { RecipientId = Model.Id }, null)</span>
-    <span>@Html.ActionLink("Attack", "Execute", "Attack", new { DefenderId = Model.Id }, null)</span>
-
-    @*TODO: hide when current user is not allowed to invite or not in an alliance*@
-    <span>@Html.ActionLink("Invite into alliance", "Invite", "Alliance", new { PlayerId = Model.Id }, null)</span>
-</div>
 
 <div class="row">
-    <div class="col-3">
-        <strong>Rank</strong>
-    </div>
-    <div class="col-9">
-        @Model.Rank.ToString(StringFormat.Integer)
-    </div>
-</div>
+    <div class="col-12 col-md-6 offset-md-3">
+        <div class="text-right">
+            <div class="btn-group">
+                @Html.ActionLink("Attack", "Execute", "Attack", new { DefenderId = Model.Id }, new { @class = "btn btn-primary" })
+                @Html.ActionLink("Send message", "Send", "Message", new { RecipientId = Model.Id }, new { @class = "btn btn-secondary" })
 
-<div class="row">
-    <div class="col-3">
-        <strong>Display name</strong>
-    </div>
-    <div class="col-9">
-        @Model.DisplayName
-    </div>
-</div>
-
-@if (Model.AllianceId.HasValue) {
-    <div class="row">
-        <div class="col-3">
-            <strong>Alliance code</strong>
+                @*TODO: hide when current user is not allowed to invite or not in an alliance*@
+                @Html.ActionLink("Invite into alliance", "Invite", "Alliance", new { PlayerId = Model.Id }, new { @class = "btn btn-secondary" })
+            </div>
         </div>
-        <div class="col-9">
-            @Html.ActionLink(Model.AllianceCode, "Details", "Alliance", new { id = Model.AllianceId }, null)
-        </div>
-    </div>
 
-    <div class="row">
-        <div class="col-3">
-            <strong>Alliance name</strong>
+        <div class="form-group">
+            <label>Rank</label>
+            <div class="form-control" readonly="readonly">@Model.Rank.ToString(StringFormat.Integer)</div>
         </div>
-        <div class="col-9">
-            @Html.ActionLink(Model.AllianceName, "Details", "Alliance", new { id = Model.AllianceId }, null)
+
+        <div class="form-group">
+            <label>Display name</label>
+            <div class="form-control" readonly="readonly">@Model.DisplayName</div>
         </div>
-    </div>
-}
 
-<div class="row">
-    <div class="col-3">
-        <strong>Title</strong>
-    </div>
-    <div class="col-9">
-        @Model.Title
-    </div>
-</div>
+        @if (Model.AllianceId.HasValue) {
+            <div class="form-group">
+                <label>Alliance</label>
+                @Html.ActionLink($"{Model.AllianceCode} - {Model.AllianceName}", "Details", "Alliance", new { id = Model.AllianceId }, new { @class = "form-control btn btn-secondary text-left " })
+            </div>
+        }
 
-<div class="row">
-    <div class="col-3">
-        <strong>Population</strong>
-    </div>
-    <div class="col-9">
-        @Model.Population.ToString(StringFormat.Integer)
+        <div class="form-group">
+            <label>Title</label>
+            <div class="form-control" readonly="readonly">@Model.Title</div>
+        </div>
+
+        <div class="form-group">
+            <label>Population</label>
+            <div class="form-control" readonly="readonly">@Model.Population.ToString(StringFormat.Integer)</div>
+        </div>
     </div>
 </div>
