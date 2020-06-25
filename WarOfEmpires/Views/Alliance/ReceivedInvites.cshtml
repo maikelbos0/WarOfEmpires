@@ -6,4 +6,4 @@
 
 <p>Below are the invites you have received from alliances.</p>
 
-@(Html.Grid<WarOfEmpires.Models.Alliances.ReceivedInviteViewModel>("invitesGrid", Url.Action("GetReceivedInvites")))
+@(Html.Grid<WarOfEmpires.Models.Alliances.ReceivedInviteViewModel>("invitesGrid", Url.Action("GetReceivedInvites"), Url.Action("ReceivedInviteDetails")))
