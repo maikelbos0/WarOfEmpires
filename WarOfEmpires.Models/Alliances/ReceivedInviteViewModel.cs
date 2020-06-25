@@ -15,6 +15,6 @@ namespace WarOfEmpires.Models.Alliances {
         public string AllianceName { get; set; }
         [GridColumn(3, 40, "Subject")]
         public string Subject { get; set; }
-        // TODO add isread
+        public bool IsRead { get; set; }
     }
 }

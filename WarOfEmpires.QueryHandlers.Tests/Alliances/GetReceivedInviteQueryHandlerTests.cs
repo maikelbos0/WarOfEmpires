@@ -41,6 +41,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
 
                 invite.Id.Returns(invites.Count + 1);
                 invite.Date.Returns(new DateTime(2020, 1, 30 - invites.Count));
+                invite.IsRead.Returns(true);
                 invite.Alliance.Returns(alliance);
                 invite.Player.Returns(player);
                 invite.Subject.Returns($"Invite from {allianceName}");
@@ -73,6 +74,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
             result.AllianceId.Should().Be(4);
             result.AllianceCode.Should().Be("ANOT");
             result.AllianceName.Should().Be("Another");
+            result.IsRead.Should().BeTrue();
             result.Date.Should().Be(new DateTime(2020, 1, 29));
             result.Subject.Should().Be("Invite from Another");
             result.Body.Should().Be("Hey, here's your invite into Another");

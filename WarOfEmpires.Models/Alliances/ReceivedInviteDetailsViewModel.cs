@@ -6,6 +6,7 @@ namespace WarOfEmpires.Models.Alliances {
         public int AllianceId { get; set; }
         public string AllianceCode { get; set; }
         public string AllianceName { get; set; }
+        public bool IsRead { get; set; }
         public string Subject { get; set; }
         public string Body { get; set; }
     }

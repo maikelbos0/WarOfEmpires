@@ -29,11 +29,22 @@
 
     <div class="row">
         <div class="col-3 col-form-label">
-            <strong>@Html.LabelFor(m => m.Message)</strong>
+            <strong>@Html.LabelFor(m => m.Subject)</strong>
         </div>
 
         <div class="col-9">
-            @Html.TextAreaFor(m => m.Message, new { @class = "form-control", rows = 8 })
+            @Html.TextBoxFor(m => m.Subject, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Subject, null, new { @class = "small form-text text-danger" })
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-3 col-form-label">
+            <strong>@Html.LabelFor(m => m.Body)</strong>
+        </div>
+
+        <div class="col-9">
+            @Html.TextAreaFor(m => m.Body, new { @class = "form-control", rows = 8 })
         </div>
     </div>
 

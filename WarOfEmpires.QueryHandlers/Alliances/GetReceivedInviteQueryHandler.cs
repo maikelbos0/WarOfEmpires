@@ -24,6 +24,7 @@ namespace WarOfEmpires.QueryHandlers.Alliances {
                 .Select(i => new ReceivedInviteDetailsViewModel() {
                     Id = i.Id,
                     Date = i.Date,
+                    IsRead = i.IsRead,
                     AllianceId = i.Alliance.Id,
                     AllianceCode = i.Alliance.Code,
                     AllianceName = i.Alliance.Name,
