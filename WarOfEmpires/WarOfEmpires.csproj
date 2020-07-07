@@ -534,6 +534,8 @@
     <Content Include="Views\Alliance\Invite.cshtml" />
     <Content Include="Views\Alliance\Invites.cshtml" />
     <Content Include="Views\Alliance\ReceivedInvites.cshtml" />
+    <Content Include="Views\Alliance\InviteDetails.cshtml" />
+    <Content Include="Views\Alliance\ReceivedInviteDetails.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

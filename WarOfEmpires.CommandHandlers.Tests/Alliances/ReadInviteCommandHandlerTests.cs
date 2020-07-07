@@ -12,15 +12,16 @@ using WarOfEmpires.Test.Utilities;
 
 namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
     [TestClass]
-    public sealed class ReadInvitesCommandHandlerTests {
+    public sealed class ReadInviteCommandHandlerTests {
         private readonly FakeWarContext _context = new FakeWarContext();
         private readonly PlayerRepository _repository;
         private readonly Invite _invite;
 
-        public ReadInvitesCommandHandlerTests() {
+        public ReadInviteCommandHandlerTests() {
             _repository = new PlayerRepository(_context);
 
             _invite = Substitute.For<Invite>();
+            _invite.Id.Returns(3);
 
             var user = Substitute.For<User>();
             user.Email.Returns("test@test.com");
@@ -36,8 +37,8 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
 
         [TestMethod]
         public void ReadInvitesCommandHandler_Succeeds() {
-            var handler = new ReadInvitesCommandHandler(_repository);
-            var command = new ReadInvitesCommand("test@test.com");
+            var handler = new ReadInviteCommandHandler(_repository);
+            var command = new ReadInviteCommand("test@test.com", "3");
 
             var result = handler.Execute(command);
 

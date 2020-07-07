@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using WarOfEmpires.Database;
 using WarOfEmpires.Models.Alliances;
 using WarOfEmpires.Queries.Alliances;
@@ -10,27 +9,29 @@ using WarOfEmpires.Utilities.Services;
 namespace WarOfEmpires.QueryHandlers.Alliances {
     [InterfaceInjectable]
     [Audit]
-    public sealed class GetReceivedInvitesQueryHandler : IQueryHandler<GetReceivedInvitesQuery, IEnumerable<ReceivedInviteViewModel>> {
+    public sealed class GetReceivedInviteQueryHandler : IQueryHandler<GetReceivedInviteQuery, ReceivedInviteDetailsViewModel> {
         private readonly IWarContext _context;
-        public GetReceivedInvitesQueryHandler(IWarContext context) {
+
+        public GetReceivedInviteQueryHandler(IWarContext context) {
             _context = context;
         }
 
-        public IEnumerable<ReceivedInviteViewModel> Execute(GetReceivedInvitesQuery query) {
+        public ReceivedInviteDetailsViewModel Execute(GetReceivedInviteQuery query) {
             return _context.Players
                 .Single(p => EmailComparisonService.Equals(p.User.Email, query.Email))
                 .Invites
                 .OrderBy(i => i.Date)
-                .Select(i => new ReceivedInviteViewModel() {
+                .Select(i => new ReceivedInviteDetailsViewModel() {
                     Id = i.Id,
                     Date = i.Date,
                     IsRead = i.IsRead,
                     AllianceId = i.Alliance.Id,
                     AllianceCode = i.Alliance.Code,
                     AllianceName = i.Alliance.Name,
-                    Subject = i.Subject
+                    Subject = i.Subject,
+                    Body = i.Body
                 })
-                .ToList();
+                .Single(i => i.Id == int.Parse(query.InviteId));
         }
     }
 }

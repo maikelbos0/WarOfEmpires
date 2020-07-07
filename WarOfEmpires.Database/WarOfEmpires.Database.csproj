@@ -239,6 +239,10 @@
     <Compile Include="Migrations\202006010751403_Alliances-RequiredFields.designer.cs">
       <DependentUpon>202006010751403_Alliances-RequiredFields.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202006221824058_Alliance-Invite-Subject-Body.cs" />
+    <Compile Include="Migrations\202006221824058_Alliance-Invite-Subject-Body.designer.cs">
+      <DependentUpon>202006221824058_Alliance-Invite-Subject-Body.cs</DependentUpon>
+    </Compile>
     <Compile Include="ReferenceEntities\AttackResultEntity.cs" />
     <Compile Include="ReferenceEntities\AttackTypeEntity.cs" />
     <Compile Include="ReferenceEntities\BaseReferenceEntity.cs" />
@@ -411,6 +415,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202006010751403_Alliances-RequiredFields.resx">
       <DependentUpon>202006010751403_Alliances-RequiredFields.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006221824058_Alliance-Invite-Subject-Body.resx">
+      <DependentUpon>202006221824058_Alliance-Invite-Subject-Body.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

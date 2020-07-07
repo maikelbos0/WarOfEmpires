@@ -1,6 +1,4 @@
-﻿@{ /* TODO Make grid and make responsive grid */ }
-
-@model System.Collections.Generic.IEnumerable<WarOfEmpires.Models.Alliances.ReceivedInviteViewModel>
+﻿@{ /* TODO Make responsive grid */ }
 
 @{
     ViewBag.Title = "Received invites";
@@ -10,63 +8,4 @@
 
 <p>Below are the invites you have received from alliances.</p>
 
-<div class="row">
-    <div class="col-1 col-form-label">
-        <strong>Alliance</strong>
-    </div>
-
-    <div class="col-2 col-form-label">
-        <strong>Alliance name</strong>
-    </div>
-
-    <div class="col-2 col-form-label">
-        <strong>Date</strong>
-    </div>
-
-    <div class="col-3 col-form-label">
-        <strong>Message</strong>
-    </div>
-
-    <div class="col-2">
-    </div>
-
-    <div class="col-2">
-    </div>
-</div>
-
-@foreach (var invite in Model) {
-    <div class="row mt-1">
-        <div class="col-1 col-form-label">
-            @Html.ActionLink(invite.AllianceCode, "Details", "Alliance", new { id = invite.AllianceId }, null)
-        </div>
-
-        <div class="col-2 col-form-label">
-            @Html.ActionLink(invite.AllianceName, "Details", "Alliance", new { id = invite.AllianceId }, null)
-        </div>
-
-        <div class="col-2 col-form-label">
-            @invite.Date.ToString(StringFormat.Date)
-        </div>
-
-        <div class="col-3 col-form-label site-user-text-inline">@invite.Message</div>
-
-        <div class="col-2">
-            @using (Html.BeginForm("AcceptInvite", null, FormMethod.Post, new {
-                data_success_message = "The invite has been accepted."
-            })) {
-                @Html.Hidden("id", invite.Id)
-
-                <button type="submit" class="btn btn-primary form-control">Accept</button>
-            }
-        </div>
-
-        <div class="col-2">
-            @using (Html.BeginForm("RejectInvite", null, FormMethod.Post, new {
-                data_success_message = "The invite has been rejected."
-            })) {
-                @Html.Hidden("id", invite.Id)
-                <button type="submit" class="btn btn-secondary form-control">Reject</button>
-            }
-        </div>
-    </div>
-}
+@(Html.Grid<WarOfEmpires.Models.Alliances.ReceivedInviteViewModel>("invitesGrid", Url.Action("GetReceivedInvites"), Url.Action("ReceivedInviteDetails")))

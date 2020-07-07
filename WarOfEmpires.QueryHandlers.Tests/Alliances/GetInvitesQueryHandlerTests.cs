@@ -4,6 +4,7 @@ using NSubstitute;
 using NSubstitute.Exceptions;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using WarOfEmpires.Domain.Alliances;
 using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Domain.Security;
@@ -19,10 +20,6 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
 
         public GetInvitesQueryHandlerTests() {
             _alliance = Substitute.For<Alliance>();
-
-            _alliance.Id.Returns(1);
-            _alliance.Code.Returns("FS");
-            _alliance.Name.Returns("Føroyskir Samgonga");
 
             var invites = new List<Invite>() {
                 AddInvite(1, 4, "test1@test.com", "Test display name 1", UserStatus.Active, "Message", false, new DateTime(2020, 2, 15)),
@@ -46,7 +43,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
             _context.Players.Add(player);
         }
 
-        public Invite AddInvite(int id, int playerId, string email, string displayName, UserStatus status, string message, bool isRead, DateTime date) {
+        public Invite AddInvite(int id, int playerId, string email, string displayName, UserStatus status, string subject, bool isRead, DateTime date) {
             var user = Substitute.For<User>();
             var player = Substitute.For<Player>();
             var invite = Substitute.For<Invite>();
@@ -60,7 +57,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
 
             invite.Id.Returns(id);
             invite.Alliance.Returns(_alliance);
-            invite.Message.Returns(message);
+            invite.Subject.Returns(subject);
             invite.IsRead.Returns(isRead);
             invite.Date.Returns(date);
             invite.Player.Returns(player);
@@ -76,22 +73,21 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
             var handler = new GetInvitesQueryHandler(_context);
             var query = new GetInvitesQuery("test@test.com");
 
-            var result = handler.Execute(query);
+            var result = handler.Execute(query).ToList();
 
-            result.Name.Should().Be("Føroyskir Samgonga");
-            result.Invites.Should().HaveCount(2);
-            result.Invites[0].Id.Should().Be(3);
-            result.Invites[0].PlayerId.Should().Be(6);
-            result.Invites[0].PlayerName.Should().Be("Test display name 3");
-            result.Invites[0].IsRead.Should().BeTrue();
-            result.Invites[0].Date.Should().Be(new DateTime(2020, 1, 10));
-            result.Invites[0].Message.Should().Be("Another message");
-            result.Invites[1].Id.Should().Be(1);
-            result.Invites[1].PlayerId.Should().Be(4);
-            result.Invites[1].PlayerName.Should().Be("Test display name 1");
-            result.Invites[1].IsRead.Should().BeFalse();
-            result.Invites[1].Date.Should().Be(new DateTime(2020, 2, 15));
-            result.Invites[1].Message.Should().Be("Message");
+            result.Should().HaveCount(2);
+            result[0].Id.Should().Be(1);
+            result[0].PlayerId.Should().Be(4);
+            result[0].PlayerName.Should().Be("Test display name 1");
+            result[0].IsRead.Should().BeFalse();
+            result[0].Date.Should().Be(new DateTime(2020, 2, 15));
+            result[0].Subject.Should().Be("Message");
+            result[1].Id.Should().Be(3);
+            result[1].PlayerId.Should().Be(6);
+            result[1].PlayerName.Should().Be("Test display name 3");
+            result[1].IsRead.Should().BeTrue();
+            result[1].Date.Should().Be(new DateTime(2020, 1, 10));
+            result[1].Subject.Should().Be("Another message");
         }
     }
 }

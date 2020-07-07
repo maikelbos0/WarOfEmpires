@@ -5,6 +5,7 @@ using WarOfEmpires.Models.Alliances;
 using WarOfEmpires.Queries.Alliances;
 using WarOfEmpires.Services;
 using WarOfEmpires.Attributes;
+using System;
 
 namespace WarOfEmpires.Controllers {
     [Authorize]
@@ -62,14 +63,26 @@ namespace WarOfEmpires.Controllers {
         [HttpPost]
         [Route("Invite")]
         public ActionResult Invite(SendInviteModel model) {
-            return ValidatedCommandResult(model, new SendInviteCommand(_authenticationService.Identity, model.PlayerId, model.Message), () => Invites());
+            return ValidatedCommandResult(model, new SendInviteCommand(_authenticationService.Identity, model.PlayerId, model.Subject, model.Body), () => Invites());
         }
 
         [HttpGet]
         [Route("Invites")]
         public ActionResult Invites() {
             // Explicitly name view so it works from Invite
-            return View("Invites", _messageService.Dispatch(new GetInvitesQuery(_authenticationService.Identity)));
+            return View("Invites", (object)_messageService.Dispatch(new GetAllianceNameQuery(_authenticationService.Identity)));
+        }
+
+        [Route("GetInvites")]
+        [HttpPost]
+        public ActionResult GetInvites(DataGridViewMetaData metaData) {
+            return GridJson(new GetInvitesQuery(_authenticationService.Identity), metaData);
+        }
+
+        [HttpGet]
+        [Route("InviteDetails")]
+        public ActionResult InviteDetails(string id) {
+            return View(_messageService.Dispatch(new GetInviteQuery(_authenticationService.Identity, id)));
         }
 
         [HttpPost]
@@ -83,9 +96,25 @@ namespace WarOfEmpires.Controllers {
         [HttpGet]
         [Route("ReceivedInvites")]
         public ActionResult ReceivedInvites() {
-            _messageService.Dispatch(new ReadInvitesCommand(_authenticationService.Identity));
-
             return View(_messageService.Dispatch(new GetReceivedInvitesQuery(_authenticationService.Identity)));
+        }
+
+        [HttpGet]
+        [Route("ReceivedInviteDetails")]
+        public ActionResult ReceivedInviteDetails(string id) {
+            var model = _messageService.Dispatch(new GetReceivedInviteQuery(_authenticationService.Identity, id));
+
+            if (!model.IsRead) {
+                _messageService.Dispatch(new ReadInviteCommand(_authenticationService.Identity, id));
+            }            
+            
+            return View(model);
+        }
+
+        [Route("GetReceivedInvites")]
+        [HttpPost]
+        public ActionResult GetReceivedInvites(DataGridViewMetaData metaData) {
+            return GridJson(new GetReceivedInvitesQuery(_authenticationService.Identity), metaData);
         }
 
         [HttpPost]

@@ -53,9 +53,12 @@
   <ItemGroup>
     <Compile Include="Alliances\GetAllianceHomeQueryHandler.cs" />
     <Compile Include="Alliances\GetAllianceDetailsQueryHandler.cs" />
+    <Compile Include="Alliances\GetAllianceNameQueryHandler.cs" />
     <Compile Include="Alliances\GetAlliancesQueryHandler.cs" />
     <Compile Include="Alliances\GetInvitePlayerQueryHandler.cs" />
+    <Compile Include="Alliances\GetInviteQueryHandler.cs" />
     <Compile Include="Alliances\GetInvitesQueryHandler.cs" />
+    <Compile Include="Alliances\GetReceivedInviteQueryHandler.cs" />
     <Compile Include="Alliances\GetReceivedInvitesQueryHandler.cs" />
     <Compile Include="Attacks\GetAttackDetailsQueryHandler.cs" />
     <Compile Include="Attacks\GetDefenderQueryHandler.cs" />
