@@ -1,4 +1,11 @@
-﻿function Grid(id, dataUrl) {
+﻿let ResponsiveDisplayBehaviourClasses = Object.freeze({
+    AlwaysVisible: "",
+    HiddenFromSmall: "d-none d-sm-block",
+    HiddenFromMedium: "d-none d-md-block",
+    HiddenFromLarge: "d-none d-lg-block"
+});
+
+function Grid(id, dataUrl) {
     this.id = id;
     this.dataUrl = dataUrl;
 
@@ -48,7 +55,7 @@
             cell.append($('<a>', { title: value || "", href: base.detailUrl + '?id=' + dataRow.Id }).text(value || ""));
         }
         else {
-            cell.text(value || "").attr('title', value || "");
+            cell.text(value).attr('title', value);
         }
 
         if (dataRow.IsRead === false) {
@@ -56,8 +63,15 @@
         }
     }
 
-    this.addColumn = function (width, data, header, sortData) {
-        columns.push({ width, data, header, sortData, renderer });
+    this.addColumn = function (width, data, header, sortData, columnClass) {
+        columns.push({
+            width: width,
+            data: data,
+            header: header,
+            sortData: sortData,
+            renderer: renderer,
+            class: columnClass
+        });
     }
 
     this.initialize = function () {

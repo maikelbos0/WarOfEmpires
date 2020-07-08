@@ -11,10 +11,10 @@ namespace WarOfEmpires.Models.Players {
         public string DisplayName { get; set; }
         [GridColumn(2, 10, "Alliance")]
         public string Alliance { get; set; }
-        [GridColumn(3, 25, "Title")]
+        [GridColumn(3, 25, "Title", ResponsiveDisplayBehaviour = ResponsiveDisplayBehaviour.HiddenFromMedium )]
         public string Title { get; set; }
         public int Population { get; set; }
-        [GridColumn(4, 10, "Population", SortData = nameof(Population))]
+        [GridColumn(4, 10, "Population", SortData = nameof(Population), ResponsiveDisplayBehaviour = ResponsiveDisplayBehaviour.HiddenFromSmall)]
         public string PopulationString { get { return Population.ToString(StringFormat.Integer); } }
     }
 }

@@ -51,7 +51,8 @@ namespace WarOfEmpires.Extensions {
                     Width = c.Attribute.Width,
                     Header = c.Attribute.Header,
                     Data = c.Property.Name,
-                    SortData = c.Attribute.SortData ?? c.Property.Name
+                    SortData = c.Attribute.SortData ?? c.Property.Name,
+                    ResponsiveDisplayBehaviour = c.Attribute.ResponsiveDisplayBehaviour
                 })
                 .ToList();
 
