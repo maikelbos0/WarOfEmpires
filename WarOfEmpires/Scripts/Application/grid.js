@@ -1,8 +1,8 @@
 ﻿let ResponsiveDisplayBehaviourClasses = Object.freeze({
     AlwaysVisible: "",
-    HiddenFromSmall: "d-none d-sm-block",
-    HiddenFromMedium: "d-none d-md-block",
-    HiddenFromLarge: "d-none d-lg-block"
+    HiddenFromSmall: "d-none d-md-block",
+    HiddenFromMedium: "d-none d-lg-block",
+    HiddenFromLarge: "d-none d-xl-block"
 });
 
 function Grid(id, dataUrl) {
