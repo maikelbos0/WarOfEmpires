@@ -1,11 +1,4 @@
-﻿let ResponsiveDisplayBehaviourClasses = Object.freeze({
-    AlwaysVisible: "",
-    HiddenFromSmall: "d-none d-md-block",
-    HiddenFromMedium: "d-none d-lg-block",
-    HiddenFromLarge: "d-none d-xl-block"
-});
-
-function Grid(id, dataUrl) {
+﻿function Grid(id, dataUrl) {
     this.id = id;
     this.dataUrl = dataUrl;
 
@@ -63,14 +56,21 @@ function Grid(id, dataUrl) {
         }
     }
 
-    this.addColumn = function (width, data, header, sortData, columnClass) {
+    this.addColumn = function (width, data, header, sortData, responsiveDisplayBehaviour) {
+        let ResponsiveDisplayBehaviourClasses = {
+            AlwaysVisible: null,
+            HiddenFromSmall: "d-none d-md-block",
+            HiddenFromMedium: "d-none d-lg-block",
+            HiddenFromLarge: "d-none d-xl-block"
+        };
+
         columns.push({
             width: width,
             data: data,
             header: header,
             sortData: sortData,
             renderer: renderer,
-            class: columnClass
+            class: ResponsiveDisplayBehaviourClasses[responsiveDisplayBehaviour]
         });
     }
 
