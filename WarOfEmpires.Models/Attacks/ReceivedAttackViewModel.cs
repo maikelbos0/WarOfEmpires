@@ -17,7 +17,7 @@ namespace WarOfEmpires.Models.Attacks {
         [GridColumn(3, 10, "Soldiers lost", SortData = nameof(DefenderSoldierCasualties))]
         public string DefenderSoldierCasualtiesString { get { return DefenderSoldierCasualties.ToString(StringFormat.Integer); } }
         public int DefenderMercenaryCasualties { get; set; }
-        [GridColumn(4, 10, "Mercenaries lost", SortData = nameof(DefenderMercenaryCasualties))]
+        [GridColumn(4, 10, "Mercs lost", SortData = nameof(DefenderMercenaryCasualties))]
         public string DefenderMercenaryCasualtiesString { get { return DefenderMercenaryCasualties.ToString(StringFormat.Integer); } }
         [GridColumn(5, 15, "Attacker")]
         public string Attacker { get; set; }
@@ -27,7 +27,7 @@ namespace WarOfEmpires.Models.Attacks {
         [GridColumn(7, 10, "Soldiers lost", SortData = nameof(AttackerSoldierCasualties), ResponsiveDisplayBehaviour = ResponsiveDisplayBehaviour.HiddenFromLarge)]
         public string AttackerSoldierCasualtiesString { get { return AttackerSoldierCasualties.ToString(StringFormat.Integer); } }
         public int AttackerMercenaryCasualties { get; set; }
-        [GridColumn(8, 10, "Mercenaries lost", SortData = nameof(AttackerMercenaryCasualties), ResponsiveDisplayBehaviour = ResponsiveDisplayBehaviour.HiddenFromLarge)]
+        [GridColumn(8, 10, "Mercs lost", SortData = nameof(AttackerMercenaryCasualties), ResponsiveDisplayBehaviour = ResponsiveDisplayBehaviour.HiddenFromLarge)]
         public string AttackerMercenaryCasualtiesString { get { return AttackerMercenaryCasualties.ToString(StringFormat.Integer); } }
         [GridColumn(9, 9, "Result")]
         public string Result { get; set; }
