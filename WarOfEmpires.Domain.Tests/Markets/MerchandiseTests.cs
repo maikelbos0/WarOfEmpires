@@ -43,5 +43,17 @@ namespace WarOfEmpires.Domain.Tests.Markets {
             transaction.Quantity.Should().Be(800);
             transaction.IsRead.Should().BeFalse();
         }
+
+        [TestMethod]
+        public void Merchandise_Buy_Sets_Seller_HasNewMarketSales_True() {
+            var seller = new Player(1, "Seller");
+            var buyer = new Player(2, "Buyer");
+            var merchandise = new Merchandise(MerchandiseType.Wood, 2000, 5);
+
+            merchandise.Buy(seller, buyer, 800);
+
+            seller.HasNewMarketSales.Should().BeTrue();
+            buyer.HasNewMarketSales.Should().BeFalse();
+        }
     }
 }

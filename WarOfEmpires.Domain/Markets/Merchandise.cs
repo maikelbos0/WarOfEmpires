@@ -34,6 +34,7 @@ namespace WarOfEmpires.Domain.Markets {
             Quantity -= quantity;
             seller.AddResources(new Resources(gold: profit));
             seller.SellTransactions.Add(transaction);
+            seller.HasNewMarketSales = true;
             buyer.SpendResources(new Resources(gold: cost));
             buyer.AddResources(MerchandiseTotals.ToResources(Type, quantity));
             buyer.BuyTransactions.Add(transaction);
