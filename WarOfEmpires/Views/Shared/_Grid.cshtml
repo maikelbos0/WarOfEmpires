@@ -17,7 +17,7 @@
         @:grid.sortDescending = @Model.SortDescending.ToString().ToLower();
         }
         @foreach (var column in Model.Columns) {
-        @:grid.addColumn(@column.Width, '@column.Data', '@column.Header', '@column.SortData');
+        @:grid.addColumn(@column.Width, '@column.Data', '@column.Header', '@column.SortData', '@column.ResponsiveDisplayBehaviour');
         }
         grid.initialize();
     });

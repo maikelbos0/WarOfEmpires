@@ -78,6 +78,7 @@
     <Compile Include="Grids\GridColumnViewModel.cs" />
     <Compile Include="Grids\GridSortingAttribute.cs" />
     <Compile Include="Grids\GridViewModel.cs" />
+    <Compile Include="Grids\ResponsiveDisplayBehaviour.cs" />
     <Compile Include="Markets\MarketModel.cs" />
     <Compile Include="Markets\CaravanViewModel.cs" />
     <Compile Include="Markets\MerchandiseModel.cs" />

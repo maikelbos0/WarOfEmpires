@@ -45,10 +45,10 @@
 
     let renderer = function (cell, value, dataRow) {
         if (base.detailUrl) {
-            cell.append($('<a>', { title: value || "", href: base.detailUrl + '?id=' + dataRow.Id }).text(value || ""));
+            cell.append($('<a>', { title: value, href: base.detailUrl + '?id=' + dataRow.Id }).text(value));
         }
         else {
-            cell.text(value || "").attr('title', value || "");
+            cell.text(value).attr('title', value);
         }
 
         if (dataRow.IsRead === false) {
@@ -56,8 +56,22 @@
         }
     }
 
-    this.addColumn = function (width, data, header, sortData) {
-        columns.push({ width, data, header, sortData, renderer });
+    this.addColumn = function (width, data, header, sortData, responsiveDisplayBehaviour) {
+        let ResponsiveDisplayBehaviourClasses = {
+            AlwaysVisible: null,
+            HiddenFromSmall: "d-none d-md-block",
+            HiddenFromMedium: "d-none d-lg-block",
+            HiddenFromLarge: "d-none d-xl-block"
+        };
+
+        columns.push({
+            width: width,
+            data: data,
+            header: header,
+            sortData: sortData,
+            renderer: renderer,
+            class: ResponsiveDisplayBehaviourClasses[responsiveDisplayBehaviour]
+        });
     }
 
     this.initialize = function () {

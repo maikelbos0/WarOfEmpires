@@ -1,6 +1,4 @@
-﻿@{ /* TODO Make responsive grid */ }
-
-@model System.Collections.Generic.IEnumerable<WarOfEmpires.Models.Markets.CaravanViewModel>
+﻿@model System.Collections.Generic.IEnumerable<WarOfEmpires.Models.Markets.CaravanViewModel>
 
 @if (Model.Any()) {
     <h3 class="mt-3">Current caravans</h3>
@@ -10,66 +8,40 @@
         will generally be.
     </p>
 
-    <div class="row">
-        <div class="col-2 col-form-label">
-            <strong>Date</strong>
-        </div>
+    <table class="table table-borderless table-striped">
+        <thead>
+            <tr>
+                <th class="d-none d-md-table-cell">Date</th>
+                <th>Food</th>
+                <th>Wood</th>
+                <th>Stone</th>
+                <th>Ore</th>
+                <th></th>
+            </tr>
+        </thead>
 
-        <div class="col-2 col-form-label">
-            <strong>Food</strong>
-        </div>
+        <tbody>
+            @foreach (var caravan in Model) {
+                <tr>
+                    <td class="table-form-label d-none d-lg-table-cell">@caravan.Date.ToString(StringFormat.Date)</td>
+                    <td class="table-form-label">@caravan.Food.ToString(StringFormat.Integer) at @caravan.FoodPrice.ToString(StringFormat.Integer) @Html.Icon("Gold")</td>
+                    <td class="table-form-label">@caravan.Wood.ToString(StringFormat.Integer) at @caravan.WoodPrice.ToString(StringFormat.Integer) @Html.Icon("Gold")</td>
+                    <td class="table-form-label">@caravan.Stone.ToString(StringFormat.Integer) at @caravan.StonePrice.ToString(StringFormat.Integer) @Html.Icon("Gold")</td>
+                    <td class="table-form-label">@caravan.Ore.ToString(StringFormat.Integer) at @caravan.OrePrice.ToString(StringFormat.Integer) @Html.Icon("Gold")</td>
+                    <td>
+                        @using (Html.BeginForm("WithdrawCaravan", null, FormMethod.Post, new {
+                            data_success_message = "Your caravan has been withdrawn."
+                        })) {
+                            @Html.Hidden("id", caravan.Id);
 
-        <div class="col-2 col-form-label">
-            <strong>Wood</strong>
-        </div>
-
-        <div class="col-2 col-form-label">
-            <strong>Stone</strong>
-        </div>
-
-        <div class="col-2 col-form-label">
-            <strong>Ore</strong>
-        </div>
-
-        <div class="col-2 col-form-label">
-        </div>
-    </div>
-
-    foreach (var caravan in Model) {
-        using (Html.BeginForm("WithdrawCaravan", null, FormMethod.Post, new {
-            data_success_message = "Your caravan has been withdrawn."
-        })) {
-            @Html.Hidden("id", caravan.Id);
-
-            <div class="row mt-1">
-                <div class="col-2 col-form-label">
-                    @caravan.Date.ToString(StringFormat.Date)
-                </div>
-
-                <div class="col-2 col-form-label">
-                    @caravan.Food.ToString(StringFormat.Integer) @Html.Icon("Food")
-                    at @caravan.FoodPrice.ToString(StringFormat.Integer) @Html.Icon("Gold")
-                </div>
-
-                <div class="col-2 col-form-label">
-                    @caravan.Wood.ToString(StringFormat.Integer) @Html.Icon("Wood")
-                    at @caravan.WoodPrice.ToString(StringFormat.Integer) @Html.Icon("Gold")
-                </div>
-
-                <div class="col-2 col-form-label">
-                    @caravan.Stone.ToString(StringFormat.Integer) @Html.Icon("Stone")
-                    at @caravan.StonePrice.ToString(StringFormat.Integer) @Html.Icon("Gold")
-                </div>
-
-                <div class="col-2 col-form-label">
-                    @caravan.Ore.ToString(StringFormat.Integer) @Html.Icon("Ore")
-                    at @caravan.OrePrice.ToString(StringFormat.Integer) @Html.Icon("Gold")
-                </div>
-
-                <div class="col-2">
-                    <button type="submit" class="btn btn-secondary form-control">Withdraw</button>
-                </div>
-            </div>
-        }
-    }
+                            <button type="submit" class="btn btn-secondary form-control">
+                                <span class="d-none d-lg-inline">Withdraw</span>
+                                <span class="d-lg-none">X</span>
+                            </button>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 }

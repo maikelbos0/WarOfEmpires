@@ -1,9 +1,7 @@
-﻿@{ /* TODO Make responsive grid */ }
-
-@{
+﻿@{
     ViewBag.Title = "Sent messages";
 }
 
 <h2>Sent messages</h2>
 
-@(Html.Grid<WarOfEmpires.Models.Messages.ReceivedMessageViewModel>("messagesGrid", Url.Action("GetSentMessages"), Url.Action("SentDetails")))
+@(Html.Grid<WarOfEmpires.Models.Messages.SentMessageViewModel>("messagesGrid", Url.Action("GetSentMessages"), Url.Action("SentDetails")))

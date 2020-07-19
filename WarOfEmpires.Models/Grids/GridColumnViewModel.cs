@@ -4,5 +4,6 @@
         public string Header { get; set; }
         public string Data { get; set; }
         public string SortData { get; set; }
+        public ResponsiveDisplayBehaviour ResponsiveDisplayBehaviour { get; set; }
     }
 }

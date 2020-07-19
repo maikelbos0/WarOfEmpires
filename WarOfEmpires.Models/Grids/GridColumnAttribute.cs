@@ -6,6 +6,7 @@ namespace WarOfEmpires.Models.Grids {
         public int Width { get; }
         public string Header { get; }
         public string SortData { get; set; }
+        public ResponsiveDisplayBehaviour ResponsiveDisplayBehaviour { get; set; } = ResponsiveDisplayBehaviour.AlwaysVisible;
 
         public GridColumnAttribute(int index, int width, string header) {
             Index = index;
