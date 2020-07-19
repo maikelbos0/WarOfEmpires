@@ -18,6 +18,8 @@ namespace WarOfEmpires.CommandHandlers.Markets {
             var result = new CommandResult<ReadTransactionsCommand>();
             var player = _repository.Get(command.Email);
 
+            player.HasNewMarketSales = false;
+
             if (player.SellTransactions.Any(t => !t.IsRead)) {
                 foreach (var transaction in player.SellTransactions.Where(t => !t.IsRead)) {
                     transaction.IsRead = true;

@@ -16,6 +16,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
         private readonly FakeWarContext _context = new FakeWarContext();
         private readonly PlayerRepository _repository;
         private readonly Transaction _transaction;
+        private readonly Player _player;
 
         public ReadTransactionsCommandHandlerTests() {
             _repository = new PlayerRepository(_context);
@@ -26,22 +27,24 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
 
             _transaction = Substitute.For<Transaction>();
 
-            var player = Substitute.For<Player>();
-            player.SellTransactions.Returns(new List<Transaction>() { _transaction });
-            player.User.Returns(user);
+            _player = Substitute.For<Player>();
+            _player.SellTransactions.Returns(new List<Transaction>() { _transaction });
+            _player.User.Returns(user);
 
             _context.Users.Add(user);
-            _context.Players.Add(player);
+            _context.Players.Add(_player);
         }
 
         [TestMethod]
-        public void ReadMessageCommandHandler_Succeeds() {
+        public void ReadTransactionsCommandHandler_Succeeds() {
             var handler = new ReadTransactionsCommandHandler(_repository);
             var command = new ReadTransactionsCommand("test@test.com");
 
             var result = handler.Execute(command);
 
             result.Success.Should().BeTrue();
+
+            _player.Received().HasNewMarketSales = false;
             _transaction.Received().IsRead = true;
             _context.CallsToSaveChanges.Should().Be(1);
         }
