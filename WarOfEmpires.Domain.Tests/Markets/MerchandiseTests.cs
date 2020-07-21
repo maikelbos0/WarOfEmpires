@@ -41,7 +41,6 @@ namespace WarOfEmpires.Domain.Tests.Markets {
             transaction.Type.Should().Be(MerchandiseType.Wood);
             transaction.Price.Should().Be(5);
             transaction.Quantity.Should().Be(800);
-            transaction.IsRead.Should().BeFalse();
         }
 
         [TestMethod]

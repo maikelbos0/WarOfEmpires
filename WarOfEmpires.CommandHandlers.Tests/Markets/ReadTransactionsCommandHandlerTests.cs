@@ -1,10 +1,8 @@
 ﻿using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
-using System.Collections.Generic;
 using WarOfEmpires.CommandHandlers.Markets;
 using WarOfEmpires.Commands.Markets;
-using WarOfEmpires.Domain.Markets;
 using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Repositories.Players;
@@ -15,7 +13,6 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
     public sealed class ReadTransactionsCommandHandlerTests {
         private readonly FakeWarContext _context = new FakeWarContext();
         private readonly PlayerRepository _repository;
-        private readonly Transaction _transaction;
         private readonly Player _player;
 
         public ReadTransactionsCommandHandlerTests() {
@@ -25,10 +22,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
             user.Email.Returns("test@test.com");
             user.Status.Returns(UserStatus.Active);
 
-            _transaction = Substitute.For<Transaction>();
-
             _player = Substitute.For<Player>();
-            _player.SellTransactions.Returns(new List<Transaction>() { _transaction });
             _player.User.Returns(user);
 
             _context.Users.Add(user);
@@ -45,7 +39,6 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
             result.Success.Should().BeTrue();
 
             _player.Received().HasNewMarketSales = false;
-            _transaction.Received().IsRead = true;
             _context.CallsToSaveChanges.Should().Be(1);
         }
     }
