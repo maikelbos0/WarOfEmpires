@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using WarOfEmpires.Domain.Alliances;
 using WarOfEmpires.Domain.Attacks;
 using WarOfEmpires.Domain.Common;
-using WarOfEmpires.Domain.Markets;
 using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Queries.Players;
@@ -19,7 +18,6 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
         private readonly Player _player;
         private readonly Message _message;
         private readonly Attack _attack;
-        private readonly Transaction _transaction;
         private readonly Invite _invite;
 
         public GetNotificationsQueryHandlerTests() {
@@ -42,9 +40,6 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
 
             _attack = Substitute.For<Attack>();
             _player.ReceivedAttacks.Returns(new List<Attack>() { _attack });
-
-            _transaction = Substitute.For<Transaction>();
-            _player.SellTransactions.Returns(new List<Transaction>() { _transaction });
 
             _invite = Substitute.For<Invite>();
             _player.Invites.Returns(new List<Invite>() { _invite });
@@ -100,26 +95,26 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
 
         [TestMethod]
         public void GetNotificationsQueryHandler_HasNewSales_Is_True_For_Unread_Sales() {
-            _transaction.IsRead.Returns(false);
+            _player.HasNewMarketSales.Returns(true);
 
             var handler = new GetNotificationsQueryHandler(_context);
             var query = new GetNotificationsQuery("test@test.com");
 
             var result = handler.Execute(query);
 
-            result.HasNewSales.Should().BeTrue();
+            result.HasNewMarketSales.Should().BeTrue();
         }
 
         [TestMethod]
         public void GetNotificationsQueryHandler_HasNewSales_Is_False_For_Read_Sales() {
-            _transaction.IsRead.Returns(true);
+            _player.HasNewMarketSales.Returns(false);
 
             var handler = new GetNotificationsQueryHandler(_context);
             var query = new GetNotificationsQuery("test@test.com");
 
             var result = handler.Execute(query);
 
-            result.HasNewSales.Should().BeFalse();
+            result.HasNewMarketSales.Should().BeFalse();
         }
 
         [TestMethod]

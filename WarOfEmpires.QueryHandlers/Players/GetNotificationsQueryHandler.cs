@@ -23,7 +23,7 @@ namespace WarOfEmpires.QueryHandlers.Players {
             return new NotificationsViewModel() {
                 HasNewMessages = player.ReceivedMessages.Any(m => !m.IsRead),
                 HasNewAttacks = player.ReceivedAttacks.Any(a => !a.IsRead),
-                HasNewSales = player.SellTransactions.Any(t => !t.IsRead),
+                HasNewMarketSales = player.HasNewMarketSales,
                 HasHousingShortage = player.GetTheoreticalRecruitsPerDay() > player.GetAvailableHousingCapacity(),
                 HasUpkeepShortage = player.HasUpkeepRunOut || !(player.GetTotalResources() + player.GetResourcesPerTurn() * 48).CanAfford(player.GetUpkeepPerTurn() * 48),
                 HasSoldierShortage = player.GetSoldierRecruitsPenalty() > 0,
