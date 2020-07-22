@@ -50,6 +50,8 @@
     <Compile Include="Alliances\GetInvitesQuery.cs" />
     <Compile Include="Alliances\GetReceivedInviteQuery.cs" />
     <Compile Include="Alliances\GetReceivedInvitesQuery.cs" />
+    <Compile Include="Alliances\GetRoleDetailsQuery.cs" />
+    <Compile Include="Alliances\GetRolesQuery.cs" />
     <Compile Include="Attacks\GetAttackDetailsQuery.cs" />
     <Compile Include="Attacks\GetDefenderQuery.cs" />
     <Compile Include="Attacks\GetExecutedAttacksQuery.cs" />
