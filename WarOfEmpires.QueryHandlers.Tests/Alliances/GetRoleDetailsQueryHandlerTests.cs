@@ -32,7 +32,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
                 AddPlayer(1, 3, "test1@test.com", "Test display name 1", UserStatus.Active),
                 AddPlayer(2, 0, "test2@test.com", "Test display name 2", UserStatus.Inactive),
                 AddPlayer(3, 2, "test3@test.com", "Test display name 3", UserStatus.Active),
-                AddPlayer(4, 5, "test3@test.com", "Test display name 4", UserStatus.Active)
+                AddPlayer(4, 5, "test4@test.com", "Test display name 4", UserStatus.Active)
             };
 
             _alliance.Members.Returns(members);
@@ -49,14 +49,17 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
 
             var user = Substitute.For<User>();
             var player = Substitute.For<Player>();
+            var alliance = Substitute.For<Alliance>();
 
             user.Id.Returns(99);
             user.Status.Returns(UserStatus.Active);
             user.Email.Returns("wrong@test.com");
 
             player.User.Returns(user);
-            player.Alliance.Returns((Alliance)null);
+            player.Alliance.Returns(alliance);
             player.Id.Returns(99);
+
+            alliance.Roles.Returns(new List<Role>());
 
             _context.Users.Add(user);
             _context.Players.Add(player);
@@ -113,21 +116,21 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
 
             var result = handler.Execute(query);
 
-            result.Id.Should().Be(1);
-            result.Name.Should().Be("Managers");
+            result.Id.Should().Be(2);
+            result.Name.Should().Be("Peasant");
             result.Players.Should().HaveCount(1);
 
             result.Players.Should().ContainSingle(p => p.Id == 1);
-            result.Players.Single(p => p.Id == 3).DisplayName.Should().Be("Test display name 1");
-            result.Players.Single(p => p.Id == 3).Population.Should().Be(49);
-            result.Players.Single(p => p.Id == 3).Rank.Should().Be(3);
-            result.Players.Single(p => p.Id == 3).Title.Should().Be("Sub chieftain");
+            result.Players.Single(p => p.Id == 1).DisplayName.Should().Be("Test display name 1");
+            result.Players.Single(p => p.Id == 1).Population.Should().Be(49);
+            result.Players.Single(p => p.Id == 1).Rank.Should().Be(3);
+            result.Players.Single(p => p.Id == 1).Title.Should().Be("Sub chieftain");
         }
 
         [TestMethod]
         public void GetRoleDetailsQueryHandler_Throws_Exception_For_Role_Of_Different_Alliance() {
             var handler = new GetRoleDetailsQueryHandler(_context, _formatter);
-            var query = new GetRoleDetailsQuery("test3@test.com", "1");
+            var query = new GetRoleDetailsQuery("wrong@test.com", "1");
 
             Action action = () => handler.Execute(query);
 

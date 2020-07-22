@@ -1,9 +1,13 @@
 ﻿using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
 using WarOfEmpires.Database;
+using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Models.Alliances;
 using WarOfEmpires.Queries.Alliances;
 using WarOfEmpires.QueryHandlers.Decorators;
 using WarOfEmpires.Utilities.Container;
+using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Alliances {
     [InterfaceInjectable]
@@ -16,7 +20,16 @@ namespace WarOfEmpires.QueryHandlers.Alliances {
         }
 
         public IEnumerable<RoleViewModel> Execute(GetRolesQuery query) {
-            throw new System.NotImplementedException();
+            var alliance = _context.Players
+                .Include(p => p.Alliance.Roles)
+                .Single(p => EmailComparisonService.Equals(p.User.Email, query.Email))
+                .Alliance;
+
+            return alliance.Roles.Select(r => new RoleViewModel() {
+                Id = r.Id,
+                Name = r.Name,
+                Players = r.Players.Count(p => p.User.Status == UserStatus.Active)
+            });
         }
     }
 }
