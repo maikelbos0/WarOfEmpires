@@ -251,6 +251,10 @@
     <Compile Include="Migrations\202007211742474_Remove-Transactions-IsRead.designer.cs">
       <DependentUpon>202007211742474_Remove-Transactions-IsRead.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202007271356118_Alliance-Roles.cs" />
+    <Compile Include="Migrations\202007271356118_Alliance-Roles.designer.cs">
+      <DependentUpon>202007271356118_Alliance-Roles.cs</DependentUpon>
+    </Compile>
     <Compile Include="ReferenceEntities\AttackResultEntity.cs" />
     <Compile Include="ReferenceEntities\AttackTypeEntity.cs" />
     <Compile Include="ReferenceEntities\BaseReferenceEntity.cs" />
@@ -432,6 +436,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202007211742474_Remove-Transactions-IsRead.resx">
       <DependentUpon>202007211742474_Remove-Transactions-IsRead.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007271356118_Alliance-Roles.resx">
+      <DependentUpon>202007271356118_Alliance-Roles.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
