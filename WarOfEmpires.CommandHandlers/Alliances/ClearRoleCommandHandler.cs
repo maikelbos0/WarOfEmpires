@@ -1,4 +1,5 @@
-﻿using WarOfEmpires.CommandHandlers.Decorators;
+﻿using System.Linq;
+using WarOfEmpires.CommandHandlers.Decorators;
 using WarOfEmpires.Commands.Alliances;
 using WarOfEmpires.Repositories.Players;
 using WarOfEmpires.Utilities.Container;
@@ -14,7 +15,15 @@ namespace WarOfEmpires.CommandHandlers.Alliances {
         }
 
         public CommandResult<ClearRoleCommand> Execute(ClearRoleCommand command) {
-            throw new System.NotImplementedException();
+            var result = new CommandResult<ClearRoleCommand>();
+            var player = _repository.Get(command.Email);
+            var member = player.Alliance.Members.Single(p => p.Id == int.Parse(command.PlayerId));
+
+            player.Alliance.ClearRole(member);
+
+            _repository.Update();
+
+            return result;
         }
     }
 }

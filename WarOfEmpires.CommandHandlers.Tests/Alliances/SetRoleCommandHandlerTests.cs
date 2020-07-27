@@ -39,6 +39,9 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
             _role.Alliance.Returns(_alliance);
             _role.Id.Returns(3);
             _role.Players.Returns(new List<Player>() { });
+            
+            _alliance.Members.Returns(new List<Player>() { _player });
+            _alliance.Roles.Returns(new List<Role>() { _role });
 
             _context.Alliances.Add(_alliance);
             _context.Users.Add(user);
@@ -66,7 +69,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
 
             Action action = () => handler.Execute(command);
 
-            action.Should().Throw<InvalidOperationException>();
+            action.Should().Throw<NullReferenceException>();
             _alliance.DidNotReceiveWithAnyArgs().SetRole(default, default);
             _context.CallsToSaveChanges.Should().Be(0);
         }

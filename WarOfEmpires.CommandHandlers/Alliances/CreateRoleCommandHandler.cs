@@ -14,7 +14,14 @@ namespace WarOfEmpires.CommandHandlers.Alliances {
         }
 
         public CommandResult<CreateRoleCommand> Execute(CreateRoleCommand command) {
-            throw new System.NotImplementedException();
+            var result = new CommandResult<CreateRoleCommand>();
+            var player = _repository.Get(command.Email);
+
+            player.Alliance.CreateRole(command.Name);
+
+            _repository.Update();
+
+            return result;
         }
     }
 }
