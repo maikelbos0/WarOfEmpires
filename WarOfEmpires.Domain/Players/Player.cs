@@ -37,6 +37,7 @@ namespace WarOfEmpires.Domain.Players {
         public virtual int BankTurns { get; protected set; } = 6;
         public virtual int Stamina { get; protected set; } = 100;
         public virtual bool HasUpkeepRunOut { get; protected set; } = false;
+        public virtual bool HasNewMarketSales { get; set; } = false;
         public virtual int Rank { get; protected set; } = int.MaxValue;
         public virtual TitleType Title { get; protected set; } = TitleType.PeasantLeader;
         public virtual Alliance Alliance { get; protected set; }

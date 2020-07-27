@@ -29,8 +29,7 @@ namespace WarOfEmpires.QueryHandlers.Markets {
                     Date = m.Date,
                     Type = _formatter.ToString(m.Type),
                     Quantity = m.Quantity,
-                    Price = m.Price,
-                    IsRead = m.IsRead
+                    Price = m.Price
                 })
                 .ToList();
         }

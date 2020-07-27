@@ -17,7 +17,7 @@
 
                 $('#navbar-attack-dropdown, #attack-link').toggleClass("notify", result.HasNewAttacks);
 
-                $('#navbar-market-dropdown, #market-link').toggleClass("notify", result.HasNewSales);
+                $('#navbar-market-dropdown, #market-link').toggleClass("notify", result.HasNewMarketSales);
 
                 $('#navbar-empire-dropdown').toggleClass("notify", result.HasHousingShortage || result.HasUpkeepShortage || result.HasSoldierShortage);
                 $('#empire-buildings-link').toggleClass("notify", result.HasHousingShortage);

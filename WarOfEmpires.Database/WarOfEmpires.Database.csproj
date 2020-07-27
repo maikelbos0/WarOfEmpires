@@ -243,6 +243,14 @@
     <Compile Include="Migrations\202006221824058_Alliance-Invite-Subject-Body.designer.cs">
       <DependentUpon>202006221824058_Alliance-Invite-Subject-Body.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202007191734188_Players-HasNewMarketSales.cs" />
+    <Compile Include="Migrations\202007191734188_Players-HasNewMarketSales.designer.cs">
+      <DependentUpon>202007191734188_Players-HasNewMarketSales.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202007211742474_Remove-Transactions-IsRead.cs" />
+    <Compile Include="Migrations\202007211742474_Remove-Transactions-IsRead.designer.cs">
+      <DependentUpon>202007211742474_Remove-Transactions-IsRead.cs</DependentUpon>
+    </Compile>
     <Compile Include="ReferenceEntities\AttackResultEntity.cs" />
     <Compile Include="ReferenceEntities\AttackTypeEntity.cs" />
     <Compile Include="ReferenceEntities\BaseReferenceEntity.cs" />
@@ -418,6 +426,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202006221824058_Alliance-Invite-Subject-Body.resx">
       <DependentUpon>202006221824058_Alliance-Invite-Subject-Body.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007191734188_Players-HasNewMarketSales.resx">
+      <DependentUpon>202007191734188_Players-HasNewMarketSales.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007211742474_Remove-Transactions-IsRead.resx">
+      <DependentUpon>202007211742474_Remove-Transactions-IsRead.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

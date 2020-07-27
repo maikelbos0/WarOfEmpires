@@ -16,6 +16,5 @@ namespace WarOfEmpires.Models.Markets {
         public int Price { get; set; }
         [GridColumn(3, 20, "Price", SortData = nameof(Price))]
         public string PriceString { get { return Price.ToString(StringFormat.Integer); } }
-        public bool IsRead { get; set; }
     }
 }
