@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using WarOfEmpires.CommandHandlers.Decorators;
+﻿using WarOfEmpires.CommandHandlers.Decorators;
 using WarOfEmpires.Commands.Markets;
 using WarOfEmpires.Repositories.Players;
 using WarOfEmpires.Utilities.Container;
@@ -18,13 +17,8 @@ namespace WarOfEmpires.CommandHandlers.Markets {
             var result = new CommandResult<ReadTransactionsCommand>();
             var player = _repository.Get(command.Email);
 
-            if (player.SellTransactions.Any(t => !t.IsRead)) {
-                foreach (var transaction in player.SellTransactions.Where(t => !t.IsRead)) {
-                    transaction.IsRead = true;
-                }
-
-                _repository.Update();
-            }
+            player.HasNewMarketSales = false;
+            _repository.Update();
 
             return result;
         }
