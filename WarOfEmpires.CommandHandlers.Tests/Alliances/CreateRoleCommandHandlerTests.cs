@@ -2,8 +2,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using WarOfEmpires.CommandHandlers.Alliances;
 using WarOfEmpires.Commands.Alliances;
 using WarOfEmpires.Domain.Alliances;
@@ -24,7 +22,6 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
             _repository = new PlayerRepository(_context);
 
             _alliance = Substitute.For<Alliance>();
-            _alliance.Roles.Returns(new List<Role>());
 
             var user = Substitute.For<User>();
             user.Email.Returns("test@test.com");
@@ -47,8 +44,8 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
             var result = handler.Execute(command);
 
             result.Success.Should().BeTrue();
-            _alliance.Roles.Should().HaveCount(1);
-            _alliance.Roles.Single().Name.Should().Be("Diva");
+            _alliance.Received().CreateRole("Diva");
+            _context.CallsToSaveChanges.Should().Be(1);
         }
 
         [TestMethod]
@@ -59,6 +56,8 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
             Action action = () => handler.Execute(command);
 
             action.Should().Throw<InvalidOperationException>();
+            _alliance.DidNotReceiveWithAnyArgs().CreateRole(default);
+            _context.CallsToSaveChanges.Should().Be(0);
         }
 
         [TestMethod]
@@ -71,6 +70,8 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
             Action action = () => handler.Execute(command);
 
             action.Should().Throw<NullReferenceException>();
+            _alliance.DidNotReceiveWithAnyArgs().CreateRole(default);
+            _context.CallsToSaveChanges.Should().Be(0);
         }
     }
 }

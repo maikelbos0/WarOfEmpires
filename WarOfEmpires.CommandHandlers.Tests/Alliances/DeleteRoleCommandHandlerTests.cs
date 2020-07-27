@@ -52,8 +52,8 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
             var result = handler.Execute(command);
 
             result.Success.Should().BeTrue();
-            _alliance.Roles.Should().BeEmpty();
-            _role.Players.Should().BeEmpty();
+            _alliance.Received().DeleteRole(_role);
+            _context.CallsToSaveChanges.Should().Be(1);
         }
 
         [TestMethod]
@@ -64,6 +64,8 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
             Action action = () => handler.Execute(command);
 
             action.Should().Throw<InvalidOperationException>();
+            _alliance.DidNotReceiveWithAnyArgs().DeleteRole(default);
+            _context.CallsToSaveChanges.Should().Be(0);
         }
 
         [TestMethod]
@@ -76,6 +78,8 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
             Action action = () => handler.Execute(command);
 
             action.Should().Throw<InvalidOperationException>();
+            _alliance.DidNotReceiveWithAnyArgs().DeleteRole(default);
+            _context.CallsToSaveChanges.Should().Be(0);
         }
     }
 }

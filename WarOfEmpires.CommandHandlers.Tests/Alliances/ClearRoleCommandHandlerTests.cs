@@ -2,7 +2,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 using System;
-using System.Collections.Generic;
 using WarOfEmpires.CommandHandlers.Alliances;
 using WarOfEmpires.Commands.Alliances;
 using WarOfEmpires.Domain.Alliances;
@@ -18,7 +17,6 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
         private readonly PlayerRepository _repository;
         private readonly Player _player;
         private readonly Alliance _alliance;
-        private readonly Role _role;
 
         public ClearRoleCommandHandlerTests() {
             _repository = new PlayerRepository(_context);
@@ -35,12 +33,6 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
             _player.User.Returns(user);
             _player.Id.Returns(2);
 
-            _role = Substitute.For<Role>();
-            _role.Alliance.Returns(_alliance);
-            _role.Id.Returns(3);
-            _role.Players.Returns(new List<Player>() { _player });
-            _alliance.Roles.Returns(new List<Role>() { _role });
-
             _context.Alliances.Add(_alliance);
             _context.Users.Add(user);
             _context.Players.Add(_player);
@@ -54,7 +46,8 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
             var result = handler.Execute(command);
 
             result.Success.Should().BeTrue();
-            _role.Players.Should().BeEmpty();
+            _alliance.Received().ClearRole(_player);
+            _context.CallsToSaveChanges.Should().Be(1);
         }
 
         [TestMethod]
@@ -67,6 +60,8 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
             Action action = () => handler.Execute(command);
 
             action.Should().Throw<InvalidOperationException>();
+            _alliance.DidNotReceiveWithAnyArgs().ClearRole(default);
+            _context.CallsToSaveChanges.Should().Be(0);
         }
 
         [TestMethod]
@@ -79,6 +74,8 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
             Action action = () => handler.Execute(command);
 
             action.Should().Throw<InvalidOperationException>();
+            _alliance.DidNotReceiveWithAnyArgs().ClearRole(default);
+            _context.CallsToSaveChanges.Should().Be(0);
         }
     }
 }
