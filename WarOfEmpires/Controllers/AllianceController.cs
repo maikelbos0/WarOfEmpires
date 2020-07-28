@@ -169,5 +169,13 @@ namespace WarOfEmpires.Controllers {
         public ActionResult RoleDetails(string id) {
             return View(_messageService.Dispatch(new GetRoleDetailsQuery(_authenticationService.Identity, id)));
         }
+
+        [HttpPost]
+        [Route("ClearRole")]
+        public ActionResult ClearRole(string id, string playerId) {
+            _messageService.Dispatch(new ClearRoleCommand(_authenticationService.Identity, playerId));
+
+            return RedirectToAction("RoleDetails", new { id } );
+        }
     }
 }

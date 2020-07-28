@@ -41,7 +41,8 @@
                             @using (Html.BeginForm("ClearRole", null, FormMethod.Post, new {
                                 data_success_message = "The player's role has been cleared."
                             })) {
-                                @Html.Hidden("id", player.Id);
+                                @Html.Hidden("playerId", player.Id);
+                                @Html.Hidden("id", Model.Id);
 
                                 <button type="submit" class="btn btn-secondary form-control">Clear</button>
                             }
