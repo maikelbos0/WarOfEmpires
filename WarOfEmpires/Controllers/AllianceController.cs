@@ -106,13 +106,13 @@ namespace WarOfEmpires.Controllers {
 
             if (!model.IsRead) {
                 _messageService.Dispatch(new ReadInviteCommand(_authenticationService.Identity, id));
-            }            
-            
+            }
+
             return View(model);
         }
 
-        [Route("GetReceivedInvites")]
         [HttpPost]
+        [Route("GetReceivedInvites")]
         public ActionResult GetReceivedInvites(DataGridViewMetaData metaData) {
             return GridJson(new GetReceivedInvitesQuery(_authenticationService.Identity), metaData);
         }
@@ -137,6 +137,18 @@ namespace WarOfEmpires.Controllers {
         [Route("PostChatMessage")]
         public ActionResult PostChatMessage(AllianceHomeViewModel model) {
             return ValidatedCommandResult(model, new PostChatMessageCommand(_authenticationService.Identity, model.ChatMessage), () => Home());
+        }
+
+        [HttpGet]
+        [Route("Roles")]
+        public ActionResult Roles() {
+            return View("Roles", (object)_messageService.Dispatch(new GetAllianceNameQuery(_authenticationService.Identity)));
+        }
+
+        [Route("GetRoles")]
+        [HttpPost]
+        public ActionResult GetRoles(DataGridViewMetaData metaData) {
+            return GridJson(new GetRolesQuery(_authenticationService.Identity), metaData);
         }
     }
 }

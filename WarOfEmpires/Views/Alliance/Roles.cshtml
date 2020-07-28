@@ -1,0 +1,11 @@
+﻿@model string
+
+@{
+    ViewBag.Title = $"{Model} - Roles";
+}
+
+    <h2>@Model - Roles</h2>
+
+<p>Below are the roles your alliance has.</p>
+
+@(Html.Grid<WarOfEmpires.Models.Alliances.RoleViewModel>("rolesGrid", Url.Action("GetRoles"), Url.Action("RoleDetails")))
