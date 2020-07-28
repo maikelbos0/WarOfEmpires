@@ -142,13 +142,26 @@ namespace WarOfEmpires.Controllers {
         [HttpGet]
         [Route("Roles")]
         public ActionResult Roles() {
+            // Explicitly name view so it works from CreateRole
             return View("Roles", (object)_messageService.Dispatch(new GetAllianceNameQuery(_authenticationService.Identity)));
         }
 
-        [Route("GetRoles")]
         [HttpPost]
+        [Route("GetRoles")]
         public ActionResult GetRoles(DataGridViewMetaData metaData) {
             return GridJson(new GetRolesQuery(_authenticationService.Identity), metaData);
+        }
+
+        [HttpGet]
+        [Route("CreateRole")]
+        public ActionResult CreateRole() {
+            return View(new CreateRoleModel());
+        }
+
+        [HttpPost]
+        [Route("CreateRole")]
+        public ActionResult CreateRole(CreateRoleModel model) {
+            return ValidatedCommandResult(model, new CreateRoleCommand(_authenticationService.Identity, model.Name), () => Roles());
         }
     }
 }

@@ -4,8 +4,16 @@
     ViewBag.Title = $"{Model} - Roles";
 }
 
-    <h2>@Model - Roles</h2>
+<h2>@Model - Roles</h2>
 
-<p>Below are the roles your alliance has.</p>
+<p>
+    In an alliance, you can assign a role to players to give them an in-alliance title and to give them rights to various alliance actions. Below are the roles your alliance has.
+</p>
+
+<div class="text-right mb-3">
+    <div class="btn-group">
+        @Html.ActionLink("Create role", "CreateRole", "Alliance", null, new { @class = "btn btn-primary" })
+    </div>
+</div>
 
 @(Html.Grid<WarOfEmpires.Models.Alliances.RoleViewModel>("rolesGrid", Url.Action("GetRoles"), Url.Action("RoleDetails")))
