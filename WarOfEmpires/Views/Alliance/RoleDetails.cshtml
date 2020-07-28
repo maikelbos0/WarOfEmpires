@@ -7,10 +7,17 @@
 <h2>@Model.Name</h2>
 
 <div class="text-right mb-3">
-    <div class="btn-group">
-        @Html.ActionLink("Set role for player", "SetRole", "Alliance", null, new { @class = "btn btn-primary" })
-        @Html.ActionLink("Delete role", "DeleteRole", "Alliance", null, new { @class = "btn btn-secondary" })
-    </div>
+    @using (Html.BeginForm("DeleteRole", null, FormMethod.Post, new {
+        data_success_message = "The role has been deleted."
+    })) {
+        @Html.Hidden("id", Model.Id)
+
+        <div class="btn-group">
+            @Html.ActionLink("Set role for player", "SetRole", "Alliance", null, new { @class = "btn btn-primary" })
+
+            <button type="submit" class="btn btn-secondary">Delete role</button>
+        </div>
+    }
 </div>
 
 <div class="row">
@@ -37,8 +44,8 @@
                             @using (Html.BeginForm("ClearRole", null, FormMethod.Post, new {
                                 data_success_message = "The player's role has been cleared."
                             })) {
-                                @Html.Hidden("playerId", player.Id);
-                                @Html.Hidden("id", Model.Id);
+                                @Html.Hidden("playerId", player.Id)
+                                @Html.Hidden("id", Model.Id)
 
                                 <button type="submit" class="btn btn-secondary form-control">Clear</button>
                             }

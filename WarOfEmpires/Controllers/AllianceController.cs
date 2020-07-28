@@ -177,5 +177,13 @@ namespace WarOfEmpires.Controllers {
 
             return RedirectToAction("RoleDetails", new { id } );
         }
+
+        [HttpPost]
+        [Route("DeleteRole")]
+        public ActionResult DeleteRole(string id) {
+            _messageService.Dispatch(new DeleteRoleCommand(_authenticationService.Identity, id));
+
+            return RedirectToAction("Roles");
+        }
     }
 }
