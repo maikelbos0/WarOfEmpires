@@ -1,0 +1,58 @@
+﻿@model WarOfEmpires.Models.Alliances.RoleDetailsViewModel
+
+@{
+    ViewBag.Title = Model.Name;
+}
+
+<h2>@Model.Name</h2>
+
+<div class="text-right mb-3">
+    <div class="btn-group">
+        @Html.ActionLink("Set role for player", "SetRole", "Alliance", null, new { @class = "btn btn-primary" })
+        @Html.ActionLink("Delete role", "DeleteRole", "Alliance", null, new { @class = "btn btn-secondary" })
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12 col-lg-6">
+        <table class="table table-borderless table-striped">
+            <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>Display name</th>
+                    <th>Population</th>
+                    <th></th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var player in Model.Players) {
+                    <tr>
+                        <td class="table-form-label">
+                            @Html.ActionLink(player.Rank.ToString(StringFormat.Integer), "Details", "Player", new { id = player.Id }, null)
+                        </td>
+                        <td class="table-form-label">
+                            @Html.ActionLink(player.DisplayName, "Details", "Player", new { id = player.Id }, null)
+                        </td>
+                        <td class="table-form-label">
+                            @Html.ActionLink(player.Population.ToString(StringFormat.Integer), "Details", "Player", new { id = player.Id }, null)
+                        </td>
+                        <td>
+                            @using (Html.BeginForm("ClearRole", null, FormMethod.Post, new {
+                                data_success_message = "The player's role has been cleared."
+                            })) {
+                                @Html.Hidden("id", player.Id);
+
+                                <button type="submit" class="btn btn-secondary form-control">Clear</button>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="col-12 col-lg-6">
+        <!-- TODO Rights -->
+    </div>
+</div>

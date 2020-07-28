@@ -163,5 +163,11 @@ namespace WarOfEmpires.Controllers {
         public ActionResult CreateRole(CreateRoleModel model) {
             return ValidatedCommandResult(model, new CreateRoleCommand(_authenticationService.Identity, model.Name), () => Roles());
         }
+
+        [HttpGet]
+        [Route("RoleDetails")]
+        public ActionResult RoleDetails(string id) {
+            return View(_messageService.Dispatch(new GetRoleDetailsQuery(_authenticationService.Identity, id)));
+        }
     }
 }
