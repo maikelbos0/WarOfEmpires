@@ -20,7 +20,6 @@
                 <tr>
                     <th>Rank</th>
                     <th>Display name</th>
-                    <th>Population</th>
                     <th></th>
                 </tr>
             </thead>
@@ -33,9 +32,6 @@
                         </td>
                         <td class="table-form-label">
                             @Html.ActionLink(player.DisplayName, "Details", "Player", new { id = player.Id }, null)
-                        </td>
-                        <td class="table-form-label">
-                            @Html.ActionLink(player.Population.ToString(StringFormat.Integer), "Details", "Player", new { id = player.Id }, null)
                         </td>
                         <td>
                             @using (Html.BeginForm("ClearRole", null, FormMethod.Post, new {

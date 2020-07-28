@@ -6,7 +6,6 @@ using WarOfEmpires.Models.Alliances;
 using WarOfEmpires.Queries.Alliances;
 using WarOfEmpires.QueryHandlers.Decorators;
 using WarOfEmpires.Utilities.Container;
-using WarOfEmpires.Utilities.Formatting;
 using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Alliances {
@@ -14,10 +13,8 @@ namespace WarOfEmpires.QueryHandlers.Alliances {
     [Audit]
     public sealed class GetRoleDetailsQueryHandler : IQueryHandler<GetRoleDetailsQuery, RoleDetailsViewModel> {
         private readonly IWarContext _context;
-        private readonly EnumFormatter _formatter;
 
-        public GetRoleDetailsQueryHandler(IWarContext context, EnumFormatter formatter) {
-            _formatter = formatter;
+        public GetRoleDetailsQueryHandler(IWarContext context) {
             _context = context;
         }
 
@@ -35,9 +32,7 @@ namespace WarOfEmpires.QueryHandlers.Alliances {
                 Players = role.Players.Where(p => p.User.Status == UserStatus.Active).Select(p => new RolePlayerViewModel() {
                     Id = p.Id,
                     Rank = p.Rank,
-                    DisplayName = p.DisplayName,
-                    Title = _formatter.ToString(p.Title),
-                    Population = p.Peasants + p.Workers.Sum(w => w.Count) + p.Troops.Sum(t => t.GetTotals())
+                    DisplayName = p.DisplayName
                 }).ToList()
             };
         }

@@ -12,13 +12,11 @@ using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Queries.Alliances;
 using WarOfEmpires.QueryHandlers.Alliances;
 using WarOfEmpires.Test.Utilities;
-using WarOfEmpires.Utilities.Formatting;
 
 namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
     [TestClass]
     public sealed class GetRoleDetailsQueryHandlerTests {
         private readonly FakeWarContext _context = new FakeWarContext();
-        private readonly EnumFormatter _formatter = new EnumFormatter();
         private readonly Alliance _alliance;
 
         public GetRoleDetailsQueryHandlerTests() {
@@ -111,7 +109,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
 
         [TestMethod]
         public void GetRoleDetailsQueryHandler_Returns_Correct_Information() {
-            var handler = new GetRoleDetailsQueryHandler(_context, _formatter);
+            var handler = new GetRoleDetailsQueryHandler(_context);
             var query = new GetRoleDetailsQuery("test3@test.com", "2");
 
             var result = handler.Execute(query);
@@ -122,14 +120,12 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
 
             result.Players.Should().ContainSingle(p => p.Id == 1);
             result.Players.Single(p => p.Id == 1).DisplayName.Should().Be("Test display name 1");
-            result.Players.Single(p => p.Id == 1).Population.Should().Be(49);
             result.Players.Single(p => p.Id == 1).Rank.Should().Be(3);
-            result.Players.Single(p => p.Id == 1).Title.Should().Be("Sub chieftain");
         }
 
         [TestMethod]
         public void GetRoleDetailsQueryHandler_Throws_Exception_For_Role_Of_Different_Alliance() {
-            var handler = new GetRoleDetailsQueryHandler(_context, _formatter);
+            var handler = new GetRoleDetailsQueryHandler(_context);
             var query = new GetRoleDetailsQuery("wrong@test.com", "1");
 
             Action action = () => handler.Execute(query);

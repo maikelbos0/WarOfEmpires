@@ -7,7 +7,6 @@ using WarOfEmpires.Models.Alliances;
 using WarOfEmpires.Queries.Alliances;
 using WarOfEmpires.QueryHandlers.Decorators;
 using WarOfEmpires.Utilities.Container;
-using WarOfEmpires.Utilities.Formatting;
 using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Alliances {
@@ -15,10 +14,8 @@ namespace WarOfEmpires.QueryHandlers.Alliances {
     [Audit]
     public sealed class GetAllianceHomeQueryHandler : IQueryHandler<GetAllianceHomeQuery, AllianceHomeViewModel> {
         private readonly IWarContext _context;
-        private readonly EnumFormatter _formatter;
 
-        public GetAllianceHomeQueryHandler(IWarContext context, EnumFormatter formatter) {
-            _formatter = formatter;
+        public GetAllianceHomeQueryHandler(IWarContext context) {
             _context = context;
         }
 
@@ -31,6 +28,7 @@ namespace WarOfEmpires.QueryHandlers.Alliances {
                 .Include(p => p.Workers)
                 .Include(p => p.Troops)
                 .Include(p => p.User)
+                .Include(p => p.AllianceRole)
                 .Where(p => p.User.Status == UserStatus.Active && p.Alliance.Id == alliance.Id)
                 .OrderBy(p => p.Rank)
                 .ToList();
@@ -50,8 +48,7 @@ namespace WarOfEmpires.QueryHandlers.Alliances {
                     LastOnline = p.User.LastOnline,
                     Rank = p.Rank,
                     DisplayName = p.DisplayName,
-                    Title = _formatter.ToString(p.Title),
-                    Population = p.Peasants + p.Workers.Sum(w => w.Count) + p.Troops.Sum(t => t.GetTotals())
+                    Role = p.AllianceRole?.Name
                 }).ToList(),
                 ChatMessages = chatMessages
                     .Where(m => m.Date >= DateTime.UtcNow.AddDays(-7))
