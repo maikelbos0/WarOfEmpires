@@ -5,7 +5,6 @@ using WarOfEmpires.Models.Alliances;
 using WarOfEmpires.Queries.Alliances;
 using WarOfEmpires.Services;
 using WarOfEmpires.Attributes;
-using System;
 
 namespace WarOfEmpires.Controllers {
     [Authorize]
@@ -184,6 +183,20 @@ namespace WarOfEmpires.Controllers {
             _messageService.Dispatch(new DeleteRoleCommand(_authenticationService.Identity, id));
 
             return RedirectToAction("Roles");
+        }
+
+        [HttpGet]
+        [Route("SetRole")]
+        public ActionResult SetRole(string id) {
+            return View(_messageService.Dispatch(new GetNewRolePlayerQuery(_authenticationService.Identity, id)));
+        }
+
+        [HttpPost]
+        [Route("SetRole")]
+        public ActionResult SetRole(string id, string playerId) {
+            _messageService.Dispatch(new SetRoleCommand(_authenticationService.Identity, playerId, id));
+
+            return RedirectToAction("RoleDetails", new { id });
         }
     }
 }
