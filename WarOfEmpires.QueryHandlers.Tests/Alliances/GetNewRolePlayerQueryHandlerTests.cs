@@ -28,7 +28,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
                 AddPlayer(1, 3, "test1@test.com", "Test display name 1", UserStatus.Active),
                 AddPlayer(2, 0, "test2@test.com", "Test display name 2", UserStatus.Inactive),
                 AddPlayer(3, 2, "test3@test.com", "Test display name 3", UserStatus.Active),
-                AddPlayer(4, 5, "test4@test.com", "Another test display", UserStatus.Active)
+                AddPlayer(4, 5, "test4@test.com", "Another test display name", UserStatus.Active)
             };
 
             _alliance.Members.Returns(members);
@@ -66,6 +66,10 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
             role.Id.Returns(id);
             role.Name.Returns(name);
             role.Players.Returns(players.ToList());
+
+            foreach (var player in players) {
+                player.AllianceRole.Returns(role);
+            }
 
             return role;
         }
