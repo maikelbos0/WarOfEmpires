@@ -53,6 +53,7 @@
     <Compile Include="Alliances\AllianceViewModel.cs" />
     <Compile Include="Alliances\CreateAllianceModel.cs" />
     <Compile Include="Alliances\AllianceSearchModel.cs" />
+    <Compile Include="Alliances\NewRolePlayersModel.cs" />
     <Compile Include="Alliances\NewRolePlayerModel.cs" />
     <Compile Include="Alliances\ReceivedInviteDetailsViewModel.cs" />
     <Compile Include="Alliances\ReceivedInviteViewModel.cs" />
