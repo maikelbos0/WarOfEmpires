@@ -48,6 +48,7 @@
     <Compile Include="Alliances\GetInvitePlayerQuery.cs" />
     <Compile Include="Alliances\GetInviteQuery.cs" />
     <Compile Include="Alliances\GetInvitesQuery.cs" />
+    <Compile Include="Alliances\GetNewRolePlayerQuery.cs" />
     <Compile Include="Alliances\GetReceivedInviteQuery.cs" />
     <Compile Include="Alliances\GetReceivedInvitesQuery.cs" />
     <Compile Include="Alliances\GetRoleDetailsQuery.cs" />
