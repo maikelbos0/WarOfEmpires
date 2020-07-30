@@ -83,8 +83,11 @@
     <Compile Include="Alliances\GetInvitePlayerQueryHandlerTests.cs" />
     <Compile Include="Alliances\GetInviteQueryHandlerTests.cs" />
     <Compile Include="Alliances\GetInvitesQueryHandlerTests.cs" />
+    <Compile Include="Alliances\GetNewRolePlayerQueryHandlerTests.cs" />
     <Compile Include="Alliances\GetReceivedInviteQueryHandlerTests.cs" />
     <Compile Include="Alliances\GetReceivedInvitesQueryHandlerTest.cs" />
+    <Compile Include="Alliances\GetRoleDetailsQueryHandlerTests.cs" />
+    <Compile Include="Alliances\GetRolesQueryHandlerTests.cs" />
     <Compile Include="Attacks\GetAttackDetailsQueryHandlerTests.cs" />
     <Compile Include="Attacks\GetDefenderQueryHandlerTests.cs" />
     <Compile Include="Attacks\GetExecutedAttacksQueryHandlerTests.cs" />

@@ -58,8 +58,11 @@
     <Compile Include="Alliances\GetInvitePlayerQueryHandler.cs" />
     <Compile Include="Alliances\GetInviteQueryHandler.cs" />
     <Compile Include="Alliances\GetInvitesQueryHandler.cs" />
+    <Compile Include="Alliances\GetNewRolePlayerQueryHandler.cs" />
     <Compile Include="Alliances\GetReceivedInviteQueryHandler.cs" />
     <Compile Include="Alliances\GetReceivedInvitesQueryHandler.cs" />
+    <Compile Include="Alliances\GetRoleDetailsQueryHandler.cs" />
+    <Compile Include="Alliances\GetRolesQueryHandler.cs" />
     <Compile Include="Attacks\GetAttackDetailsQueryHandler.cs" />
     <Compile Include="Attacks\GetDefenderQueryHandler.cs" />
     <Compile Include="Attacks\GetExecutedAttacksQueryHandler.cs" />

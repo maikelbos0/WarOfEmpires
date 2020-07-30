@@ -41,6 +41,7 @@ namespace WarOfEmpires.Domain.Players {
         public virtual int Rank { get; protected set; } = int.MaxValue;
         public virtual TitleType Title { get; protected set; } = TitleType.PeasantLeader;
         public virtual Alliance Alliance { get; protected set; }
+        public virtual Role AllianceRole { get; protected set; }
         public virtual ICollection<Invite> Invites { get; protected set; } = new List<Invite>();
         public virtual ICollection<Workers> Workers { get; protected set; } = new List<Workers>();
         public virtual ICollection<Troops> Troops { get; protected set; } = new List<Troops>();

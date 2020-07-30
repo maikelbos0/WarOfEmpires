@@ -1,0 +1,68 @@
+﻿@model WarOfEmpires.Models.Alliances.RoleDetailsViewModel
+
+@{
+    ViewBag.Title = $"Roles - {Model.Name}";
+}
+
+<h2>Roles - @Model.Name</h2>
+
+<p>
+    In an alliance, you can assign a role to players to give them an in-alliance title and to give them rights to various alliance actions.
+</p>
+
+<div class="text-right mb-3">
+    @using (Html.BeginForm("DeleteRole", null, FormMethod.Post, new {
+        data_success_message = "The role has been deleted."
+    })) {
+        @Html.Hidden("id", Model.Id)
+
+        <div class="btn-group">
+            @Html.ActionLink("Set player role", "SetRole", "Alliance", new { id = Model.Id }, new { @class = "btn btn-primary" })
+
+            <button type="submit" class="btn btn-secondary">Delete role</button>
+        </div>
+    }
+</div>
+
+<div class="row">
+    @if (Model.Players.Any()) {
+        <div class="col-12 col-lg-6">
+            <table class="table table-borderless table-striped">
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Display name</th>
+                        <th></th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var player in Model.Players) {
+                        <tr>
+                            <td class="table-form-label">
+                                @Html.ActionLink(player.Rank.ToString(StringFormat.Integer), "Details", "Player", new { id = player.Id }, null)
+                            </td>
+                            <td class="table-form-label">
+                                @Html.ActionLink(player.DisplayName, "Details", "Player", new { id = player.Id }, null)
+                            </td>
+                            <td>
+                                @using (Html.BeginForm("ClearRole", null, FormMethod.Post, new {
+                                    data_success_message = "The player's role has been cleared."
+                                })) {
+                                    @Html.Hidden("playerId", player.Id)
+                                    @Html.Hidden("id", Model.Id)
+
+                                    <button type="submit" class="btn btn-secondary form-control">Clear</button>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+
+    <div class="col-12 col-lg-6">
+        <!-- TODO Rights -->
+    </div>
+</div>

@@ -55,6 +55,7 @@
     <Compile Include="Alliances\Alliance.cs" />
     <Compile Include="Alliances\ChatMessage.cs" />
     <Compile Include="Alliances\Invite.cs" />
+    <Compile Include="Alliances\Role.cs" />
     <Compile Include="Attacks\AttackFactory.cs" />
     <Compile Include="Attacks\AttackResult.cs" />
     <Compile Include="Attacks\AttackRound.cs" />

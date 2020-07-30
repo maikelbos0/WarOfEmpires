@@ -156,6 +156,9 @@ namespace WarOfEmpires.Database {
 
             var chatMessages = modelBuilder.Entity<Alliances.ChatMessage>().ToTable("ChatMessages", "Alliances").HasKey(m => m.Id);
             chatMessages.Property(m => m.Message).IsRequired().IsMaxLength();
+
+            var roles = modelBuilder.Entity<Alliances.Role>().ToTable("Roles", "Alliances").HasKey(r => r.Id);
+            roles.Property(r => r.Name).IsRequired();
         }
 
         private void OnAttacksModelCreating(DbModelBuilder modelBuilder) {

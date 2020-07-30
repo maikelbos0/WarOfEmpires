@@ -22,6 +22,7 @@ namespace WarOfEmpires.Test.Utilities {
             Alliance.Members.Returns(new List<Player>());
             Alliance.ChatMessages.Returns(new List<ChatMessage>());
             Alliance.Invites.Returns(new List<Invite>());
+            Alliance.Roles.Returns(new List<Role>());
             Context.Alliances.Add(Alliance);
         }
 
@@ -55,6 +56,22 @@ namespace WarOfEmpires.Test.Utilities {
 
             player.Invites.Add(invite);
             Alliance.Invites.Add(invite);
+
+            return this;
+        }
+
+        public FakeAllianceBuilder AddRole(int id, string name, params Player[] players) {
+            var role = Substitute.For<Role>();
+
+            role.Id.Returns(id);
+            role.Name.Returns(name);
+            role.Players.Returns(players);
+
+            foreach (var player in players) {
+                player.AllianceRole.Returns(role);
+            }
+
+            Alliance.Roles.Add(role);
 
             return this;
         }

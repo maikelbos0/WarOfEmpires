@@ -6,7 +6,6 @@ using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Queries.Alliances;
 using WarOfEmpires.QueryHandlers.Alliances;
 using WarOfEmpires.Test.Utilities;
-using WarOfEmpires.Utilities.Formatting;
 
 namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
     [TestClass]
@@ -14,12 +13,13 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
         [TestMethod]
         public void GetAllianceHomeQueryHandler_Returns_Correct_Information() {
             var builder = new FakeBuilder().CreateAlliance(1);
+            var player = builder.CreateLeader(3, rank: 2, lastOnline: new DateTime(2020, 1, 10)).Player;
 
             builder.CreateMember(1, rank: 3);
             builder.CreateMember(2, status: UserStatus.Inactive);
-            builder.CreateLeader(3, rank: 2, lastOnline: new DateTime(2020, 1, 10)).AddPopulation();
+            builder.AddRole(1, "Superstar", player);
 
-            var handler = new GetAllianceHomeQueryHandler(builder.Context, new EnumFormatter());
+            var handler = new GetAllianceHomeQueryHandler(builder.Context);
             var query = new GetAllianceHomeQuery("test1@test.com");
 
             var result = handler.Execute(query);
@@ -34,8 +34,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
             result.Members.First().LastOnline.Should().Be(new DateTime(2020, 1, 10));
             result.Members.First().Rank.Should().Be(2);
             result.Members.First().DisplayName.Should().Be("Test display name 3");
-            result.Members.First().Title.Should().Be("Sub chieftain");
-            result.Members.First().Population.Should().Be(49);
+            result.Members.First().Role.Should().Be("Superstar");
         }
 
         [TestMethod]
@@ -49,7 +48,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
                 .AddChatMessage(DateTime.UtcNow.Date.AddDays(-1), "Visible");
             builder.CreateLeader(3);
 
-            var handler = new GetAllianceHomeQueryHandler(builder.Context, new EnumFormatter());
+            var handler = new GetAllianceHomeQueryHandler(builder.Context);
             var query = new GetAllianceHomeQuery("test1@test.com");
 
             var result = handler.Execute(query);
