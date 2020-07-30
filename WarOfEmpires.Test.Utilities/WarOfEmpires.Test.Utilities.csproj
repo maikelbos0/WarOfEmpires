@@ -63,6 +63,7 @@
   <ItemGroup>
     <Compile Include="FakeAllianceBuilder.cs" />
     <Compile Include="FakeAppSettings.cs" />
+    <Compile Include="FakeAttackBuilder.cs" />
     <Compile Include="FakeAuthenticationService.cs" />
     <Compile Include="FakeBuilder.cs" />
     <Compile Include="FakeDbSet.cs" />

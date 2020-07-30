@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using WarOfEmpires.Database;
 using WarOfEmpires.Domain.Alliances;
 using WarOfEmpires.Domain.Attacks;
+using WarOfEmpires.Domain.Common;
 using WarOfEmpires.Domain.Empires;
 using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Domain.Security;
@@ -30,8 +31,14 @@ namespace WarOfEmpires.Test.Utilities {
             Player.Workers.Returns(new List<Workers>());
             Player.Troops.Returns(new List<Troops>());
             Player.Invites.Returns(new List<Invite>());
+            Player.ReceivedAttacks.Returns(new List<Attack>());
+            Player.ExecutedAttacks.Returns(new List<Attack>());
 
             _context.Players.Add(Player);
+        }
+
+        public FakeAttackBuilder CreateAttack(int id, Player defender, AttackType type, AttackResult result, int turns = 10, bool isRead = false, DateTime? date = null, Resources resources = null) {
+            return new FakeAttackBuilder(_context, id, Player, defender, type, result, turns, isRead, date, resources);
         }
 
         public FakePlayerBuilder AddPeasants(int peasants) {
