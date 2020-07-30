@@ -62,6 +62,7 @@
                         <div class="dropdown-menu bg-info" aria-labelledby="navbar-alliance-dropdown">
                             @if (Model.IsInAlliance) {
                                 @Html.ActionLink("Home", "Home", "Alliance", null, new { @class = "dropdown-item" })
+                                @Html.ActionLink("Roles", "Roles", "Alliance", null, new { @class = "dropdown-item" })
                                 @Html.ActionLink("Invites", "Invites", "Alliance", null, new { @class = "dropdown-item" })
                             }
                             else {

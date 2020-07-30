@@ -5,7 +5,6 @@ using WarOfEmpires.Models.Alliances;
 using WarOfEmpires.Queries.Alliances;
 using WarOfEmpires.Services;
 using WarOfEmpires.Attributes;
-using System;
 
 namespace WarOfEmpires.Controllers {
     [Authorize]
@@ -106,13 +105,13 @@ namespace WarOfEmpires.Controllers {
 
             if (!model.IsRead) {
                 _messageService.Dispatch(new ReadInviteCommand(_authenticationService.Identity, id));
-            }            
-            
+            }
+
             return View(model);
         }
 
-        [Route("GetReceivedInvites")]
         [HttpPost]
+        [Route("GetReceivedInvites")]
         public ActionResult GetReceivedInvites(DataGridViewMetaData metaData) {
             return GridJson(new GetReceivedInvitesQuery(_authenticationService.Identity), metaData);
         }
@@ -137,6 +136,67 @@ namespace WarOfEmpires.Controllers {
         [Route("PostChatMessage")]
         public ActionResult PostChatMessage(AllianceHomeViewModel model) {
             return ValidatedCommandResult(model, new PostChatMessageCommand(_authenticationService.Identity, model.ChatMessage), () => Home());
+        }
+
+        [HttpGet]
+        [Route("Roles")]
+        public ActionResult Roles() {
+            // Explicitly name view so it works from CreateRole
+            return View("Roles", (object)_messageService.Dispatch(new GetAllianceNameQuery(_authenticationService.Identity)));
+        }
+
+        [HttpPost]
+        [Route("GetRoles")]
+        public ActionResult GetRoles(DataGridViewMetaData metaData) {
+            return GridJson(new GetRolesQuery(_authenticationService.Identity), metaData);
+        }
+
+        [HttpGet]
+        [Route("CreateRole")]
+        public ActionResult CreateRole() {
+            return View(new CreateRoleModel());
+        }
+
+        [HttpPost]
+        [Route("CreateRole")]
+        public ActionResult CreateRole(CreateRoleModel model) {
+            return ValidatedCommandResult(model, new CreateRoleCommand(_authenticationService.Identity, model.Name), () => Roles());
+        }
+
+        [HttpGet]
+        [Route("RoleDetails")]
+        public ActionResult RoleDetails(string id) {
+            return View(_messageService.Dispatch(new GetRoleDetailsQuery(_authenticationService.Identity, id)));
+        }
+
+        [HttpPost]
+        [Route("ClearRole")]
+        public ActionResult ClearRole(string id, string playerId) {
+            _messageService.Dispatch(new ClearRoleCommand(_authenticationService.Identity, playerId));
+
+            return RedirectToAction("RoleDetails", new { id } );
+        }
+
+        [HttpPost]
+        [Route("DeleteRole")]
+        public ActionResult DeleteRole(string id) {
+            _messageService.Dispatch(new DeleteRoleCommand(_authenticationService.Identity, id));
+
+            return RedirectToAction("Roles");
+        }
+
+        [HttpGet]
+        [Route("SetRole")]
+        public ActionResult SetRole(string id) {
+            return View(_messageService.Dispatch(new GetNewRolePlayerQuery(_authenticationService.Identity, id)));
+        }
+
+        [HttpPost]
+        [Route("SetRole")]
+        public ActionResult SetRole(string id, string playerId) {
+            _messageService.Dispatch(new SetRoleCommand(_authenticationService.Identity, playerId, id));
+
+            return RedirectToAction("RoleDetails", new { id });
         }
     }
 }

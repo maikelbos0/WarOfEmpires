@@ -42,8 +42,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Alliances\AcceptInviteCommand.cs" />
+    <Compile Include="Alliances\ClearRoleCommand.cs" />
+    <Compile Include="Alliances\CreateRoleCommand.cs" />
+    <Compile Include="Alliances\DeleteRoleCommand.cs" />
     <Compile Include="Alliances\PostChatMessageCommand.cs" />
     <Compile Include="Alliances\ReadInviteCommand.cs" />
+    <Compile Include="Alliances\SetRoleCommand.cs" />
     <Compile Include="Alliances\WithdrawInviteCommand.cs" />
     <Compile Include="Alliances\CreateAllianceCommand.cs" />
     <Compile Include="Alliances\RejectInviteCommand.cs" />

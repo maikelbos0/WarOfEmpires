@@ -30,7 +30,7 @@
                 <tr>
                     <th>Rank</th>
                     <th>Display name</th>
-                    <th>Population</th>
+                    <th>Role</th>
                     <th>Last online</th>
                 </tr>
             </thead>
@@ -45,7 +45,7 @@
                             @Html.ActionLink(member.DisplayName, "Details", "Player", new { id = member.Id }, null)
                         </td>
                         <td class="@(member.LastOnline > DateTime.UtcNow.AddMinutes(-30) ? "bg-highlight" : "")">
-                            @Html.ActionLink(member.Population.ToString(StringFormat.Integer), "Details", "Player", new { id = member.Id }, null)
+                            @Html.ActionLink(member.Role ?? "Member", "Details", "Player", new { id = member.Id }, null)
                         </td>
                         <td class="@(member.LastOnline > DateTime.UtcNow.AddMinutes(-30) ? "bg-highlight" : "")">
                             @if (member.LastOnline.HasValue) {

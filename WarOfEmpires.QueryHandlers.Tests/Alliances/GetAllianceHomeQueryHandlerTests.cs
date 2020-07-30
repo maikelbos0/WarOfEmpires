@@ -12,13 +12,11 @@ using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Queries.Alliances;
 using WarOfEmpires.QueryHandlers.Alliances;
 using WarOfEmpires.Test.Utilities;
-using WarOfEmpires.Utilities.Formatting;
 
 namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
     [TestClass]
     public sealed class GetAllianceHomeQueryHandlerTests {
         private readonly FakeWarContext _context = new FakeWarContext();
-        private readonly EnumFormatter _formatter = new EnumFormatter();
         private readonly Alliance _alliance;
 
         public GetAllianceHomeQueryHandlerTests() {
@@ -37,6 +35,13 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
             _alliance.Members.Returns(members);
             _alliance.Leader.Returns(members.Last());
 
+            var roles = new List<Role>() {
+                AddRole(4, "Diva", members[0]),
+                AddRole(5, "Superstar", members[2])
+            };
+
+            _alliance.Roles.Returns(roles);
+
             var chatMessages = new List<ChatMessage>() {
                 CreateChatMessage(members.First(), new DateTime(2020,2,2), "Hidden"),
                 CreateChatMessage(members.First(), DateTime.UtcNow.Date, "Displayed"),
@@ -46,6 +51,20 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
             _alliance.ChatMessages.Returns(chatMessages);
 
             _context.Alliances.Add(_alliance);
+        }
+
+        public Role AddRole(int id, string name, params Player[] players) {
+            var role = Substitute.For<Role>();
+
+            role.Id.Returns(id);
+            role.Name.Returns(name);
+            role.Players.Returns(players);
+
+            foreach (var player in players) {
+                player.AllianceRole.Returns(role);
+            }
+
+            return role;
         }
 
         public Player AddPlayer(int id, int rank, string email, string displayName, UserStatus status, DateTime lastOnline) {
@@ -95,7 +114,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
 
         [TestMethod]
         public void GetAllianceHomeQueryHandler_Returns_Correct_Information() {
-            var handler = new GetAllianceHomeQueryHandler(_context, _formatter);
+            var handler = new GetAllianceHomeQueryHandler(_context);
             var query = new GetAllianceHomeQuery("test1@test.com");
 
             var result = handler.Execute(query);
@@ -110,13 +129,12 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
             result.Members.First().LastOnline.Should().Be(new DateTime(2020, 1, 10));
             result.Members.First().Rank.Should().Be(2);
             result.Members.First().DisplayName.Should().Be("Test display name 3");
-            result.Members.First().Title.Should().Be("Sub chieftain");
-            result.Members.First().Population.Should().Be(49);
+            result.Members.First().Role.Should().Be("Superstar");
         }
 
         [TestMethod]
         public void GetAllianceHomeQueryHandler_Returns_Only_Recent_ChatMessages() {
-            var handler = new GetAllianceHomeQueryHandler(_context, _formatter);
+            var handler = new GetAllianceHomeQueryHandler(_context);
             var query = new GetAllianceHomeQuery("test1@test.com");
 
             var result = handler.Execute(query);

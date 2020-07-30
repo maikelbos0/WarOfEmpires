@@ -32,7 +32,7 @@
                         @using (Html.BeginForm("WithdrawCaravan", null, FormMethod.Post, new {
                             data_success_message = "Your caravan has been withdrawn."
                         })) {
-                            @Html.Hidden("id", caravan.Id);
+                            @Html.Hidden("id", caravan.Id)
 
                             <button type="submit" class="btn btn-secondary form-control">
                                 <span class="d-none d-lg-inline">Withdraw</span>
