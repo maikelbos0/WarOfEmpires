@@ -1,6 +1,8 @@
 ﻿using NSubstitute;
+using System;
 using System.Collections.Generic;
 using WarOfEmpires.Database;
+using WarOfEmpires.Domain.Alliances;
 using WarOfEmpires.Domain.Attacks;
 using WarOfEmpires.Domain.Empires;
 using WarOfEmpires.Domain.Players;
@@ -11,10 +13,11 @@ namespace WarOfEmpires.Test.Utilities {
         public User User { get; }
         public Player Player { get; }
 
-        internal FakePlayerBuilder(IWarContext context, int id, string email, string displayName, int rank, TitleType title, UserStatus status) : base(context) {
+        internal FakePlayerBuilder(IWarContext context, int id, string email, string displayName, int rank, TitleType title, DateTime? lastOnline, UserStatus status) : base(context) {
             User = Substitute.For<User>();
             User.Id.Returns(id);
             User.Email.Returns(email ?? $"test{id}@test.com");
+            User.LastOnline.Returns(lastOnline);
             User.Status.Returns(status);
             _context.Users.Add(User);
 
@@ -58,6 +61,17 @@ namespace WarOfEmpires.Test.Utilities {
                 .AddTroops(TroopType.Archers, 15, 5)
                 .AddTroops(TroopType.Cavalry, 3, 1)
                 .AddTroops(TroopType.Footmen, 3, 1);
+        }
+
+        public FakePlayerBuilder AddChatMessage(DateTime date, string message) {
+            var chatMessage = Substitute.For<ChatMessage>();
+
+            chatMessage.Player.Returns(Player);
+            chatMessage.Date.Returns(date);
+            chatMessage.Message.Returns(message);
+            Player.Alliance.ChatMessages.Add(chatMessage);
+
+            return this;
         }
     }
 }

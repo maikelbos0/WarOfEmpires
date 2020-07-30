@@ -1,13 +1,7 @@
 ﻿using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NSubstitute;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using WarOfEmpires.Domain.Alliances;
-using WarOfEmpires.Domain.Attacks;
-using WarOfEmpires.Domain.Empires;
-using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Queries.Alliances;
 using WarOfEmpires.QueryHandlers.Alliances;
@@ -17,85 +11,16 @@ using WarOfEmpires.Utilities.Formatting;
 namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
     [TestClass]
     public sealed class GetAllianceHomeQueryHandlerTests {
-        private readonly FakeWarContext _context = new FakeWarContext();
-        private readonly EnumFormatter _formatter = new EnumFormatter();
-        private readonly Alliance _alliance;
-
-        public GetAllianceHomeQueryHandlerTests() {
-            _alliance = Substitute.For<Alliance>();
-
-            _alliance.Id.Returns(1);
-            _alliance.Code.Returns("FS");
-            _alliance.Name.Returns("Føroyskir Samgonga");
-            
-            var members = new List<Player>() {
-                AddPlayer(1, 3, "test1@test.com", "Test display name 1", UserStatus.Active, new DateTime(2020, 1, 5)),
-                AddPlayer(2, 0, "test2@test.com", "Test display name 2", UserStatus.Inactive, new DateTime(2020, 1, 6)),
-                AddPlayer(3, 2, "test3@test.com", "Test display name 3", UserStatus.Active, new DateTime(2020, 1, 10))
-            };
-
-            _alliance.Members.Returns(members);
-            _alliance.Leader.Returns(members.Last());
-
-            var chatMessages = new List<ChatMessage>() {
-                CreateChatMessage(members.First(), new DateTime(2020,2,2), "Hidden"),
-                CreateChatMessage(members.First(), DateTime.UtcNow.Date, "Displayed"),
-                CreateChatMessage(members[1], DateTime.UtcNow.Date.AddDays(-1), "Visible")
-            };
-
-            _alliance.ChatMessages.Returns(chatMessages);
-
-            _context.Alliances.Add(_alliance);
-        }
-
-        public Player AddPlayer(int id, int rank, string email, string displayName, UserStatus status, DateTime lastOnline) {
-            var user = Substitute.For<User>();
-            var player = Substitute.For<Player>();
-
-            user.Id.Returns(id);
-            user.Status.Returns(status);
-            user.Email.Returns(email);
-            user.LastOnline.Returns(lastOnline);
-
-            player.User.Returns(user);
-            player.Alliance.Returns(_alliance);
-            player.Id.Returns(id);
-            player.Rank.Returns(rank);
-            player.Title.Returns(TitleType.SubChieftain);
-            player.DisplayName.Returns(displayName);
-            player.Peasants.Returns(5);
-            player.Workers.Returns(new List<Workers>() {
-                new Workers(WorkerType.Farmers, 1),
-                new Workers(WorkerType.WoodWorkers, 2),
-                new Workers(WorkerType.StoneMasons, 3),
-                new Workers(WorkerType.OreMiners, 4),
-                new Workers(WorkerType.SiegeEngineers, 6)
-            });
-            player.Troops.Returns(new List<Troops>() {
-                new Troops(TroopType.Archers, 15, 5),
-                new Troops(TroopType.Cavalry, 3, 1),
-                new Troops(TroopType.Footmen, 3, 1)
-            });
-
-            _context.Users.Add(user);
-            _context.Players.Add(player);
-
-            return player;
-        }
-
-        public ChatMessage CreateChatMessage(Player player, DateTime date, string message) {
-            var chatMessage = Substitute.For<ChatMessage>();
-
-            chatMessage.Player.Returns(player);
-            chatMessage.Date.Returns(date);
-            chatMessage.Message.Returns(message);
-
-            return chatMessage;
-        }
-
         [TestMethod]
         public void GetAllianceHomeQueryHandler_Returns_Correct_Information() {
-            var handler = new GetAllianceHomeQueryHandler(_context, _formatter);
+            var context = new FakeWarContext();
+            var builder = new FakeBuilder(context).CreateAlliance(1);
+
+            builder.CreatePlayer(1, rank: 3);
+            builder.CreatePlayer(2, status: UserStatus.Inactive);
+            builder.CreateLeader(3, rank: 2, lastOnline: new DateTime(2020, 1, 10)).AddPopulation();
+
+            var handler = new GetAllianceHomeQueryHandler(context, new EnumFormatter());
             var query = new GetAllianceHomeQuery("test1@test.com");
 
             var result = handler.Execute(query);
@@ -116,7 +41,17 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
 
         [TestMethod]
         public void GetAllianceHomeQueryHandler_Returns_Only_Recent_ChatMessages() {
-            var handler = new GetAllianceHomeQueryHandler(_context, _formatter);
+            var context = new FakeWarContext();
+            var builder = new FakeBuilder(context).CreateAlliance(1);
+
+            builder.CreatePlayer(1)
+                .AddChatMessage(new DateTime(2020, 2, 2), "Hidden")
+                .AddChatMessage(DateTime.UtcNow.Date, "Displayed");
+            builder.CreatePlayer(2, status: UserStatus.Inactive)
+                .AddChatMessage(DateTime.UtcNow.Date.AddDays(-1), "Visible");
+            builder.CreateLeader(3);
+
+            var handler = new GetAllianceHomeQueryHandler(context, new EnumFormatter());
             var query = new GetAllianceHomeQuery("test1@test.com");
 
             var result = handler.Execute(query);
