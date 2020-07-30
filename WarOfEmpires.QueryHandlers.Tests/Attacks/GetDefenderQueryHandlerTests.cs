@@ -1,57 +1,21 @@
 ﻿using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NSubstitute;
 using System;
-using System.Collections.Generic;
-using WarOfEmpires.Domain.Attacks;
-using WarOfEmpires.Domain.Empires;
-using WarOfEmpires.Domain.Players;
-using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Queries.Attacks;
 using WarOfEmpires.QueryHandlers.Attacks;
 using WarOfEmpires.Test.Utilities;
 
-namespace WarOfEmpires.QueryHandlers.Tests.Players {
+namespace WarOfEmpires.QueryHandlers.Tests.Attacks {
     [TestClass]
     public sealed class GetDefenderQueryHandlerTests {
-        private readonly FakeWarContext _context = new FakeWarContext();
-
-        public void AddPlayer(int id, string email, string displayName, UserStatus status) {
-            var user = Substitute.For<User>();
-            var player = Substitute.For<Player>();
-
-            user.Id.Returns(id);
-            user.Status.Returns(status);
-            user.Email.Returns(email);
-
-            player.User.Returns(user);
-            player.Id.Returns(id);
-            player.DisplayName.Returns(displayName);
-            player.Peasants.Returns(5);
-            player.Workers.Returns(new List<Workers>() {
-                new Workers(WorkerType.Farmers, 1),
-                new Workers(WorkerType.WoodWorkers, 2),
-                new Workers(WorkerType.StoneMasons, 3),
-                new Workers(WorkerType.OreMiners, 4),
-                new Workers(WorkerType.SiegeEngineers, 6)
-            });
-            player.Troops.Returns(new List<Troops>() {
-                new Troops(TroopType.Archers, 15, 5),
-                new Troops(TroopType.Cavalry, 3, 1),
-                new Troops(TroopType.Footmen, 3, 1)
-            });
-
-            _context.Users.Add(user);
-            _context.Players.Add(player);
-        }
-
         [TestMethod]
         public void GetDefenderQueryHandler_Returns_Correct_Information() {
-            var handler = new GetDefenderQueryHandler(_context);
-            var query = new GetDefenderQuery("2");
+            var builder = new FakeBuilder()
+                .CreatePlayer(2)
+                .AddPopulation();
 
-            AddPlayer(1, "test1@test.com", "Test display name 1", UserStatus.Active);
-            AddPlayer(2, "test2@test.com", "Test display name 2", UserStatus.Active);
+            var handler = new GetDefenderQueryHandler(builder.Context);
+            var query = new GetDefenderQuery("2");
 
             var result = handler.Execute(query);
 
@@ -62,10 +26,11 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
 
         [TestMethod]
         public void GetDefenderQueryHandler_Throws_Exception_For_Alphanumeric_Id() {
-            var handler = new GetDefenderQueryHandler(_context);
-            var query = new GetDefenderQuery("A");
+            var builder = new FakeBuilder()
+                .CreatePlayer(2);
 
-            AddPlayer(1, "test1@test.com", "Test display name 1", UserStatus.Active);
+            var handler = new GetDefenderQueryHandler(builder.Context);
+            var query = new GetDefenderQuery("A");
 
             Action action = () => handler.Execute(query);
 
@@ -74,10 +39,11 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
 
         [TestMethod]
         public void GetDefenderQueryHandler_Throws_Exception_For_Nonexistent_Id() {
-            var handler = new GetDefenderQueryHandler(_context);
-            var query = new GetDefenderQuery("5");
+            var builder = new FakeBuilder()
+                .CreatePlayer(2);
 
-            AddPlayer(1, "test1@test.com", "Test display name 1", UserStatus.Active);
+            var handler = new GetDefenderQueryHandler(builder.Context);
+            var query = new GetDefenderQuery("5");
 
             Action action = () => handler.Execute(query);
 

@@ -40,5 +40,9 @@ namespace WarOfEmpires.Test.Utilities {
 
             return this;
         }
+
+        public FakeAttackBuilder AddRound(bool isAggressor, params Casualties[] casualties) {
+            return AddRound(isAggressor, 15, 1000, TroopType.Archers, casualties);
+        }
     }
 }
