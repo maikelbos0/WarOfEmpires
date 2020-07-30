@@ -61,12 +61,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FakeAllianceBuilder.cs" />
     <Compile Include="FakeAppSettings.cs" />
     <Compile Include="FakeAuthenticationService.cs" />
     <Compile Include="FakeBuilder.cs" />
     <Compile Include="FakeDbSet.cs" />
     <Compile Include="FakeEventService.cs" />
     <Compile Include="FakeMailClient.cs" />
+    <Compile Include="FakePlayerBuilder.cs" />
     <Compile Include="FakeWarContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
