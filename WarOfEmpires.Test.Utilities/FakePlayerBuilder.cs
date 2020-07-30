@@ -29,6 +29,7 @@ namespace WarOfEmpires.Test.Utilities {
             Player.Title.Returns(title);
             Player.Workers.Returns(new List<Workers>());
             Player.Troops.Returns(new List<Troops>());
+            Player.Invites.Returns(new List<Invite>());
 
             _context.Players.Add(Player);
         }

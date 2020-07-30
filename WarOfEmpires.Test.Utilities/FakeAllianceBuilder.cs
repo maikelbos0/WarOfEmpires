@@ -21,6 +21,7 @@ namespace WarOfEmpires.Test.Utilities {
             Alliance.Name.Returns(name);
             Alliance.Members.Returns(new List<Player>());
             Alliance.ChatMessages.Returns(new List<ChatMessage>());
+            Alliance.Invites.Returns(new List<Invite>());
             _context.Alliances.Add(Alliance);
         }
 
@@ -39,6 +40,23 @@ namespace WarOfEmpires.Test.Utilities {
             Alliance.Leader.Returns(builder.Player);
 
             return builder;
+        }
+
+        public FakeAllianceBuilder AddInvite(int id, Player player, string subject = "Message subject", string body = "Message body", bool isRead = false, DateTime? date = null) {
+            var invite = Substitute.For<Invite>();
+
+            invite.Id.Returns(id);
+            invite.Alliance.Returns(Alliance);
+            invite.Subject.Returns(subject);
+            invite.Body.Returns(body);
+            invite.IsRead.Returns(isRead);
+            invite.Date.Returns(date ?? new DateTime(2020, 1, 5));
+            invite.Player.Returns(player);
+
+            player.Invites.Add(invite);
+            Alliance.Invites.Add(invite);
+
+            return this;
         }
     }
 }
