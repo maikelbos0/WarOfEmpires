@@ -11,8 +11,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
     public sealed class GetReceivedInvitesQueryHandlerTest {
         [TestMethod]
         public void GetReceivedInvitesQueryHandler_Returns_Correct_Information() {
-            var context = new FakeWarContext();
-            var builder = new FakeBuilder(context);
+            var builder = new FakeBuilder();
             var player = builder.CreatePlayer(1).Player;
 
             builder.CreateAlliance(4, code: "ANOT", name: "Another")
@@ -20,7 +19,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
             builder.CreateAlliance(3, code: "ALLI", name: "Allies")
                 .AddInvite(1, player, subject: "Invite from Allies", isRead: true, date: new DateTime(2020, 1, 30));
 
-            var handler = new GetReceivedInvitesQueryHandler(context);
+            var handler = new GetReceivedInvitesQueryHandler(builder.Context);
             var query = new GetReceivedInvitesQuery("test1@test.com");
 
             var result = handler.Execute(query).ToList();

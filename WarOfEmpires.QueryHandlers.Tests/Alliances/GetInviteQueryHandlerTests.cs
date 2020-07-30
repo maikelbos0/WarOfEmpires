@@ -10,14 +10,13 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
     public sealed class GetInviteQueryHandlerTests {
         [TestMethod]
         public void GetInviteQueryHandler_Returns_Correct_Information() {
-            var context = new FakeWarContext();
-            var builder = new FakeBuilder(context);
+            var builder = new FakeBuilder();
 
             builder.CreateAlliance(1)
                 .AddInvite(1, builder.CreatePlayer(4).Player, isRead: false, date: new DateTime(2020, 2, 15))
                 .CreateLeader(1);
 
-            var handler = new GetInviteQueryHandler(context);
+            var handler = new GetInviteQueryHandler(builder.Context);
             var query = new GetInviteQuery("test1@test.com", "1");
 
             var result = handler.Execute(query);
@@ -33,15 +32,14 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
 
         [TestMethod]
         public void GetInviteQueryHandler_Throws_Exception_For_Message_Sent_By_Different_Alliance() {
-            var context = new FakeWarContext();
-            var builder = new FakeBuilder(context);
+            var builder = new FakeBuilder();
 
             builder.CreateAlliance(1)
                 .AddInvite(1, builder.CreatePlayer(4).Player, isRead: false, date: new DateTime(2020, 2, 15))
                 .CreateLeader(1);
             builder.CreatePlayer(2, email: "wrong@test.com");
 
-            var handler = new GetInviteQueryHandler(context);
+            var handler = new GetInviteQueryHandler(builder.Context);
             var query = new GetInviteQuery("wrong@test.com", "1");
 
             Action action = () => handler.Execute(query);
@@ -51,14 +49,13 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
 
         [TestMethod]
         public void GetInviteQueryHandler_Throws_Exception_For_Alphanumeric_MessageId() {
-            var context = new FakeWarContext();
-            var builder = new FakeBuilder(context);
+            var builder = new FakeBuilder();
 
             builder.CreateAlliance(1)
                 .AddInvite(1, builder.CreatePlayer(4).Player, isRead: false, date: new DateTime(2020, 2, 15))
                 .CreateLeader(1);
 
-            var handler = new GetInviteQueryHandler(context);
+            var handler = new GetInviteQueryHandler(builder.Context);
             var query = new GetInviteQuery("test1@test.com", "A");
 
             Action action = () => handler.Execute(query);

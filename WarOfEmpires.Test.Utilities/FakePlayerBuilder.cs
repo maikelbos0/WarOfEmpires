@@ -20,7 +20,7 @@ namespace WarOfEmpires.Test.Utilities {
             User.Email.Returns(email ?? $"test{id}@test.com");
             User.LastOnline.Returns(lastOnline);
             User.Status.Returns(status);
-            _context.Users.Add(User);
+            Context.Users.Add(User);
 
             Player = Substitute.For<Player>();
             Player.User.Returns(User);
@@ -34,11 +34,11 @@ namespace WarOfEmpires.Test.Utilities {
             Player.ReceivedAttacks.Returns(new List<Attack>());
             Player.ExecutedAttacks.Returns(new List<Attack>());
 
-            _context.Players.Add(Player);
+            Context.Players.Add(Player);
         }
 
         public FakeAttackBuilder CreateAttack(int id, Player defender, AttackType type, AttackResult result, int turns = 10, bool isRead = false, DateTime? date = null, Resources resources = null) {
-            return new FakeAttackBuilder(_context, id, Player, defender, type, result, turns, isRead, date, resources);
+            return new FakeAttackBuilder(Context, id, Player, defender, type, result, turns, isRead, date, resources);
         }
 
         public FakePlayerBuilder AddPeasants(int peasants) {

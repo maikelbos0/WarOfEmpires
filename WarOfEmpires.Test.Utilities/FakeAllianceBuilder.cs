@@ -22,7 +22,7 @@ namespace WarOfEmpires.Test.Utilities {
             Alliance.Members.Returns(new List<Player>());
             Alliance.ChatMessages.Returns(new List<ChatMessage>());
             Alliance.Invites.Returns(new List<Invite>());
-            _context.Alliances.Add(Alliance);
+            Context.Alliances.Add(Alliance);
         }
 
         public FakePlayerBuilder CreateMember(int id, string email = null, string displayName = null, int rank = 0, TitleType title = TitleType.SubChieftain, DateTime? lastOnline = null, UserStatus status = UserStatus.Active) {

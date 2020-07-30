@@ -13,14 +13,13 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
     public sealed class GetAllianceHomeQueryHandlerTests {
         [TestMethod]
         public void GetAllianceHomeQueryHandler_Returns_Correct_Information() {
-            var context = new FakeWarContext();
-            var builder = new FakeBuilder(context).CreateAlliance(1);
+            var builder = new FakeBuilder().CreateAlliance(1);
 
             builder.CreateMember(1, rank: 3);
             builder.CreateMember(2, status: UserStatus.Inactive);
             builder.CreateLeader(3, rank: 2, lastOnline: new DateTime(2020, 1, 10)).AddPopulation();
 
-            var handler = new GetAllianceHomeQueryHandler(context, new EnumFormatter());
+            var handler = new GetAllianceHomeQueryHandler(builder.Context, new EnumFormatter());
             var query = new GetAllianceHomeQuery("test1@test.com");
 
             var result = handler.Execute(query);
@@ -41,8 +40,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
 
         [TestMethod]
         public void GetAllianceHomeQueryHandler_Returns_Only_Recent_ChatMessages() {
-            var context = new FakeWarContext();
-            var builder = new FakeBuilder(context).CreateAlliance(1);
+            var builder = new FakeBuilder().CreateAlliance(1);
 
             builder.CreateMember(1)
                 .AddChatMessage(new DateTime(2020, 2, 2), "Hidden")
@@ -51,7 +49,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
                 .AddChatMessage(DateTime.UtcNow.Date.AddDays(-1), "Visible");
             builder.CreateLeader(3);
 
-            var handler = new GetAllianceHomeQueryHandler(context, new EnumFormatter());
+            var handler = new GetAllianceHomeQueryHandler(builder.Context, new EnumFormatter());
             var query = new GetAllianceHomeQuery("test1@test.com");
 
             var result = handler.Execute(query);

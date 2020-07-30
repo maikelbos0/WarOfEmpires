@@ -9,11 +9,9 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
     public sealed class GetInvitePlayerQueryHandlerTests {
         [TestMethod]
         public void GetInvitePlayerQueryHandler_Returns_Correct_Information() {
-            var context = new FakeWarContext();
-            
-            new FakeBuilder(context).CreatePlayer(1);
+            var builder = new FakeBuilder().CreatePlayer(1);
 
-            var handler = new GetInvitePlayerQueryHandler(context);
+            var handler = new GetInvitePlayerQueryHandler(builder.Context);
             var query = new GetInvitePlayerQuery("1");
 
             var result = handler.Execute(query);

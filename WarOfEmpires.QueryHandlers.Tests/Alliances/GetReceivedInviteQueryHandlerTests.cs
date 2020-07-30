@@ -10,8 +10,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
     public sealed class GetReceivedInviteQueryHandlerTests {
         [TestMethod]
         public void GetReceivedInviteQueryHandler_Returns_Correct_Information() {
-            var context = new FakeWarContext();
-            var builder = new FakeBuilder(context);
+            var builder = new FakeBuilder();
             var player = builder.CreatePlayer(1).Player;
 
             builder.CreateAlliance(3)
@@ -19,7 +18,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
             builder.CreateAlliance(4, code: "ANOT", name: "Another")
                 .AddInvite(2, player, subject: "Invite from Another", body: "Hey, here's your invite into Another", isRead: true, date: new DateTime(2020, 1, 29));
 
-            var handler = new GetReceivedInviteQueryHandler(context);
+            var handler = new GetReceivedInviteQueryHandler(builder.Context);
             var query = new GetReceivedInviteQuery("test1@test.com", "2");
 
             var result = handler.Execute(query);
@@ -36,14 +35,13 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
 
         [TestMethod]
         public void GetReceivedInviteQueryHandler_Throws_Exception_For_Message_Received_By_Different_Player() {
-            var context = new FakeWarContext();
-            var builder = new FakeBuilder(context);
+            var builder = new FakeBuilder();
 
             builder.CreateAlliance(3)
                 .AddInvite(2, builder.CreatePlayer(1).Player);
             builder.CreatePlayer(2, email: "wrong@test.com");
 
-            var handler = new GetReceivedInviteQueryHandler(context);
+            var handler = new GetReceivedInviteQueryHandler(builder.Context);
             var query = new GetReceivedInviteQuery("wrong@test.com", "2");
 
             Action action = () => handler.Execute(query);
@@ -53,13 +51,12 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
 
         [TestMethod]
         public void GetReceivedInviteQueryHandler_Throws_Exception_For_Alphanumeric_MessageId() {
-            var context = new FakeWarContext();
-            var builder = new FakeBuilder(context);
+            var builder = new FakeBuilder();
 
             builder.CreateAlliance(3)
                 .AddInvite(2, builder.CreatePlayer(1).Player);
             
-            var handler = new GetReceivedInviteQueryHandler(context);
+            var handler = new GetReceivedInviteQueryHandler(builder.Context);
             var query = new GetReceivedInviteQuery("test1@test.com", "A");
 
             Action action = () => handler.Execute(query);
