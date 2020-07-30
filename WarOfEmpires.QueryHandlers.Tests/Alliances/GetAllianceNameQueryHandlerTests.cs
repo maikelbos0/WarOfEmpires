@@ -12,7 +12,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
             var context = new FakeWarContext();
             var builder = new FakeBuilder(context).CreateAlliance(1);
 
-            builder.CreatePlayer(1);
+            builder.CreateMember(1);
 
             var handler = new GetAllianceNameQueryHandler(context);
             var query = new GetAllianceNameQuery("test1@test.com");

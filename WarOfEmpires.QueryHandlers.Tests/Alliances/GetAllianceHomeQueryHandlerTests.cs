@@ -16,8 +16,8 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
             var context = new FakeWarContext();
             var builder = new FakeBuilder(context).CreateAlliance(1);
 
-            builder.CreatePlayer(1, rank: 3);
-            builder.CreatePlayer(2, status: UserStatus.Inactive);
+            builder.CreateMember(1, rank: 3);
+            builder.CreateMember(2, status: UserStatus.Inactive);
             builder.CreateLeader(3, rank: 2, lastOnline: new DateTime(2020, 1, 10)).AddPopulation();
 
             var handler = new GetAllianceHomeQueryHandler(context, new EnumFormatter());
@@ -44,10 +44,10 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
             var context = new FakeWarContext();
             var builder = new FakeBuilder(context).CreateAlliance(1);
 
-            builder.CreatePlayer(1)
+            builder.CreateMember(1)
                 .AddChatMessage(new DateTime(2020, 2, 2), "Hidden")
                 .AddChatMessage(DateTime.UtcNow.Date, "Displayed");
-            builder.CreatePlayer(2, status: UserStatus.Inactive)
+            builder.CreateMember(2, status: UserStatus.Inactive)
                 .AddChatMessage(DateTime.UtcNow.Date.AddDays(-1), "Visible");
             builder.CreateLeader(3);
 

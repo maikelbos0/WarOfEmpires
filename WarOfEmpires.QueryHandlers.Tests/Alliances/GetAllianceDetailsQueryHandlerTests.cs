@@ -16,8 +16,8 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
             var context = new FakeWarContext();
             var builder = new FakeBuilder(context).CreateAlliance(1);
 
-            builder.CreatePlayer(1, rank: 3);
-            builder.CreatePlayer(2, status: UserStatus.Inactive);
+            builder.CreateMember(1, rank: 3);
+            builder.CreateMember(2, status: UserStatus.Inactive);
             builder.CreateLeader(3, rank: 2).AddPopulation();
 
             var handler = new GetAllianceDetailsQueryHandler(context, new EnumFormatter());
