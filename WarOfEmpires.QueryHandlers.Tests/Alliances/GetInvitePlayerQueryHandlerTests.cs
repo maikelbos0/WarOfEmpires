@@ -9,7 +9,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
     public sealed class GetInvitePlayerQueryHandlerTests {
         [TestMethod]
         public void GetInvitePlayerQueryHandler_Returns_Correct_Information() {
-            var builder = new FakeBuilder().CreatePlayer(1);
+            var builder = new FakeBuilder().BuildPlayer(1);
 
             var handler = new GetInvitePlayerQueryHandler(builder.Context);
             var query = new GetInvitePlayerQuery("1");

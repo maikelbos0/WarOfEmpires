@@ -11,8 +11,8 @@ namespace WarOfEmpires.QueryHandlers.Tests.Attacks {
         [TestMethod]
         public void GetDefenderQueryHandler_Returns_Correct_Information() {
             var builder = new FakeBuilder()
-                .CreatePlayer(2)
-                .AddPopulation();
+                .BuildPlayer(2)
+                .WithPopulation();
 
             var handler = new GetDefenderQueryHandler(builder.Context);
             var query = new GetDefenderQuery("2");
@@ -27,7 +27,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Attacks {
         [TestMethod]
         public void GetDefenderQueryHandler_Throws_Exception_For_Alphanumeric_Id() {
             var builder = new FakeBuilder()
-                .CreatePlayer(2);
+                .BuildPlayer(2);
 
             var handler = new GetDefenderQueryHandler(builder.Context);
             var query = new GetDefenderQuery("A");
@@ -40,7 +40,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Attacks {
         [TestMethod]
         public void GetDefenderQueryHandler_Throws_Exception_For_Nonexistent_Id() {
             var builder = new FakeBuilder()
-                .CreatePlayer(2);
+                .BuildPlayer(2);
 
             var handler = new GetDefenderQueryHandler(builder.Context);
             var query = new GetDefenderQuery("5");

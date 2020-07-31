@@ -14,13 +14,13 @@ namespace WarOfEmpires.QueryHandlers.Tests.Attacks {
         [TestMethod]
         public void GetExecutedAttacksQueryHandler_Returns_All_Executed_Attacks() {
             var builder = new FakeBuilder();
-            var defender1 = builder.CreatePlayer(2).Player;
-            var defender2 = builder.CreatePlayer(3).Player;
-            var attackerBuilder = builder.CreatePlayer(1);
+            var defender1 = builder.BuildPlayer(2).Player;
+            var defender2 = builder.BuildPlayer(3).Player;
+            var attackerBuilder = builder.BuildPlayer(1);
 
-            attackerBuilder.CreateAttack(1, defender1, AttackType.Raid, AttackResult.Won);
-            attackerBuilder.CreateAttack(2, defender1, AttackType.Raid, AttackResult.Won);
-            attackerBuilder.CreateAttack(3, defender2, AttackType.Raid, AttackResult.Won);
+            attackerBuilder.BuildAttack(1, defender1, AttackType.Raid, AttackResult.Won);
+            attackerBuilder.BuildAttack(2, defender1, AttackType.Raid, AttackResult.Won);
+            attackerBuilder.BuildAttack(3, defender2, AttackType.Raid, AttackResult.Won);
 
             var handler = new GetExecutedAttacksQueryHandler(builder.Context, new EnumFormatter());
             var query = new GetExecutedAttacksQuery("test1@test.com");
@@ -33,14 +33,14 @@ namespace WarOfEmpires.QueryHandlers.Tests.Attacks {
         [TestMethod]
         public void GetExecutedAttacksQueryHandler_Returns_Correct_Data() {
             var builder = new FakeBuilder();
-            var defender = builder.CreateAlliance(1, code: "DEF").CreateMember(2, displayName: "Defender 1").Player;
-            var attackerBuilder = builder.CreatePlayer(1);
+            var defender = builder.BuildAlliance(1, code: "DEF").BuildMember(2, displayName: "Defender 1").Player;
+            var attackerBuilder = builder.BuildPlayer(1);
 
-            attackerBuilder.CreateAttack(1, defender, AttackType.Raid, AttackResult.Won, turns: 7)
-                .AddRound(false, new Casualties(TroopType.Archers, 0, 10), new Casualties(TroopType.Footmen, 0, 9), new Casualties(TroopType.Cavalry, 0, 8))
-                .AddRound(false, new Casualties(TroopType.Archers, 4, 7), new Casualties(TroopType.Footmen, 3, 6), new Casualties(TroopType.Cavalry, 2, 5))
-                .AddRound(true, new Casualties(TroopType.Archers, 0, 15), new Casualties(TroopType.Footmen, 0, 7), new Casualties(TroopType.Cavalry, 0, 3))
-                .AddRound(true, new Casualties(TroopType.Archers, 3, 20), new Casualties(TroopType.Footmen, 2, 5), new Casualties(TroopType.Cavalry, 1, 3));
+            attackerBuilder.BuildAttack(1, defender, AttackType.Raid, AttackResult.Won, turns: 7)
+                .WithRound(false, new Casualties(TroopType.Archers, 0, 10), new Casualties(TroopType.Footmen, 0, 9), new Casualties(TroopType.Cavalry, 0, 8))
+                .WithRound(false, new Casualties(TroopType.Archers, 4, 7), new Casualties(TroopType.Footmen, 3, 6), new Casualties(TroopType.Cavalry, 2, 5))
+                .WithRound(true, new Casualties(TroopType.Archers, 0, 15), new Casualties(TroopType.Footmen, 0, 7), new Casualties(TroopType.Cavalry, 0, 3))
+                .WithRound(true, new Casualties(TroopType.Archers, 3, 20), new Casualties(TroopType.Footmen, 2, 5), new Casualties(TroopType.Cavalry, 1, 3));
 
             var handler = new GetExecutedAttacksQueryHandler(builder.Context, new EnumFormatter());
             var query = new GetExecutedAttacksQuery("test1@test.com");

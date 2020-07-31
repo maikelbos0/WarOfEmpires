@@ -14,11 +14,11 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
         public void GetInvitesQueryHandler_Returns_Correct_Information() {
             var builder = new FakeBuilder();
 
-            builder.CreateAlliance(1)
-                .AddInvite(1, builder.CreatePlayer(4).Player, subject: "Message", isRead: false, date: new DateTime(2020, 2, 15))
-                .AddInvite(2, builder.CreatePlayer(5, status: UserStatus.Inactive).Player, subject: "Message", isRead: false, date: new DateTime(2020, 1, 2))
-                .AddInvite(3, builder.CreatePlayer(6).Player, subject: "Another message", isRead: true, date: new DateTime(2020, 1, 10))
-                .CreateLeader(1);
+            builder.BuildAlliance(1)
+                .WithInvite(1, builder.BuildPlayer(4).Player, subject: "Message", isRead: false, date: new DateTime(2020, 2, 15))
+                .WithInvite(2, builder.BuildPlayer(5, status: UserStatus.Inactive).Player, subject: "Message", isRead: false, date: new DateTime(2020, 1, 2))
+                .WithInvite(3, builder.BuildPlayer(6).Player, subject: "Another message", isRead: true, date: new DateTime(2020, 1, 10))
+                .BuildLeader(1);
 
             var handler = new GetInvitesQueryHandler(builder.Context);
             var query = new GetInvitesQuery("test1@test.com");

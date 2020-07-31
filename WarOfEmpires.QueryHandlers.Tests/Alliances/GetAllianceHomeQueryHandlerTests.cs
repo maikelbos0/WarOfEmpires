@@ -12,12 +12,12 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
     public sealed class GetAllianceHomeQueryHandlerTests {
         [TestMethod]
         public void GetAllianceHomeQueryHandler_Returns_Correct_Information() {
-            var builder = new FakeBuilder().CreateAlliance(1);
-            var player = builder.CreateLeader(3, rank: 2, lastOnline: new DateTime(2020, 1, 10)).Player;
+            var builder = new FakeBuilder().BuildAlliance(1);
+            var player = builder.BuildLeader(3, rank: 2, lastOnline: new DateTime(2020, 1, 10)).Player;
 
-            builder.CreateMember(1, rank: 3);
-            builder.CreateMember(2, status: UserStatus.Inactive);
-            builder.AddRole(1, "Superstar", player);
+            builder.BuildMember(1, rank: 3);
+            builder.BuildMember(2, status: UserStatus.Inactive);
+            builder.WithRole(1, "Superstar", player);
 
             var handler = new GetAllianceHomeQueryHandler(builder.Context);
             var query = new GetAllianceHomeQuery("test1@test.com");
@@ -39,14 +39,14 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
 
         [TestMethod]
         public void GetAllianceHomeQueryHandler_Returns_Only_Recent_ChatMessages() {
-            var builder = new FakeBuilder().CreateAlliance(1);
+            var builder = new FakeBuilder().BuildAlliance(1);
 
-            builder.CreateMember(1)
-                .AddChatMessage(new DateTime(2020, 2, 2), "Hidden")
-                .AddChatMessage(DateTime.UtcNow.Date, "Displayed");
-            builder.CreateMember(2, status: UserStatus.Inactive)
-                .AddChatMessage(DateTime.UtcNow.Date.AddDays(-1), "Visible");
-            builder.CreateLeader(3);
+            builder.BuildMember(1)
+                .WithChatMessage(new DateTime(2020, 2, 2), "Hidden")
+                .WithChatMessage(DateTime.UtcNow.Date, "Displayed");
+            builder.BuildMember(2, status: UserStatus.Inactive)
+                .WithChatMessage(DateTime.UtcNow.Date.AddDays(-1), "Visible");
+            builder.BuildLeader(3);
 
             var handler = new GetAllianceHomeQueryHandler(builder.Context);
             var query = new GetAllianceHomeQuery("test1@test.com");

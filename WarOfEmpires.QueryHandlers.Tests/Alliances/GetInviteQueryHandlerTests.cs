@@ -12,9 +12,9 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
         public void GetInviteQueryHandler_Returns_Correct_Information() {
             var builder = new FakeBuilder();
 
-            builder.CreateAlliance(1)
-                .AddInvite(1, builder.CreatePlayer(4).Player, isRead: false, date: new DateTime(2020, 2, 15))
-                .CreateLeader(1);
+            builder.BuildAlliance(1)
+                .WithInvite(1, builder.BuildPlayer(4).Player, isRead: false, date: new DateTime(2020, 2, 15))
+                .BuildLeader(1);
 
             var handler = new GetInviteQueryHandler(builder.Context);
             var query = new GetInviteQuery("test1@test.com", "1");
@@ -34,10 +34,10 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
         public void GetInviteQueryHandler_Throws_Exception_For_Message_Sent_By_Different_Alliance() {
             var builder = new FakeBuilder();
 
-            builder.CreateAlliance(1)
-                .AddInvite(1, builder.CreatePlayer(4).Player, isRead: false, date: new DateTime(2020, 2, 15))
-                .CreateLeader(1);
-            builder.CreatePlayer(2, email: "wrong@test.com");
+            builder.BuildAlliance(1)
+                .WithInvite(1, builder.BuildPlayer(4).Player, isRead: false, date: new DateTime(2020, 2, 15))
+                .BuildLeader(1);
+            builder.BuildPlayer(2, email: "wrong@test.com");
 
             var handler = new GetInviteQueryHandler(builder.Context);
             var query = new GetInviteQuery("wrong@test.com", "1");
@@ -51,9 +51,9 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
         public void GetInviteQueryHandler_Throws_Exception_For_Alphanumeric_MessageId() {
             var builder = new FakeBuilder();
 
-            builder.CreateAlliance(1)
-                .AddInvite(1, builder.CreatePlayer(4).Player, isRead: false, date: new DateTime(2020, 2, 15))
-                .CreateLeader(1);
+            builder.BuildAlliance(1)
+                .WithInvite(1, builder.BuildPlayer(4).Player, isRead: false, date: new DateTime(2020, 2, 15))
+                .BuildLeader(1);
 
             var handler = new GetInviteQueryHandler(builder.Context);
             var query = new GetInviteQuery("test1@test.com", "A");

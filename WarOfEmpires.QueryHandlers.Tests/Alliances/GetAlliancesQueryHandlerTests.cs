@@ -12,8 +12,8 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
         public void GetAlliancesQueryHandler_Returns_All_Alliances() {
             var builder = new FakeBuilder();
 
-            builder.CreateAlliance(1).CreateLeader(1);
-            builder.CreateAlliance(2).CreateLeader(2);
+            builder.BuildAlliance(1).BuildLeader(1);
+            builder.BuildAlliance(2).BuildLeader(2);
 
             var handler = new GetAlliancesQueryHandler(builder.Context);
             var query = new GetAlliancesQuery(null, null);
@@ -25,12 +25,12 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
 
         [TestMethod]
         public void GetAlliancesQueryHandler_Returns_Correct_Information() {
-            var builder = new FakeBuilder().CreateAlliance(2);
+            var builder = new FakeBuilder().BuildAlliance(2);
 
-            builder.CreateMember(1);
-            builder.CreateMember(2);
-            builder.CreateMember(3);
-            builder.CreateLeader(4, displayName: "Capitain");
+            builder.BuildMember(1);
+            builder.BuildMember(2);
+            builder.BuildMember(3);
+            builder.BuildLeader(4, displayName: "Capitain");
 
             var handler = new GetAlliancesQueryHandler(builder.Context);
             var query = new GetAlliancesQuery(null, null);
@@ -49,10 +49,10 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
         public void GetAlliancesQueryHandler_Searches_By_Code() {
             var builder = new FakeBuilder();
 
-            builder.CreateAlliance(1, "C1", "N1").CreateLeader(1);
-            builder.CreateAlliance(2, "Cod2", "N2").CreateLeader(2);
-            builder.CreateAlliance(3, "Cod3", "N3").CreateLeader(3);
-            builder.CreateAlliance(4, "C4", "N4").CreateLeader(4);
+            builder.BuildAlliance(1, "C1", "N1").BuildLeader(1);
+            builder.BuildAlliance(2, "Cod2", "N2").BuildLeader(2);
+            builder.BuildAlliance(3, "Cod3", "N3").BuildLeader(3);
+            builder.BuildAlliance(4, "C4", "N4").BuildLeader(4);
             
             var handler = new GetAlliancesQueryHandler(builder.Context);
             var query = new GetAlliancesQuery("od", null);
@@ -66,10 +66,10 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
         public void GetAlliancesQueryHandler_Searches_By_Name() {
             var builder = new FakeBuilder();
 
-            builder.CreateAlliance(1, "C1", "Name1").CreateLeader(1);
-            builder.CreateAlliance(2, "C2", "N2").CreateLeader(2);
-            builder.CreateAlliance(3, "C3", "Name3").CreateLeader(3);
-            builder.CreateAlliance(4, "C4", "Name4").CreateLeader(4);
+            builder.BuildAlliance(1, "C1", "Name1").BuildLeader(1);
+            builder.BuildAlliance(2, "C2", "N2").BuildLeader(2);
+            builder.BuildAlliance(3, "C3", "Name3").BuildLeader(3);
+            builder.BuildAlliance(4, "C4", "Name4").BuildLeader(4);
 
             var handler = new GetAlliancesQueryHandler(builder.Context);
             var query = new GetAlliancesQuery(null, "ame");

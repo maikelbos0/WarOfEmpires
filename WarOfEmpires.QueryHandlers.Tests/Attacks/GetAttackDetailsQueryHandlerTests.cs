@@ -15,17 +15,17 @@ namespace WarOfEmpires.QueryHandlers.Tests.Attacks {
         [TestMethod]
         public void GetAttackDetailsQueryHandler_Returns_Correct_Information() {
             var builder = new FakeBuilder();
-            var defender = builder.CreateAlliance(14, code: "DEF", name: "The Defenders")
-                .CreateMember(1, email: "defender@test.com", displayName: "Defender 1")
+            var defender = builder.BuildAlliance(14, code: "DEF", name: "The Defenders")
+                .BuildMember(1, email: "defender@test.com", displayName: "Defender 1")
                 .Player;
 
-            builder.CreateAlliance(27, code: "ATK", name: "The Attackers")
-                .CreateMember(2, email: "attacker@test.com", displayName: "Attacker 1")
-                .CreateAttack(1, defender, AttackType.Raid, AttackResult.Won, resources: new Resources(1, 2, 3, 4, 5))
-                .AddRound(true, 200, 17000, TroopType.Archers, new Casualties(TroopType.Archers, 0, 15), new Casualties(TroopType.Cavalry, 0, 14), new Casualties(TroopType.Footmen, 0, 13))
-                .AddRound(false, 150, 16000, TroopType.Archers, new Casualties(TroopType.Archers, 0, 12), new Casualties(TroopType.Cavalry, 0, 11), new Casualties(TroopType.Footmen, 0, 10))
-                .AddRound(false, 170, 15000, TroopType.Cavalry, new Casualties(TroopType.Archers, 1, 9), new Casualties(TroopType.Cavalry, 2, 8), new Casualties(TroopType.Footmen, 3, 7))
-                .AddRound(true, 130, 14000, TroopType.Footmen, new Casualties(TroopType.Archers, 4, 6), new Casualties(TroopType.Cavalry, 5, 5), new Casualties(TroopType.Footmen, 6, 4));
+            builder.BuildAlliance(27, code: "ATK", name: "The Attackers")
+                .BuildMember(2, email: "attacker@test.com", displayName: "Attacker 1")
+                .BuildAttack(1, defender, AttackType.Raid, AttackResult.Won, resources: new Resources(1, 2, 3, 4, 5))
+                .WithRound(true, 200, 17000, TroopType.Archers, new Casualties(TroopType.Archers, 0, 15), new Casualties(TroopType.Cavalry, 0, 14), new Casualties(TroopType.Footmen, 0, 13))
+                .WithRound(false, 150, 16000, TroopType.Archers, new Casualties(TroopType.Archers, 0, 12), new Casualties(TroopType.Cavalry, 0, 11), new Casualties(TroopType.Footmen, 0, 10))
+                .WithRound(false, 170, 15000, TroopType.Cavalry, new Casualties(TroopType.Archers, 1, 9), new Casualties(TroopType.Cavalry, 2, 8), new Casualties(TroopType.Footmen, 3, 7))
+                .WithRound(true, 130, 14000, TroopType.Footmen, new Casualties(TroopType.Archers, 4, 6), new Casualties(TroopType.Cavalry, 5, 5), new Casualties(TroopType.Footmen, 6, 4));
 
             var handler = new GetAttackDetailsQueryHandler(builder.Context, new ResourcesMap(), new EnumFormatter());
             var query = new GetAttackDetailsQuery("defender@test.com", "1");
@@ -68,13 +68,13 @@ namespace WarOfEmpires.QueryHandlers.Tests.Attacks {
         [TestMethod]
         public void GetAttackDetailsQueryHandler_Succeeds_For_Defender() {
             var builder = new FakeBuilder();
-            var defender = builder.CreateAlliance(1)
-                .CreatePlayer(1, email: "defender@test.com")
+            var defender = builder.BuildAlliance(1)
+                .BuildPlayer(1, email: "defender@test.com")
                 .Player;
 
-            builder.CreateAlliance(2)
-                .CreatePlayer(2, email: "attacker@test.com")
-                .CreateAttack(1, defender, AttackType.Raid, AttackResult.Won);
+            builder.BuildAlliance(2)
+                .BuildPlayer(2, email: "attacker@test.com")
+                .BuildAttack(1, defender, AttackType.Raid, AttackResult.Won);
 
             var handler = new GetAttackDetailsQueryHandler(builder.Context, new ResourcesMap(), new EnumFormatter());
             var query = new GetAttackDetailsQuery("defender@test.com", "1");
@@ -87,13 +87,13 @@ namespace WarOfEmpires.QueryHandlers.Tests.Attacks {
         [TestMethod]
         public void GetAttackDetailsQueryHandler_Succeeds_For_Attacker() {
             var builder = new FakeBuilder();
-            var defender = builder.CreateAlliance(1)
-                .CreatePlayer(1, email: "defender@test.com")
+            var defender = builder.BuildAlliance(1)
+                .BuildPlayer(1, email: "defender@test.com")
                 .Player;
 
-            builder.CreateAlliance(2)
-                .CreatePlayer(2, email: "attacker@test.com")
-                .CreateAttack(1, defender, AttackType.Raid, AttackResult.Won);
+            builder.BuildAlliance(2)
+                .BuildPlayer(2, email: "attacker@test.com")
+                .BuildAttack(1, defender, AttackType.Raid, AttackResult.Won);
 
             var handler = new GetAttackDetailsQueryHandler(builder.Context, new ResourcesMap(), new EnumFormatter());
             var query = new GetAttackDetailsQuery("attacker@test.com", "1");
@@ -106,13 +106,13 @@ namespace WarOfEmpires.QueryHandlers.Tests.Attacks {
         [TestMethod]
         public void GetAttackDetailsQueryHandler_IsRead_Is_Always_True_For_Attacker() {
             var builder = new FakeBuilder();
-            var defender = builder.CreateAlliance(1)
-                .CreatePlayer(1, email: "defender@test.com")
+            var defender = builder.BuildAlliance(1)
+                .BuildPlayer(1, email: "defender@test.com")
                 .Player;
 
-            builder.CreateAlliance(2)
-                .CreatePlayer(2, email: "attacker@test.com")
-                .CreateAttack(1, defender, AttackType.Raid, AttackResult.Won);
+            builder.BuildAlliance(2)
+                .BuildPlayer(2, email: "attacker@test.com")
+                .BuildAttack(1, defender, AttackType.Raid, AttackResult.Won);
 
             var handler = new GetAttackDetailsQueryHandler(builder.Context, new ResourcesMap(), new EnumFormatter());
             var query = new GetAttackDetailsQuery("attacker@test.com", "1");
@@ -125,13 +125,13 @@ namespace WarOfEmpires.QueryHandlers.Tests.Attacks {
         [TestMethod]
         public void GetAttackDetailsQueryHandler_Throws_Exception_For_Alphanumeric_AttackId() {
             var builder = new FakeBuilder();
-            var defender = builder.CreateAlliance(1)
-                .CreatePlayer(1, email: "defender@test.com")
+            var defender = builder.BuildAlliance(1)
+                .BuildPlayer(1, email: "defender@test.com")
                 .Player;
 
-            builder.CreateAlliance(2)
-                .CreatePlayer(2, email: "attacker@test.com")
-                .CreateAttack(1, defender, AttackType.Raid, AttackResult.Won);
+            builder.BuildAlliance(2)
+                .BuildPlayer(2, email: "attacker@test.com")
+                .BuildAttack(1, defender, AttackType.Raid, AttackResult.Won);
 
             var handler = new GetAttackDetailsQueryHandler(builder.Context, new ResourcesMap(), new EnumFormatter());
             var query = new GetAttackDetailsQuery("attacker@test.com", "A");
@@ -144,14 +144,14 @@ namespace WarOfEmpires.QueryHandlers.Tests.Attacks {
         [TestMethod]
         public void GetAttackDetailsQueryHandler_Throws_Exception_For_Attack_On_And_By_Different_Player() {
             var builder = new FakeBuilder();
-            var defender = builder.CreateAlliance(1)
-                .CreatePlayer(1, email: "defender@test.com")
+            var defender = builder.BuildAlliance(1)
+                .BuildPlayer(1, email: "defender@test.com")
                 .Player;
 
-            builder.CreateAlliance(2)
-                .CreatePlayer(2, email: "attacker@test.com")
-                .CreateAttack(1, defender, AttackType.Raid, AttackResult.Won);
-            builder.CreatePlayer(3, email: "random@test.com");
+            builder.BuildAlliance(2)
+                .BuildPlayer(2, email: "attacker@test.com")
+                .BuildAttack(1, defender, AttackType.Raid, AttackResult.Won);
+            builder.BuildPlayer(3, email: "random@test.com");
 
             var handler = new GetAttackDetailsQueryHandler(builder.Context, new ResourcesMap(), new EnumFormatter());
             var query = new GetAttackDetailsQuery("random@test.com", "1");

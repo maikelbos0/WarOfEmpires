@@ -28,7 +28,7 @@ namespace WarOfEmpires.Test.Utilities {
             defender.ReceivedAttacks.Add(Attack);
         }
 
-        public FakeAttackBuilder AddRound(bool isAggressor, int troops, long damage, TroopType troopType, params Casualties[] casualties) {
+        public FakeAttackBuilder WithRound(bool isAggressor, int troops, long damage, TroopType troopType, params Casualties[] casualties) {
             var round = Substitute.For<AttackRound>();
 
             round.IsAggressor.Returns(isAggressor);
@@ -41,8 +41,8 @@ namespace WarOfEmpires.Test.Utilities {
             return this;
         }
 
-        public FakeAttackBuilder AddRound(bool isAggressor, params Casualties[] casualties) {
-            return AddRound(isAggressor, 15, 1000, TroopType.Archers, casualties);
+        public FakeAttackBuilder WithRound(bool isAggressor, params Casualties[] casualties) {
+            return WithRound(isAggressor, 15, 1000, TroopType.Archers, casualties);
         }
     }
 }

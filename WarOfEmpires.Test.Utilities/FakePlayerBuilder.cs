@@ -37,41 +37,41 @@ namespace WarOfEmpires.Test.Utilities {
             Context.Players.Add(Player);
         }
 
-        public FakeAttackBuilder CreateAttack(int id, Player defender, AttackType type, AttackResult result, int turns = 10, bool isRead = false, DateTime? date = null, Resources resources = null) {
+        public FakeAttackBuilder BuildAttack(int id, Player defender, AttackType type, AttackResult result, int turns = 10, bool isRead = false, DateTime? date = null, Resources resources = null) {
             return new FakeAttackBuilder(Context, id, Player, defender, type, result, turns, isRead, date, resources);
         }
 
-        public FakePlayerBuilder AddPeasants(int peasants) {
+        public FakePlayerBuilder WithPeasants(int peasants) {
             Player.Peasants.Returns(peasants);
 
             return this;
         }
 
-        public FakePlayerBuilder AddWorkers(WorkerType type, int workers) {
+        public FakePlayerBuilder WithWorkers(WorkerType type, int workers) {
             Player.Workers.Add(new Workers(type, workers));
 
             return this;
         }
 
-        public FakePlayerBuilder AddTroops(TroopType type, int soldiers, int mercenaries) {
+        public FakePlayerBuilder WithTroops(TroopType type, int soldiers, int mercenaries) {
             Player.Troops.Add(new Troops(type, soldiers, mercenaries));
 
             return this;
         }
 
-        public FakePlayerBuilder AddPopulation() {
-            return AddPeasants(5)
-                .AddWorkers(WorkerType.Farmers, 1)
-                .AddWorkers(WorkerType.WoodWorkers, 2)
-                .AddWorkers(WorkerType.StoneMasons, 3)
-                .AddWorkers(WorkerType.OreMiners, 4)
-                .AddWorkers(WorkerType.SiegeEngineers, 6)
-                .AddTroops(TroopType.Archers, 15, 5)
-                .AddTroops(TroopType.Cavalry, 3, 1)
-                .AddTroops(TroopType.Footmen, 3, 1);
+        public FakePlayerBuilder WithPopulation() {
+            return WithPeasants(5)
+                .WithWorkers(WorkerType.Farmers, 1)
+                .WithWorkers(WorkerType.WoodWorkers, 2)
+                .WithWorkers(WorkerType.StoneMasons, 3)
+                .WithWorkers(WorkerType.OreMiners, 4)
+                .WithWorkers(WorkerType.SiegeEngineers, 6)
+                .WithTroops(TroopType.Archers, 15, 5)
+                .WithTroops(TroopType.Cavalry, 3, 1)
+                .WithTroops(TroopType.Footmen, 3, 1);
         }
 
-        public FakePlayerBuilder AddChatMessage(DateTime date, string message) {
+        public FakePlayerBuilder WithChatMessage(DateTime date, string message) {
             var chatMessage = Substitute.For<ChatMessage>();
 
             chatMessage.Player.Returns(Player);

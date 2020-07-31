@@ -26,8 +26,8 @@ namespace WarOfEmpires.Test.Utilities {
             Context.Alliances.Add(Alliance);
         }
 
-        public FakePlayerBuilder CreateMember(int id, string email = null, string displayName = null, int rank = 0, TitleType title = TitleType.SubChieftain, DateTime? lastOnline = null, UserStatus status = UserStatus.Active) {
-            var builder = CreatePlayer(id, email, displayName, rank, title, lastOnline, status);
+        public FakePlayerBuilder BuildMember(int id, string email = null, string displayName = null, int rank = 0, TitleType title = TitleType.SubChieftain, DateTime? lastOnline = null, UserStatus status = UserStatus.Active) {
+            var builder = BuildPlayer(id, email, displayName, rank, title, lastOnline, status);
 
             builder.Player.Alliance.Returns(Alliance);
             Alliance.Members.Add(builder.Player);
@@ -35,15 +35,15 @@ namespace WarOfEmpires.Test.Utilities {
             return builder;
         }
 
-        public FakePlayerBuilder CreateLeader(int id, string email = null, string displayName = null, int rank = 0, DateTime? lastOnline = null, TitleType title = TitleType.SubChieftain) {
-            var builder = CreateMember(id, email, displayName, rank, title, lastOnline);
+        public FakePlayerBuilder BuildLeader(int id, string email = null, string displayName = null, int rank = 0, DateTime? lastOnline = null, TitleType title = TitleType.SubChieftain) {
+            var builder = BuildMember(id, email, displayName, rank, title, lastOnline);
 
             Alliance.Leader.Returns(builder.Player);
 
             return builder;
         }
 
-        public FakeAllianceBuilder AddInvite(int id, Player player, string subject = "Message subject", string body = "Message body", bool isRead = false, DateTime? date = null) {
+        public FakeAllianceBuilder WithInvite(int id, Player player, string subject = "Message subject", string body = "Message body", bool isRead = false, DateTime? date = null) {
             var invite = Substitute.For<Invite>();
 
             invite.Id.Returns(id);
@@ -60,7 +60,7 @@ namespace WarOfEmpires.Test.Utilities {
             return this;
         }
 
-        public FakeAllianceBuilder AddRole(int id, string name, params Player[] players) {
+        public FakeAllianceBuilder WithRole(int id, string name, params Player[] players) {
             var role = Substitute.For<Role>();
 
             role.Id.Returns(id);

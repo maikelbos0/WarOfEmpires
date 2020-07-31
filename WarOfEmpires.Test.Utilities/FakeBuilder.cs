@@ -15,11 +15,11 @@ namespace WarOfEmpires.Test.Utilities {
             Context = context;
         }
 
-        public FakeAllianceBuilder CreateAlliance(int id, string code = "FS", string name = "Føroyskir Samgonga") {
+        public FakeAllianceBuilder BuildAlliance(int id, string code = "FS", string name = "Føroyskir Samgonga") {
             return new FakeAllianceBuilder(Context, id, code, name);
         }
 
-        public FakePlayerBuilder CreatePlayer(int id, string email = null, string displayName = null, int rank = 0, TitleType title = TitleType.SubChieftain, DateTime? lastOnline = null, UserStatus status = UserStatus.Active) {
+        public FakePlayerBuilder BuildPlayer(int id, string email = null, string displayName = null, int rank = 0, TitleType title = TitleType.SubChieftain, DateTime? lastOnline = null, UserStatus status = UserStatus.Active) {
             return new FakePlayerBuilder(Context, id, email, displayName, rank, title, lastOnline, status);
         }
     }
