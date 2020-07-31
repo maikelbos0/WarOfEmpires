@@ -1,43 +1,23 @@
 ﻿using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NSubstitute;
-using System.Collections.Generic;
 using WarOfEmpires.Domain.Empires;
-using WarOfEmpires.Domain.Players;
-using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Queries.Empires;
 using WarOfEmpires.QueryHandlers.Empires;
 using WarOfEmpires.Test.Utilities;
 
 namespace WarOfEmpires.QueryHandlers.Tests.Empires {
     [TestClass]
-    public sealed class GetBuildingTotalsQueryHandlerTests {
-        private readonly FakeWarContext _context = new FakeWarContext();
-
-        public GetBuildingTotalsQueryHandlerTests() {
-            var user = Substitute.For<User>();
-            var player = Substitute.For<Player>();
-
-            user.Id.Returns(1);
-            user.Status.Returns(UserStatus.Active);
-            user.Email.Returns("test@test.com");
-
-            player.User.Returns(user);
-            player.Buildings.Returns(new List<Building>() {
-                new Building(BuildingType.Farm, 4),
-                new Building(BuildingType.Lumberyard, 8),
-                new Building(BuildingType.Quarry, 2),
-                new Building(BuildingType.Mine, 2)
-            });
-
-            _context.Users.Add(user);
-            _context.Players.Add(player);
-        }
-
+    public sealed class GetBuildingTotalsQueryHandlerTests {        
         [TestMethod]
         public void GetBuildingTotalsQueryHandler_Returns_Correct_Values() {
-            var handler = new GetBuildingTotalsQueryHandler(_context);
-            var query = new GetBuildingTotalsQuery("test@test.com");
+            var builder = new FakeBuilder().BuildPlayer(1)
+                .WithBuilding(BuildingType.Farm, 4)
+                .WithBuilding(BuildingType.Lumberyard, 8)
+                .WithBuilding(BuildingType.Quarry, 2)
+                .WithBuilding(BuildingType.Mine, 2);
+
+            var handler = new GetBuildingTotalsQueryHandler(builder.Context);
+            var query = new GetBuildingTotalsQuery("test1@test.com");
 
             var result = handler.Execute(query);
 

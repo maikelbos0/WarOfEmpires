@@ -50,8 +50,24 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
 
         [TestMethod]
         public void GetHousingTotalsQueryHandler_Returns_Correct_Values() {
-            var handler = new GetHousingTotalsQueryHandler(_context);
-            var query = new GetHousingTotalsQuery("test@test.com");
+            var builder = new FakeBuilder().BuildPlayer(1)
+                .WithPeasants(7)
+                .WithWorkers(WorkerType.Farmers, 5)
+                .WithWorkers(WorkerType.WoodWorkers, 12)
+                .WithWorkers(WorkerType.StoneMasons, 2)
+                .WithWorkers(WorkerType.OreMiners, 1)
+                .WithWorkers(WorkerType.SiegeEngineers, 3)
+                .WithTroops(TroopType.Archers, 25, 5)
+                .WithTroops(TroopType.Cavalry, 5, 1)
+                .WithTroops(TroopType.Footmen, 10, 2);
+
+            builder.Player.GetBuildingBonus(BuildingType.Barracks).Returns(70);
+            builder.Player.GetBuildingBonus(BuildingType.Huts).Returns(40);
+            builder.Player.GetAvailableHousingCapacity().Returns(4);
+            builder.Player.GetTheoreticalRecruitsPerDay().Returns(5);
+
+            var handler = new GetHousingTotalsQueryHandler(builder.Context);
+            var query = new GetHousingTotalsQuery("test1@test.com");
 
             var result = handler.Execute(query);
 

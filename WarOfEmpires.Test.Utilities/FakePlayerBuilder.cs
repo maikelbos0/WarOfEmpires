@@ -33,6 +33,7 @@ namespace WarOfEmpires.Test.Utilities {
             Player.Invites.Returns(new List<Invite>());
             Player.ReceivedAttacks.Returns(new List<Attack>());
             Player.ExecutedAttacks.Returns(new List<Attack>());
+            Player.Buildings.Returns(new List<Building>());
 
             Context.Players.Add(Player);
         }
@@ -69,6 +70,12 @@ namespace WarOfEmpires.Test.Utilities {
                 .WithTroops(TroopType.Archers, 15, 5)
                 .WithTroops(TroopType.Cavalry, 3, 1)
                 .WithTroops(TroopType.Footmen, 3, 1);
+        }
+
+        public FakePlayerBuilder WithBuilding(BuildingType type, int level) {
+            Player.Buildings.Add(new Building(type, level));
+
+            return this;
         }
     }
 }

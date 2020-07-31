@@ -1,11 +1,7 @@
 ﻿using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NSubstitute;
-using System.Collections.Generic;
 using System.Linq;
 using WarOfEmpires.Domain.Empires;
-using WarOfEmpires.Domain.Players;
-using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Queries.Empires;
 using WarOfEmpires.QueryHandlers.Common;
 using WarOfEmpires.QueryHandlers.Empires;
@@ -14,30 +10,13 @@ using WarOfEmpires.Test.Utilities;
 namespace WarOfEmpires.QueryHandlers.Tests.Empires {
     [TestClass]
     public sealed class GetBuildingUpgradesQueryHandlerTests {
-        private readonly FakeWarContext _context = new FakeWarContext();
-        private readonly ResourcesMap _resourcesMap = new ResourcesMap();
-
-        public GetBuildingUpgradesQueryHandlerTests() {
-            var user = Substitute.For<User>();
-            var player = Substitute.For<Player>();
-
-            user.Id.Returns(1);
-            user.Status.Returns(UserStatus.Active);
-            user.Email.Returns("test@test.com");
-
-            player.User.Returns(user);
-            player.Buildings.Returns(new List<Building>() {
-                new Building(BuildingType.Lumberyard, 2)
-            });
-
-            _context.Users.Add(user);
-            _context.Players.Add(player);
-        }
-
         [TestMethod]
         public void GetBuildingUpgradesQueryHandler_Succeeds_For_Existing_Building() {
-            var handler = new GetBuildingUpgradesQueryHandler(_context, _resourcesMap);
-            var query = new GetBuildingUpgradesQuery("test@test.com", "Lumberyard");
+            var builder = new FakeBuilder().BuildPlayer(1)
+                .WithBuilding(BuildingType.Lumberyard, 2);
+
+            var handler = new GetBuildingUpgradesQueryHandler(builder.Context, new ResourcesMap());
+            var query = new GetBuildingUpgradesQuery("test1@test.com", "Lumberyard");
 
             var result = handler.Execute(query);
 
@@ -63,8 +42,11 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
 
         [TestMethod]
         public void GetBuildingUpgradesQueryHandler_Succeeds_For_Nonexistent_Building() {
-            var handler = new GetBuildingUpgradesQueryHandler(_context, _resourcesMap);
-            var query = new GetBuildingUpgradesQuery("test@test.com", "Farm");
+            var builder = new FakeBuilder().BuildPlayer(1)
+                .WithBuilding(BuildingType.Lumberyard, 2);
+
+            var handler = new GetBuildingUpgradesQueryHandler(builder.Context, new ResourcesMap());
+            var query = new GetBuildingUpgradesQuery("test1@test.com", "Farm");
 
             var result = handler.Execute(query);
 
