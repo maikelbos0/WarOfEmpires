@@ -70,16 +70,5 @@ namespace WarOfEmpires.Test.Utilities {
                 .WithTroops(TroopType.Cavalry, 3, 1)
                 .WithTroops(TroopType.Footmen, 3, 1);
         }
-
-        public FakePlayerBuilder WithChatMessage(DateTime date, string message) {
-            var chatMessage = Substitute.For<ChatMessage>();
-
-            chatMessage.Player.Returns(Player);
-            chatMessage.Date.Returns(date);
-            chatMessage.Message.Returns(message);
-            Player.Alliance.ChatMessages.Add(chatMessage);
-
-            return this;
-        }
     }
 }

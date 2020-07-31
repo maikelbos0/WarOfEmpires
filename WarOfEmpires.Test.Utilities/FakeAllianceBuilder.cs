@@ -10,10 +10,6 @@ namespace WarOfEmpires.Test.Utilities {
     public class FakeAllianceBuilder : FakeBuilder {
         public Alliance Alliance { get; }
 
-        protected FakeAllianceBuilder(IWarContext context, Alliance alliance) : base(context) {
-            Alliance = alliance;
-        }
-
         internal FakeAllianceBuilder(IWarContext context, int id, string code, string name) : base(context) {
             Alliance = Substitute.For<Alliance>();
             Alliance.Id.Returns(id);
@@ -26,16 +22,11 @@ namespace WarOfEmpires.Test.Utilities {
             Context.Alliances.Add(Alliance);
         }
 
-        public FakePlayerBuilder BuildMember(int id, string email = null, string displayName = null, int rank = 0, TitleType title = TitleType.SubChieftain, DateTime? lastOnline = null, UserStatus status = UserStatus.Active) {
-            var builder = BuildPlayer(id, email, displayName, rank, title, lastOnline, status);
-
-            builder.Player.Alliance.Returns(Alliance);
-            Alliance.Members.Add(builder.Player);
-
-            return builder;
+        public FakeMemberBuilder BuildMember(int id, string email = null, string displayName = null, int rank = 0, TitleType title = TitleType.SubChieftain, DateTime? lastOnline = null, UserStatus status = UserStatus.Active) {
+            return new FakeMemberBuilder(Context, Alliance, id, email, displayName, rank, title, lastOnline, status);
         }
 
-        public FakePlayerBuilder BuildLeader(int id, string email = null, string displayName = null, int rank = 0, DateTime? lastOnline = null, TitleType title = TitleType.SubChieftain) {
+        public FakeMemberBuilder BuildLeader(int id, string email = null, string displayName = null, int rank = 0, DateTime? lastOnline = null, TitleType title = TitleType.SubChieftain) {
             var builder = BuildMember(id, email, displayName, rank, title, lastOnline);
 
             Alliance.Leader.Returns(builder.Player);

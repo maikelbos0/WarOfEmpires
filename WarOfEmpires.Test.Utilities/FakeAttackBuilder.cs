@@ -10,7 +10,7 @@ namespace WarOfEmpires.Test.Utilities {
     public class FakeAttackBuilder : FakeBuilder {
         public Attack Attack { get; }
 
-        public FakeAttackBuilder(IWarContext context, int id, Player attacker, Player defender, AttackType type, AttackResult result, int turns, bool isRead, DateTime? date, Resources resources) : base(context) {
+        internal FakeAttackBuilder(IWarContext context, int id, Player attacker, Player defender, AttackType type, AttackResult result, int turns, bool isRead, DateTime? date, Resources resources) : base(context) {
             Attack = Substitute.For<Attack>();
 
             Attack.Id.Returns(id);
