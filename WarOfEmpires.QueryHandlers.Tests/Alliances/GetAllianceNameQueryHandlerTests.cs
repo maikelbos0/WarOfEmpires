@@ -9,9 +9,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
     public sealed class GetAllianceNameQueryHandlerTests {        
         [TestMethod]
         public void GetAllianceNameQueryHandler_Returns_Correct_Name() {
-            var builder = new FakeBuilder().BuildAlliance(1);
-
-            builder.BuildMember(1);
+            var builder = new FakeBuilder().BuildAlliance(1).BuildMember(1);
 
             var handler = new GetAllianceNameQueryHandler(builder.Context);
             var query = new GetAllianceNameQuery("test1@test.com");
