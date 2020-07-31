@@ -8,6 +8,7 @@ using WarOfEmpires.Domain.Common;
 using WarOfEmpires.Domain.Empires;
 using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Domain.Security;
+using WarOfEmpires.Domain.Siege;
 
 namespace WarOfEmpires.Test.Utilities {
     public class FakePlayerBuilder : FakeBuilder {
@@ -34,6 +35,7 @@ namespace WarOfEmpires.Test.Utilities {
             Player.ReceivedAttacks.Returns(new List<Attack>());
             Player.ExecutedAttacks.Returns(new List<Attack>());
             Player.Buildings.Returns(new List<Building>());
+            Player.SiegeWeapons.Returns(new List<SiegeWeapon>());
 
             Context.Players.Add(Player);
         }
@@ -55,7 +57,10 @@ namespace WarOfEmpires.Test.Utilities {
         }
 
         public FakePlayerBuilder WithTroops(TroopType type, int soldiers, int mercenaries) {
-            Player.Troops.Add(new Troops(type, soldiers, mercenaries));
+            var troops = new Troops(type, soldiers, mercenaries);
+
+            Player.Troops.Add(troops);
+            Player.GetTroops(type).Returns(troops);
 
             return this;
         }
@@ -74,6 +79,13 @@ namespace WarOfEmpires.Test.Utilities {
 
         public FakePlayerBuilder WithBuilding(BuildingType type, int level) {
             Player.Buildings.Add(new Building(type, level));
+            Player.GetBuildingBonus(type).Returns(BuildingDefinitionFactory.Get(type).GetBonus(level));
+
+            return this;
+        }
+
+        public FakePlayerBuilder WithSiege(SiegeWeaponType type, int count) {
+            Player.SiegeWeapons.Add(new SiegeWeapon(type, count));
 
             return this;
         }

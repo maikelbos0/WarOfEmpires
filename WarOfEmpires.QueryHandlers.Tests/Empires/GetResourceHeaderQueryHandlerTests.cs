@@ -2,8 +2,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 using WarOfEmpires.Domain.Common;
-using WarOfEmpires.Domain.Players;
-using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Queries.Empires;
 using WarOfEmpires.QueryHandlers.Common;
 using WarOfEmpires.QueryHandlers.Empires;
@@ -12,31 +10,18 @@ using WarOfEmpires.Test.Utilities;
 namespace WarOfEmpires.QueryHandlers.Tests.Empires {
     [TestClass]
     public sealed class GetResourceHeaderQueryHandlerTests {
-        private readonly FakeWarContext _context = new FakeWarContext();
-        private readonly ResourcesMap _resourcesMap = new ResourcesMap();
-
-        public GetResourceHeaderQueryHandlerTests() {
-            var user = Substitute.For<User>();
-            var player = Substitute.For<Player>();
-
-            user.Id.Returns(1);
-            user.Status.Returns(UserStatus.Active);
-            user.Email.Returns("test@test.com");
-
-            player.User.Returns(user);
-            player.Resources.Returns(new Resources(12000, 1500, 2000, 500, 1000));
-            player.BankedResources.Returns(new Resources(40000, 100, 20000, 500, 2000));
-            player.AttackTurns.Returns(55);
-            player.BankTurns.Returns(5);
-
-            _context.Users.Add(user);
-            _context.Players.Add(player);
-        }
-
         [TestMethod]
         public void GetResourceHeaderQueryHandler_Returns_Correct_Resources() {
-            var query = new GetResourceHeaderQuery("test@test.com");
-            var handler = new GetResourceHeaderQueryHandler(_context, _resourcesMap);
+            var builder = new FakeBuilder()
+                .BuildPlayer(1);
+
+            builder.Player.Resources.Returns(new Resources(12000, 1500, 2000, 500, 1000));
+            builder.Player.BankedResources.Returns(new Resources(40000, 100, 20000, 500, 2000));
+            builder.Player.AttackTurns.Returns(55);
+            builder.Player.BankTurns.Returns(5);
+
+            var handler = new GetResourceHeaderQueryHandler(builder.Context, new ResourcesMap());
+            var query = new GetResourceHeaderQuery("test1@test.com");
 
             var result = handler.Execute(query);
 
