@@ -35,7 +35,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
             builder.Player.HasUpkeepRunOut.Returns(true);
 
             var handler = new GetWorkersQueryHandler(builder.Context, new ResourcesMap(), new EnumFormatter());
-            var query = new GetWorkersQuery("test@test.com");
+            var query = new GetWorkersQuery("test1@test.com");
 
             var result = handler.Execute(query);
 
