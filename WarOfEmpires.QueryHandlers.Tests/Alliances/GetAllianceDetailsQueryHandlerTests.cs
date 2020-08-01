@@ -1,13 +1,7 @@
 ﻿using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NSubstitute;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using WarOfEmpires.Domain.Alliances;
-using WarOfEmpires.Domain.Attacks;
-using WarOfEmpires.Domain.Empires;
-using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Queries.Alliances;
 using WarOfEmpires.QueryHandlers.Alliances;
@@ -17,66 +11,15 @@ using WarOfEmpires.Utilities.Formatting;
 namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
     [TestClass]
     public sealed class GetAllianceDetailsQueryHandlerTests {
-        private readonly FakeWarContext _context = new FakeWarContext();
-        private readonly EnumFormatter _formatter = new EnumFormatter();
-        private readonly Alliance _alliance;
-
-        public GetAllianceDetailsQueryHandlerTests() {
-            _alliance = Substitute.For<Alliance>();
-
-            _alliance.Id.Returns(1);
-            _alliance.Code.Returns("FS");
-            _alliance.Name.Returns("Føroyskir Samgonga");
-            
-            var members = new List<Player>() {
-                AddPlayer(1, 3, "test1@test.com", "Test display name 1", UserStatus.Active),
-                AddPlayer(2, 0, "test2@test.com", "Test display name 2", UserStatus.Inactive),
-                AddPlayer(3, 2, "test3@test.com", "Test display name 3", UserStatus.Active)
-            };
-
-            _alliance.Members.Returns(members);
-            _alliance.Leader.Returns(members.Last());
-
-            _context.Alliances.Add(_alliance);
-        }
-
-        public Player AddPlayer(int id, int rank, string email, string displayName, UserStatus status) {
-            var user = Substitute.For<User>();
-            var player = Substitute.For<Player>();
-
-            user.Id.Returns(id);
-            user.Status.Returns(status);
-            user.Email.Returns(email);
-
-            player.User.Returns(user);
-            player.Alliance.Returns(_alliance);
-            player.Id.Returns(id);
-            player.Rank.Returns(rank);
-            player.Title.Returns(TitleType.SubChieftain);
-            player.DisplayName.Returns(displayName);
-            player.Peasants.Returns(5);
-            player.Workers.Returns(new List<Workers>() {
-                new Workers(WorkerType.Farmers, 1),
-                new Workers(WorkerType.WoodWorkers, 2),
-                new Workers(WorkerType.StoneMasons, 3),
-                new Workers(WorkerType.OreMiners, 4),
-                new Workers(WorkerType.SiegeEngineers, 6)
-            });
-            player.Troops.Returns(new List<Troops>() {
-                new Troops(TroopType.Archers, 15, 5),
-                new Troops(TroopType.Cavalry, 3, 1),
-                new Troops(TroopType.Footmen, 3, 1)
-            });
-
-            _context.Users.Add(user);
-            _context.Players.Add(player);
-
-            return player;
-        }
-
         [TestMethod]
         public void GetAllianceDetailsQueryHandler_Returns_Correct_Information() {
-            var handler = new GetAllianceDetailsQueryHandler(_context, _formatter);
+            var builder = new FakeBuilder().BuildAlliance(1);
+
+            builder.BuildMember(1, rank: 3);
+            builder.BuildMember(2, status: UserStatus.Inactive);
+            builder.BuildLeader(3, rank: 2).WithPopulation();
+
+            var handler = new GetAllianceDetailsQueryHandler(builder.Context, new EnumFormatter());
             var query = new GetAllianceDetailsQuery("1");
 
             var result = handler.Execute(query);
@@ -96,7 +39,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
 
         [TestMethod]
         public void GetAllianceDetailsQueryHandler_Throws_Exception_For_Alphanumeric_Id() {
-            var handler = new GetAllianceDetailsQueryHandler(_context, _formatter);
+            var handler = new GetAllianceDetailsQueryHandler(new FakeWarContext(), new EnumFormatter());
             var query = new GetAllianceDetailsQuery("A");
 
             Action action = () => handler.Execute(query);
@@ -106,7 +49,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
 
         [TestMethod]
         public void GetAllianceDetailsQueryHandler_Throws_Exception_For_Nonexistent_Id() {
-            var handler = new GetAllianceDetailsQueryHandler(_context, _formatter);
+            var handler = new GetAllianceDetailsQueryHandler(new FakeWarContext(), new EnumFormatter());
             var query = new GetAllianceDetailsQuery("5");
 
             Action action = () => handler.Execute(query);

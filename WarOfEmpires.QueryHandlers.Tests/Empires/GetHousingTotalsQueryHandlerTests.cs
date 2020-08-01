@@ -1,11 +1,8 @@
 ﻿using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
-using System.Collections.Generic;
 using WarOfEmpires.Domain.Attacks;
 using WarOfEmpires.Domain.Empires;
-using WarOfEmpires.Domain.Players;
-using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Queries.Empires;
 using WarOfEmpires.QueryHandlers.Empires;
 using WarOfEmpires.Test.Utilities;
@@ -13,45 +10,26 @@ using WarOfEmpires.Test.Utilities;
 namespace WarOfEmpires.QueryHandlers.Tests.Empires {
     [TestClass]
     public sealed class GetHousingTotalsQueryHandlerTests {
-        private readonly FakeWarContext _context = new FakeWarContext();
-
-        public GetHousingTotalsQueryHandlerTests() {
-            var user = Substitute.For<User>();
-            var player = Substitute.For<Player>();
-
-            user.Id.Returns(1);
-            user.Status.Returns(UserStatus.Active);
-            user.Email.Returns("test@test.com");
-
-            player.User.Returns(user);
-            player.GetBuildingBonus(BuildingType.Barracks).Returns(70);
-            player.GetBuildingBonus(BuildingType.Huts).Returns(40);
-            player.Troops.Returns(new List<Troops>() {
-                new Troops(TroopType.Archers, 25, 5),
-                new Troops(TroopType.Cavalry, 5, 1),
-                new Troops(TroopType.Footmen, 10, 2)
-            });
-
-            player.Peasants.Returns(7);
-            player.Workers.Returns(new List<Workers>() {
-                new Workers(WorkerType.Farmers, 5),
-                new Workers(WorkerType.WoodWorkers, 12),
-                new Workers(WorkerType.StoneMasons, 2),
-                new Workers(WorkerType.OreMiners, 1),
-                new Workers(WorkerType.SiegeEngineers, 3)
-            });
-            
-            player.GetAvailableHousingCapacity().Returns(4);
-            player.GetTheoreticalRecruitsPerDay().Returns(5);
-
-            _context.Users.Add(user);
-            _context.Players.Add(player);
-        }
-
         [TestMethod]
-        public void GetHousingTotalsQueryHandler_Returns_Correct_Values() {
-            var handler = new GetHousingTotalsQueryHandler(_context);
-            var query = new GetHousingTotalsQuery("test@test.com");
+        public void GetHousingTotalsQueryHandler_Returns_Correct_Information() {
+            var builder = new FakeBuilder().BuildPlayer(1)
+                .WithPeasants(7)
+                .WithWorkers(WorkerType.Farmers, 5)
+                .WithWorkers(WorkerType.WoodWorkers, 12)
+                .WithWorkers(WorkerType.StoneMasons, 2)
+                .WithWorkers(WorkerType.OreMiners, 1)
+                .WithWorkers(WorkerType.SiegeEngineers, 3)
+                .WithTroops(TroopType.Archers, 25, 5)
+                .WithTroops(TroopType.Cavalry, 5, 1)
+                .WithTroops(TroopType.Footmen, 10, 2)
+                .WithBuilding(BuildingType.Barracks, 7)
+                .WithBuilding(BuildingType.Huts, 4);
+
+            builder.Player.GetAvailableHousingCapacity().Returns(4);
+            builder.Player.GetTheoreticalRecruitsPerDay().Returns(5);
+
+            var handler = new GetHousingTotalsQueryHandler(builder.Context);
+            var query = new GetHousingTotalsQuery("test1@test.com");
 
             var result = handler.Execute(query);
 

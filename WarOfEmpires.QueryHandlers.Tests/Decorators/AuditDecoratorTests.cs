@@ -24,32 +24,31 @@ namespace WarOfEmpires.QueryHandlers.Tests.Decorators {
             }
         }
 
-        private readonly Serializer _serializer = new Serializer();
-        private readonly FakeWarContext _context = new FakeWarContext();
-
         [TestMethod]
         public void AuditDecorator_Succeeds() {
+            var context = new FakeWarContext();
+
             var queryHandler = new TestQueryHandler();
             var query = new TestQuery("Value");
-            var decorator = new AuditDecorator<TestQuery, string>(_context, _serializer) {
+            var decorator = new AuditDecorator<TestQuery, string>(context, new Serializer()) {
                 Handler = queryHandler
             };
 
             decorator.Execute(query);
 
-            _context.QueryExecutions.Should().HaveCount(1);
-            _context.QueryExecutions.First().Date.Should().BeCloseTo(DateTime.UtcNow, 1000);
-            _context.QueryExecutions.First().QueryType.Should().Be("WarOfEmpires.QueryHandlers.Tests.Decorators.AuditDecoratorTests+TestQuery");
-            _context.QueryExecutions.First().QueryData.Should().Be(_serializer.SerializeToJson(query));
-            _context.QueryExecutions.First().ElapsedMilliseconds.Should().BeInRange(0, 1000);
-            _context.CallsToSaveChanges.Should().Be(1);
+            context.QueryExecutions.Should().HaveCount(1);
+            context.QueryExecutions.First().Date.Should().BeCloseTo(DateTime.UtcNow, 1000);
+            context.QueryExecutions.First().QueryType.Should().Be("WarOfEmpires.QueryHandlers.Tests.Decorators.AuditDecoratorTests+TestQuery");
+            context.QueryExecutions.First().QueryData.Should().Be("{\"Test\":\"Value\"}");
+            context.QueryExecutions.First().ElapsedMilliseconds.Should().BeInRange(0, 1000);
+            context.CallsToSaveChanges.Should().Be(1);
         }
 
         [TestMethod]
         public void AuditDecorator_Calls_Query() {
             var queryHandler = new TestQueryHandler();
             var query = new TestQuery("Value");
-            var decorator = new AuditDecorator<TestQuery, string>(_context, _serializer) {
+            var decorator = new AuditDecorator<TestQuery, string>(new FakeWarContext(), new Serializer()) {
                 Handler = queryHandler
             };
 
