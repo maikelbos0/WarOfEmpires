@@ -1,12 +1,8 @@
 ﻿using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NSubstitute;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using WarOfEmpires.Domain.Markets;
-using WarOfEmpires.Domain.Players;
-using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Queries.Markets;
 using WarOfEmpires.QueryHandlers.Markets;
 using WarOfEmpires.Test.Utilities;
@@ -15,39 +11,15 @@ using WarOfEmpires.Utilities.Formatting;
 namespace WarOfEmpires.QueryHandlers.Tests.Markets {
     [TestClass]
     public sealed class GetBuyTransactionsQueryHandlerTests {
-        private readonly FakeWarContext _context = new FakeWarContext();
-        private readonly EnumFormatter _formatter = new EnumFormatter();
-
-        public Player AddPlayer(int id, string email, string displayName, UserStatus status) {
-            var user = Substitute.For<User>();
-            var player = Substitute.For<Player>();
-
-            user.Id.Returns(id);
-            user.Status.Returns(status);
-            user.Email.Returns(email);
-
-            player.User.Returns(user);
-            player.Id.Returns(id);
-            player.DisplayName.Returns(displayName);
-
-            _context.Users.Add(user);
-            _context.Players.Add(player);
-
-            return player;
-        }
-
         [TestMethod]
         public void GetBuyTransactionsQueryHandler_Returns_All_Transactions() {
-            var handler = new GetBuyTransactionsQueryHandler(_context, _formatter);
-            var query = new GetBuyTransactionsQuery("test@test.com");
-            var buyer = AddPlayer(1, "test@test.com", "Test", UserStatus.Active);
-            var sellers = new[] {
-                AddPlayer(2, "active1@test.com", "Test", UserStatus.Active),
-                AddPlayer(3, "active2@test.com", "Test", UserStatus.Active),
-                AddPlayer(4, "inactive@test.com", "Test", UserStatus.Inactive),
-            };
+            var builder = new FakeBuilder().BuildPlayer(1)
+                .WithBuyTransaction(MerchandiseType.Ore, 1000, 3)
+                .WithBuyTransaction(MerchandiseType.Wood, 5000, 4)
+                .WithBuyTransaction(MerchandiseType.Food, 2000, 2);
 
-            buyer.BuyTransactions.Returns(sellers.Select(s => new Transaction(MerchandiseType.Ore, 1000, 3)).ToList());
+            var handler = new GetBuyTransactionsQueryHandler(builder.Context, new EnumFormatter());
+            var query = new GetBuyTransactionsQuery("test1@test.com");
 
             var result = handler.Execute(query);
 
@@ -56,11 +28,11 @@ namespace WarOfEmpires.QueryHandlers.Tests.Markets {
 
         [TestMethod]
         public void GetBuyTransactionsQueryHandler_Returns_Correct_Data() {
-            var handler = new GetBuyTransactionsQueryHandler(_context, _formatter);
-            var query = new GetBuyTransactionsQuery("test@test.com");
-            var buyer = AddPlayer(1, "test@test.com", "Recipient", UserStatus.Active);
+            var builder = new FakeBuilder().BuildPlayer(1)
+                .WithBuyTransaction(MerchandiseType.Wood, 1234, 5);
 
-            buyer.BuyTransactions.Returns(new List<Transaction>() { new Transaction(MerchandiseType.Wood, 1234, 5) });
+            var handler = new GetBuyTransactionsQueryHandler(builder.Context, new EnumFormatter());
+            var query = new GetBuyTransactionsQuery("test1@test.com");
 
             var result = handler.Execute(query);
             var transaction = result.FirstOrDefault();

@@ -1,4 +1,5 @@
 ﻿using NSubstitute;
+using NSubstitute.Exceptions;
 using System;
 using System.Collections.Generic;
 using WarOfEmpires.Database;
@@ -6,6 +7,7 @@ using WarOfEmpires.Domain.Alliances;
 using WarOfEmpires.Domain.Attacks;
 using WarOfEmpires.Domain.Common;
 using WarOfEmpires.Domain.Empires;
+using WarOfEmpires.Domain.Markets;
 using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Domain.Siege;
@@ -36,6 +38,9 @@ namespace WarOfEmpires.Test.Utilities {
             Player.ExecutedAttacks.Returns(new List<Attack>());
             Player.Buildings.Returns(new List<Building>());
             Player.SiegeWeapons.Returns(new List<SiegeWeapon>());
+            Player.BuyTransactions.Returns(new List<Transaction>());
+            Player.SellTransactions.Returns(new List<Transaction>());
+            Player.Caravans.Returns(new List<Caravan>());
 
             Context.Players.Add(Player);
         }
@@ -86,6 +91,30 @@ namespace WarOfEmpires.Test.Utilities {
 
         public FakePlayerBuilder WithSiege(SiegeWeaponType type, int count) {
             Player.SiegeWeapons.Add(new SiegeWeapon(type, count));
+
+            return this;
+        }
+
+        public FakePlayerBuilder WithBuyTransaction(MerchandiseType type, int quantity, int price) {
+            Player.BuyTransactions.Add(new Transaction(type, quantity, price));
+
+            return this;
+        }
+
+        public FakePlayerBuilder WithSellTransaction(MerchandiseType type, int quantity, int price) {
+            Player.SellTransactions.Add(new Transaction(type, quantity, price));
+
+            return this;
+        }
+
+        public FakePlayerBuilder WithCaravan(int id, params Merchandise[] merchandise) {
+            var caravan = Substitute.For<Caravan>();
+
+            caravan.Id.Returns(id);
+            caravan.Player.Returns(Player);
+            caravan.Date.Returns(DateTime.UtcNow);
+            caravan.Merchandise.Returns(merchandise);
+            Player.Caravans.Add(caravan);
 
             return this;
         }

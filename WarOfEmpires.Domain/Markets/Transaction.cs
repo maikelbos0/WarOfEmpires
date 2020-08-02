@@ -1,13 +1,13 @@
 ﻿using System;
 
 namespace WarOfEmpires.Domain.Markets {
-    public class Transaction : Entity {
-        public virtual MerchandiseType Type { get; protected set; }
-        public virtual int Quantity { get; protected set; }
-        public virtual int Price { get; protected set; }
-        public virtual DateTime Date { get; protected set; }
+    public sealed class Transaction : Entity {
+        public MerchandiseType Type { get; private set; }
+        public int Quantity { get; private set; }
+        public int Price { get; private set; }
+        public DateTime Date { get; private set; }
 
-        protected Transaction() {
+        private Transaction() {
         }
 
         public Transaction(MerchandiseType type, int quantity, int price) {
