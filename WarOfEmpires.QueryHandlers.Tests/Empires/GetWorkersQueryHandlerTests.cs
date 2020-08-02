@@ -29,8 +29,8 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
 
             builder.Player.Tax.Returns(50);
             builder.Player.GetRecruitsPerDay().Returns(5);
+            builder.Player.WillUpkeepRunOut().Returns(true);
             builder.Player.GetUpkeepPerTurn().Returns(new Resources(gold: 500, food: 30));
-            builder.Player.GetTotalResources().Returns(new Resources(gold: 1000, food: 100));
             builder.Player.GetResourcesPerTurn().Returns(new Resources(gold: 400, food: 20));
             builder.Player.HasUpkeepRunOut.Returns(true);
 

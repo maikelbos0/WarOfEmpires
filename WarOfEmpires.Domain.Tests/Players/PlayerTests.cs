@@ -1,6 +1,5 @@
 ﻿using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using WarOfEmpires.Domain.Attacks;
@@ -362,6 +361,26 @@ namespace WarOfEmpires.Domain.Tests.Players {
             player.TrainWorkers(WorkerType.SiegeEngineers, 1);
 
             player.GetUpkeepPerTurn().Should().Be(new Resources(food: 106, gold: 750));
+        }
+
+        [TestMethod]
+        public void Player_WillUpkeepRunOut_Is_False_For_Enough_Resources() {
+            var player = new Player(0, "Test");
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(5250, food: 576));
+            player.TrainWorkers(WorkerType.Farmers, 1);
+            player.TrainTroops(TroopType.Archers, 0, 1);
+
+            player.WillUpkeepRunOut().Should().BeFalse();
+        }
+
+        [TestMethod]
+        public void Player_WillUpkeepRunOut_Is_True_For_Too_Few_Resources() {
+            var player = new Player(0, "Test");
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(5250, food: 575));
+            player.TrainWorkers(WorkerType.Farmers, 1);
+            player.TrainTroops(TroopType.Archers, 0, 1);
+
+            player.WillUpkeepRunOut().Should().BeTrue();
         }
 
         [TestMethod]

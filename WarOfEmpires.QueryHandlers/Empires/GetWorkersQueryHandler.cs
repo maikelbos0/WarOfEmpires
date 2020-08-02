@@ -44,7 +44,7 @@ namespace WarOfEmpires.QueryHandlers.Empires {
                 WorkerCost = _resourcesMap.ToViewModel(WorkerDefinitionFactory.Get(WorkerType.WoodWorkers).Cost),
                 UpkeepPerTurn = _resourcesMap.ToViewModel(player.GetUpkeepPerTurn()),
                 RecruitsPerDay = player.GetRecruitsPerDay(),
-                WillUpkeepRunOut = !(player.GetTotalResources() + player.GetResourcesPerTurn() * 48).CanAfford(player.GetUpkeepPerTurn() * 48),
+                WillUpkeepRunOut = player.WillUpkeepRunOut(),
                 HasUpkeepRunOut = player.HasUpkeepRunOut
             };
         }
