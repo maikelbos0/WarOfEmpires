@@ -10,6 +10,7 @@ using System;
 namespace WarOfEmpires.QueryHandlers.Tests.Security {
     [TestClass]
     public sealed class GetUserNewEmailQueryHandlerTests {
+        /* TODO use fake builder */
         private readonly FakeWarContext _context = new FakeWarContext();
 
         [TestMethod]

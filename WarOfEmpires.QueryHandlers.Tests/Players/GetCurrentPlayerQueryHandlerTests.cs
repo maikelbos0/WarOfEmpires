@@ -32,24 +32,29 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
 
         [TestMethod]
         public void GetCurrentPlayerQueryHandler_Returns_Correct_Information() {
-            var query = new GetCurrentPlayerQuery("test@test.com");
-            var handler = new GetCurrentPlayerQueryHandler(_context);
+            var builder = new FakeBuilder().BuildPlayer(1);
+
+            builder.User.IsAdmin.Returns(false);
+
+            var handler = new GetCurrentPlayerQueryHandler(builder.Context);
+            var query = new GetCurrentPlayerQuery("test1@test.com");
 
             var result = handler.Execute(query);
 
             result.IsAuthenticated.Should().BeTrue();
             result.IsAdmin.Should().BeFalse();
             result.IsInAlliance.Should().BeFalse();
-            result.DisplayName.Should().Be("Test");
+            result.DisplayName.Should().Be("Test display name 1");
         }
 
         [TestMethod]
         public void GetCurrentPlayerQueryHandler_Returns_Correct_Information_IsAdmin_IsInAlliance() {
-            _user.IsAdmin.Returns(true);
-            _player.Alliance.Returns(_alliance);
+            var builder = new FakeBuilder().BuildAlliance(1).BuildMember(1); 
+            
+            builder.User.IsAdmin.Returns(true);
 
-            var query = new GetCurrentPlayerQuery("test@test.com");
-            var handler = new GetCurrentPlayerQueryHandler(_context);
+            var handler = new GetCurrentPlayerQueryHandler(builder.Context);
+            var query = new GetCurrentPlayerQuery("test1@test.com");
 
             var result = handler.Execute(query);
 
@@ -59,8 +64,10 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
 
         [TestMethod]
         public void GetCurrentPlayerQueryHandler_Throws_Exception_For_Nonexistent_Email() {
+            var builder = new FakeBuilder().BuildPlayer(1);
+
+            var handler = new GetCurrentPlayerQueryHandler(builder.Context);
             var query = new GetCurrentPlayerQuery("wrong@test.com");
-            var handler = new GetCurrentPlayerQueryHandler(_context);
 
             Action action = () => handler.Execute(query);
 

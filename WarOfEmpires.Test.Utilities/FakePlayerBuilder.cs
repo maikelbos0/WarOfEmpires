@@ -26,6 +26,7 @@ namespace WarOfEmpires.Test.Utilities {
             Context.Users.Add(User);
 
             Player = Substitute.For<Player>();
+            Player.Alliance.Returns((Alliance)null);
             Player.User.Returns(User);
             Player.Id.Returns(id);
             Player.DisplayName.Returns(displayName ?? $"Test display name {id}");

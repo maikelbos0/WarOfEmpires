@@ -16,6 +16,7 @@ using WarOfEmpires.Utilities.Formatting;
 namespace WarOfEmpires.QueryHandlers.Tests.Players {
     [TestClass]
     public sealed class GetPlayersQueryHandlerTests {
+        /* TODO use fake builder */
         private readonly FakeWarContext _context = new FakeWarContext();
         private readonly EnumFormatter _formatter = new EnumFormatter();
 

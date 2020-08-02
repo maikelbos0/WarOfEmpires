@@ -9,6 +9,7 @@ using NSubstitute;
 namespace WarOfEmpires.QueryHandlers.Tests.Security {
     [TestClass]
     public sealed class GetUserIsAdminQueryHandlerTests {
+        /* TODO use fake builder */
         private readonly FakeWarContext _context = new FakeWarContext();
 
         [TestMethod]

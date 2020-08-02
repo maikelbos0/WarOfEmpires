@@ -14,6 +14,7 @@ using WarOfEmpires.Test.Utilities;
 namespace WarOfEmpires.QueryHandlers.Tests.Players {
     [TestClass]
     public sealed class GetNotificationsQueryHandlerTests {
+        /* TODO use fake builder */
         private readonly FakeWarContext _context = new FakeWarContext();
         private readonly Player _player;
         private readonly Message _message;
