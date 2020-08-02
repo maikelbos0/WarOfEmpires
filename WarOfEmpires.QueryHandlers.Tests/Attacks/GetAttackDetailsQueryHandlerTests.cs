@@ -21,7 +21,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Attacks {
 
             builder.BuildAlliance(27, code: "ATK", name: "The Attackers")
                 .BuildMember(2, email: "attacker@test.com", displayName: "Attacker 1")
-                .BuildAttack(1, defender, AttackType.Raid, AttackResult.Won, resources: new Resources(1, 2, 3, 4, 5))
+                .BuildAttackOn(1, defender, AttackType.Raid, AttackResult.Won, resources: new Resources(1, 2, 3, 4, 5))
                 .WithRound(true, 200, 17000, TroopType.Archers, new Casualties(TroopType.Archers, 0, 15), new Casualties(TroopType.Cavalry, 0, 14), new Casualties(TroopType.Footmen, 0, 13))
                 .WithRound(false, 150, 16000, TroopType.Archers, new Casualties(TroopType.Archers, 0, 12), new Casualties(TroopType.Cavalry, 0, 11), new Casualties(TroopType.Footmen, 0, 10))
                 .WithRound(false, 170, 15000, TroopType.Cavalry, new Casualties(TroopType.Archers, 1, 9), new Casualties(TroopType.Cavalry, 2, 8), new Casualties(TroopType.Footmen, 3, 7))
@@ -74,7 +74,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Attacks {
 
             builder.BuildAlliance(2)
                 .BuildPlayer(2, email: "attacker@test.com")
-                .BuildAttack(1, defender, AttackType.Raid, AttackResult.Won);
+                .BuildAttackOn(1, defender, AttackType.Raid, AttackResult.Won);
 
             var handler = new GetAttackDetailsQueryHandler(builder.Context, new ResourcesMap(), new EnumFormatter());
             var query = new GetAttackDetailsQuery("defender@test.com", "1");
@@ -93,7 +93,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Attacks {
 
             builder.BuildAlliance(2)
                 .BuildPlayer(2, email: "attacker@test.com")
-                .BuildAttack(1, defender, AttackType.Raid, AttackResult.Won);
+                .BuildAttackOn(1, defender, AttackType.Raid, AttackResult.Won);
 
             var handler = new GetAttackDetailsQueryHandler(builder.Context, new ResourcesMap(), new EnumFormatter());
             var query = new GetAttackDetailsQuery("attacker@test.com", "1");
@@ -112,7 +112,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Attacks {
 
             builder.BuildAlliance(2)
                 .BuildPlayer(2, email: "attacker@test.com")
-                .BuildAttack(1, defender, AttackType.Raid, AttackResult.Won);
+                .BuildAttackOn(1, defender, AttackType.Raid, AttackResult.Won);
 
             var handler = new GetAttackDetailsQueryHandler(builder.Context, new ResourcesMap(), new EnumFormatter());
             var query = new GetAttackDetailsQuery("attacker@test.com", "1");
@@ -131,7 +131,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Attacks {
 
             builder.BuildAlliance(2)
                 .BuildPlayer(2, email: "attacker@test.com")
-                .BuildAttack(1, defender, AttackType.Raid, AttackResult.Won);
+                .BuildAttackOn(1, defender, AttackType.Raid, AttackResult.Won);
 
             var handler = new GetAttackDetailsQueryHandler(builder.Context, new ResourcesMap(), new EnumFormatter());
             var query = new GetAttackDetailsQuery("attacker@test.com", "A");
@@ -150,7 +150,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Attacks {
 
             builder.BuildAlliance(2)
                 .BuildPlayer(2, email: "attacker@test.com")
-                .BuildAttack(1, defender, AttackType.Raid, AttackResult.Won);
+                .BuildAttackOn(1, defender, AttackType.Raid, AttackResult.Won);
             builder.BuildPlayer(3, email: "random@test.com");
 
             var handler = new GetAttackDetailsQueryHandler(builder.Context, new ResourcesMap(), new EnumFormatter());

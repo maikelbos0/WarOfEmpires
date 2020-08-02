@@ -18,9 +18,9 @@ namespace WarOfEmpires.QueryHandlers.Tests.Attacks {
             var defender2 = builder.BuildPlayer(3).Player;
             var attackerBuilder = builder.BuildPlayer(1);
 
-            attackerBuilder.BuildAttack(1, defender1, AttackType.Raid, AttackResult.Won);
-            attackerBuilder.BuildAttack(2, defender1, AttackType.Raid, AttackResult.Won);
-            attackerBuilder.BuildAttack(3, defender2, AttackType.Raid, AttackResult.Won);
+            attackerBuilder.BuildAttackOn(1, defender1, AttackType.Raid, AttackResult.Won);
+            attackerBuilder.BuildAttackOn(2, defender1, AttackType.Raid, AttackResult.Won);
+            attackerBuilder.BuildAttackOn(3, defender2, AttackType.Raid, AttackResult.Won);
 
             var handler = new GetExecutedAttacksQueryHandler(builder.Context, new EnumFormatter());
             var query = new GetExecutedAttacksQuery("test1@test.com");
@@ -36,7 +36,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Attacks {
             var defender = builder.BuildAlliance(1, code: "DEF").BuildMember(2, displayName: "Defender 1").Player;
             var attackerBuilder = builder.BuildPlayer(1);
 
-            attackerBuilder.BuildAttack(1, defender, AttackType.Raid, AttackResult.Won, turns: 7)
+            attackerBuilder.BuildAttackOn(1, defender, AttackType.Raid, AttackResult.Won, turns: 7)
                 .WithRound(false, new Casualties(TroopType.Archers, 0, 10), new Casualties(TroopType.Footmen, 0, 9), new Casualties(TroopType.Cavalry, 0, 8))
                 .WithRound(false, new Casualties(TroopType.Archers, 4, 7), new Casualties(TroopType.Footmen, 3, 6), new Casualties(TroopType.Cavalry, 2, 5))
                 .WithRound(true, new Casualties(TroopType.Archers, 0, 15), new Casualties(TroopType.Footmen, 0, 7), new Casualties(TroopType.Cavalry, 0, 3))

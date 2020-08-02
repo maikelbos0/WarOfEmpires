@@ -41,11 +41,13 @@ namespace WarOfEmpires.Test.Utilities {
             Player.BuyTransactions.Returns(new List<Transaction>());
             Player.SellTransactions.Returns(new List<Transaction>());
             Player.Caravans.Returns(new List<Caravan>());
+            Player.SentMessages.Returns(new List<Message>());
+            Player.ReceivedMessages.Returns(new List<Message>());
 
             Context.Players.Add(Player);
         }
 
-        public FakeAttackBuilder BuildAttack(int id, Player defender, AttackType type, AttackResult result, int turns = 10, bool isRead = false, DateTime? date = null, Resources resources = null) {
+        public FakeAttackBuilder BuildAttackOn(int id, Player defender, AttackType type, AttackResult result, int turns = 10, bool isRead = false, DateTime? date = null, Resources resources = null) {
             return new FakeAttackBuilder(Context, id, Player, defender, type, result, turns, isRead, date, resources);
         }
 
@@ -115,6 +117,22 @@ namespace WarOfEmpires.Test.Utilities {
             caravan.Date.Returns(DateTime.UtcNow);
             caravan.Merchandise.Returns(merchandise);
             Player.Caravans.Add(caravan);
+
+            return this;
+        }
+
+        public FakePlayerBuilder WithMessageTo(int id, Player recipient, DateTime date, bool isRead = false, string subject = "Message subject", string body = "Message body") {
+            var message = Substitute.For<Message>();
+
+            message.Id.Returns(id);
+            message.Sender.Returns(Player);
+            message.Recipient.Returns(recipient);
+            message.Date.Returns(date);
+            message.IsRead.Returns(isRead);
+            message.Subject.Returns(subject);
+            message.Body.Returns(body);
+            Player.SentMessages.Add(message);
+            recipient.ReceivedMessages.Add(message);
 
             return this;
         }
