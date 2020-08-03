@@ -1,4 +1,3 @@
-using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Queries.Security;
 using WarOfEmpires.QueryHandlers.Security;
 using WarOfEmpires.Test.Utilities;
@@ -9,19 +8,14 @@ using NSubstitute;
 namespace WarOfEmpires.QueryHandlers.Tests.Security {
     [TestClass]
     public sealed class GetUserIsAdminQueryHandlerTests {
-        /* TODO use fake builder */
-        private readonly FakeWarContext _context = new FakeWarContext();
-
         [TestMethod]
         public void GetUserIsAdminQueryHandler_Returns_True_For_Admin() {
-            var handler = new GetUserIsAdminQueryHandler(_context);
-            var query = new GetUserIsAdminQuery("test@test.com");
-            var user = Substitute.For<User>();
+            var builder = new FakeBuilder().BuildPlayer(1);
 
-            user.Email.Returns("test@test.com");
-            user.IsAdmin.Returns(true);
-            
-            _context.Users.Add(user);
+            builder.User.IsAdmin.Returns(true);
+
+            var handler = new GetUserIsAdminQueryHandler(builder.Context);
+            var query = new GetUserIsAdminQuery("test1@test.com");
 
             var result = handler.Execute(query);
 
@@ -30,15 +24,13 @@ namespace WarOfEmpires.QueryHandlers.Tests.Security {
 
         [TestMethod]
         public void GetUserIsAdminQueryHandler_Returns_False_For_Normal_User() {
-            var handler = new GetUserIsAdminQueryHandler(_context);
-            var query = new GetUserIsAdminQuery("test@test.com");
-            var user = Substitute.For<User>();
+            var builder = new FakeBuilder().BuildPlayer(1);
 
-            user.Email.Returns("test@test.com");
-            user.IsAdmin.Returns(false);
-
-            _context.Users.Add(user);
-
+            builder.User.IsAdmin.Returns(false);
+            
+            var handler = new GetUserIsAdminQueryHandler(builder.Context);
+            var query = new GetUserIsAdminQuery("test1@test.com");
+            
             var result = handler.Execute(query);
 
             result.Should().BeFalse();

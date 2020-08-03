@@ -1,4 +1,3 @@
-using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Queries.Security;
 using WarOfEmpires.QueryHandlers.Security;
 using WarOfEmpires.Test.Utilities;
@@ -10,19 +9,14 @@ using System;
 namespace WarOfEmpires.QueryHandlers.Tests.Security {
     [TestClass]
     public sealed class GetUserNewEmailQueryHandlerTests {
-        /* TODO use fake builder */
-        private readonly FakeWarContext _context = new FakeWarContext();
-
         [TestMethod]
         public void GetUserNewEmailQueryHandler_Gives_NewEmail_If_Available() {
-            var handler = new GetUserNewEmailQueryHandler(_context);
-            var query = new GetUserNewEmailQuery("test@test.com");
-            var user = Substitute.For<User>();
+            var builder = new FakeBuilder().BuildPlayer(1);
 
-            user.Email.Returns("test@test.com");
-            user.NewEmail.Returns("new@test.com");
+            builder.User.NewEmail.Returns("new@test.com");
 
-            _context.Users.Add(user);
+            var handler = new GetUserNewEmailQueryHandler(builder.Context);
+            var query = new GetUserNewEmailQuery("test1@test.com");
 
             var result = handler.Execute(query);
 
@@ -31,14 +25,12 @@ namespace WarOfEmpires.QueryHandlers.Tests.Security {
 
         [TestMethod]
         public void GetUserNewEmailQueryHandler_Gives_Null_NewEmail_If_NewEmail_Is_Not_Available() {
-            var handler = new GetUserNewEmailQueryHandler(_context);
-            var query = new GetUserNewEmailQuery("test@test.com");
-            var user = Substitute.For<User>();
+            var builder = new FakeBuilder().BuildPlayer(1);
 
-            user.Email.Returns("test@test.com");
-            user.NewEmail.Returns((string)null);
+            builder.User.NewEmail.Returns((string)null);
 
-            _context.Users.Add(user);
+            var handler = new GetUserNewEmailQueryHandler(builder.Context);
+            var query = new GetUserNewEmailQuery("test1@test.com");
 
             var result = handler.Execute(query);
 
@@ -47,12 +39,10 @@ namespace WarOfEmpires.QueryHandlers.Tests.Security {
 
         [TestMethod]
         public void GetUserNewEmailQueryHandler_Throws_Exception_For_Nonexistent_User() {
-            var handler = new GetUserNewEmailQueryHandler(_context);
-            var query = new GetUserNewEmailQuery("test@test.com");
+            var handler = new GetUserNewEmailQueryHandler(new FakeWarContext());
+            var query = new GetUserNewEmailQuery("wrong@test.com");
 
-            Action queryAction = () => {
-                var result = handler.Execute(query);
-            };
+            Action queryAction = () => handler.Execute(query);
 
             queryAction.Should().Throw<InvalidOperationException>();
         }
