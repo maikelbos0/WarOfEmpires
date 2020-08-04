@@ -26,12 +26,36 @@ namespace WarOfEmpires.Test.Utilities {
             return new FakeMemberBuilder(Context, Alliance, id, email, displayName, rank, title, lastOnline, status);
         }
 
-        public FakeMemberBuilder BuildLeader(int id, string email = null, string displayName = null, int rank = 0, DateTime? lastOnline = null, TitleType title = TitleType.SubChieftain) {
+        public FakeAllianceBuilder WithMember(int id, out Player member, string email = null, string displayName = null, int rank = 0, TitleType title = TitleType.SubChieftain, DateTime? lastOnline = null, UserStatus status = UserStatus.Active) {
+            member = BuildMember(id, email, displayName, rank, title, lastOnline, status).Player;
+
+            return this;
+        }
+
+        public FakeAllianceBuilder WithMember(int id, string email = null, string displayName = null, int rank = 0, TitleType title = TitleType.SubChieftain, DateTime? lastOnline = null, UserStatus status = UserStatus.Active) {
+            BuildMember(id, email, displayName, rank, title, lastOnline, status);
+
+            return this;
+        }
+
+        public FakeMemberBuilder BuildLeader(int id, string email = null, string displayName = null, int rank = 0, TitleType title = TitleType.SubChieftain, DateTime? lastOnline = null) {
             var builder = BuildMember(id, email, displayName, rank, title, lastOnline);
 
             Alliance.Leader.Returns(builder.Player);
 
             return builder;
+        }
+
+        public FakeAllianceBuilder WithLeader(int id, out Player leader, string email = null, string displayName = null, int rank = 0, TitleType title = TitleType.SubChieftain, DateTime? lastOnline = null) {
+            leader = BuildLeader(id, email, displayName, rank, title, lastOnline).Player;
+
+            return this;
+        }
+
+        public FakeAllianceBuilder WithLeader(int id, string email = null, string displayName = null, int rank = 0, TitleType title = TitleType.SubChieftain, DateTime? lastOnline = null) {
+            BuildLeader(id, email, displayName, rank, title, lastOnline);
+
+            return this;
         }
 
         public FakeAllianceBuilder WithInvite(int id, Player player, string subject = "Message subject", string body = "Message body", bool isRead = false, DateTime? date = null) {
@@ -63,6 +87,17 @@ namespace WarOfEmpires.Test.Utilities {
             }
 
             Alliance.Roles.Add(role);
+
+            return this;
+        }
+
+        public FakeAllianceBuilder WithChatMessage(Player player, DateTime date, string message) {
+            var chatMessage = Substitute.For<ChatMessage>();
+
+            chatMessage.Player.Returns(player);
+            chatMessage.Date.Returns(date);
+            chatMessage.Message.Returns(message);
+            Alliance.ChatMessages.Add(chatMessage);
 
             return this;
         }

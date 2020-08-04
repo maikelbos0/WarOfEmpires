@@ -25,6 +25,18 @@ namespace WarOfEmpires.Test.Utilities {
             return new FakePlayerBuilder(Context, id, email, displayName, rank, title, lastOnline, status);
         }
 
+        public FakeBuilder WithPlayer(int id, out Player player, string email = null, string displayName = null, int rank = 0, TitleType title = TitleType.SubChieftain, DateTime? lastOnline = null, UserStatus status = UserStatus.Active) {
+            player = BuildPlayer(id, email, displayName, rank, title, lastOnline, status).Player;
+
+            return this;
+        }
+
+        public FakeBuilder WithPlayer(int id, string email = null, string displayName = null, int rank = 0, TitleType title = TitleType.SubChieftain, DateTime? lastOnline = null, UserStatus status = UserStatus.Active) {
+            BuildPlayer(id, email, displayName, rank, title, lastOnline, status);
+
+            return this;
+        }
+
         public FakeBuilder WithScheduledTask(bool isPaused) {
             var task = Substitute.For<ScheduledTask>();
 

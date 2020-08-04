@@ -14,12 +14,10 @@ namespace WarOfEmpires.QueryHandlers.Tests.Attacks {
     public sealed class GetAttackDetailsQueryHandlerTests {
         [TestMethod]
         public void GetAttackDetailsQueryHandler_Returns_Correct_Information() {
-            var builder = new FakeBuilder();
-            var defender = builder.BuildAlliance(14, code: "DEF", name: "The Defenders")
+            var builder = new FakeBuilder().BuildAlliance(14, code: "DEF", name: "The Defenders")
                 .BuildMember(1, email: "defender@test.com", displayName: "Defender 1")
-                .Player;
-
-            builder.BuildAlliance(27, code: "ATK", name: "The Attackers")
+                .GetPlayer(out var defender)
+                .BuildAlliance(27, code: "ATK", name: "The Attackers")
                 .BuildMember(2, email: "attacker@test.com", displayName: "Attacker 1")
                 .BuildAttackOn(1, defender, AttackType.Raid, AttackResult.Won, resources: new Resources(1, 2, 3, 4, 5))
                 .WithRound(true, 200, 17000, TroopType.Archers, new Casualties(TroopType.Archers, 0, 15), new Casualties(TroopType.Cavalry, 0, 14), new Casualties(TroopType.Footmen, 0, 13))

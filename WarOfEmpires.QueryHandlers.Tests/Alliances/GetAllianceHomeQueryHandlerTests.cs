@@ -12,12 +12,12 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
     public sealed class GetAllianceHomeQueryHandlerTests {
         [TestMethod]
         public void GetAllianceHomeQueryHandler_Returns_Correct_Information() {
-            var builder = new FakeBuilder().BuildAlliance(1);
-            var player = builder.BuildLeader(3, rank: 2, lastOnline: new DateTime(2020, 1, 10)).Player;
-
-            builder.BuildMember(1, rank: 3);
-            builder.BuildMember(2, status: UserStatus.Inactive);
-            builder.WithRole(1, "Superstar", player);
+            var builder = new FakeBuilder()
+                .BuildAlliance(1)
+                .WithMember(1, rank: 3)
+                .WithMember(2, status: UserStatus.Inactive)
+                .WithLeader(3, out var leader, rank: 2, lastOnline: new DateTime(2020, 1, 10))
+                .WithRole(1, "Superstar", leader);
 
             var handler = new GetAllianceHomeQueryHandler(builder.Context);
             var query = new GetAllianceHomeQuery("test1@test.com");
@@ -39,14 +39,13 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
 
         [TestMethod]
         public void GetAllianceHomeQueryHandler_Returns_Only_Recent_ChatMessages() {
-            var builder = new FakeBuilder().BuildAlliance(1);
-
-            builder.BuildMember(1)
-                .WithChatMessage(new DateTime(2020, 2, 2), "Hidden")
-                .WithChatMessage(DateTime.UtcNow.Date, "Displayed");
-            builder.BuildMember(2, status: UserStatus.Inactive)
-                .WithChatMessage(DateTime.UtcNow.Date.AddDays(-1), "Visible");
-            builder.BuildLeader(3);
+            var builder = new FakeBuilder()
+                .BuildAlliance(1)
+                .WithLeader(1, out var leader)
+                .WithChatMessage(leader, new DateTime(2020, 2, 2), "Hidden")
+                .WithChatMessage(leader, DateTime.UtcNow.Date, "Displayed")
+                .WithMember(2, out var member, status: UserStatus.Inactive)
+                .WithChatMessage(member, DateTime.UtcNow.Date.AddDays(-1), "Visible");
 
             var handler = new GetAllianceHomeQueryHandler(builder.Context);
             var query = new GetAllianceHomeQuery("test1@test.com");

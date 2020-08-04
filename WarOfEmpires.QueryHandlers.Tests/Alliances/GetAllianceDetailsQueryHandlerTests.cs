@@ -13,11 +13,12 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
     public sealed class GetAllianceDetailsQueryHandlerTests {
         [TestMethod]
         public void GetAllianceDetailsQueryHandler_Returns_Correct_Information() {
-            var builder = new FakeBuilder().BuildAlliance(1);
-
-            builder.BuildMember(1, rank: 3);
-            builder.BuildMember(2, status: UserStatus.Inactive);
-            builder.BuildLeader(3, rank: 2).WithPopulation();
+            var builder = new FakeBuilder()
+                .BuildAlliance(1)
+                .WithMember(1, rank: 3)
+                .WithMember(2, status: UserStatus.Inactive)
+                .BuildLeader(3, rank: 2)
+                .WithPopulation();
 
             var handler = new GetAllianceDetailsQueryHandler(builder.Context, new EnumFormatter());
             var query = new GetAllianceDetailsQuery("1");

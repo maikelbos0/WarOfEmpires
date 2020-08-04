@@ -1,5 +1,4 @@
 ﻿using NSubstitute;
-using NSubstitute.Exceptions;
 using System;
 using System.Collections.Generic;
 using WarOfEmpires.Database;
@@ -134,6 +133,12 @@ namespace WarOfEmpires.Test.Utilities {
             message.Body.Returns(body);
             Player.SentMessages.Add(message);
             recipient.ReceivedMessages.Add(message);
+
+            return this;
+        }
+
+        public FakePlayerBuilder GetPlayer(out Player player) {
+            player = Player;
 
             return this;
         }
