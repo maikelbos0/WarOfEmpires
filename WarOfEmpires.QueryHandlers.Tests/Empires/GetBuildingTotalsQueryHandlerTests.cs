@@ -10,7 +10,8 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
     public sealed class GetBuildingTotalsQueryHandlerTests {        
         [TestMethod]
         public void GetBuildingTotalsQueryHandler_Returns_Correct_Values() {
-            var builder = new FakeBuilder().BuildPlayer(1)
+            var builder = new FakeBuilder()
+                .BuildPlayer(1)
                 .WithBuilding(BuildingType.Farm, 4)
                 .WithBuilding(BuildingType.Lumberyard, 8)
                 .WithBuilding(BuildingType.Quarry, 2)

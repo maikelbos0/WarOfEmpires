@@ -12,7 +12,8 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
     public sealed class GetBuildingUpgradesQueryHandlerTests {
         [TestMethod]
         public void GetBuildingUpgradesQueryHandler_Succeeds_For_Existing_Building() {
-            var builder = new FakeBuilder().BuildPlayer(1)
+            var builder = new FakeBuilder()
+                .BuildPlayer(1)
                 .WithBuilding(BuildingType.Lumberyard, 2);
 
             var handler = new GetBuildingUpgradesQueryHandler(builder.Context, new ResourcesMap());
@@ -42,7 +43,8 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
 
         [TestMethod]
         public void GetBuildingUpgradesQueryHandler_Succeeds_For_Nonexistent_Building() {
-            var builder = new FakeBuilder().BuildPlayer(1)
+            var builder = new FakeBuilder()
+                .BuildPlayer(1)
                 .WithBuilding(BuildingType.Lumberyard, 2);
 
             var handler = new GetBuildingUpgradesQueryHandler(builder.Context, new ResourcesMap());

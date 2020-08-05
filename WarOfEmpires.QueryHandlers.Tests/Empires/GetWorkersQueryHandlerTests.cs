@@ -16,7 +16,8 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
 
         [TestMethod]
         public void GetWorkersQueryHandler_Returns_Correct_Information() {
-            var builder = new FakeBuilder().BuildPlayer(1)
+            var builder = new FakeBuilder()
+                .BuildPlayer(1)
                 .WithPeasants(1)
                 .WithWorkers(WorkerType.Farmers, 2)
                 .WithWorkers(WorkerType.WoodWorkers, 3)

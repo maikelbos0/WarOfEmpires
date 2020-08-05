@@ -12,7 +12,8 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
     public sealed class GetHousingTotalsQueryHandlerTests {
         [TestMethod]
         public void GetHousingTotalsQueryHandler_Returns_Correct_Information() {
-            var builder = new FakeBuilder().BuildPlayer(1)
+            var builder = new FakeBuilder()
+                .BuildPlayer(1)
                 .WithPeasants(7)
                 .WithWorkers(WorkerType.Farmers, 5)
                 .WithWorkers(WorkerType.WoodWorkers, 12)

@@ -14,7 +14,8 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
     public sealed class GetSiegeQueryHandlerTests {
         [TestMethod]
         public void GetSiegeQueryHandler_Returns_Correct_Information() {
-            var builder = new FakeBuilder().BuildPlayer(1)
+            var builder = new FakeBuilder()
+                .BuildPlayer(1)
                 .WithBuilding(BuildingType.SiegeFactory, 6)
                 .WithWorkers(WorkerType.SiegeEngineers, 14)
                 .WithSiege(SiegeWeaponType.FireArrows, 2)

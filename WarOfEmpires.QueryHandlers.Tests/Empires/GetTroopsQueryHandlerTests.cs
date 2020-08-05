@@ -14,7 +14,8 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
     public sealed class GetTroopsQueryHandlerTests {
         [TestMethod]
         public void GetTroopsQueryHandler_Returns_Correct_Information() {
-            var builder = new FakeBuilder().BuildPlayer(1)
+            var builder = new FakeBuilder()
+                .BuildPlayer(1)
                 .WithTroops(TroopType.Archers, 7, 6)
                 .WithTroops(TroopType.Cavalry, 5, 4)
                 .WithTroops(TroopType.Footmen, 3, 2)
