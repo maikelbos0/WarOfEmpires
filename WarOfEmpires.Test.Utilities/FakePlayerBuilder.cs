@@ -51,6 +51,18 @@ namespace WarOfEmpires.Test.Utilities {
             return new FakeAttackBuilder(Context, id, Player, defender, type, result, turns, isRead, date, resources);
         }
 
+        public FakePlayerBuilder WithAttackOn(int id, out Attack attack, Player defender, AttackType type, AttackResult result, int turns = 10, bool isRead = false, DateTime? date = null, Resources resources = null) {
+            attack = BuildAttackOn(id, defender, type, result, turns, isRead, date, resources).Attack;
+
+            return this;
+        }
+
+        public FakePlayerBuilder WithAttackOn(int id, Player defender, AttackType type, AttackResult result, int turns = 10, bool isRead = false, DateTime? date = null, Resources resources = null) {
+            BuildAttackOn(id, defender, type, result, turns, isRead, date, resources);
+
+            return this;
+        }
+
         public FakePlayerBuilder WithPeasants(int peasants) {
             Player.Peasants.Returns(peasants);
 
@@ -133,12 +145,6 @@ namespace WarOfEmpires.Test.Utilities {
             message.Body.Returns(body);
             Player.SentMessages.Add(message);
             recipient.ReceivedMessages.Add(message);
-
-            return this;
-        }
-
-        public FakePlayerBuilder GetPlayer(out Player player) {
-            player = Player;
 
             return this;
         }
