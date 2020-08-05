@@ -3,7 +3,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 using System.Linq;
 using WarOfEmpires.Domain.Attacks;
-using WarOfEmpires.Domain.Common;
 using WarOfEmpires.Queries.Empires;
 using WarOfEmpires.QueryHandlers.Common;
 using WarOfEmpires.QueryHandlers.Empires;
@@ -21,9 +20,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
                 .WithTroops(TroopType.Footmen, 3, 2)
                 .WithPeasants(1);
 
-            builder.Player.GetUpkeepPerTurn().Returns(new Resources(gold: 500, food: 30));
-            builder.Player.GetTotalResources().Returns(new Resources(gold: 1000, food: 100));
-            builder.Player.GetResourcesPerTurn().Returns(new Resources(gold: 400, food: 20));
+            builder.Player.WillUpkeepRunOut().Returns(true);
             builder.Player.GetSoldierRecruitsPenalty().Returns(1);
             builder.Player.HasUpkeepRunOut.Returns(true);
             builder.Player.Stamina.Returns(100);

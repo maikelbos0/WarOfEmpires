@@ -16,6 +16,7 @@ namespace WarOfEmpires.Domain.Players {
         public static long[] BuildingRecruitingLevels = { 50000, 100000, 200000, 300000, 500000, 800000, 1200000, 2000000, 3000000, 5000000, 8000000, 12000000, 20000000, 30000000, 40000000, 50000000, 60000000, 70000000, 80000000, 90000000, 100000000, 110000000, 120000000, 130000000, 140000000, 150000000 };
         public const int AttackDamageModifier = 200;
         public const int AttackStaminaDrainModifier = 2;
+        public const int UpkeepWarningTurns = 48;
 
         public static Resources MercenaryTrainingCost = new Resources(gold: 5000);
         public static Resources PeasantUpkeep = new Resources(food: 2);
@@ -102,6 +103,13 @@ namespace WarOfEmpires.Domain.Players {
             upkeep += Troops.Sum(t => t.Mercenaries) * MercenaryUpkeep;
 
             return upkeep;
+        }
+
+        public virtual bool WillUpkeepRunOut() {
+            var expectedResources = GetTotalResources() + GetResourcesPerTurn() * UpkeepWarningTurns;
+            var expectedUpkeep = GetUpkeepPerTurn() * UpkeepWarningTurns;
+
+            return !expectedResources.CanAfford(expectedUpkeep);
         }
 
         public virtual Troops GetTroops(TroopType type) {

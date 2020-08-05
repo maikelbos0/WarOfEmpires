@@ -1,11 +1,8 @@
 ﻿using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NSubstitute;
-using System.Collections.Generic;
 using System.Linq;
 using WarOfEmpires.Domain.Empires;
 using WarOfEmpires.Domain.Markets;
-using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Queries.Markets;
 using WarOfEmpires.QueryHandlers.Markets;
@@ -15,73 +12,25 @@ using WarOfEmpires.Utilities.Formatting;
 namespace WarOfEmpires.QueryHandlers.Tests.Markets {
     [TestClass]
     public sealed class GetMarketQueryHandlerTests {
-        private readonly FakeWarContext _context = new FakeWarContext();
-        private readonly EnumFormatter _formatter = new EnumFormatter();
+        [TestMethod]
+        public void GetMarketQueryHandler_Returns_Correct_Information() {
+            var builder = new FakeBuilder().BuildPlayer(1)
+                .WithBuilding(BuildingType.Market, 3)
+                .WithWorkers(WorkerType.Merchants, 7)
+                .WithCaravan(1, new Merchandise(MerchandiseType.Wood, 25000, 10))
+                .WithCaravan(2, new Merchandise(MerchandiseType.Ore, 25000, 10));
 
-        public GetMarketQueryHandlerTests() {
-            var user = Substitute.For<User>();
-            var player = Substitute.For<Player>();
-            var caravans = new List<Caravan>() {
-                new Caravan(player) {
-                    Merchandise = new List<Merchandise>() { new Merchandise(MerchandiseType.Wood, 25000, 10) }
-                },
-                new Caravan(player) {
-                    Merchandise = new List<Merchandise>() { new Merchandise(MerchandiseType.Ore, 25000, 10) }
-                }
-            };
-            var id = 1;
-
-            foreach (var caravan in caravans) {
-                typeof(Caravan).GetProperty(nameof(Caravan.Id)).SetValue(caravan, id++);
-            }
-
-            user.Id.Returns(1);
-            user.Status.Returns(UserStatus.Active);
-            user.Email.Returns("test@test.com");
-
-            player.User.Returns(user);
-            player.GetBuildingBonus(BuildingType.Market).Returns(25000);
-            player.Workers.Returns(new List<Workers>() { new Workers(WorkerType.Merchants, 7) });
-            player.Caravans.Returns(caravans);
-
-            _context.Users.Add(user);
-            _context.Players.Add(player);
+            var sellerId = 2;
+            var caravanId = 3;
 
             foreach (var status in new[] { UserStatus.Active, UserStatus.Active, UserStatus.Active, UserStatus.Active, UserStatus.Inactive, UserStatus.New }) {
-                var sellerUser = Substitute.For<User>();
-                var seller = Substitute.For<Player>();
-
-                sellerUser.Status.Returns(status);
-
-                seller.User.Returns(sellerUser);
-                seller.Caravans.Returns(new List<Caravan>() {
-                    new Caravan(seller) {
-                        Merchandise = new List<Merchandise>() {
-                            new Merchandise(MerchandiseType.Food, 10000, 10),
-                            new Merchandise(MerchandiseType.Wood, 11000, 9),
-                            new Merchandise(MerchandiseType.Stone, 12000, 8),
-                            new Merchandise(MerchandiseType.Ore, 13000, 7)
-                        }
-                    },
-                    new Caravan(seller) {
-                        Merchandise = new List<Merchandise>() {
-                            new Merchandise(MerchandiseType.Food, 5000, 5),
-                            new Merchandise(MerchandiseType.Wood, 6000, 4),
-                            new Merchandise(MerchandiseType.Stone, 7000, 3),
-                            new Merchandise(MerchandiseType.Ore, 8000, 2)
-                        }
-                    }
-                });
-
-                _context.Users.Add(sellerUser);
-                _context.Players.Add(seller);
+                builder.BuildPlayer(sellerId++, status: status)
+                    .WithCaravan(caravanId++, new Merchandise(MerchandiseType.Food, 10000, 10), new Merchandise(MerchandiseType.Wood, 11000, 9), new Merchandise(MerchandiseType.Stone, 12000, 8), new Merchandise(MerchandiseType.Ore, 13000, 7))
+                    .WithCaravan(caravanId++, new Merchandise(MerchandiseType.Food, 5000, 5), new Merchandise(MerchandiseType.Wood, 6000, 4), new Merchandise(MerchandiseType.Stone, 7000, 3), new Merchandise(MerchandiseType.Ore, 8000, 2));
             }
-        }
 
-        [TestMethod]
-        public void GetMarketQueryHandler_Returns_Correct_Additional_Information() {
-            var handler = new GetMarketQueryHandler(_context, _formatter);
-            var query = new GetMarketQuery("test@test.com");
+            var handler = new GetMarketQueryHandler(builder.Context, new EnumFormatter());
+            var query = new GetMarketQuery("test1@test.com");
 
             var result = handler.Execute(query);
 
@@ -89,62 +38,35 @@ namespace WarOfEmpires.QueryHandlers.Tests.Markets {
             result.AvailableMerchants.Should().Be(5);
             result.CaravanCapacity.Should().Be(25000);
             result.AvailableCapacity.Should().Be(125000);
-        }
+            result.Merchandise.Should().HaveCount(4);
 
-        [TestMethod]
-        public void GetMarketQueryHandler_Returns_Correct_Food() {
-            var handler = new GetMarketQueryHandler(_context, _formatter);
-            var query = new GetMarketQuery("test@test.com");
+            var food = result.Merchandise.Single(m => m.Type == "Food");
 
-            var result = handler.Execute(query);
-            var merchandise = result.Merchandise.Single(m => m.Type == "Food");
+            food.Name.Should().Be("Food");
+            food.LowestPrice.Should().Be(5);
+            food.AvailableAtLowestPrice.Should().Be(20000);
+            food.TotalAvailable.Should().Be(60000);
 
-            merchandise.Name.Should().Be("Food");
-            merchandise.LowestPrice.Should().Be(5);
-            merchandise.AvailableAtLowestPrice.Should().Be(20000);
-            merchandise.TotalAvailable.Should().Be(60000);
-        }
+            var wood = result.Merchandise.Single(m => m.Type == "Wood");
 
-        [TestMethod]
-        public void GetMarketQueryHandler_Returns_Correct_Wood() {
-            var handler = new GetMarketQueryHandler(_context, _formatter);
-            var query = new GetMarketQuery("test@test.com");
+            wood.Name.Should().Be("Wood");
+            wood.LowestPrice.Should().Be(4);
+            wood.AvailableAtLowestPrice.Should().Be(24000);
+            wood.TotalAvailable.Should().Be(93000);
 
-            var result = handler.Execute(query);
-            var merchandise = result.Merchandise.Single(m => m.Type == "Wood");
+            var stone = result.Merchandise.Single(m => m.Type == "Stone");
 
-            merchandise.Name.Should().Be("Wood");
-            merchandise.LowestPrice.Should().Be(4);
-            merchandise.AvailableAtLowestPrice.Should().Be(24000);
-            merchandise.TotalAvailable.Should().Be(93000);
-        }
+            stone.Name.Should().Be("Stone");
+            stone.LowestPrice.Should().Be(3);
+            stone.AvailableAtLowestPrice.Should().Be(28000);
+            stone.TotalAvailable.Should().Be(76000);
 
-        [TestMethod]
-        public void GetMarketQueryHandler_Returns_Correct_Stone() {
-            var handler = new GetMarketQueryHandler(_context, _formatter);
-            var query = new GetMarketQuery("test@test.com");
+            var ore = result.Merchandise.Single(m => m.Type == "Ore");
 
-            var result = handler.Execute(query);
-            var merchandise = result.Merchandise.Single(m => m.Type == "Stone");
-
-            merchandise.Name.Should().Be("Stone");
-            merchandise.LowestPrice.Should().Be(3);
-            merchandise.AvailableAtLowestPrice.Should().Be(28000);
-            merchandise.TotalAvailable.Should().Be(76000);
-        }
-
-        [TestMethod]
-        public void GetMarketQueryHandler_Returns_Correct_Ore() {
-            var handler = new GetMarketQueryHandler(_context, _formatter);
-            var query = new GetMarketQuery("test@test.com");
-
-            var result = handler.Execute(query);
-            var merchandise = result.Merchandise.Single(m => m.Type == "Ore");
-
-            merchandise.Name.Should().Be("Ore");
-            merchandise.LowestPrice.Should().Be(2);
-            merchandise.AvailableAtLowestPrice.Should().Be(32000);
-            merchandise.TotalAvailable.Should().Be(109000);
+            ore.Name.Should().Be("Ore");
+            ore.LowestPrice.Should().Be(2);
+            ore.AvailableAtLowestPrice.Should().Be(32000);
+            ore.TotalAvailable.Should().Be(109000);
         }
     }
 }

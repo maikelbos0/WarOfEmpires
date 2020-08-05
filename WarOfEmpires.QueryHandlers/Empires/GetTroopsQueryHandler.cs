@@ -37,7 +37,7 @@ namespace WarOfEmpires.QueryHandlers.Empires {
                     MapTroops(player, TroopType.Footmen)
                 },
                 MercenaryTrainingCost = _resourcesMap.ToViewModel(Player.MercenaryTrainingCost),
-                WillUpkeepRunOut = !(player.GetTotalResources() + player.GetResourcesPerTurn() * 48).CanAfford(player.GetUpkeepPerTurn() * 48),
+                WillUpkeepRunOut = player.WillUpkeepRunOut(),
                 HasUpkeepRunOut = player.HasUpkeepRunOut,
                 CurrentStamina = player.Stamina,
                 HasSoldierShortage = player.GetSoldierRecruitsPenalty() > 0,
