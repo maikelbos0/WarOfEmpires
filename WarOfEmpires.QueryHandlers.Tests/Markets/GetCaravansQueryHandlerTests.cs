@@ -12,7 +12,8 @@ namespace WarOfEmpires.QueryHandlers.Tests.Markets {
     public sealed class GetCaravansQueryHandlerTests {
         [TestMethod]
         public void GetCaravansQueryHandler_Returns_Existing_Caravans() {
-            var builder = new FakeBuilder().BuildPlayer(1)
+            var builder = new FakeBuilder()
+                .BuildPlayer(1)
                 .WithCaravan(1, new Merchandise(MerchandiseType.Food, 1000, 10), new Merchandise(MerchandiseType.Wood, 2000, 9), new Merchandise(MerchandiseType.Stone, 3000, 8), new Merchandise(MerchandiseType.Ore, 4000, 7))
                 .WithCaravan(2, new Merchandise(MerchandiseType.Ore, 25000, 4));
 

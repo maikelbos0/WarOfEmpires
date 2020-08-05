@@ -13,7 +13,8 @@ namespace WarOfEmpires.QueryHandlers.Tests.Markets {
     public sealed class GetSellTransactionsQueryHandlerTests {
         [TestMethod]
         public void GetSellTransactionsQueryHandler_Returns_All_Transactions() {
-            var builder = new FakeBuilder().BuildPlayer(1)
+            var builder = new FakeBuilder()
+                .BuildPlayer(1)
                 .WithSellTransaction(MerchandiseType.Ore, 1000, 3)
                 .WithSellTransaction(MerchandiseType.Wood, 5000, 4)
                 .WithSellTransaction(MerchandiseType.Food, 2000, 2);
@@ -28,7 +29,8 @@ namespace WarOfEmpires.QueryHandlers.Tests.Markets {
 
         [TestMethod]
         public void GetSellTransactionsQueryHandler_Returns_Correct_Data() {
-            var builder = new FakeBuilder().BuildPlayer(1)
+            var builder = new FakeBuilder()
+                .BuildPlayer(1)
                 .WithSellTransaction(MerchandiseType.Wood, 1234, 5);
 
             var handler = new GetSellTransactionsQueryHandler(builder.Context, new EnumFormatter());

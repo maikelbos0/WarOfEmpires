@@ -12,11 +12,14 @@ namespace WarOfEmpires.QueryHandlers.Tests.Messages {
     public sealed class GetReceivedMessagesQueryHandlerTests {
         [TestMethod]
         public void GetReceivedMessagesQueryHandler_Returns_All_Received_Messages() {
-            var builder = new FakeBuilder().BuildPlayer(1);
-
-            builder.BuildPlayer(2).WithMessageTo(1, builder.Player, new DateTime(2019, 1, 1))
-                .BuildPlayer(3).WithMessageTo(2, builder.Player, new DateTime(2020, 2, 1))
-                .BuildPlayer(4, status: UserStatus.Inactive).WithMessageTo(3, builder.Player, new DateTime(2020, 3, 1));
+            var builder = new FakeBuilder()
+                .WithPlayer(1, out var recipient)
+                .BuildPlayer(2)
+                .WithMessageTo(1, recipient, new DateTime(2019, 1, 1))
+                .BuildPlayer(3)
+                .WithMessageTo(2, recipient, new DateTime(2020, 2, 1))
+                .BuildPlayer(4, status: UserStatus.Inactive)
+                .WithMessageTo(3, recipient, new DateTime(2020, 3, 1));
 
             var handler = new GetReceivedMessagesQueryHandler(builder.Context);
             var query = new GetReceivedMessagesQuery("test1@test.com");
@@ -28,9 +31,10 @@ namespace WarOfEmpires.QueryHandlers.Tests.Messages {
 
         [TestMethod]
         public void GetReceivedMessagesQueryHandler_Returns_Correct_Message_Data() {
-            var builder = new FakeBuilder().BuildPlayer(1);
-
-            builder.BuildPlayer(2, displayName: "Sender test").WithMessageTo(1, builder.Player, new DateTime(2019, 1, 1));
+            var builder = new FakeBuilder()
+                .WithPlayer(1, out var recipient)
+                .BuildPlayer(2, displayName: "Sender test")
+                .WithMessageTo(1, recipient, new DateTime(2019, 1, 1));
 
             var handler = new GetReceivedMessagesQueryHandler(builder.Context);
             var query = new GetReceivedMessagesQuery("test1@test.com");
