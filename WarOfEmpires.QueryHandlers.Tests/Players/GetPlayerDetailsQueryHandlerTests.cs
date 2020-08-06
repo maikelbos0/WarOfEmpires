@@ -11,7 +11,8 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
     public sealed class GetPlayerDetailsQueryHandlerTests {
         [TestMethod]
         public void GetPlayerDetailsQueryHandler_Returns_Correct_Information() {
-            var builder = new FakeBuilder().BuildAlliance(14)
+            var builder = new FakeBuilder()
+                .BuildAlliance(14)
                 .BuildMember(2, rank: 1)
                 .WithPopulation();
 
@@ -42,7 +43,8 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
 
         [TestMethod]
         public void GetPlayerDetailsQueryHandler_Throws_Exception_For_Nonexistent_Id() {
-            var builder = new FakeBuilder().BuildPlayer(2);
+            var builder = new FakeBuilder()
+                .BuildPlayer(2);
 
             var handler = new GetPlayerDetailsQueryHandler(builder.Context, new EnumFormatter());
             var query = new GetPlayerDetailsQuery("5");

@@ -10,7 +10,8 @@ namespace WarOfEmpires.QueryHandlers.Tests.Security {
     public sealed class GetUserIsAdminQueryHandlerTests {
         [TestMethod]
         public void GetUserIsAdminQueryHandler_Returns_True_For_Admin() {
-            var builder = new FakeBuilder().BuildPlayer(1);
+            var builder = new FakeBuilder()
+                .BuildPlayer(1);
 
             builder.User.IsAdmin.Returns(true);
 
@@ -24,7 +25,8 @@ namespace WarOfEmpires.QueryHandlers.Tests.Security {
 
         [TestMethod]
         public void GetUserIsAdminQueryHandler_Returns_False_For_Normal_User() {
-            var builder = new FakeBuilder().BuildPlayer(1);
+            var builder = new FakeBuilder()
+                .BuildPlayer(1);
 
             builder.User.IsAdmin.Returns(false);
             

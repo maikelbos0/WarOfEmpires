@@ -11,7 +11,8 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
     public sealed class GetCurrentPlayerQueryHandlerTests {
         [TestMethod]
         public void GetCurrentPlayerQueryHandler_Returns_Correct_Information() {
-            var builder = new FakeBuilder().BuildPlayer(1);
+            var builder = new FakeBuilder()
+                .BuildPlayer(1);
 
             builder.User.IsAdmin.Returns(false);
 
@@ -28,7 +29,9 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
 
         [TestMethod]
         public void GetCurrentPlayerQueryHandler_Returns_Correct_Information_IsAdmin_IsInAlliance() {
-            var builder = new FakeBuilder().BuildAlliance(1).BuildMember(1); 
+            var builder = new FakeBuilder()
+                .BuildAlliance(1)
+                .BuildMember(1); 
             
             builder.User.IsAdmin.Returns(true);
 
@@ -43,7 +46,8 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
 
         [TestMethod]
         public void GetCurrentPlayerQueryHandler_Throws_Exception_For_Nonexistent_Email() {
-            var builder = new FakeBuilder().BuildPlayer(1);
+            var builder = new FakeBuilder()
+                .BuildPlayer(1);
 
             var handler = new GetCurrentPlayerQueryHandler(builder.Context);
             var query = new GetCurrentPlayerQuery("wrong@test.com");

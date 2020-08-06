@@ -13,11 +13,11 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
         [TestMethod]
         public void GetPlayersQueryHandler_Returns_All_Active_Players() {
             var builder = new FakeBuilder()
-                .BuildPlayer(1)
-                .BuildPlayer(2, status: UserStatus.Inactive)
-                .BuildPlayer(3, status: UserStatus.New)
-                .BuildPlayer(4)
-                .BuildPlayer(5);
+                .WithPlayer(1)
+                .WithPlayer(2, status: UserStatus.Inactive)
+                .WithPlayer(3, status: UserStatus.New)
+                .WithPlayer(4)
+                .WithPlayer(5);
 
             var handler = new GetPlayersQueryHandler(builder.Context, new EnumFormatter());
             var query = new GetPlayersQuery(null);
@@ -29,7 +29,8 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
 
         [TestMethod]
         public void GetPlayersQueryHandler_Returns_Correct_Information() {
-            var builder = new FakeBuilder().BuildAlliance(1)
+            var builder = new FakeBuilder()
+                .BuildAlliance(1)
                 .BuildMember(1, rank: 5)
                 .WithPopulation();
 
@@ -50,8 +51,8 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
         [TestMethod]
         public void GetPlayersQueryHandler_Searches() {
             var builder = new FakeBuilder()
-                .BuildPlayer(1)
-                .BuildPlayer(2, displayName: "Wrong");
+                .WithPlayer(1)
+                .WithPlayer(2, displayName: "Wrong");
 
             var handler = new GetPlayersQueryHandler(builder.Context, new EnumFormatter());
             var query = new GetPlayersQuery("Test");
