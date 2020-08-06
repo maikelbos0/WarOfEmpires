@@ -12,20 +12,20 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
     public sealed class GetNotificationsQueryHandlerTests {
         [TestMethod]
         public void GetNotificationsQueryHandler_Returns_All_False_By_Default() {
-            var builder = new FakeBuilder().BuildPlayer(1);
-
-            builder.BuildAlliance(1)
-                .WithInvite(1, builder.Player, isRead: true)
+            var builder = new FakeBuilder()
+                .WithPlayer(1, out var player)
+                .BuildAlliance(1)
+                .WithInvite(1, player, isRead: true)
                 .BuildMember(2)
-                .WithMessageTo(1, builder.Player, new DateTime(2020, 1, 2), isRead: true)
-                .BuildAttackOn(1, builder.Player, AttackType.Raid, AttackResult.Won, isRead: true);
+                .WithMessageTo(1, player, new DateTime(2020, 1, 2), isRead: true)
+                .BuildAttackOn(1, player, AttackType.Raid, AttackResult.Won, isRead: true);
 
-            builder.Player.HasUpkeepRunOut.Returns(false);
-            builder.Player.WillUpkeepRunOut().Returns(false);
-            builder.Player.HasNewMarketSales.Returns(false);
-            builder.Player.GetAvailableHousingCapacity().Returns(5);
-            builder.Player.GetTheoreticalRecruitsPerDay().Returns(5);
-            builder.Player.GetSoldierRecruitsPenalty().Returns(0);
+            player.HasUpkeepRunOut.Returns(false);
+            player.WillUpkeepRunOut().Returns(false);
+            player.HasNewMarketSales.Returns(false);
+            player.GetAvailableHousingCapacity().Returns(5);
+            player.GetTheoreticalRecruitsPerDay().Returns(5);
+            player.GetSoldierRecruitsPenalty().Returns(0);
 
             var handler = new GetNotificationsQueryHandler(builder.Context);
             var query = new GetNotificationsQuery("test1@test.com");
@@ -43,20 +43,20 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
 
         [TestMethod]
         public void GetNotificationsQueryHandler_Returns_True_For_New_Notifications() {
-            var builder = new FakeBuilder().BuildPlayer(1);
-
-            builder.BuildAlliance(1)
-                .WithInvite(1, builder.Player)
+            var builder = new FakeBuilder()
+                .WithPlayer(1, out var player)
+                .BuildAlliance(1)
+                .WithInvite(1, player)
                 .BuildMember(2)
-                .WithMessageTo(1, builder.Player, new DateTime(2020, 1, 2))
-                .BuildAttackOn(1, builder.Player, AttackType.Raid, AttackResult.Won);
+                .WithMessageTo(1, player, new DateTime(2020, 1, 2))
+                .BuildAttackOn(1, player, AttackType.Raid, AttackResult.Won);
 
-            builder.Player.HasUpkeepRunOut.Returns(true);
-            builder.Player.WillUpkeepRunOut().Returns(false);
-            builder.Player.HasNewMarketSales.Returns(true);
-            builder.Player.GetAvailableHousingCapacity().Returns(4);
-            builder.Player.GetTheoreticalRecruitsPerDay().Returns(5);
-            builder.Player.GetSoldierRecruitsPenalty().Returns(1);
+            player.HasUpkeepRunOut.Returns(true);
+            player.WillUpkeepRunOut().Returns(false);
+            player.HasNewMarketSales.Returns(true);
+            player.GetAvailableHousingCapacity().Returns(4);
+            player.GetTheoreticalRecruitsPerDay().Returns(5);
+            player.GetSoldierRecruitsPenalty().Returns(1);
 
             var handler = new GetNotificationsQueryHandler(builder.Context);
             var query = new GetNotificationsQuery("test1@test.com");
@@ -74,7 +74,8 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
 
         [TestMethod]
         public void GetNotificationsQueryHandler_HasUpkeepShortage_Returns_True_For_Upkeep_Running_Out() {
-            var builder = new FakeBuilder().BuildPlayer(1);
+            var builder = new FakeBuilder()
+                .BuildPlayer(1);
 
             builder.Player.HasUpkeepRunOut.Returns(false);
             builder.Player.WillUpkeepRunOut().Returns(true);

@@ -11,10 +11,14 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
     public sealed class GetRolesQueryHandlerTests {
         [TestMethod]
         public void GetRolesQueryHandler_Returns_Correct_Information() {
-            var builder = new FakeBuilder().BuildAlliance(1);
-
-            builder.WithRole(1, "Manager", builder.BuildMember(1).Player, builder.BuildMember(2).Player)
-                .WithRole(2, "Peasant", builder.BuildMember(3).Player, builder.BuildMember(4, status: UserStatus.Inactive).Player);                
+            var builder = new FakeBuilder()
+                .BuildAlliance(1)
+                .WithMember(1, out var manager)
+                .WithMember(2, out var secondManager)
+                .WithMember(3, out var peasant, rank: 5)
+                .WithMember(4, out var inactivePeasant, status: UserStatus.Inactive)
+                .WithRole(1, "Manager", manager, secondManager)
+                .WithRole(2, "Peasant", peasant, inactivePeasant);
 
             var handler = new GetRolesQueryHandler(builder.Context);
             var query = new GetRolesQuery("test3@test.com");

@@ -10,9 +10,10 @@ namespace WarOfEmpires.QueryHandlers.Tests.Messages {
     public sealed class GetReceivedMessageQueryHandlerTests {
         [TestMethod]
         public void GetReceivedMessageQueryHandler_Returns_Correct_Information() {
-            var builder = new FakeBuilder().BuildPlayer(1);
-
-            builder.BuildPlayer(2, email: "sender@test.com", displayName: "Sender test").WithMessageTo(1, builder.Player, new DateTime(2019, 1, 1));
+            var builder = new FakeBuilder()
+                .WithPlayer(1, out var player)
+                .BuildPlayer(2, email: "sender@test.com", displayName: "Sender test")
+                .WithMessageTo(1, player, new DateTime(2019, 1, 1));
 
             var handler = new GetReceivedMessageQueryHandler(builder.Context);
             var query = new GetReceivedMessageQuery("test1@test.com", "1");
@@ -28,9 +29,10 @@ namespace WarOfEmpires.QueryHandlers.Tests.Messages {
 
         [TestMethod]
         public void GetReceivedMessageQueryHandler_Throws_Exception_For_Message_Received_By_Different_Player() {
-            var builder = new FakeBuilder().BuildPlayer(1);
-
-            builder.BuildPlayer(2, email: "sender@test.com").WithMessageTo(1, builder.Player, new DateTime(2019, 1, 1));
+            var builder = new FakeBuilder()
+                .WithPlayer(1, out var player)
+                .BuildPlayer(2, email: "sender@test.com", displayName: "Sender test")
+                .WithMessageTo(1, player, new DateTime(2019, 1, 1));
 
             var handler = new GetReceivedMessageQueryHandler(builder.Context);
             var query = new GetReceivedMessageQuery("sender@test.com", "1");
@@ -42,9 +44,10 @@ namespace WarOfEmpires.QueryHandlers.Tests.Messages {
 
         [TestMethod]
         public void GetReceivedMessageQueryHandler_Throws_Exception_For_Alphanumeric_MessageId() {
-            var builder = new FakeBuilder().BuildPlayer(1);
-
-            builder.BuildPlayer(2, email: "sender@test.com").WithMessageTo(1, builder.Player, new DateTime(2019, 1, 1));
+            var builder = new FakeBuilder()
+                .WithPlayer(1, out var player)
+                .BuildPlayer(2, email: "sender@test.com", displayName: "Sender test")
+                .WithMessageTo(1, player, new DateTime(2019, 1, 1));
 
             var handler = new GetReceivedMessageQueryHandler(builder.Context);
             var query = new GetReceivedMessageQuery("test1@test.com", "A");

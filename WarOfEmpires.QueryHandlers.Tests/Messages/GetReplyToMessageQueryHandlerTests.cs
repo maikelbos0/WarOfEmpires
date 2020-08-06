@@ -10,9 +10,10 @@ namespace WarOfEmpires.QueryHandlers.Tests.Messages {
     public sealed class GetReplyToMessageQueryHandlerTests {
         [TestMethod]
         public void GetReplyToMessageQueryHandler_Returns_Correct_Information() {
-            var builder = new FakeBuilder().BuildPlayer(2);
-
-            builder.BuildPlayer(1, displayName: "Sender test").WithMessageTo(1, builder.Player, new DateTime(2019, 1, 5, 14, 15, 33));
+            var builder = new FakeBuilder()
+                .WithPlayer(2, out var player)
+                .BuildPlayer(1, displayName: "Sender test")
+                .WithMessageTo(1, player, new DateTime(2019, 1, 5, 14, 15, 33));
 
             var handler = new GetReplyToMessageQueryHandler(builder.Context);
             var query = new GetReplyToMessageQuery("test2@test.com", "1");
@@ -27,9 +28,10 @@ namespace WarOfEmpires.QueryHandlers.Tests.Messages {
 
         [TestMethod]
         public void GetReplyToMessageQueryHandler_Throws_Exception_For_Alphanumeric_Id() {
-            var builder = new FakeBuilder().BuildPlayer(2);
-
-            builder.BuildPlayer(1, email: "sender@test.com").WithMessageTo(1, builder.Player, new DateTime(2019, 1, 5, 14, 15, 33));
+            var builder = new FakeBuilder()
+                .WithPlayer(2, out var player)
+                .BuildPlayer(1, email: "sender@test.com")
+                .WithMessageTo(1, player, new DateTime(2019, 1, 5, 14, 15, 33));
 
             var handler = new GetReplyToMessageQueryHandler(builder.Context);
             var query = new GetReplyToMessageQuery("sender@test.com", "1");
@@ -41,9 +43,10 @@ namespace WarOfEmpires.QueryHandlers.Tests.Messages {
 
         [TestMethod]
         public void GetReplyToMessageQueryHandler_Throws_Exception_For_Nonexistent_Id() {
-            var builder = new FakeBuilder().BuildPlayer(2);
-
-            builder.BuildPlayer(1).WithMessageTo(1, builder.Player, new DateTime(2019, 1, 5, 14, 15, 33));
+            var builder = new FakeBuilder()
+                .WithPlayer(2, out var player)
+                .BuildPlayer(1)
+                .WithMessageTo(1, player, new DateTime(2019, 1, 5, 14, 15, 33));
 
             var handler = new GetReplyToMessageQueryHandler(builder.Context);
             var query = new GetReplyToMessageQuery("recipient@test.com", "A");

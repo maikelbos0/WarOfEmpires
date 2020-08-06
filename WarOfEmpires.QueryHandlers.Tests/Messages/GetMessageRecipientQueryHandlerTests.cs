@@ -10,7 +10,9 @@ namespace WarOfEmpires.QueryHandlers.Tests.Messages {
     public sealed class GetMessageRecipientQueryHandlerTests {
         [TestMethod]
         public void GetMessageRecipientQueryHandler_Returns_Correct_Information() {
-            var builder = new FakeBuilder().BuildPlayer(1).BuildPlayer(2);
+            var builder = new FakeBuilder()
+                .WithPlayer(1)
+                .WithPlayer(2);
 
             var handler = new GetMessageRecipientQueryHandler(builder.Context);
             var query = new GetMessageRecipientQuery("2");
@@ -23,7 +25,9 @@ namespace WarOfEmpires.QueryHandlers.Tests.Messages {
 
         [TestMethod]
         public void GetMessageRecipientQueryHandler_Throws_Exception_For_Alphanumeric_Id() {
-            var builder = new FakeBuilder().BuildPlayer(1).BuildPlayer(2);
+            var builder = new FakeBuilder()
+                .WithPlayer(1)
+                .WithPlayer(2);
 
             var handler = new GetMessageRecipientQueryHandler(builder.Context);
             var query = new GetMessageRecipientQuery("A");
@@ -35,7 +39,9 @@ namespace WarOfEmpires.QueryHandlers.Tests.Messages {
 
         [TestMethod]
         public void GetMessageRecipientQueryHandler_Throws_Exception_For_Nonexistent_Id() {
-            var builder = new FakeBuilder().BuildPlayer(1).BuildPlayer(2);
+            var builder = new FakeBuilder()
+                .WithPlayer(1)
+                .WithPlayer(2);
 
             var handler = new GetMessageRecipientQueryHandler(builder.Context);
             var query = new GetMessageRecipientQuery("5");

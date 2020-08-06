@@ -10,7 +10,8 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
     public sealed class GetTaxQueryHandlerTests {        
         [TestMethod]
         public void GetTaxQueryHandler_Returns_Correct_Information() {
-            var builder = new FakeBuilder().BuildPlayer(1);
+            var builder = new FakeBuilder()
+                .BuildPlayer(1);
 
             builder.Player.Tax.Returns(50);
 

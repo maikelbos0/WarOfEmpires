@@ -12,7 +12,8 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
     public sealed class GetBankedResourcesQueryHandlerTests {
         [TestMethod]
         public void GetBankedResourcesQueryHandler_Returns_Correct_Information() {
-            var builder = new FakeBuilder().BuildPlayer(1);
+            var builder = new FakeBuilder()
+                .BuildPlayer(1);
 
             builder.Player.BankedResources.Returns(new Resources(5000, 4000, 3000, 2000, 1000));
             builder.Player.GetBankCapacity().Returns(new Resources(50000, 40000, 30000, 20000, 10000));

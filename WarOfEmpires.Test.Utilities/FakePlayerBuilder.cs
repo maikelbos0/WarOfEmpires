@@ -1,5 +1,4 @@
 ﻿using NSubstitute;
-using NSubstitute.Exceptions;
 using System;
 using System.Collections.Generic;
 using WarOfEmpires.Database;
@@ -50,6 +49,18 @@ namespace WarOfEmpires.Test.Utilities {
 
         public FakeAttackBuilder BuildAttackOn(int id, Player defender, AttackType type, AttackResult result, int turns = 10, bool isRead = false, DateTime? date = null, Resources resources = null) {
             return new FakeAttackBuilder(Context, id, Player, defender, type, result, turns, isRead, date, resources);
+        }
+
+        public FakePlayerBuilder WithAttackOn(int id, out Attack attack, Player defender, AttackType type, AttackResult result, int turns = 10, bool isRead = false, DateTime? date = null, Resources resources = null) {
+            attack = BuildAttackOn(id, defender, type, result, turns, isRead, date, resources).Attack;
+
+            return this;
+        }
+
+        public FakePlayerBuilder WithAttackOn(int id, Player defender, AttackType type, AttackResult result, int turns = 10, bool isRead = false, DateTime? date = null, Resources resources = null) {
+            BuildAttackOn(id, defender, type, result, turns, isRead, date, resources);
+
+            return this;
         }
 
         public FakePlayerBuilder WithPeasants(int peasants) {

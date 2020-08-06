@@ -17,16 +17,5 @@ namespace WarOfEmpires.Test.Utilities {
             Player.Alliance.Returns(Alliance);
             Alliance.Members.Add(Player);
         }
-
-        public FakeMemberBuilder WithChatMessage(DateTime date, string message) {
-            var chatMessage = Substitute.For<ChatMessage>();
-
-            chatMessage.Player.Returns(Player);
-            chatMessage.Date.Returns(date);
-            chatMessage.Message.Returns(message);
-            Alliance.ChatMessages.Add(chatMessage);
-
-            return this;
-        }
     }
 }

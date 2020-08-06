@@ -14,12 +14,10 @@ namespace WarOfEmpires.QueryHandlers.Tests.Attacks {
     public sealed class GetAttackDetailsQueryHandlerTests {
         [TestMethod]
         public void GetAttackDetailsQueryHandler_Returns_Correct_Information() {
-            var builder = new FakeBuilder();
-            var defender = builder.BuildAlliance(14, code: "DEF", name: "The Defenders")
-                .BuildMember(1, email: "defender@test.com", displayName: "Defender 1")
-                .Player;
-
-            builder.BuildAlliance(27, code: "ATK", name: "The Attackers")
+            var builder = new FakeBuilder()
+                .BuildAlliance(14, code: "DEF", name: "The Defenders")
+                .WithMember(1, out var defender, email: "defender@test.com", displayName: "Defender 1")
+                .BuildAlliance(27, code: "ATK", name: "The Attackers")
                 .BuildMember(2, email: "attacker@test.com", displayName: "Attacker 1")
                 .BuildAttackOn(1, defender, AttackType.Raid, AttackResult.Won, resources: new Resources(1, 2, 3, 4, 5))
                 .WithRound(true, 200, 17000, TroopType.Archers, new Casualties(TroopType.Archers, 0, 15), new Casualties(TroopType.Cavalry, 0, 14), new Casualties(TroopType.Footmen, 0, 13))
@@ -67,14 +65,10 @@ namespace WarOfEmpires.QueryHandlers.Tests.Attacks {
 
         [TestMethod]
         public void GetAttackDetailsQueryHandler_Succeeds_For_Defender() {
-            var builder = new FakeBuilder();
-            var defender = builder.BuildAlliance(1)
-                .BuildPlayer(1, email: "defender@test.com")
-                .Player;
-
-            builder.BuildAlliance(2)
+            var builder = new FakeBuilder()
+                .WithPlayer(1, out var defender, email: "defender@test.com")
                 .BuildPlayer(2, email: "attacker@test.com")
-                .BuildAttackOn(1, defender, AttackType.Raid, AttackResult.Won);
+                .WithAttackOn(1, defender, AttackType.Raid, AttackResult.Won);
 
             var handler = new GetAttackDetailsQueryHandler(builder.Context, new ResourcesMap(), new EnumFormatter());
             var query = new GetAttackDetailsQuery("defender@test.com", "1");
@@ -86,14 +80,10 @@ namespace WarOfEmpires.QueryHandlers.Tests.Attacks {
 
         [TestMethod]
         public void GetAttackDetailsQueryHandler_Succeeds_For_Attacker() {
-            var builder = new FakeBuilder();
-            var defender = builder.BuildAlliance(1)
-                .BuildPlayer(1, email: "defender@test.com")
-                .Player;
-
-            builder.BuildAlliance(2)
+            var builder = new FakeBuilder()
+                .WithPlayer(1, out var defender, email: "defender@test.com")
                 .BuildPlayer(2, email: "attacker@test.com")
-                .BuildAttackOn(1, defender, AttackType.Raid, AttackResult.Won);
+                .WithAttackOn(1, defender, AttackType.Raid, AttackResult.Won);
 
             var handler = new GetAttackDetailsQueryHandler(builder.Context, new ResourcesMap(), new EnumFormatter());
             var query = new GetAttackDetailsQuery("attacker@test.com", "1");
@@ -105,14 +95,10 @@ namespace WarOfEmpires.QueryHandlers.Tests.Attacks {
 
         [TestMethod]
         public void GetAttackDetailsQueryHandler_IsRead_Is_Always_True_For_Attacker() {
-            var builder = new FakeBuilder();
-            var defender = builder.BuildAlliance(1)
-                .BuildPlayer(1, email: "defender@test.com")
-                .Player;
-
-            builder.BuildAlliance(2)
+            var builder = new FakeBuilder()
+                .WithPlayer(1, out var defender, email: "defender@test.com")
                 .BuildPlayer(2, email: "attacker@test.com")
-                .BuildAttackOn(1, defender, AttackType.Raid, AttackResult.Won);
+                .WithAttackOn(1, defender, AttackType.Raid, AttackResult.Won);
 
             var handler = new GetAttackDetailsQueryHandler(builder.Context, new ResourcesMap(), new EnumFormatter());
             var query = new GetAttackDetailsQuery("attacker@test.com", "1");
@@ -124,14 +110,10 @@ namespace WarOfEmpires.QueryHandlers.Tests.Attacks {
 
         [TestMethod]
         public void GetAttackDetailsQueryHandler_Throws_Exception_For_Alphanumeric_AttackId() {
-            var builder = new FakeBuilder();
-            var defender = builder.BuildAlliance(1)
-                .BuildPlayer(1, email: "defender@test.com")
-                .Player;
-
-            builder.BuildAlliance(2)
+            var builder = new FakeBuilder()
+                .WithPlayer(1, out var defender, email: "defender@test.com")
                 .BuildPlayer(2, email: "attacker@test.com")
-                .BuildAttackOn(1, defender, AttackType.Raid, AttackResult.Won);
+                .WithAttackOn(1, defender, AttackType.Raid, AttackResult.Won);
 
             var handler = new GetAttackDetailsQueryHandler(builder.Context, new ResourcesMap(), new EnumFormatter());
             var query = new GetAttackDetailsQuery("attacker@test.com", "A");
@@ -143,15 +125,11 @@ namespace WarOfEmpires.QueryHandlers.Tests.Attacks {
 
         [TestMethod]
         public void GetAttackDetailsQueryHandler_Throws_Exception_For_Attack_On_And_By_Different_Player() {
-            var builder = new FakeBuilder();
-            var defender = builder.BuildAlliance(1)
-                .BuildPlayer(1, email: "defender@test.com")
-                .Player;
-
-            builder.BuildAlliance(2)
+            var builder = new FakeBuilder()
+                .WithPlayer(1, out var defender, email: "defender@test.com")
                 .BuildPlayer(2, email: "attacker@test.com")
-                .BuildAttackOn(1, defender, AttackType.Raid, AttackResult.Won);
-            builder.BuildPlayer(3, email: "random@test.com");
+                .WithAttackOn(1, defender, AttackType.Raid, AttackResult.Won)
+                .WithPlayer(3, email: "random@test.com");
 
             var handler = new GetAttackDetailsQueryHandler(builder.Context, new ResourcesMap(), new EnumFormatter());
             var query = new GetAttackDetailsQuery("random@test.com", "1");

@@ -11,12 +11,11 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
     public sealed class GetReceivedInvitesQueryHandlerTest {
         [TestMethod]
         public void GetReceivedInvitesQueryHandler_Returns_Correct_Information() {
-            var builder = new FakeBuilder();
-            var player = builder.BuildPlayer(1).Player;
-
-            builder.BuildAlliance(4, code: "ANOT", name: "Another")
-                .WithInvite(2, player, subject: "Invite from Another", isRead: true, date: new DateTime(2020, 1, 29));
-            builder.BuildAlliance(3, code: "ALLI", name: "Allies")
+            var builder = new FakeBuilder()
+                .WithPlayer(1, out var player)
+                .BuildAlliance(4, code: "ANOT", name: "Another")
+                .WithInvite(2, player, subject: "Invite from Another", isRead: true, date: new DateTime(2020, 1, 29))
+                .BuildAlliance(3, code: "ALLI", name: "Allies")
                 .WithInvite(1, player, subject: "Invite from Allies", isRead: true, date: new DateTime(2020, 1, 30));
 
             var handler = new GetReceivedInvitesQueryHandler(builder.Context);

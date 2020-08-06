@@ -14,7 +14,8 @@ namespace WarOfEmpires.QueryHandlers.Tests.Markets {
     public sealed class GetMarketQueryHandlerTests {
         [TestMethod]
         public void GetMarketQueryHandler_Returns_Correct_Information() {
-            var builder = new FakeBuilder().BuildPlayer(1)
+            var builder = new FakeBuilder()
+                .BuildPlayer(1)
                 .WithBuilding(BuildingType.Market, 3)
                 .WithWorkers(WorkerType.Merchants, 7)
                 .WithCaravan(1, new Merchandise(MerchandiseType.Wood, 25000, 10))
@@ -24,7 +25,8 @@ namespace WarOfEmpires.QueryHandlers.Tests.Markets {
             var caravanId = 3;
 
             foreach (var status in new[] { UserStatus.Active, UserStatus.Active, UserStatus.Active, UserStatus.Active, UserStatus.Inactive, UserStatus.New }) {
-                builder.BuildPlayer(sellerId++, status: status)
+                builder
+                    .BuildPlayer(sellerId++, status: status)
                     .WithCaravan(caravanId++, new Merchandise(MerchandiseType.Food, 10000, 10), new Merchandise(MerchandiseType.Wood, 11000, 9), new Merchandise(MerchandiseType.Stone, 12000, 8), new Merchandise(MerchandiseType.Ore, 13000, 7))
                     .WithCaravan(caravanId++, new Merchandise(MerchandiseType.Food, 5000, 5), new Merchandise(MerchandiseType.Wood, 6000, 4), new Merchandise(MerchandiseType.Stone, 7000, 3), new Merchandise(MerchandiseType.Ore, 8000, 2));
             }

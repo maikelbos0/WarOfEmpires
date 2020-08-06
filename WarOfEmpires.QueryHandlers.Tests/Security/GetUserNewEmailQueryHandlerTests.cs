@@ -11,7 +11,8 @@ namespace WarOfEmpires.QueryHandlers.Tests.Security {
     public sealed class GetUserNewEmailQueryHandlerTests {
         [TestMethod]
         public void GetUserNewEmailQueryHandler_Gives_NewEmail_If_Available() {
-            var builder = new FakeBuilder().BuildPlayer(1);
+            var builder = new FakeBuilder()
+                .BuildPlayer(1);
 
             builder.User.NewEmail.Returns("new@test.com");
 
@@ -25,7 +26,8 @@ namespace WarOfEmpires.QueryHandlers.Tests.Security {
 
         [TestMethod]
         public void GetUserNewEmailQueryHandler_Gives_Null_NewEmail_If_NewEmail_Is_Not_Available() {
-            var builder = new FakeBuilder().BuildPlayer(1);
+            var builder = new FakeBuilder()
+                .BuildPlayer(1);
 
             builder.User.NewEmail.Returns((string)null);
 

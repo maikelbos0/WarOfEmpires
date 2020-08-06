@@ -13,14 +13,13 @@ namespace WarOfEmpires.QueryHandlers.Tests.Attacks {
     public sealed class GetReceivedAttacksQueryHandlerTests {
         [TestMethod]
         public void GetReceivedAttacksQueryHandler_Returns_All_Received_Attacks() {
-            var builder = new FakeBuilder();
-            var defender = builder.BuildPlayer(1).Player;
-            var attackerBuilder1 = builder.BuildPlayer(2);
-            var attackerBuilder2 = builder.BuildPlayer(3);
-
-            attackerBuilder1.BuildAttackOn(1, defender, AttackType.Raid, AttackResult.Won);
-            attackerBuilder1.BuildAttackOn(2, defender, AttackType.Raid, AttackResult.Won);
-            attackerBuilder2.BuildAttackOn(3, defender, AttackType.Raid, AttackResult.Won);
+            var builder = new FakeBuilder()
+                .WithPlayer(1, out var defender)
+                .BuildPlayer(2)
+                .WithAttackOn(1, defender, AttackType.Raid, AttackResult.Won)
+                .WithAttackOn(2, defender, AttackType.Raid, AttackResult.Won)
+                .BuildPlayer(3)
+                .WithAttackOn(3, defender, AttackType.Raid, AttackResult.Won);
 
             var handler = new GetReceivedAttacksQueryHandler(builder.Context, new EnumFormatter());
             var query = new GetReceivedAttacksQuery("test1@test.com");
@@ -32,11 +31,11 @@ namespace WarOfEmpires.QueryHandlers.Tests.Attacks {
 
         [TestMethod]
         public void GetReceivedAttacksQueryHandler_Returns_Correct_Data() {
-            var builder = new FakeBuilder();
-            var defender = builder.BuildPlayer(1).Player;
-            var attackerBuilder = builder.BuildAlliance(1, code: "ATK").BuildMember(2, displayName: "Attacker 1");
-
-            attackerBuilder.BuildAttackOn(1, defender, AttackType.Raid, AttackResult.Won, turns: 7, isRead: true)
+            var builder = new FakeBuilder()
+                .WithPlayer(1, out var defender)
+                .BuildAlliance(1, code: "ATK")
+                .BuildMember(2, displayName: "Attacker 1")
+                .BuildAttackOn(1, defender, AttackType.Raid, AttackResult.Won, turns: 7, isRead: true)
                 .WithRound(false, new Casualties(TroopType.Archers, 0, 10), new Casualties(TroopType.Footmen, 0, 9), new Casualties(TroopType.Cavalry, 0, 8))
                 .WithRound(false, new Casualties(TroopType.Archers, 4, 7), new Casualties(TroopType.Footmen, 3, 6), new Casualties(TroopType.Cavalry, 2, 5))
                 .WithRound(true, new Casualties(TroopType.Archers, 0, 15), new Casualties(TroopType.Footmen, 0, 7), new Casualties(TroopType.Cavalry, 0, 3))

@@ -10,12 +10,11 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
     public sealed class GetReceivedInviteQueryHandlerTests {
         [TestMethod]
         public void GetReceivedInviteQueryHandler_Returns_Correct_Information() {
-            var builder = new FakeBuilder();
-            var player = builder.BuildPlayer(1).Player;
-
-            builder.BuildAlliance(3)
-                .WithInvite(1, player);
-            builder.BuildAlliance(4, code: "ANOT", name: "Another")
+            var builder = new FakeBuilder()
+                .WithPlayer(1, out var player)
+                .BuildAlliance(3)
+                .WithInvite(1, player)
+                .BuildAlliance(4, code: "ANOT", name: "Another")
                 .WithInvite(2, player, subject: "Invite from Another", body: "Hey, here's your invite into Another", isRead: true, date: new DateTime(2020, 1, 29));
 
             var handler = new GetReceivedInviteQueryHandler(builder.Context);
@@ -35,11 +34,11 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
 
         [TestMethod]
         public void GetReceivedInviteQueryHandler_Throws_Exception_For_Message_Received_By_Different_Player() {
-            var builder = new FakeBuilder();
-
-            builder.BuildAlliance(3)
-                .WithInvite(2, builder.BuildPlayer(1).Player);
-            builder.BuildPlayer(2, email: "wrong@test.com");
+            var builder = new FakeBuilder()
+                .WithPlayer(1, out var player)
+                .WithPlayer(2, email: "wrong@test.com")
+                .BuildAlliance(3)
+                .WithInvite(2, player);
 
             var handler = new GetReceivedInviteQueryHandler(builder.Context);
             var query = new GetReceivedInviteQuery("wrong@test.com", "2");
@@ -51,10 +50,10 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
 
         [TestMethod]
         public void GetReceivedInviteQueryHandler_Throws_Exception_For_Alphanumeric_MessageId() {
-            var builder = new FakeBuilder();
-
-            builder.BuildAlliance(3)
-                .WithInvite(2, builder.BuildPlayer(1).Player);
+            var builder = new FakeBuilder()
+                .WithPlayer(1, out var player)
+                .BuildAlliance(3)
+                .WithInvite(2, player);
             
             var handler = new GetReceivedInviteQueryHandler(builder.Context);
             var query = new GetReceivedInviteQuery("test1@test.com", "A");
