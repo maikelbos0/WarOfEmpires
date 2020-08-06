@@ -1,7 +1,6 @@
 ﻿using NSubstitute;
 using System;
 using System.Collections.Generic;
-using WarOfEmpires.Database;
 using WarOfEmpires.Domain.Alliances;
 using WarOfEmpires.Domain.Attacks;
 using WarOfEmpires.Domain.Common;
@@ -16,7 +15,7 @@ namespace WarOfEmpires.Test.Utilities {
         public User User { get; }
         public Player Player { get; }
 
-        internal FakePlayerBuilder(IWarContext context, int id, string email, string displayName, int rank, TitleType title, DateTime? lastOnline, UserStatus status) : base(context) {
+        internal FakePlayerBuilder(FakeWarContext context, int id, string email, string displayName, int rank, TitleType title, DateTime? lastOnline, UserStatus status) : base(context) {
             User = Substitute.For<User>();
             User.Id.Returns(id);
             User.Email.Returns(email ?? $"test{id}@test.com");

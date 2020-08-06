@@ -1,19 +1,18 @@
 ﻿using NSubstitute;
 using System;
-using WarOfEmpires.Database;
 using WarOfEmpires.Domain.Events;
 using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Domain.Security;
 
 namespace WarOfEmpires.Test.Utilities {
     public class FakeBuilder {
-        public IWarContext Context { get; }
+        public FakeWarContext Context { get; }
 
         public FakeBuilder() {
             Context = new FakeWarContext();
         }
 
-        internal FakeBuilder(IWarContext context) {
+        internal FakeBuilder(FakeWarContext context) {
             Context = context;
         }
 

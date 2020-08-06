@@ -1,7 +1,6 @@
 ﻿using NSubstitute;
 using System;
 using System.Collections.Generic;
-using WarOfEmpires.Database;
 using WarOfEmpires.Domain.Alliances;
 using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Domain.Security;
@@ -10,7 +9,7 @@ namespace WarOfEmpires.Test.Utilities {
     public class FakeAllianceBuilder : FakeBuilder {
         public Alliance Alliance { get; }
 
-        internal FakeAllianceBuilder(IWarContext context, int id, string code, string name) : base(context) {
+        internal FakeAllianceBuilder(FakeWarContext context, int id, string code, string name) : base(context) {
             Alliance = Substitute.For<Alliance>();
             Alliance.Id.Returns(id);
             Alliance.Code.Returns(code);
@@ -75,8 +74,8 @@ namespace WarOfEmpires.Test.Utilities {
             return this;
         }
 
-        public FakeAllianceBuilder WithRole(int id, string name, params Player[] players) {
-            var role = Substitute.For<Role>();
+        public FakeAllianceBuilder WithRole(int id, out Role role, string name, params Player[] players) {
+            role = Substitute.For<Role>();
 
             role.Id.Returns(id);
             role.Name.Returns(name);
@@ -89,6 +88,10 @@ namespace WarOfEmpires.Test.Utilities {
             Alliance.Roles.Add(role);
 
             return this;
+        }
+
+        public FakeAllianceBuilder WithRole(int id, string name, params Player[] players) {
+            return WithRole(id, out _, name, players);
         }
 
         public FakeAllianceBuilder WithChatMessage(Player player, DateTime date, string message) {
