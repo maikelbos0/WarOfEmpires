@@ -57,8 +57,8 @@ namespace WarOfEmpires.Test.Utilities {
             return this;
         }
 
-        public FakeAllianceBuilder WithInvite(int id, Player player, string subject = "Message subject", string body = "Message body", bool isRead = false, DateTime? date = null) {
-            var invite = Substitute.For<Invite>();
+        public FakeAllianceBuilder WithInvite(int id, out Invite invite, Player player, string subject = "Message subject", string body = "Message body", bool isRead = false, DateTime? date = null) {
+            invite = Substitute.For<Invite>();
 
             invite.Id.Returns(id);
             invite.Alliance.Returns(Alliance);
@@ -72,6 +72,10 @@ namespace WarOfEmpires.Test.Utilities {
             Alliance.Invites.Add(invite);
 
             return this;
+        }
+
+        public FakeAllianceBuilder WithInvite(int id, Player player, string subject = "Message subject", string body = "Message body", bool isRead = false, DateTime? date = null) {
+            return WithInvite(id, out _, player, subject, body, isRead, date);
         }
 
         public FakeAllianceBuilder WithRole(int id, out Role role, string name, params Player[] players) {
@@ -94,15 +98,20 @@ namespace WarOfEmpires.Test.Utilities {
             return WithRole(id, out _, name, players);
         }
 
-        public FakeAllianceBuilder WithChatMessage(Player player, DateTime date, string message) {
-            var chatMessage = Substitute.For<ChatMessage>();
+        public FakeAllianceBuilder WithChatMessage(int id, out ChatMessage chatMessage, Player player, DateTime date, string message) {
+            chatMessage = Substitute.For<ChatMessage>();
 
+            chatMessage.Id.Returns(id);
             chatMessage.Player.Returns(player);
             chatMessage.Date.Returns(date);
             chatMessage.Message.Returns(message);
             Alliance.ChatMessages.Add(chatMessage);
 
             return this;
+        }
+
+        public FakeAllianceBuilder WithChatMessage(int id, Player player, DateTime date, string message) {
+            return WithChatMessage(id, out _, player, date, message);
         }
     }
 }
