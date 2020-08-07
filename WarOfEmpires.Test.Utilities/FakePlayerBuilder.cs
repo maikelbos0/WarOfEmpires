@@ -30,6 +30,7 @@ namespace WarOfEmpires.Test.Utilities {
             Player.DisplayName.Returns(displayName ?? $"Test display name {id}");
             Player.Rank.Returns(rank);
             Player.Title.Returns(title);
+            Player.AttackTurns.Returns(20);
             Player.Workers.Returns(new List<Workers>());
             Player.Troops.Returns(new List<Troops>());
             Player.Invites.Returns(new List<Invite>());
