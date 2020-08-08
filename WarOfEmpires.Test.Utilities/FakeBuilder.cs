@@ -20,18 +20,18 @@ namespace WarOfEmpires.Test.Utilities {
             return new FakeAllianceBuilder(Context, id, code, name);
         }
 
-        public FakePlayerBuilder BuildPlayer(int id, string email = null, string displayName = null, int rank = 0, TitleType title = TitleType.SubChieftain, DateTime? lastOnline = null, UserStatus status = UserStatus.Active) {
-            return new FakePlayerBuilder(Context, id, email, displayName, rank, title, lastOnline, status);
+        public FakePlayerBuilder BuildPlayer(int id, string email = null, string displayName = null, int rank = 0, TitleType title = TitleType.SubChieftain, DateTime? lastOnline = null, UserStatus status = UserStatus.Active, int attackTurns = 20, int bankTurns = 1, bool canAffordAnything = true) {
+            return new FakePlayerBuilder(Context, id, email, displayName, rank, title, lastOnline, status, attackTurns, bankTurns, canAffordAnything);
         }
 
-        public FakeBuilder WithPlayer(int id, out Player player, string email = null, string displayName = null, int rank = 0, TitleType title = TitleType.SubChieftain, DateTime? lastOnline = null, UserStatus status = UserStatus.Active) {
-            player = BuildPlayer(id, email, displayName, rank, title, lastOnline, status).Player;
+        public FakeBuilder WithPlayer(int id, out Player player, string email = null, string displayName = null, int rank = 0, TitleType title = TitleType.SubChieftain, DateTime? lastOnline = null, UserStatus status = UserStatus.Active, int attackTurns = 20, int bankTurns = 1, bool canAffordAnything = true) {
+            player = BuildPlayer(id, email, displayName, rank, title, lastOnline, status, attackTurns, bankTurns, canAffordAnything).Player;
 
             return this;
         }
 
-        public FakeBuilder WithPlayer(int id, string email = null, string displayName = null, int rank = 0, TitleType title = TitleType.SubChieftain, DateTime? lastOnline = null, UserStatus status = UserStatus.Active) {
-            BuildPlayer(id, email, displayName, rank, title, lastOnline, status);
+        public FakeBuilder WithPlayer(int id, string email = null, string displayName = null, int rank = 0, TitleType title = TitleType.SubChieftain, DateTime? lastOnline = null, UserStatus status = UserStatus.Active, int attackTurns = 20, int bankTurns = 1, bool canAffordAnything = true) {
+            BuildPlayer(id, email, displayName, rank, title, lastOnline, status, attackTurns, bankTurns, canAffordAnything);
 
             return this;
         }

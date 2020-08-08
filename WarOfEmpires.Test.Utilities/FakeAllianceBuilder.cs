@@ -21,38 +21,38 @@ namespace WarOfEmpires.Test.Utilities {
             Context.Alliances.Add(Alliance);
         }
 
-        public FakeMemberBuilder BuildMember(int id, string email = null, string displayName = null, int rank = 0, TitleType title = TitleType.SubChieftain, DateTime? lastOnline = null, UserStatus status = UserStatus.Active) {
-            return new FakeMemberBuilder(Context, Alliance, id, email, displayName, rank, title, lastOnline, status);
+        public FakeMemberBuilder BuildMember(int id, string email = null, string displayName = null, int rank = 0, TitleType title = TitleType.SubChieftain, DateTime? lastOnline = null, UserStatus status = UserStatus.Active, int attackTurns = 20, int bankTurns = 1, bool canAffordAnything = true) {
+            return new FakeMemberBuilder(Context, Alliance, id, email, displayName, rank, title, lastOnline, status, attackTurns, bankTurns, canAffordAnything);
         }
 
-        public FakeAllianceBuilder WithMember(int id, out Player member, string email = null, string displayName = null, int rank = 0, TitleType title = TitleType.SubChieftain, DateTime? lastOnline = null, UserStatus status = UserStatus.Active) {
-            member = BuildMember(id, email, displayName, rank, title, lastOnline, status).Player;
+        public FakeAllianceBuilder WithMember(int id, out Player member, string email = null, string displayName = null, int rank = 0, TitleType title = TitleType.SubChieftain, DateTime? lastOnline = null, UserStatus status = UserStatus.Active, int attackTurns = 20, int bankTurns = 1, bool canAffordAnything = true) {
+            member = BuildMember(id, email, displayName, rank, title, lastOnline, status, attackTurns, bankTurns, canAffordAnything).Player;
 
             return this;
         }
 
-        public FakeAllianceBuilder WithMember(int id, string email = null, string displayName = null, int rank = 0, TitleType title = TitleType.SubChieftain, DateTime? lastOnline = null, UserStatus status = UserStatus.Active) {
-            BuildMember(id, email, displayName, rank, title, lastOnline, status);
+        public FakeAllianceBuilder WithMember(int id, string email = null, string displayName = null, int rank = 0, TitleType title = TitleType.SubChieftain, DateTime? lastOnline = null, UserStatus status = UserStatus.Active, int attackTurns = 20, int bankTurns = 1, bool canAffordAnything = true) {
+            BuildMember(id, email, displayName, rank, title, lastOnline, status, attackTurns, bankTurns, canAffordAnything);
 
             return this;
         }
 
-        public FakeMemberBuilder BuildLeader(int id, string email = null, string displayName = null, int rank = 0, TitleType title = TitleType.SubChieftain, DateTime? lastOnline = null) {
-            var builder = BuildMember(id, email, displayName, rank, title, lastOnline);
+        public FakeMemberBuilder BuildLeader(int id, string email = null, string displayName = null, int rank = 0, TitleType title = TitleType.SubChieftain, DateTime? lastOnline = null, int attackTurns = 20, int bankTurns = 1, bool canAffordAnything = true) {
+            var builder = BuildMember(id, email, displayName, rank, title, lastOnline, UserStatus.Active, attackTurns, bankTurns, canAffordAnything);
 
             Alliance.Leader.Returns(builder.Player);
 
             return builder;
         }
 
-        public FakeAllianceBuilder WithLeader(int id, out Player leader, string email = null, string displayName = null, int rank = 0, TitleType title = TitleType.SubChieftain, DateTime? lastOnline = null) {
-            leader = BuildLeader(id, email, displayName, rank, title, lastOnline).Player;
+        public FakeAllianceBuilder WithLeader(int id, out Player leader, string email = null, string displayName = null, int rank = 0, TitleType title = TitleType.SubChieftain, DateTime? lastOnline = null, int attackTurns = 20, int bankTurns = 1, bool canAffordAnything = true) {
+            leader = BuildLeader(id, email, displayName, rank, title, lastOnline, attackTurns, bankTurns, canAffordAnything).Player;
 
             return this;
         }
 
-        public FakeAllianceBuilder WithLeader(int id, string email = null, string displayName = null, int rank = 0, TitleType title = TitleType.SubChieftain, DateTime? lastOnline = null) {
-            BuildLeader(id, email, displayName, rank, title, lastOnline);
+        public FakeAllianceBuilder WithLeader(int id, string email = null, string displayName = null, int rank = 0, TitleType title = TitleType.SubChieftain, DateTime? lastOnline = null, int attackTurns = 20, int bankTurns = 1, bool canAffordAnything = true) {
+            BuildLeader(id, email, displayName, rank, title, lastOnline, attackTurns, bankTurns, canAffordAnything);
 
             return this;
         }

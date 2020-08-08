@@ -8,8 +8,8 @@ namespace WarOfEmpires.Test.Utilities {
     public class FakeMemberBuilder : FakePlayerBuilder {
         public Alliance Alliance { get; }
 
-        internal FakeMemberBuilder(FakeWarContext context, Alliance alliance, int id, string email, string displayName, int rank, TitleType title, DateTime? lastOnline, UserStatus status) 
-            : base(context, id, email, displayName, rank, title, lastOnline, status) {
+        internal FakeMemberBuilder(FakeWarContext context, Alliance alliance, int id, string email, string displayName, int rank, TitleType title, DateTime? lastOnline, UserStatus status, int attackTurns, int bankTurns, bool canAffordAnything) 
+            : base(context, id, email, displayName, rank, title, lastOnline, status, attackTurns, bankTurns, canAffordAnything) {
 
             Alliance = alliance;
 

@@ -118,10 +118,8 @@ namespace WarOfEmpires.CommandHandlers.Tests.Attacks {
         [TestMethod]
         public void AttackCommandHandler_Fails_For_Too_Few_Turns_Available() {
             var builder = new FakeBuilder()
-                .WithPlayer(1, out var attacker)
+                .WithPlayer(1, out var attacker, attackTurns: 9)
                 .WithPlayer(2, out var defender);
-
-            attacker.AttackTurns.Returns(9);
 
             var handler = new AttackCommandHandler(new PlayerRepository(builder.Context));
             var command = new AttackCommand("Raid", "test1@test.com", "2", "10");

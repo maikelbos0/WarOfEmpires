@@ -15,7 +15,7 @@ namespace WarOfEmpires.Test.Utilities {
         public User User { get; }
         public Player Player { get; }
 
-        internal FakePlayerBuilder(FakeWarContext context, int id, string email, string displayName, int rank, TitleType title, DateTime? lastOnline, UserStatus status) : base(context) {
+        internal FakePlayerBuilder(FakeWarContext context, int id, string email, string displayName, int rank, TitleType title, DateTime? lastOnline, UserStatus status, int attackTurns, int bankTurns, bool canAffordAnything) : base(context) {
             User = Substitute.For<User>();
             User.Id.Returns(id);
             User.Email.Returns(email ?? $"test{id}@test.com");
@@ -30,7 +30,8 @@ namespace WarOfEmpires.Test.Utilities {
             Player.DisplayName.Returns(displayName ?? $"Test display name {id}");
             Player.Rank.Returns(rank);
             Player.Title.Returns(title);
-            Player.AttackTurns.Returns(20);
+            Player.AttackTurns.Returns(attackTurns);
+            Player.BankTurns.Returns(bankTurns);
             Player.Workers.Returns(new List<Workers>());
             Player.Troops.Returns(new List<Troops>());
             Player.Invites.Returns(new List<Invite>());
@@ -43,6 +44,7 @@ namespace WarOfEmpires.Test.Utilities {
             Player.Caravans.Returns(new List<Caravan>());
             Player.SentMessages.Returns(new List<Message>());
             Player.ReceivedMessages.Returns(new List<Message>());
+            Player.CanAfford(Arg.Any<Resources>()).Returns(canAffordAnything);
 
             Context.Players.Add(Player);
         }

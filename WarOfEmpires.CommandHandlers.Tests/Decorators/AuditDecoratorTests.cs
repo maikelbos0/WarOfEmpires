@@ -29,37 +29,32 @@ namespace WarOfEmpires.CommandHandlers.Tests.Decorators {
             }
         }
 
-        private readonly Serializer _serializer = new Serializer();
-        private readonly FakeWarContext _context = new FakeWarContext();
-        private readonly CommandExecutionRepository _repository;
-
-        public AuditDecoratorTests() {
-            _repository = new CommandExecutionRepository(_context);
-        }
-
         [TestMethod]
         public void AuditDecorator_Succeeds() {
+            var context = new FakeWarContext();
+            var serializer = new Serializer();
+
             var commandHandler = new TestCommandHandler();
             var command = new TestCommand("Value");
-            var decorator = new AuditDecorator<TestCommand>(_repository, _serializer) {
+            var decorator = new AuditDecorator<TestCommand>(new CommandExecutionRepository(context), new Serializer()) {
                 Handler = commandHandler
             };
 
             decorator.Execute(command);
 
-            _context.CommandExecutions.Should().HaveCount(1);
-            _context.CommandExecutions.First().Date.Should().BeCloseTo(DateTime.UtcNow, 1000);
-            _context.CommandExecutions.First().CommandType.Should().Be("WarOfEmpires.CommandHandlers.Tests.Decorators.AuditDecoratorTests+TestCommand");
-            _context.CommandExecutions.First().CommandData.Should().Be(_serializer.SerializeToJson(command));
-            _context.CommandExecutions.First().ElapsedMilliseconds.Should().BeInRange(0, 1000);
-            _context.CallsToSaveChanges.Should().Be(1);
+            context.CommandExecutions.Should().HaveCount(1);
+            context.CommandExecutions.First().Date.Should().BeCloseTo(DateTime.UtcNow, 1000);
+            context.CommandExecutions.First().CommandType.Should().Be("WarOfEmpires.CommandHandlers.Tests.Decorators.AuditDecoratorTests+TestCommand");
+            context.CommandExecutions.First().CommandData.Should().Be(serializer.SerializeToJson(command));
+            context.CommandExecutions.First().ElapsedMilliseconds.Should().BeInRange(0, 1000);
+            context.CallsToSaveChanges.Should().Be(1);
         }
 
         [TestMethod]
         public void AuditDecorator_Calls_Command() {
             var commandHandler = new TestCommandHandler();
             var command = new TestCommand("Value");
-            var decorator = new AuditDecorator<TestCommand>(_repository, _serializer) {
+            var decorator = new AuditDecorator<TestCommand>(new CommandExecutionRepository(new FakeWarContext()), new Serializer()) {
                 Handler = commandHandler
             };
 
