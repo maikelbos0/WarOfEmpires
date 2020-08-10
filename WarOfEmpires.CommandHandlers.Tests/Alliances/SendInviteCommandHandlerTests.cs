@@ -87,7 +87,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
                 .WithMember(1);
 
             var handler = new SendInviteCommandHandler(new PlayerRepository(builder.Context));
-            var command = new SendInviteCommand("test@test.com", "3", "Test message", "Message body");
+            var command = new SendInviteCommand("test1@test.com", "3", "Test message", "Message body");
 
             Action action = () => handler.Execute(command);
 

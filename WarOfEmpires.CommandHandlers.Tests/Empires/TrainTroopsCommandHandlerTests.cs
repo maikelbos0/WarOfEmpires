@@ -53,7 +53,6 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
             result.Success.Should().BeTrue();
             builder.Player.DidNotReceiveWithAnyArgs().TrainTroops(default, default, default);
-            builder.Context.CallsToSaveChanges.Should().Be(1);
         }
 
         [TestMethod]

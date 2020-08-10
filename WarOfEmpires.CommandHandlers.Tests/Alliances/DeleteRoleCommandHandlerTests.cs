@@ -55,7 +55,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
                 .WithRole(3, out var role, "Test");
 
             var handler = new DeleteRoleCommandHandler(new PlayerRepository(builder.Context));
-            var command = new DeleteRoleCommand("test@test.com", "3");
+            var command = new DeleteRoleCommand("test1@test.com", "3");
 
             Action action = () => handler.Execute(command);
 
