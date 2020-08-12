@@ -2,71 +2,53 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 using System;
-using System.Collections.Generic;
 using WarOfEmpires.CommandHandlers.Empires;
 using WarOfEmpires.Commands.Empires;
-using WarOfEmpires.Domain.Common;
 using WarOfEmpires.Domain.Empires;
-using WarOfEmpires.Domain.Players;
-using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Repositories.Players;
 using WarOfEmpires.Test.Utilities;
 
 namespace WarOfEmpires.CommandHandlers.Tests.Empires {
     [TestClass]
     public sealed class UpgradeBuildingCommandHandlerTests {
-        private readonly FakeWarContext _context = new FakeWarContext();
-        private readonly PlayerRepository _repository;
-        private readonly Player _player;
-
-        public UpgradeBuildingCommandHandlerTests() {
-            _repository = new PlayerRepository(_context);
-
-            var user = Substitute.For<User>();
-            user.Email.Returns("test@test.com");
-            user.Status.Returns(UserStatus.Active);
-
-            var player = Substitute.For<Player>();
-            player.User.Returns(user);
-            player.CanAfford(Arg.Any<Resources>()).Returns(true);
-            player.Buildings.Returns(new List<Building>() {
-                new Building(BuildingType.Farm, 2),
-                new Building(BuildingType.Lumberyard, 1)
-            });
-
-            _context.Users.Add(user);
-            _context.Players.Add(player);
-            _player = player;
-        }
-
         [TestMethod]
         public void UpgradeBuildingCommandHandler_Succeeds_For_New_Building() {
-            var handler = new UpgradeBuildingCommandHandler(_repository);
-            var command = new UpgradeBuildingCommand("test@test.com", "Quarry");
+            var builder = new FakeBuilder()
+                .BuildPlayer(1);
+
+            var handler = new UpgradeBuildingCommandHandler(new PlayerRepository(builder.Context));
+            var command = new UpgradeBuildingCommand("test1@test.com", "Quarry");
 
             var result = handler.Execute(command);
 
             result.Success.Should().BeTrue();
-            _player.Received().UpgradeBuilding(BuildingType.Quarry);
-            _context.CallsToSaveChanges.Should().Be(1);
+            builder.Player.Received().UpgradeBuilding(BuildingType.Quarry);
+            builder.Context.CallsToSaveChanges.Should().Be(1);
         }
 
         [TestMethod]
         public void UpgradeBuildingCommandHandler_Succeeds_For_Existing_Building() {
-            var handler = new UpgradeBuildingCommandHandler(_repository);
-            var command = new UpgradeBuildingCommand("test@test.com", "Lumberyard");
+            var builder = new FakeBuilder()
+                .BuildPlayer(1)
+                .WithBuilding(BuildingType.Lumberyard, 1);
+
+            var handler = new UpgradeBuildingCommandHandler(new PlayerRepository(builder.Context));
+            var command = new UpgradeBuildingCommand("test1@test.com", "Lumberyard");
 
             var result = handler.Execute(command);
 
             result.Success.Should().BeTrue();
-            _player.Received().UpgradeBuilding(BuildingType.Lumberyard);
-            _context.CallsToSaveChanges.Should().Be(1);
+            builder.Player.Received().UpgradeBuilding(BuildingType.Lumberyard);
+            builder.Context.CallsToSaveChanges.Should().Be(1);
         }
 
         [TestMethod]
         public void UpgradeBuildingCommandHandler_Throws_Exception_For_Invalid_BuildingType() {
-            var handler = new UpgradeBuildingCommandHandler(_repository);
-            var command = new UpgradeBuildingCommand("test@test.com", "Wrong");
+            var builder = new FakeBuilder()
+                .BuildPlayer(1);
+
+            var handler = new UpgradeBuildingCommandHandler(new PlayerRepository(builder.Context));
+            var command = new UpgradeBuildingCommand("test1@test.com", "Wrong");
 
             Action action = () => handler.Execute(command);
 
@@ -75,15 +57,18 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
         [TestMethod]
         public void UpgradeBuildingCommandHandler_Fails_For_Too_Little_Resources() {
-            _player.CanAfford(Arg.Any<Resources>()).Returns(false);
+            var builder = new FakeBuilder()
+                .BuildPlayer(1, canAffordAnything: false)
+                .WithBuilding(BuildingType.Farm, 2);
 
-            var handler = new UpgradeBuildingCommandHandler(_repository);
-            var command = new UpgradeBuildingCommand("test@test.com", "Farm");
+            var handler = new UpgradeBuildingCommandHandler(new PlayerRepository(builder.Context));
+            var command = new UpgradeBuildingCommand("test1@test.com", "Farm");
 
             var result = handler.Execute(command);
 
             result.Should().HaveError("You don't have enough resources to upgrade your Farm (level 2)");
-            _player.DidNotReceive().UpgradeBuilding(BuildingType.Farm);
+            builder.Player.DidNotReceive().UpgradeBuilding(BuildingType.Farm);
+            builder.Context.CallsToSaveChanges.Should().Be(0);
         }
     }
 }
