@@ -1,5 +1,6 @@
 ﻿using NSubstitute;
 using System;
+using System.Linq;
 using WarOfEmpires.Domain.Events;
 using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Domain.Security;
@@ -36,13 +37,24 @@ namespace WarOfEmpires.Test.Utilities {
             return this;
         }
 
-        public FakeBuilder WithScheduledTask(bool isPaused) {
-            var task = Substitute.For<ScheduledTask>();
+        public FakeBuilder WithScheduledTask(int id, out ScheduledTask scheduledTask, bool isPaused, Type eventType = null, int successCalls = 0) {
+            scheduledTask = Substitute.For<ScheduledTask>();
 
-            task.IsPaused.Returns(isPaused);
-            Context.ScheduledTasks.Add(task);
+            scheduledTask.Id.Returns(id);
+            scheduledTask.IsPaused.Returns(isPaused);
+            scheduledTask.EventType.Returns(eventType?.AssemblyQualifiedName);
+
+            if (successCalls > 0) {
+                scheduledTask.Execute().Returns(true, Enumerable.Range(0, successCalls - 1).Select(i => true).Append(false).ToArray());
+            }
+
+            Context.ScheduledTasks.Add(scheduledTask);
 
             return this;
+        }
+
+        public FakeBuilder WithScheduledTask(int id, bool isPaused, Type eventType = null, int successCalls = 0) {
+            return WithScheduledTask(id, out _, isPaused, eventType, successCalls);
         }
     }
 }
