@@ -142,8 +142,8 @@ namespace WarOfEmpires.Test.Utilities {
             return WithCaravan(id, out _, merchandise);
         }
 
-        public FakePlayerBuilder WithMessageTo(int id, Player recipient, DateTime date, bool isRead = false, string subject = "Message subject", string body = "Message body") {
-            var message = Substitute.For<Message>();
+        public FakePlayerBuilder WithMessageTo(int id, out Message message, Player recipient, DateTime date, bool isRead = false, string subject = "Message subject", string body = "Message body") {
+            message = Substitute.For<Message>();
 
             message.Id.Returns(id);
             message.Sender.Returns(Player);
@@ -156,6 +156,10 @@ namespace WarOfEmpires.Test.Utilities {
             recipient.ReceivedMessages.Add(message);
 
             return this;
+        }
+
+        public FakePlayerBuilder WithMessageTo(int id, Player recipient, DateTime date, bool isRead = false, string subject = "Message subject", string body = "Message body") {
+            return WithMessageTo(id, out _, recipient, date, isRead, subject, body);
         }
     }
 }
