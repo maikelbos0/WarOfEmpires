@@ -12,18 +12,10 @@ using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Domain.Siege;
 
 namespace WarOfEmpires.Test.Utilities {
-    public class FakePlayerBuilder : FakeBuilder {
-        public User User { get; }
+    public class FakePlayerBuilder : FakeUserBuilder {
         public Player Player { get; }
 
-        internal FakePlayerBuilder(FakeWarContext context, int id, string email, string displayName, int rank, TitleType title, DateTime? lastOnline, UserStatus status, int attackTurns, int bankTurns, bool canAffordAnything, int stamina) : base(context) {
-            User = Substitute.For<User>();
-            User.Id.Returns(id);
-            User.Email.Returns(email ?? $"test{id}@test.com");
-            User.LastOnline.Returns(lastOnline);
-            User.Status.Returns(status);
-            Context.Users.Add(User);
-
+        internal FakePlayerBuilder(FakeWarContext context, int id, string email, string displayName, int rank, TitleType title, DateTime? lastOnline, UserStatus status, int attackTurns, int bankTurns, bool canAffordAnything, int stamina) : base(context, id, email, lastOnline, status) {
             Player = Substitute.For<Player>();
             Player.Alliance.Returns((Alliance)null);
             Player.User.Returns(User);

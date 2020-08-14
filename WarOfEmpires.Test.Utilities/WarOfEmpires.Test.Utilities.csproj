@@ -73,6 +73,7 @@
     <Compile Include="FakeEventService.cs" />
     <Compile Include="FakeMailClient.cs" />
     <Compile Include="FakeMemberBuilder.cs" />
+    <Compile Include="FakeUserBuilder.cs" />
     <Compile Include="FakePlayerBuilder.cs" />
     <Compile Include="FakeWarContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
