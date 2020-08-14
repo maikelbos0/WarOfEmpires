@@ -1,6 +1,7 @@
 ﻿using NSubstitute;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using WarOfEmpires.Domain.Alliances;
 using WarOfEmpires.Domain.Attacks;
 using WarOfEmpires.Domain.Common;
@@ -124,16 +125,21 @@ namespace WarOfEmpires.Test.Utilities {
             return this;
         }
 
-        public FakePlayerBuilder WithCaravan(int id, params Merchandise[] merchandise) {
-            var caravan = Substitute.For<Caravan>();
+        public FakePlayerBuilder WithCaravan(int id, out Caravan caravan, params Merchandise[] merchandise) {
+            caravan = Substitute.For<Caravan>();
 
             caravan.Id.Returns(id);
             caravan.Player.Returns(Player);
             caravan.Date.Returns(DateTime.UtcNow);
             caravan.Merchandise.Returns(merchandise);
+            caravan.Buy(Arg.Any<Player>(), Arg.Any<MerchandiseType>(), Arg.Any<int>()).Returns(c => merchandise.Single(m => m.Type == c.ArgAt<MerchandiseType>(1)).Buy(Player, c.ArgAt<Player>(0), c.ArgAt<int>(2)));
             Player.Caravans.Add(caravan);
 
             return this;
+        }
+
+        public FakePlayerBuilder WithCaravan(int id, params Merchandise[] merchandise) {
+            return WithCaravan(id, out _, merchandise);
         }
 
         public FakePlayerBuilder WithMessageTo(int id, Player recipient, DateTime date, bool isRead = false, string subject = "Message subject", string body = "Message body") {
