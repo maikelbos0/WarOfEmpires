@@ -5,7 +5,6 @@ using WarOfEmpires.Test.Utilities;
 using WarOfEmpires.Utilities.Mail;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.Generic;
 using System.Linq;
 using WarOfEmpires.Repositories.Security;
 
@@ -15,11 +14,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Security {
         private readonly FakeWarContext _context = new FakeWarContext();
         private readonly UserRepository _repository;
         private readonly FakeMailClient _mailClient = new FakeMailClient();
-        private readonly FakeAppSettings _appSettings = new FakeAppSettings() {
-            Settings = new Dictionary<string, string>() {
-                { "Application.BaseUrl", "http://localhost" }
-            }
-        };
+        private readonly FakeAppSettings _appSettings = new FakeAppSettings();
 
         public RegisterUserCommandHandlerTests() {
             _repository = new UserRepository(_context);
