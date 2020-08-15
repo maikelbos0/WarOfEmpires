@@ -14,5 +14,11 @@ namespace WarOfEmpires.Test.Utilities {
             User.Status.Returns(status);
             Context.Users.Add(User);
         }
+
+        public FakeUserBuilder WithPassword(string password) {
+            User.Password.Returns(new Password(password));
+
+            return this;
+        }
     }
 }

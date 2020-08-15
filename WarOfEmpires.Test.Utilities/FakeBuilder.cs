@@ -25,6 +25,12 @@ namespace WarOfEmpires.Test.Utilities {
             return new FakeUserBuilder(Context, id, email, lastOnline, status);
         }
 
+        public FakeBuilder WithUser(int id, string email = null, DateTime? lastOnline = null, UserStatus status = UserStatus.Active) {
+            BuildUser(id, email, lastOnline, status);
+
+            return this;
+        }
+
         public FakePlayerBuilder BuildPlayer(int id, string email = null, string displayName = null, int rank = 0, TitleType title = TitleType.SubChieftain, DateTime? lastOnline = null, UserStatus status = UserStatus.Active, int attackTurns = 20, int bankTurns = 1, bool canAffordAnything = true, int stamina = 100) {
             return new FakePlayerBuilder(Context, id, email, displayName, rank, title, lastOnline, status, attackTurns, bankTurns, canAffordAnything, stamina);
         }
