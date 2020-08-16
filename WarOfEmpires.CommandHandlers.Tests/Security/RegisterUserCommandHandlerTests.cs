@@ -11,54 +11,52 @@ using WarOfEmpires.Repositories.Security;
 namespace WarOfEmpires.CommandHandlers.Tests.Security {
     [TestClass]
     public sealed class RegisterUserCommandHandlerTests {
-        private readonly FakeWarContext _context = new FakeWarContext();
-        private readonly UserRepository _repository;
-        private readonly FakeMailClient _mailClient = new FakeMailClient();
-        private readonly FakeAppSettings _appSettings = new FakeAppSettings();
-
-        public RegisterUserCommandHandlerTests() {
-            _repository = new UserRepository(_context);
-        }
-
         [TestMethod]
         public void RegisterUserCommandHandler_Succeeds() {
-            var handler = new RegisterUserCommandHandler(_repository, _mailClient, new ActivationMailTemplate(_appSettings));
-            var command = new RegisterUserCommand("test@test.com", "test");
+            var context = new FakeWarContext();
+
+            var handler = new RegisterUserCommandHandler(new UserRepository(context), new FakeMailClient(), new ActivationMailTemplate(new FakeAppSettings()));
+            var command = new RegisterUserCommand("test1@test.com", "test");
 
             var result = handler.Execute(command);
-            var user = _context.Users.SingleOrDefault();
+            var user = context.Users.SingleOrDefault();
 
             result.Success.Should().BeTrue();
             user.Should().NotBeNull();
             user.Status.Should().Be(UserStatus.New);
             user.UserEvents.Should().HaveCount(1);
             user.UserEvents.Single().Type.Should().Be(UserEventType.Registered);
-            _context.CallsToSaveChanges.Should().Be(1);
+            context.CallsToSaveChanges.Should().Be(1);
         }
 
         [TestMethod]
         public void RegisterUserCommandHandler_Sends_Email() {
-            var handler = new RegisterUserCommandHandler(_repository, _mailClient, new ActivationMailTemplate(_appSettings));
-            var command = new RegisterUserCommand("test@test.com", "test");
+            var mailClient = new FakeMailClient();
+            
+            var handler = new RegisterUserCommandHandler(new UserRepository(new FakeWarContext()), mailClient, new ActivationMailTemplate(new FakeAppSettings()));
+            var command = new RegisterUserCommand("test1@test.com", "test");
 
             handler.Execute(command);
 
-            _mailClient.SentMessages.Should().HaveCount(1);
-            _mailClient.SentMessages[0].Subject.Should().Be("Please activate your account");
-            _mailClient.SentMessages[0].To.Should().Be("test@test.com");
+            mailClient.SentMessages.Should().HaveCount(1);
+            mailClient.SentMessages[0].Subject.Should().Be("Please activate your account");
+            mailClient.SentMessages[0].To.Should().Be("test1@test.com");
         }
 
         [TestMethod]
         public void RegisterUserCommandHandler_Fails_For_Existing_Email() {
-            var handler = new RegisterUserCommandHandler(_repository, _mailClient, new ActivationMailTemplate(_appSettings));
-            var command = new RegisterUserCommand("test@test.com", "test");
+            var mailClient = new FakeMailClient();
+            var builder = new FakeBuilder()
+                .BuildUser(1);
 
-            _context.Users.Add(new User("test@test.com", "test"));
+            var handler = new RegisterUserCommandHandler(new UserRepository(builder.Context), mailClient, new ActivationMailTemplate(new FakeAppSettings()));
+            var command = new RegisterUserCommand("test1@test.com", "test");
 
             var result = handler.Execute(command);
 
             result.Should().HaveError("Email", "Email address already exists");
-            _mailClient.SentMessages.Should().BeEmpty();
+            builder.Context.Users.Should().HaveCount(1);
+            mailClient.SentMessages.Should().BeEmpty();
         }
     }
 }

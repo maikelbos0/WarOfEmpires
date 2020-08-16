@@ -10,94 +10,83 @@ using NSubstitute;
 namespace WarOfEmpires.CommandHandlers.Tests.Security {
     [TestClass]
     public sealed class LogInUserCommandHandlerTests {
-        private readonly FakeWarContext _context = new FakeWarContext();
-        private readonly UserRepository _repository;
-
-        public LogInUserCommandHandlerTests() {
-            _repository = new UserRepository(_context);
-        }
-
         [TestMethod]
         public void LogInUserCommandHandler_Succeeds() {
-            var handler = new LogInUserCommandHandler(_repository);
-            var command = new LogInUserCommand("test@test.com", "test");
-            var user = Substitute.For<User>();
-            user.Email.Returns("test@test.com");
-            user.Password.Returns(new Password("test"));
-            user.Status.Returns(UserStatus.Active);
+            var builder = new FakeBuilder()
+                .BuildUser(1);
 
-            _context.Users.Add(user);
+            var handler = new LogInUserCommandHandler(new UserRepository(builder.Context));
+            var command = new LogInUserCommand("test1@test.com", "test");
 
             var result = handler.Execute(command);
 
             result.Success.Should().BeTrue();
-            user.Received().LogIn();
-            user.DidNotReceive().LogInFailed();
-            _context.CallsToSaveChanges.Should().Be(1);
+            builder.User.Received().LogIn();
+            builder.User.DidNotReceiveWithAnyArgs().LogInFailed();
+            builder.Context.CallsToSaveChanges.Should().Be(1);
         }
 
         [TestMethod]
         public void LogInUserCommandHandler_Fails_For_Nonexistent_User() {
-            var handler = new LogInUserCommandHandler(_repository);
-            var command = new LogInUserCommand("other@test.com", "test");
+            var builder = new FakeBuilder()
+                .BuildUser(1);
+
+            var handler = new LogInUserCommandHandler(new UserRepository(builder.Context));
+            var command = new LogInUserCommand("wrong@test.com", "test");
 
             var result = handler.Execute(command);
 
             result.Should().HaveError("Invalid email or password");
+            builder.User.DidNotReceiveWithAnyArgs().LogIn();
+            builder.User.DidNotReceiveWithAnyArgs().LogInFailed();
         }
 
         [TestMethod]
         public void LogInUserCommandHandler_Fails_For_Inactive_User() {
-            var handler = new LogInUserCommandHandler(_repository);
-            var command = new LogInUserCommand("test@test.com", "test");
-            var user = Substitute.For<User>();
-            user.Email.Returns("test@test.com");
-            user.Password.Returns(new Password("test"));
-            user.Status.Returns(UserStatus.Inactive);
+            var builder = new FakeBuilder()
+                .BuildUser(1, status: UserStatus.Inactive);
 
-            _context.Users.Add(user);
+            var handler = new LogInUserCommandHandler(new UserRepository(builder.Context));
+            var command = new LogInUserCommand("test1@test.com", "test");
 
             var result = handler.Execute(command);
 
             result.Should().HaveError("Invalid email or password");
-            user.DidNotReceive().LogIn();
-            user.Received().LogInFailed();
+            builder.User.DidNotReceiveWithAnyArgs().LogIn();
+            builder.User.Received().LogInFailed();
+            builder.Context.CallsToSaveChanges.Should().Be(1);
         }
 
         [TestMethod]
         public void LogInUserCommandHandler_Fails_For_New_User() {
-            var handler = new LogInUserCommandHandler(_repository);
-            var command = new LogInUserCommand("test@test.com", "test");
-            var user = Substitute.For<User>();
-            user.Email.Returns("test@test.com");
-            user.Password.Returns(new Password("test"));
-            user.Status.Returns(UserStatus.New);
+            var builder = new FakeBuilder()
+                .BuildUser(1, status: UserStatus.New);
 
-            _context.Users.Add(user);
+            var handler = new LogInUserCommandHandler(new UserRepository(builder.Context));
+            var command = new LogInUserCommand("test1@test.com", "test");
 
             var result = handler.Execute(command);
 
             result.Should().HaveError("Invalid email or password");
-            user.DidNotReceive().LogIn();
-            user.Received().LogInFailed();
+            builder.User.DidNotReceiveWithAnyArgs().LogIn();
+            builder.User.Received().LogInFailed();
+            builder.Context.CallsToSaveChanges.Should().Be(1);
         }
 
         [TestMethod]
         public void LogInUserCommandHandler_Fails_For_Invalid_Password() {
-            var handler = new LogInUserCommandHandler(_repository);
-            var command = new LogInUserCommand("test@test.com", "wrong");
-            var user = Substitute.For<User>();
-            user.Email.Returns("test@test.com");
-            user.Password.Returns(new Password("test"));
-            user.Status.Returns(UserStatus.Active);
+            var builder = new FakeBuilder()
+                .BuildUser(1);
 
-            _context.Users.Add(user);
-
+            var handler = new LogInUserCommandHandler(new UserRepository(builder.Context));
+            var command = new LogInUserCommand("test1@test.com", "wrong");
+            
             var result = handler.Execute(command);
 
             result.Should().HaveError("Invalid email or password");
-            user.DidNotReceive().LogIn();
-            user.Received().LogInFailed();
+            builder.User.DidNotReceiveWithAnyArgs().LogIn();
+            builder.User.Received().LogInFailed();
+            builder.Context.CallsToSaveChanges.Should().Be(1);
         }
     }
 }
