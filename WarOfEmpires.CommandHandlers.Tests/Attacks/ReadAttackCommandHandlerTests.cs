@@ -41,7 +41,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Attacks {
             Action action = () => handler.Execute(command);
 
             action.Should().Throw<InvalidOperationException>();
-            attack.DidNotReceive().IsRead = true;
+            attack.DidNotReceiveWithAnyArgs().IsRead = default;
             builder.Context.CallsToSaveChanges.Should().Be(0);
         }
 
@@ -58,7 +58,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Attacks {
             Action action = () => handler.Execute(command);
 
             action.Should().Throw<FormatException>();
-            attack.DidNotReceive().IsRead = true;
+            attack.DidNotReceiveWithAnyArgs().IsRead = default;
             builder.Context.CallsToSaveChanges.Should().Be(0);
         }
     }

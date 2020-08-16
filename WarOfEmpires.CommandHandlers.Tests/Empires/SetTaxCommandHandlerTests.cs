@@ -41,7 +41,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
             var result = handler.Execute(command);
             
             result.Should().HaveError("Tax", "Tax must be a valid number");
-            builder.Player.DidNotReceive().Tax = Arg.Any<int>();
+            builder.Player.DidNotReceiveWithAnyArgs().Tax = default;
             builder.Context.CallsToSaveChanges.Should().Be(0);
         }
     }

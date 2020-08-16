@@ -67,7 +67,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
             var result = handler.Execute(command);
 
             result.Should().HaveError("You don't have enough resources to upgrade your Farm (level 2)");
-            builder.Player.DidNotReceive().UpgradeBuilding(BuildingType.Farm);
+            builder.Player.DidNotReceiveWithAnyArgs().UpgradeBuilding(default);
             builder.Context.CallsToSaveChanges.Should().Be(0);
         }
     }
