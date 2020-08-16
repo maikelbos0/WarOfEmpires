@@ -15,8 +15,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Security {
         [TestMethod]
         public void ChangeUserEmailCommandHandler_Succeeds() {
             var builder = new FakeBuilder()
-                .BuildUser(1)
-                .WithPassword("test");
+                .BuildUser(1);
 
             builder.User.NewEmailConfirmationCode.Returns(999999);
 
@@ -34,8 +33,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Security {
         public void ChangeUserEmailCommandHandler_Sends_Email() {
             var mailClient = new FakeMailClient();
             var builder = new FakeBuilder()
-                .BuildUser(1)
-                .WithPassword("test");
+                .BuildUser(1);
 
             builder.User.NewEmailConfirmationCode.Returns(999999);
             builder.User.NewEmail.Returns("new@test.com");
@@ -54,8 +52,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Security {
         public void ChangeUserEmailCommandHandler_Fails_For_Wrong_Password() {
             var mailClient = new FakeMailClient();
             var builder = new FakeBuilder()
-                .BuildUser(1)
-                .WithPassword("test");
+                .BuildUser(1);
 
             var handler = new ChangeUserEmailCommandHandler(new UserRepository(builder.Context), mailClient, new ConfirmEmailMailTemplate(new FakeAppSettings()));
             var command = new ChangeUserEmailCommand("test1@test.com", "wrong", "new@test.com");
@@ -74,8 +71,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Security {
             var mailClient = new FakeMailClient();
             var builder = new FakeBuilder()
                 .WithUser(2, email: "new@test.com")
-                .BuildUser(1)
-                .WithPassword("test");
+                .BuildUser(1);
 
             var handler = new ChangeUserEmailCommandHandler(new UserRepository(builder.Context), mailClient, new ConfirmEmailMailTemplate(new FakeAppSettings()));
             var command = new ChangeUserEmailCommand("test1@test.com", "test", "new@test.com");
@@ -93,8 +89,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Security {
         public void ChangeUserEmailCommandHandler_Throws_Exception_For_Invalid_User() {
             var mailClient = new FakeMailClient();
             var builder = new FakeBuilder()
-                .BuildUser(1, status: UserStatus.Inactive)
-                .WithPassword("test");
+                .BuildUser(1, status: UserStatus.Inactive);
 
             var handler = new ChangeUserEmailCommandHandler(new UserRepository(builder.Context), mailClient, new ConfirmEmailMailTemplate(new FakeAppSettings()));
             var command = new ChangeUserEmailCommand("test1@test.com", "test", "new@test.com");

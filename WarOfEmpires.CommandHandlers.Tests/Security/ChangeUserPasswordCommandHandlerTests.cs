@@ -11,68 +11,52 @@ using System;
 namespace WarOfEmpires.CommandHandlers.Tests.Security {
     [TestClass]
     public sealed class ChangeUserPasswordCommandHandlerTests {
-        private readonly FakeWarContext _context = new FakeWarContext();
-        private readonly UserRepository _repository;
-
-        public ChangeUserPasswordCommandHandlerTests() {
-            _repository = new UserRepository(_context);
-        }
-
         [TestMethod]
         public void ChangeUserPasswordCommandHandler_Succeeds() {
-            var handler = new ChangeUserPasswordCommandHandler(_repository);
-            var command = new ChangeUserPasswordCommand("test@test.com", "test", "test2");
-            var user = Substitute.For<User>();
-            user.Email.Returns("test@test.com");
-            user.Password.Returns(new Password("test"));
-            user.Status.Returns(UserStatus.Active);
+            var builder = new FakeBuilder()
+                .BuildUser(1);
 
-            _context.Users.Add(user);
+            var handler = new ChangeUserPasswordCommandHandler(new UserRepository(builder.Context));
+            var command = new ChangeUserPasswordCommand("test1@test.com", "test", "test2");
 
             var result = handler.Execute(command);
 
             result.Success.Should().BeTrue();
-            user.Received().ChangePassword("test2");
-            user.DidNotReceive().ChangePasswordFailed();
-            _context.CallsToSaveChanges.Should().Be(1);
+            builder.User.Received().ChangePassword("test2");
+            builder.User.DidNotReceive().ChangePasswordFailed();
+            builder.Context.CallsToSaveChanges.Should().Be(1);
         }
 
         [TestMethod]
         public void ChangeUserPasswordCommandHandler_Throws_Exception_For_Invalid_User() {
-            var handler = new ChangeUserPasswordCommandHandler(_repository);
-            var command = new ChangeUserPasswordCommand("test@test.com", "test", "test2");
-            var user = Substitute.For<User>();
-            user.Email.Returns("test@test.com");
-            user.Password.Returns(new Password("test"));
-            user.Status.Returns(UserStatus.Inactive);
+            var builder = new FakeBuilder()
+                .BuildUser(1, status: UserStatus.Inactive);
 
-            _context.Users.Add(user);
-
-            Action commandAction = () => {
-                var result = handler.Execute(command);
-            };
+            var handler = new ChangeUserPasswordCommandHandler(new UserRepository(builder.Context));
+            var command = new ChangeUserPasswordCommand("test1@test.com", "test", "test2");
+            
+            Action commandAction = () => handler.Execute(command);
 
             commandAction.Should().Throw<InvalidOperationException>();
-            user.DidNotReceive().ChangePassword(Arg.Any<string>());
-            user.DidNotReceive().ChangePasswordFailed();
+            builder.User.DidNotReceive().ChangePassword(Arg.Any<string>());
+            builder.User.DidNotReceive().ChangePasswordFailed();
+            builder.Context.CallsToSaveChanges.Should().Be(0);
         }
 
         [TestMethod]
         public void ChangeUserPasswordCommandHandler_Fails_For_Wrong_Password() {
-            var handler = new ChangeUserPasswordCommandHandler(_repository);
-            var command = new ChangeUserPasswordCommand("test@test.com", "wrong", "test2");
-            var user = Substitute.For<User>();
-            user.Email.Returns("test@test.com");
-            user.Password.Returns(new Password("test"));
-            user.Status.Returns(UserStatus.Active);
+            var builder = new FakeBuilder()
+                .BuildUser(1);
 
-            _context.Users.Add(user);
+            var handler = new ChangeUserPasswordCommandHandler(new UserRepository(builder.Context));
+            var command = new ChangeUserPasswordCommand("test1@test.com", "wrong", "test2");
 
             var result = handler.Execute(command);
 
             result.Should().HaveError("CurrentPassword", "Invalid password");
-            user.DidNotReceive().ChangePassword(Arg.Any<string>());
-            user.Received().ChangePasswordFailed();
+            builder.User.DidNotReceive().ChangePassword(Arg.Any<string>());
+            builder.User.Received().ChangePasswordFailed();
+            builder.Context.CallsToSaveChanges.Should().Be(1);
         }
     }
 }

@@ -21,28 +21,28 @@ namespace WarOfEmpires.Test.Utilities {
             return new FakeAllianceBuilder(Context, id, code, name);
         }
 
-        public FakeUserBuilder BuildUser(int id, string email = null, DateTime? lastOnline = null, UserStatus status = UserStatus.Active) {
-            return new FakeUserBuilder(Context, id, email, lastOnline, status);
+        public FakeUserBuilder BuildUser(int id, string email = null, string password = "test", DateTime? lastOnline = null, UserStatus status = UserStatus.Active) {
+            return new FakeUserBuilder(Context, id, email, password, lastOnline, status);
         }
 
-        public FakeBuilder WithUser(int id, string email = null, DateTime? lastOnline = null, UserStatus status = UserStatus.Active) {
-            BuildUser(id, email, lastOnline, status);
+        public FakeBuilder WithUser(int id, string email = null, string password = "test", DateTime? lastOnline = null, UserStatus status = UserStatus.Active) {
+            BuildUser(id, email, password, lastOnline, status);
 
             return this;
         }
 
-        public FakePlayerBuilder BuildPlayer(int id, string email = null, string displayName = null, int rank = 0, TitleType title = TitleType.SubChieftain, DateTime? lastOnline = null, UserStatus status = UserStatus.Active, int attackTurns = 20, int bankTurns = 1, bool canAffordAnything = true, int stamina = 100) {
-            return new FakePlayerBuilder(Context, id, email, displayName, rank, title, lastOnline, status, attackTurns, bankTurns, canAffordAnything, stamina);
+        public FakePlayerBuilder BuildPlayer(int id, string email = null, string password = "test", string displayName = null, int rank = 0, TitleType title = TitleType.SubChieftain, DateTime? lastOnline = null, UserStatus status = UserStatus.Active, int attackTurns = 20, int bankTurns = 1, bool canAffordAnything = true, int stamina = 100) {
+            return new FakePlayerBuilder(Context, id, email, password, displayName, rank, title, lastOnline, status, attackTurns, bankTurns, canAffordAnything, stamina);
         }
 
-        public FakeBuilder WithPlayer(int id, out Player player, string email = null, string displayName = null, int rank = 0, TitleType title = TitleType.SubChieftain, DateTime? lastOnline = null, UserStatus status = UserStatus.Active, int attackTurns = 20, int bankTurns = 1, bool canAffordAnything = true, int stamina = 100) {
-            player = BuildPlayer(id, email, displayName, rank, title, lastOnline, status, attackTurns, bankTurns, canAffordAnything, stamina).Player;
+        public FakeBuilder WithPlayer(int id, out Player player, string email = null, string password = "test", string displayName = null, int rank = 0, TitleType title = TitleType.SubChieftain, DateTime? lastOnline = null, UserStatus status = UserStatus.Active, int attackTurns = 20, int bankTurns = 1, bool canAffordAnything = true, int stamina = 100) {
+            player = BuildPlayer(id, email, password, displayName, rank, title, lastOnline, status, attackTurns, bankTurns, canAffordAnything, stamina).Player;
 
             return this;
         }
 
-        public FakeBuilder WithPlayer(int id, string email = null, string displayName = null, int rank = 0, TitleType title = TitleType.SubChieftain, DateTime? lastOnline = null, UserStatus status = UserStatus.Active, int attackTurns = 20, int bankTurns = 1, bool canAffordAnything = true, int stamina = 100) {
-            BuildPlayer(id, email, displayName, rank, title, lastOnline, status, attackTurns, bankTurns, canAffordAnything, stamina);
+        public FakeBuilder WithPlayer(int id, string email = null, string password = "test", string displayName = null, int rank = 0, TitleType title = TitleType.SubChieftain, DateTime? lastOnline = null, UserStatus status = UserStatus.Active, int attackTurns = 20, int bankTurns = 1, bool canAffordAnything = true, int stamina = 100) {
+            BuildPlayer(id, email, password, displayName, rank, title, lastOnline, status, attackTurns, bankTurns, canAffordAnything, stamina);
 
             return this;
         }
