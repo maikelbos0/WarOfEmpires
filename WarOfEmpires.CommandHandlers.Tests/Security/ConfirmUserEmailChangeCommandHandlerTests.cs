@@ -24,7 +24,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Security {
 
             result.Success.Should().BeTrue();
             builder.User.Received().ChangeEmail();
-            builder.User.DidNotReceive().ChangeEmailFailed();
+            builder.User.DidNotReceiveWithAnyArgs().ChangeEmailFailed();
             builder.Context.CallsToSaveChanges.Should().Be(1);
         }
 
@@ -52,7 +52,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Security {
             var result = handler.Execute(command);
 
             result.Should().HaveError("ConfirmationCode", "This confirmation code is invalid");
-            builder.User.DidNotReceive().ChangeEmail();
+            builder.User.DidNotReceiveWithAnyArgs().ChangeEmail();
             builder.User.Received().ChangeEmailFailed();
             builder.Context.CallsToSaveChanges.Should().Be(1);
         }
@@ -68,7 +68,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Security {
             var result = handler.Execute(command);
 
             result.Should().HaveError("ConfirmationCode", "This confirmation code is invalid");
-            builder.User.DidNotReceive().ChangeEmail();
+            builder.User.DidNotReceiveWithAnyArgs().ChangeEmail();
             builder.User.Received().ChangeEmailFailed();
             builder.Context.CallsToSaveChanges.Should().Be(1);
         }
@@ -86,7 +86,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Security {
             var result = handler.Execute(command);
 
             result.Should().HaveError("ConfirmationCode", "This confirmation code is invalid");
-            builder.User.DidNotReceive().ChangeEmail();
+            builder.User.DidNotReceiveWithAnyArgs().ChangeEmail();
             builder.User.Received().ChangeEmailFailed();
             builder.Context.CallsToSaveChanges.Should().Be(1);
         }

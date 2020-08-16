@@ -33,7 +33,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Events {
 
             handler.Execute(command);
 
-            task.DidNotReceive().Unpause();
+            task.DidNotReceiveWithAnyArgs().Unpause();
         }
     }
 }
