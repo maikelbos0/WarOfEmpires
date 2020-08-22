@@ -9,7 +9,7 @@ using WarOfEmpires.Services;
 namespace WarOfEmpires.Controllers {
     [RoutePrefix("Home")]
     public sealed class HomeController : BaseController {
-        public HomeController(IAuthenticationService authenticationService, IMessageService messageService, IDataGridViewService dataGridViewService) 
+        public HomeController(IAuthenticationService authenticationService, IMessageService messageService, IDataGridViewService dataGridViewService)
             : base(messageService, authenticationService, dataGridViewService) {
         }
 
@@ -65,9 +65,15 @@ namespace WarOfEmpires.Controllers {
         [Route("LogIn")]
         [HttpGet]
         public ActionResult LogIn() {
-            return View(new LogInUserModel() {
-                ReturnUrl = Request.QueryString["ReturnUrl"]
-            });
+            if (Request.IsAjaxRequest()) {
+                Response.AddHeader("X-Unauthenticated", "true");
+                return new EmptyResult();
+            }
+            else {
+                return View(new LogInUserModel() {
+                    ReturnUrl = Request.QueryString["ReturnUrl"]
+                });
+            }
         }
 
         [Route("LogIn")]
