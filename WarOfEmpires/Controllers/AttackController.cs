@@ -64,7 +64,7 @@ namespace WarOfEmpires.Controllers {
         public ActionResult Execute(ExecuteAttackModel model) {
             return ValidatedCommandResult2(model, 
                 new AttackCommand(model.AttackType, _authenticationService.Identity, model.DefenderId.ToString(), model.Turns),
-                "Details");
+                Details);
         }
     }
 }
