@@ -21,14 +21,44 @@ namespace WarOfEmpires.Controllers {
             _dataGridViewService = dataGridViewService;
         }
 
+        protected ActionResult ValidatedCommandResult2<TCommand>(object model, TCommand command, string onValidRedirectAction) where TCommand : ICommand {
+            CommandResult<TCommand> result = null;
+
+            if (ModelState.IsValid) {
+                result = _messageService.Dispatch(command);
+                ModelState.Merge(result);
+            }
+
+            if (ModelState.IsValid) {
+                // We're done so the current model is no longer relevant
+                ModelState.Clear();
+
+                if (result.HasWarnings) {
+                    Response?.AddHeader("X-Warnings", string.Join("|", result.Warnings));
+                }
+                else {
+                    // Let the client know explicitly that everything was valid
+                    Response?.AddHeader("X-IsValid", "true");
+                }
+
+                return RedirectToAction(onValidRedirectAction, new { id = result.ResultId });
+            }
+            else {
+                return View(model);
+            }
+        }
+
+        [Obsolete]
         protected ActionResult ValidatedCommandResult<TCommand>(object model, TCommand command, string onValidViewName) where TCommand : ICommand {
             return ValidatedCommandResult(model, command, (id) => View(onValidViewName));
         }
 
+        [Obsolete]
         protected ActionResult ValidatedCommandResult<TCommand>(object model, TCommand command, Func<ActionResult> onValid) where TCommand : ICommand {
             return ValidatedCommandResult(model, command, (id) => onValid());
         }
 
+        [Obsolete]
         protected ActionResult ValidatedCommandResult<TCommand>(object model, TCommand command, Func<int?, ActionResult> onValid) where TCommand : ICommand {
             CommandResult<TCommand> result = null;
 
