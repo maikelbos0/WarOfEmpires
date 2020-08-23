@@ -44,9 +44,14 @@ namespace WarOfEmpires.Controllers {
         [Route("Send")]
         [HttpPost]
         public ActionResult Send(MessageModel model) {
-            return ValidatedCommandResult(model,
+            return ValidatedCommandResult2(model,
                 new SendMessageCommand(_authenticationService.Identity, model.RecipientId, model.Subject, model.Body),
-                "Sent");
+                Sent);
+        }
+
+        [Route("Sent")]
+        public ActionResult Sent() {
+            return View();
         }
 
         [Route("ReceivedDetails")]
