@@ -91,6 +91,72 @@ namespace WarOfEmpires.Utilities.Tests.Container {
             }
         }
 
+        public interface ITest6 {
+            ITest6b First { get; }
+            ITest6b Second { get; }
+        }
+
+        [InterfaceInjectable]
+        public class Test6 : ITest6 {
+            public ITest6b First { get; }
+            public ITest6b Second { get; }
+
+            public Test6(ITest6b first, ITest6b second) {
+                First = first;
+                Second = second;
+            }
+        }
+
+        public interface ITest6b { }
+
+        [InterfaceInjectable]
+        public class Test6b : ITest6b { }
+
+        public sealed class TestDecorator7Attribute : DecoratorAttribute {
+            public TestDecorator7Attribute() : base(typeof(TestDecorator7<>)) {
+            }
+        }
+
+        public sealed class TestDecorator7<TValue> : Decorator<ITest7<TValue>>, ITest7<TValue> {
+            public TValue GetFirstValue() {
+                return Handler.GetFirstValue();
+            }
+
+            public TValue GetSecondValue() {
+                return Handler.GetSecondValue();
+            }
+        }
+
+        public interface ITest7<TValue> {
+            TValue GetFirstValue();
+            TValue GetSecondValue();
+        }
+
+        [InterfaceInjectable]
+        [TestDecorator7]
+        public class Test7 : ITest7<ITest7b> {
+            private readonly ITest7b _first;
+            private readonly ITest7b _second;
+
+            public ITest7b GetFirstValue() {
+                return _first;
+            }
+
+            public ITest7b GetSecondValue() {
+                return _second;
+            }
+
+            public Test7(ITest7b first, ITest7b second) {
+                _first = first;
+                _second = second;
+            }
+        }
+
+        public interface ITest7b { }
+
+        [InterfaceInjectable]
+        public class Test7b : ITest7b { }
+
         public IClassFinder GetClassFinderFor<T>() {
             return GetClassFinderFor(typeof(T));
         }
@@ -176,6 +242,26 @@ namespace WarOfEmpires.Utilities.Tests.Container {
             };
 
             action.Should().Throw<ArgumentException>();
+        }
+
+        [TestMethod]
+        public void ContainerService_Registers_Single_Object_Of_Type_For_Entire_Object_Graph() {
+            var registrar = new ContainerService(GetClassFinderFor(typeof(Test6), typeof(Test6b)));
+            var container = registrar.GetContainer();
+
+            var result = container.Resolve<ITest6>();
+
+            result.First.Should().Be(result.Second);
+        }
+
+        [TestMethod]
+        public void ContainerService_Registers_Single_Object_Of_Type_For_Entire_Object_Graph_With_Decorators() {
+            var registrar = new ContainerService(GetClassFinderFor(typeof(Test7), typeof(Test7b)));
+            var container = registrar.GetContainer();
+
+            var result = container.Resolve<ITest7<ITest7b>>();
+
+            result.GetFirstValue().Should().Be(result.GetSecondValue());
         }
     }
 }

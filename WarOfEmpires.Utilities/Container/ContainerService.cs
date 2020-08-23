@@ -3,6 +3,7 @@ using System;
 using System.Linq;
 using System.Reflection;
 using Unity;
+using Unity.Lifetime;
 
 namespace WarOfEmpires.Utilities.Container {
     public sealed class ContainerService {
@@ -38,7 +39,7 @@ namespace WarOfEmpires.Utilities.Container {
                     .ToArray();
                 
                 if (!decoratorTypes.Any()) {
-                    container.RegisterType(mappedType.Interface, mappedType.Type);
+                    container.RegisterType(mappedType.Interface, mappedType.Type, new PerResolveLifetimeManager());
                 }
                 else {
                     if (decoratorTypes.Any(t => !t.GetInterfaces().Contains(mappedType.Interface))) {
@@ -59,7 +60,7 @@ namespace WarOfEmpires.Utilities.Container {
                         return obj;
                     };
 
-                    container.RegisterFactory(mappedType.Interface, action);
+                    container.RegisterFactory(mappedType.Interface, action, new PerResolveLifetimeManager());
                 }
             }
 
