@@ -61,13 +61,14 @@ namespace WarOfEmpires.Controllers {
         [HttpPost]
         [Route("Invite")]
         public ActionResult Invite(SendInviteModel model) {
-            return ValidatedCommandResult2(model, new SendInviteCommand(_authenticationService.Identity, model.PlayerId, model.Subject, model.Body), Invites);
+            return ValidatedCommandResult(model, new SendInviteCommand(_authenticationService.Identity, model.PlayerId, model.Subject, model.Body), () => Invites());
         }
 
         [HttpGet]
         [Route("Invites")]
         public ActionResult Invites() {
-            return View((object)_messageService.Dispatch(new GetAllianceNameQuery(_authenticationService.Identity)));
+            // Explicitly name view so it works from Invite
+            return View("Invites", (object)_messageService.Dispatch(new GetAllianceNameQuery(_authenticationService.Identity)));
         }
 
         [Route("GetInvites")]
@@ -139,7 +140,8 @@ namespace WarOfEmpires.Controllers {
         [HttpGet]
         [Route("Roles")]
         public ActionResult Roles() {
-            return View((object)_messageService.Dispatch(new GetAllianceNameQuery(_authenticationService.Identity)));
+            // Explicitly name view so it works from CreateRole
+            return View("Roles", (object)_messageService.Dispatch(new GetAllianceNameQuery(_authenticationService.Identity)));
         }
 
         [HttpPost]
@@ -157,7 +159,7 @@ namespace WarOfEmpires.Controllers {
         [HttpPost]
         [Route("CreateRole")]
         public ActionResult CreateRole(CreateRoleModel model) {
-            return ValidatedCommandResult2(model, new CreateRoleCommand(_authenticationService.Identity, model.Name), Roles);
+            return ValidatedCommandResult(model, new CreateRoleCommand(_authenticationService.Identity, model.Name), () => Roles());
         }
 
         [HttpGet]
