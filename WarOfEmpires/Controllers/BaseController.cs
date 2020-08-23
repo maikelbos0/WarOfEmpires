@@ -21,53 +21,20 @@ namespace WarOfEmpires.Controllers {
             _dataGridViewService = dataGridViewService;
         }
 
-        protected ActionResult ValidatedCommandResult2<TCommand>(object model, TCommand command, Func<string, ActionResult> onValidAction) where TCommand : ICommand {
-            return ValidatedCommandResult2(model, command, onValidAction.Method.Name);
-        }
-
-        protected ActionResult ValidatedCommandResult2<TCommand>(object model, TCommand command, Func<ActionResult> onValidAction) where TCommand : ICommand {
-            return ValidatedCommandResult2(model, command, onValidAction.Method.Name);
-        }
-
-        private ActionResult ValidatedCommandResult2<TCommand>(object model, TCommand command, string onValidAction) where TCommand : ICommand {
-            CommandResult<TCommand> result = null;
-
-            if (ModelState.IsValid) {
-                result = _messageService.Dispatch(command);
-                ModelState.Merge(result);
-            }
-
-            if (ModelState.IsValid) {
-                // We're done so the current model is no longer relevant
-                ModelState.Clear();
-
-                if (result.HasWarnings) {
-                    Response?.AddHeader("X-Warnings", string.Join("|", result.Warnings));
-                }
-                else {
-                    // Let the client know explicitly that everything was valid
-                    Response?.AddHeader("X-IsValid", "true");
-                }
-
-                return RedirectToAction(onValidAction, new { id = result.ResultId });
-            }
-            else {
-                return View(model);
-            }
-        }
-
         [Obsolete]
         protected ActionResult ValidatedCommandResult<TCommand>(object model, TCommand command, string onValidViewName) where TCommand : ICommand {
-            return ValidatedCommandResult(model, command, (id) => View(onValidViewName));
+            return ValidatedCommandResultInternal(model, command, (result) => View(onValidViewName));
         }
 
-        [Obsolete]
         protected ActionResult ValidatedCommandResult<TCommand>(object model, TCommand command, Func<ActionResult> onValid) where TCommand : ICommand {
-            return ValidatedCommandResult(model, command, (id) => onValid());
+            return ValidatedCommandResultInternal(model, command, (result) => onValid());
         }
 
-        [Obsolete]
-        protected ActionResult ValidatedCommandResult<TCommand>(object model, TCommand command, Func<int?, ActionResult> onValid) where TCommand : ICommand {
+        protected ActionResult ValidatedCommandResult<TCommand>(object model, TCommand command, Func<string, ActionResult> onValid) where TCommand : ICommand {
+            return ValidatedCommandResultInternal(model, command, (result) => onValid(result.ResultId.Value.ToString()));
+        }
+
+        private ActionResult ValidatedCommandResultInternal<TCommand>(object model, TCommand command, Func<CommandResult<TCommand>, ActionResult> onValid) where TCommand : ICommand {
             CommandResult<TCommand> result = null;
 
             if (ModelState.IsValid) {
@@ -87,7 +54,7 @@ namespace WarOfEmpires.Controllers {
                     Response?.AddHeader("X-IsValid", "true");
                 }
 
-                return onValid(result?.ResultId);
+                return onValid(result);
             }
             else {
                 return View(model);
