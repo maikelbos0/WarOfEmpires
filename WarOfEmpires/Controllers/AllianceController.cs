@@ -135,7 +135,7 @@ namespace WarOfEmpires.Controllers {
         [HttpPost]
         [Route("PostChatMessage")]
         public ActionResult PostChatMessage(AllianceHomeViewModel model) {
-            return ValidatedCommandResult2(model, new PostChatMessageCommand(_authenticationService.Identity, model.ChatMessage), "Home");
+            return ValidatedCommandResult(model, new PostChatMessageCommand(_authenticationService.Identity, model.ChatMessage), () => Home());
         }
 
         [HttpGet]
