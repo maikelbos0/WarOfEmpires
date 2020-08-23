@@ -4,10 +4,9 @@ let AjaxManager = {
 
 $(function () {
     function redirectUnauthenticatedRequest(jqXHR) {
-        if (jqXHR.getResponseHeader("X-Unauthenticated") === "true") {
+        if (jqXHR.getResponseHeader("X-Unauthenticated")) {
             // Don't reload in case the current request is a POST
             window.location.assign(window.location.href);
-
             return true;
         }
     }

@@ -25,9 +25,9 @@ namespace WarOfEmpires.Controllers {
         [Route("Sell")]
         [HttpPost]
         public ActionResult Sell(MarketModel model) {
-            return ValidatedCommandResult2(model,
+            return ValidatedCommandResult(model,
                 new SellResourcesCommand(_authenticationService.Identity, model.Merchandise.Select(m => new MerchandiseInfo(m.Type, m.Quantity, m.Price))),
-                Sell);
+                () => Sell());
         }
 
         [Route("Caravans")]
@@ -52,9 +52,9 @@ namespace WarOfEmpires.Controllers {
         [Route("Buy")]
         [HttpPost]
         public ActionResult Buy(MarketModel model) {
-            return ValidatedCommandResult2(model,
+            return ValidatedCommandResult(model,
                 new BuyResourcesCommand(_authenticationService.Identity, model.Merchandise.Select(m => new MerchandiseInfo(m.Type, m.Quantity, m.Price))),
-                Buy);
+                () => Buy());
         }
 
         [Route("SellTransactions")]
