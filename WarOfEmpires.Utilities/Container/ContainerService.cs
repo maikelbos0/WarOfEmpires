@@ -19,10 +19,13 @@ namespace WarOfEmpires.Utilities.Container {
                 .Select(type => new {
                     Type = type,
                     Interface = type.GetInterfaces().SingleOrDefault(i => i.Name == $"I{type.Name}") ?? type.GetInterfaces().SingleOrDefault()
-                })
-                .Where(type => type.Interface != null);
+                });
             
             foreach (var mappedType in mappedTypes) {
+                if (mappedType.Interface == null) {
+                    throw new InvalidOperationException($"Type registration for {mappedType.Type.FullName} failed; no valid interface found");
+                }
+
                 if (container.IsRegistered(mappedType.Interface)) {
                     throw new InvalidOperationException($"Type registration for {mappedType.Interface.FullName} failed; double type registration found.");
                 }
@@ -43,9 +46,7 @@ namespace WarOfEmpires.Utilities.Container {
                     }
 
                     // If we have decorators, we chain the calls
-#pragma warning disable IDE0039 // Use local function
-                    Func<IUnityContainer, object> action = c => {
-#pragma warning restore IDE0039 // Use local function
+                    object action (IUnityContainer c) {
                         dynamic obj = c.Resolve(mappedType.Type);
 
                         foreach (var decoratorType in decoratorTypes) {
