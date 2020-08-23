@@ -18,11 +18,7 @@ namespace WarOfEmpires.Repositories.Security {
         }
 
         public User GetActiveByEmail(string email) {
-            return GetByEmail(email, UserStatus.Active);
-        }
-
-        public User GetByEmail(string email, UserStatus status) {
-            return _context.Users.Single(u => EmailComparisonService.Equals(u.Email, email) && u.Status == status);
+            return _context.Users.Single(u => EmailComparisonService.Equals(u.Email, email) && u.Status == UserStatus.Active);
         }
 
         public void Add(User user) {
