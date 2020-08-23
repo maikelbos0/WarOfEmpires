@@ -37,13 +37,14 @@ namespace WarOfEmpires.Controllers {
         [HttpPost]
         [Route("Create")]
         public ActionResult Create(CreateAllianceModel model) {
-            return ValidatedCommandResult2(model, new CreateAllianceCommand(_authenticationService.Identity, model.Code, model.Name), Home);
+            return ValidatedCommandResult(model, new CreateAllianceCommand(_authenticationService.Identity, model.Code, model.Name), () => Home());
         }
 
         [HttpGet]
         [Route("Home")]
         public ActionResult Home() {
-            return View(_messageService.Dispatch(new GetAllianceHomeQuery(_authenticationService.Identity)));
+            // Explicitly name view so it works from Create and PostChatMessage
+            return View("Home", _messageService.Dispatch(new GetAllianceHomeQuery(_authenticationService.Identity)));
         }
 
         [HttpGet]
@@ -134,7 +135,7 @@ namespace WarOfEmpires.Controllers {
         [HttpPost]
         [Route("PostChatMessage")]
         public ActionResult PostChatMessage(AllianceHomeViewModel model) {
-            return ValidatedCommandResult2(model, new PostChatMessageCommand(_authenticationService.Identity, model.ChatMessage), Home);
+            return ValidatedCommandResult2(model, new PostChatMessageCommand(_authenticationService.Identity, model.ChatMessage), "Home");
         }
 
         [HttpGet]

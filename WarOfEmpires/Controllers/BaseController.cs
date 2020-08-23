@@ -21,15 +21,7 @@ namespace WarOfEmpires.Controllers {
             _dataGridViewService = dataGridViewService;
         }
 
-        protected ActionResult ValidatedCommandResult2<TCommand>(object model, TCommand command, Func<string, ActionResult> onValidAction) where TCommand : ICommand {
-            return ValidatedCommandResult2(model, command, onValidAction.Method.Name);
-        }
-
-        protected ActionResult ValidatedCommandResult2<TCommand>(object model, TCommand command, Func<ActionResult> onValidAction) where TCommand : ICommand {
-            return ValidatedCommandResult2(model, command, onValidAction.Method.Name);
-        }
-
-        private ActionResult ValidatedCommandResult2<TCommand>(object model, TCommand command, string onValidAction) where TCommand : ICommand {
+        protected ActionResult ValidatedCommandResult2<TCommand>(object model, TCommand command, string onValidRedirectAction) where TCommand : ICommand {
             CommandResult<TCommand> result = null;
 
             if (ModelState.IsValid) {
@@ -49,7 +41,7 @@ namespace WarOfEmpires.Controllers {
                     Response?.AddHeader("X-IsValid", "true");
                 }
 
-                return RedirectToAction(onValidAction, new { id = result.ResultId });
+                return RedirectToAction(onValidRedirectAction, new { id = result.ResultId });
             }
             else {
                 return View(model);
