@@ -48,9 +48,8 @@ namespace WarOfEmpires.Controllers {
             if (!model.IsRead) {
                 _messageService.Dispatch(new ReadAttackCommand(_authenticationService.Identity, id));
             }
-
-            // Explicitly name view so it works from Execute
-            return View("Details", model);
+            
+            return View(model);
         }
 
         [Route("Execute")]
