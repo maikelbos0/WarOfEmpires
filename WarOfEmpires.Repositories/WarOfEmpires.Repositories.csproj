@@ -51,6 +51,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Alliances\IAllianceRepository.cs" />
+    <Compile Include="Alliances\AllianceRepository.cs" />
     <Compile Include="Auditing\CommandExecutionRepository.cs" />
     <Compile Include="Auditing\ICommandExecutionRepository.cs" />
     <Compile Include="Events\ScheduledTaskRepository.cs" />
