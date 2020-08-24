@@ -9,6 +9,7 @@ using WarOfEmpires.Commands.Alliances;
 using WarOfEmpires.Domain.Alliances;
 using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Domain.Security;
+using WarOfEmpires.Repositories.Alliances;
 using WarOfEmpires.Repositories.Players;
 using WarOfEmpires.Test.Utilities;
 
@@ -34,7 +35,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
 
         [TestMethod]
         public void CreateAllianceCommandHandler_Succeeds() {
-            var handler = new CreateAllianceCommandHandler(_repository);
+            var handler = new CreateAllianceCommandHandler(_repository, new AllianceRepository(_context));
             var command = new CreateAllianceCommand("test@test.com", "CODE", "The Alliance");
 
             var result = handler.Execute(command);
@@ -51,7 +52,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
 
         [TestMethod]
         public void CreateAllianceCommandHandler_Throws_Exception_For_Nonexistent_Player() {
-            var handler = new CreateAllianceCommandHandler(_repository);
+            var handler = new CreateAllianceCommandHandler(_repository, new AllianceRepository(_context));
             var command = new CreateAllianceCommand("wrong@test.com", "CODE", "The Alliance");
 
             Action action = () => handler.Execute(command);
@@ -63,7 +64,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
 
         [TestMethod]
         public void CreateAllianceCommandHandler_Fails_For_Too_Long_Code() {
-            var handler = new CreateAllianceCommandHandler(_repository);
+            var handler = new CreateAllianceCommandHandler(_repository, new AllianceRepository(_context));
             var command = new CreateAllianceCommand("test@test.com", "CODE1", "The Alliance");
 
             var result = handler.Execute(command);
@@ -81,7 +82,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
             _player.Alliance.Returns(alliance);
             _context.Alliances.Add(alliance);
 
-            var handler = new CreateAllianceCommandHandler(_repository);
+            var handler = new CreateAllianceCommandHandler(_repository, new AllianceRepository(_context));
             var command = new CreateAllianceCommand("test@test.com", "CODE", "The Alliance");
 
             var result = handler.Execute(command);

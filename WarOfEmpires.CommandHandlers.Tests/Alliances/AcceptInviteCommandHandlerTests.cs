@@ -8,6 +8,7 @@ using WarOfEmpires.Commands.Alliances;
 using WarOfEmpires.Domain.Alliances;
 using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Domain.Security;
+using WarOfEmpires.Repositories.Alliances;
 using WarOfEmpires.Repositories.Players;
 using WarOfEmpires.Test.Utilities;
 
@@ -58,7 +59,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
 
         [TestMethod]
         public void AcceptInviteCommandHandler_Succeeds() {
-            var handler = new AcceptInviteCommandHandler(_repository);
+            var handler = new AcceptInviteCommandHandler(_repository, new AllianceRepository(_context));
             var command = new AcceptInviteCommand("test@test.com", "1");
 
             var result = handler.Execute(command);
@@ -73,7 +74,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
         public void AcceptInviteCommandHandler_Fails_For_Player_In_Empire() {
             _player.Alliance.Returns(_alliance);
 
-            var handler = new AcceptInviteCommandHandler(_repository);
+            var handler = new AcceptInviteCommandHandler(_repository, new AllianceRepository(_context));
             var command = new AcceptInviteCommand("test@test.com", "1");
 
             var result = handler.Execute(command);
@@ -83,7 +84,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
 
         [TestMethod]
         public void AcceptInviteCommandHandler_Throws_Exception_For_Alphanumeric_InviteId() {
-            var handler = new AcceptInviteCommandHandler(_repository);
+            var handler = new AcceptInviteCommandHandler(_repository, new AllianceRepository(_context));
             var command = new AcceptInviteCommand("test@test.com", "A");
 
             Action action = () => handler.Execute(command);
@@ -93,7 +94,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
 
         [TestMethod]
         public void AcceptInviteCommandHandler_Throws_Exception_For_Nonexistent_InviteId() {
-            var handler = new AcceptInviteCommandHandler(_repository);
+            var handler = new AcceptInviteCommandHandler(_repository, new AllianceRepository(_context));
             var command = new AcceptInviteCommand("test@test.com", "2");
 
             Action action = () => handler.Execute(command);
@@ -103,7 +104,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
 
         [TestMethod]
         public void AcceptInviteCommandHandler_Throws_Exception_InviteId_For_Different_Player() {
-            var handler = new AcceptInviteCommandHandler(_repository);
+            var handler = new AcceptInviteCommandHandler(_repository, new AllianceRepository(_context));
             var command = new AcceptInviteCommand("wrong@test.com", "1");
 
             Action action = () => handler.Execute(command);

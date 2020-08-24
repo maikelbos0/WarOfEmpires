@@ -8,6 +8,7 @@ using WarOfEmpires.Commands.Alliances;
 using WarOfEmpires.Domain.Alliances;
 using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Domain.Security;
+using WarOfEmpires.Repositories.Alliances;
 using WarOfEmpires.Repositories.Players;
 using WarOfEmpires.Test.Utilities;
 
@@ -46,7 +47,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
 
         [TestMethod]
         public void WithdrawInviteCommandHandler_Succeeds() {
-            var handler = new WithdrawInviteCommandHandler(_repository);
+            var handler = new WithdrawInviteCommandHandler(_repository, new AllianceRepository(_context));
             var command = new WithdrawInviteCommand("test@test.com", "3");
 
             var result = handler.Execute(command);
@@ -61,7 +62,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
             _alliance.Members.Returns(new List<Player>());
             _member.Alliance.Returns((Alliance)null);
 
-            var handler = new WithdrawInviteCommandHandler(_repository);
+            var handler = new WithdrawInviteCommandHandler(_repository, new AllianceRepository(_context));
             var command = new WithdrawInviteCommand("test@test.com", "3");
 
             Action action = () => handler.Execute(command);
@@ -73,7 +74,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
 
         [TestMethod]
         public void WithdrawInviteCommandHandler_Throws_Exception_For_Alphanumeric_Invite_Id() {
-            var handler = new WithdrawInviteCommandHandler(_repository);
+            var handler = new WithdrawInviteCommandHandler(_repository, new AllianceRepository(_context));
             var command = new WithdrawInviteCommand("test@test.com", "A");
 
             Action action = () => handler.Execute(command);
@@ -85,7 +86,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
 
         [TestMethod]
         public void WithdrawInviteCommandHandler_Throws_Exception_For_Nonexistent_Invite_Id() {
-            var handler = new WithdrawInviteCommandHandler(_repository);
+            var handler = new WithdrawInviteCommandHandler(_repository, new AllianceRepository(_context));
             var command = new WithdrawInviteCommand("test@test.com", "4");
 
             Action action = () => handler.Execute(command);
@@ -107,7 +108,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
 
             _context.Alliances.Add(alliance);
 
-            var handler = new WithdrawInviteCommandHandler(_repository);
+            var handler = new WithdrawInviteCommandHandler(_repository, new AllianceRepository(_context));
             var command = new WithdrawInviteCommand("test@test.com", "4");
 
             Action action = () => handler.Execute(command);

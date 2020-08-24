@@ -8,6 +8,7 @@ using WarOfEmpires.Commands.Alliances;
 using WarOfEmpires.Domain.Alliances;
 using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Domain.Security;
+using WarOfEmpires.Repositories.Alliances;
 using WarOfEmpires.Repositories.Players;
 using WarOfEmpires.Test.Utilities;
 
@@ -58,7 +59,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
 
         [TestMethod]
         public void RejectInviteCommandHandler_Succeeds() {
-            var handler = new RejectInviteCommandHandler(_repository);
+            var handler = new RejectInviteCommandHandler(_repository, new AllianceRepository(_context));
             var command = new RejectInviteCommand("test@test.com", "1");
 
             var result = handler.Execute(command);
@@ -71,7 +72,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
 
         [TestMethod]
         public void RejectInviteCommandHandler_Throws_Exception_For_Alphanumeric_InviteId() {
-            var handler = new RejectInviteCommandHandler(_repository);
+            var handler = new RejectInviteCommandHandler(_repository, new AllianceRepository(_context));
             var command = new RejectInviteCommand("test@test.com", "A");
 
             Action action = () => handler.Execute(command);
@@ -81,7 +82,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
 
         [TestMethod]
         public void RejectInviteCommandHandler_Throws_Exception_For_Nonexistent_InviteId() {
-            var handler = new RejectInviteCommandHandler(_repository);
+            var handler = new RejectInviteCommandHandler(_repository, new AllianceRepository(_context));
             var command = new RejectInviteCommand("test@test.com", "2");
 
             Action action = () => handler.Execute(command);
@@ -91,7 +92,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
 
         [TestMethod]
         public void RejectInviteCommandHandler_Throws_Exception_For_InviteId_For_Different_Player() {
-            var handler = new RejectInviteCommandHandler(_repository);
+            var handler = new RejectInviteCommandHandler(_repository, new AllianceRepository(_context));
             var command = new RejectInviteCommand("wrong@test.com", "1");
 
             Action action = () => handler.Execute(command);
