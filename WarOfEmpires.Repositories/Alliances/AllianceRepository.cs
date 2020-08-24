@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using WarOfEmpires.Database;
+﻿using WarOfEmpires.Database;
 using WarOfEmpires.Domain.Alliances;
 using WarOfEmpires.Utilities.Container;
 
@@ -11,14 +9,6 @@ namespace WarOfEmpires.Repositories.Alliances {
 
         public AllianceRepository(IWarContext context) {
             _context = context;
-        }
-
-        public Alliance Get(int id) {
-            return _context.Alliances.Single(a => a.Id == id);
-        }
-
-        public IEnumerable<Alliance> GetAll() {
-            return _context.Alliances.ToList();
         }
 
         public void Add(Alliance alliance) {

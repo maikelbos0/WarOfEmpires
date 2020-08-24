@@ -55,28 +55,5 @@ namespace WarOfEmpires.Repositories.Players {
             _context.Remove(caravan);
             _context.SaveChanges();
         }
-
-        [Obsolete]
-        public Alliance GetAlliance(int id) {
-            return _context.Alliances.Single(a => a.Id == id);
-        }
-
-        [Obsolete]
-        public IEnumerable<Alliance> GetAllAlliances() {
-            return _context.Alliances.ToList();
-        }
-
-        [Obsolete]
-        public void AddAlliance(Alliance alliance) {
-            _context.Alliances.Add(alliance);
-            _context.SaveChanges();
-        }
-
-        [Obsolete]
-        public void RemoveInvite(Invite invite) {
-            invite.Alliance.Invites.Remove(invite);
-            _context.Remove(invite);
-            _context.SaveChanges();
-        }
     }
 }

@@ -13,13 +13,5 @@ namespace WarOfEmpires.Repositories.Players {
         void Update();
         IEnumerable<Caravan> GetCaravans(MerchandiseType merchandiseType);
         void RemoveCaravan(Caravan caravan);
-        [Obsolete]
-        Alliance GetAlliance(int id);
-        [Obsolete]
-        IEnumerable<Alliance> GetAllAlliances();
-        [Obsolete]
-        void AddAlliance(Alliance alliance);
-        [Obsolete]
-        void RemoveInvite(Invite invite);
     }
 }

@@ -1,7 +1,6 @@
 ﻿using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using WarOfEmpires.Domain.Alliances;
@@ -74,53 +73,6 @@ namespace WarOfEmpires.Repositories.Tests.Alliances {
 
                 _context.Alliances.Add(alliance);
             }            
-        }
-
-        [TestMethod]
-        public void AllianceRepository_Get_Succeeds() {
-            var repository = new AllianceRepository(_context);
-
-            var alliance = repository.Get(1);
-
-            alliance.Should().NotBeNull();
-            alliance.Id.Should().Be(1);
-        }
-
-        [TestMethod]
-        public void AllianceRepository_Get_Throws_Exception_For_Nonexistent_Id() {
-            var repository = new AllianceRepository(_context);
-
-            Action action = () => repository.Get(-1);
-
-            action.Should().Throw<InvalidOperationException>();
-        }
-
-        [TestMethod]
-        public void AllianceRepository_Get_Does_Not_Save() {
-            var repository = new AllianceRepository(_context);
-
-            repository.Get(1);
-
-            _context.CallsToSaveChanges.Should().Be(0);
-        }
-
-        [TestMethod]
-        public void AllianceRepository_GetAll_Succeeds() {
-            var repository = new AllianceRepository(_context);
-
-            var alliances = repository.GetAll();
-
-            alliances.Should().NotBeNull();
-            alliances.Should().HaveCount(2);
-        }
-
-        [TestMethod]
-        public void AllianceRepository_GetAll_Does_Not_Save() {
-            var repository = new AllianceRepository(_context);
-
-            repository.GetAll();
-
-            _context.CallsToSaveChanges.Should().Be(0);
         }
 
         [TestMethod]
