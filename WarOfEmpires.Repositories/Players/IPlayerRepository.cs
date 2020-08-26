@@ -12,6 +12,7 @@ namespace WarOfEmpires.Repositories.Players {
         IEnumerable<Player> GetAll();
         void Update();
         IEnumerable<Caravan> GetCaravans(MerchandiseType merchandiseType);
+        [Obsolete]
         void RemoveCaravan(Caravan caravan);
     }
 }

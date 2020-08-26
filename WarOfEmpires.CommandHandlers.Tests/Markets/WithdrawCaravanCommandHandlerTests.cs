@@ -55,7 +55,6 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
             result.Success.Should().BeTrue();
 
             _caravan.Received().Withdraw();
-            _player.Caravans.Should().NotContain(_caravan);
             _context.CallsToSaveChanges.Should().Be(1);
         }
 
@@ -70,7 +69,6 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
 
             commandAction.Should().Throw<FormatException>();
             _caravan.DidNotReceiveWithAnyArgs().Withdraw();
-            _player.Caravans.Should().Contain(_caravan);
             _context.CallsToSaveChanges.Should().Be(0);
         }
 
@@ -85,7 +83,6 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
 
             commandAction.Should().Throw<InvalidOperationException>();
             _caravan.DidNotReceiveWithAnyArgs().Withdraw();
-            _player.Caravans.Should().Contain(_caravan);
             _context.CallsToSaveChanges.Should().Be(0);
         }
 
@@ -100,7 +97,6 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
 
             commandAction.Should().Throw<InvalidOperationException>();
             _caravan.DidNotReceiveWithAnyArgs().Withdraw();
-            _player.Caravans.Should().Contain(_caravan);
             _context.CallsToSaveChanges.Should().Be(0);
         }
     }

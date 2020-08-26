@@ -21,7 +21,7 @@ namespace WarOfEmpires.CommandHandlers.Markets {
             var caravan = player.Caravans.Single(c => c.Id == caravanId);
 
             caravan.Withdraw();
-            _repository.RemoveCaravan(caravan);
+            _repository.Update();
 
             return result;
         }

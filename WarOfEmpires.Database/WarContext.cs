@@ -48,6 +48,7 @@ namespace WarOfEmpires.Database {
 
         public override int SaveChanges() {
             DeleteOrphanedInvites();
+            DeleteOrphanedCaravans();
 
             return base.SaveChanges();
         }
@@ -60,6 +61,18 @@ namespace WarOfEmpires.Database {
 
                 foreach (var orphanedInvite in invites.Where(i => !allianceInvites.Contains(i))) {
                     Remove(orphanedInvite);
+                }
+            }
+        }
+
+        private void DeleteOrphanedCaravans() {
+            var caravans = ChangeTracker.Entries().Select(e => e.Entity).OfType<Markets.Caravan>();
+
+            if (caravans.Any()) {
+                var playerCaravans = ChangeTracker.Entries().Select(e => e.Entity).OfType<Players.Player>().SelectMany(p => p.Caravans).ToHashSet();
+
+                foreach (var orphanedCaravan in caravans.Where(i => !playerCaravans.Contains(i))) {
+                    Remove(orphanedCaravan);
                 }
             }
         }
