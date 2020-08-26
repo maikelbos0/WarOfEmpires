@@ -65,8 +65,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
             var result = handler.Execute(command);
 
             result.Success.Should().BeTrue();
-            _alliance.Invites.Should().HaveCount(0);
-            _alliance.Received().AddMember(_player);
+            _alliance.Received().AcceptInvite(_invite);
             _context.CallsToSaveChanges.Should().Be(1);
         }
 
@@ -79,6 +78,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
 
             var result = handler.Execute(command);
 
+            _alliance.DidNotReceiveWithAnyArgs().AcceptInvite(default);
             result.Should().HaveError("You are already in an alliance; leave your current alliance before accepting an invite");
         }
 

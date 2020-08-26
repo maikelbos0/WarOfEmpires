@@ -27,8 +27,8 @@ namespace WarOfEmpires.CommandHandlers.Alliances {
             }
 
             if (result.Success) {
-                invite.Alliance.AddMember(player);
-                _allianceRepository.RemoveInvite(invite);
+                invite.Alliance.AcceptInvite(invite);
+                _allianceRepository.Update();
             }
 
             return result;

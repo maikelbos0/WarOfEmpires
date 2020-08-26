@@ -95,25 +95,6 @@ namespace WarOfEmpires.Repositories.Tests.Alliances {
         }
 
         [TestMethod]
-        public void AllianceRepository_RemoveInvite_Succeeds() {
-            var repository = new AllianceRepository(_context);
-            var previousInviteCount = _context.Alliances.Sum(a => a.Invites.Count());
-
-            repository.RemoveInvite(_context.Alliances.First().Invites.First());
-
-            _context.Alliances.Sum(a => a.Invites.Count()).Should().Be(previousInviteCount - 1);
-        }
-
-        [TestMethod]
-        public void AllianceRepository_RemoveInvite_Saves() {
-            var repository = new AllianceRepository(_context);
-
-            repository.RemoveInvite(_context.Alliances.First().Invites.First());
-
-            _context.CallsToSaveChanges.Should().Be(1);
-        }
-
-        [TestMethod]
         public void AllianceRepository_Update_Saves() {
             var repository = new AllianceRepository(_context);
 

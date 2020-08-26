@@ -13,6 +13,7 @@ using Markets = WarOfEmpires.Domain.Markets;
 using Players = WarOfEmpires.Domain.Players;
 using Security = WarOfEmpires.Domain.Security;
 using Siege = WarOfEmpires.Domain.Siege;
+using System.Linq;
 
 namespace WarOfEmpires.Database {
     [InterfaceInjectable]
@@ -43,6 +44,24 @@ namespace WarOfEmpires.Database {
 
         public void Remove<TEntity>(TEntity entity) where TEntity : class {
             Set<TEntity>().Remove(entity);
+        }
+
+        public override int SaveChanges() {
+            DeleteOrphanedInvites();
+
+            return base.SaveChanges();
+        }
+
+        private void DeleteOrphanedInvites() {
+            var invites = ChangeTracker.Entries().Select(e => e.Entity).OfType<Alliances.Invite>();
+
+            if (invites.Any()) {
+                var allianceInvites = ChangeTracker.Entries().Select(e => e.Entity).OfType<Alliances.Alliance>().SelectMany(a => a.Invites).ToHashSet();
+
+                foreach (var orphanedInvite in invites.Where(i => !allianceInvites.Contains(i))) {
+                    Remove(orphanedInvite);
+                }
+            }
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder) {

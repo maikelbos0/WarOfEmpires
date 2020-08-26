@@ -65,8 +65,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
             var result = handler.Execute(command);
 
             result.Success.Should().BeTrue();
-            _alliance.Invites.Should().HaveCount(0);
-            _player.Alliance.Should().BeNull();
+            _alliance.Received().RemoveInvite(_invite);
             _context.CallsToSaveChanges.Should().Be(1);
         }
 

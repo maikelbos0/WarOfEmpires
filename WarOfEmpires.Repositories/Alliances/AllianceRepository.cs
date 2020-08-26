@@ -16,12 +16,6 @@ namespace WarOfEmpires.Repositories.Alliances {
             _context.SaveChanges();
         }
 
-        public void RemoveInvite(Invite invite) {
-            invite.Alliance.Invites.Remove(invite);
-            _context.Remove(invite);
-            _context.SaveChanges();
-        }
-
         public void Update() {
             _context.SaveChanges();
         }
