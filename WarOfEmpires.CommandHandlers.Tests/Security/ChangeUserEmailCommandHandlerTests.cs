@@ -8,120 +8,98 @@ using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 using System;
-using System.Collections.Generic;
 
 namespace WarOfEmpires.CommandHandlers.Tests.Security {
     [TestClass]
     public sealed class ChangeUserEmailCommandHandlerTests {
-        private readonly FakeWarContext _context = new FakeWarContext();
-        private readonly UserRepository _repository;
-        private readonly FakeMailClient _mailClient = new FakeMailClient();
-        private readonly FakeAppSettings _appSettings = new FakeAppSettings() {
-            Settings = new Dictionary<string, string>() {
-                { "Application.BaseUrl", "http://localhost" }
-            }
-        };
-
-        public ChangeUserEmailCommandHandlerTests() {
-            _repository = new UserRepository(_context);
-        }
-
         [TestMethod]
         public void ChangeUserEmailCommandHandler_Succeeds() {
-            var handler = new ChangeUserEmailCommandHandler(_repository, _mailClient, new ConfirmEmailMailTemplate(_appSettings));
-            var command = new ChangeUserEmailCommand("test@test.com", "test", "new@test.com");
-            var user = Substitute.For<User>();
-            user.Email.Returns("test@test.com");
-            user.NewEmailConfirmationCode.Returns(999999);
-            user.Password.Returns(new Password("test"));
-            user.Status.Returns(UserStatus.Active);
+            var builder = new FakeBuilder()
+                .BuildUser(1);
 
-            _context.Users.Add(user);
+            builder.User.NewEmailConfirmationCode.Returns(999999);
 
+            var handler = new ChangeUserEmailCommandHandler(new UserRepository(builder.Context), new FakeMailClient(), new ConfirmEmailMailTemplate(new FakeAppSettings()));
+            var command = new ChangeUserEmailCommand("test1@test.com", "test", "new@test.com");
+            
             handler.Execute(command);
 
-            user.Received().RequestEmailChange("new@test.com");
-            user.DidNotReceive().RequestEmailChangeFailed();
-            _context.CallsToSaveChanges.Should().Be(1);
+            builder.User.Received().RequestEmailChange("new@test.com");
+            builder.User.DidNotReceiveWithAnyArgs().RequestEmailChangeFailed();
+            builder.Context.CallsToSaveChanges.Should().Be(1);
         }
 
         [TestMethod]
         public void ChangeUserEmailCommandHandler_Sends_Email() {
-            var handler = new ChangeUserEmailCommandHandler(_repository, _mailClient, new ConfirmEmailMailTemplate(_appSettings));
-            var command = new ChangeUserEmailCommand("test@test.com", "test", "new@test.com");
-            var user = new User("test@test.com", "test");
+            var mailClient = new FakeMailClient();
+            var builder = new FakeBuilder()
+                .BuildUser(1);
 
-            user.Activate();
-            _context.Users.Add(user);
+            builder.User.NewEmailConfirmationCode.Returns(999999);
+            builder.User.NewEmail.Returns("new@test.com");
+
+            var handler = new ChangeUserEmailCommandHandler(new UserRepository(builder.Context), mailClient, new ConfirmEmailMailTemplate(new FakeAppSettings()));
+            var command = new ChangeUserEmailCommand("test1@test.com", "test", "new@test.com");
 
             handler.Execute(command);
 
-            _mailClient.SentMessages.Should().HaveCount(1);
-            _mailClient.SentMessages[0].Subject.Should().Be("Please confirm your email address");
-            _mailClient.SentMessages[0].To.Should().Be("new@test.com");
+            mailClient.SentMessages.Should().HaveCount(1);
+            mailClient.SentMessages[0].Subject.Should().Be("Please confirm your email address");
+            mailClient.SentMessages[0].To.Should().Be("new@test.com");
         }
 
         [TestMethod]
         public void ChangeUserEmailCommandHandler_Fails_For_Wrong_Password() {
-            var handler = new ChangeUserEmailCommandHandler(_repository, _mailClient, new ConfirmEmailMailTemplate(_appSettings));
-            var command = new ChangeUserEmailCommand("test@test.com", "wrong", "new@test.com");
-            var user = Substitute.For<User>();
-            user.Email.Returns("test@test.com");
-            user.Password.Returns(new Password("test"));
-            user.Status.Returns(UserStatus.Active);
+            var mailClient = new FakeMailClient();
+            var builder = new FakeBuilder()
+                .BuildUser(1);
 
-            _context.Users.Add(user);
+            var handler = new ChangeUserEmailCommandHandler(new UserRepository(builder.Context), mailClient, new ConfirmEmailMailTemplate(new FakeAppSettings()));
+            var command = new ChangeUserEmailCommand("test1@test.com", "wrong", "new@test.com");
 
             var result = handler.Execute(command);
 
             result.Should().HaveError("Password", "Invalid password");
-            user.DidNotReceive().RequestEmailChange(Arg.Any<string>());
-            user.Received().RequestEmailChangeFailed();
-            _mailClient.SentMessages.Should().BeEmpty();
+            builder.User.DidNotReceiveWithAnyArgs().RequestEmailChange(default);
+            builder.User.Received().RequestEmailChangeFailed();
+            mailClient.SentMessages.Should().BeEmpty();
+            builder.Context.CallsToSaveChanges.Should().Be(1);
         }
 
         [TestMethod]
         public void ChangeUserEmailCommandHandler_Fails_For_Existing_New_Email() {
-            var handler = new ChangeUserEmailCommandHandler(_repository, _mailClient, new ConfirmEmailMailTemplate(_appSettings));
-            var command = new ChangeUserEmailCommand("test@test.com", "test", "new@test.com");
-            var user = Substitute.For<User>();
-            user.Email.Returns("test@test.com");
-            user.Password.Returns(new Password("test"));
-            user.Status.Returns(UserStatus.Active);
+            var mailClient = new FakeMailClient();
+            var builder = new FakeBuilder()
+                .WithUser(2, email: "new@test.com")
+                .BuildUser(1);
 
-            _context.Users.Add(user);
-
-            var user2 = Substitute.For<User>();
-            user2.Email.Returns("new@test.com");
-
-            _context.Users.Add(user2);
+            var handler = new ChangeUserEmailCommandHandler(new UserRepository(builder.Context), mailClient, new ConfirmEmailMailTemplate(new FakeAppSettings()));
+            var command = new ChangeUserEmailCommand("test1@test.com", "test", "new@test.com");
 
             var result = handler.Execute(command);
 
             result.Should().HaveError("NewEmail", "Email address already exists");
-            user.DidNotReceive().RequestEmailChange(Arg.Any<string>());
-            user.Received().RequestEmailChangeFailed();
-            _mailClient.SentMessages.Should().BeEmpty();
+            builder.User.DidNotReceiveWithAnyArgs().RequestEmailChange(default);
+            builder.User.Received().RequestEmailChangeFailed();
+            mailClient.SentMessages.Should().BeEmpty();
+            builder.Context.CallsToSaveChanges.Should().Be(1);
         }
         
         [TestMethod]
         public void ChangeUserEmailCommandHandler_Throws_Exception_For_Invalid_User() {
-            var handler = new ChangeUserEmailCommandHandler(_repository, _mailClient, new ConfirmEmailMailTemplate(_appSettings));
-            var command = new ChangeUserEmailCommand("test@test.com", "test", "new@test.com");
-            var user = Substitute.For<User>();
-            user.Email.Returns("test@test.com");
-            user.Password.Returns(new Password("test"));
-            user.Status.Returns(UserStatus.Inactive);
+            var mailClient = new FakeMailClient();
+            var builder = new FakeBuilder()
+                .BuildUser(1, status: UserStatus.Inactive);
 
-            _context.Users.Add(user);
+            var handler = new ChangeUserEmailCommandHandler(new UserRepository(builder.Context), mailClient, new ConfirmEmailMailTemplate(new FakeAppSettings()));
+            var command = new ChangeUserEmailCommand("test1@test.com", "test", "new@test.com");
 
-            Action commandAction = () => {
-                var result = handler.Execute(command);
-            };
+            Action commandAction = () => handler.Execute(command);
 
             commandAction.Should().Throw<InvalidOperationException>();
-
-            _mailClient.SentMessages.Should().BeEmpty();
+            builder.User.DidNotReceiveWithAnyArgs().RequestEmailChange(default);
+            builder.User.DidNotReceiveWithAnyArgs().RequestEmailChangeFailed();
+            mailClient.SentMessages.Should().BeEmpty();
         }
     }
 }

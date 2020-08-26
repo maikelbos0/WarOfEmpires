@@ -11,68 +11,52 @@ using WarOfEmpires.Repositories.Security;
 namespace WarOfEmpires.CommandHandlers.Tests.Security {
     [TestClass]
     public sealed class DeactivateUserCommandHandlerTests {
-        private readonly FakeWarContext _context = new FakeWarContext();
-        private readonly UserRepository _repository;
-
-        public DeactivateUserCommandHandlerTests() {
-            _repository = new UserRepository(_context);
-        }
-
         [TestMethod]
         public void DeactivateUserCommandHandler_Succeeds() {
-            var handler = new DeactivateUserCommandHandler(_repository);
-            var command = new DeactivateUserCommand("test@test.com", "test");
-            var user = Substitute.For<User>();
-            user.Email.Returns("test@test.com");
-            user.Password.Returns(new Password("test"));
-            user.Status.Returns(UserStatus.Active);
+            var builder = new FakeBuilder()
+                .BuildUser(1);
 
-            _context.Users.Add(user);
+            var handler = new DeactivateUserCommandHandler(new UserRepository(builder.Context));
+            var command = new DeactivateUserCommand("test1@test.com", "test");
 
             var result = handler.Execute(command);
 
             result.Success.Should().BeTrue();
-            user.Received().Deactivate();
-            user.DidNotReceive().DeactivationFailed();
-            _context.CallsToSaveChanges.Should().Be(1);
+            builder.User.Received().Deactivate();
+            builder.User.DidNotReceiveWithAnyArgs().DeactivationFailed();
+            builder.Context.CallsToSaveChanges.Should().Be(1);
         }
 
         [TestMethod]
         public void DeactivateUserCommandHandler_Fails_For_Wrong_Password() {
-            var handler = new DeactivateUserCommandHandler(_repository);
-            var command = new DeactivateUserCommand("test@test.com", "wrong");
-            var user = Substitute.For<User>();
-            user.Email.Returns("test@test.com");
-            user.Password.Returns(new Password("test"));
-            user.Status.Returns(UserStatus.Active);
+            var builder = new FakeBuilder()
+                .BuildUser(1);
 
-            _context.Users.Add(user);
+            var handler = new DeactivateUserCommandHandler(new UserRepository(builder.Context));
+            var command = new DeactivateUserCommand("test1@test.com", "wrong");
 
             var result = handler.Execute(command);
 
             result.Should().HaveError("Password", "Invalid password");
-            user.DidNotReceive().Deactivate();
-            user.Received().DeactivationFailed();
+            builder.User.DidNotReceiveWithAnyArgs().Deactivate();
+            builder.User.Received().DeactivationFailed();
+            builder.Context.CallsToSaveChanges.Should().Be(1);
         }
 
         [TestMethod]
         public void DeactivateUserCommandHandler_Throws_Exception_For_Invalid_User() {
-            var handler = new DeactivateUserCommandHandler(_repository);
-            var command = new DeactivateUserCommand("test@test.com", "test");
-            var user = Substitute.For<User>();
-            user.Email.Returns("test@test.com");
-            user.Password.Returns(new Password("test"));
-            user.Status.Returns(UserStatus.Inactive);
+            var builder = new FakeBuilder()
+                .BuildUser(1, status: UserStatus.Inactive);
 
-            Action commandAction = () => {
-                var result = handler.Execute(command);
-            };
+            var handler = new DeactivateUserCommandHandler(new UserRepository(builder.Context));
+            var command = new DeactivateUserCommand("test1@test.com", "test");
 
-            _context.Users.Add(user);
+            Action commandAction = () => handler.Execute(command);
 
             commandAction.Should().Throw<InvalidOperationException>();
-            user.DidNotReceive().Deactivate();
-            user.DidNotReceive().DeactivationFailed();
+            builder.User.DidNotReceiveWithAnyArgs().Deactivate();
+            builder.User.DidNotReceiveWithAnyArgs().DeactivationFailed();
+            builder.Context.CallsToSaveChanges.Should().Be(0);
         }
     }
 }

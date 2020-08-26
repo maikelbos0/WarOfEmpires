@@ -4,56 +4,35 @@ using NSubstitute;
 using System;
 using WarOfEmpires.CommandHandlers.Alliances;
 using WarOfEmpires.Commands.Alliances;
-using WarOfEmpires.Domain.Alliances;
-using WarOfEmpires.Domain.Players;
-using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Repositories.Players;
 using WarOfEmpires.Test.Utilities;
 
 namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
     [TestClass]
     public sealed class PostChatMessageCommandHandlerTests {
-        private readonly FakeWarContext _context = new FakeWarContext();
-        private readonly PlayerRepository _repository;
-        private readonly Player _player;
-        private readonly Alliance _alliance;
-
-        public PostChatMessageCommandHandlerTests() {
-            _repository = new PlayerRepository(_context);
-
-            _alliance = Substitute.For<Alliance>();
-
-            var user = Substitute.For<User>();
-            user.Email.Returns("test@test.com");
-            user.Status.Returns(UserStatus.Active);
-
-            _player = Substitute.For<Player>();
-            _player.Alliance.Returns(_alliance);
-            _player.User.Returns(user);
-
-            _context.Alliances.Add(_alliance);
-            _context.Users.Add(user);
-            _context.Players.Add(_player);
-        }
-
         [TestMethod]
         public void PostChatMessageCommandHandler_Succeeds() {
-            var handler = new PostChatMessageCommandHandler(_repository);
-            var command = new PostChatMessageCommand("test@test.com", "Test message");
+            var builder = new FakeBuilder()
+                .BuildAlliance(1)
+                .BuildMember(1);
+
+            var handler = new PostChatMessageCommandHandler(new PlayerRepository(builder.Context));
+            var command = new PostChatMessageCommand("test1@test.com", "Test message");
 
             var result = handler.Execute(command);
 
             result.Success.Should().BeTrue();
-            _alliance.Received().PostChatMessage(_player, "Test message");
-            _context.CallsToSaveChanges.Should().Be(1);
+            builder.Alliance.Received().PostChatMessage(builder.Player, "Test message");
+            builder.Context.CallsToSaveChanges.Should().Be(1);
         }
 
         [TestMethod]
         public void PostChatMessageCommandHandler__Throws_Exception_For_Player_Not_Empire_Member() {
-            _player.Alliance.Returns((Alliance)null);
+            var builder = new FakeBuilder()
+                .WithPlayer(1);
 
-            var handler = new PostChatMessageCommandHandler(_repository);
-            var command = new PostChatMessageCommand("test@test.com", "Test message");
+            var handler = new PostChatMessageCommandHandler(new PlayerRepository(builder.Context));
+            var command = new PostChatMessageCommand("test1@test.com", "Test message");
 
             Action action = () => handler.Execute(command);
 

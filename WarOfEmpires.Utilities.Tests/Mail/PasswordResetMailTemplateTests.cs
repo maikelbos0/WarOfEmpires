@@ -2,16 +2,11 @@ using WarOfEmpires.Test.Utilities;
 using WarOfEmpires.Utilities.Mail;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.Generic;
 
 namespace WarOfEmpires.Utilities.Tests.Mail {
     [TestClass]
     public sealed class PasswordResetMailTemplateTests {
-        private readonly FakeAppSettings _appSettings = new FakeAppSettings() {
-            Settings = new Dictionary<string, string>() {
-                { "Application.BaseUrl", "http://localhost/" }
-            }
-        };
+        private readonly FakeAppSettings _appSettings = new FakeAppSettings();
 
         [TestMethod]
         public void PasswordResetMailTemplate_Generates_Correct_Subject() {

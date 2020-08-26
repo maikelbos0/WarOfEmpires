@@ -10,8 +10,8 @@ namespace WarOfEmpires.QueryHandlers.Tests.Events {
         [TestMethod]
         public void GetScheduledTasksPausedQueryHandler_Returns_True_When_All_Paused() {
             var builder = new FakeBuilder()
-                .WithScheduledTask(true)
-                .WithScheduledTask(true);
+                .WithScheduledTask(1, true)
+                .WithScheduledTask(2, true);
 
             var query = new GetScheduledTasksPausedQuery();
             var handler = new GetScheduledTasksPausedQueryHandler(builder.Context);
@@ -22,8 +22,8 @@ namespace WarOfEmpires.QueryHandlers.Tests.Events {
         [TestMethod]
         public void GetScheduledTasksPausedQueryHandler_Returns_False_When_None_Paused() {
             var builder = new FakeBuilder()
-                .WithScheduledTask(false)
-                .WithScheduledTask(false);
+                .WithScheduledTask(1, false)
+                .WithScheduledTask(2, false);
 
             var query = new GetScheduledTasksPausedQuery();
             var handler = new GetScheduledTasksPausedQueryHandler(builder.Context);
@@ -42,8 +42,8 @@ namespace WarOfEmpires.QueryHandlers.Tests.Events {
         [TestMethod]
         public void GetScheduledTasksPausedQueryHandler_Returns_Null_When_Some_Paused() {
             var builder = new FakeBuilder()
-                .WithScheduledTask(true)
-                .WithScheduledTask(false);
+                .WithScheduledTask(1, true)
+                .WithScheduledTask(2, false);
 
             var query = new GetScheduledTasksPausedQuery();
             var handler = new GetScheduledTasksPausedQueryHandler(builder.Context);

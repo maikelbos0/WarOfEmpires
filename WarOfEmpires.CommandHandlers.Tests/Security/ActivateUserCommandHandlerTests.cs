@@ -1,116 +1,102 @@
+using FluentAssertions;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NSubstitute;
 using WarOfEmpires.CommandHandlers.Security;
 using WarOfEmpires.Commands.Security;
 using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Repositories.Security;
 using WarOfEmpires.Test.Utilities;
-using FluentAssertions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NSubstitute;
 
 namespace WarOfEmpires.CommandHandlers.Tests.Security {
     [TestClass]
     public sealed class ActivateUserCommandHandlerTests {
-        private readonly FakeWarContext _context = new FakeWarContext();
-        private readonly UserRepository _repository;
-
-        public ActivateUserCommandHandlerTests() {
-            _repository = new UserRepository(_context);
-        }
-
         [TestMethod]
         public void ActivateUserCommandHandler_Succeeds() {
-            var handler = new ActivateUserCommandHandler(_repository);
-            var command = new ActivateUserCommand("test@test.com", "999999");
-            var user = Substitute.For<User>();
+            var builder = new FakeBuilder()
+                .BuildUser(1, status: UserStatus.New);
 
-            user.Email.Returns("test@test.com");
-            user.ActivationCode.Returns(999999);
-            user.Status.Returns(UserStatus.New);
+            builder.User.ActivationCode.Returns(999999);
 
-            _context.Users.Add(user);
+            var handler = new ActivateUserCommandHandler(new UserRepository(builder.Context));
+            var command = new ActivateUserCommand("test1@test.com", "999999");
 
             var result = handler.Execute(command);
 
             result.Success.Should().BeTrue();
-            user.Received().Activate();
-            user.DidNotReceive().ActivationFailed();
-            _context.CallsToSaveChanges.Should().Be(1);
+            builder.User.Received().Activate();
+            builder.User.DidNotReceiveWithAnyArgs().ActivationFailed();
+            builder.Context.CallsToSaveChanges.Should().Be(1);
         }
 
         [TestMethod]
         public void ActivateUserCommandHandler_Fails_For_Nonexistent_User() {
-            var handler = new ActivateUserCommandHandler(_repository);
-            var command = new ActivateUserCommand("test@test.com", "999999");
-            var user = Substitute.For<User>();
+            var builder = new FakeBuilder()
+                .BuildUser(1, status: UserStatus.New);
 
-            user.Email.Returns("other@test.com");
-            user.ActivationCode.Returns(999999);
-            user.Status.Returns(UserStatus.New);
+            builder.User.ActivationCode.Returns(999999);
 
-            _context.Users.Add(user);
+            var handler = new ActivateUserCommandHandler(new UserRepository(builder.Context));
+            var command = new ActivateUserCommand("wrong@test.com", "999999");
 
             var result = handler.Execute(command);
 
             result.Should().HaveError("ActivationCode", "This activation code is invalid");
-            user.DidNotReceive().Activate();
-            user.DidNotReceive().ActivationFailed();
+            builder.User.DidNotReceiveWithAnyArgs().Activate();
+            builder.User.DidNotReceiveWithAnyArgs().ActivationFailed();
         }
 
         [TestMethod]
         public void ActivateUserCommandHandler_Fails_For_Active_User() {
-            var handler = new ActivateUserCommandHandler(_repository);
-            var command = new ActivateUserCommand("test@test.com", "999999");
-            var user = Substitute.For<User>();
+            var builder = new FakeBuilder()
+                .BuildUser(1);
 
-            user.Email.Returns("test@test.com");
-            user.ActivationCode.Returns(999999);
-            user.Status.Returns(UserStatus.Active);
+            builder.User.ActivationCode.Returns(999999);
 
-            _context.Users.Add(user);
+            var handler = new ActivateUserCommandHandler(new UserRepository(builder.Context));
+            var command = new ActivateUserCommand("test1@test.com", "999999");
 
             var result = handler.Execute(command);
 
             result.Should().HaveError("ActivationCode", "This activation code is invalid");
-            user.DidNotReceive().Activate();
-            user.Received().ActivationFailed();
+            builder.User.DidNotReceiveWithAnyArgs().Activate();
+            builder.User.Received().ActivationFailed();
+            builder.Context.CallsToSaveChanges.Should().Be(1);
         }
 
         [TestMethod]
         public void ActivateUserCommandHandler_Fails_For_Inactive_User() {
-            var handler = new ActivateUserCommandHandler(_repository);
-            var command = new ActivateUserCommand("test@test.com", "999999");
-            var user = Substitute.For<User>();
+            var builder = new FakeBuilder()
+                .BuildUser(1, status: UserStatus.Inactive);
 
-            user.Email.Returns("test@test.com");
-            user.ActivationCode.Returns(999999);
-            user.Status.Returns(UserStatus.Inactive);
+            builder.User.ActivationCode.Returns(999999);
 
-            _context.Users.Add(user);
+            var handler = new ActivateUserCommandHandler(new UserRepository(builder.Context));
+            var command = new ActivateUserCommand("test1@test.com", "999999");
 
             var result = handler.Execute(command);
 
             result.Should().HaveError("ActivationCode", "This activation code is invalid");
-            user.DidNotReceive().Activate();
-            user.Received().ActivationFailed();
+            builder.User.DidNotReceiveWithAnyArgs().Activate();
+            builder.User.Received().ActivationFailed();
+            builder.Context.CallsToSaveChanges.Should().Be(1);
         }
 
         [TestMethod]
         public void ActivateUserCommandHandler_Fails_For_Wrong_Code() {
-            var handler = new ActivateUserCommandHandler(_repository);
-            var command = new ActivateUserCommand("test@test.com", "999987");
-            var user = Substitute.For<User>();
+            var builder = new FakeBuilder()
+                .BuildUser(1, status: UserStatus.Inactive);
 
-            user.Email.Returns("test@test.com");
-            user.ActivationCode.Returns(999999);
-            user.Status.Returns(UserStatus.New);
+            builder.User.ActivationCode.Returns(999999);
 
-            _context.Users.Add(user);
+            var handler = new ActivateUserCommandHandler(new UserRepository(builder.Context));
+            var command = new ActivateUserCommand("test1@test.com", "999987");
 
             var result = handler.Execute(command);
             
             result.Should().HaveError("ActivationCode", "This activation code is invalid");
-            user.DidNotReceive().Activate();
-            user.Received().ActivationFailed();
+            builder.User.DidNotReceiveWithAnyArgs().Activate();
+            builder.User.Received().ActivationFailed();
+            builder.Context.CallsToSaveChanges.Should().Be(1);
         }
     }
 }

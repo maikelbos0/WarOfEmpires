@@ -1,5 +1,4 @@
 using WarOfEmpires.CommandHandlers.Security;
-using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Commands.Security;
 using WarOfEmpires.Test.Utilities;
 using FluentAssertions;
@@ -11,46 +10,33 @@ using WarOfEmpires.Repositories.Security;
 namespace WarOfEmpires.CommandHandlers.Tests.Security {
     [TestClass]
     public sealed class LogOutUserCommandHandlerTests {
-        private readonly FakeWarContext _context = new FakeWarContext();
-        private readonly UserRepository _repository;
-
-        public LogOutUserCommandHandlerTests() {
-            _repository = new UserRepository(_context);
-        }
-
         [TestMethod]
         public void LogOutUserCommandHandler_Succeeds() {
-            var handler = new LogOutUserCommandHandler(_repository);
-            var command = new LogOutUserCommand("test@test.com");
-            var user = Substitute.For<User>();
-            user.Email.Returns("test@test.com");
-            user.Status.Returns(UserStatus.Active);
+            var builder = new FakeBuilder()
+                .BuildUser(1);
 
-            _context.Users.Add(user);
+            var handler = new LogOutUserCommandHandler(new UserRepository(builder.Context));
+            var command = new LogOutUserCommand("test1@test.com");
 
             var result = handler.Execute(command);
 
             result.Success.Should().BeTrue();
-            user.Received().LogOut();
-            _context.CallsToSaveChanges.Should().Be(1);
+            builder.User.Received().LogOut();
+            builder.Context.CallsToSaveChanges.Should().Be(1);
         }
 
         [TestMethod]
         public void LogOutUserCommandHandler_Throws_Exception_For_Invalid_User() {
-            var handler = new LogOutUserCommandHandler(_repository);
-            var command = new LogOutUserCommand("test@test.com");
-            var user = Substitute.For<User>();
-            user.Email.Returns("test@test.com");
-            user.Status.Returns(UserStatus.Inactive);
+            var builder = new FakeBuilder()
+                .BuildUser(1);
 
-            Action commandAction = () => {
-                var result = handler.Execute(command);
-            };
+            var handler = new LogOutUserCommandHandler(new UserRepository(builder.Context));
+            var command = new LogOutUserCommand("wrong@test.com");
 
-            _context.Users.Add(user);
+            Action commandAction = () => handler.Execute(command);
 
             commandAction.Should().Throw<InvalidOperationException>();
-            user.DidNotReceive().LogOut();
+            builder.User.DidNotReceiveWithAnyArgs().LogOut();
         }
     }
 }

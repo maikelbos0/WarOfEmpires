@@ -1,7 +1,7 @@
 ﻿using NSubstitute;
 using System;
 using System.Collections.Generic;
-using WarOfEmpires.Database;
+using System.Linq;
 using WarOfEmpires.Domain.Alliances;
 using WarOfEmpires.Domain.Attacks;
 using WarOfEmpires.Domain.Common;
@@ -12,17 +12,11 @@ using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Domain.Siege;
 
 namespace WarOfEmpires.Test.Utilities {
-    public class FakePlayerBuilder : FakeBuilder {
-        public User User { get; }
+    public class FakePlayerBuilder : FakeUserBuilder {
         public Player Player { get; }
 
-        internal FakePlayerBuilder(IWarContext context, int id, string email, string displayName, int rank, TitleType title, DateTime? lastOnline, UserStatus status) : base(context) {
-            User = Substitute.For<User>();
-            User.Id.Returns(id);
-            User.Email.Returns(email ?? $"test{id}@test.com");
-            User.LastOnline.Returns(lastOnline);
-            User.Status.Returns(status);
-            Context.Users.Add(User);
+        internal FakePlayerBuilder(FakeWarContext context, int id, string email, string password, string displayName, int rank, TitleType title, DateTime? lastOnline, UserStatus status, int attackTurns, int bankTurns, bool canAffordAnything, int stamina) 
+            : base(context, id, email, password, lastOnline, status) {
 
             Player = Substitute.For<Player>();
             Player.Alliance.Returns((Alliance)null);
@@ -31,6 +25,8 @@ namespace WarOfEmpires.Test.Utilities {
             Player.DisplayName.Returns(displayName ?? $"Test display name {id}");
             Player.Rank.Returns(rank);
             Player.Title.Returns(title);
+            Player.AttackTurns.Returns(attackTurns);
+            Player.BankTurns.Returns(bankTurns);
             Player.Workers.Returns(new List<Workers>());
             Player.Troops.Returns(new List<Troops>());
             Player.Invites.Returns(new List<Invite>());
@@ -43,6 +39,8 @@ namespace WarOfEmpires.Test.Utilities {
             Player.Caravans.Returns(new List<Caravan>());
             Player.SentMessages.Returns(new List<Message>());
             Player.ReceivedMessages.Returns(new List<Message>());
+            Player.CanAfford(Arg.Any<Resources>()).Returns(canAffordAnything);
+            Player.Stamina.Returns(stamina);
 
             Context.Players.Add(Player);
         }
@@ -121,20 +119,25 @@ namespace WarOfEmpires.Test.Utilities {
             return this;
         }
 
-        public FakePlayerBuilder WithCaravan(int id, params Merchandise[] merchandise) {
-            var caravan = Substitute.For<Caravan>();
+        public FakePlayerBuilder WithCaravan(int id, out Caravan caravan, params Merchandise[] merchandise) {
+            caravan = Substitute.For<Caravan>();
 
             caravan.Id.Returns(id);
             caravan.Player.Returns(Player);
             caravan.Date.Returns(DateTime.UtcNow);
             caravan.Merchandise.Returns(merchandise);
+            caravan.Buy(Arg.Any<Player>(), Arg.Any<MerchandiseType>(), Arg.Any<int>()).Returns(c => merchandise.Single(m => m.Type == c.ArgAt<MerchandiseType>(1)).Buy(Player, c.ArgAt<Player>(0), c.ArgAt<int>(2)));
             Player.Caravans.Add(caravan);
 
             return this;
         }
 
-        public FakePlayerBuilder WithMessageTo(int id, Player recipient, DateTime date, bool isRead = false, string subject = "Message subject", string body = "Message body") {
-            var message = Substitute.For<Message>();
+        public FakePlayerBuilder WithCaravan(int id, params Merchandise[] merchandise) {
+            return WithCaravan(id, out _, merchandise);
+        }
+
+        public FakePlayerBuilder WithMessageTo(int id, out Message message, Player recipient, DateTime date, bool isRead = false, string subject = "Message subject", string body = "Message body") {
+            message = Substitute.For<Message>();
 
             message.Id.Returns(id);
             message.Sender.Returns(Player);
@@ -147,6 +150,10 @@ namespace WarOfEmpires.Test.Utilities {
             recipient.ReceivedMessages.Add(message);
 
             return this;
+        }
+
+        public FakePlayerBuilder WithMessageTo(int id, Player recipient, DateTime date, bool isRead = false, string subject = "Message subject", string body = "Message body") {
+            return WithMessageTo(id, out _, recipient, date, isRead, subject, body);
         }
     }
 }

@@ -8,7 +8,6 @@ using WarOfEmpires.Utilities.Configuration;
 using WarOfEmpires.Utilities.Mail;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web.Mvc;
@@ -20,11 +19,7 @@ namespace WarOfEmpires.Tests.Integration {
         private readonly FakeAuthenticationService _authenticationService = new FakeAuthenticationService();
         private readonly FakeWarContext _context = new FakeWarContext();
         private readonly FakeMailClient _mailClient = new FakeMailClient();
-        private readonly FakeAppSettings _appSettings = new FakeAppSettings() {
-            Settings = new Dictionary<string, string>() {
-                { "Application.BaseUrl", "http://localhost" }
-            }
-        };
+        private readonly FakeAppSettings _appSettings = new FakeAppSettings();
 
         public HomeControllerTests() {
             UnityConfig.Container.RegisterInstance<IAuthenticationService>(_authenticationService);

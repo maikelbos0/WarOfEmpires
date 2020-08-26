@@ -7,103 +7,95 @@ using WarOfEmpires.Utilities.Mail;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
-using System.Collections.Generic;
 
 namespace WarOfEmpires.CommandHandlers.Tests.Security {
     [TestClass]
     public sealed class SendUserActivationCommandHandlerTests {
-        private readonly FakeWarContext _context = new FakeWarContext();
-        private readonly UserRepository _repository;
-        private readonly FakeMailClient _mailClient = new FakeMailClient();
-        private readonly FakeAppSettings _appSettings = new FakeAppSettings() {
-            Settings = new Dictionary<string, string>() {
-                { "Application.BaseUrl", "http://localhost" }
-            }
-        };
-
-        public SendUserActivationCommandHandlerTests() {
-            _repository = new UserRepository(_context);
-        }
-
         [TestMethod]
         public void SendUserActivationCommandHandler_Sends_Email() {
-            var handler = new SendUserActivationCommandHandler(_repository, _mailClient, new ActivationMailTemplate(_appSettings));
-            var command = new SendUserActivationCommand("test@test.com");
+            var mailClient = new FakeMailClient();
+            var builder = new FakeBuilder()
+                .BuildUser(1, status: UserStatus.New);
 
-            _context.Users.Add(new User("test@test.com", "test"));
+            builder.User.ActivationCode.Returns(999999);
+
+            var handler = new SendUserActivationCommandHandler(new UserRepository(builder.Context), mailClient, new ActivationMailTemplate(new FakeAppSettings()));
+            var command = new SendUserActivationCommand("test1@test.com");
 
             var result = handler.Execute(command);
 
             result.Success.Should().BeTrue();
-            _mailClient.SentMessages.Should().HaveCount(1);
-            _mailClient.SentMessages[0].Subject.Should().Be("Please activate your account");
-            _mailClient.SentMessages[0].To.Should().Be("test@test.com");
-            _context.CallsToSaveChanges.Should().Be(1);
+            mailClient.SentMessages.Should().HaveCount(1);
+            mailClient.SentMessages[0].Subject.Should().Be("Please activate your account");
+            mailClient.SentMessages[0].To.Should().Be("test1@test.com");
         }
 
         [TestMethod]
         public void SendUserActivationCommandHandler_Succeeds() {
-            var handler = new SendUserActivationCommandHandler(_repository, _mailClient, new ActivationMailTemplate(_appSettings));
-            var command = new SendUserActivationCommand("test@test.com");
-            var user = Substitute.For<User>();
-            user.Email.Returns("test@test.com");
-            user.ActivationCode.Returns(999999);
-            user.Password.Returns(new Password("test"));
-            user.Status.Returns(UserStatus.New);
+            var builder = new FakeBuilder()
+                .BuildUser(1, status: UserStatus.New);
 
-            _context.Users.Add(user);
+            builder.User.ActivationCode.Returns(999999);
+
+            var handler = new SendUserActivationCommandHandler(new UserRepository(builder.Context), new FakeMailClient(), new ActivationMailTemplate(new FakeAppSettings()));
+            var command = new SendUserActivationCommand("test1@test.com");
 
             var result = handler.Execute(command);
 
             result.Success.Should().BeTrue();
-            user.Received().GenerateActivationCode();
+            builder.User.Received().GenerateActivationCode();
+            builder.Context.CallsToSaveChanges.Should().Be(1);
         }
 
         [TestMethod]
         public void SendUserActivationCommandHandler_Does_Nothing_For_Active_User() {
-            var handler = new SendUserActivationCommandHandler(_repository, _mailClient, new ActivationMailTemplate(_appSettings));
-            var command = new SendUserActivationCommand("other@test.com");
-            var user = Substitute.For<User>();
-            user.Email.Returns("test@test.com");
-            user.Password.Returns(new Password("test"));
-            user.Status.Returns(UserStatus.Active);
+            var mailClient = new FakeMailClient();
+            var builder = new FakeBuilder()
+                .BuildUser(1);
 
-            _context.Users.Add(user);
+            var handler = new SendUserActivationCommandHandler(new UserRepository(builder.Context), mailClient, new ActivationMailTemplate(new FakeAppSettings()));
+            var command = new SendUserActivationCommand("test1@test.com");
 
             var result = handler.Execute(command);
 
             result.Success.Should().BeTrue();
-            user.DidNotReceive().GenerateActivationCode();
-            _mailClient.SentMessages.Should().BeEmpty();
+            builder.User.DidNotReceiveWithAnyArgs().GenerateActivationCode();
+            mailClient.SentMessages.Should().BeEmpty();
+            builder.Context.CallsToSaveChanges.Should().Be(0);
         }
 
         [TestMethod]
         public void SendUserActivationCommandHandler_Does_Nothing_For_Inactive_User() {
-            var handler = new SendUserActivationCommandHandler(_repository, _mailClient, new ActivationMailTemplate(_appSettings));
-            var command = new SendUserActivationCommand("other@test.com");
-            var user = Substitute.For<User>();
-            user.Email.Returns("test@test.com");
-            user.Password.Returns(new Password("test"));
-            user.Status.Returns(UserStatus.Inactive);
+            var mailClient = new FakeMailClient();
+            var builder = new FakeBuilder()
+                .BuildUser(1, status: UserStatus.Inactive);
 
-            _context.Users.Add(user);
+            var handler = new SendUserActivationCommandHandler(new UserRepository(builder.Context), mailClient, new ActivationMailTemplate(new FakeAppSettings()));
+            var command = new SendUserActivationCommand("test1@test.com");
 
             var result = handler.Execute(command);
 
             result.Success.Should().BeTrue();
-            user.DidNotReceive().GenerateActivationCode();
-            _mailClient.SentMessages.Should().BeEmpty();
+            builder.User.DidNotReceiveWithAnyArgs().GenerateActivationCode();
+            mailClient.SentMessages.Should().BeEmpty();
+            builder.Context.CallsToSaveChanges.Should().Be(0);
         }
 
         [TestMethod]
         public void SendUserActivationCommandHandler_Does_Nothing_For_Nonexistent_User() {
-            var handler = new SendUserActivationCommandHandler(_repository, _mailClient, new ActivationMailTemplate(_appSettings));
-            var command = new SendUserActivationCommand("other@test.com");
+            var mailClient = new FakeMailClient();
+            var builder = new FakeBuilder()
+                .BuildUser(1, status: UserStatus.New);
+
+            var handler = new SendUserActivationCommandHandler(new UserRepository(builder.Context), mailClient, new ActivationMailTemplate(new FakeAppSettings()));
+            var command = new SendUserActivationCommand("wrong@test.com");
 
             var result = handler.Execute(command);
 
             result.Success.Should().BeTrue();
-            _mailClient.SentMessages.Should().BeEmpty();
+            builder.User.DidNotReceiveWithAnyArgs().GenerateActivationCode();
+            mailClient.SentMessages.Should().BeEmpty();
+            builder.Context.CallsToSaveChanges.Should().Be(0);
         }
     }
 }
