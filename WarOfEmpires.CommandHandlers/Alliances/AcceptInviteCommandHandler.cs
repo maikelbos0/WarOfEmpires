@@ -25,7 +25,7 @@ namespace WarOfEmpires.CommandHandlers.Alliances {
 
             if (result.Success) {
                 invite.Alliance.AcceptInvite(invite);
-                _repository.Update();
+                _repository.SaveChanges();
             }
 
             return result;

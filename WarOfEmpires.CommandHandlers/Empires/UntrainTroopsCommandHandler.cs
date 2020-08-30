@@ -54,7 +54,7 @@ namespace WarOfEmpires.CommandHandlers.Empires {
                     player.UntrainTroops(t.Type, t.Soldiers, t.Mercenaries);
                 }
 
-                _repository.Update();
+                _repository.SaveChanges();
             }
 
             return result;

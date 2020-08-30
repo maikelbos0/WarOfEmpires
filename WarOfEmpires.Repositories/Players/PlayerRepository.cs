@@ -10,12 +10,8 @@ using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.Repositories.Players {
     [InterfaceInjectable]
-    public sealed class PlayerRepository : IPlayerRepository {
-        private readonly IWarContext _context;
-
-        public PlayerRepository(IWarContext context) {
-            _context = context;
-        }
+    public sealed class PlayerRepository : BaseRepository, IPlayerRepository {
+        public PlayerRepository(IWarContext context) : base(context) { }
 
         public Player Get(string email) {
             return _context.Players.Single(p => p.User.Status == UserStatus.Active && EmailComparisonService.Equals(p.User.Email, email));
@@ -31,10 +27,6 @@ namespace WarOfEmpires.Repositories.Players {
 
         public void Add(Player player) {
             _context.Players.Add(player);
-            _context.SaveChanges();
-        }
-
-        public void Update() {
             _context.SaveChanges();
         }
 

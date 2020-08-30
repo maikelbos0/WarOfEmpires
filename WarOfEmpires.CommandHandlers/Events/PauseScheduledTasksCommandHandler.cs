@@ -22,7 +22,7 @@ namespace WarOfEmpires.CommandHandlers.Events {
                 }
             }
 
-            _repository.Update();
+            _repository.SaveChanges();
 
             return result;
         }

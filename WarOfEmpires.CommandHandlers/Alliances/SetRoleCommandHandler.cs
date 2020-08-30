@@ -21,7 +21,7 @@ namespace WarOfEmpires.CommandHandlers.Alliances {
             var role = alliance.Roles.Single(r => r.Id == int.Parse(command.RoleId));
 
             alliance.SetRole(member, role);
-            _repository.Update();
+            _repository.SaveChanges();
 
             return result;
         }

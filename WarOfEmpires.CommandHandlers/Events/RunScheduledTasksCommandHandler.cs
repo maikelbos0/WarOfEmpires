@@ -24,7 +24,7 @@ namespace WarOfEmpires.CommandHandlers.Events {
             foreach (var task in _repository.GetAll()) {
                 while (task.Execute()) {
                     _eventService.Dispatch((IEvent)Activator.CreateInstance(Type.GetType(task.EventType)));
-                    _repository.Update();
+                    _repository.SaveChanges();
                 }
             }
 

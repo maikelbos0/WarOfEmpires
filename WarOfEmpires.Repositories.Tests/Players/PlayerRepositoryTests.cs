@@ -149,17 +149,6 @@ namespace WarOfEmpires.Repositories.Tests.Players {
         }
 
         [TestMethod]
-        public void PlayerRepository_Update_Saves() {
-            var context = new FakeWarContext();
-
-            var repository = new PlayerRepository(context);
-
-            repository.Update();
-
-            context.CallsToSaveChanges.Should().Be(1);
-        }
-
-        [TestMethod]
         public void PlayerRepository_GetCaravans_Succeeds() {
             var builder = new FakeBuilder()
                 .BuildPlayer(1)

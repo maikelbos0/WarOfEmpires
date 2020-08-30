@@ -20,7 +20,7 @@ namespace WarOfEmpires.CommandHandlers.Alliances {
             var member = alliance.Members.Single(p => p.Id == int.Parse(command.PlayerId));
 
             alliance.ClearRole(member);
-            _repository.Update();
+            _repository.SaveChanges();
 
             return result;
         }

@@ -29,7 +29,7 @@ namespace WarOfEmpires.CommandHandlers.Security {
                 user.Activate();
             }
 
-            _repository.Update();
+            _repository.SaveChanges();
 
             return result;
         }

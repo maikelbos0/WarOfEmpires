@@ -30,16 +30,5 @@ namespace WarOfEmpires.Repositories.Tests.Events {
 
             context.CallsToSaveChanges.Should().Be(0);
         }
-
-        [TestMethod]
-        public void ScheduledTaskRepository_Update_Saves() {
-            var context = new FakeWarContext();
-
-            var repository = new ScheduledTaskRepository(context);
-
-            repository.Update();
-
-            context.CallsToSaveChanges.Should().Be(1);
-        }
     }
 }

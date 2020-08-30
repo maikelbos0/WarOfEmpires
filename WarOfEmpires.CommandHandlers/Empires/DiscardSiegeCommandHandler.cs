@@ -46,7 +46,7 @@ namespace WarOfEmpires.CommandHandlers.Empires {
                     player.DiscardSiege(info.Type, info.Count);
                 }
 
-                _repository.Update();
+                _repository.SaveChanges();
             }
 
             return result;

@@ -7,12 +7,8 @@ using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.Repositories.Alliances {
     [InterfaceInjectable]
-    public sealed class AllianceRepository : IAllianceRepository {
-        private readonly IWarContext _context;
-
-        public AllianceRepository(IWarContext context) {
-            _context = context;
-        }
+    public sealed class AllianceRepository : BaseRepository, IAllianceRepository {
+        public AllianceRepository(IWarContext context) : base(context) { }
 
         public Alliance Get(string playerEmail) {
             return _context.Players.Single(p => p.User.Status == UserStatus.Active && EmailComparisonService.Equals(p.User.Email, playerEmail)).Alliance;
@@ -20,10 +16,6 @@ namespace WarOfEmpires.Repositories.Alliances {
 
         public void Add(Alliance alliance) {
             _context.Alliances.Add(alliance);
-            _context.SaveChanges();
-        }
-
-        public void Update() {
             _context.SaveChanges();
         }
     }

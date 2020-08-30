@@ -18,7 +18,7 @@ namespace WarOfEmpires.CommandHandlers.Alliances {
             var alliance = _repository.Get(command.Email);
 
             alliance.CreateRole(command.Name);
-            _repository.Update();
+            _repository.SaveChanges();
 
             return result;
         }

@@ -17,7 +17,7 @@ namespace WarOfEmpires.CommandHandlers.Security {
             var user = _repository.TryGetByEmail(command.Email);
 
             user.WasOnline();
-            _repository.Update();
+            _repository.SaveChanges();
 
             return result;
         }

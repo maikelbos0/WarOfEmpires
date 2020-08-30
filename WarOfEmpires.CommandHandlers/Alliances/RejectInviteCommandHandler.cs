@@ -20,7 +20,7 @@ namespace WarOfEmpires.CommandHandlers.Alliances {
             var invite = player.Invites.Single(i => i.Id == int.Parse(command.InviteId));
 
             invite.Alliance.RemoveInvite(invite);
-            _repository.Update();
+            _repository.SaveChanges();
 
             return result;
         }

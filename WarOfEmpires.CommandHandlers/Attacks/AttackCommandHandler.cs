@@ -36,7 +36,7 @@ namespace WarOfEmpires.CommandHandlers.Attacks {
                 attacker.ExecutedAttacks.Add(attack);
                 defender.ReceivedAttacks.Add(attack);
 
-                _repository.Update();
+                _repository.SaveChanges();
 
                 result.ResultId = attack.Id;
             }

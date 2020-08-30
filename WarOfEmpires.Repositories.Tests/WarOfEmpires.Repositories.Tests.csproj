@@ -78,6 +78,7 @@
   <ItemGroup>
     <Compile Include="Alliances\AllianceRepositoryTests.cs" />
     <Compile Include="Auditing\CommandExecutionRepositoryTests.cs" />
+    <Compile Include="BaseRepositoryTests.cs" />
     <Compile Include="Events\ScheduledTaskRepositoryTests.cs" />
     <Compile Include="Players\PlayerRepositoryTests.cs" />
     <Compile Include="Security\UserRepositoryTests.cs" />

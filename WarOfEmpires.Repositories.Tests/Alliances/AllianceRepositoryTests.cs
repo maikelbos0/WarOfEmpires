@@ -56,16 +56,5 @@ namespace WarOfEmpires.Repositories.Tests.Alliances {
 
             context.CallsToSaveChanges.Should().Be(1);
         }
-
-        [TestMethod]
-        public void AllianceRepository_Update_Saves() {
-            var context = new FakeWarContext();
-
-            var repository = new AllianceRepository(context);
-
-            repository.Update();
-
-            context.CallsToSaveChanges.Should().Be(1);
-        }
     }
 }

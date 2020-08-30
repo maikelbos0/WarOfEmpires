@@ -116,16 +116,5 @@ namespace WarOfEmpires.Repositories.Tests.Security {
 
             context.CallsToSaveChanges.Should().Be(1);
         }
-
-        [TestMethod]
-        public void UserRepository_Update_Saves() {
-            var context = new FakeWarContext();
-
-            var repository = new UserRepository(context);
-
-            repository.Update();
-
-            context.CallsToSaveChanges.Should().Be(1);
-        }
     }
 }

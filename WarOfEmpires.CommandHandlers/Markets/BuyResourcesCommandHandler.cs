@@ -79,7 +79,7 @@ namespace WarOfEmpires.CommandHandlers.Markets {
                     }
                 }
 
-                _repository.Update();
+                _repository.SaveChanges();
             }
 
             return result;

@@ -6,12 +6,8 @@ using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.Repositories.Security {
     [InterfaceInjectable]
-    public sealed class UserRepository : IUserRepository {
-        private readonly IWarContext _context;
-
-        public UserRepository(IWarContext context) {
-            _context = context;
-        }
+    public sealed class UserRepository : BaseRepository, IUserRepository {
+        public UserRepository(IWarContext context) : base(context) { }
 
         public User TryGetByEmail(string email) {
             return _context.Users.SingleOrDefault(u => EmailComparisonService.Equals(u.Email, email));
@@ -23,10 +19,6 @@ namespace WarOfEmpires.Repositories.Security {
 
         public void Add(User user) {
             _context.Users.Add(user);
-            _context.SaveChanges();
-        }
-
-        public void Update() {
             _context.SaveChanges();
         }
     }
