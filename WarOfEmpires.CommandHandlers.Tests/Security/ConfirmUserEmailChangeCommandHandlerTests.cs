@@ -10,37 +10,31 @@ using NSubstitute;
 namespace WarOfEmpires.CommandHandlers.Tests.Security {
     [TestClass]
     public sealed class ConfirmUserEmailChangeCommandHandlerTests {
-        private readonly FakeWarContext _context = new FakeWarContext();
-        private readonly UserRepository _repository;
-
-        public ConfirmUserEmailChangeCommandHandlerTests() {
-            _repository = new UserRepository(_context);
-        }
-
         [TestMethod]
         public void ConfirmUserEmailChangeCommandHandler_Succeeds() {
-            var handler = new ConfirmUserEmailChangeCommandHandler(_repository);
-            var command = new ConfirmUserEmailChangeCommand("test@test.com", "999999");
-            var user = Substitute.For<User>();
+            var builder = new FakeBuilder()
+                .BuildUser(1);
 
-            user.Email.Returns("test@test.com");
-            user.NewEmailConfirmationCode.Returns(999999);
-            user.Status.Returns(UserStatus.Active);
+            builder.User.NewEmailConfirmationCode.Returns(999999);
 
-            _context.Users.Add(user);
+            var handler = new ConfirmUserEmailChangeCommandHandler(new UserRepository(builder.Context));
+            var command = new ConfirmUserEmailChangeCommand("test1@test.com", "999999");
 
             var result = handler.Execute(command);
 
             result.Success.Should().BeTrue();
-            user.Received().ChangeEmail();
-            user.DidNotReceive().ChangeEmailFailed();
-            _context.CallsToSaveChanges.Should().Be(1);
+            builder.User.Received().ChangeEmail();
+            builder.User.DidNotReceiveWithAnyArgs().ChangeEmailFailed();
+            builder.Context.CallsToSaveChanges.Should().Be(1);
         }
 
         [TestMethod]
         public void ConfirmUserEmailChangeCommandHandler_Fails_For_Nonexistent_User() {
-            var handler = new ConfirmUserEmailChangeCommandHandler(_repository);
-            var command = new ConfirmUserEmailChangeCommand("test@test.com", "999999");
+            var builder = new FakeBuilder()
+                .BuildUser(1);
+
+            var handler = new ConfirmUserEmailChangeCommandHandler(new UserRepository(builder.Context));
+            var command = new ConfirmUserEmailChangeCommand("wrong@test.com", "999999");
 
             var result = handler.Execute(command);
 
@@ -49,59 +43,52 @@ namespace WarOfEmpires.CommandHandlers.Tests.Security {
 
         [TestMethod]
         public void ConfirmUserEmailChangeCommandHandler_Fails_For_New_User() {
-            var handler = new ConfirmUserEmailChangeCommandHandler(_repository);
-            var command = new ConfirmUserEmailChangeCommand("test@test.com", "999999");
-            var user = Substitute.For<User>();
+            var builder = new FakeBuilder()
+                .BuildUser(1, status: UserStatus.New);
 
-            user.Email.Returns("test@test.com");
-            user.NewEmailConfirmationCode.Returns(999999);
-            user.Status.Returns(UserStatus.New);
-
-            _context.Users.Add(user);
+            var handler = new ConfirmUserEmailChangeCommandHandler(new UserRepository(builder.Context));
+            var command = new ConfirmUserEmailChangeCommand("test1@test.com", "999999");
 
             var result = handler.Execute(command);
 
             result.Should().HaveError("ConfirmationCode", "This confirmation code is invalid");
-            user.DidNotReceive().ChangeEmail();
-            user.Received().ChangeEmailFailed();
+            builder.User.DidNotReceiveWithAnyArgs().ChangeEmail();
+            builder.User.Received().ChangeEmailFailed();
+            builder.Context.CallsToSaveChanges.Should().Be(1);
         }
 
         [TestMethod]
         public void ConfirmUserEmailChangeCommandHandler_Fails_For_Inactive_User() {
-            var handler = new ConfirmUserEmailChangeCommandHandler(_repository);
-            var command = new ConfirmUserEmailChangeCommand("test@test.com", "999999");
-            var user = Substitute.For<User>();
+            var builder = new FakeBuilder()
+                .BuildUser(1, status: UserStatus.Inactive);
 
-            user.Email.Returns("test@test.com");
-            user.NewEmailConfirmationCode.Returns(999999);
-            user.Status.Returns(UserStatus.Inactive);
-
-            _context.Users.Add(user);
+            var handler = new ConfirmUserEmailChangeCommandHandler(new UserRepository(builder.Context));
+            var command = new ConfirmUserEmailChangeCommand("test1@test.com", "999999");
 
             var result = handler.Execute(command);
 
             result.Should().HaveError("ConfirmationCode", "This confirmation code is invalid");
-            user.DidNotReceive().ChangeEmail();
-            user.Received().ChangeEmailFailed();
+            builder.User.DidNotReceiveWithAnyArgs().ChangeEmail();
+            builder.User.Received().ChangeEmailFailed();
+            builder.Context.CallsToSaveChanges.Should().Be(1);
         }
 
         [TestMethod]
         public void ConfirmUserEmailChangeCommandHandler_Fails_For_Wrong_Code() {
-            var handler = new ConfirmUserEmailChangeCommandHandler(_repository);
-            var command = new ConfirmUserEmailChangeCommand("test@test.com", "999999");
-            var user = Substitute.For<User>();
+            var builder = new FakeBuilder()
+                .BuildUser(1);
 
-            user.Email.Returns("test@test.com");
-            user.NewEmailConfirmationCode.Returns(555555);
-            user.Status.Returns(UserStatus.Active);
+            builder.User.NewEmailConfirmationCode.Returns(999999);
 
-            _context.Users.Add(user);
+            var handler = new ConfirmUserEmailChangeCommandHandler(new UserRepository(builder.Context));
+            var command = new ConfirmUserEmailChangeCommand("test1@test.com", "999987");
 
             var result = handler.Execute(command);
 
             result.Should().HaveError("ConfirmationCode", "This confirmation code is invalid");
-            user.DidNotReceive().ChangeEmail();
-            user.Received().ChangeEmailFailed();
+            builder.User.DidNotReceiveWithAnyArgs().ChangeEmail();
+            builder.User.Received().ChangeEmailFailed();
+            builder.Context.CallsToSaveChanges.Should().Be(1);
         }
     }
 }

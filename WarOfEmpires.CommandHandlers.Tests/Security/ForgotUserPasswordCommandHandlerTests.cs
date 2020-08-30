@@ -4,7 +4,6 @@ using WarOfEmpires.Commands.Security;
 using WarOfEmpires.Test.Utilities;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.Generic;
 using WarOfEmpires.Utilities.Mail;
 using NSubstitute;
 using WarOfEmpires.Repositories.Security;
@@ -12,103 +11,90 @@ using WarOfEmpires.Repositories.Security;
 namespace WarOfEmpires.CommandHandlers.Tests.Security {
     [TestClass]
     public sealed class ForgotUserPasswordCommandHandlerTests {
-        private readonly FakeWarContext _context = new FakeWarContext();
-        private readonly UserRepository _repository;
-        private readonly FakeMailClient _mailClient = new FakeMailClient();
-        private readonly FakeAppSettings _appSettings = new FakeAppSettings() {
-            Settings = new Dictionary<string, string>() {
-                { "Application.BaseUrl", "http://localhost" }
-            }
-        };
-        
-        public ForgotUserPasswordCommandHandlerTests() {
-            _repository = new UserRepository(_context);
-        }
-
         [TestMethod]
         public void ForgotUserPasswordCommandHandler_Sends_Email() {
-            var handler = new ForgotUserPasswordCommandHandler(_repository, _mailClient, new PasswordResetMailTemplate(_appSettings));
-            var command = new ForgotUserPasswordCommand("test@test.com");
-            var user = Substitute.For<User>();
-            user.Email.Returns("test@test.com");
-            user.Password.Returns(new Password("test"));
-            user.Status.Returns(UserStatus.Active);
+            var mailClient = new FakeMailClient();
+            var builder = new FakeBuilder()
+                .BuildUser(1);
 
-            _context.Users.Add(user);
-
+            var handler = new ForgotUserPasswordCommandHandler(new UserRepository(builder.Context), mailClient, new PasswordResetMailTemplate(new FakeAppSettings()));
+            var command = new ForgotUserPasswordCommand("test1@test.com");
+            
             handler.Execute(command);
 
-            _mailClient.SentMessages.Should().HaveCount(1);
-            _mailClient.SentMessages[0].Subject.Should().Be("Your password reset request");
-            _mailClient.SentMessages[0].To.Should().Be("test@test.com");
+            mailClient.SentMessages.Should().HaveCount(1);
+            mailClient.SentMessages[0].Subject.Should().Be("Your password reset request");
+            mailClient.SentMessages[0].To.Should().Be("test1@test.com");
         }
 
         [TestMethod]
         public void ForgotUserPasswordCommandHandler_Succeeds() {
-            var handler = new ForgotUserPasswordCommandHandler(_repository, _mailClient, new PasswordResetMailTemplate(_appSettings));
-            var command = new ForgotUserPasswordCommand("test@test.com");
-            var user = Substitute.For<User>();
-            user.Email.Returns("test@test.com");
-            user.Password.Returns(new Password("test"));
-            user.Status.Returns(UserStatus.Active);
+            var builder = new FakeBuilder()
+                .BuildUser(1);
 
-            _context.Users.Add(user);
+            var handler = new ForgotUserPasswordCommandHandler(new UserRepository(builder.Context), new FakeMailClient(), new PasswordResetMailTemplate(new FakeAppSettings()));
+            var command = new ForgotUserPasswordCommand("test1@test.com");
 
             var result = handler.Execute(command);
 
             result.Success.Should().BeTrue();
-            user.Received().GeneratePasswordResetToken();
-            user.DidNotReceive().PasswordResetRequestFailed();
-            _context.CallsToSaveChanges.Should().Be(1);
+            builder.User.Received().GeneratePasswordResetToken();
+            builder.User.DidNotReceiveWithAnyArgs().PasswordResetRequestFailed();
+            builder.Context.CallsToSaveChanges.Should().Be(1);
         }
 
         [TestMethod]
         public void ForgotUserPasswordCommandHandler_Does_Nothing_For_Nonexistent_User() {
-            var handler = new ForgotUserPasswordCommandHandler(_repository, _mailClient, new PasswordResetMailTemplate(_appSettings));
-            var command = new ForgotUserPasswordCommand("test@test.com");
+            var mailClient = new FakeMailClient();
+            var builder = new FakeBuilder()
+                .BuildUser(1);
+
+            var handler = new ForgotUserPasswordCommandHandler(new UserRepository(builder.Context), mailClient, new PasswordResetMailTemplate(new FakeAppSettings()));
+            var command = new ForgotUserPasswordCommand("wrong@test.com");
 
             var result = handler.Execute(command);
 
             result.Success.Should().BeTrue();
-            _mailClient.SentMessages.Should().BeEmpty();
+            mailClient.SentMessages.Should().BeEmpty();
+            builder.User.DidNotReceiveWithAnyArgs().GeneratePasswordResetToken();
+            builder.User.DidNotReceiveWithAnyArgs().PasswordResetRequestFailed();
+            builder.Context.CallsToSaveChanges.Should().Be(1);
         }
 
         [TestMethod]
         public void ForgotUserPasswordCommandHandler_Does_Nothing_For_Inactive_User() {
-            var handler = new ForgotUserPasswordCommandHandler(_repository, _mailClient, new PasswordResetMailTemplate(_appSettings));
-            var command = new ForgotUserPasswordCommand("test@test.com");
-            var user = Substitute.For<User>();
-            user.Email.Returns("test@test.com");
-            user.Password.Returns(new Password("test"));
-            user.Status.Returns(UserStatus.Inactive);
+            var mailClient = new FakeMailClient();
+            var builder = new FakeBuilder()
+                .BuildUser(1, status: UserStatus.Inactive);
 
-            _context.Users.Add(user);
-
+            var handler = new ForgotUserPasswordCommandHandler(new UserRepository(builder.Context), mailClient, new PasswordResetMailTemplate(new FakeAppSettings()));
+            var command = new ForgotUserPasswordCommand("test1@test.com");
+            
             var result = handler.Execute(command);
 
             result.Success.Should().BeTrue();
-            _mailClient.SentMessages.Should().BeEmpty();
-            user.DidNotReceive().GeneratePasswordResetToken();
-            user.Received().PasswordResetRequestFailed();
+            mailClient.SentMessages.Should().BeEmpty();
+            builder.User.DidNotReceiveWithAnyArgs().GeneratePasswordResetToken();
+            builder.User.Received().PasswordResetRequestFailed();
+            builder.Context.CallsToSaveChanges.Should().Be(1);
         }
 
         [TestMethod]
         public void ForgotUserPasswordCommandHandler_Does_Nothing_For_New_User() {
-            var handler = new ForgotUserPasswordCommandHandler(_repository, _mailClient, new PasswordResetMailTemplate(_appSettings));
-            var command = new ForgotUserPasswordCommand("test@test.com");
-            var user = Substitute.For<User>();
-            user.Email.Returns("test@test.com");
-            user.Password.Returns(new Password("test"));
-            user.Status.Returns(UserStatus.New);
+            var mailClient = new FakeMailClient();
+            var builder = new FakeBuilder()
+                .BuildUser(1, status: UserStatus.New);
 
-            _context.Users.Add(user);
+            var handler = new ForgotUserPasswordCommandHandler(new UserRepository(builder.Context), mailClient, new PasswordResetMailTemplate(new FakeAppSettings()));
+            var command = new ForgotUserPasswordCommand("test1@test.com");
 
             var result = handler.Execute(command);
 
             result.Success.Should().BeTrue();
-            _mailClient.SentMessages.Should().BeEmpty();
-            user.DidNotReceive().GeneratePasswordResetToken();
-            user.Received().PasswordResetRequestFailed();
+            mailClient.SentMessages.Should().BeEmpty();
+            builder.User.DidNotReceiveWithAnyArgs().GeneratePasswordResetToken();
+            builder.User.Received().PasswordResetRequestFailed();
+            builder.Context.CallsToSaveChanges.Should().Be(1);
         }
     }
 }

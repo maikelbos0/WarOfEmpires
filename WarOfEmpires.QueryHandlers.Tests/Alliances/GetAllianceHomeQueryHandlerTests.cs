@@ -42,10 +42,10 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
             var builder = new FakeBuilder()
                 .BuildAlliance(1)
                 .WithLeader(1, out var leader)
-                .WithChatMessage(leader, new DateTime(2020, 2, 2), "Hidden")
-                .WithChatMessage(leader, DateTime.UtcNow.Date, "Displayed")
+                .WithChatMessage(1, leader, new DateTime(2020, 2, 2), "Hidden")
+                .WithChatMessage(2, leader, DateTime.UtcNow.Date, "Displayed")
                 .WithMember(2, out var member, status: UserStatus.Inactive)
-                .WithChatMessage(member, DateTime.UtcNow.Date.AddDays(-1), "Visible");
+                .WithChatMessage(3, member, DateTime.UtcNow.Date.AddDays(-1), "Visible");
 
             var handler = new GetAllianceHomeQueryHandler(builder.Context);
             var query = new GetAllianceHomeQuery("test1@test.com");
