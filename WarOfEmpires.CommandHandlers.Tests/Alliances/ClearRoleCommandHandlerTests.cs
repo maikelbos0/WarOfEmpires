@@ -4,7 +4,7 @@ using NSubstitute;
 using System;
 using WarOfEmpires.CommandHandlers.Alliances;
 using WarOfEmpires.Commands.Alliances;
-using WarOfEmpires.Repositories.Players;
+using WarOfEmpires.Repositories.Alliances;
 using WarOfEmpires.Test.Utilities;
 
 namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
@@ -17,7 +17,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
                 .WithMember(1, out var player)
                 .WithRole(1, "Test", player);
 
-            var handler = new ClearRoleCommandHandler(new PlayerRepository(builder.Context));
+            var handler = new ClearRoleCommandHandler(new AllianceRepository(builder.Context));
             var command = new ClearRoleCommand("test1@test.com", "1");
 
             var result = handler.Execute(command);
@@ -32,7 +32,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
             var builder = new FakeBuilder()
                 .WithPlayer(1);
 
-            var handler = new ClearRoleCommandHandler(new PlayerRepository(builder.Context));
+            var handler = new ClearRoleCommandHandler(new AllianceRepository(builder.Context));
             var command = new ClearRoleCommand("test1@test.com", "1");
 
             Action action = () => handler.Execute(command);
@@ -50,7 +50,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
                 .WithMember(2, out var player)
                 .WithRole(1, "Test", player);
 
-            var handler = new ClearRoleCommandHandler(new PlayerRepository(builder.Context));
+            var handler = new ClearRoleCommandHandler(new AllianceRepository(builder.Context));
             var command = new ClearRoleCommand("test1@test.com", "2");
 
             Action action = () => handler.Execute(command);
