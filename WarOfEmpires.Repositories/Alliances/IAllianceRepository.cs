@@ -2,7 +2,7 @@
 
 namespace WarOfEmpires.Repositories.Alliances {
     public interface IAllianceRepository {
-        // TODO get from player email
+        Alliance Get(string playerEmail);
         void Add(Alliance alliance);
         void Update();
     }
