@@ -188,36 +188,5 @@ namespace WarOfEmpires.Repositories.Tests.Players {
 
             context.CallsToSaveChanges.Should().Be(0);
         }
-
-        [TestMethod]
-        public void PlayerRepository_RemoveCaravan_Succeeds() {
-            var builder = new FakeBuilder()
-                .BuildPlayer(1)
-                .WithCaravan(1, new Merchandise(MerchandiseType.Wood, 10000, 5))
-                .WithCaravan(2, out var caravan, new Merchandise(MerchandiseType.Stone, 10000, 8))
-                .BuildPlayer(2)
-                .WithCaravan(3, new Merchandise(MerchandiseType.Wood, 10000, 4))
-                .WithCaravan(4, new Merchandise(MerchandiseType.Stone, 10000, 7));
-
-            var repository = new PlayerRepository(builder.Context);
-
-            repository.RemoveCaravan(caravan);
-
-            builder.Context.Players.Sum(p => p.Caravans.Count()).Should().Be(3);
-            builder.Context.Players.Should().NotContain(p => p.Caravans.Contains(caravan));
-        }
-
-        [TestMethod]
-        public void PlayerRepository_RemoveCaravan_Saves() {
-            var builder = new FakeBuilder()
-                .BuildPlayer(1)
-                .WithCaravan(1, out var caravan, new Merchandise(MerchandiseType.Wood, 10000, 5));
-
-            var repository = new PlayerRepository(builder.Context);
-
-            repository.RemoveCaravan(caravan);
-
-            builder.Context.CallsToSaveChanges.Should().Be(1);
-        }
     }
 }

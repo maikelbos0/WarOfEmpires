@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using WarOfEmpires.Domain.Alliances;
+﻿using System.Collections.Generic;
 using WarOfEmpires.Domain.Markets;
 using WarOfEmpires.Domain.Players;
 
@@ -12,7 +10,5 @@ namespace WarOfEmpires.Repositories.Players {
         IEnumerable<Player> GetAll();
         void Update();
         IEnumerable<Caravan> GetCaravans(MerchandiseType merchandiseType);
-        [Obsolete]
-        void RemoveCaravan(Caravan caravan);
     }
 }

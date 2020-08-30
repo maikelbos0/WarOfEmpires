@@ -47,12 +47,5 @@ namespace WarOfEmpires.Repositories.Players {
                 .Include(c => c.Player)
                 .ToList();
         }
-
-        [System.Obsolete]
-        public void RemoveCaravan(Caravan caravan) {
-            caravan.Player.Caravans.Remove(caravan);
-            _context.Remove(caravan);
-            _context.SaveChanges();
-        }
     }
 }
