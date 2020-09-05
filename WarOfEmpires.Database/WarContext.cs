@@ -13,6 +13,7 @@ using Markets = WarOfEmpires.Domain.Markets;
 using Players = WarOfEmpires.Domain.Players;
 using Security = WarOfEmpires.Domain.Security;
 using Siege = WarOfEmpires.Domain.Siege;
+using System.Linq;
 
 namespace WarOfEmpires.Database {
     [InterfaceInjectable]
@@ -43,6 +44,37 @@ namespace WarOfEmpires.Database {
 
         public void Remove<TEntity>(TEntity entity) where TEntity : class {
             Set<TEntity>().Remove(entity);
+        }
+
+        public override int SaveChanges() {
+            DeleteOrphanedInvites();
+            DeleteOrphanedCaravans();
+
+            return base.SaveChanges();
+        }
+
+        private void DeleteOrphanedInvites() {
+            var invites = ChangeTracker.Entries().Select(e => e.Entity).OfType<Alliances.Invite>();
+
+            if (invites.Any()) {
+                var allianceInvites = ChangeTracker.Entries().Select(e => e.Entity).OfType<Alliances.Alliance>().SelectMany(a => a.Invites).ToHashSet();
+
+                foreach (var orphanedInvite in invites.Where(i => !allianceInvites.Contains(i))) {
+                    Remove(orphanedInvite);
+                }
+            }
+        }
+
+        private void DeleteOrphanedCaravans() {
+            var caravans = ChangeTracker.Entries().Select(e => e.Entity).OfType<Markets.Caravan>();
+
+            if (caravans.Any()) {
+                var playerCaravans = ChangeTracker.Entries().Select(e => e.Entity).OfType<Players.Player>().SelectMany(p => p.Caravans).ToHashSet();
+
+                foreach (var orphanedCaravan in caravans.Where(i => !playerCaravans.Contains(i))) {
+                    Remove(orphanedCaravan);
+                }
+            }
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder) {

@@ -4,6 +4,7 @@ using System;
 using System.Linq;
 using WarOfEmpires.CommandHandlers.Alliances;
 using WarOfEmpires.Commands.Alliances;
+using WarOfEmpires.Repositories.Alliances;
 using WarOfEmpires.Repositories.Players;
 using WarOfEmpires.Test.Utilities;
 
@@ -15,7 +16,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
             var builder = new FakeBuilder()
                 .WithPlayer(1, out var player);
 
-            var handler = new CreateAllianceCommandHandler(new PlayerRepository(builder.Context));
+            var handler = new CreateAllianceCommandHandler(new PlayerRepository(builder.Context), new AllianceRepository(builder.Context));
             var command = new CreateAllianceCommand("test1@test.com", "CODE", "The Alliance");
 
             var result = handler.Execute(command);
@@ -35,7 +36,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
             var builder = new FakeBuilder()
                 .WithPlayer(1);
 
-            var handler = new CreateAllianceCommandHandler(new PlayerRepository(builder.Context));
+            var handler = new CreateAllianceCommandHandler(new PlayerRepository(builder.Context), new AllianceRepository(builder.Context));
             var command = new CreateAllianceCommand("wrong@test.com", "CODE", "The Alliance");
 
             Action action = () => handler.Execute(command);
@@ -50,7 +51,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
             var builder = new FakeBuilder()
                 .WithPlayer(1);
 
-            var handler = new CreateAllianceCommandHandler(new PlayerRepository(builder.Context));
+            var handler = new CreateAllianceCommandHandler(new PlayerRepository(builder.Context), new AllianceRepository(builder.Context));
             var command = new CreateAllianceCommand("test1@test.com", "CODE1", "The Alliance");
 
             var result = handler.Execute(command);
@@ -66,7 +67,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
                 .BuildAlliance(1)
                 .WithMember(1);
 
-            var handler = new CreateAllianceCommandHandler(new PlayerRepository(builder.Context));
+            var handler = new CreateAllianceCommandHandler(new PlayerRepository(builder.Context), new AllianceRepository(builder.Context));
             var command = new CreateAllianceCommand("test1@test.com", "CODE", "The Alliance");
 
             var result = handler.Execute(command);

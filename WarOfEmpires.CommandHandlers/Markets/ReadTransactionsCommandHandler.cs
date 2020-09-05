@@ -18,7 +18,7 @@ namespace WarOfEmpires.CommandHandlers.Markets {
             var player = _repository.Get(command.Email);
 
             player.HasNewMarketSales = false;
-            _repository.Update();
+            _repository.SaveChanges();
 
             return result;
         }

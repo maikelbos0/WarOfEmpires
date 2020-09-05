@@ -22,7 +22,7 @@ namespace WarOfEmpires.CommandHandlers.Alliances {
 
             invite.IsRead = true;
 
-            _repository.Update();
+            _repository.SaveChanges();
 
             return result;
         }

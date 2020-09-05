@@ -25,7 +25,7 @@ namespace WarOfEmpires.CommandHandlers.Security {
                 user.ChangePasswordFailed();
             }
 
-            _repository.Update();
+            _repository.SaveChanges();
 
             return result;
         }

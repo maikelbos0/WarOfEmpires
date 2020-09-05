@@ -95,55 +95,6 @@ namespace WarOfEmpires.Repositories.Tests.Security {
         }
 
         [TestMethod]
-        public void UserRepository_GetByEmail_Succeeds() {
-            var builder = new FakeBuilder()
-                .WithUser(1);
-
-            var repository = new UserRepository(builder.Context);
-
-            var user = repository.GetByEmail("test1@test.com", UserStatus.Active);
-
-            user.Should().NotBeNull();
-            user.Email.Should().Be("test1@test.com");
-        }
-
-        [TestMethod]
-        public void UserRepository_GetByEmail_Throws_Exception_For_Nonexistent_Email() {
-            var builder = new FakeBuilder()
-                .WithUser(1);
-
-            var repository = new UserRepository(builder.Context);
-
-            Action action = () => repository.GetByEmail("nobody@test.com", UserStatus.Active);
-
-            action.Should().Throw<InvalidOperationException>();
-        }
-
-        [TestMethod]
-        public void UserRepository_GetByEmail_Throws_Exception_For_Wrong_Status() {
-            var builder = new FakeBuilder()
-                .WithUser(1, email: "inactive@test.com", status: UserStatus.Inactive);
-
-            var repository = new UserRepository(builder.Context);
-
-            Action action = () => repository.GetByEmail("inactive@test.com", UserStatus.Active);
-
-            action.Should().Throw<InvalidOperationException>();
-        }
-
-        [TestMethod]
-        public void UserRepository_GetByEmail_Does_Not_Save() {
-            var builder = new FakeBuilder()
-                .WithUser(1);
-
-            var repository = new UserRepository(builder.Context);
-
-            repository.GetByEmail("test1@test.com", UserStatus.Active);
-
-            builder.Context.CallsToSaveChanges.Should().Be(0);
-        }
-
-        [TestMethod]
         public void UserRepository_Add_Succeeds() {
             var context = new FakeWarContext();
 
@@ -162,17 +113,6 @@ namespace WarOfEmpires.Repositories.Tests.Security {
             var repository = new UserRepository(context);
 
             repository.Add(new User("new@test.com", "test"));
-
-            context.CallsToSaveChanges.Should().Be(1);
-        }
-
-        [TestMethod]
-        public void UserRepository_Update_Saves() {
-            var context = new FakeWarContext();
-
-            var repository = new UserRepository(context);
-
-            repository.Update();
 
             context.CallsToSaveChanges.Should().Be(1);
         }

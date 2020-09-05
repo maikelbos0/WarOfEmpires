@@ -24,7 +24,7 @@ namespace WarOfEmpires.CommandHandlers.Security {
                 user.LogIn();
             }
 
-            _repository.Update();
+            _repository.SaveChanges();
 
             return result;
         }

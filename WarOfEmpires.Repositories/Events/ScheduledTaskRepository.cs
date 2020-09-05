@@ -6,19 +6,11 @@ using WarOfEmpires.Utilities.Container;
 
 namespace WarOfEmpires.Repositories.Events {
     [InterfaceInjectable]
-    public class ScheduledTaskRepository : IScheduledTaskRepository {
-        private readonly IWarContext _context;
-
-        public ScheduledTaskRepository(IWarContext context) {
-            _context = context;
-        }
+    public class ScheduledTaskRepository : BaseRepository, IScheduledTaskRepository {
+        public ScheduledTaskRepository(IWarContext context) : base(context) { }
 
         public IEnumerable<ScheduledTask> GetAll() {
             return _context.ScheduledTasks.ToList();
-        }
-
-        public void Update() {
-            _context.SaveChanges();
         }
     }
 }

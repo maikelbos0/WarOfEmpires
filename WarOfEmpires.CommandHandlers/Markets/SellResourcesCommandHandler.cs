@@ -62,7 +62,7 @@ namespace WarOfEmpires.CommandHandlers.Markets {
 
             if (result.Success && merchandiseTotals.Any()) {
                 player.SellResources(merchandiseTotals);
-                _repository.Update();
+                _repository.SaveChanges();
             }
 
             return result;

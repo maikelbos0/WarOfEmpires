@@ -51,10 +51,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Alliances\IAllianceRepository.cs" />
+    <Compile Include="Alliances\AllianceRepository.cs" />
     <Compile Include="Auditing\CommandExecutionRepository.cs" />
     <Compile Include="Auditing\ICommandExecutionRepository.cs" />
+    <Compile Include="BaseRepository.cs" />
     <Compile Include="Events\ScheduledTaskRepository.cs" />
     <Compile Include="Events\IScheduledTaskRepository.cs" />
+    <Compile Include="IBaseRepository.cs" />
     <Compile Include="Players\IPlayerRepository.cs" />
     <Compile Include="Players\PlayerRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

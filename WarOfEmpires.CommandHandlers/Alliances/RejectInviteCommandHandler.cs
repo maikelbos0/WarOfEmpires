@@ -19,7 +19,8 @@ namespace WarOfEmpires.CommandHandlers.Alliances {
             var player = _repository.Get(command.Email);
             var invite = player.Invites.Single(i => i.Id == int.Parse(command.InviteId));
 
-            _repository.RemoveInvite(invite);
+            invite.Alliance.RemoveInvite(invite);
+            _repository.SaveChanges();
 
             return result;
         }

@@ -66,7 +66,7 @@ namespace WarOfEmpires.CommandHandlers.Markets {
                         quantity = caravan.Buy(player, totals.Type, quantity);
 
                         if (!caravan.Merchandise.Any(m => m.Quantity > 0)) {
-                            _repository.RemoveCaravan(caravan);
+                            caravan.Withdraw();
                         }
 
                         if (quantity == 0) {
@@ -79,7 +79,7 @@ namespace WarOfEmpires.CommandHandlers.Markets {
                     }
                 }
 
-                _repository.Update();
+                _repository.SaveChanges();
             }
 
             return result;

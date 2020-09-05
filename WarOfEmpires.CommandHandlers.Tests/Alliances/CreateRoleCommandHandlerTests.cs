@@ -4,7 +4,7 @@ using NSubstitute;
 using System;
 using WarOfEmpires.CommandHandlers.Alliances;
 using WarOfEmpires.Commands.Alliances;
-using WarOfEmpires.Repositories.Players;
+using WarOfEmpires.Repositories.Alliances;
 using WarOfEmpires.Test.Utilities;
 
 namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
@@ -16,7 +16,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
                 .BuildAlliance(1)
                 .WithMember(1);
 
-            var handler = new CreateRoleCommandHandler(new PlayerRepository(builder.Context));
+            var handler = new CreateRoleCommandHandler(new AllianceRepository(builder.Context));
             var command = new CreateRoleCommand("test1@test.com", "Diva");
 
             var result = handler.Execute(command);
@@ -32,7 +32,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
                 .BuildAlliance(1)
                 .WithMember(1);
 
-            var handler = new CreateRoleCommandHandler(new PlayerRepository(builder.Context));
+            var handler = new CreateRoleCommandHandler(new AllianceRepository(builder.Context));
             var command = new CreateRoleCommand("wrong@test.com", "Diva");
 
             Action action = () => handler.Execute(command);
@@ -47,7 +47,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
             var builder = new FakeBuilder()
                 .WithPlayer(1);
 
-            var handler = new CreateRoleCommandHandler(new PlayerRepository(builder.Context));
+            var handler = new CreateRoleCommandHandler(new AllianceRepository(builder.Context));
             var command = new CreateRoleCommand("test1@test.com", "Diva");
 
             Action action = () => handler.Execute(command);

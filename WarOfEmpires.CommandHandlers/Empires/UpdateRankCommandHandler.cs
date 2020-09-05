@@ -20,7 +20,7 @@ namespace WarOfEmpires.CommandHandlers.Empires {
             var result = new CommandResult<UpdateRankCommand>();
 
             _rankService.Update(_repository.GetAll());
-            _repository.Update();
+            _repository.SaveChanges();
 
             return result;
         }

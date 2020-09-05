@@ -24,7 +24,7 @@ namespace WarOfEmpires.CommandHandlers.Empires {
 
             if (result.Success) {
                 player.Tax = tax;
-                _repository.Update();
+                _repository.SaveChanges();
             }
 
             return result;

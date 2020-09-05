@@ -47,6 +47,8 @@ namespace WarOfEmpires.Domain.Tests.Markets {
             var previousResources = player.Resources;
             var caravan = new Caravan(player);
 
+            player.Caravans.Add(caravan);
+
             caravan.Merchandise.Add(new Merchandise(MerchandiseType.Food, 10000, 5));
             caravan.Merchandise.Add(new Merchandise(MerchandiseType.Wood, 6000, 5));
             caravan.Merchandise.Add(new Merchandise(MerchandiseType.Stone, 5000, 5));
@@ -59,6 +61,7 @@ namespace WarOfEmpires.Domain.Tests.Markets {
             }
 
             player.Resources.Should().Be(previousResources + new Resources(food: 10000, wood: 6000, stone: 5000, ore: 4000));
+            player.Caravans.Should().BeEmpty();
         }
 
         [DataTestMethod]

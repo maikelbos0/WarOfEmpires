@@ -24,7 +24,7 @@ namespace WarOfEmpires.CommandHandlers.Messages {
             sender.SentMessages.Add(message);
             recipient.ReceivedMessages.Add(message);
 
-            _repository.Update();
+            _repository.SaveChanges();
 
             return result;
         }

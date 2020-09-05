@@ -21,6 +21,36 @@ namespace WarOfEmpires.Domain.Tests.Alliances {
         }
 
         [TestMethod]
+        public void Alliance_AcceptInvite_Succeeds() {
+            var member = new Player(1, "Member");
+            var player = new Player(2, "Player");
+            var alliance = new Alliance(member, "TEST", "The Test");
+            var invite = new Invite(alliance, player, null, null);
+
+            alliance.Invites.Add(invite);
+
+            alliance.AddMember(member);
+            alliance.AcceptInvite(invite);
+
+            alliance.Members.Should().BeEquivalentTo(new[] { member, player });
+            alliance.Invites.Should().BeEmpty();
+        }
+
+        [TestMethod]
+        public void Alliance_RemoveInvite_Succeeds() {
+            var member = new Player(1, "Member");
+            var alliance = new Alliance(member, "TEST", "The Test");
+            var invite = new Invite(alliance, new Player(2, "Player"), null, null);
+
+            alliance.Invites.Add(invite);
+
+            alliance.AddMember(member);
+            alliance.RemoveInvite(invite);
+
+            alliance.Invites.Should().BeEmpty();
+        }
+
+        [TestMethod]
         public void Alliance_PostChatMessage_Succeeds() {
             var member = new Player(1, "Member");
             var alliance = new Alliance(member, "TEST", "The Test");

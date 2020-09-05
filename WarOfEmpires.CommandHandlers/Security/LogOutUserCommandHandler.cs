@@ -18,7 +18,7 @@ namespace WarOfEmpires.CommandHandlers.Security {
             var user = _repository.GetActiveByEmail(parameter.Email);
 
             user.LogOut();
-            _repository.Update();
+            _repository.SaveChanges();
 
             return result;
         }

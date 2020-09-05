@@ -32,6 +32,8 @@ namespace WarOfEmpires.Domain.Markets {
             foreach (var merchandise in Merchandise) {
                 merchandise.Withdraw(Player, percentageSaved);
             }
+
+            Player.Caravans.Remove(this);
         }
 
         public virtual int Buy(Player buyer, MerchandiseType type, int requestedQuantity) {

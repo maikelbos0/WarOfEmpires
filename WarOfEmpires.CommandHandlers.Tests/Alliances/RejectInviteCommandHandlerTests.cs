@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NSubstitute;
 using System;
 using WarOfEmpires.CommandHandlers.Alliances;
 using WarOfEmpires.Commands.Alliances;
@@ -14,7 +15,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
             var builder = new FakeBuilder()
                 .WithPlayer(1, out var player)
                 .BuildAlliance(1)
-                .WithInvite(1, player);
+                .WithInvite(1, out var invite, player);
 
             var handler = new RejectInviteCommandHandler(new PlayerRepository(builder.Context));
             var command = new RejectInviteCommand("test1@test.com", "1");
@@ -22,8 +23,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
             var result = handler.Execute(command);
 
             result.Success.Should().BeTrue();
-            builder.Alliance.Invites.Should().HaveCount(0);
-            player.Alliance.Should().BeNull();
+            builder.Alliance.Received().RemoveInvite(invite);
             builder.Context.CallsToSaveChanges.Should().Be(1);
         }
 

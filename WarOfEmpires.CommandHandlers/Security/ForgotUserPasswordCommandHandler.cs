@@ -31,7 +31,7 @@ namespace WarOfEmpires.CommandHandlers.Security {
                 user?.PasswordResetRequestFailed();
             }
             
-            _repository.Update();
+            _repository.SaveChanges();
 
             return result;
         }

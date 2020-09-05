@@ -2,8 +2,7 @@
 using WarOfEmpires.Domain.Events;
 
 namespace WarOfEmpires.Repositories.Events {
-    public interface IScheduledTaskRepository {
+    public interface IScheduledTaskRepository : IBaseRepository {
         IEnumerable<ScheduledTask> GetAll();
-        void Update();
     }
 }

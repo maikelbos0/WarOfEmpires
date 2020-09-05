@@ -2,7 +2,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Linq;
-using WarOfEmpires.Domain.Alliances;
 using WarOfEmpires.Domain.Markets;
 using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Domain.Security;
@@ -150,17 +149,6 @@ namespace WarOfEmpires.Repositories.Tests.Players {
         }
 
         [TestMethod]
-        public void PlayerRepository_Update_Saves() {
-            var context = new FakeWarContext();
-
-            var repository = new PlayerRepository(context);
-
-            repository.Update();
-
-            context.CallsToSaveChanges.Should().Be(1);
-        }
-
-        [TestMethod]
         public void PlayerRepository_GetCaravans_Succeeds() {
             var builder = new FakeBuilder()
                 .BuildPlayer(1)
@@ -188,153 +176,6 @@ namespace WarOfEmpires.Repositories.Tests.Players {
             repository.GetCaravans(MerchandiseType.Wood);
 
             context.CallsToSaveChanges.Should().Be(0);
-        }
-
-        [TestMethod]
-        public void PlayerRepository_RemoveCaravan_Succeeds() {
-            var builder = new FakeBuilder()
-                .BuildPlayer(1)
-                .WithCaravan(1, new Merchandise(MerchandiseType.Wood, 10000, 5))
-                .WithCaravan(2, out var caravan, new Merchandise(MerchandiseType.Stone, 10000, 8))
-                .BuildPlayer(2)
-                .WithCaravan(3, new Merchandise(MerchandiseType.Wood, 10000, 4))
-                .WithCaravan(4, new Merchandise(MerchandiseType.Stone, 10000, 7));
-
-            var repository = new PlayerRepository(builder.Context);
-
-            repository.RemoveCaravan(caravan);
-
-            builder.Context.Players.Sum(p => p.Caravans.Count()).Should().Be(3);
-            builder.Context.Players.Should().NotContain(p => p.Caravans.Contains(caravan));
-        }
-
-        [TestMethod]
-        public void PlayerRepository_RemoveCaravan_Saves() {
-            var builder = new FakeBuilder()
-                .BuildPlayer(1)
-                .WithCaravan(1, out var caravan, new Merchandise(MerchandiseType.Wood, 10000, 5));
-
-            var repository = new PlayerRepository(builder.Context);
-
-            repository.RemoveCaravan(caravan);
-
-            builder.Context.CallsToSaveChanges.Should().Be(1);
-        }
-
-        [TestMethod]
-        public void PlayerRepository_GetAlliance_Succeeds() {
-            var builder = new FakeBuilder()
-                .BuildAlliance(1);
-
-            var repository = new PlayerRepository(builder.Context);
-
-            var alliance = repository.GetAlliance(1);
-
-            alliance.Should().NotBeNull();
-            alliance.Id.Should().Be(1);
-        }
-
-        [TestMethod]
-        public void PlayerRepository_GetAlliance_Throws_Exception_For_Nonexistent_Id() {
-            var builder = new FakeBuilder()
-                .BuildAlliance(1);
-
-            var repository = new PlayerRepository(builder.Context);
-
-            Action action = () => repository.GetAlliance(-1);
-
-            action.Should().Throw<InvalidOperationException>();
-        }
-
-        [TestMethod]
-        public void PlayerRepository_GetAlliance_Does_Not_Save() {
-            var builder = new FakeBuilder()
-                .BuildAlliance(1);
-
-            var repository = new PlayerRepository(builder.Context);
-
-            repository.GetAlliance(1);
-
-            builder.Context.CallsToSaveChanges.Should().Be(0);
-        }
-
-        [TestMethod]
-        public void PlayerRepository_GetAllAlliances_Succeeds() {
-            var builder = new FakeBuilder()
-                .BuildAlliance(1)
-                .BuildAlliance(2);
-
-            var repository = new PlayerRepository(builder.Context);
-
-            var alliances = repository.GetAllAlliances();
-
-            alliances.Should().NotBeNull();
-            alliances.Should().HaveCount(2);
-        }
-
-        [TestMethod]
-        public void PlayerRepository_GetAllAlliances_Does_Not_Save() {
-            var context = new FakeWarContext();
-
-            var repository = new PlayerRepository(context);
-
-            repository.GetAllAlliances();
-
-            context.CallsToSaveChanges.Should().Be(0);
-        }
-
-        [TestMethod]
-        public void PlayerRepository_AddAlliance_Succeeds() {
-            var context = new FakeWarContext();
-
-            var repository = new PlayerRepository(context);
-            var alliance = new Alliance(null, "ALLY", "The Alliance");
-
-            repository.AddAlliance(alliance);
-
-            context.Alliances.Should().Contain(alliance);
-        }
-
-        [TestMethod]
-        public void PlayerRepository_AddAlliance_Saves() {
-            var context = new FakeWarContext();
-
-            var repository = new PlayerRepository(context);
-
-            repository.AddAlliance(new Alliance(null, "ALLY", "The Alliance"));
-
-            context.CallsToSaveChanges.Should().Be(1);
-        }
-
-        [TestMethod]
-        public void PlayerRepository_RemoveInvite_Succeeds() {
-            var builder = new FakeBuilder()
-                .WithPlayer(1, out var player)
-                .WithPlayer(2, out var remainingInvitePlayer)
-                .BuildAlliance(1)
-                .WithInvite(2, out var invite, player)
-                .WithInvite(3, remainingInvitePlayer);
-
-            var repository = new PlayerRepository(builder.Context);
-
-            repository.RemoveInvite(invite);
-
-            builder.Context.Alliances.Sum(a => a.Invites.Count()).Should().Be(1);
-            builder.Context.Alliances.Should().NotContain(a => a.Invites.Contains(invite));
-        }
-
-        [TestMethod]
-        public void PlayerRepository_RemoveInvite_Saves() {
-            var builder = new FakeBuilder()
-                .WithPlayer(1, out var player)
-                .BuildAlliance(1)
-                .WithInvite(2, out var invite, player);
-
-            var repository = new PlayerRepository(builder.Context);
-
-            repository.RemoveInvite(invite);
-
-            builder.Context.CallsToSaveChanges.Should().Be(1);
         }
     }
 }

@@ -23,7 +23,7 @@ namespace WarOfEmpires.CommandHandlers.Empires {
 
             if (result.Success) {
                 player.Bank();
-                _repository.Update();
+                _repository.SaveChanges();
             }
 
             return result;

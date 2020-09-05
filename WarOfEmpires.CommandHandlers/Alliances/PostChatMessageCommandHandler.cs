@@ -18,7 +18,7 @@ namespace WarOfEmpires.CommandHandlers.Alliances {
             var player = _repository.Get(command.Email);
 
             player.Alliance.PostChatMessage(player, command.Message);
-            _repository.Update();
+            _repository.SaveChanges();
 
             return result;
         }

@@ -27,7 +27,7 @@ namespace WarOfEmpires.CommandHandlers.Alliances {
 
             if (result.Success) {
                 alliance.Invites.Add(new Invite(alliance, player, command.Subject, command.Body));
-                _repository.Update();
+                _repository.SaveChanges();
             }
 
             return result;

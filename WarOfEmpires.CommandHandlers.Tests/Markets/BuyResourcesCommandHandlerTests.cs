@@ -40,7 +40,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
 
             fullSaleCaravan.Received().Buy(buyer, MerchandiseType.Wood, 16000);
             partialSaleCaravan.Received().Buy(buyer, MerchandiseType.Wood, 6000);
-            builder.Context.CallsToSaveChanges.Should().Be(2);
+            builder.Context.CallsToSaveChanges.Should().Be(1);
         }
 
         [TestMethod]
@@ -58,8 +58,8 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
 
             handler.Execute(command);
 
-            builder.Player.Caravans.Should().NotContain(fullSaleCaravan);
-            builder.Player.Caravans.Should().Contain(partialSaleCaravan);
+            fullSaleCaravan.Received().Withdraw();
+            partialSaleCaravan.DidNotReceiveWithAnyArgs().Withdraw();
         }
 
         [TestMethod]
@@ -154,7 +154,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
             result.Success.Should().BeTrue();
             result.Should().HaveWarning("There was not enough wood available at that price; all available wood has been purchased");
             caravan.Received().Buy(buyer, MerchandiseType.Wood, 10001);
-            builder.Context.CallsToSaveChanges.Should().Be(2);
+            builder.Context.CallsToSaveChanges.Should().Be(1);
         }
 
         [TestMethod]

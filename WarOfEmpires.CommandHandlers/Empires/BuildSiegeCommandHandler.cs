@@ -53,7 +53,7 @@ namespace WarOfEmpires.CommandHandlers.Empires {
                     player.BuildSiege(info.Type, info.Count);
                 }
 
-                _repository.Update();
+                _repository.SaveChanges();
             }
 
             return result;

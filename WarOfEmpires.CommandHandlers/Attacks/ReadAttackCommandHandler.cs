@@ -22,7 +22,7 @@ namespace WarOfEmpires.CommandHandlers.Attacks {
 
             attack.IsRead = true;
 
-            _repository.Update();
+            _repository.SaveChanges();
 
             return result;
         }

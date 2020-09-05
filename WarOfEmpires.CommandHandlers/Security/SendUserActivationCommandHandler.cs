@@ -25,7 +25,7 @@ namespace WarOfEmpires.CommandHandlers.Security {
             if (user != null && user.Status == UserStatus.New) {
                 user.GenerateActivationCode();
 
-                _repository.Update();
+                _repository.SaveChanges();
 
                 _mailClient.Send(_template.GetMessage(new ActivationMailTemplateParameters(user.Email, user.ActivationCode.Value), user.Email));
             }

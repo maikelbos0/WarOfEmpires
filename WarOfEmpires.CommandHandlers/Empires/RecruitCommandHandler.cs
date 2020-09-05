@@ -20,7 +20,7 @@ namespace WarOfEmpires.CommandHandlers.Empires {
                 player.Recruit();
             }
 
-            _repository.Update();
+            _repository.SaveChanges();
 
             return result;
         }

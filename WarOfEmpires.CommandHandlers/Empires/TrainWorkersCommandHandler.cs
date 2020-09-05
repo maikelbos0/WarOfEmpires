@@ -54,7 +54,7 @@ namespace WarOfEmpires.CommandHandlers.Empires {
                     player.TrainWorkers(workerInfo.Type, workerInfo.Count);
                 }
 
-                _repository.Update();
+                _repository.SaveChanges();
             }
 
             return result;
