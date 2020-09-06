@@ -67,7 +67,7 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
         }
 
         [TestMethod]
-        public void Attack_Surrendered_Gives_Correct_Minimum_Resources_To_Attacker() {
+        public void Attack_Surrendered_Calculates_Correct_Minimum_Resources() {
             var attacker = new Player(1, "Attacker");
             var defender = new Player(2, "Defender");
 
@@ -77,19 +77,15 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
             attacker.Troops.Add(new Troops(TroopType.Archers, 600, 200));
 
             var expectedResources = new Resources(defender.Resources.Gold) * 0.25m * 0.5m;
-            var previousDefenderResources = defender.Resources;
-            var previousAttackerResources = attacker.Resources;
 
             var attack = new Assault(attacker, defender, 10);
             attack.Execute();
 
             attack.Resources.Should().Be(expectedResources);
-            defender.Resources.Should().Be(previousDefenderResources - expectedResources);
-            attacker.Resources.Should().Be(previousAttackerResources + expectedResources);
         }
 
         [TestMethod]
-        public void Attack_Won_Gives_Correct_Minimum_Resources_To_Attacker() {
+        public void Attack_Won_Calculates_Correct_Minimum_Resources() {
             var attacker = new Player(1, "Attacker");
             var defender = new Player(2, "Defender");
 
@@ -101,19 +97,15 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
             defender.Troops.Add(new Troops(TroopType.Archers, 300, 75));
 
             var expectedResources = new Resources(defender.Resources.Gold) * 0.5m * 0.5m;
-            var previousDefenderResources = defender.Resources;
-            var previousAttackerResources = attacker.Resources;
 
             var attack = new Assault(attacker, defender, 10);
             attack.Execute();
 
             attack.Resources.Should().Be(expectedResources);
-            defender.Resources.Should().Be(previousDefenderResources - expectedResources);
-            attacker.Resources.Should().Be(previousAttackerResources + expectedResources);
         }
 
         [TestMethod]
-        public void Attack_Fatigued_Gives_No_Resources_To_Attacker() {
+        public void Attack_Fatigued_Results_In_No_Resources() {
             var attacker = new Player(1, "Attacker");
             var defender = new Player(2, "Defender");
 
@@ -125,19 +117,14 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
 
             typeof(Player).GetProperty(nameof(Player.Stamina)).SetValue(attacker, 69);
 
-            var previousDefenderResources = defender.Resources;
-            var previousAttackerResources = attacker.Resources;
-
             var attack = new Raid(attacker, defender, 10);
             attack.Execute();
 
             attack.Resources.Should().Be(new Resources());
-            defender.Resources.Should().Be(previousDefenderResources);
-            attacker.Resources.Should().Be(previousAttackerResources);
         }
 
         [TestMethod]
-        public void Attack_Defended_Gives_No_Resources_To_Attacker() {
+        public void Attack_Defended_Results_In_No_Resources() {
             var attacker = new Player(1, "Attacker");
             var defender = new Player(2, "Defender");
 
@@ -147,31 +134,10 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
             attacker.Troops.Add(new Troops(TroopType.Archers, 400, 100));
             defender.Troops.Add(new Troops(TroopType.Archers, 600, 200));
 
-            var previousDefenderResources = defender.Resources;
-            var previousAttackerResources = attacker.Resources;
-
             var attack = new Raid(attacker, defender, 10);
             attack.Execute();
 
             attack.Resources.Should().Be(new Resources());
-            defender.Resources.Should().Be(previousDefenderResources);
-            attacker.Resources.Should().Be(previousAttackerResources);
-        }
-
-        [TestMethod]
-        public void Attack_Removes_Used_AttackTurns() {
-            var attacker = new Player(1, "Attacker");
-            var defender = new Player(2, "Defender");
-
-            attacker.Troops.Add(new Troops(TroopType.Archers, 600, 200));
-            defender.Troops.Add(new Troops(TroopType.Archers, 600, 200));
-
-            var attackTurns = attacker.AttackTurns;
-
-            var attack = new Raid(attacker, defender, 10);
-            attack.Execute();
-
-            attacker.AttackTurns.Should().Be(attackTurns - 10);
         }
 
         [DataTestMethod]

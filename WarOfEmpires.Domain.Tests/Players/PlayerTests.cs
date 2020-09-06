@@ -679,36 +679,38 @@ namespace WarOfEmpires.Domain.Tests.Players {
         }
 
         [TestMethod]
-        public void Player_ProcessAttack_Succeeds() {
+        public void Player_ExecuteAttack_Succeeds() {
             var attacker = new Player(0, "Test 1");
             var defender = new Player(1, "Test 2");
-            var resources = new Resources(20000);
 
-            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(attacker, new Resources(100000));
-            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(defender, new Resources(100000));
-            typeof(Player).GetProperty(nameof(Player.AttackTurns)).SetValue(attacker, 25);
+            attacker.Troops.Add(new Troops(TroopType.Archers, 1, 0));
 
-            attacker.ProcessAttack(defender, resources, 10);
+            var attack = attacker.ExecuteAttack(AttackType.Assault, defender, 10);
 
-            attacker.Resources.Should().Be(new Resources(120000));
-            defender.Resources.Should().Be(new Resources(80000));
-            attacker.AttackTurns.Should().Be(15);
+            attack.Resources.Gold.Should().BeGreaterThan(0);
+            attack.Result.Should().NotBe(AttackResult.Undefined);
+
+            attacker.ExecutedAttacks.Should().BeEquivalentTo(attack);
+            defender.ReceivedAttacks.Should().BeEquivalentTo(attack);
+            attacker.Resources.Gold.Should().Be(10000 + attack.Resources.Gold);
+            defender.Resources.Gold.Should().Be(10000 - attack.Resources.Gold);
+            attacker.AttackTurns.Should().Be(40);
         }
 
         [TestMethod]
-        public void Player_CheckUpkeep_Resets_HasUpkeepRunOut_When_Enough() {
+        public void Player_AddResources_Resets_HasUpkeepRunOut_When_Enough() {
             var player = new Player(0, "Test");
             var defender = new Player(1, "Test 2");
 
             typeof(Player).GetProperty(nameof(Player.HasUpkeepRunOut)).SetValue(player, true);
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(defender, new Resources(gold: 100000, food: 10000));
 
-            player.ProcessAttack(defender, player.GetUpkeepPerTurn(), 1);
+            player.AddResources(player.GetUpkeepPerTurn());
             player.HasUpkeepRunOut.Should().BeFalse();
         }
 
         [TestMethod]
-        public void Player_CheckUpkeepDoes_Not_Reset_HasUpkeepRunOut_When_Not_Enough() {
+        public void Player_AddResources_Does_Not_Reset_HasUpkeepRunOut_When_Not_Enough() {
             var player = new Player(0, "Test");
             var defender = new Player(1, "Test 2");
 
@@ -716,7 +718,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources());
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(defender, new Resources(gold: 100000, food: 10000));
 
-            player.ProcessAttack(defender, player.GetUpkeepPerTurn() - new Resources(food: 1), 1);
+            player.AddResources(player.GetUpkeepPerTurn() - new Resources(food: 1));
             player.HasUpkeepRunOut.Should().BeTrue();
         }
 

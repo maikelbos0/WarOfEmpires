@@ -409,10 +409,17 @@ namespace WarOfEmpires.Domain.Players {
             SpendResources(troops * HealCostPerTroopPerTurn * staminaToHeal);
         }
 
-        public virtual void ProcessAttack(Player defender, Resources gainedResources, int attackTurns) {
-            AddResources(gainedResources);
-            defender.Resources -= gainedResources;
+        public virtual Attack ExecuteAttack(AttackType type, Player defender, int attackTurns) {
+            var attack = AttackFactory.Get(type, this, defender, attackTurns);
+
+            attack.Execute();
+            ExecutedAttacks.Add(attack);
+            defender.ReceivedAttacks.Add(attack);
+            AddResources(attack.Resources);
+            defender.Resources -= attack.Resources;
             AttackTurns -= attackTurns;
+
+            return attack;
         }
 
         public virtual void AddResources(Resources resources) {

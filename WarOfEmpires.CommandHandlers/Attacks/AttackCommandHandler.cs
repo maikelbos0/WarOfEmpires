@@ -30,14 +30,8 @@ namespace WarOfEmpires.CommandHandlers.Attacks {
             }
 
             if (result.Success) {
-                var attack = AttackFactory.Get(type, attacker, defender, turns);
-
-                attack.Execute();
-                attacker.ExecutedAttacks.Add(attack);
-                defender.ReceivedAttacks.Add(attack);
-
+                var attack = attacker.ExecuteAttack(type, defender, turns);
                 _repository.SaveChanges();
-
                 result.ResultId = attack.Id;
             }
 
