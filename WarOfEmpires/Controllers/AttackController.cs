@@ -53,6 +53,14 @@ namespace WarOfEmpires.Controllers {
             return View("Details", model);
         }
 
+        [Route("Details")]
+        [HttpGet]
+        public ActionResult Details() {
+            var id = _messageService.Dispatch(new GetLastExecutedAttackQuery(_authenticationService.Identity));
+
+            return Details(id.ToString());
+        }
+
         [Route("Execute")]
         [HttpGet]
         public ActionResult Execute(string defenderId) {
@@ -64,7 +72,7 @@ namespace WarOfEmpires.Controllers {
         public ActionResult Execute(ExecuteAttackModel model) {
             return ValidatedCommandResult(model, 
                 new AttackCommand(model.AttackType, _authenticationService.Identity, model.DefenderId.ToString(), model.Turns),
-                (id) => Details(id.ToString()));
+                Details);
         }
     }
 }

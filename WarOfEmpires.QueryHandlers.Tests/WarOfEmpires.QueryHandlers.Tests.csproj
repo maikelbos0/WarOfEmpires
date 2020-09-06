@@ -88,6 +88,7 @@
     <Compile Include="Alliances\GetReceivedInvitesQueryHandlerTest.cs" />
     <Compile Include="Alliances\GetRoleDetailsQueryHandlerTests.cs" />
     <Compile Include="Alliances\GetRolesQueryHandlerTests.cs" />
+    <Compile Include="Attacks\GetLastExecutedAttackQueryHandlerTests.cs" />
     <Compile Include="Attacks\GetAttackDetailsQueryHandlerTests.cs" />
     <Compile Include="Attacks\GetDefenderQueryHandlerTests.cs" />
     <Compile Include="Attacks\GetExecutedAttacksQueryHandlerTests.cs" />
