@@ -21,8 +21,6 @@ namespace WarOfEmpires.CommandHandlers {
             }
         }
 
-        public int? ResultId { get; internal set; }
-
         public void AddError(string message) {
             AddError(null, message);
         }
