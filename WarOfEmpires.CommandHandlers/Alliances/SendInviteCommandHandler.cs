@@ -26,6 +26,7 @@ namespace WarOfEmpires.CommandHandlers.Alliances {
             }
 
             if (result.Success) {
+                // TODO create domain function and rewrite tests
                 alliance.Invites.Add(new Invite(alliance, player, command.Subject, command.Body));
                 _repository.SaveChanges();
             }
