@@ -30,9 +30,8 @@ namespace WarOfEmpires.CommandHandlers.Attacks {
             }
 
             if (result.Success) {
-                var attack = attacker.ExecuteAttack(type, defender, turns);
+                attacker.ExecuteAttack(type, defender, turns);
                 _repository.SaveChanges();
-                result.ResultId = attack.Id;
             }
 
             return result;

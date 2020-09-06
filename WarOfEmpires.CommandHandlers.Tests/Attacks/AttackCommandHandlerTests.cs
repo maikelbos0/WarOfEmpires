@@ -18,17 +18,12 @@ namespace WarOfEmpires.CommandHandlers.Tests.Attacks {
                 .WithPlayer(1, out var attacker)
                 .WithPlayer(2, out var defender);
 
-            var attack = Substitute.For<Attack>();
-            attack.Id.Returns(3);
-            attacker.ExecuteAttack(Arg.Any<AttackType>(), Arg.Any<Player>(), Arg.Any<int>()).Returns(attack);
-
             var handler = new AttackCommandHandler(new PlayerRepository(builder.Context));
             var command = new AttackCommand("Raid", "test1@test.com", "2", "10");
 
             var result = handler.Execute(command);
 
             result.Success.Should().BeTrue();
-            result.ResultId.Should().Be(3);
             attacker.Received().ExecuteAttack(AttackType.Raid, defender, 10);
             builder.Context.CallsToSaveChanges.Should().Be(1);
         }
@@ -89,10 +84,6 @@ namespace WarOfEmpires.CommandHandlers.Tests.Attacks {
                 .WithPlayer(1, out var attacker)
                 .WithPlayer(2, out var defender);
 
-            var attack = Substitute.For<Attack>();
-            attack.Id.Returns(3);
-            attacker.ExecuteAttack(Arg.Any<AttackType>(), Arg.Any<Player>(), Arg.Any<int>()).Returns(attack);
-
             var handler = new AttackCommandHandler(new PlayerRepository(builder.Context));
             var command = new AttackCommand(typeParameter, "test1@test.com", "2", "10");
 
@@ -105,7 +96,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Attacks {
         public void AttackCommandHandler_Fails_For_AlphaNumeric_Turns() {
             var builder = new FakeBuilder()
                 .WithPlayer(1, out var attacker)
-                .WithPlayer(2, out var defender);
+                .WithPlayer(2);
 
             var handler = new AttackCommandHandler(new PlayerRepository(builder.Context));
             var command = new AttackCommand("Raid", "test1@test.com", "2", "A");
@@ -121,7 +112,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Attacks {
         public void AttackCommandHandler_Fails_For_Too_Few_Turns_Available() {
             var builder = new FakeBuilder()
                 .WithPlayer(1, out var attacker, attackTurns: 9)
-                .WithPlayer(2, out var defender);
+                .WithPlayer(2);
 
             var handler = new AttackCommandHandler(new PlayerRepository(builder.Context));
             var command = new AttackCommand("Raid", "test1@test.com", "2", "10");
@@ -137,7 +128,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Attacks {
         public void AttackCommandHandler_Fails_For_Less_Than_One_Turn() {
             var builder = new FakeBuilder()
                 .WithPlayer(1, out var attacker)
-                .WithPlayer(2, out var defender);
+                .WithPlayer(2);
 
             var handler = new AttackCommandHandler(new PlayerRepository(builder.Context));
             var command = new AttackCommand("Raid", "test1@test.com", "2", "0");
@@ -153,7 +144,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Attacks {
         public void AttackCommandHandler_Fails_For_More_Than_Ten_Turns() {
             var builder = new FakeBuilder()
                 .WithPlayer(1, out var attacker)
-                .WithPlayer(2, out var defender);
+                .WithPlayer(2);
 
             var handler = new AttackCommandHandler(new PlayerRepository(builder.Context));
             var command = new AttackCommand("Raid", "test1@test.com", "2", "11");

@@ -685,13 +685,15 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
             attacker.Troops.Add(new Troops(TroopType.Archers, 1, 0));
 
-            var attack = attacker.ExecuteAttack(AttackType.Assault, defender, 10);
+            attacker.ExecuteAttack(AttackType.Assault, defender, 10);
 
+            attacker.ExecutedAttacks.Should().HaveCount(1);
+            defender.ReceivedAttacks.Should().BeEquivalentTo(attacker.ExecutedAttacks);
+
+            var attack = attacker.ExecutedAttacks.Single();
             attack.Resources.Gold.Should().BeGreaterThan(0);
             attack.Result.Should().NotBe(AttackResult.Undefined);
 
-            attacker.ExecutedAttacks.Should().BeEquivalentTo(attack);
-            defender.ReceivedAttacks.Should().BeEquivalentTo(attack);
             attacker.Resources.Gold.Should().Be(10000 + attack.Resources.Gold);
             defender.Resources.Gold.Should().Be(10000 - attack.Resources.Gold);
             attacker.AttackTurns.Should().Be(40);
