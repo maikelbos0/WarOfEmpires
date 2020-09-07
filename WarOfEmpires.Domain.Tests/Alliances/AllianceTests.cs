@@ -21,6 +21,23 @@ namespace WarOfEmpires.Domain.Tests.Alliances {
         }
 
         [TestMethod]
+        public void Alliance_SendInvite_Succeeds() {
+            var member = new Player(1, "Member");
+            var player = new Player(2, "Player");
+            var alliance = new Alliance(member, "TEST", "The Test");
+
+            alliance.SendInvite(player, "The subject", "A body");
+
+            alliance.Invites.Should().HaveCount(1);
+            alliance.Invites.Single().Player.Should().Be(player);
+            alliance.Invites.Single().Alliance.Should().Be(alliance);
+            alliance.Invites.Single().Subject.Should().Be("The subject");
+            alliance.Invites.Single().Body.Should().Be("A body");
+            alliance.Invites.Single().IsRead.Should().Be(false);
+            alliance.Invites.Single().Date.Should().BeCloseTo(DateTime.UtcNow, 1000);
+        }
+
+        [TestMethod]
         public void Alliance_AcceptInvite_Succeeds() {
             var member = new Player(1, "Member");
             var player = new Player(2, "Player");
@@ -58,9 +75,9 @@ namespace WarOfEmpires.Domain.Tests.Alliances {
             alliance.PostChatMessage(member, "Test message");
 
             alliance.ChatMessages.Should().HaveCount(1);
-            alliance.ChatMessages.First().Player.Should().Be(member);
-            alliance.ChatMessages.First().Date.Should().BeCloseTo(DateTime.UtcNow, 1000);
-            alliance.ChatMessages.First().Message.Should().Be("Test message");
+            alliance.ChatMessages.Single().Player.Should().Be(member);
+            alliance.ChatMessages.Single().Date.Should().BeCloseTo(DateTime.UtcNow, 1000);
+            alliance.ChatMessages.Single().Message.Should().Be("Test message");
         }
 
         [TestMethod]
@@ -71,8 +88,8 @@ namespace WarOfEmpires.Domain.Tests.Alliances {
             alliance.CreateRole("Testrole");
 
             alliance.Roles.Should().HaveCount(1);
-            alliance.Roles.First().Alliance.Should().Be(alliance);
-            alliance.Roles.First().Name.Should().Be("Testrole");
+            alliance.Roles.Single().Alliance.Should().Be(alliance);
+            alliance.Roles.Single().Name.Should().Be("Testrole");
         }
 
         [TestMethod]

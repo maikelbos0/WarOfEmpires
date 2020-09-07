@@ -25,6 +25,10 @@ namespace WarOfEmpires.Domain.Alliances {
             Members.Add(member);
         }
 
+        public virtual void SendInvite(Player player, string subject, string body) {
+            Invites.Add(new Invite(this, player, subject, body));
+        }
+
         public virtual void AcceptInvite(Invite invite) {
             Members.Add(invite.Player);
             Invites.Remove(invite);
