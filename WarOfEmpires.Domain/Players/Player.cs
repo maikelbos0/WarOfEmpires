@@ -487,5 +487,12 @@ namespace WarOfEmpires.Domain.Players {
             Rank = rank;
             Title = title;
         }
+
+        public virtual void SendMessage(Player recipient, string subject, string body) {
+            var message = new Message(this, recipient, subject, body);
+
+            SentMessages.Add(message);
+            recipient.ReceivedMessages.Add(message);
+        }
     }
 }

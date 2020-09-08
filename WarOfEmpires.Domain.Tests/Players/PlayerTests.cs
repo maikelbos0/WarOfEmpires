@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using WarOfEmpires.Domain.Attacks;
@@ -1183,6 +1184,25 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
             player.Rank.Should().Be(5);
             player.Title.Should().Be(TitleType.SubChieftain);
+        }
+
+        [TestMethod]
+        public void Player_SendMessage_Succeeds() {
+            var sender = new Player(0, "Test 1");
+            var recipient = new Player(1, "Test 2");
+
+            sender.SendMessage(recipient, "Message subject", "Message body");
+
+            sender.SentMessages.Should().HaveCount(1);
+            recipient.ReceivedMessages.Should().BeEquivalentTo(sender.SentMessages);
+
+            var message = sender.SentMessages.Single();
+            message.Sender.Should().Be(sender);
+            message.Recipient.Should().Be(recipient);
+            message.Subject.Should().Be("Message subject");
+            message.Body.Should().Be("Message body");
+            message.IsRead.Should().Be(false);
+            message.Date.Should().BeCloseTo(DateTime.UtcNow, 1000);
         }
     }
 }
