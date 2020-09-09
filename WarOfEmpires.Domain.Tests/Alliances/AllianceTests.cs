@@ -9,15 +9,22 @@ namespace WarOfEmpires.Domain.Tests.Alliances {
     [TestClass]
     public sealed class AllianceTests {
         [TestMethod]
-        public void Alliance_AddMember_Succeeds() {
-            var member = new Player(1, "Member");
-            var player = new Player(2, "Player");
-            var alliance = new Alliance(member, "TEST", "The Test");
+        public void Alliance_New_Adds_Leader_As_Member() {
+            var leader = new Player(1, "Member");
+            var alliance = new Alliance(leader, "TEST", "The Test");
 
-            alliance.AddMember(member);
+            alliance.Members.Should().BeEquivalentTo(new[] { leader });
+        }
+
+        [TestMethod]
+        public void Alliance_AddMember_Succeeds() {
+            var leader = new Player(1, "Member");
+            var player = new Player(2, "Player");
+            var alliance = new Alliance(leader, "TEST", "The Test");
+
             alliance.AddMember(player);
 
-            alliance.Members.Should().BeEquivalentTo(new[] { member, player });
+            alliance.Members.Should().BeEquivalentTo(new[] { leader, player });
         }
 
         [TestMethod]
@@ -39,29 +46,27 @@ namespace WarOfEmpires.Domain.Tests.Alliances {
 
         [TestMethod]
         public void Alliance_AcceptInvite_Succeeds() {
-            var member = new Player(1, "Member");
+            var leader = new Player(1, "Member");
             var player = new Player(2, "Player");
-            var alliance = new Alliance(member, "TEST", "The Test");
+            var alliance = new Alliance(leader, "TEST", "The Test");
             var invite = new Invite(alliance, player, null, null);
 
             alliance.Invites.Add(invite);
 
-            alliance.AddMember(member);
             alliance.AcceptInvite(invite);
 
-            alliance.Members.Should().BeEquivalentTo(new[] { member, player });
+            alliance.Members.Should().BeEquivalentTo(new[] { leader, player });
             alliance.Invites.Should().BeEmpty();
         }
 
         [TestMethod]
         public void Alliance_RemoveInvite_Succeeds() {
-            var member = new Player(1, "Member");
-            var alliance = new Alliance(member, "TEST", "The Test");
+            var leader = new Player(1, "Member");
+            var alliance = new Alliance(leader, "TEST", "The Test");
             var invite = new Invite(alliance, new Player(2, "Player"), null, null);
 
             alliance.Invites.Add(invite);
 
-            alliance.AddMember(member);
             alliance.RemoveInvite(invite);
 
             alliance.Invites.Should().BeEmpty();
@@ -69,21 +74,21 @@ namespace WarOfEmpires.Domain.Tests.Alliances {
 
         [TestMethod]
         public void Alliance_PostChatMessage_Succeeds() {
-            var member = new Player(1, "Member");
-            var alliance = new Alliance(member, "TEST", "The Test");
+            var leader = new Player(1, "Member");
+            var alliance = new Alliance(leader, "TEST", "The Test");
 
-            alliance.PostChatMessage(member, "Test message");
+            alliance.PostChatMessage(leader, "Test message");
 
             alliance.ChatMessages.Should().HaveCount(1);
-            alliance.ChatMessages.Single().Player.Should().Be(member);
+            alliance.ChatMessages.Single().Player.Should().Be(leader);
             alliance.ChatMessages.Single().Date.Should().BeCloseTo(DateTime.UtcNow, 1000);
             alliance.ChatMessages.Single().Message.Should().Be("Test message");
         }
 
         [TestMethod]
         public void Alliance_CreateRole_Succeeds() {
-            var member = new Player(1, "Member");
-            var alliance = new Alliance(member, "TEST", "The Test");
+            var leader = new Player(1, "Member");
+            var alliance = new Alliance(leader, "TEST", "The Test");
 
             alliance.CreateRole("Testrole");
 
@@ -94,11 +99,11 @@ namespace WarOfEmpires.Domain.Tests.Alliances {
 
         [TestMethod]
         public void Alliance_DeleteRole_Succeeds() {
-            var member = new Player(1, "Member");
-            var alliance = new Alliance(member, "TEST", "The Test");
+            var leader = new Player(1, "Member");
+            var alliance = new Alliance(leader, "TEST", "The Test");
             var role = new Role(alliance, "Testrole");
 
-            role.Players.Add(member);
+            role.Players.Add(leader);
             alliance.Roles.Add(role);
 
             alliance.DeleteRole(role);
@@ -109,30 +114,30 @@ namespace WarOfEmpires.Domain.Tests.Alliances {
 
         [TestMethod]
         public void Alliance_SetRole_Succeeds() {
-            var member = new Player(1, "Member 1");
-            var alliance = new Alliance(member, "TEST", "The Test");
+            var leader = new Player(1, "Member 1");
+            var alliance = new Alliance(leader, "TEST", "The Test");
             var role = new Role(alliance, "Testrole");
 
             alliance.Roles.Add(role);
 
-            alliance.SetRole(member, role);
+            alliance.SetRole(leader, role);
 
-            role.Players.Should().BeEquivalentTo(member);
+            role.Players.Should().BeEquivalentTo(leader);
         }
 
         [TestMethod]
         public void Alliance_ClearRole_Succeeds() {
-            var member1 = new Player(1, "Member 1");
-            var member2 = new Player(2, "Member 2");
-            var alliance = new Alliance(member1, "TEST", "The Test");
+            var leader = new Player(1, "Member 1");
+            var member = new Player(2, "Member 2");
+            var alliance = new Alliance(leader, "TEST", "The Test");
             var role = new Role(alliance, "Testrole");
 
-            role.Players.Add(member1);
-            role.Players.Add(member2);
+            role.Players.Add(leader);
+            role.Players.Add(member);
             alliance.Roles.Add(role);
 
-            alliance.ClearRole(member1);
-            role.Players.Should().BeEquivalentTo(member2);
+            alliance.ClearRole(leader);
+            role.Players.Should().BeEquivalentTo(member);
         }
     }
 }
