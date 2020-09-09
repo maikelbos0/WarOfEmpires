@@ -1,8 +1,6 @@
 using WarOfEmpires.Commands.Security;
-using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Repositories.Security;
 using WarOfEmpires.Utilities.Container;
-using System;
 
 namespace WarOfEmpires.CommandHandlers.Security {
     [InterfaceInjectable]
