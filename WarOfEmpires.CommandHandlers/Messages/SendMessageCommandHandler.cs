@@ -1,6 +1,5 @@
 ﻿using WarOfEmpires.CommandHandlers.Decorators;
 using WarOfEmpires.Commands.Messages;
-using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Repositories.Players;
 using WarOfEmpires.Utilities.Container;
 
@@ -19,12 +18,7 @@ namespace WarOfEmpires.CommandHandlers.Messages {
             var sender = _repository.Get(command.SenderEmail);
             var recipient = _repository.Get(int.Parse(command.RecipientId));
 
-            // TODO create domain function and rewrite tests
-            var message = new Message(sender, recipient, command.Subject, command.Body);
-
-            sender.SentMessages.Add(message);
-            recipient.ReceivedMessages.Add(message);
-
+            sender.SendMessage(recipient, command.Subject, command.Body);
             _repository.SaveChanges();
 
             return result;
