@@ -19,7 +19,8 @@ namespace WarOfEmpires.Controllers {
         [Route("Sell")]
         [HttpGet]
         public ActionResult Sell() {
-            return View(_messageService.Dispatch(new GetMarketQuery(_authenticationService.Identity)));
+            // Explicitly name view so it works from WithdrawCaravan
+            return View("Sell", _messageService.Dispatch(new GetMarketQuery(_authenticationService.Identity)));
         }
 
         [Route("Sell")]
@@ -38,9 +39,9 @@ namespace WarOfEmpires.Controllers {
         [Route("WithdrawCaravan")]
         [HttpPost]
         public ActionResult WithdrawCaravan(string id) {
-            _messageService.Dispatch(new WithdrawCaravanCommand(_authenticationService.Identity, id));
-
-            return RedirectToAction("Sell");
+            return ValidatedCommandResult(id,
+                new WithdrawCaravanCommand(_authenticationService.Identity, id),
+                () => Sell());
         }
 
         [Route("Buy")]
