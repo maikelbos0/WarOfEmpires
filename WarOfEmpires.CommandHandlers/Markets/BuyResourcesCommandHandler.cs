@@ -54,7 +54,6 @@ namespace WarOfEmpires.CommandHandlers.Markets {
             }
 
             if (result.Success) {
-                // TODO figure out if this can be improved
                 foreach (var totals in merchandiseTotals) {
                     var quantity = totals.Quantity;
                     var caravans = _repository.GetCaravans(totals.Type)
