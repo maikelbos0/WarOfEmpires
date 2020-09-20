@@ -44,6 +44,7 @@ namespace WarOfEmpires.Database {
 
         public override int SaveChanges() {
             DeleteOrphanedInvites();
+            DeleteOrphanedRoles();
             DeleteOrphanedCaravans();
 
             return base.SaveChanges();
@@ -57,6 +58,18 @@ namespace WarOfEmpires.Database {
 
                 foreach (var orphanedInvite in invites.Where(i => !allianceInvites.Contains(i))) {
                     Set<Alliances.Invite>().Remove(orphanedInvite);
+                }
+            }
+        }
+
+        private void DeleteOrphanedRoles() {
+            var roles = ChangeTracker.Entries().Select(e => e.Entity).OfType<Alliances.Role>();
+
+            if (roles.Any()) {
+                var allianceRoles = ChangeTracker.Entries().Select(e => e.Entity).OfType<Alliances.Alliance>().SelectMany(a => a.Roles).ToHashSet();
+
+                foreach (var orphanedRole in roles.Where(r => !allianceRoles.Contains(r))) {
+                    Set<Alliances.Role>().Remove(orphanedRole);
                 }
             }
         }
@@ -173,6 +186,7 @@ namespace WarOfEmpires.Database {
             var alliances = modelBuilder.Entity<Alliances.Alliance>().ToTable("Alliances", "Alliances").HasKey(a => a.Id);
             alliances.HasMany(a => a.Members).WithOptional(p => p.Alliance);
             alliances.HasMany(a => a.Invites).WithRequired(i => i.Alliance);
+            alliances.HasMany(a => a.Roles).WithRequired(r => r.Alliance);
             alliances.HasMany(a => a.ChatMessages).WithRequired();
             alliances.HasRequired(a => a.Leader);
             alliances.Property(a => a.Code).IsRequired();
