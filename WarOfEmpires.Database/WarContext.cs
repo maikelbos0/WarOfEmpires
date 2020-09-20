@@ -42,10 +42,6 @@ namespace WarOfEmpires.Database {
         public IDbSet<Players.Player> Players { get; set; }
         public IDbSet<Events.ScheduledTask> ScheduledTasks { get; set; }
 
-        public void Remove<TEntity>(TEntity entity) where TEntity : class {
-            Set<TEntity>().Remove(entity);
-        }
-
         public override int SaveChanges() {
             DeleteOrphanedInvites();
             DeleteOrphanedCaravans();
@@ -60,7 +56,7 @@ namespace WarOfEmpires.Database {
                 var allianceInvites = ChangeTracker.Entries().Select(e => e.Entity).OfType<Alliances.Alliance>().SelectMany(a => a.Invites).ToHashSet();
 
                 foreach (var orphanedInvite in invites.Where(i => !allianceInvites.Contains(i))) {
-                    Remove(orphanedInvite);
+                    Set<Alliances.Invite>().Remove(orphanedInvite);
                 }
             }
         }
@@ -72,7 +68,7 @@ namespace WarOfEmpires.Database {
                 var playerCaravans = ChangeTracker.Entries().Select(e => e.Entity).OfType<Players.Player>().SelectMany(p => p.Caravans).ToHashSet();
 
                 foreach (var orphanedCaravan in caravans.Where(i => !playerCaravans.Contains(i))) {
-                    Remove(orphanedCaravan);
+                    Set<Markets.Caravan>().Remove(orphanedCaravan);
                 }
             }
         }
