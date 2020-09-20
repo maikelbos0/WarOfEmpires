@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NSubstitute;
 using System;
 using WarOfEmpires.CommandHandlers.Messages;
 using WarOfEmpires.Commands.Messages;
@@ -21,8 +22,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Messages {
             var result = handler.Execute(command);
 
             result.Success.Should().BeTrue();
-            builder.Player.SentMessages.Should().HaveCount(1);
-            recipient.ReceivedMessages.Should().HaveCount(1);
+            builder.Player.Received().SendMessage(recipient, "Subject", "Body");
             builder.Context.CallsToSaveChanges.Should().Be(1);
         }
 
@@ -37,6 +37,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Messages {
             Action action = () => handler.Execute(command);
 
             action.Should().Throw<FormatException>();
+            builder.Player.DidNotReceiveWithAnyArgs().SendMessage(default, default, default);
             builder.Context.CallsToSaveChanges.Should().Be(0);
         }
 
@@ -51,6 +52,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Messages {
             Action action = () => handler.Execute(command);
 
             action.Should().Throw<InvalidOperationException>();
+            builder.Player.DidNotReceiveWithAnyArgs().SendMessage(default, default, default);
             builder.Context.CallsToSaveChanges.Should().Be(0);
         }
     }

@@ -63,6 +63,7 @@
     <Compile Include="Alliances\GetReceivedInvitesQueryHandler.cs" />
     <Compile Include="Alliances\GetRoleDetailsQueryHandler.cs" />
     <Compile Include="Alliances\GetRolesQueryHandler.cs" />
+    <Compile Include="Attacks\GetLastExecutedAttackQueryHandler.cs" />
     <Compile Include="Attacks\GetAttackDetailsQueryHandler.cs" />
     <Compile Include="Attacks\GetDefenderQueryHandler.cs" />
     <Compile Include="Attacks\GetExecutedAttacksQueryHandler.cs" />

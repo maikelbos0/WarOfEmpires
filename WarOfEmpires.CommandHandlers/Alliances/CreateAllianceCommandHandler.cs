@@ -30,13 +30,7 @@ namespace WarOfEmpires.CommandHandlers.Alliances {
             }
 
             if (result.Success) {
-                var alliance = new Alliance(player, command.Code, command.Name);
-
-                _allianceRepository.Add(alliance);
-
-                // Add player as member separately to make sure EF understands us
-                alliance.AddMember(player);
-                _playerRepository.SaveChanges();
+                _allianceRepository.Add(new Alliance(player, command.Code, command.Name));
             }
 
             return result;

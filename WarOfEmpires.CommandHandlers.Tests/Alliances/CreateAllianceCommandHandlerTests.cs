@@ -28,7 +28,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
             alliance.Name.Should().Be("The Alliance");
             alliance.Leader.Should().Be(player);
             alliance.Members.Should().Contain(player);
-            builder.Context.CallsToSaveChanges.Should().Be(2);
+            builder.Context.CallsToSaveChanges.Should().Be(1);
         }
 
         [TestMethod]

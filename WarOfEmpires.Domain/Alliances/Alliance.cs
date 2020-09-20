@@ -19,10 +19,15 @@ namespace WarOfEmpires.Domain.Alliances {
             Leader = leader;
             Code = code;
             Name = name;
+            Members.Add(leader);
         }
 
         public virtual void AddMember(Player member) {
             Members.Add(member);
+        }
+
+        public virtual void SendInvite(Player player, string subject, string body) {
+            Invites.Add(new Invite(this, player, subject, body));
         }
 
         public virtual void AcceptInvite(Invite invite) {

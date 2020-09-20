@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using WarOfEmpires.CommandHandlers.Decorators;
 using WarOfEmpires.Commands.Alliances;
-using WarOfEmpires.Domain.Alliances;
 using WarOfEmpires.Repositories.Players;
 using WarOfEmpires.Utilities.Container;
 
@@ -26,7 +25,7 @@ namespace WarOfEmpires.CommandHandlers.Alliances {
             }
 
             if (result.Success) {
-                alliance.Invites.Add(new Invite(alliance, player, command.Subject, command.Body));
+                alliance.SendInvite(player, command.Subject, command.Body);
                 _repository.SaveChanges();
             }
 

@@ -22,14 +22,10 @@ namespace WarOfEmpires.Controllers {
         }
 
         protected ActionResult ValidatedCommandResult<TCommand>(object model, TCommand command, string onValidViewName) where TCommand : ICommand {
-            return ValidatedCommandResult(model, command, (id) => View(onValidViewName));
+            return ValidatedCommandResult(model, command, () => View(onValidViewName));
         }
 
         protected ActionResult ValidatedCommandResult<TCommand>(object model, TCommand command, Func<ActionResult> onValid) where TCommand : ICommand {
-            return ValidatedCommandResult(model, command, (id) => onValid());
-        }
-
-        protected ActionResult ValidatedCommandResult<TCommand>(object model, TCommand command, Func<int?, ActionResult> onValid) where TCommand : ICommand {
             CommandResult<TCommand> result = null;
 
             if (ModelState.IsValid) {
@@ -49,7 +45,7 @@ namespace WarOfEmpires.Controllers {
                     Response?.AddHeader("X-IsValid", "true");
                 }
 
-                return onValid(result?.ResultId);
+                return onValid();
             }
             else {
                 return View(model);

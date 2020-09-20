@@ -39,7 +39,7 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
         }
 
         [TestMethod]
-        public void Assault_Surrendered_Gives_Correct_Resources_To_Attacker() {
+        public void Assault_Surrendered_Calculates_Correct_Resources() {
             var attacker = new Player(1, "Attacker");
             var defender = new Player(2, "Defender");
 
@@ -52,19 +52,15 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
             typeof(Player).GetProperty(nameof(Player.Stamina)).SetValue(defender, 29);
 
             var expectedResources = new Resources(defender.Resources.Gold) * 0.25m;
-            var previousDefenderResources = defender.Resources;
-            var previousAttackerResources = attacker.Resources;
 
             var attack = new Assault(attacker, defender, 10);
             attack.Execute();
 
             attack.Resources.Should().Be(expectedResources);
-            defender.Resources.Should().Be(previousDefenderResources - expectedResources);
-            attacker.Resources.Should().Be(previousAttackerResources + expectedResources);
         }
 
         [TestMethod]
-        public void Assault_Won_Gives_Correct_Resources_To_Attacker() {
+        public void Assault_Won_Calculates_Correct_Resources() {
             var attacker = new Player(1, "Attacker");
             var defender = new Player(2, "Defender");
 
@@ -75,15 +71,11 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
             defender.Troops.Add(new Troops(TroopType.Archers, 400, 100));
 
             var expectedResources = new Resources(defender.Resources.Gold) * 0.5m * (500m / 800m);
-            var previousDefenderResources = defender.Resources;
-            var previousAttackerResources = attacker.Resources;
 
             var attack = new Assault(attacker, defender, 10);
             attack.Execute();
 
             attack.Resources.Should().Be(expectedResources);
-            defender.Resources.Should().Be(previousDefenderResources - expectedResources);
-            attacker.Resources.Should().Be(previousAttackerResources + expectedResources);
         }
 
         [DataTestMethod]

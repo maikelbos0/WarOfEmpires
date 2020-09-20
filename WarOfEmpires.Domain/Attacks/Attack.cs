@@ -68,8 +68,6 @@ namespace WarOfEmpires.Domain.Attacks {
                     Result = AttackResult.Defended;
                 }
             }
-
-            Attacker.ProcessAttack(Defender, Resources, Turns);
         }
 
         public void AddRound(int stamina, TroopType troopType, bool isAggressor, TroopInfo attackerTroopInfo, Player defender) {

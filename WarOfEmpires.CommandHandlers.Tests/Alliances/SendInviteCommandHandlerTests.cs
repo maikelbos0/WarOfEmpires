@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NSubstitute;
 using System;
-using System.Linq;
 using WarOfEmpires.CommandHandlers.Alliances;
 using WarOfEmpires.Commands.Alliances;
 using WarOfEmpires.Repositories.Players;
@@ -23,11 +23,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
             var result = handler.Execute(command);
 
             result.Success.Should().BeTrue();
-            builder.Alliance.Invites.Should().HaveCount(1);
-            builder.Alliance.Invites.Single().Subject.Should().Be("Test message");
-            builder.Alliance.Invites.Single().Body.Should().Be("Message body");
-            builder.Alliance.Invites.Single().Player.Should().Be(player);
-            builder.Alliance.Invites.Single().Alliance.Should().Be(builder.Alliance);
+            builder.Alliance.Received().SendInvite(player, "Test message", "Message body");
             builder.Context.CallsToSaveChanges.Should().Be(1);
         }
 
@@ -45,7 +41,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
             var result = handler.Execute(command);
 
             result.Should().HaveError("This player already has an open invite and can not be invited again");
-            builder.Alliance.Invites.Should().HaveCount(1);
+            builder.Alliance.DidNotReceiveWithAnyArgs().SendInvite(default, default, default);
             builder.Context.CallsToSaveChanges.Should().Be(0);
         }
 
@@ -60,7 +56,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
 
             Action action = () => handler.Execute(command);
 
-            action.Should().Throw<NullReferenceException>();
+            action.Should().Throw<NullReferenceException>();            
             builder.Context.CallsToSaveChanges.Should().Be(0);
         }
 
@@ -76,7 +72,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
             Action action = () => handler.Execute(command);
 
             action.Should().Throw<FormatException>();
-            builder.Alliance.Invites.Should().HaveCount(0);
+            builder.Alliance.DidNotReceiveWithAnyArgs().SendInvite(default, default, default);
             builder.Context.CallsToSaveChanges.Should().Be(0);
         }
 
@@ -92,7 +88,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
             Action action = () => handler.Execute(command);
 
             action.Should().Throw<InvalidOperationException>();
-            builder.Alliance.Invites.Should().HaveCount(0);
+            builder.Alliance.DidNotReceiveWithAnyArgs().SendInvite(default, default, default);
             builder.Context.CallsToSaveChanges.Should().Be(0);
         }
     }
