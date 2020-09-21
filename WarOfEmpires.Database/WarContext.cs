@@ -55,8 +55,9 @@ namespace WarOfEmpires.Database {
 
             if (invites.Any()) {
                 var allianceInvites = ChangeTracker.Entries().Select(e => e.Entity).OfType<Alliances.Alliance>().SelectMany(a => a.Invites).ToHashSet();
+                var playerInvites = ChangeTracker.Entries().Select(e => e.Entity).OfType<Players.Player>().SelectMany(p => p.Invites).ToHashSet();
 
-                foreach (var orphanedInvite in invites.Where(i => !allianceInvites.Contains(i))) {
+                foreach (var orphanedInvite in invites.Where(i => !allianceInvites.Contains(i) && !playerInvites.Contains(i))) {
                     Set<Alliances.Invite>().Remove(orphanedInvite);
                 }
             }

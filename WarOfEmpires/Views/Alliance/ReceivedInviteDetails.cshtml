@@ -6,43 +6,47 @@
 
 <h2>Alliance invite</h2>
 
-<div class="row">
-    <div class="col-12 col-md-6 offset-md-3">
-        <div class="form-group">
-            <label>Alliance</label>
-            @Html.ActionLink($"{Model.AllianceCode} - {Model.AllianceName}", "Details", "Alliance", new { id = Model.AllianceId }, new { @class = "form-control btn btn-secondary text-left" })
-        </div>
-
-        <div class="form-group">
-            <label>Date received</label>
-            <div class="form-control" readonly="readonly">@Model.Date.ToString(StringFormat.Date)</div>
-        </div>
-
-        <div class="form-group">
-            <label>Subject</label>
-            <div class="form-control" readonly="readonly">@Model.Subject</div>
-        </div>
-
-        <div class="site-user-text">@Model.Body </div>
-    </div>
-</div>
-
-@using (Html.BeginForm("AcceptInvite", null, FormMethod.Post, new {
-    data_success_message = "The invite has been accepted."
+@using (Html.BeginForm(null, null, FormMethod.Post, new {
+    data_success_message_accept = "The invite has been accepted.",
+    data_success_message_reject = "The invite has been rejected."
 })) {
-    @Html.Hidden("id", Model.Id)
+    @Html.ValidationSummary(true, null, new { @class = "site-validation-summary text-danger" })
+
+    @Html.HiddenFor(m => m.Command)
+    @Html.HiddenFor(m => m.Id)
+    @Html.HiddenFor(m => m.AllianceCode)
+    @Html.HiddenFor(m => m.AllianceName)
+    @Html.HiddenFor(m => m.AllianceId)
+    @Html.HiddenFor(m => m.Date)
+    @Html.HiddenFor(m => m.Subject)
+    @Html.HiddenFor(m => m.Body)
+
+    <div class="row">
+        <div class="col-12 col-md-6 offset-md-3">
+            <div class="form-group">
+                <label>Alliance</label>
+                @Html.ActionLink($"{Model.AllianceCode} - {Model.AllianceName}", "Details", "Alliance", new { id = Model.AllianceId }, new { @class = "form-control btn btn-secondary text-left" })
+            </div>
+
+            <div class="form-group">
+                <label>Date received</label>
+                <div class="form-control" readonly="readonly">@Model.Date.ToString(StringFormat.Date)</div>
+            </div>
+
+            <div class="form-group">
+                <label>Subject</label>
+                <div class="form-control" readonly="readonly">@Model.Subject</div>
+            </div>
+
+            <div class="site-user-text">@Model.Body </div>
+        </div>
+    </div>
 
     <div class="row mt-3">
-        <div class="col-6 offset-6 col-md-3"><button type="submit" class="btn btn-primary form-control">Accept</button></div>
+        <div class="col-6 offset-6 col-md-3"><button type="submit" class="btn btn-primary form-control" value="accept">Accept</button></div>
     </div>
-}
-
-@using (Html.BeginForm("RejectInvite", null, FormMethod.Post, new {
-    data_success_message = "The invite has been rejected."
-})) {
-    @Html.Hidden("id", Model.Id)
 
     <div class="row mt-3">
-        <div class="col-6 offset-6 col-md-3"><button type="submit" class="btn btn-secondary form-control">Reject</button></div>
+        <div class="col-6 offset-6 col-md-3"><button type="submit" class="btn btn-secondary form-control" value="reject">Reject</button></div>
     </div>
 }
