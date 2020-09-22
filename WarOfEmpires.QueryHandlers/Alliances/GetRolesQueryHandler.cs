@@ -28,6 +28,7 @@ namespace WarOfEmpires.QueryHandlers.Alliances {
             return alliance.Roles.Select(r => new RoleViewModel() {
                 Id = r.Id,
                 Name = r.Name,
+                CanInvite = r.CanInvite,
                 Players = r.Players.Count(p => p.User.Status == UserStatus.Active)
             });
         }
