@@ -259,6 +259,10 @@
     <Compile Include="Migrations\202009201607389_Role-Alliance-Required.designer.cs">
       <DependentUpon>202009201607389_Role-Alliance-Required.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202009221745326_Role-Rights-CanInvite.cs" />
+    <Compile Include="Migrations\202009221745326_Role-Rights-CanInvite.designer.cs">
+      <DependentUpon>202009221745326_Role-Rights-CanInvite.cs</DependentUpon>
+    </Compile>
     <Compile Include="ReferenceEntities\AttackResultEntity.cs" />
     <Compile Include="ReferenceEntities\AttackTypeEntity.cs" />
     <Compile Include="ReferenceEntities\BaseReferenceEntity.cs" />
@@ -446,6 +450,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202009201607389_Role-Alliance-Required.resx">
       <DependentUpon>202009201607389_Role-Alliance-Required.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202009221745326_Role-Rights-CanInvite.resx">
+      <DependentUpon>202009221745326_Role-Rights-CanInvite.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
