@@ -17,13 +17,15 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
                 .WithMember(1);
 
             var handler = new CreateRoleCommandHandler(new AllianceRepository(builder.Context));
-            var command = new CreateRoleCommand("test1@test.com", "Diva");
+            var command = new CreateRoleCommand("test1@test.com", "Diva", true);
 
             var result = handler.Execute(command);
 
             result.Success.Should().BeTrue();
             builder.Alliance.Received().CreateRole("Diva");
             builder.Context.CallsToSaveChanges.Should().Be(1);
+
+            throw new NotImplementedException("Add CanInvite to test and command handler");
         }
 
         [TestMethod]
@@ -33,7 +35,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
                 .WithMember(1);
 
             var handler = new CreateRoleCommandHandler(new AllianceRepository(builder.Context));
-            var command = new CreateRoleCommand("wrong@test.com", "Diva");
+            var command = new CreateRoleCommand("wrong@test.com", "Diva", true);
 
             Action action = () => handler.Execute(command);
 
@@ -48,7 +50,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
                 .WithPlayer(1);
 
             var handler = new CreateRoleCommandHandler(new AllianceRepository(builder.Context));
-            var command = new CreateRoleCommand("test1@test.com", "Diva");
+            var command = new CreateRoleCommand("test1@test.com", "Diva", true);
 
             Action action = () => handler.Execute(command);
 
