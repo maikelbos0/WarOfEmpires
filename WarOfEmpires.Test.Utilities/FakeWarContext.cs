@@ -21,14 +21,6 @@ namespace WarOfEmpires.Test.Utilities {
             SaveChanges();
         }
 
-        public void Remove<TEntity>(TEntity entity) where TEntity : class {
-            var entityProperty = typeof(FakeWarContext).GetProperties().SingleOrDefault(p => p.PropertyType == typeof(IDbSet<TEntity>));
-
-            if (entityProperty != null) {
-                ((IDbSet<TEntity>)entityProperty.GetValue(this)).Remove(entity);
-            }
-        }
-
         public int SaveChanges() {
             CallsToSaveChanges++;
 

@@ -42,12 +42,9 @@ namespace WarOfEmpires.Database {
         public IDbSet<Players.Player> Players { get; set; }
         public IDbSet<Events.ScheduledTask> ScheduledTasks { get; set; }
 
-        public void Remove<TEntity>(TEntity entity) where TEntity : class {
-            Set<TEntity>().Remove(entity);
-        }
-
         public override int SaveChanges() {
             DeleteOrphanedInvites();
+            DeleteOrphanedRoles();
             DeleteOrphanedCaravans();
 
             return base.SaveChanges();
@@ -58,9 +55,22 @@ namespace WarOfEmpires.Database {
 
             if (invites.Any()) {
                 var allianceInvites = ChangeTracker.Entries().Select(e => e.Entity).OfType<Alliances.Alliance>().SelectMany(a => a.Invites).ToHashSet();
+                var playerInvites = ChangeTracker.Entries().Select(e => e.Entity).OfType<Players.Player>().SelectMany(p => p.Invites).ToHashSet();
 
-                foreach (var orphanedInvite in invites.Where(i => !allianceInvites.Contains(i))) {
-                    Remove(orphanedInvite);
+                foreach (var orphanedInvite in invites.Where(i => !allianceInvites.Contains(i) && !playerInvites.Contains(i))) {
+                    Set<Alliances.Invite>().Remove(orphanedInvite);
+                }
+            }
+        }
+
+        private void DeleteOrphanedRoles() {
+            var roles = ChangeTracker.Entries().Select(e => e.Entity).OfType<Alliances.Role>();
+
+            if (roles.Any()) {
+                var allianceRoles = ChangeTracker.Entries().Select(e => e.Entity).OfType<Alliances.Alliance>().SelectMany(a => a.Roles).ToHashSet();
+
+                foreach (var orphanedRole in roles.Where(r => !allianceRoles.Contains(r))) {
+                    Set<Alliances.Role>().Remove(orphanedRole);
                 }
             }
         }
@@ -72,7 +82,7 @@ namespace WarOfEmpires.Database {
                 var playerCaravans = ChangeTracker.Entries().Select(e => e.Entity).OfType<Players.Player>().SelectMany(p => p.Caravans).ToHashSet();
 
                 foreach (var orphanedCaravan in caravans.Where(i => !playerCaravans.Contains(i))) {
-                    Remove(orphanedCaravan);
+                    Set<Markets.Caravan>().Remove(orphanedCaravan);
                 }
             }
         }
@@ -177,6 +187,7 @@ namespace WarOfEmpires.Database {
             var alliances = modelBuilder.Entity<Alliances.Alliance>().ToTable("Alliances", "Alliances").HasKey(a => a.Id);
             alliances.HasMany(a => a.Members).WithOptional(p => p.Alliance);
             alliances.HasMany(a => a.Invites).WithRequired(i => i.Alliance);
+            alliances.HasMany(a => a.Roles).WithRequired(r => r.Alliance);
             alliances.HasMany(a => a.ChatMessages).WithRequired();
             alliances.HasRequired(a => a.Leader);
             alliances.Property(a => a.Code).IsRequired();

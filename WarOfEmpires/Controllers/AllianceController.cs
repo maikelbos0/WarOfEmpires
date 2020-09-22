@@ -5,6 +5,7 @@ using WarOfEmpires.Models.Alliances;
 using WarOfEmpires.Queries.Alliances;
 using WarOfEmpires.Services;
 using WarOfEmpires.Attributes;
+using System;
 
 namespace WarOfEmpires.Controllers {
     [Authorize]
@@ -43,7 +44,7 @@ namespace WarOfEmpires.Controllers {
         [HttpGet]
         [Route("Home")]
         public ActionResult Home() {
-            // Explicitly name view so it works from Create and PostChatMessage
+            // Explicitly name view so it works from Create, PostChatMessage and ReceivedInviteDetails
             return View("Home", _messageService.Dispatch(new GetAllianceHomeQuery(_authenticationService.Identity)));
         }
 
@@ -95,7 +96,14 @@ namespace WarOfEmpires.Controllers {
         [HttpGet]
         [Route("ReceivedInvites")]
         public ActionResult ReceivedInvites() {
-            return View(_messageService.Dispatch(new GetReceivedInvitesQuery(_authenticationService.Identity)));
+            // Explicitly name view so it works from ReceivedInviteDetails
+            return View("ReceivedInvites");
+        }
+
+        [HttpPost]
+        [Route("GetReceivedInvites")]
+        public ActionResult GetReceivedInvites(DataGridViewMetaData metaData) {
+            return GridJson(new GetReceivedInvitesQuery(_authenticationService.Identity), metaData);
         }
 
         [HttpGet]
@@ -111,25 +119,20 @@ namespace WarOfEmpires.Controllers {
         }
 
         [HttpPost]
-        [Route("GetReceivedInvites")]
-        public ActionResult GetReceivedInvites(DataGridViewMetaData metaData) {
-            return GridJson(new GetReceivedInvitesQuery(_authenticationService.Identity), metaData);
-        }
-
-        [HttpPost]
-        [Route("AcceptInvite")]
-        public ActionResult AcceptInvite(string id) {
-            _messageService.Dispatch(new AcceptInviteCommand(_authenticationService.Identity, id));
-
-            return RedirectToAction("Home");
-        }
-
-        [HttpPost]
-        [Route("RejectInvite")]
-        public ActionResult RejectInvite(string id) {
-            _messageService.Dispatch(new RejectInviteCommand(_authenticationService.Identity, id));
-
-            return RedirectToAction("ReceivedInvites");
+        [Route("ReceivedInviteDetails")]
+        public ActionResult ReceivedInviteDetails(ReceivedInviteDetailsViewModel model) {
+            switch (model.Command) {
+                case "accept":
+                    return ValidatedCommandResult(model,
+                        new AcceptInviteCommand(_authenticationService.Identity, model.Id.ToString()),
+                        Home);
+                case "reject":
+                    return ValidatedCommandResult(model,
+                        new RejectInviteCommand(_authenticationService.Identity, model.Id.ToString()),
+                        ReceivedInvites);
+                default:
+                    throw new InvalidOperationException($"Invalid operation '{model.Command}' found");
+            }
         }
 
         [HttpPost]

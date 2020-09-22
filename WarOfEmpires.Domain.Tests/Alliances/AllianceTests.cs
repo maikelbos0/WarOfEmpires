@@ -57,19 +57,22 @@ namespace WarOfEmpires.Domain.Tests.Alliances {
 
             alliance.Members.Should().BeEquivalentTo(new[] { leader, player });
             alliance.Invites.Should().BeEmpty();
+            player.Invites.Should().BeEmpty();
         }
 
         [TestMethod]
         public void Alliance_RemoveInvite_Succeeds() {
             var leader = new Player(1, "Member");
+            var player = new Player(2, "Player");
             var alliance = new Alliance(leader, "TEST", "The Test");
-            var invite = new Invite(alliance, new Player(2, "Player"), null, null);
+            var invite = new Invite(alliance, player, null, null);
 
             alliance.Invites.Add(invite);
 
             alliance.RemoveInvite(invite);
 
             alliance.Invites.Should().BeEmpty();
+            player.Invites.Should().BeEmpty();
         }
 
         [TestMethod]

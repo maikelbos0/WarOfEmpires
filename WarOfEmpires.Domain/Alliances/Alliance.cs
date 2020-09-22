@@ -33,10 +33,12 @@ namespace WarOfEmpires.Domain.Alliances {
         public virtual void AcceptInvite(Invite invite) {
             Members.Add(invite.Player);
             Invites.Remove(invite);
+            invite.Player.Invites.Remove(invite);
         }
 
         public virtual void RemoveInvite(Invite invite) {
             Invites.Remove(invite);
+            invite.Player.Invites.Remove(invite);
         }
 
         public virtual void PostChatMessage(Player member, string message) {
