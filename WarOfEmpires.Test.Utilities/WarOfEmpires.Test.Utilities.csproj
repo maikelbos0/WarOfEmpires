@@ -64,6 +64,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CurrentAllianceRightsViewModel.cs" />
     <Compile Include="FakeAllianceBuilder.cs" />
     <Compile Include="FakeAppSettings.cs" />
     <Compile Include="FakeAttackBuilder.cs" />
@@ -86,6 +87,10 @@
     <ProjectReference Include="..\WarOfEmpires.Domain\WarOfEmpires.Domain.csproj">
       <Project>{e157b9c5-042f-4dc3-b2e2-a721eca67cdc}</Project>
       <Name>WarOfEmpires.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WarOfEmpires.Models\WarOfEmpires.Models.csproj">
+      <Project>{FE4C0D69-D134-4F3A-B19E-0BE8E3CB6FC2}</Project>
+      <Name>WarOfEmpires.Models</Name>
     </ProjectReference>
     <ProjectReference Include="..\WarOfEmpires.Utilities\WarOfEmpires.Utilities.csproj">
       <Project>{d4e722c8-0cd3-47c9-a479-ca3fa83fa225}</Project>

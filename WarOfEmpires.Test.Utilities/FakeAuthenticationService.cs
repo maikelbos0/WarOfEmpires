@@ -19,7 +19,7 @@ namespace WarOfEmpires.Test.Utilities {
             throw new NotImplementedException();
         }
 
-        public bool IsInAlliance() {
+        public CurrentAllianceRightsViewModel GetAllianceRights() {
             // Not used for now
             throw new NotImplementedException();
         }

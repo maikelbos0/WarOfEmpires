@@ -1,10 +1,10 @@
-﻿using System.Web.Mvc;
-using WarOfEmpires.Services;
+﻿using System.Net;
+using System.Web.Mvc;
 using Unity;
-using System.Net;
+using WarOfEmpires.Services;
 
 namespace WarOfEmpires.Attributes {
-    sealed public class AdminAuthorizeAttribute : ActionFilterAttribute {
+    public sealed class AdminAuthorizeAttribute : ActionFilterAttribute {
         public override void OnActionExecuting(ActionExecutingContext filterContext) {
             if (!UnityConfig.Container.Resolve<IAuthenticationService>().IsAdmin()) {
                 filterContext.Result = new HttpStatusCodeResult(HttpStatusCode.Forbidden);

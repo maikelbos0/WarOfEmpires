@@ -1,8 +1,9 @@
-using WarOfEmpires.Queries.Security;
-using WarOfEmpires.Utilities.Container;
-using System;
 using System.Web;
 using System.Web.Security;
+using WarOfEmpires.Models.Alliances;
+using WarOfEmpires.Queries.Alliances;
+using WarOfEmpires.Queries.Security;
+using WarOfEmpires.Utilities.Container;
 
 namespace WarOfEmpires.Services {
     [InterfaceInjectable]
@@ -26,11 +27,11 @@ namespace WarOfEmpires.Services {
         }
 
         public bool IsAdmin() {
-            if (!IsAuthenticated) {
-                throw new InvalidOperationException("User is not authenticated");
-            }
+            return IsAuthenticated && _messageService.Dispatch(new GetUserIsAdminQuery(Identity));
+        }
 
-            return _messageService.Dispatch(new GetUserIsAdminQuery(Identity));
+        public CurrentAllianceRightsViewModel GetAllianceRights() {
+            return _messageService.Dispatch(new GetCurrentAllianceRightsQuery(Identity));
         }
 
         public void SignIn(string identity) {
