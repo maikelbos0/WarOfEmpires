@@ -6,5 +6,7 @@ namespace WarOfEmpires.Models.Alliances {
         [DisplayName("Name")]
         [Required(ErrorMessage = "Name is required")]
         public string Name { get; set; }
+        [DisplayName("Can invite new members")]
+        public bool CanInvite { get; set; }
     }
 }

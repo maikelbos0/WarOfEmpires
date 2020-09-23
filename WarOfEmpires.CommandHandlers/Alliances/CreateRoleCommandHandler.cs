@@ -17,7 +17,7 @@ namespace WarOfEmpires.CommandHandlers.Alliances {
             var result = new CommandResult<CreateRoleCommand>();
             var alliance = _repository.Get(command.Email);
 
-            alliance.CreateRole(command.Name);
+            alliance.CreateRole(command.Name, command.CanInvite);
             _repository.SaveChanges();
 
             return result;

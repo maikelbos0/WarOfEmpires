@@ -62,7 +62,15 @@
         </div>
     }
 
-    <div class="col-12 col-lg-6">
-        <!-- TODO Rights -->
-    </div>
+    @if (Model.HasRights) {
+        <div class="col-12 col-lg-6">
+            <h3 class="mt-3">Rights</h3>
+
+            <ul>
+                @if (Model.CanInvite) {
+                    <li>Can invite new members</li>
+                }
+            </ul>
+        </div>
+    }
 </div>

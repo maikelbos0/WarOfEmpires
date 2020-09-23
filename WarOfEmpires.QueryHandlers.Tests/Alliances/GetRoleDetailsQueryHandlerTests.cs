@@ -27,6 +27,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
 
             result.Id.Should().Be(2);
             result.Name.Should().Be("Peasant");
+            result.CanInvite.Should().BeTrue();
             result.Players.Should().HaveCount(1);
 
             result.Players.Should().ContainSingle(p => p.Id == 3);

@@ -16,9 +16,14 @@
             @Html.ValidationSummary(true, null, new { @class = "site-validation-summary text-danger" })
 
             <div class="form-group">
-                @Html.LabelFor(a => a.Name, new { @class = "site-required" })
-                @Html.TextBoxFor(a => a.Name, new { @class = "form-control" })
-                @Html.ValidationMessageFor(a => a.Name, null, new { @class = "small form-text text-danger" })
+                @Html.LabelFor(m => m.Name, new { @class = "site-required" })
+                @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Name, null, new { @class = "small form-text text-danger" })
+            </div>
+
+            <div class="form-check">
+                @Html.CheckBoxFor(m => m.CanInvite, new { @class = "form-check-input" })
+                @Html.LabelFor(m => m.CanInvite, new { @class = "form-check-label" })
             </div>
         </div>
     </div>
