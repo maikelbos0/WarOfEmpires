@@ -24,8 +24,6 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
             result.Success.Should().BeTrue();
             builder.Alliance.Received().CreateRole("Diva", true);
             builder.Context.CallsToSaveChanges.Should().Be(1);
-
-            throw new NotImplementedException("Add CanInvite to test and command handler");
         }
 
         [TestMethod]

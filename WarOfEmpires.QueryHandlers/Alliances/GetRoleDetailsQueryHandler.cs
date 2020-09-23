@@ -29,6 +29,7 @@ namespace WarOfEmpires.QueryHandlers.Alliances {
             return new RoleDetailsViewModel() {
                 Id = role.Id,
                 Name = role.Name,
+                CanInvite = role.CanInvite,
                 Players = role.Players.Where(p => p.User.Status == UserStatus.Active).Select(p => new RolePlayerViewModel() {
                     Id = p.Id,
                     Rank = p.Rank,
