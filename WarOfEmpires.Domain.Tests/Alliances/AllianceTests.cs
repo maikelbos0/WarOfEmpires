@@ -93,18 +93,19 @@ namespace WarOfEmpires.Domain.Tests.Alliances {
             var leader = new Player(1, "Member");
             var alliance = new Alliance(leader, "TEST", "The Test");
 
-            alliance.CreateRole("Testrole");
+            alliance.CreateRole("Testrole", true);
 
             alliance.Roles.Should().HaveCount(1);
             alliance.Roles.Single().Alliance.Should().Be(alliance);
             alliance.Roles.Single().Name.Should().Be("Testrole");
+            alliance.Roles.Single().CanInvite.Should().BeTrue();
         }
 
         [TestMethod]
         public void Alliance_DeleteRole_Succeeds() {
             var leader = new Player(1, "Member");
             var alliance = new Alliance(leader, "TEST", "The Test");
-            var role = new Role(alliance, "Testrole");
+            var role = new Role(alliance, "Testrole", false);
 
             role.Players.Add(leader);
             alliance.Roles.Add(role);
@@ -119,7 +120,7 @@ namespace WarOfEmpires.Domain.Tests.Alliances {
         public void Alliance_SetRole_Succeeds() {
             var leader = new Player(1, "Member 1");
             var alliance = new Alliance(leader, "TEST", "The Test");
-            var role = new Role(alliance, "Testrole");
+            var role = new Role(alliance, "Testrole", false);
 
             alliance.Roles.Add(role);
 
@@ -133,7 +134,7 @@ namespace WarOfEmpires.Domain.Tests.Alliances {
             var leader = new Player(1, "Member 1");
             var member = new Player(2, "Member 2");
             var alliance = new Alliance(leader, "TEST", "The Test");
-            var role = new Role(alliance, "Testrole");
+            var role = new Role(alliance, "Testrole", false);
 
             role.Players.Add(leader);
             role.Players.Add(member);

@@ -11,9 +11,10 @@ namespace WarOfEmpires.Domain.Alliances {
         protected Role() {
         }
 
-        public Role(Alliance alliance, string name) {
+        public Role(Alliance alliance, string name, bool canInvite) {
             Alliance = alliance;
             Name = name;
+            CanInvite = canInvite;
         }
     }
 }
