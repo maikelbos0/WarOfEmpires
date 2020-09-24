@@ -36,5 +36,20 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
             result.IsInAlliance.Should().BeTrue();
             result.CanInvite.Should().BeTrue();
         }
+
+        [TestMethod]
+        public void GetCurrentAllianceRightsQueryHandler_Succeeds_For_Alliance_Leader() {
+            var builder = new FakeBuilder()
+                .BuildAlliance(1)
+                .WithLeader(1);
+
+            var handler = new GetCurrentAllianceRightsQueryHandler(builder.Context);
+            var query = new GetCurrentAllianceRightsQuery("test1@test.com");
+
+            var result = handler.Execute(query);
+
+            result.IsInAlliance.Should().BeTrue();
+            result.CanInvite.Should().BeTrue();
+        }
     }
 }

@@ -23,10 +23,18 @@ namespace WarOfEmpires.QueryHandlers.Alliances {
                 .Include(p => p.AllianceRole)
                 .Single(p => EmailComparisonService.Equals(p.User.Email, query.Email));
 
-            return new CurrentAllianceRightsViewModel() {
-                IsInAlliance = player.Alliance != null,
-                CanInvite = player.AllianceRole?.CanInvite ?? false
+            var result = new CurrentAllianceRightsViewModel() {
+                IsInAlliance = player.Alliance != null
             };
+
+            if (player == player.Alliance?.Leader) {
+                result.CanInvite = true;
+            }
+            else if (player.AllianceRole != null) {
+                result.CanInvite = player.AllianceRole.CanInvite;
+            }
+
+            return result;
         }
     }
 }
