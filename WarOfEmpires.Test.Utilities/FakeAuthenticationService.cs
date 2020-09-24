@@ -1,4 +1,5 @@
 using System;
+using WarOfEmpires.Models.Alliances;
 using WarOfEmpires.Services;
 
 namespace WarOfEmpires.Test.Utilities {

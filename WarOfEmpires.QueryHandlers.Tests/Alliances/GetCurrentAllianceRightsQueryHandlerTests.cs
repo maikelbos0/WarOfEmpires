@@ -25,7 +25,8 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
         public void GetCurrentAllianceRightsQueryHandler_Succeeds_In_Alliance() {
             var builder = new FakeBuilder()
                 .BuildAlliance(1)
-                .WithMember(1);
+                .WithMember(1, out var player)
+                .WithRole(2, "Test", player);
 
             var handler = new GetCurrentAllianceRightsQueryHandler(builder.Context);
             var query = new GetCurrentAllianceRightsQuery("test1@test.com");

@@ -64,7 +64,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CurrentAllianceRightsViewModel.cs" />
     <Compile Include="FakeAllianceBuilder.cs" />
     <Compile Include="FakeAppSettings.cs" />
     <Compile Include="FakeAttackBuilder.cs" />
