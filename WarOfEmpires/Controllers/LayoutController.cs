@@ -13,6 +13,7 @@ namespace WarOfEmpires.Controllers {
         [Route("_Menu")]
         public ActionResult _Menu() {
             if (_authenticationService.IsAuthenticated) {
+                // TODO add alliance rights
                 return PartialView(_messageService.Dispatch(new GetCurrentPlayerQuery(_authenticationService.Identity)));
             }
             else {

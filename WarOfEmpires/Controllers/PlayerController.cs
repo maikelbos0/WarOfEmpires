@@ -30,6 +30,7 @@ namespace WarOfEmpires.Controllers {
         [Route("Details")]
         [HttpGet]
         public ActionResult Details(string id) {
+            // TODO add alliance rights
             return View(_messageService.Dispatch(new GetPlayerDetailsQuery(id)));
         }
 
