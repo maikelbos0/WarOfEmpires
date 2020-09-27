@@ -4,22 +4,11 @@ using Unity;
 using WarOfEmpires.Services;
 
 namespace WarOfEmpires.Attributes {
-    public sealed class AllianceAuthorizeAttribute : ActionFilterAttribute {
+    public sealed class AllianceAuthorizeAttribute : ActionFilterAttribute, IAllianceAuthorizeAttribute {
         public bool CanInvite { get; set; }
 
         public override void OnActionExecuting(ActionExecutingContext filterContext) {
-            var allianceRights = UnityConfig.Container.Resolve<IAuthenticationService>().GetAllianceRights();
-            var isAuthorized = true;
-
-            if (!allianceRights.IsInAlliance) {
-                isAuthorized = false;
-            }
-
-            if (CanInvite && !allianceRights.CanInvite) {
-                isAuthorized = false;
-            }
-
-            if (!isAuthorized) {
+            if (!UnityConfig.Container.Resolve<IAuthorizationService>().IsAuthorized(this)) {
                 filterContext.Result = new HttpStatusCodeResult(HttpStatusCode.Forbidden);
             }
         }

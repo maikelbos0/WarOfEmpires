@@ -6,7 +6,7 @@ using WarOfEmpires.Services;
 namespace WarOfEmpires.Attributes {
     public sealed class AdminAuthorizeAttribute : ActionFilterAttribute {
         public override void OnActionExecuting(ActionExecutingContext filterContext) {
-            if (!UnityConfig.Container.Resolve<IAuthenticationService>().IsAdmin()) {
+            if (!UnityConfig.Container.Resolve<IAuthorizationService>().IsAdmin()) {
                 filterContext.Result = new HttpStatusCodeResult(HttpStatusCode.Forbidden);
             }
         }
