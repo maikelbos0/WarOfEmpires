@@ -1,5 +1,4 @@
-﻿using WarOfEmpires.Attributes;
-using WarOfEmpires.Queries.Alliances;
+﻿using WarOfEmpires.Queries.Alliances;
 using WarOfEmpires.Queries.Security;
 using WarOfEmpires.Utilities.Container;
 
@@ -18,7 +17,7 @@ namespace WarOfEmpires.Services {
             return _authenticationService.IsAuthenticated && _messageService.Dispatch(new GetUserIsAdminQuery(_authenticationService.Identity));
         }
 
-        public bool IsAuthorized(IAllianceAuthorizeAttribute attribute) {
+        public bool IsAuthorized(IAllianceAuthorizationRequest request) {
             if (!_authenticationService.IsAuthenticated) {
                 return false;
             }
@@ -29,7 +28,7 @@ namespace WarOfEmpires.Services {
                 return false;
             }
 
-            if (attribute.CanInvite && !allianceRights.CanInvite) {
+            if (request.CanInvite && !allianceRights.CanInvite) {
                 return false;
             }
 

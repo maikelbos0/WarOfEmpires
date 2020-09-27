@@ -1,7 +1,6 @@
 ﻿using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
-using WarOfEmpires.Attributes;
 using WarOfEmpires.Models.Alliances;
 using WarOfEmpires.Queries;
 using WarOfEmpires.Services;
@@ -29,7 +28,7 @@ namespace WarOfEmpires.Tests.Services {
         [DataRow("User", true, true, DisplayName = "In alliance")]
         public void AuthorizationService_IsAuthorized_Succeeds_General(string identity, bool isInAlliance, bool expectedOutcome) {
             var messageService = Substitute.For<IMessageService>();
-            var attribute = Substitute.For<IAllianceAuthorizeAttribute>();
+            var attribute = Substitute.For<IAllianceAuthorizationRequest>();
             var authorizationService = new AuthorizationService(new FakeAuthenticationService() { Identity = identity }, messageService);
 
             messageService.Dispatch(Arg.Any<IQuery<CurrentAllianceRightsViewModel>>()).Returns(new CurrentAllianceRightsViewModel() {
@@ -46,7 +45,7 @@ namespace WarOfEmpires.Tests.Services {
         [DataRow("User", true, true, true, DisplayName = "Can invite")]
         public void AuthorizationService_IsAuthorized_Succeeds_CanInvite(string identity, bool isInAlliance, bool canInvite, bool expectedOutcome) {
             var messageService = Substitute.For<IMessageService>();
-            var attribute = Substitute.For<IAllianceAuthorizeAttribute>();
+            var attribute = Substitute.For<IAllianceAuthorizationRequest>();
             var authorizationService = new AuthorizationService(new FakeAuthenticationService() { Identity = identity }, messageService);
 
             messageService.Dispatch(Arg.Any<IQuery<CurrentAllianceRightsViewModel>>()).Returns(new CurrentAllianceRightsViewModel() {

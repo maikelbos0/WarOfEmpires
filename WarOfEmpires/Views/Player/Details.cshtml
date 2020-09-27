@@ -6,7 +6,6 @@
 
 <h2>@Model.DisplayName</h2>
 
-
 <div class="row">
     <div class="col-12 col-md-6 offset-md-3">
         <div class="text-right">
@@ -14,8 +13,9 @@
                 @Html.ActionLink("Attack", "Execute", "Attack", new { DefenderId = Model.Id }, new { @class = "btn btn-primary" })
                 @Html.ActionLink("Send message", "Send", "Message", new { RecipientId = Model.Id }, new { @class = "btn btn-secondary" })
 
-                @*TODO: hide when current user is not allowed to invite or not in an alliance*@
-                @Html.ActionLink("Invite into alliance", "Invite", "Alliance", new { PlayerId = Model.Id }, new { @class = "btn btn-secondary" })
+                @if (IsAuthorized(new AllianceAuthorizationRequest() { CanInvite = true })) {
+                    @Html.ActionLink("Invite into alliance", "Invite", "Alliance", new { PlayerId = Model.Id }, new { @class = "btn btn-secondary" });
+                }
             </div>
         </div>
 

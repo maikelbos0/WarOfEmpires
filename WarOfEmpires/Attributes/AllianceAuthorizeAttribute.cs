@@ -4,7 +4,7 @@ using Unity;
 using WarOfEmpires.Services;
 
 namespace WarOfEmpires.Attributes {
-    public sealed class AllianceAuthorizeAttribute : ActionFilterAttribute, IAllianceAuthorizeAttribute {
+    public sealed class AllianceAuthorizeAttribute : ActionFilterAttribute, IAllianceAuthorizationRequest {
         public bool CanInvite { get; set; }
 
         public override void OnActionExecuting(ActionExecutingContext filterContext) {
