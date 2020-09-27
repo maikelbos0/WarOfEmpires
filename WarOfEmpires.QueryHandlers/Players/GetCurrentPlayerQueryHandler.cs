@@ -20,15 +20,25 @@ namespace WarOfEmpires.QueryHandlers.Players {
         public CurrentPlayerViewModel Execute(GetCurrentPlayerQuery query) {
             var player = _context.Players
                 .Include(p => p.User)
-                .Include(p => p.Alliance)
+                .Include(p => p.AllianceRole)
+                .Include(p => p.Alliance.Leader)
                 .Single(p => EmailComparisonService.Equals(p.User.Email, query.Email));
 
-            return new CurrentPlayerViewModel() {
+            var result = new CurrentPlayerViewModel() {
                 IsAuthenticated = true,
                 IsAdmin = player.User.IsAdmin,
                 IsInAlliance = player.Alliance != null,
                 DisplayName = player.DisplayName
-            };                
+            };
+
+            if (player == player.Alliance?.Leader) {
+                result.CanInvite = true;
+            }
+            else if (player.AllianceRole != null) {
+                result.CanInvite = player.AllianceRole.CanInvite;
+            }
+
+            return result;
         }
     }
 }

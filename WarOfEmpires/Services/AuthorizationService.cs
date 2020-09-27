@@ -1,8 +1,10 @@
 ﻿using WarOfEmpires.Attributes;
 using WarOfEmpires.Queries.Alliances;
 using WarOfEmpires.Queries.Security;
+using WarOfEmpires.Utilities.Container;
 
 namespace WarOfEmpires.Services {
+    [InterfaceInjectable]
     public class AuthorizationService : IAuthorizationService {
         private readonly IAuthenticationService _authenticationService;
         private readonly IMessageService _messageService;
