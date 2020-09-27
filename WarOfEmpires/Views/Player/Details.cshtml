@@ -13,7 +13,7 @@
                 @Html.ActionLink("Attack", "Execute", "Attack", new { DefenderId = Model.Id }, new { @class = "btn btn-primary" })
                 @Html.ActionLink("Send message", "Send", "Message", new { RecipientId = Model.Id }, new { @class = "btn btn-secondary" })
 
-                @if (IsAuthorized(new AllianceAuthorizationRequest() { CanInvite = true })) {
+                @if (AuthorizationService.IsAuthorized(new AllianceAuthorizationRequest() { CanInvite = true })) {
                     @Html.ActionLink("Invite into alliance", "Invite", "Alliance", new { PlayerId = Model.Id }, new { @class = "btn btn-secondary" });
                 }
             </div>
