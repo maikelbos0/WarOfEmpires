@@ -84,6 +84,7 @@ namespace WarOfEmpires.Test.Utilities {
             role.Id.Returns(id);
             role.Name.Returns(name);
             role.CanInvite.Returns(true);
+            role.CanManageRoles.Returns(true);
             role.Players.Returns(players);
 
             foreach (var player in players) {
