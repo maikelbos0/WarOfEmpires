@@ -30,12 +30,8 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
             result.Should().ContainSingle(r => r.Id == 1);
             result.Single(r => r.Id == 1).Name.Should().Be("Manager");
             result.Single(r => r.Id == 1).CanInvite.Should().BeTrue();
+            result.Single(r => r.Id == 1).CanManageRoles.Should().BeTrue();
             result.Single(r => r.Id == 1).Players.Should().Be(2);
-
-            result.Should().ContainSingle(r => r.Id == 2);
-            result.Single(r => r.Id == 2).Name.Should().Be("Peasant");
-            result.Single(r => r.Id == 2).CanInvite.Should().BeTrue();
-            result.Single(r => r.Id == 2).Players.Should().Be(1);
         }
     }
 }
