@@ -175,7 +175,7 @@ namespace WarOfEmpires.Controllers {
         [HttpPost]
         [Route("CreateRole")]
         public ActionResult CreateRole(CreateRoleModel model) {
-            return ValidatedCommandResult(model, new CreateRoleCommand(_authenticationService.Identity, model.Name, model.CanInvite), () => Roles());
+            return ValidatedCommandResult(model, new CreateRoleCommand(_authenticationService.Identity, model.Name, model.CanInvite, model.CanManageRoles), () => Roles());
         }
 
         [AllianceAuthorize] // TODO set right

@@ -8,5 +8,7 @@ namespace WarOfEmpires.Models.Alliances {
         public string Name { get; set; }
         [DisplayName("Can invite new members")]
         public bool CanInvite { get; set; }
+        [DisplayName("Can manage alliance roles")]
+        public bool CanManageRoles { get; set; }
     }
 }
