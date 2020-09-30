@@ -63,7 +63,10 @@
                             @if (Model.IsInAlliance) {
                                 @Html.ActionLink("Home", "Home", "Alliance", null, new { @class = "dropdown-item" })
                                 @Html.ActionLink("Roles", "Roles", "Alliance", null, new { @class = "dropdown-item" })
-                                @Html.ActionLink("Invites", "Invites", "Alliance", null, new { @class = "dropdown-item" })
+
+                                if (Model.CanInvite) {
+                                    @Html.ActionLink("Invites", "Invites", "Alliance", null, new { @class = "dropdown-item" })
+                                }
                             }
                             else {
                                 @Html.ActionLink("Create", "Create", "Alliance", null, new { @class = "dropdown-item" })

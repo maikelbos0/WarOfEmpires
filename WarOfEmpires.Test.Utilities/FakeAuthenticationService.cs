@@ -1,4 +1,3 @@
-using System;
 using WarOfEmpires.Services;
 
 namespace WarOfEmpires.Test.Utilities {
@@ -12,16 +11,6 @@ namespace WarOfEmpires.Test.Utilities {
 
         public string GetUserName() {
             return Identity;
-        }
-
-        public bool IsAdmin() {
-            // Not used for now
-            throw new NotImplementedException();
-        }
-
-        public bool IsInAlliance() {
-            // Not used for now
-            throw new NotImplementedException();
         }
 
         public void SignIn(string identity) {

@@ -1,18 +1,10 @@
-using WarOfEmpires.Queries.Security;
-using WarOfEmpires.Utilities.Container;
-using System;
 using System.Web;
 using System.Web.Security;
+using WarOfEmpires.Utilities.Container;
 
 namespace WarOfEmpires.Services {
     [InterfaceInjectable]
     public sealed class AuthenticationService : IAuthenticationService {
-        private readonly IMessageService _messageService;
-
-        public AuthenticationService(IMessageService messageService) {
-            _messageService = messageService;
-        }
-
         public bool IsAuthenticated {
             get {
                 return HttpContext.Current.User.Identity.IsAuthenticated;
@@ -23,14 +15,6 @@ namespace WarOfEmpires.Services {
             get {
                 return HttpContext.Current.User.Identity.Name;
             }
-        }
-
-        public bool IsAdmin() {
-            if (!IsAuthenticated) {
-                throw new InvalidOperationException("User is not authenticated");
-            }
-
-            return _messageService.Dispatch(new GetUserIsAdminQuery(Identity));
         }
 
         public void SignIn(string identity) {

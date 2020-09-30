@@ -55,6 +55,7 @@
     <Compile Include="Alliances\GetAllianceDetailsQueryHandler.cs" />
     <Compile Include="Alliances\GetAllianceNameQueryHandler.cs" />
     <Compile Include="Alliances\GetAlliancesQueryHandler.cs" />
+    <Compile Include="Alliances\GetCurrentAllianceRightsQueryHandler.cs" />
     <Compile Include="Alliances\GetInvitePlayerQueryHandler.cs" />
     <Compile Include="Alliances\GetInviteQueryHandler.cs" />
     <Compile Include="Alliances\GetInvitesQueryHandler.cs" />

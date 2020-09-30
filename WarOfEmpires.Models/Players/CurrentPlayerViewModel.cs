@@ -3,6 +3,7 @@
         public bool IsAuthenticated { get; set; }
         public bool IsAdmin { get; set; }
         public bool IsInAlliance { get; set; }
+        public bool CanInvite { get; set; }
         public string DisplayName { get; set; }
     }
 }

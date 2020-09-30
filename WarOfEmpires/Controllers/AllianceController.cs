@@ -41,6 +41,7 @@ namespace WarOfEmpires.Controllers {
             return ValidatedCommandResult(model, new CreateAllianceCommand(_authenticationService.Identity, model.Code, model.Name), () => Home());
         }
 
+        [AllianceAuthorize]
         [HttpGet]
         [Route("Home")]
         public ActionResult Home() {
@@ -54,18 +55,21 @@ namespace WarOfEmpires.Controllers {
             return View(_messageService.Dispatch(new GetAllianceDetailsQuery(id)));
         }
 
+        [AllianceAuthorize(CanInvite = true)]
         [HttpGet]
         [Route("Invite")]
         public ActionResult Invite(string playerId) {
             return View(_messageService.Dispatch(new GetInvitePlayerQuery(playerId)));
         }
 
+        [AllianceAuthorize(CanInvite = true)]
         [HttpPost]
         [Route("Invite")]
         public ActionResult Invite(SendInviteModel model) {
             return ValidatedCommandResult(model, new SendInviteCommand(_authenticationService.Identity, model.PlayerId, model.Subject, model.Body), () => Invites());
         }
 
+        [AllianceAuthorize(CanInvite = true)]
         [HttpGet]
         [Route("Invites")]
         public ActionResult Invites() {
@@ -73,18 +77,21 @@ namespace WarOfEmpires.Controllers {
             return View("Invites", (object)_messageService.Dispatch(new GetAllianceNameQuery(_authenticationService.Identity)));
         }
 
+        [AllianceAuthorize(CanInvite = true)]
         [Route("GetInvites")]
         [HttpPost]
         public ActionResult GetInvites(DataGridViewMetaData metaData) {
             return GridJson(new GetInvitesQuery(_authenticationService.Identity), metaData);
         }
 
+        [AllianceAuthorize(CanInvite = true)]
         [HttpGet]
         [Route("InviteDetails")]
         public ActionResult InviteDetails(string id) {
             return View(_messageService.Dispatch(new GetInviteQuery(_authenticationService.Identity, id)));
         }
 
+        [AllianceAuthorize(CanInvite = true)]
         [HttpPost]
         [Route("WithdrawInvite")]
         public ActionResult WithdrawInvite(string id) {
@@ -135,12 +142,14 @@ namespace WarOfEmpires.Controllers {
             }
         }
 
+        [AllianceAuthorize]
         [HttpPost]
         [Route("PostChatMessage")]
         public ActionResult PostChatMessage(AllianceHomeViewModel model) {
             return ValidatedCommandResult(model, new PostChatMessageCommand(_authenticationService.Identity, model.ChatMessage), () => Home());
         }
 
+        [AllianceAuthorize] // TODO set right
         [HttpGet]
         [Route("Roles")]
         public ActionResult Roles() {
@@ -148,38 +157,44 @@ namespace WarOfEmpires.Controllers {
             return View("Roles", (object)_messageService.Dispatch(new GetAllianceNameQuery(_authenticationService.Identity)));
         }
 
+        [AllianceAuthorize] // TODO set right
         [HttpPost]
         [Route("GetRoles")]
         public ActionResult GetRoles(DataGridViewMetaData metaData) {
             return GridJson(new GetRolesQuery(_authenticationService.Identity), metaData);
         }
 
+        [AllianceAuthorize] // TODO set right
         [HttpGet]
         [Route("CreateRole")]
         public ActionResult CreateRole() {
             return View(new CreateRoleModel());
         }
 
+        [AllianceAuthorize] // TODO set right
         [HttpPost]
         [Route("CreateRole")]
         public ActionResult CreateRole(CreateRoleModel model) {
             return ValidatedCommandResult(model, new CreateRoleCommand(_authenticationService.Identity, model.Name, model.CanInvite), () => Roles());
         }
 
+        [AllianceAuthorize] // TODO set right
         [HttpGet]
         [Route("RoleDetails")]
         public ActionResult RoleDetails(string id) {
             return View(_messageService.Dispatch(new GetRoleDetailsQuery(_authenticationService.Identity, id)));
         }
 
+        [AllianceAuthorize] // TODO set right
         [HttpPost]
         [Route("ClearRole")]
         public ActionResult ClearRole(string id, string playerId) {
             _messageService.Dispatch(new ClearRoleCommand(_authenticationService.Identity, playerId));
 
-            return RedirectToAction("RoleDetails", new { id } );
+            return RedirectToAction("RoleDetails", new { id });
         }
 
+        [AllianceAuthorize] // TODO set right
         [HttpPost]
         [Route("DeleteRole")]
         public ActionResult DeleteRole(string id) {
@@ -188,12 +203,14 @@ namespace WarOfEmpires.Controllers {
             return RedirectToAction("Roles");
         }
 
+        [AllianceAuthorize] // TODO set right
         [HttpGet]
         [Route("SetRole")]
         public ActionResult SetRole(string id) {
             return View(_messageService.Dispatch(new GetNewRolePlayerQuery(_authenticationService.Identity, id)));
         }
 
+        [AllianceAuthorize] // TODO set right
         [HttpPost]
         [Route("SetRole")]
         public ActionResult SetRole(string id, string playerId) {
