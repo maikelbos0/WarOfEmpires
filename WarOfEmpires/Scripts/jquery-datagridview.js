@@ -26,7 +26,7 @@
                 }
 
                 // Create object
-                let options = $.extend({}, $.fn.datagridview.defaults, settings);
+                let options = $.extend(true, {}, $.fn.datagridview.defaults, settings);
                 datagridview = new DataGridView($(this), options);
 
                 // Add object to data
@@ -151,6 +151,30 @@
         // It always gets at least the type 'text/css'
         getStyleAttributes: function () {
             return {};
+        },
+        // Set resources to support internationalization
+        // This can be extended in case you need to add more text for footer plugins
+        resources: {
+            // Full text of basic footer paging display
+            getDisplayBasicText: function (datagridview, page, totalPages) {
+                return 'Page ' + page + ' of ' + totalPages;
+            },
+            // Full text of extended footer paging display
+            getDisplayFullText: function (datagridview, page, totalPages, startRow, endRow, totalRows) {
+                return 'Page ' + page + ' of ' + totalPages + ', rows ' + startRow + ' to ' + endRow + ' of ' + totalRows;
+            },
+            // Label for page input footer
+            getPageText: function (datagridview) {
+                return 'Page: ';
+            },
+            // Label for page size footer
+            getPageSizeText: function (datagridview) {
+                return 'Page size: ';
+            },
+            // Submit button text for page and page size navigation
+            getGoText: function (datagridview) {
+                return 'Go';
+            }
         }
     }
 
@@ -159,13 +183,13 @@
     // Please note that the page index is 0-based and needs to be corrected for display purposes
     $.fn.datagridview.footerPlugins = {
         displayBasic: function (footerElement, metaData, datagridview) {
-            $(footerElement).append($('<div>').text("Page " + (metaData.page + 1) + " of " + metaData.totalPages));
+            $(footerElement).append($('<div>').text(datagridview.options.resources.getDisplayBasicText(datagridview, metaData.page + 1, metaData.totalPages)));
         },
         displayFull: function (footerElement, metaData, datagridview) {
-            let rowStart = metaData.page * metaData.rowsPerPage + 1;
-            let rowEnd = Math.min((metaData.page + 1) * metaData.rowsPerPage, metaData.totalRows);
+            let startRow = metaData.page * metaData.rowsPerPage + 1;
+            let endRow = Math.min((metaData.page + 1) * metaData.rowsPerPage, metaData.totalRows);
 
-            $(footerElement).append($('<div>').text("Page " + (metaData.page + 1) + " of " + metaData.totalPages + ", rows " + rowStart + " to " + rowEnd + " of " + metaData.totalRows));
+            $(footerElement).append($('<div>').text(datagridview.options.resources.getDisplayFullText(datagridview, metaData.page + 1, metaData.totalPages, startRow, endRow, metaData.totalRows)));
         },
         prevNext: function (footerElement, metaData, datagridview) {
             // To disable any of these options, simply hide them in css for the all, or just the appropriate grids
@@ -173,15 +197,27 @@
                 .addClass('datagridview-paging-first')
                 .text('|<')
                 .click(function () { datagridview.initiatePaging(0, metaData.rowsPerPage); })
-                .prop('disabled', metaData.page <= 0);
+                .prop('disabled', metaData.page <= 0)
+                .prop('type', 'button');
 
             let prev = $('<button>')
                 .addClass('datagridview-paging-prev')
                 .text('<')
                 .click(function () { datagridview.initiatePaging(metaData.page - 1, metaData.rowsPerPage); })
-                .prop('disabled', metaData.page <= 0);
+                .prop('disabled', metaData.page <= 0)
+                .prop('type', 'button');
 
             $(footerElement).append(first, prev);
+
+            if (metaData.page > 4) {
+                let minus5 = $('<button>')
+                    .addClass('datagridview-paging-minus-5')
+                    .text('...')
+                    .click(function () { datagridview.initiatePaging(metaData.page - 5, metaData.rowsPerPage); })
+                    .prop('type', 'button');
+
+                $(footerElement).append(minus5);
+            }
 
             for (let page = Math.max(0, metaData.page - 4); page < Math.min(metaData.totalPages, metaData.page + 5); page++) {
                 // Using an iterator in an anonymous function does not work as expected cross-browser
@@ -189,35 +225,60 @@
 
                 $(footerElement).append($('<button>')
                     .addClass('datagridview-paging-page')
+                    .toggleClass('datagridview-paging-page-active', page == metaData.page)
                     .text(currentPage + 1)
                     .click(function () { datagridview.initiatePaging(currentPage, metaData.rowsPerPage); })
-                    .prop('disabled', metaData.page === currentPage));
+                    .prop('disabled', metaData.page === currentPage))
+                    .prop('type', 'button');
+            }
+
+            if (metaData.page < metaData.totalPages - 5) {
+                let plus5 = $('<button>')
+                    .addClass('datagridview-paging-plus-5')
+                    .text('...')
+                    .click(function () { datagridview.initiatePaging(metaData.page + 5, metaData.rowsPerPage); })
+                    .prop('type', 'button');
+
+                $(footerElement).append(plus5);
             }
 
             let next = $('<button>')
                 .addClass('datagridview-paging-next')
                 .text('>')
                 .click(function () { datagridview.initiatePaging(metaData.page + 1, metaData.rowsPerPage); })
-                .prop('disabled', metaData.page >= metaData.totalPages - 1);
+                .prop('disabled', metaData.page >= metaData.totalPages - 1)
+                .prop('type', 'button');
 
             let last = $('<button>')
                 .addClass('datagridview-paging-last')
                 .text('>|')
                 .click(function () { datagridview.initiatePaging(metaData.totalPages - 1, metaData.rowsPerPage); })
-                .prop('disabled', metaData.page >= metaData.totalPages - 1);
+                .prop('disabled', metaData.page >= metaData.totalPages - 1)
+                .prop('type', 'button');
 
             $(footerElement).append(next, last);
         },
         pageInput: function (footerElement, metaData, datagridview) {
             let page = $('<input>', { type: 'text' })
                 .addClass('datagridview-paging-page')
-                .val(metaData.page + 1);
+                .val(metaData.page + 1)
+                .keydown(function (event) {
+                    if (event.which === keyCodes.ENTER) {
+                        datagridview.initiatePaging(page.val() - 1, metaData.rowsPerPage);
+                    }
+                })
+                .on("keypress keydown keyup", function (event) {
+                    if (event.which === keyCodes.ENTER) {
+                        event.preventDefault();
+                    }
+                });
             let label = $('<span>')
                 .addClass('datagridview-paging-page-label')
-                .text('Page: ')
+                .text(datagridview.options.resources.getPageText(datagridview));
             let go = $('<button>')
                 .addClass('datagridview-paging-go')
-                .text('Go')
+                .prop('type', 'button')
+                .text(datagridview.options.resources.getGoText(datagridview))
                 .click(function () {
                     datagridview.initiatePaging(page.val() - 1, metaData.rowsPerPage);
                 });
@@ -227,13 +288,24 @@
         pageSizeInput: function (footerElement, metaData, datagridview) {
             let pageSize = $('<input>', { type: 'text' })
                 .addClass('datagridview-paging-page-size')
-                .val(metaData.rowsPerPage);
+                .val(metaData.rowsPerPage)
+                .keydown(function (event) {
+                    if (event.which === keyCodes.ENTER) {
+                        datagridview.initiatePaging(metaData.page, pageSize.val());
+                    }
+                })
+                .on("keypress keydown keyup", function (event) {
+                    if (event.which === keyCodes.ENTER) {
+                        event.preventDefault();
+                    }
+                });
             let label = $('<span>')
                 .addClass('datagridview-paging-page-size-label')
-                .text('Page size: ')
+                .text(datagridview.options.resources.getPageSizeText(datagridview));
             let go = $('<button>')
                 .addClass('datagridview-paging-go')
-                .text('Go')
+                .prop('type', 'button')
+                .text(datagridview.options.resources.getGoText(datagridview))
                 .click(function () {
                     datagridview.initiatePaging(metaData.page, pageSize.val());
                 });
@@ -249,7 +321,8 @@
 
         this.element = element;
         this.options = options;
-        this.data = [];
+        this.data = null;
+        this.totals = null;
         this.allowColumnResize = this.options.allowColumnResize(this.element);
         this.headerResizeState = {
             dragging: false
@@ -311,7 +384,7 @@
                 .addClass(column.columnClass)
                 .toggleClass('datagridview-header-cell-sortable', column.sortable !== false)
                 .text(column.header || column.data)
-                .attr('title', column.header || column.data)
+                .prop('title', column.header || column.data)
                 .data('id', column.id)
                 .data('column', column.data)
                 .data('sort-column', column.sortData || column.data);
@@ -387,68 +460,74 @@
     DataGridView.prototype.populate = function (metaData, data, totals) {
         let newBody = this.createElement('<div>', 'datagridview-body', this.options.getBodyAttributes());
 
-        for (let r = 0; r < data.length; r++) {
-            let dataRow = data[r];
-            let row = this.createElement('<div>', 'datagridview-row', this.options.getRowAttributes());
+        if (data) {
+            for (let r = 0; r < data.length; r++) {
+                let dataRow = data[r];
+                let row = this.createElement('<div>', 'datagridview-row', this.options.getRowAttributes());
 
-            if (this.hasMultiselectCheckboxes) {
-                row.append(this.createElement('<div>', 'datagridview-checkbox-cell', this.options.getCellAttributes())
-                    .append(this.createElement('<input>', 'select-checkbox', { type: 'checkbox' })));
+                if (this.hasMultiselectCheckboxes) {
+                    row.append(this.createElement('<div>', 'datagridview-checkbox-cell', this.options.getCellAttributes())
+                        .append(this.createElement('<input>', 'select-checkbox', { type: 'checkbox' })));
+                }
+
+                for (let c = 0; c < this.options.columns.length; c++) {
+                    let column = this.options.columns[c];
+                    let cell = this.createElement('<div>', column.columnClass, this.options.getCellAttributes());
+
+                    if (column.class) {
+                        cell.addClass(column.class);
+                    }
+
+                    if (column.renderer) {
+                        column.renderer(cell, dataRow[column.data], dataRow);
+                    }
+                    else {
+                        cell.text(dataRow[column.data]).prop('title', dataRow[column.data]);
+                    }
+
+                    row.append(cell);
+                }
+
+                newBody.append(row);
+            };
+
+            if (totals) {
+                let totalRow = this.createElement('<div>', 'datagridview-total-row', this.options.getTotalRowAttributes());
+
+                if (this.hasMultiselectCheckboxes) {
+                    totalRow.append(this.createElement('<div>', 'datagridview-checkbox-cell', this.options.getTotalCellAttributes()));
+                }
+
+                for (let c = 0; c < this.options.columns.length; c++) {
+                    let column = this.options.columns[c];
+                    let cell = this.createElement('<div>', column.columnClass, this.options.getTotalCellAttributes());
+
+                    if (column.class) {
+                        cell.addClass(column.class);
+                    }
+
+                    if (column.renderer) {
+                        column.renderer(cell, totals[column.data], totals);
+                    }
+                    else {
+                        cell.text(totals[column.data]).prop('title', totals[column.data]);
+                    }
+
+                    totalRow.append(cell);
+                }
+
+                newBody.append(totalRow);
             }
-
-            for (let c = 0; c < this.options.columns.length; c++) {
-                let column = this.options.columns[c];
-                let cell = this.createElement('<div>', column.columnClass, this.options.getCellAttributes());
-                
-                if (column.class) {
-                    cell.addClass(column.class);
-                }
-
-                if (column.renderer) {
-                    column.renderer(cell, dataRow[column.data], dataRow);
-                }
-                else {
-                    cell.text(dataRow[column.data] || "").attr('title', dataRow[column.data] || "");
-                }
-
-                row.append(cell);
-            }
-
-            newBody.append(row);
-        };
-        
-        if (totals) {
-            let totalRow = this.createElement('<div>', 'datagridview-total-row', this.options.getTotalRowAttributes());
-
-            if (this.hasMultiselectCheckboxes) {
-                totalRow.append(this.createElement('<div>', 'datagridview-checkbox-cell', this.options.getTotalCellAttributes()));
-            }
-
-            for (let c = 0; c < this.options.columns.length; c++) {
-                let column = this.options.columns[c];
-                let cell = this.createElement('<div>', column.columnClass, this.options.getTotalCellAttributes());
-
-                if (column.class) {
-                    cell.addClass(column.class);
-                }
-
-                if (column.renderer) {
-                    column.renderer(cell, totals[column.data], totals);
-                }
-                else {
-                    cell.text(totals[column.data] || "").attr('title', totals[column.data] || "");
-                }
-
-                totalRow.append(cell);
-            }
-
-            newBody.append(totalRow);
         }
 
         this.body.replaceWith(newBody);
         this.body = newBody;
         this.rows = newBody.children('.datagridview-row');
-        this.data = data;
+        this.header.find('input.select-checkbox').prop('checked', false);
+
+        // Save the new data
+        this.data = data || null;
+        this.totals = data ? totals || null : null;
 
         // Use the new meta data if present to display appropriate sorting and paging
         if (metaData instanceof DataGridViewMetaData) {
@@ -456,11 +535,15 @@
         }
         // Try to resolve the meta data as far as we can
         else if (metaData) {
-            this.metaData = new DataGridViewMetaData(metaData.sortColumn, metaData.sortDescending, metaData.totalRows || this.data.length, metaData.rowsPerPage || this.data.length, metaData.page || 0);
+            this.metaData = new DataGridViewMetaData(metaData.sortColumn, metaData.sortDescending, metaData.totalRows, metaData.rowsPerPage, metaData.page);
+        }
+        // Try to use data if present
+        else if (this.data) {
+            this.metaData = new DataGridViewMetaData(this.metaData.sortColumn, this.metaData.sortDescending, this.data.length, this.data.length, 0);
         }
         // Default
         else {
-            this.metaData = new DataGridViewMetaData(this.metaData.sortColumn, this.metaData.sortDescending, this.data.length, this.data.length, 0);
+            this.metaData = new DataGridViewMetaData(this.metaData.sortColumn, this.metaData.sortDescending, 0, 1, 0);
         }
 
         this.displaySortOrder();
@@ -504,7 +587,11 @@
         let base = this;
         let header = this.headerCells.filter(function () { return $(this).data('sort-column') === base.metaData.sortColumn });
 
+        this.headerCells.not(header).removeClass('datagridview-header-cell-sorted');
+
         if (header.length > 0) {
+            let columnClass = this.options.columns.filter(function (c) { return c.id === header.data('id'); })[0].columnClass;
+
             if (this.metaData.sortDescending) {
                 this.sortToggle.removeClass('datagridview-sort-toggle-ascending').addClass('datagridview-sort-toggle-descending');
             }
@@ -512,8 +599,12 @@
                 this.sortToggle.removeClass('datagridview-sort-toggle-descending').addClass('datagridview-sort-toggle-ascending');
             }
 
+            header.addClass('datagridview-header-cell-sorted');
             header.append(this.sortToggle);
             this.sortToggle.show();
+
+            this.body.find('.datagridview-row > div.' + columnClass).addClass('datagridview-cell-sorted');
+            this.body.find('.datagridview-total-row > div.' + columnClass).addClass('datagridview-cell-sorted');
         }
         else {
             this.sortToggle.hide();
@@ -554,6 +645,21 @@
                 class: column.class
             };
         });
+    }
+
+    // Get data currently in use
+    DataGridView.prototype.getData = function () {
+        return this.data;
+    }
+
+    // Get totals currently in use
+    DataGridView.prototype.getTotals = function () {
+        return this.totals;
+    }
+
+    // Determine whether the datagridview has been populated with data or not
+    DataGridView.prototype.isPopulated = function () {
+        return !!this.data;
     }
 
     // Get selected rows
@@ -857,10 +963,10 @@
             e.data.headerResizeState.position = e.pageX;
         },
         columnResizeEnd: function (e) {
-            if (e.which !== 1) {
+            if (!e.data.headerResizeState.dragging) {
                 return;
             }
-            
+
             let invisibleColumns = e.data.options.columns.filter(function (c) { return c.width <= 0; });
 
             // If we've made any columns 0 width, then make them invisible
@@ -879,12 +985,16 @@
             e.data.headerResizeState.dragging = false;
         },
         rowSelectStart: function (e) {
+            if (e.which === 2) {
+                return;
+            }
+
             e.data.selectState.selecting = true;
             e.data.selectState.dragElement = $(this);
             e.data.selectState.dragElement.addClass('datagridview-row-selecting');
         },
         rowSelect: function (e) {
-            if (!e.data.selectState.selecting) {
+            if (e.which === 2 || !e.data.selectState.selecting) {
                 return;
             }
 
@@ -900,28 +1010,30 @@
             dragSelection.addClass('datagridview-row-selecting');
         },
         rowSelectEnd: function (e) {
-            if (!e.data.selectState.selecting) {
+            if (e.which === 2 || !e.data.selectState.selecting) {
                 return;
             }
+
+            var resetSelection = !e.data.isMultiselect || (!e.ctrlKey && (e.which !== 3 || !e.data.getSelectedRows().is(this)));
 
             if (e.data.isMultiselect && e.data.selectState.dragging && e.data.selectState.dragElement) {
                 let firstIndex = e.data.rows.index(e.data.selectState.dragElement);
                 let secondIndex = e.data.rows.index(this);
 
-                e.data.alterSelection(e.data.rows.slice(Math.min(firstIndex, secondIndex), Math.max(firstIndex, secondIndex) + 1), false, !e.ctrlKey);
+                e.data.alterSelection(e.data.rows.slice(Math.min(firstIndex, secondIndex), Math.max(firstIndex, secondIndex) + 1), false, resetSelection);
             }
             else if (e.data.isMultiselect && e.shiftKey && e.data.selectState.extendElement) {
                 let firstIndex = e.data.rows.index(e.data.selectState.extendElement);
                 let secondIndex = e.data.rows.index(this);
 
-                e.data.alterSelection(e.data.rows.slice(Math.min(firstIndex, secondIndex), Math.max(firstIndex, secondIndex) + 1), false, !e.ctrlKey);
+                e.data.alterSelection(e.data.rows.slice(Math.min(firstIndex, secondIndex), Math.max(firstIndex, secondIndex) + 1), false, resetSelection);
             }
             else if (e.data.isMultiselect && e.ctrlKey) {
-                e.data.alterSelection($(this), true, false);
+                e.data.alterSelection($(this), true, resetSelection);
                 e.data.selectState.extendElement = $(this);
             }
             else {
-                e.data.alterSelection($(this), false, true);
+                e.data.alterSelection($(this), false, resetSelection);
                 e.data.selectState.extendElement = $(this);
             }
 
@@ -948,11 +1060,15 @@
         checkboxCellMouseDown: function (e) {
             e.stopPropagation();
         },
-        checkboxCellClick: function(e) {
+        checkboxCellClick: function (e) {
             $(this).find('input.select-checkbox').click();
         }
     }
 
+    // Key codes for keyboard navigation
+    let keyCodes = {
+        ENTER: 13
+    };
 }(jQuery));
 
 // Datagridview meta data

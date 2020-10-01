@@ -30,7 +30,10 @@
     flex-grow: 1;
 }
 
-.datagridview-container-multiselect .datagridview-body {
+.datagridview-container-multiselect .datagridview-body, .datagridview-header {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
     user-select: none;
 }
 
