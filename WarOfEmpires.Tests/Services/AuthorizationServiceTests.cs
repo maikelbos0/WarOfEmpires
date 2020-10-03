@@ -61,7 +61,7 @@ namespace WarOfEmpires.Tests.Services {
         [DataRow(null, false, false, false, DisplayName = "Not authenticated")]
         [DataRow("User", false, false, false, DisplayName = "Not in alliance")]
         [DataRow("User", true, false, false, DisplayName = "In alliance but can't manage roles")]
-        [DataRow("User", true, true, true, DisplayName = "Can invite")]
+        [DataRow("User", true, true, true, DisplayName = "Can manage roles")]
         public void AuthorizationService_IsAuthorized_Succeeds_CanManageRoles(string identity, bool isInAlliance, bool canManageRoles, bool expectedOutcome) {
             var messageService = Substitute.For<IMessageService>();
             var request = Substitute.For<IAllianceAuthorizationRequest>();
