@@ -70,6 +70,10 @@
                 @if (Model.CanInvite) {
                     <li>Can invite new members</li>
                 }
+
+                @if (Model.CanManageRoles) {
+                    <li>Can manage alliance roles</li>
+                }
             </ul>
         </div>
     }

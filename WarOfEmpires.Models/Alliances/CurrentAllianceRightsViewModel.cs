@@ -2,5 +2,6 @@
     public sealed class CurrentAllianceRightsViewModel {
         public bool IsInAlliance { get; set; }
         public bool CanInvite { get; set; }
+        public bool CanManageRoles { get; set; }
     }
 }

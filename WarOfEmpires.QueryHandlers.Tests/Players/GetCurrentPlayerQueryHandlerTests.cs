@@ -25,6 +25,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
             result.IsAdmin.Should().BeFalse();
             result.IsInAlliance.Should().BeFalse();
             result.CanInvite.Should().BeFalse();
+            result.CanManageRoles.Should().BeFalse();
             result.DisplayName.Should().Be("Test display name 1");
         }
 
@@ -44,10 +45,11 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
             result.IsAdmin.Should().BeTrue();
             result.IsInAlliance.Should().BeTrue();
             result.CanInvite.Should().BeFalse();
+            result.CanManageRoles.Should().BeFalse();
         }
 
         [TestMethod]
-        public void GetCurrentPlayerQueryHandler_Returns_Correct_Information_CanInvite_In_Role() {
+        public void GetCurrentPlayerQueryHandler_Returns_Correct_Information_Rights_In_Role() {
             var builder = new FakeBuilder()
                 .BuildAlliance(1)
                 .WithMember(1, out var player)
@@ -59,10 +61,11 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
             var result = handler.Execute(query);
 
             result.CanInvite.Should().BeTrue();
+            result.CanManageRoles.Should().BeTrue();
         }
 
         [TestMethod]
-        public void GetCurrentPlayerQueryHandler_Returns_Correct_Information_CanInvite_For_Alliance_Leader() {
+        public void GetCurrentPlayerQueryHandler_Returns_Correct_Information_Rights_For_Alliance_Leader() {
             var builder = new FakeBuilder()
                 .BuildAlliance(1)
                 .WithLeader(1);
@@ -73,6 +76,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
             var result = handler.Execute(query);
 
             result.CanInvite.Should().BeTrue();
+            result.CanManageRoles.Should().BeTrue();
         }
 
         [TestMethod]

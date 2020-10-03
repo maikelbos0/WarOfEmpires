@@ -33,9 +33,11 @@ namespace WarOfEmpires.QueryHandlers.Players {
 
             if (player == player.Alliance?.Leader) {
                 result.CanInvite = true;
+                result.CanManageRoles = true;
             }
             else if (player.AllianceRole != null) {
                 result.CanInvite = player.AllianceRole.CanInvite;
+                result.CanManageRoles = player.AllianceRole.CanManageRoles;
             }
 
             return result;
