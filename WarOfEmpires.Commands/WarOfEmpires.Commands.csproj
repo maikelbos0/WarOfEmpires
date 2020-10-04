@@ -47,6 +47,7 @@
     <Compile Include="Alliances\DeleteRoleCommand.cs" />
     <Compile Include="Alliances\PostChatMessageCommand.cs" />
     <Compile Include="Alliances\ReadInviteCommand.cs" />
+    <Compile Include="Alliances\RemoveChatMessageCommand.cs" />
     <Compile Include="Alliances\SetRoleCommand.cs" />
     <Compile Include="Alliances\WithdrawInviteCommand.cs" />
     <Compile Include="Alliances\CreateAllianceCommand.cs" />
