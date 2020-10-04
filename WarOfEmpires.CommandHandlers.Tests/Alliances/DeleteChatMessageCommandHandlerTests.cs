@@ -41,7 +41,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
 
             Action action = () => handler.Execute(command);
 
-            action.Should().Throw<NullReferenceException>();
+            action.Should().Throw<InvalidOperationException>();
             builder.Alliance.DidNotReceiveWithAnyArgs().DeleteChatMessage(default);
             builder.Context.CallsToSaveChanges.Should().Be(0);
         }

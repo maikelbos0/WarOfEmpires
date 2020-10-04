@@ -1,4 +1,5 @@
-﻿using WarOfEmpires.CommandHandlers.Decorators;
+﻿using System.Linq;
+using WarOfEmpires.CommandHandlers.Decorators;
 using WarOfEmpires.Commands.Alliances;
 using WarOfEmpires.Repositories.Alliances;
 using WarOfEmpires.Utilities.Container;
@@ -14,7 +15,14 @@ namespace WarOfEmpires.CommandHandlers.Alliances {
         }
 
         public CommandResult<DeleteChatMessageCommand> Execute(DeleteChatMessageCommand command) {
-            throw new System.NotImplementedException();
+            var result = new CommandResult<DeleteChatMessageCommand>();
+            var alliance = _repository.Get(command.Email);
+            var chatMessage = alliance.ChatMessages.Single(r => r.Id == int.Parse(command.ChatMessageId));
+
+            alliance.DeleteChatMessage(chatMessage);
+            _repository.SaveChanges();
+
+            return result;
         }
     }
 }
