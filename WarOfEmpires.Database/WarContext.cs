@@ -1,19 +1,19 @@
-using WarOfEmpires.Database.Migrations;
-using WarOfEmpires.Database.ReferenceEntities;
-using WarOfEmpires.Utilities.Container;
 using System;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
+using WarOfEmpires.Database.Migrations;
+using WarOfEmpires.Database.Orphans;
+using WarOfEmpires.Database.ReferenceEntities;
+using WarOfEmpires.Utilities.Container;
 using Alliances = WarOfEmpires.Domain.Alliances;
 using Attacks = WarOfEmpires.Domain.Attacks;
 using Auditing = WarOfEmpires.Domain.Auditing;
-using Events = WarOfEmpires.Domain.Events;
 using Empires = WarOfEmpires.Domain.Empires;
+using Events = WarOfEmpires.Domain.Events;
 using Markets = WarOfEmpires.Domain.Markets;
 using Players = WarOfEmpires.Domain.Players;
 using Security = WarOfEmpires.Domain.Security;
 using Siege = WarOfEmpires.Domain.Siege;
-using System.Linq;
 
 namespace WarOfEmpires.Database {
     [InterfaceInjectable]
@@ -43,48 +43,41 @@ namespace WarOfEmpires.Database {
         public IDbSet<Events.ScheduledTask> ScheduledTasks { get; set; }
 
         public override int SaveChanges() {
+            DeleteOrphanedCaravans();
+            DeleteOrphanedChatMessages();
             DeleteOrphanedInvites();
             DeleteOrphanedRoles();
-            DeleteOrphanedCaravans();
 
             return base.SaveChanges();
         }
 
+        private void DeleteOrphanedCaravans() {
+            var orphans = new OrphanedEntityEnumerable<Markets.Caravan>(ChangeTracker.Entries())
+                .RemoveChildren<Players.Player>(p => p.Caravans);
+
+            Set<Markets.Caravan>().RemoveRange(orphans);
+        }
+
+        private void DeleteOrphanedChatMessages() {
+            var orphans = new OrphanedEntityEnumerable<Alliances.ChatMessage>(ChangeTracker.Entries())
+                .RemoveChildren<Alliances.Alliance>(a => a.ChatMessages);
+
+            Set<Alliances.ChatMessage>().RemoveRange(orphans);
+        }
+
         private void DeleteOrphanedInvites() {
-            var invites = ChangeTracker.Entries().Select(e => e.Entity).OfType<Alliances.Invite>();
+            var orphans = new OrphanedEntityEnumerable<Alliances.Invite>(ChangeTracker.Entries())
+                .RemoveChildren<Alliances.Alliance>(a => a.Invites)
+                .RemoveChildren<Players.Player>(p => p.Invites);
 
-            if (invites.Any()) {
-                var allianceInvites = ChangeTracker.Entries().Select(e => e.Entity).OfType<Alliances.Alliance>().SelectMany(a => a.Invites).ToHashSet();
-                var playerInvites = ChangeTracker.Entries().Select(e => e.Entity).OfType<Players.Player>().SelectMany(p => p.Invites).ToHashSet();
-
-                foreach (var orphanedInvite in invites.Where(i => !allianceInvites.Contains(i) && !playerInvites.Contains(i))) {
-                    Set<Alliances.Invite>().Remove(orphanedInvite);
-                }
-            }
+            Set<Alliances.Invite>().RemoveRange(orphans);
         }
 
         private void DeleteOrphanedRoles() {
-            var roles = ChangeTracker.Entries().Select(e => e.Entity).OfType<Alliances.Role>();
+            var orphans = new OrphanedEntityEnumerable<Alliances.Role>(ChangeTracker.Entries())
+                .RemoveChildren<Alliances.Alliance>(a => a.Roles);
 
-            if (roles.Any()) {
-                var allianceRoles = ChangeTracker.Entries().Select(e => e.Entity).OfType<Alliances.Alliance>().SelectMany(a => a.Roles).ToHashSet();
-
-                foreach (var orphanedRole in roles.Where(r => !allianceRoles.Contains(r))) {
-                    Set<Alliances.Role>().Remove(orphanedRole);
-                }
-            }
-        }
-
-        private void DeleteOrphanedCaravans() {
-            var caravans = ChangeTracker.Entries().Select(e => e.Entity).OfType<Markets.Caravan>();
-
-            if (caravans.Any()) {
-                var playerCaravans = ChangeTracker.Entries().Select(e => e.Entity).OfType<Players.Player>().SelectMany(p => p.Caravans).ToHashSet();
-
-                foreach (var orphanedCaravan in caravans.Where(i => !playerCaravans.Contains(i))) {
-                    Set<Markets.Caravan>().Remove(orphanedCaravan);
-                }
-            }
+            Set<Alliances.Role>().RemoveRange(orphans);
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder) {

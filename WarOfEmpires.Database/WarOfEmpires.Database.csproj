@@ -267,6 +267,7 @@
     <Compile Include="Migrations\202009290838588_Alliance-Rights-Roles.designer.cs">
       <DependentUpon>202009290838588_Alliance-Rights-Roles.cs</DependentUpon>
     </Compile>
+    <Compile Include="Orphans\OrphanedEntityEnumerable.cs" />
     <Compile Include="ReferenceEntities\AttackResultEntity.cs" />
     <Compile Include="ReferenceEntities\AttackTypeEntity.cs" />
     <Compile Include="ReferenceEntities\BaseReferenceEntity.cs" />
