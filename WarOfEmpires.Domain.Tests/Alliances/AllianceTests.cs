@@ -144,5 +144,18 @@ namespace WarOfEmpires.Domain.Tests.Alliances {
             alliance.ClearRole(leader);
             role.Players.Should().BeEquivalentTo(member);
         }
+
+        [TestMethod]
+        public void Alliance_DeleteChatMessage_Succeeds() {
+            var leader = new Player(1, "Member");
+            var alliance = new Alliance(leader, "TEST", "The Test");
+            var chatMessage = new ChatMessage(leader, "Test message");
+
+            alliance.ChatMessages.Add(chatMessage);
+
+            alliance.DeleteChatMessage(chatMessage);
+
+            alliance.ChatMessages.Should().HaveCount(0);
+        }
     }
 }

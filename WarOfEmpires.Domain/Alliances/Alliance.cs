@@ -61,5 +61,9 @@ namespace WarOfEmpires.Domain.Alliances {
         public virtual void ClearRole(Player member) {
             Roles.Single(r => r.Players.Contains(member)).Players.Remove(member);
         }
+
+        public virtual void DeleteChatMessage(ChatMessage chatMessage) {
+            ChatMessages.Remove(chatMessage);
+        }
     }
 }
