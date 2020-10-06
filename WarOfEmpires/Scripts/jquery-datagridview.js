@@ -228,8 +228,8 @@
                     .toggleClass('datagridview-paging-page-active', page == metaData.page)
                     .text(currentPage + 1)
                     .click(function () { datagridview.initiatePaging(currentPage, metaData.rowsPerPage); })
-                    .prop('disabled', metaData.page === currentPage))
-                    .prop('type', 'button');
+                    .prop('disabled', metaData.page === currentPage)
+                    .prop('type', 'button'));
             }
 
             if (metaData.page < metaData.totalPages - 5) {
