@@ -1,19 +1,20 @@
+using System;
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.Data.Entity.Migrations;
+using System.Linq;
 using WarOfEmpires.Database.Migrations;
 using WarOfEmpires.Database.ReferenceEntities;
 using WarOfEmpires.Utilities.Container;
-using System;
-using System.Data.Entity;
-using System.Data.Entity.Migrations;
 using Alliances = WarOfEmpires.Domain.Alliances;
 using Attacks = WarOfEmpires.Domain.Attacks;
 using Auditing = WarOfEmpires.Domain.Auditing;
-using Events = WarOfEmpires.Domain.Events;
 using Empires = WarOfEmpires.Domain.Empires;
+using Events = WarOfEmpires.Domain.Events;
 using Markets = WarOfEmpires.Domain.Markets;
 using Players = WarOfEmpires.Domain.Players;
 using Security = WarOfEmpires.Domain.Security;
 using Siege = WarOfEmpires.Domain.Siege;
-using System.Linq;
 
 namespace WarOfEmpires.Database {
     [InterfaceInjectable]
@@ -43,48 +44,45 @@ namespace WarOfEmpires.Database {
         public IDbSet<Events.ScheduledTask> ScheduledTasks { get; set; }
 
         public override int SaveChanges() {
+            DeleteOrphanedCaravans();
+            DeleteOrphanedChatMessages();
             DeleteOrphanedInvites();
             DeleteOrphanedRoles();
-            DeleteOrphanedCaravans();
 
             return base.SaveChanges();
         }
 
-        private void DeleteOrphanedInvites() {
-            var invites = ChangeTracker.Entries().Select(e => e.Entity).OfType<Alliances.Invite>();
-
-            if (invites.Any()) {
-                var allianceInvites = ChangeTracker.Entries().Select(e => e.Entity).OfType<Alliances.Alliance>().SelectMany(a => a.Invites).ToHashSet();
-                var playerInvites = ChangeTracker.Entries().Select(e => e.Entity).OfType<Players.Player>().SelectMany(p => p.Invites).ToHashSet();
-
-                foreach (var orphanedInvite in invites.Where(i => !allianceInvites.Contains(i) && !playerInvites.Contains(i))) {
-                    Set<Alliances.Invite>().Remove(orphanedInvite);
-                }
-            }
-        }
-
-        private void DeleteOrphanedRoles() {
-            var roles = ChangeTracker.Entries().Select(e => e.Entity).OfType<Alliances.Role>();
-
-            if (roles.Any()) {
-                var allianceRoles = ChangeTracker.Entries().Select(e => e.Entity).OfType<Alliances.Alliance>().SelectMany(a => a.Roles).ToHashSet();
-
-                foreach (var orphanedRole in roles.Where(r => !allianceRoles.Contains(r))) {
-                    Set<Alliances.Role>().Remove(orphanedRole);
-                }
-            }
+        private IEnumerable<TEntity> GetChangeTrackerEntities<TEntity>() {
+            return ChangeTracker.Entries().Select(e => e.Entity).OfType<TEntity>();
         }
 
         private void DeleteOrphanedCaravans() {
-            var caravans = ChangeTracker.Entries().Select(e => e.Entity).OfType<Markets.Caravan>();
+            var orphans = GetChangeTrackerEntities<Markets.Caravan>()
+                .Except(GetChangeTrackerEntities<Players.Player>().SelectMany(p => p.Caravans));
 
-            if (caravans.Any()) {
-                var playerCaravans = ChangeTracker.Entries().Select(e => e.Entity).OfType<Players.Player>().SelectMany(p => p.Caravans).ToHashSet();
+            Set<Markets.Caravan>().RemoveRange(orphans);
+        }
 
-                foreach (var orphanedCaravan in caravans.Where(i => !playerCaravans.Contains(i))) {
-                    Set<Markets.Caravan>().Remove(orphanedCaravan);
-                }
-            }
+        private void DeleteOrphanedChatMessages() {
+            var orphans = GetChangeTrackerEntities<Alliances.ChatMessage>()
+                .Except(GetChangeTrackerEntities<Alliances.Alliance>().SelectMany(a => a.ChatMessages));
+
+            Set<Alliances.ChatMessage>().RemoveRange(orphans);
+        }
+
+        private void DeleteOrphanedInvites() {
+            var orphans = GetChangeTrackerEntities<Alliances.Invite>()
+                .Except(GetChangeTrackerEntities<Alliances.Alliance>().SelectMany(a => a.Invites))
+                .Except(GetChangeTrackerEntities< Players.Player>().SelectMany(p => p.Invites));
+
+            Set<Alliances.Invite>().RemoveRange(orphans);
+        }
+
+        private void DeleteOrphanedRoles() {
+            var orphans = GetChangeTrackerEntities<Alliances.Role>()
+                .Except(GetChangeTrackerEntities<Alliances.Alliance>().SelectMany(a => a.Roles));
+
+            Set<Alliances.Role>().RemoveRange(orphans);
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder) {

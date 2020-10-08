@@ -105,6 +105,7 @@
     <Compile Include="Alliances\PostChatMessageCommandHandlerTests.cs" />
     <Compile Include="Alliances\ReadInviteCommandHandlerTests.cs" />
     <Compile Include="Alliances\RejectInviteCommandHandlerTests.cs" />
+    <Compile Include="Alliances\DeleteChatMessageCommandHandlerTests.cs" />
     <Compile Include="Alliances\SendInviteCommandHandlerTests.cs" />
     <Compile Include="Alliances\SetRoleCommandHandlerTests.cs" />
     <Compile Include="Alliances\WithdrawInviteCommandHandlerTests.cs" />

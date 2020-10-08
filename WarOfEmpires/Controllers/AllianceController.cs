@@ -45,7 +45,7 @@ namespace WarOfEmpires.Controllers {
         [HttpGet]
         [Route("Home")]
         public ActionResult Home() {
-            // Explicitly name view so it works from Create, PostChatMessage and ReceivedInviteDetails
+            // Explicitly name view so it works from Create, PostChatMessage, DeleteChatMessage and ReceivedInviteDetails
             return View("Home", _messageService.Dispatch(new GetAllianceHomeQuery(_authenticationService.Identity)));
         }
 
@@ -146,7 +146,14 @@ namespace WarOfEmpires.Controllers {
         [HttpPost]
         [Route("PostChatMessage")]
         public ActionResult PostChatMessage(AllianceHomeViewModel model) {
-            return ValidatedCommandResult(model, new PostChatMessageCommand(_authenticationService.Identity, model.ChatMessage), () => Home());
+            return ValidatedCommandResult(model, new PostChatMessageCommand(_authenticationService.Identity, model.ChatMessage), Home);
+        }
+
+        [AllianceAuthorize]
+        [HttpPost]
+        [Route("DeleteChatMessage")]
+        public ActionResult DeleteChatMessage(string id) {
+            return ValidatedCommandResult(id, new DeleteChatMessageCommand(_authenticationService.Identity, id), Home);
         }
 
         [AllianceAuthorize(CanManageRoles = true)]
@@ -175,7 +182,7 @@ namespace WarOfEmpires.Controllers {
         [HttpPost]
         [Route("CreateRole")]
         public ActionResult CreateRole(CreateRoleModel model) {
-            return ValidatedCommandResult(model, new CreateRoleCommand(_authenticationService.Identity, model.Name, model.CanInvite, model.CanManageRoles), () => Roles());
+            return ValidatedCommandResult(model, new CreateRoleCommand(_authenticationService.Identity, model.Name, model.CanInvite, model.CanManageRoles), Roles);
         }
 
         [AllianceAuthorize(CanManageRoles = true)]

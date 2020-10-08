@@ -62,7 +62,7 @@
 <h3 class="mt-3">Chat</h3>
 
 <div class="row">
-    <div class="col-12 col-lg-6">
+    <div class="col-12 col-lg-6 mb-3 mg-lg-0">
         @using (Html.BeginForm("PostChatMessage", null, FormMethod.Post, new {
             data_success_message = "Your message has been posted."
         })) {
@@ -76,11 +76,9 @@
                 <div class="col-12 col-md-6 offset-md-6"><button type="submit" class="btn btn-primary form-control">Post</button></div>
             </div>
         }
-
     </div>
 
     <div class="col-12 col-lg-6">
-
         @foreach (var chatMessage in Model.ChatMessages) {
             <div class="mb-3">
                 <label>
@@ -94,7 +92,14 @@
                     posted on @chatMessage.Date.ToString(StringFormat.Date)
                 </label>
 
-                <div class="site-user-text">@chatMessage.Message</div>
+
+                @using (Html.BeginForm("DeleteChatMessage", null, FormMethod.Post, new {
+                    data_success_message = "The message has been deleted."
+                })) {
+                    @Html.Hidden("id", chatMessage.Id)
+
+                    <div class="site-user-text"><button type="submit" class="btn float-right p-0">X</button>@chatMessage.Message</div>                    
+                }
             </div>
         }
     </div>
