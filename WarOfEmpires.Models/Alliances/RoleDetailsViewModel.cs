@@ -5,6 +5,7 @@ namespace WarOfEmpires.Models.Alliances {
         public string Name { get; set; }
         public bool CanInvite { get; set; }
         public bool CanManageRoles { get; set; }
+        // TODO add can delete chat messages
         public bool HasRights {
             get {
                 return CanInvite || CanManageRoles;
