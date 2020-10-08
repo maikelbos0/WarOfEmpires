@@ -8,15 +8,17 @@ namespace WarOfEmpires.Domain.Alliances {
         public virtual string Name { get; protected set; }
         public virtual bool CanInvite { get; protected set; }
         public virtual bool CanManageRoles { get; protected set; }
+        public virtual bool CanDeleteChatMessages { get; protected set; }
 
         protected Role() {
         }
 
-        public Role(Alliance alliance, string name, bool canInvite, bool canManageRoles) {
+        public Role(Alliance alliance, string name, bool canInvite, bool canManageRoles, bool canDeleteChatMessages) {
             Alliance = alliance;
             Name = name;
             CanInvite = canInvite;
             CanManageRoles = canManageRoles;
+            CanDeleteChatMessages = canDeleteChatMessages;
         }
     }
 }
