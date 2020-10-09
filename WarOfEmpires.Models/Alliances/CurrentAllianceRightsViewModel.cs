@@ -3,6 +3,6 @@
         public bool IsInAlliance { get; set; }
         public bool CanInvite { get; set; }
         public bool CanManageRoles { get; set; }
-        // TODO add can delete chat messages
+        public bool CanDeleteChatMessages { get; set; }
     }
 }
