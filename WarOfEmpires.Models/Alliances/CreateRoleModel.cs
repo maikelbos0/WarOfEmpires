@@ -10,5 +10,7 @@ namespace WarOfEmpires.Models.Alliances {
         public bool CanInvite { get; set; }
         [DisplayName("Can manage alliance roles")]
         public bool CanManageRoles { get; set; }
+        [DisplayName("Can delete messages from chat")]
+        public bool CanDeleteChatMessages { get; set; }
     }
 }

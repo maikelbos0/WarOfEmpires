@@ -74,6 +74,10 @@
                 @if (Model.CanManageRoles) {
                     <li>Can manage alliance roles</li>
                 }
+
+                @if (Model.CanDeleteChatMessages) {
+                    <li>Can delete messages from chat</li>
+                }
             </ul>
         </div>
     }

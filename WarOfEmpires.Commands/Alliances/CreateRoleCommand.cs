@@ -4,12 +4,14 @@
         public string Name { get; }
         public bool CanInvite { get; }
         public bool CanManageRoles { get; }
+        public bool CanDeleteChatMessages { get; }
 
-        public CreateRoleCommand(string email, string name, bool canInvite, bool canManageRoles) {
+        public CreateRoleCommand(string email, string name, bool canInvite, bool canManageRoles, bool canDeleteChatMessages) {
             Email = email;
             Name = name;
             CanInvite = canInvite;
             CanManageRoles = canManageRoles;
+            CanDeleteChatMessages = canDeleteChatMessages;
         }
     }
 }
