@@ -31,6 +31,7 @@ namespace WarOfEmpires.QueryHandlers.Alliances {
                 Name = role.Name,
                 CanInvite = role.CanInvite,
                 CanManageRoles = role.CanManageRoles,
+                CanDeleteChatMessages = role.CanDeleteChatMessages,
                 Players = role.Players.Where(p => p.User.Status == UserStatus.Active).Select(p => new RolePlayerViewModel() {
                     Id = p.Id,
                     Rank = p.Rank,

@@ -267,6 +267,10 @@
     <Compile Include="Migrations\202009290838588_Alliance-Rights-Roles.designer.cs">
       <DependentUpon>202009290838588_Alliance-Rights-Roles.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202010081548580_Alliance-Rights-ChatMessages.cs" />
+    <Compile Include="Migrations\202010081548580_Alliance-Rights-ChatMessages.designer.cs">
+      <DependentUpon>202010081548580_Alliance-Rights-ChatMessages.cs</DependentUpon>
+    </Compile>
     <Compile Include="ReferenceEntities\AttackResultEntity.cs" />
     <Compile Include="ReferenceEntities\AttackTypeEntity.cs" />
     <Compile Include="ReferenceEntities\BaseReferenceEntity.cs" />
@@ -460,6 +464,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202009290838588_Alliance-Rights-Roles.resx">
       <DependentUpon>202009290838588_Alliance-Rights-Roles.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202010081548580_Alliance-Rights-ChatMessages.resx">
+      <DependentUpon>202010081548580_Alliance-Rights-ChatMessages.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

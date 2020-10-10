@@ -7,6 +7,7 @@ namespace WarOfEmpires.Attributes {
     public sealed class AllianceAuthorizeAttribute : ActionFilterAttribute, IAllianceAuthorizationRequest {
         public bool CanInvite { get; set; }
         public bool CanManageRoles { get; set; }
+        public bool CanDeleteChatMessages { get; set; }
 
         public override void OnActionExecuting(ActionExecutingContext filterContext) {
             if (!UnityConfig.Container.Resolve<IAuthorizationService>().IsAuthorized(this)) {

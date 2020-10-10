@@ -92,13 +92,17 @@
                     posted on @chatMessage.Date.ToString(StringFormat.Date)
                 </label>
 
+                @if (AuthorizationService.IsAuthorized(new AllianceAuthorizationRequest() { CanDeleteChatMessages = true })) {
+                    using (Html.BeginForm("DeleteChatMessage", null, FormMethod.Post, new {
+                        data_success_message = "The message has been deleted."
+                    })) {
+                        @Html.Hidden("id", chatMessage.Id)
 
-                @using (Html.BeginForm("DeleteChatMessage", null, FormMethod.Post, new {
-                    data_success_message = "The message has been deleted."
-                })) {
-                    @Html.Hidden("id", chatMessage.Id)
-
-                    <div class="site-user-text"><button type="submit" class="btn float-right p-0">X</button>@chatMessage.Message</div>                    
+                        <div class="site-user-text"><button type="submit" class="btn float-right p-0">X</button>@chatMessage.Message</div>
+                    }
+                }
+                else {
+                    <div class="site-user-text">@chatMessage.Message</div>
                 }
             </div>
         }
