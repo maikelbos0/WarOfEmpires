@@ -29,6 +29,17 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
             result.AllianceId.Should().Be(14);
             result.AllianceCode.Should().Be("FS");
             result.AllianceName.Should().Be("Føroyskir Samgonga");
+            result.CanBeAttacked.Should().BeTrue();
+        }
+
+        [TestMethod]
+        public void GetPlayerDetailsQueryHandler_Returns_CanBeAttacked_False_For_Self() {
+            throw new NotImplementedException();
+        }
+
+        [TestMethod]
+        public void GetPlayerDetailsQueryHandler_Returns_CanBeAttacked_False_For_Alliance_Member() {
+            throw new NotImplementedException();
         }
 
         [TestMethod]
