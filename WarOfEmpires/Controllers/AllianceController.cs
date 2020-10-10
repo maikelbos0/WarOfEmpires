@@ -149,7 +149,7 @@ namespace WarOfEmpires.Controllers {
             return ValidatedCommandResult(model, new PostChatMessageCommand(_authenticationService.Identity, model.ChatMessage), Home);
         }
 
-        [AllianceAuthorize] // TODO add can delete chat messages
+        [AllianceAuthorize(CanDeleteChatMessages = true)]
         [HttpPost]
         [Route("DeleteChatMessage")]
         public ActionResult DeleteChatMessage(string id) {

@@ -36,6 +36,10 @@ namespace WarOfEmpires.Services {
                 return false;
             }
 
+            if (request.CanDeleteChatMessages && !allianceRights.CanDeleteChatMessages) {
+                return false;
+            }
+
             return true;
         }
     }
