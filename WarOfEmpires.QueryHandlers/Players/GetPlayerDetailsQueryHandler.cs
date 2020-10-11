@@ -7,6 +7,7 @@ using WarOfEmpires.Queries.Players;
 using WarOfEmpires.QueryHandlers.Decorators;
 using WarOfEmpires.Utilities.Container;
 using WarOfEmpires.Utilities.Formatting;
+using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Players {
     [InterfaceInjectable]
@@ -21,6 +22,9 @@ namespace WarOfEmpires.QueryHandlers.Players {
         }
 
         public PlayerDetailsViewModel Execute(GetPlayerDetailsQuery query) {
+            var currentPlayer = _context.Players
+                .Include(p => p.Alliance)
+                .Single(p => EmailComparisonService.Equals(p.User.Email, query.Email));
             var id = int.Parse(query.Id);
             var player = _context.Players
                 .Include(p => p.Alliance)
@@ -36,7 +40,8 @@ namespace WarOfEmpires.QueryHandlers.Players {
                 Population = player.Peasants + player.Workers.Sum(w => w.Count) + player.Troops.Sum(t => t.GetTotals()),
                 AllianceId = player.Alliance?.Id,
                 AllianceCode = player.Alliance?.Code,
-                AllianceName = player.Alliance?.Name
+                AllianceName = player.Alliance?.Name,
+                CanBeAttacked = player != currentPlayer && player.Alliance != currentPlayer.Alliance
             };
         }
     }
