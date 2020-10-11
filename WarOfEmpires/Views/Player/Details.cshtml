@@ -10,7 +10,10 @@
     <div class="col-12 col-md-6 offset-md-3">
         <div class="text-right">
             <div class="btn-group">
-                @Html.ActionLink("Attack", "Execute", "Attack", new { DefenderId = Model.Id }, new { @class = "btn btn-primary" })
+                @if (Model.CanBeAttacked) {
+                    @Html.ActionLink("Attack", "Execute", "Attack", new { DefenderId = Model.Id }, new { @class = "btn btn-primary" })
+                }
+
                 @Html.ActionLink("Send message", "Send", "Message", new { RecipientId = Model.Id }, new { @class = "btn btn-secondary" })
 
                 @if (AuthorizationService.IsAuthorized(new AllianceAuthorizationRequest() { CanInvite = true })) {

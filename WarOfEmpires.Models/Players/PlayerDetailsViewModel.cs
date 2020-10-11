@@ -7,5 +7,6 @@
         public string AllianceName { get; set; }
         public int Population { get; set; }
         public string Title { get; set; }
+        public bool CanBeAttacked { get; set; }
     }
 }

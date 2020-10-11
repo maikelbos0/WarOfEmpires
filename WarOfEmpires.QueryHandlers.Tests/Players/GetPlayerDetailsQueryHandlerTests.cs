@@ -12,12 +12,13 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
         [TestMethod]
         public void GetPlayerDetailsQueryHandler_Returns_Correct_Information() {
             var builder = new FakeBuilder()
+                .WithPlayer(1)
                 .BuildAlliance(14)
                 .BuildMember(2, rank: 1)
                 .WithPopulation();
 
             var handler = new GetPlayerDetailsQueryHandler(builder.Context, new EnumFormatter());
-            var query = new GetPlayerDetailsQuery("2");
+            var query = new GetPlayerDetailsQuery("test1@test.com", "2");
 
             var result = handler.Execute(query);
 
@@ -29,12 +30,44 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
             result.AllianceId.Should().Be(14);
             result.AllianceCode.Should().Be("FS");
             result.AllianceName.Should().Be("Føroyskir Samgonga");
+            result.CanBeAttacked.Should().BeTrue();
+        }
+
+        [TestMethod]
+        public void GetPlayerDetailsQueryHandler_Returns_CanBeAttacked_False_For_Self() {
+            var builder = new FakeBuilder()
+                .WithPlayer(1);
+
+            var handler = new GetPlayerDetailsQueryHandler(builder.Context, new EnumFormatter());
+            var query = new GetPlayerDetailsQuery("test1@test.com", "1");
+
+            var result = handler.Execute(query);
+            
+            result.CanBeAttacked.Should().BeFalse();
+        }
+
+        [TestMethod]
+        public void GetPlayerDetailsQueryHandler_Returns_CanBeAttacked_False_For_Alliance_Member() {
+            var builder = new FakeBuilder()
+                .BuildAlliance(1)
+                .WithLeader(1)
+                .WithMember(2);
+
+            var handler = new GetPlayerDetailsQueryHandler(builder.Context, new EnumFormatter());
+            var query = new GetPlayerDetailsQuery("test1@test.com", "2");
+
+            var result = handler.Execute(query);
+
+            result.CanBeAttacked.Should().BeFalse();
         }
 
         [TestMethod]
         public void GetPlayerDetailsQueryHandler_Throws_Exception_For_Alphanumeric_Id() {
-            var handler = new GetPlayerDetailsQueryHandler(new FakeWarContext(), new EnumFormatter());
-            var query = new GetPlayerDetailsQuery("A");
+            var builder = new FakeBuilder()
+                .BuildPlayer(1);
+
+            var handler = new GetPlayerDetailsQueryHandler(builder.Context, new EnumFormatter());
+            var query = new GetPlayerDetailsQuery("test1@test.com", "A");
 
             Action action = () => handler.Execute(query);
 
@@ -44,10 +77,10 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
         [TestMethod]
         public void GetPlayerDetailsQueryHandler_Throws_Exception_For_Nonexistent_Id() {
             var builder = new FakeBuilder()
-                .BuildPlayer(2);
+                .BuildPlayer(1);
 
             var handler = new GetPlayerDetailsQueryHandler(builder.Context, new EnumFormatter());
-            var query = new GetPlayerDetailsQuery("5");
+            var query = new GetPlayerDetailsQuery("test1@test.com", "5");
 
             Action action = () => handler.Execute(query);
 
