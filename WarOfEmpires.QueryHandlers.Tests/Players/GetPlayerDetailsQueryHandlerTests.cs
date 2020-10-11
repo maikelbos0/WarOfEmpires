@@ -34,6 +34,20 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
         }
 
         [TestMethod]
+        public void GetPlayerDetailsQueryHandler_Returns_CanBeAttacked_True_For_Allianceless() {
+            var builder = new FakeBuilder()
+                .WithPlayer(1)
+                .WithPlayer(2);
+
+            var handler = new GetPlayerDetailsQueryHandler(builder.Context, new EnumFormatter());
+            var query = new GetPlayerDetailsQuery("test1@test.com", "2");
+
+            var result = handler.Execute(query);
+
+            result.CanBeAttacked.Should().BeTrue();
+        }
+
+        [TestMethod]
         public void GetPlayerDetailsQueryHandler_Returns_CanBeAttacked_False_For_Self() {
             var builder = new FakeBuilder()
                 .WithPlayer(1);

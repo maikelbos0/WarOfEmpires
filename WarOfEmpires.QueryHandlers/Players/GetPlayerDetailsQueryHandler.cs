@@ -41,7 +41,7 @@ namespace WarOfEmpires.QueryHandlers.Players {
                 AllianceId = player.Alliance?.Id,
                 AllianceCode = player.Alliance?.Code,
                 AllianceName = player.Alliance?.Name,
-                CanBeAttacked = player != currentPlayer && player.Alliance != currentPlayer.Alliance
+                CanBeAttacked = player != currentPlayer && (player.Alliance == null || player.Alliance != currentPlayer.Alliance)
             };
         }
     }
