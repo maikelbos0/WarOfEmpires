@@ -84,7 +84,7 @@ namespace WarOfEmpires.Domain.Tests.Markets {
         }
 
         [TestMethod]
-        public void Caravan_Buy_Succeeds() {
+        public void Caravan_Buy_Succeeds_Partial_Purchase() {
             var seller = new Player(1, "Seller");
             var buyer = new Player(2, "Buyer");
             var caravan = new Caravan(seller);
@@ -100,7 +100,7 @@ namespace WarOfEmpires.Domain.Tests.Markets {
         }
 
         [TestMethod]
-        public void Caravan_Buy_Returns_Remainder() {
+        public void Caravan_Buy_Succeeds_Full_Purchase() {
             var seller = new Player(1, "Seller");
             var buyer = new Player(2, "Buyer");
             var caravan = new Caravan(seller);
@@ -110,6 +110,7 @@ namespace WarOfEmpires.Domain.Tests.Markets {
 
             var remainder = caravan.Buy(buyer, MerchandiseType.Wood, 1600);
 
+            caravan.Merchandise.Should().BeEmpty();
             remainder.Should().Be(600);
         }
     }

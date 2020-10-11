@@ -37,9 +37,14 @@ namespace WarOfEmpires.Domain.Markets {
         }
 
         public virtual int Buy(Player buyer, MerchandiseType type, int requestedQuantity) {
-            var merchandise = Merchandise.Single(m => m.Type == type);
-            
-            return merchandise.Buy(Player, buyer, requestedQuantity);
+            var merchandise = Merchandise.Single(m => m.Type == type);            
+            var remainder = merchandise.Buy(Player, buyer, requestedQuantity);
+
+            if (merchandise.Quantity == 0) {
+                Merchandise.Remove(merchandise);
+            }
+
+            return remainder;
         }
     }
 }

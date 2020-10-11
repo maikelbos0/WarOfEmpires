@@ -47,6 +47,7 @@ namespace WarOfEmpires.Database {
             DeleteOrphanedCaravans();
             DeleteOrphanedChatMessages();
             DeleteOrphanedInvites();
+            DeleteOrphanedMerchandise();
             DeleteOrphanedRoles();
 
             return base.SaveChanges();
@@ -76,6 +77,13 @@ namespace WarOfEmpires.Database {
                 .Except(GetChangeTrackerEntities< Players.Player>().SelectMany(p => p.Invites));
 
             Set<Alliances.Invite>().RemoveRange(orphans);
+        }
+
+        private void DeleteOrphanedMerchandise() {
+            var orphans = GetChangeTrackerEntities<Markets.Merchandise>()
+                .Except(GetChangeTrackerEntities<Markets.Caravan>().SelectMany(c => c.Merchandise));
+
+            Set<Markets.Merchandise>().RemoveRange(orphans);
         }
 
         private void DeleteOrphanedRoles() {
