@@ -5,7 +5,6 @@ using System;
 using WarOfEmpires.CommandHandlers.Attacks;
 using WarOfEmpires.Commands.Attacks;
 using WarOfEmpires.Domain.Attacks;
-using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Repositories.Players;
 using WarOfEmpires.Test.Utilities;
 
@@ -26,6 +25,36 @@ namespace WarOfEmpires.CommandHandlers.Tests.Attacks {
             result.Success.Should().BeTrue();
             attacker.Received().ExecuteAttack(AttackType.Raid, defender, 10);
             builder.Context.CallsToSaveChanges.Should().Be(1);
+        }
+
+        [TestMethod]
+        public void AttackCommandHandler_Throws_Exception_For_Self() {
+            var builder = new FakeBuilder()
+                .WithPlayer(1, out var player);
+
+            var handler = new AttackCommandHandler(new PlayerRepository(builder.Context));
+            var command = new AttackCommand("Raid", "test1@test.com", "1", "10");
+
+            Action action = () => handler.Execute(command);
+
+            action.Should().Throw<InvalidOperationException>();
+            player.DidNotReceiveWithAnyArgs().ExecuteAttack(default, default, default);
+        }
+
+        [TestMethod]
+        public void AttackCommandHandler_Throws_Exception_For_Alliance_Member() {
+            var builder = new FakeBuilder()
+                .BuildAlliance(1)
+                .WithMember(1, out var attacker)
+                .WithMember(2, out var defender);
+
+            var handler = new AttackCommandHandler(new PlayerRepository(builder.Context));
+            var command = new AttackCommand("Raid", "test1@test.com", "2", "10");
+
+            Action action = () => handler.Execute(command);
+
+            action.Should().Throw<InvalidOperationException>();
+            attacker.DidNotReceiveWithAnyArgs().ExecuteAttack(default, default, default);
         }
 
         [TestMethod]

@@ -21,6 +21,14 @@ namespace WarOfEmpires.CommandHandlers.Attacks {
             var attacker = _repository.Get(command.AttackerEmail);
             var defender = _repository.Get(int.Parse(command.DefenderId));
 
+            if (attacker == defender) {
+                throw new InvalidOperationException("You can't attack yourself");
+            }
+
+            if (attacker.Alliance != null && attacker.Alliance == defender.Alliance) {
+                throw new InvalidOperationException("You can't attack an alliance member");
+            }
+
             if (!int.TryParse(command.Turns, out int turns) || turns < 1 || turns > 10) {
                 result.AddError(c => c.Turns, "Turns must be a valid number");
             }
