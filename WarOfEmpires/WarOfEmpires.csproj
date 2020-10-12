@@ -433,6 +433,7 @@
     <Compile Include="Controllers\AllianceController.cs" />
     <Compile Include="Controllers\AttackController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="ActionResults\CommandResultBuilder.cs" />
     <Compile Include="Controllers\EmpireController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LayoutController.cs" />

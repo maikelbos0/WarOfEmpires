@@ -25,8 +25,6 @@ namespace WarOfEmpires {
         }
 
         /*
-         * TODO @using (Html.BeginForm("PauseScheduledTasks", "Administration")) {	C:\Users\Gebruiker\source\repos\WarOfEmpires\WarOfEmpires\Views\Administration\ScheduledTasks.cshtml	10	26
-         * TODO @using (Html.BeginForm("UnpauseScheduledTasks", "Administration")) {	C:\Users\Gebruiker\source\repos\WarOfEmpires\WarOfEmpires\Views\Administration\ScheduledTasks.cshtml	18	26
          * TODO @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "html-only" })) {	C:\Users\Gebruiker\source\repos\WarOfEmpires\WarOfEmpires\Views\Alliance\Create.cshtml	13	14
          * TODO @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "html-only" })) {	C:\Users\Gebruiker\source\repos\WarOfEmpires\WarOfEmpires\Views\Alliance\CreateRole.cshtml	13	14
          * TODO @using (Html.BeginForm("PostChatMessage", null, FormMethod.Post, new {	C:\Users\Gebruiker\source\repos\WarOfEmpires\WarOfEmpires\Views\Alliance\Home.cshtml	66	22

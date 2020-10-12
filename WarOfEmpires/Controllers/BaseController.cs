@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
+using WarOfEmpires.ActionResults;
 using WarOfEmpires.CommandHandlers;
 using WarOfEmpires.Commands;
 using WarOfEmpires.Extensions;
@@ -19,6 +20,10 @@ namespace WarOfEmpires.Controllers {
             _messageService = messageService;
             _authenticationService = authenticationService;
             _dataGridViewService = dataGridViewService;
+        }
+
+        protected CommandResultBuilder<TCommand> GetCommandResultBuilder<TCommand>(TCommand command) where TCommand : ICommand {
+            return new CommandResultBuilder<TCommand>(_messageService, this, command);
         }
 
         protected ActionResult ValidatedCommandResult<TCommand>(object model, TCommand command, string onValidViewName) where TCommand : ICommand {
