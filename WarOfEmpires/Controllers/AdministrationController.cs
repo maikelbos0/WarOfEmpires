@@ -17,13 +17,13 @@ namespace WarOfEmpires.Controllers {
         [Route]
         [Route("Index")]
         [HttpGet]
-        public ViewResultBase Index() {
+        public ViewResult Index() {
             return View();
         }
 
         [Route("ScheduledTasks")]
         [HttpGet]
-        public ViewResultBase ScheduledTasks() {
+        public PartialViewResult ScheduledTasks() {
             // Explicitly name view so it works from other actions
             return PartialView("ScheduledTasks", _messageService.Dispatch(new GetScheduledTasksPausedQuery()));
         }

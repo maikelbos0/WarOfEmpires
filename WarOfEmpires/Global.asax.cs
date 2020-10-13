@@ -25,7 +25,6 @@ namespace WarOfEmpires {
         }
 
         /*
-         * TODO @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "html-only" })) {	C:\Users\Gebruiker\source\repos\WarOfEmpires\WarOfEmpires\Views\Alliance\Create.cshtml	13	14
          * TODO @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "html-only" })) {	C:\Users\Gebruiker\source\repos\WarOfEmpires\WarOfEmpires\Views\Alliance\CreateRole.cshtml	13	14
          * TODO @using (Html.BeginForm("PostChatMessage", null, FormMethod.Post, new {	C:\Users\Gebruiker\source\repos\WarOfEmpires\WarOfEmpires\Views\Alliance\Home.cshtml	66	22
          * TODO using (Html.BeginForm("DeleteChatMessage", null, FormMethod.Post, new {	C:\Users\Gebruiker\source\repos\WarOfEmpires\WarOfEmpires\Views\Alliance\Home.cshtml	96	33

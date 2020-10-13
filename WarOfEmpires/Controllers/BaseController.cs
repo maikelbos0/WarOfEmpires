@@ -26,10 +26,12 @@ namespace WarOfEmpires.Controllers {
             return new CommandResultBuilder<TCommand>(_messageService, this, command);
         }
 
+        [Obsolete]
         protected ActionResult ValidatedCommandResult<TCommand>(object model, TCommand command, string onValidViewName) where TCommand : ICommand {
             return ValidatedCommandResult(model, command, () => View(onValidViewName));
         }
 
+        [Obsolete]
         protected ActionResult ValidatedCommandResult<TCommand>(object model, TCommand command, Func<ActionResult> onValid) where TCommand : ICommand {
             CommandResult<TCommand> result = null;
 

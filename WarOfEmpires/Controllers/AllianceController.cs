@@ -19,35 +19,42 @@ namespace WarOfEmpires.Controllers {
         [HttpGet]
         [Route]
         [Route("Index")]
-        public ActionResult Index() {
+        public ViewResult Index() {
             return View(new AllianceSearchModel());
         }
 
         [Route("GetAlliances")]
         [HttpPost]
-        public ActionResult GetAlliances(DataGridViewMetaData metaData, AllianceSearchModel search) {
+        public JsonResult GetAlliances(DataGridViewMetaData metaData, AllianceSearchModel search) {
             return GridJson(new GetAlliancesQuery(search.Code, search.Name), metaData);
         }
 
         [HttpGet]
         [Route("Create")]
-        public ActionResult Create() {
+        public ViewResult Create() {
             return View(new CreateAllianceModel());
         }
 
         [HttpPost]
         [Route("Create")]
-        public ActionResult Create(CreateAllianceModel model) {
-            return ValidatedCommandResult(model, new CreateAllianceCommand(_authenticationService.Identity, model.Code, model.Name), () => Home());
+        public ViewResultBase Create(CreateAllianceModel model) {
+            return GetCommandResultBuilder(new CreateAllianceCommand(_authenticationService.Identity, model.Code, model.Name))
+                .OnSuccess(Home)
+                .OnFailure(model)
+                .Resolve();
         }
 
         [AllianceAuthorize]
         [HttpGet]
         [Route("Home")]
-        public ActionResult Home() {
-            // Explicitly name view so it works from Create, PostChatMessage, DeleteChatMessage and ReceivedInviteDetails
+        public ViewResult Home() {
+            // Explicitly name view so it works from other actions
             return View("Home", _messageService.Dispatch(new GetAllianceHomeQuery(_authenticationService.Identity)));
         }
+
+
+
+
 
         [HttpGet]
         [Route("Details")]
