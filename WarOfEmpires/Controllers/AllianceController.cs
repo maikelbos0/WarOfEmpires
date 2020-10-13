@@ -37,11 +37,11 @@ namespace WarOfEmpires.Controllers {
 
         [HttpPost]
         [Route("Create")]
-        public ViewResultBase Create(CreateAllianceModel model) {
-            return GetCommandResultBuilder(new CreateAllianceCommand(_authenticationService.Identity, model.Code, model.Name))
+        public ViewResult Create(CreateAllianceModel model) {
+            return BuildViewResultFor(new CreateAllianceCommand(_authenticationService.Identity, model.Code, model.Name))
                 .OnSuccess(Home)
                 .OnFailure(model)
-                .Resolve();
+                .Execute();
         }
 
         [AllianceAuthorize]

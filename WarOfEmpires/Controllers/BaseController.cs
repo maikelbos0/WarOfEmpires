@@ -22,8 +22,12 @@ namespace WarOfEmpires.Controllers {
             _dataGridViewService = dataGridViewService;
         }
 
-        protected CommandResultBuilder<TCommand> GetCommandResultBuilder<TCommand>(TCommand command) where TCommand : ICommand {
-            return new CommandResultBuilder<TCommand>(_messageService, this, command);
+        protected CommandResultBuilder<TCommand, ViewResult> BuildViewResultFor<TCommand>(TCommand command) where TCommand : ICommand {
+            return new CommandResultBuilder<TCommand, ViewResult>(_messageService, this, command);
+        }
+
+        protected CommandResultBuilder<TCommand, PartialViewResult> BuildPartialViewResultFor<TCommand>(TCommand command) where TCommand : ICommand {
+            return new CommandResultBuilder<TCommand, PartialViewResult>(_messageService, this, command);
         }
 
         [Obsolete]

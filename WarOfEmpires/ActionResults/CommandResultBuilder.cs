@@ -7,12 +7,12 @@ using WarOfEmpires.Extensions;
 using WarOfEmpires.Services;
 
 namespace WarOfEmpires.ActionResults {
-    public class CommandResultBuilder<TCommand> where TCommand : ICommand {
+    public class CommandResultBuilder<TCommand, TViewResult> where TCommand : ICommand where TViewResult : ViewResultBase, new() {
         private readonly IMessageService _messageService;
         private readonly BaseController _controller;
         private readonly TCommand _command;
-        private Func<ViewResultBase> _onFailure;
-        private Func<ViewResultBase> _onSuccess;
+        private Func<TViewResult> _onFailure;
+        private Func<TViewResult> _onSuccess;
 
         public CommandResultBuilder(IMessageService messageService, BaseController controller, TCommand command) {
             _messageService = messageService;
@@ -20,40 +20,40 @@ namespace WarOfEmpires.ActionResults {
             _command = command;
         }
 
-        public CommandResultBuilder<TCommand> OnSuccess(Func<ViewResultBase> onSuccess) {
+        public CommandResultBuilder<TCommand, TViewResult> OnSuccess(Func<TViewResult> onSuccess) {
             _onSuccess = onSuccess;
 
             return this;
         }
 
-        public CommandResultBuilder<TCommand> OnSuccess(string onSuccessView) {
+        public CommandResultBuilder<TCommand, TViewResult> OnSuccess(string onSuccessView) {
             return OnSuccess(() => View(viewName: onSuccessView));
         }
 
-        public CommandResultBuilder<TCommand> OnFailure(Func<ViewResultBase> onFailure) {
+        public CommandResultBuilder<TCommand, TViewResult> OnFailure(Func<TViewResult> onFailure) {
             _onFailure = onFailure;
 
             return this;
         }
 
-        public CommandResultBuilder<TCommand> OnFailure(object model) {
+        public CommandResultBuilder<TCommand, TViewResult> OnFailure(object model) {
             return OnFailure(() => View(model: model));
         }
 
-        public CommandResultBuilder<TCommand> OnFailure(string onFailureView, object model) {
+        public CommandResultBuilder<TCommand, TViewResult> OnFailure(string onFailureView, object model) {
             return OnFailure(() => View(viewName: onFailureView, model: model));
         }
 
-        public CommandResultBuilder<TCommand> OnFailure(string onFailureView) {
+        public CommandResultBuilder<TCommand, TViewResult> OnFailure(string onFailureView) {
             return OnFailure(() => View(viewName: onFailureView));
         }
 
-        private ViewResult View(string viewName = null, object model = null) {
+        private TViewResult View(string viewName = null, object model = null) {
             if (model != null) {
                 _controller.ViewData.Model = model;
             }
 
-            return new ViewResult {
+            return new TViewResult {
                 ViewName = viewName,
                 ViewData = _controller.ViewData,
                 TempData = _controller.TempData,
@@ -61,7 +61,7 @@ namespace WarOfEmpires.ActionResults {
             };
         }
 
-        public ViewResultBase Resolve() {
+        public TViewResult Execute() {
             if (_onFailure == null) {
                 throw new InvalidOperationException("Missing on failure result handler");
             }

@@ -30,20 +30,20 @@ namespace WarOfEmpires.Controllers {
 
         [Route("UnpauseScheduledTasks")]
         [HttpPost]
-        public ViewResultBase UnpauseScheduledTasks() {
-            return GetCommandResultBuilder(new UnpauseScheduledTasksCommand())
+        public PartialViewResult UnpauseScheduledTasks() {
+            return BuildPartialViewResultFor(new UnpauseScheduledTasksCommand())
                 .OnSuccess(ScheduledTasks)
                 .OnFailure(ScheduledTasks)
-                .Resolve();
+                .Execute();
         }
 
         [Route("PauseScheduledTasks")]
         [HttpPost]
-        public ViewResultBase PauseScheduledTasks() {
-            return GetCommandResultBuilder(new PauseScheduledTasksCommand())
+        public PartialViewResult PauseScheduledTasks() {
+            return BuildPartialViewResultFor(new PauseScheduledTasksCommand())
                 .OnSuccess(ScheduledTasks)
                 .OnFailure(ScheduledTasks)
-                .Resolve();
+                .Execute();
         }
     }
 }
