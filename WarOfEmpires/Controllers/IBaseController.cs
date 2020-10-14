@@ -7,6 +7,8 @@ namespace WarOfEmpires.Controllers {
         ViewDataDictionary ViewData { get; }
         ViewEngineCollection ViewEngineCollection { get; }
         void AddResponseHeader(string name, string value);
+
+        // TODO try to decouple model state from controller
         void ClearModelState();
         bool IsModelStateValid();
         void MergeModelState<TCommand>(CommandResult<TCommand> commandResult) where TCommand : ICommand;

@@ -44,6 +44,7 @@ namespace WarOfEmpires.ActionResults {
             return OnFailure(() => View(viewName: onFailureView, model: model));
         }
 
+        // TODO determine if needed
         public CommandResultBuilder<TCommand, TViewResult> OnFailure(string onFailureView) {
             return OnFailure(() => View(viewName: onFailureView));
         }
@@ -57,6 +58,7 @@ namespace WarOfEmpires.ActionResults {
                 _controller.ViewData.Model = model;
             }
 
+            // TODO figure out why ViewData and ViewEngineCollection are used
             return new TViewResult {
                 ViewName = viewName,
                 ViewData = _controller.ViewData,
