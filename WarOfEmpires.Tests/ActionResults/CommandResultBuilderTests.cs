@@ -2,9 +2,12 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 using System;
+using System.Linq;
 using System.Web.Mvc;
 using WarOfEmpires.ActionResults;
+using WarOfEmpires.CommandHandlers;
 using WarOfEmpires.Commands;
+using WarOfEmpires.Extensions;
 using WarOfEmpires.Services;
 
 namespace WarOfEmpires.Tests.ActionResults {
@@ -26,7 +29,7 @@ namespace WarOfEmpires.Tests.ActionResults {
                 .OnFailure(() => null);
 
             Action action = () => builder.Execute();
-            
+
             action.Should().Throw<InvalidOperationException>("Missing on success result handler");
         }
 
@@ -44,22 +47,77 @@ namespace WarOfEmpires.Tests.ActionResults {
 
         [TestMethod]
         public void CommandResultBuilder_Returns_OnFailure_For_ModelState_Error() {
-            throw new System.NotImplementedException();
+            var messageService = Substitute.For<IMessageService>();
+            var controller = Substitute.For<Controller>();
+            controller.ModelState.AddModelError("Test", "An error occurred");
+            var builder = new CommandResultBuilder<TestCommand, ViewResult>(messageService, controller, new TestCommand("test"))
+                .OnFailure("Failure")
+                .OnSuccess("Success");
+
+            var result = builder.Execute();
+
+            result.ViewName.Should().Be("Failure");
+            messageService.DidNotReceiveWithAnyArgs().Dispatch(Arg.Any<ICommand>());
         }
 
         [TestMethod]
         public void CommandResultBuilder_Returns_OnFailure_For_Command_Error() {
-            throw new System.NotImplementedException();
+            var command = new TestCommand("test");
+            var messageService = Substitute.For<IMessageService>();
+            var commandResult = new CommandResult<TestCommand>();
+            commandResult.AddError(c => c.Test, "An error occurred");
+            messageService.Dispatch(Arg.Any<TestCommand>()).Returns(commandResult);
+            var controller = Substitute.For<Controller>();
+            var builder = new CommandResultBuilder<TestCommand, ViewResult>(messageService, controller, command)
+                .OnFailure("Failure")
+                .OnSuccess("Success");
+
+            var result = builder.Execute();
+
+            result.ViewName.Should().Be("Failure");
+            controller.ModelState.Should().ContainKey("");
+            controller.ModelState[""].Errors.Should().Contain(e => e.ErrorMessage == "An error occurred");
+            messageService.Received().Dispatch(command);
         }
 
         [TestMethod]
         public void CommandResultBuilder_Returns_OnSuccess_For_Succesful_Execution() {
-            throw new System.NotImplementedException();
+            var command = new TestCommand("test");
+            var messageService = Substitute.For<IMessageService>();
+            var commandResult = new CommandResult<TestCommand>();
+            messageService.Dispatch(Arg.Any<TestCommand>()).Returns(commandResult);
+            var controller = Substitute.For<Controller>();
+            var builder = new CommandResultBuilder<TestCommand, ViewResult>(messageService, controller, command)
+                .OnFailure("Failure")
+                .OnSuccess("Success");
+
+            var result = builder.Execute();
+
+            result.ViewName.Should().Be("Success");
+            //controller.Response.Headers.Cast<string>().Should().Contain("X-Valid");
+            //controller.Response.Headers["X-Valid"].Should().Be("true");
+            messageService.Received().Dispatch(command);
         }
 
         [TestMethod]
         public void CommandResultBuilder_Returns_OnSuccess_For_Warnings() {
-            throw new System.NotImplementedException();
+            var command = new TestCommand("test");
+            var messageService = Substitute.For<IMessageService>();
+            var commandResult = new CommandResult<TestCommand>();
+            commandResult.AddWarning("Be aware");
+            commandResult.AddWarning("Second warning");
+            messageService.Dispatch(Arg.Any<TestCommand>()).Returns(commandResult);
+            var controller = Substitute.For<Controller>();
+            var builder = new CommandResultBuilder<TestCommand, ViewResult>(messageService, controller, command)
+                .OnFailure("Failure")
+                .OnSuccess("Success");
+
+            var result = builder.Execute();
+
+            result.ViewName.Should().Be("Success");
+            //controller.Response.Headers.Cast<string>().Should().Contain("X-Warnings");
+            //controller.Response.Headers["X-Valid"].Should().Be("Be aware|Second warning");
+            messageService.Received().Dispatch(command);
         }
 
         [TestMethod]
