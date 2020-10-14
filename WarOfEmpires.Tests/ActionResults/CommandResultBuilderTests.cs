@@ -2,12 +2,11 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 using System;
-using System.Linq;
 using System.Web.Mvc;
 using WarOfEmpires.ActionResults;
 using WarOfEmpires.CommandHandlers;
 using WarOfEmpires.Commands;
-using WarOfEmpires.Extensions;
+using WarOfEmpires.Controllers;
 using WarOfEmpires.Services;
 
 namespace WarOfEmpires.Tests.ActionResults {
@@ -24,7 +23,7 @@ namespace WarOfEmpires.Tests.ActionResults {
         [TestMethod]
         public void CommandResultBuilder_Requires_OnSuccess() {
             var messageService = Substitute.For<IMessageService>();
-            var controller = Substitute.For<Controller>();
+            var controller = Substitute.For<IBaseController>();
             var builder = new CommandResultBuilder<TestCommand, ViewResult>(messageService, controller, new TestCommand("test"))
                 .OnFailure(() => null);
 
@@ -36,7 +35,7 @@ namespace WarOfEmpires.Tests.ActionResults {
         [TestMethod]
         public void CommandResultBuilder_Requires_OnFailure() {
             var messageService = Substitute.For<IMessageService>();
-            var controller = Substitute.For<Controller>();
+            var controller = Substitute.For<IBaseController>();
             var builder = new CommandResultBuilder<TestCommand, ViewResult>(messageService, controller, new TestCommand("test"))
                 .OnSuccess(() => null);
 
@@ -48,11 +47,11 @@ namespace WarOfEmpires.Tests.ActionResults {
         [TestMethod]
         public void CommandResultBuilder_Returns_OnFailure_For_ModelState_Error() {
             var messageService = Substitute.For<IMessageService>();
-            var controller = Substitute.For<Controller>();
-            controller.ModelState.AddModelError("Test", "An error occurred");
+            var controller = Substitute.For<IBaseController>();
             var builder = new CommandResultBuilder<TestCommand, ViewResult>(messageService, controller, new TestCommand("test"))
                 .OnFailure("Failure")
                 .OnSuccess("Success");
+            controller.IsModelStateValid().Returns(false);
 
             var result = builder.Execute();
 
@@ -65,18 +64,18 @@ namespace WarOfEmpires.Tests.ActionResults {
             var command = new TestCommand("test");
             var messageService = Substitute.For<IMessageService>();
             var commandResult = new CommandResult<TestCommand>();
-            commandResult.AddError(c => c.Test, "An error occurred");
-            messageService.Dispatch(Arg.Any<TestCommand>()).Returns(commandResult);
-            var controller = Substitute.For<Controller>();
+            var controller = Substitute.For<IBaseController>();
             var builder = new CommandResultBuilder<TestCommand, ViewResult>(messageService, controller, command)
                 .OnFailure("Failure")
                 .OnSuccess("Success");
+            controller.IsModelStateValid().Returns(true, false);
+            commandResult.AddError(c => c.Test, "An error occurred");
+            messageService.Dispatch(Arg.Any<TestCommand>()).Returns(commandResult);
 
             var result = builder.Execute();
 
             result.ViewName.Should().Be("Failure");
-            controller.ModelState.Should().ContainKey("");
-            controller.ModelState[""].Errors.Should().Contain(e => e.ErrorMessage == "An error occurred");
+            controller.Received().MergeModelState(commandResult);
             messageService.Received().Dispatch(command);
         }
 
@@ -85,17 +84,18 @@ namespace WarOfEmpires.Tests.ActionResults {
             var command = new TestCommand("test");
             var messageService = Substitute.For<IMessageService>();
             var commandResult = new CommandResult<TestCommand>();
-            messageService.Dispatch(Arg.Any<TestCommand>()).Returns(commandResult);
-            var controller = Substitute.For<Controller>();
+            var controller = Substitute.For<IBaseController>();
             var builder = new CommandResultBuilder<TestCommand, ViewResult>(messageService, controller, command)
                 .OnFailure("Failure")
                 .OnSuccess("Success");
+            controller.IsModelStateValid().Returns(true);
+            messageService.Dispatch(Arg.Any<TestCommand>()).Returns(commandResult);
 
             var result = builder.Execute();
 
             result.ViewName.Should().Be("Success");
-            //controller.Response.Headers.Cast<string>().Should().Contain("X-Valid");
-            //controller.Response.Headers["X-Valid"].Should().Be("true");
+            controller.Received().ClearModelState();
+            controller.Received().AddResponseHeader("X-IsValid", "true");
             messageService.Received().Dispatch(command);
         }
 
@@ -104,25 +104,21 @@ namespace WarOfEmpires.Tests.ActionResults {
             var command = new TestCommand("test");
             var messageService = Substitute.For<IMessageService>();
             var commandResult = new CommandResult<TestCommand>();
-            commandResult.AddWarning("Be aware");
-            commandResult.AddWarning("Second warning");
-            messageService.Dispatch(Arg.Any<TestCommand>()).Returns(commandResult);
-            var controller = Substitute.For<Controller>();
+            var controller = Substitute.For<IBaseController>();
             var builder = new CommandResultBuilder<TestCommand, ViewResult>(messageService, controller, command)
                 .OnFailure("Failure")
                 .OnSuccess("Success");
+            controller.IsModelStateValid().Returns(true);
+            commandResult.AddWarning("Be aware");
+            commandResult.AddWarning("Second warning");
+            messageService.Dispatch(Arg.Any<TestCommand>()).Returns(commandResult);
 
             var result = builder.Execute();
 
             result.ViewName.Should().Be("Success");
-            //controller.Response.Headers.Cast<string>().Should().Contain("X-Warnings");
-            //controller.Response.Headers["X-Valid"].Should().Be("Be aware|Second warning");
+            controller.Received().ClearModelState();
+            controller.Received().AddResponseHeader("X-Warnings", "Be aware|Second warning");
             messageService.Received().Dispatch(command);
-        }
-
-        [TestMethod]
-        public void CommandResultBuilder_Clears_ModelState_For_Success() {
-            throw new System.NotImplementedException();
         }
 
         [TestMethod]

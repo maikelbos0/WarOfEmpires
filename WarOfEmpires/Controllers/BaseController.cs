@@ -11,7 +11,7 @@ using WarOfEmpires.Queries;
 using WarOfEmpires.Services;
 
 namespace WarOfEmpires.Controllers {
-    public abstract class BaseController : Controller {
+    public abstract class BaseController : Controller, IBaseController {
         protected readonly IMessageService _messageService;
         protected readonly IAuthenticationService _authenticationService;
         protected readonly IDataGridViewService _dataGridViewService;
@@ -72,6 +72,22 @@ namespace WarOfEmpires.Controllers {
                 metaData,
                 data
             });
+        }
+
+        public void AddResponseHeader(string name, string value) {
+            Response?.AddHeader(name, value);
+        }
+
+        public void ClearModelState() {
+            ModelState.Clear();
+        }
+
+        public bool IsModelStateValid() {
+            return ModelState.IsValid;
+        }
+
+        public void MergeModelState<TCommand>(CommandResult<TCommand> result) where TCommand : ICommand {
+            ModelState.Merge(result);
         }
     }
 }
