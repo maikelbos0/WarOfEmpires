@@ -30,6 +30,12 @@ namespace WarOfEmpires.Controllers {
         }
 
         [HttpGet]
+        [Route("Details")]
+        public ViewResult Details(string id) {
+            return View(_messageService.Dispatch(new GetAllianceDetailsQuery(id)));
+        }
+
+        [HttpGet]
         [Route("Create")]
         public ViewResult Create() {
             return View(new CreateAllianceModel());
@@ -52,60 +58,57 @@ namespace WarOfEmpires.Controllers {
             return View("Home", _messageService.Dispatch(new GetAllianceHomeQuery(_authenticationService.Identity)));
         }
 
-
-
-
-
-        [HttpGet]
-        [Route("Details")]
-        public ActionResult Details(string id) {
-            return View(_messageService.Dispatch(new GetAllianceDetailsQuery(id)));
-        }
-
         [AllianceAuthorize(CanInvite = true)]
         [HttpGet]
         [Route("Invite")]
-        public ActionResult Invite(string playerId) {
+        public ViewResult Invite(string playerId) {
             return View(_messageService.Dispatch(new GetInvitePlayerQuery(playerId)));
         }
-
+        
         [AllianceAuthorize(CanInvite = true)]
         [HttpPost]
         [Route("Invite")]
-        public ActionResult Invite(SendInviteModel model) {
-            return ValidatedCommandResult(model, new SendInviteCommand(_authenticationService.Identity, model.PlayerId, model.Subject, model.Body), () => Invites());
+        public ViewResult Invite(SendInviteModel model) {
+            return BuildViewResultFor(new SendInviteCommand(_authenticationService.Identity, model.PlayerId, model.Subject, model.Body))
+                .OnSuccess(Invites)
+                .OnFailure(model)
+                .Execute();
         }
 
         [AllianceAuthorize(CanInvite = true)]
         [HttpGet]
         [Route("Invites")]
-        public ActionResult Invites() {
-            // Explicitly name view so it works from Invite
+        public ViewResult Invites() {
+            // Explicitly name view so it works from other actions
             return View("Invites", (object)_messageService.Dispatch(new GetAllianceNameQuery(_authenticationService.Identity)));
         }
 
         [AllianceAuthorize(CanInvite = true)]
         [Route("GetInvites")]
         [HttpPost]
-        public ActionResult GetInvites(DataGridViewMetaData metaData) {
+        public JsonResult GetInvites(DataGridViewMetaData metaData) {
             return GridJson(new GetInvitesQuery(_authenticationService.Identity), metaData);
         }
 
         [AllianceAuthorize(CanInvite = true)]
         [HttpGet]
         [Route("InviteDetails")]
-        public ActionResult InviteDetails(string id) {
+        public ViewResult InviteDetails(string id) {
             return View(_messageService.Dispatch(new GetInviteQuery(_authenticationService.Identity, id)));
         }
 
         [AllianceAuthorize(CanInvite = true)]
         [HttpPost]
         [Route("WithdrawInvite")]
-        public ActionResult WithdrawInvite(string id) {
-            _messageService.Dispatch(new WithdrawInviteCommand(_authenticationService.Identity, id));
-
-            return RedirectToAction("Invites");
+        public ViewResult WithdrawInvite(string id) {
+            return BuildViewResultFor(new WithdrawInviteCommand(_authenticationService.Identity, id))
+                .OnSuccess(Invites)
+                .ThrowOnFailure()
+                .Execute();
         }
+
+
+
 
         [HttpGet]
         [Route("ReceivedInvites")]

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Web.Mvc;
 using WarOfEmpires.CommandHandlers;
 using WarOfEmpires.Commands;
@@ -46,6 +47,10 @@ namespace WarOfEmpires.ActionResults {
 
         public CommandResultBuilder<TCommand, TViewResult> OnFailure(string onFailureView) {
             return OnFailure(() => View(viewName: onFailureView));
+        }
+
+        public CommandResultBuilder<TCommand, TViewResult> ThrowOnFailure() {            
+            return OnFailure(() => throw new InvalidOperationException($"Unexpected error executing {typeof(TCommand).FullName}: {JsonConvert.SerializeObject(_command)}"));
         }
 
         private TViewResult View(string viewName = null, object model = null) {

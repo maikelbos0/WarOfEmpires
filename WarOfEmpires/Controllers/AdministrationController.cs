@@ -33,7 +33,7 @@ namespace WarOfEmpires.Controllers {
         public PartialViewResult UnpauseScheduledTasks() {
             return BuildPartialViewResultFor(new UnpauseScheduledTasksCommand())
                 .OnSuccess(ScheduledTasks)
-                .OnFailure(ScheduledTasks)
+                .ThrowOnFailure()
                 .Execute();
         }
 
@@ -42,7 +42,7 @@ namespace WarOfEmpires.Controllers {
         public PartialViewResult PauseScheduledTasks() {
             return BuildPartialViewResultFor(new PauseScheduledTasksCommand())
                 .OnSuccess(ScheduledTasks)
-                .OnFailure(ScheduledTasks)
+                .ThrowOnFailure()
                 .Execute();
         }
     }
