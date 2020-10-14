@@ -4,20 +4,23 @@ using System.Web.Mvc;
 using WarOfEmpires.CommandHandlers;
 using WarOfEmpires.Commands;
 using WarOfEmpires.Controllers;
+using WarOfEmpires.Extensions;
 using WarOfEmpires.Services;
 
 namespace WarOfEmpires.ActionResults {
     public class CommandResultBuilder<TCommand, TViewResult> where TCommand : ICommand where TViewResult : ViewResultBase, new() {
         private readonly IMessageService _messageService;
         private readonly IBaseController _controller;
+        private readonly ModelStateDictionary _modelState;
         private readonly TCommand _command;
         private Func<TViewResult> _onFailure;
         private Func<TViewResult> _onSuccess;
 
-        public CommandResultBuilder(IMessageService messageService, IBaseController controller, TCommand command) {
+        public CommandResultBuilder(IMessageService messageService, IBaseController controller, ModelStateDictionary modelState, TCommand command) {
             _messageService = messageService;
             _controller = controller;
             _command = command;
+            _modelState = modelState;
         }
 
         public CommandResultBuilder<TCommand, TViewResult> OnSuccess(Func<TViewResult> onSuccess) {
@@ -26,8 +29,8 @@ namespace WarOfEmpires.ActionResults {
             return this;
         }
 
-        public CommandResultBuilder<TCommand, TViewResult> OnSuccess(string onSuccessView) {
-            return OnSuccess(() => View(viewName: onSuccessView));
+        public CommandResultBuilder<TCommand, TViewResult> OnSuccess(string viewName) {
+            return OnSuccess(() => View(viewName));
         }
 
         public CommandResultBuilder<TCommand, TViewResult> OnFailure(Func<TViewResult> onFailure) {
@@ -36,32 +39,19 @@ namespace WarOfEmpires.ActionResults {
             return this;
         }
 
-        public CommandResultBuilder<TCommand, TViewResult> OnFailure(object model) {
-            return OnFailure(() => View(model: model));
-        }
-
-        public CommandResultBuilder<TCommand, TViewResult> OnFailure(string onFailureView, object model) {
-            return OnFailure(() => View(viewName: onFailureView, model: model));
-        }
-
-        // TODO determine if needed
-        public CommandResultBuilder<TCommand, TViewResult> OnFailure(string onFailureView) {
-            return OnFailure(() => View(viewName: onFailureView));
+        public CommandResultBuilder<TCommand, TViewResult> OnFailure(string viewName, object model) {
+            return OnFailure(() => View(viewName, model));
         }
 
         public CommandResultBuilder<TCommand, TViewResult> ThrowOnFailure() {            
             return OnFailure(() => throw new InvalidOperationException($"Unexpected error executing {typeof(TCommand).FullName}: {JsonConvert.SerializeObject(_command)}"));
         }
 
-        private TViewResult View(string viewName = null, object model = null) {
-            if (model != null) {
-                _controller.ViewData.Model = model;
-            }
-
-            // TODO figure out why ViewData and ViewEngineCollection are used
+        private TViewResult View(string viewName, object model = null) {            
+            // TODO figure out why ViewEngineCollection is used
             return new TViewResult {
                 ViewName = viewName,
-                ViewData = _controller.ViewData,
+                ViewData = new ViewDataDictionary(model),
                 ViewEngineCollection = _controller.ViewEngineCollection
             };
         }
@@ -77,14 +67,14 @@ namespace WarOfEmpires.ActionResults {
 
             CommandResult<TCommand> result = null;
 
-            if (_controller.IsModelStateValid()) {
+            if (_modelState.IsValid) {
                 result = _messageService.Dispatch(_command);
-                _controller.MergeModelState(result);
+                _modelState.Merge(result);
             }
 
-            if (_controller.IsModelStateValid()) {
+            if (_modelState.IsValid) {
                 // We're done so the current model is no longer relevant
-                _controller.ClearModelState();
+                _modelState.Clear();
 
                 if (result.HasWarnings) {
                     _controller.AddResponseHeader("X-Warnings", string.Join("|", result.Warnings));

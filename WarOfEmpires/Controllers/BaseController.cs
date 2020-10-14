@@ -23,11 +23,11 @@ namespace WarOfEmpires.Controllers {
         }
 
         protected CommandResultBuilder<TCommand, ViewResult> BuildViewResultFor<TCommand>(TCommand command) where TCommand : ICommand {
-            return new CommandResultBuilder<TCommand, ViewResult>(_messageService, this, command);
+            return new CommandResultBuilder<TCommand, ViewResult>(_messageService, this, ModelState, command);
         }
 
         protected CommandResultBuilder<TCommand, PartialViewResult> BuildPartialViewResultFor<TCommand>(TCommand command) where TCommand : ICommand {
-            return new CommandResultBuilder<TCommand, PartialViewResult>(_messageService, this, command);
+            return new CommandResultBuilder<TCommand, PartialViewResult>(_messageService, this, ModelState, command);
         }
 
         [Obsolete]
@@ -74,20 +74,9 @@ namespace WarOfEmpires.Controllers {
             });
         }
 
+        [NonAction]
         public void AddResponseHeader(string name, string value) {
             Response?.AddHeader(name, value);
-        }
-
-        public void ClearModelState() {
-            ModelState.Clear();
-        }
-
-        public bool IsModelStateValid() {
-            return ModelState.IsValid;
-        }
-
-        public void MergeModelState<TCommand>(CommandResult<TCommand> result) where TCommand : ICommand {
-            ModelState.Merge(result);
         }
     }
 }

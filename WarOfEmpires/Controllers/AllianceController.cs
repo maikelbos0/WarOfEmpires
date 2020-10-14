@@ -46,7 +46,7 @@ namespace WarOfEmpires.Controllers {
         public ViewResult Create(CreateAllianceModel model) {
             return BuildViewResultFor(new CreateAllianceCommand(_authenticationService.Identity, model.Code, model.Name))
                 .OnSuccess(Home)
-                .OnFailure(model)
+                .OnFailure("Create", model)
                 .Execute();
         }
 
@@ -71,7 +71,7 @@ namespace WarOfEmpires.Controllers {
         public ViewResult Invite(SendInviteModel model) {
             return BuildViewResultFor(new SendInviteCommand(_authenticationService.Identity, model.PlayerId, model.Subject, model.Body))
                 .OnSuccess(Invites)
-                .OnFailure(model)
+                .OnFailure("Invite", model)
                 .Execute();
         }
 
