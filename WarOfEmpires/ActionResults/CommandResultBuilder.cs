@@ -3,19 +3,18 @@ using System;
 using System.Web.Mvc;
 using WarOfEmpires.CommandHandlers;
 using WarOfEmpires.Commands;
-using WarOfEmpires.Controllers;
 using WarOfEmpires.Extensions;
 using WarOfEmpires.Services;
 
 namespace WarOfEmpires.ActionResults {
     public class CommandResultBuilder<TCommand, TViewResult> where TCommand : ICommand where TViewResult : ViewResultBase, new() {
         private readonly IMessageService _messageService;
-        private readonly BaseController _controller;
+        private readonly Controller _controller;
         private readonly TCommand _command;
         private Func<TViewResult> _onFailure;
         private Func<TViewResult> _onSuccess;
 
-        public CommandResultBuilder(IMessageService messageService, BaseController controller, TCommand command) {
+        public CommandResultBuilder(IMessageService messageService, Controller controller, TCommand command) {
             _messageService = messageService;
             _controller = controller;
             _command = command;
