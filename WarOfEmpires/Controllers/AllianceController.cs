@@ -64,7 +64,7 @@ namespace WarOfEmpires.Controllers {
         public ViewResult Invite(string playerId) {
             return View(_messageService.Dispatch(new GetInvitePlayerQuery(playerId)));
         }
-        
+
         [AllianceAuthorize(CanInvite = true)]
         [HttpPost]
         [Route("Invite")]
@@ -133,25 +133,21 @@ namespace WarOfEmpires.Controllers {
         }
 
         [HttpPost]
-        [Route("ReceivedInviteDetails")]
-        public ViewResult ReceivedInviteDetails(ReceivedInviteDetailsViewModel model) {
-            // TODO split up
-            switch (model.Command) {
-                case "accept":
-                    // TODO correct
-                    return BuildViewResultFor(new AcceptInviteCommand(_authenticationService.Identity, model.Id.ToString()))
-                        .OnSuccess(Home)
-                        //.OnFailure("ReceivedInviteDetails", model)
-                        .OnFailure(() => View(model))
-                        .Execute();
-                case "reject":
-                    return BuildViewResultFor(new RejectInviteCommand(_authenticationService.Identity, model.Id.ToString()))
-                        .OnSuccess(ReceivedInvites)
-                        .ThrowOnFailure()
-                        .Execute();
-                default:
-                    throw new InvalidOperationException($"Invalid operation '{model.Command}' found");
-            }
+        [Route("AcceptInvite")]
+        public ViewResult AcceptInvite(ReceivedInviteDetailsViewModel model) {
+            return BuildViewResultFor(new AcceptInviteCommand(_authenticationService.Identity, model.Id.ToString()))
+                .OnSuccess(Home)
+                .OnFailure("ReceivedInviteDetails", model)
+                .Execute();
+        }
+
+        [HttpPost]
+        [Route("RejectInvite")]
+        public ViewResult RejectInvite(string id) {
+            return BuildViewResultFor(new RejectInviteCommand(_authenticationService.Identity, id))
+                .OnSuccess(ReceivedInvites)
+                .ThrowOnFailure()
+                .Execute();
         }
 
 

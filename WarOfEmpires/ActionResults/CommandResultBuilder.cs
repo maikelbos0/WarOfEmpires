@@ -11,16 +11,18 @@ namespace WarOfEmpires.ActionResults {
     public class CommandResultBuilder<TCommand, TViewResult> where TCommand : ICommand where TViewResult : ViewResultBase, new() {
         private readonly IMessageService _messageService;
         private readonly IBaseController _controller;
+        private readonly Func<string, object, TViewResult> _createView;
         private readonly ModelStateDictionary _modelState;
         private readonly TCommand _command;
         private Func<TViewResult> _onFailure;
         private Func<TViewResult> _onSuccess;
 
-        public CommandResultBuilder(IMessageService messageService, IBaseController controller, ModelStateDictionary modelState, TCommand command) {
+        public CommandResultBuilder(IMessageService messageService, IBaseController controller, Func<string, object, TViewResult> createView, ModelStateDictionary modelState, TCommand command) {
             _messageService = messageService;
             _controller = controller;
-            _command = command;
+            _createView = createView;
             _modelState = modelState;
+            _command = command;
         }
 
         public CommandResultBuilder<TCommand, TViewResult> OnSuccess(Func<TViewResult> onSuccess) {
@@ -30,7 +32,7 @@ namespace WarOfEmpires.ActionResults {
         }
 
         public CommandResultBuilder<TCommand, TViewResult> OnSuccess(string viewName) {
-            return OnSuccess(() => View(viewName));
+            return OnSuccess(() => _createView(viewName, null));
         }
 
         public CommandResultBuilder<TCommand, TViewResult> OnFailure(Func<TViewResult> onFailure) {
@@ -40,20 +42,11 @@ namespace WarOfEmpires.ActionResults {
         }
 
         public CommandResultBuilder<TCommand, TViewResult> OnFailure(string viewName, object model) {
-            return OnFailure(() => View(viewName, model));
+            return OnFailure(() => _createView(viewName, model));
         }
 
         public CommandResultBuilder<TCommand, TViewResult> ThrowOnFailure() {            
             return OnFailure(() => throw new InvalidOperationException($"Unexpected error executing {typeof(TCommand).FullName}: {JsonConvert.SerializeObject(_command)}"));
-        }
-
-        private TViewResult View(string viewName, object model = null) {            
-            // TODO figure out why ViewEngineCollection is used
-            return new TViewResult {
-                ViewName = viewName,
-                ViewData = new ViewDataDictionary(model),
-                ViewEngineCollection = _controller.ViewEngineCollection
-            };
         }
 
         public TViewResult Execute() {

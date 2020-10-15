@@ -20,12 +20,19 @@ namespace WarOfEmpires.Tests.ActionResults {
             }
         }
 
+        private ViewResult View(string viewName, object model) {
+            return new ViewResult() { 
+                ViewName = viewName,
+                ViewData = new ViewDataDictionary(model)
+            };
+        }
+
         [TestMethod]
         public void CommandResultBuilder_Requires_OnSuccess() {
             var messageService = Substitute.For<IMessageService>();
             var controller = Substitute.For<IBaseController>();
             var modelState = new ModelStateDictionary();
-            var builder = new CommandResultBuilder<TestCommand, ViewResult>(messageService, controller, modelState, new TestCommand("test"))
+            var builder = new CommandResultBuilder<TestCommand, ViewResult>(messageService, controller, View, modelState, new TestCommand("test"))
                 .OnFailure(() => null);
 
             Action action = () => builder.Execute();
@@ -38,7 +45,7 @@ namespace WarOfEmpires.Tests.ActionResults {
             var messageService = Substitute.For<IMessageService>();
             var controller = Substitute.For<IBaseController>();
             var modelState = new ModelStateDictionary();
-            var builder = new CommandResultBuilder<TestCommand, ViewResult>(messageService, controller, modelState, new TestCommand("test"))
+            var builder = new CommandResultBuilder<TestCommand, ViewResult>(messageService, controller, View, modelState, new TestCommand("test"))
                 .OnSuccess(() => null);
 
             Action action = () => builder.Execute();
@@ -51,7 +58,7 @@ namespace WarOfEmpires.Tests.ActionResults {
             var messageService = Substitute.For<IMessageService>();
             var controller = Substitute.For<IBaseController>();
             var modelState = new ModelStateDictionary();
-            var builder = new CommandResultBuilder<TestCommand, ViewResult>(messageService, controller, modelState, new TestCommand("test"))
+            var builder = new CommandResultBuilder<TestCommand, ViewResult>(messageService, controller, View, modelState, new TestCommand("test"))
                 .OnFailure("Failure", "test")
                 .OnSuccess("Success");
             modelState.AddModelError("Test", "An error occurred");
@@ -70,7 +77,7 @@ namespace WarOfEmpires.Tests.ActionResults {
             var commandResult = new CommandResult<TestCommand>();
             var controller = Substitute.For<IBaseController>();
             var modelState = new ModelStateDictionary();
-            var builder = new CommandResultBuilder<TestCommand, ViewResult>(messageService, controller, modelState, command)
+            var builder = new CommandResultBuilder<TestCommand, ViewResult>(messageService, controller, View, modelState, command)
                 .OnFailure("Failure", "test")
                 .OnSuccess("Success");
             modelState.Add("Test", new ModelState());
@@ -92,7 +99,7 @@ namespace WarOfEmpires.Tests.ActionResults {
             var commandResult = new CommandResult<TestCommand>();
             var controller = Substitute.For<IBaseController>();
             var modelState = new ModelStateDictionary();
-            var builder = new CommandResultBuilder<TestCommand, ViewResult>(messageService, controller, modelState, command)
+            var builder = new CommandResultBuilder<TestCommand, ViewResult>(messageService, controller, View, modelState, command)
                 .OnFailure("Failure", null)
                 .OnSuccess("Success");
             modelState.Add("Test", new ModelState());
@@ -113,7 +120,7 @@ namespace WarOfEmpires.Tests.ActionResults {
             var commandResult = new CommandResult<TestCommand>();
             var controller = Substitute.For<IBaseController>();
             var modelState = new ModelStateDictionary();
-            var builder = new CommandResultBuilder<TestCommand, ViewResult>(messageService, controller, modelState, command)
+            var builder = new CommandResultBuilder<TestCommand, ViewResult>(messageService, controller, View, modelState, command)
                 .OnFailure("Failure", null)
                 .OnSuccess("Success");
             modelState.Add("Test", new ModelState());
@@ -136,7 +143,7 @@ namespace WarOfEmpires.Tests.ActionResults {
             var commandResult = new CommandResult<TestCommand>();
             var controller = Substitute.For<IBaseController>();
             var modelState = new ModelStateDictionary();
-            var builder = new CommandResultBuilder<TestCommand, ViewResult>(messageService, controller, modelState, command)
+            var builder = new CommandResultBuilder<TestCommand, ViewResult>(messageService, controller, View, modelState, command)
                 .ThrowOnFailure()
                 .OnSuccess("Success");
             modelState.Add("Test", new ModelState());

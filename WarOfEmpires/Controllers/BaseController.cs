@@ -23,11 +23,11 @@ namespace WarOfEmpires.Controllers {
         }
 
         protected CommandResultBuilder<TCommand, ViewResult> BuildViewResultFor<TCommand>(TCommand command) where TCommand : ICommand {
-            return new CommandResultBuilder<TCommand, ViewResult>(_messageService, this, ModelState, command);
+            return new CommandResultBuilder<TCommand, ViewResult>(_messageService, this, View, ModelState, command);
         }
 
         protected CommandResultBuilder<TCommand, PartialViewResult> BuildPartialViewResultFor<TCommand>(TCommand command) where TCommand : ICommand {
-            return new CommandResultBuilder<TCommand, PartialViewResult>(_messageService, this, ModelState, command);
+            return new CommandResultBuilder<TCommand, PartialViewResult>(_messageService, this, PartialView, ModelState, command);
         }
 
         [Obsolete]
