@@ -10,8 +10,6 @@
     data_success_message_accept = "The invite has been accepted.",
     data_success_message_reject = "The invite has been rejected."
 })) {
-    @Html.ValidationSummary(true, null, new { @class = "site-validation-summary text-danger" })
-
     @Html.HiddenFor(m => m.Command)
     @Html.HiddenFor(m => m.Id)
     @Html.HiddenFor(m => m.AllianceCode)
@@ -23,6 +21,8 @@
 
     <div class="row">
         <div class="col-12 col-md-6 offset-md-3">
+            @Html.ValidationSummary(true, null, new { @class = "site-validation-summary text-danger" })
+
             <div class="form-group">
                 <label>Alliance</label>
                 @Html.ActionLink($"{Model.AllianceCode} - {Model.AllianceName}", "Details", "Alliance", new { id = Model.AllianceId }, new { @class = "form-control btn btn-secondary text-left" })

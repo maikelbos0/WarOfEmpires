@@ -107,25 +107,22 @@ namespace WarOfEmpires.Controllers {
                 .Execute();
         }
 
-
-
-
         [HttpGet]
         [Route("ReceivedInvites")]
-        public ActionResult ReceivedInvites() {
-            // Explicitly name view so it works from ReceivedInviteDetails
+        public ViewResult ReceivedInvites() {
+            // Explicitly name view so it works from other actions
             return View("ReceivedInvites");
         }
 
         [HttpPost]
         [Route("GetReceivedInvites")]
-        public ActionResult GetReceivedInvites(DataGridViewMetaData metaData) {
+        public JsonResult GetReceivedInvites(DataGridViewMetaData metaData) {
             return GridJson(new GetReceivedInvitesQuery(_authenticationService.Identity), metaData);
         }
 
         [HttpGet]
         [Route("ReceivedInviteDetails")]
-        public ActionResult ReceivedInviteDetails(string id) {
+        public ViewResult ReceivedInviteDetails(string id) {
             var model = _messageService.Dispatch(new GetReceivedInviteQuery(_authenticationService.Identity, id));
 
             if (!model.IsRead) {
@@ -137,20 +134,28 @@ namespace WarOfEmpires.Controllers {
 
         [HttpPost]
         [Route("ReceivedInviteDetails")]
-        public ActionResult ReceivedInviteDetails(ReceivedInviteDetailsViewModel model) {
+        public ViewResult ReceivedInviteDetails(ReceivedInviteDetailsViewModel model) {
+            // TODO split up
             switch (model.Command) {
                 case "accept":
-                    return ValidatedCommandResult(model,
-                        new AcceptInviteCommand(_authenticationService.Identity, model.Id.ToString()),
-                        Home);
+                    // TODO correct
+                    return BuildViewResultFor(new AcceptInviteCommand(_authenticationService.Identity, model.Id.ToString()))
+                        .OnSuccess(Home)
+                        //.OnFailure("ReceivedInviteDetails", model)
+                        .OnFailure(() => View(model))
+                        .Execute();
                 case "reject":
-                    return ValidatedCommandResult(model,
-                        new RejectInviteCommand(_authenticationService.Identity, model.Id.ToString()),
-                        ReceivedInvites);
+                    return BuildViewResultFor(new RejectInviteCommand(_authenticationService.Identity, model.Id.ToString()))
+                        .OnSuccess(ReceivedInvites)
+                        .ThrowOnFailure()
+                        .Execute();
                 default:
                     throw new InvalidOperationException($"Invalid operation '{model.Command}' found");
             }
         }
+
+
+
 
         [AllianceAuthorize]
         [HttpPost]
