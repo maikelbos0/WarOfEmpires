@@ -35,6 +35,7 @@ namespace WarOfEmpires.ActionResults {
             return OnSuccess(() => _createView(viewName, null));
         }
 
+        [Obsolete("Test to see if this is needed")]
         public CommandResultBuilder<TCommand, TViewResult> OnFailure(Func<TViewResult> onFailure) {
             _onFailure = onFailure;
 

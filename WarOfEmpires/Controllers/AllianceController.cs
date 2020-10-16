@@ -150,22 +150,29 @@ namespace WarOfEmpires.Controllers {
                 .Execute();
         }
 
-
-
-
         [AllianceAuthorize]
         [HttpPost]
         [Route("PostChatMessage")]
         public ActionResult PostChatMessage(AllianceHomeViewModel model) {
-            return ValidatedCommandResult(model, new PostChatMessageCommand(_authenticationService.Identity, model.ChatMessage), Home);
+            return BuildViewResultFor(new PostChatMessageCommand(_authenticationService.Identity, model.ChatMessage))
+                .OnSuccess(Home)
+                .ThrowOnFailure()
+                .Execute();
         }
 
         [AllianceAuthorize(CanDeleteChatMessages = true)]
         [HttpPost]
         [Route("DeleteChatMessage")]
         public ActionResult DeleteChatMessage(string id) {
-            return ValidatedCommandResult(id, new DeleteChatMessageCommand(_authenticationService.Identity, id), Home);
+            return BuildViewResultFor(new DeleteChatMessageCommand(_authenticationService.Identity, id))
+                .OnSuccess(Home)
+                .ThrowOnFailure()
+                .Execute();
         }
+
+
+
+
 
         [AllianceAuthorize(CanManageRoles = true)]
         [HttpGet]
