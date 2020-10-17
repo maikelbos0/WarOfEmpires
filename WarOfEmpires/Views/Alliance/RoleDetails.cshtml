@@ -11,9 +11,7 @@
 </p>
 
 <div class="text-right mb-3">
-    @using (Html.BeginForm("DeleteRole", null, FormMethod.Post, new {
-        data_success_message = "The role has been deleted."
-    })) {
+    @using (Html.BeginForm("DeleteRole", null, FormMethod.Post, new { data_success_message = "The role has been deleted." })) {
         @Html.Hidden("id", Model.Id)
 
         <div class="btn-group">
@@ -46,9 +44,7 @@
                                 @Html.ActionLink(player.DisplayName, "Details", "Player", new { id = player.Id }, null)
                             </td>
                             <td>
-                                @using (Html.BeginForm("ClearRole", null, FormMethod.Post, new {
-                                    data_success_message = "The player's role has been cleared."
-                                })) {
+                                @using (Html.BeginForm("ClearRole", null, FormMethod.Post, new { data_success_message = "The player's role has been cleared." })) {
                                     @Html.Hidden("playerId", player.Id)
                                     @Html.Hidden("id", Model.Id)
 

@@ -10,16 +10,14 @@
     In an alliance, you can assign a role to players to give them an in-alliance title and to give them rights to various alliance actions.
 </p>
 
-@using (Html.BeginForm(null, null, FormMethod.Post, new {
-    data_success_message = "The player's role has been set."
-})) {
+@using (Html.BeginForm(null, null, FormMethod.Post, new { data_success_message = "The player's role has been set." })) {
     @Html.HiddenFor(m => m.Id)
 
     <div class="row">
         <div class="col-12 col-md-6 offset-md-3">
             <div class="form-group">
                 @Html.LabelFor(m => m.PlayerId, new { @class = "site-required" })
-                @Html.DropDownListFor(m => m.PlayerId, Model.Players.Select(p => new SelectListItem() { 
+                @Html.DropDownListFor(m => m.PlayerId, Model.Players.Select(p => new SelectListItem() {
                     Value = p.Id.ToString(),
                     Text = p.DisplayName
                 }), new { @class = "form-control" })
