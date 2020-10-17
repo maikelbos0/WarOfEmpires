@@ -25,7 +25,6 @@ namespace WarOfEmpires {
         }
 
         /*
-         * TODO @using (Html.BeginForm()) {	C:\Users\Gebruiker\source\repos\WarOfEmpires\WarOfEmpires\Views\Attack\Execute.cshtml	9	14
          * TODO @using (Html.BeginForm(null, null, FormMethod.Post, new { data_success_message = "Your resources were stored in their banks." })) {	C:\Users\Gebruiker\source\repos\WarOfEmpires\WarOfEmpires\Views\Empire\Banking.cshtml	13	14
          * TODO @using (Html.BeginForm(null, null, FormMethod.Post, new {	C:\Users\Gebruiker\source\repos\WarOfEmpires\WarOfEmpires\Views\Empire\Siege.cshtml	20	14
          * TODO @using (Html.BeginForm(null, null, FormMethod.Post, new { data_success_message = "Your tax rate was changed." })) {	C:\Users\Gebruiker\source\repos\WarOfEmpires\WarOfEmpires\Views\Empire\Tax.cshtml	13	14
