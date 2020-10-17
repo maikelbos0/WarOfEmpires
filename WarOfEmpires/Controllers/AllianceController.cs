@@ -170,78 +170,81 @@ namespace WarOfEmpires.Controllers {
                 .Execute();
         }
 
-
-
-
-
         [AllianceAuthorize(CanManageRoles = true)]
         [HttpGet]
         [Route("Roles")]
-        public ActionResult Roles() {
-            // Explicitly name view so it works from CreateRole
+        public ViewResult Roles() {
+            // Explicitly name view so it works from other actions
             return View("Roles", (object)_messageService.Dispatch(new GetAllianceNameQuery(_authenticationService.Identity)));
         }
 
         [AllianceAuthorize(CanManageRoles = true)]
         [HttpPost]
         [Route("GetRoles")]
-        public ActionResult GetRoles(DataGridViewMetaData metaData) {
+        public JsonResult GetRoles(DataGridViewMetaData metaData) {
             return GridJson(new GetRolesQuery(_authenticationService.Identity), metaData);
         }
 
         [AllianceAuthorize(CanManageRoles = true)]
         [HttpGet]
         [Route("CreateRole")]
-        public ActionResult CreateRole() {
+        public ViewResult CreateRole() {
             return View(new CreateRoleModel());
         }
 
         [AllianceAuthorize(CanManageRoles = true)]
         [HttpPost]
         [Route("CreateRole")]
-        public ActionResult CreateRole(CreateRoleModel model) {
-            return ValidatedCommandResult(model, new CreateRoleCommand(_authenticationService.Identity, model.Name, model.CanInvite, model.CanManageRoles, model.CanDeleteChatMessages), Roles);
+        public ViewResult CreateRole(CreateRoleModel model) {
+            return BuildViewResultFor(new CreateRoleCommand(_authenticationService.Identity, model.Name, model.CanInvite, model.CanManageRoles, model.CanDeleteChatMessages))
+                .OnSuccess(Roles)
+                .OnFailure("CreateRole", model)
+                .Execute();
         }
 
         [AllianceAuthorize(CanManageRoles = true)]
         [HttpGet]
         [Route("RoleDetails")]
-        public ActionResult RoleDetails(string id) {
-            return View(_messageService.Dispatch(new GetRoleDetailsQuery(_authenticationService.Identity, id)));
+        public ViewResult RoleDetails(string id) {
+            // Explicitly name view so it works from other actions
+            return View("RoleDetails", _messageService.Dispatch(new GetRoleDetailsQuery(_authenticationService.Identity, id)));
         }
 
         [AllianceAuthorize(CanManageRoles = true)]
         [HttpPost]
         [Route("ClearRole")]
-        public ActionResult ClearRole(string id, string playerId) {
-            _messageService.Dispatch(new ClearRoleCommand(_authenticationService.Identity, playerId));
-
-            return RedirectToAction("RoleDetails", new { id });
+        public ViewResult ClearRole(string id, string playerId) {
+            return BuildViewResultFor(new ClearRoleCommand(_authenticationService.Identity, playerId))
+                .OnSuccess(() => RoleDetails(id))
+                .ThrowOnFailure()
+                .Execute();
         }
 
         [AllianceAuthorize(CanManageRoles = true)]
         [HttpPost]
         [Route("DeleteRole")]
-        public ActionResult DeleteRole(string id) {
-            _messageService.Dispatch(new DeleteRoleCommand(_authenticationService.Identity, id));
-
-            return RedirectToAction("Roles");
+        public ViewResult DeleteRole(string id) {
+            return BuildViewResultFor(new DeleteRoleCommand(_authenticationService.Identity, id))
+                .OnSuccess(Roles)
+                .ThrowOnFailure()
+                .Execute();
         }
 
         [AllianceAuthorize(CanManageRoles = true)]
         [HttpGet]
         [Route("SetRole")]
-        public ActionResult SetRole(string id) {
+        public ViewResult SetRole(string id) {
             return View(_messageService.Dispatch(new GetNewRolePlayerQuery(_authenticationService.Identity, id)));
         }
 
         [AllianceAuthorize(CanManageRoles = true)]
         [HttpPost]
         [Route("SetRole")]
-        public ActionResult SetRole(string id, string playerId) {
-            _messageService.Dispatch(new SetRoleCommand(_authenticationService.Identity, playerId, id));
-
-            return RedirectToAction("RoleDetails", new { id });
+        public ViewResult SetRole(string id, string playerId) {
+            return BuildViewResultFor(new SetRoleCommand(_authenticationService.Identity, playerId, id))
+                .OnSuccess(() => RoleDetails(id))
+                .ThrowOnFailure()
+                .Execute();
         }
     }
 }
