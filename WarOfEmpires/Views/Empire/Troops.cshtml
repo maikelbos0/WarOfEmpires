@@ -35,6 +35,7 @@
     data_success_message_heal = "Your troops were healed.",
 })) {
     @Html.ValidationSummary(true, null, new { @class = "site-validation-summary text-danger" })
+
     @Html.HiddenFor(m => m.Command)
     @Html.HiddenFor(m => m.CurrentPeasants)
     @Html.HiddenFor(m => m.MercenaryTrainingCost)

@@ -18,22 +18,24 @@ namespace WarOfEmpires.Controllers {
 
         [Route("Workers")]
         [HttpGet]
-        public ActionResult Workers() {
+        public ViewResult Workers() {
             return View(_messageService.Dispatch(new GetWorkersQuery(_authenticationService.Identity)));
         }
 
         [Route("Workers")]
         [HttpPost]
-        public ActionResult Workers(WorkersModel model) {
+        public ViewResult Workers(WorkersModel model) {
             switch (model.Command) {
                 case "train":
-                    return ValidatedCommandResult(model,
-                        new TrainWorkersCommand(_authenticationService.Identity, model.Workers.Select(w => new WorkerInfo(w.Type, w.Count))),
-                        () => Workers());
+                    return BuildViewResultFor(new TrainWorkersCommand(_authenticationService.Identity, model.Workers.Select(w => new WorkerInfo(w.Type, w.Count))))
+                        .OnSuccess(Workers)
+                        .OnFailure("Workers", model)
+                        .Execute();
                 case "untrain":
-                    return ValidatedCommandResult(model,
-                        new UntrainWorkersCommand(_authenticationService.Identity, model.Workers.Select(w => new WorkerInfo(w.Type, w.Count))),
-                        () => Workers());
+                    return BuildViewResultFor(new UntrainWorkersCommand(_authenticationService.Identity, model.Workers.Select(w => new WorkerInfo(w.Type, w.Count))))
+                        .OnSuccess(Workers)
+                        .OnFailure("Workers", model)
+                        .Execute();
                 default:
                     throw new InvalidOperationException($"Invalid operation '{model.Command}' found");
             }
@@ -41,30 +43,38 @@ namespace WarOfEmpires.Controllers {
 
         [Route("Troops")]
         [HttpGet]
-        public ActionResult Troops() {
+        public ViewResult Troops() {
             return View(_messageService.Dispatch(new GetTroopsQuery(_authenticationService.Identity)));
         }
 
         [Route("Troops")]
         [HttpPost]
-        public ActionResult Troops(TroopsModel model) {
+        public ViewResult Troops(TroopsModel model) {
             switch (model.Command) {
                 case "train":
-                    return ValidatedCommandResult(model,
-                        new TrainTroopsCommand(_authenticationService.Identity, model.Troops.Select(t => new TroopInfo(t.Type, t.Soldiers, t.Mercenaries))),
-                        () => Troops());
+                    return BuildViewResultFor(new TrainTroopsCommand(_authenticationService.Identity, model.Troops.Select(t => new TroopInfo(t.Type, t.Soldiers, t.Mercenaries))))
+                        .OnSuccess(Troops)
+                        .OnFailure("Troops", model)
+                        .Execute();
                 case "untrain":
-                    return ValidatedCommandResult(model,
-                        new UntrainTroopsCommand(_authenticationService.Identity, model.Troops.Select(t => new TroopInfo(t.Type, t.Soldiers, t.Mercenaries))),
-                        () => Troops());
+                    return BuildViewResultFor(new UntrainTroopsCommand(_authenticationService.Identity, model.Troops.Select(t => new TroopInfo(t.Type, t.Soldiers, t.Mercenaries))))
+                        .OnSuccess(Troops)
+                        .OnFailure("Troops", model)
+                        .Execute();
                 case "heal":
-                    return ValidatedCommandResult(model,
-                        new HealTroopsCommand(_authenticationService.Identity, model.StaminaToHeal),
-                        () => Troops());
+                    return BuildViewResultFor(new HealTroopsCommand(_authenticationService.Identity, model.StaminaToHeal))
+                        .OnSuccess(Troops)
+                        .OnFailure("Troops", model)
+                        .Execute();
                 default:
                     throw new InvalidOperationException($"Invalid operation '{model.Command}' found");
             }
         }
+
+
+
+
+
 
         [Route("Tax")]
         public ActionResult Tax() {

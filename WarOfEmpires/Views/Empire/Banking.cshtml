@@ -12,6 +12,7 @@
 
 @using (Html.BeginForm(null, null, FormMethod.Post, new { data_success_message = "Your resources were stored in their banks." })) {
     @Html.ValidationSummary(true, null, new { @class = "site-validation-summary text-danger" })
+
     @Html.HiddenFor(m => m.Capacity.Gold)
     @Html.HiddenFor(m => m.Capacity.Food)
     @Html.HiddenFor(m => m.Capacity.Wood)
