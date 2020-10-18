@@ -71,29 +71,27 @@ namespace WarOfEmpires.Controllers {
             }
         }
 
-
-
-
-
-
         [Route("Tax")]
-        public ActionResult Tax() {
+        public ViewResult Tax() {
             return View(_messageService.Dispatch(new GetTaxQuery(_authenticationService.Identity)));
         }
 
         [Route("Tax")]
         [HttpPost]
-        public ActionResult Tax(TaxModel model) {
-            return ValidatedCommandResult(model,
-                new SetTaxCommand(_authenticationService.Identity, model.Tax),
-                () => Tax());
+        public ViewResult Tax(TaxModel model) {
+            return BuildViewResultFor(new SetTaxCommand(_authenticationService.Identity, model.Tax))
+                .OnSuccess(Tax)
+                .OnFailure("Tax", model)
+                .Execute();
         }
 
         [Route("_ResourceHeader")]
         [HttpGet]
-        public ActionResult _ResourceHeader() {
+        public PartialViewResult _ResourceHeader() {
             return PartialView(_messageService.Dispatch(new GetResourceHeaderQuery(_authenticationService.Identity)));
         }
+
+
 
         [Route("ResourceBuildings")]
         [HttpGet]
