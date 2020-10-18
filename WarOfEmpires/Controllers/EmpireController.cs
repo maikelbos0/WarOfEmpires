@@ -152,23 +152,22 @@ namespace WarOfEmpires.Controllers {
             return View(_messageService.Dispatch(new GetBuildingUpgradesQuery(_authenticationService.Identity, buildingType)));
         }
 
-
-
-
-
         [Route("Banking")]
         [HttpGet]
-        public ActionResult Banking() {
+        public ViewResult Banking() {
             return View(_messageService.Dispatch(new GetBankedResourcesQuery(_authenticationService.Identity)));
         }
 
         [Route("Banking")]
         [HttpPost]
-        public ActionResult Banking(BankedResourcesViewModel model) {
-            return ValidatedCommandResult(model,
-                new BankCommand(_authenticationService.Identity),
-                () => Banking());
+        public ViewResult Banking(BankedResourcesViewModel model) {
+            return BuildViewResultFor(new BankCommand(_authenticationService.Identity))
+                .OnSuccess(Banking)
+                .OnFailure("Banking", model)
+                .Execute();
         }
+
+
 
         [Route("Siege")]
         [HttpGet]
