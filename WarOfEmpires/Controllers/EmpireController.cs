@@ -167,26 +167,26 @@ namespace WarOfEmpires.Controllers {
                 .Execute();
         }
 
-
-
         [Route("Siege")]
         [HttpGet]
-        public ActionResult Siege() {
+        public ViewResult Siege() {
             return View(_messageService.Dispatch(new GetSiegeQuery(_authenticationService.Identity)));
         }
 
         [Route("Siege")]
         [HttpPost]
-        public ActionResult Siege(SiegeModel model) {
+        public ViewResult Siege(SiegeModel model) {
             switch (model.Command) {
                 case "build":
-                    return ValidatedCommandResult(model,
-                        new BuildSiegeCommand(_authenticationService.Identity, model.SiegeWeapons.Select(d => new SiegeWeaponInfo(d.Type, d.Count))),
-                        () => Siege());
+                    return BuildViewResultFor(new BuildSiegeCommand(_authenticationService.Identity, model.SiegeWeapons.Select(d => new SiegeWeaponInfo(d.Type, d.Count))))
+                        .OnSuccess(Siege)
+                        .OnFailure("Siege", model)
+                        .Execute();
                 case "discard":
-                    return ValidatedCommandResult(model,
-                        new DiscardSiegeCommand(_authenticationService.Identity, model.SiegeWeapons.Select(d => new SiegeWeaponInfo(d.Type, d.Count))),
-                        () => Siege());
+                    return BuildViewResultFor(new DiscardSiegeCommand(_authenticationService.Identity, model.SiegeWeapons.Select(d => new SiegeWeaponInfo(d.Type, d.Count))))
+                        .OnSuccess(Siege)
+                        .OnFailure("Siege", model)
+                        .Execute();
                 default:
                     throw new InvalidOperationException($"Invalid operation '{model.Command}' found");
             }
