@@ -91,61 +91,70 @@ namespace WarOfEmpires.Controllers {
             return PartialView(_messageService.Dispatch(new GetResourceHeaderQuery(_authenticationService.Identity)));
         }
 
-
-
         [Route("ResourceBuildings")]
         [HttpGet]
-        public ActionResult ResourceBuildings() {
+        public ViewResult ResourceBuildings() {
             return View();
-        }
-
-        [Route("_Building")]
-        [HttpGet]
-        public ActionResult _Building(string buildingType) {
-            return PartialView(_messageService.Dispatch(new GetBuildingQuery(_authenticationService.Identity, buildingType)));
-        }
-
-        [Route("_Building")]
-        [HttpPost]
-        public ActionResult _Building(BuildingModel model) {
-            return ValidatedCommandResult(model,
-                new UpgradeBuildingCommand(_authenticationService.Identity, model.BuildingType),
-                () => _Building(model.BuildingType));
-        }
-
-        [Route("_BuildingTotals")]
-        public ActionResult _BuildingTotals() {
-            return PartialView(_messageService.Dispatch(new GetBuildingTotalsQuery(_authenticationService.Identity)));
         }
 
         [Route("TroopBuildings")]
         [HttpGet]
-        public ActionResult TroopBuildings() {
+        public ViewResult TroopBuildings() {
             return View();
         }
 
         [Route("EmpireBuildings")]
         [HttpGet]
-        public ActionResult EmpireBuildings() {
+        public ViewResult EmpireBuildings() {
             return View();
         }
 
+        [Route("BankBuildings")]
+        [HttpGet]
+        public ViewResult BankBuildings() {
+            return View();
+        }
+
+        [Route("SpecialtyBuildings")]
+        [HttpGet]
+        public ViewResult SpecialtyBuildings() {
+            return View();
+        }
+
+        [Route("_Building")]
+        [HttpGet]
+        public PartialViewResult _Building(string buildingType) {
+            return PartialView(_messageService.Dispatch(new GetBuildingQuery(_authenticationService.Identity, buildingType)));
+        }
+
+        [Route("_Building")]
+        [HttpPost]
+        public PartialViewResult _Building(BuildingModel model) {
+            return BuildPartialViewResultFor(new UpgradeBuildingCommand(_authenticationService.Identity, model.BuildingType))
+                .OnSuccess(() => _Building(model.BuildingType))
+                .OnFailure("_Building", model)
+                .Execute();
+        }
+
+        [Route("_BuildingTotals")]
+        public PartialViewResult _BuildingTotals() {
+            return PartialView(_messageService.Dispatch(new GetBuildingTotalsQuery(_authenticationService.Identity)));
+        }
+
         [Route("_HousingTotals")]
-        public ActionResult _HousingTotals() {
+        public PartialViewResult _HousingTotals() {
             return PartialView(_messageService.Dispatch(new GetHousingTotalsQuery(_authenticationService.Identity)));
         }
 
         [Route("BuildingUpgrades")]
         [HttpGet]
-        public ActionResult BuildingUpgrades(string buildingType) {
+        public ViewResult BuildingUpgrades(string buildingType) {
             return View(_messageService.Dispatch(new GetBuildingUpgradesQuery(_authenticationService.Identity, buildingType)));
         }
 
-        [Route("BankBuildings")]
-        [HttpGet]
-        public ActionResult BankBuildings() {
-            return View();
-        }
+
+
+
 
         [Route("Banking")]
         [HttpGet]
@@ -159,12 +168,6 @@ namespace WarOfEmpires.Controllers {
             return ValidatedCommandResult(model,
                 new BankCommand(_authenticationService.Identity),
                 () => Banking());
-        }
-
-        [Route("SpecialtyBuildings")]
-        [HttpGet]
-        public ActionResult SpecialtyBuildings() {
-            return View();
         }
 
         [Route("Siege")]
