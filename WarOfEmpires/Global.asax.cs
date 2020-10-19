@@ -34,9 +34,6 @@ namespace WarOfEmpires {
          * TODO @using (Html.BeginForm()) {	C:\Users\Gebruiker\source\repos\WarOfEmpires\WarOfEmpires\Views\Home\ResetPassword.cshtml	9	14
          * TODO @using (Html.BeginForm()) {	C:\Users\Gebruiker\source\repos\WarOfEmpires\WarOfEmpires\Views\Home\SendActivation.cshtml	9	14
          * TODO @using (Html.BeginForm("LogOut", "Home", FormMethod.Post, new { @class = "html-only d-inline" })) {	C:\Users\Gebruiker\source\repos\WarOfEmpires\WarOfEmpires\Views\Layout\_Menu.cshtml	113	42
-         * TODO @using (Html.BeginForm(null, null, FormMethod.Post, new {	C:\Users\Gebruiker\source\repos\WarOfEmpires\WarOfEmpires\Views\Market\Buy.cshtml	13	14
-         * TODO @using (Html.BeginForm(null, null, FormMethod.Post, new {	C:\Users\Gebruiker\source\repos\WarOfEmpires\WarOfEmpires\Views\Market\Sell.cshtml	21	14
-         * TODO @using (Html.BeginForm("WithdrawCaravan", null, FormMethod.Post, new {	C:\Users\Gebruiker\source\repos\WarOfEmpires\WarOfEmpires\Views\Market\_Caravans.cshtml	32	38
          * TODO @using (Html.BeginForm()) {	C:\Users\Gebruiker\source\repos\WarOfEmpires\WarOfEmpires\Views\Message\Send.cshtml	13	14
         */
     }
