@@ -467,13 +467,10 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\Home\Register.cshtml" />
-    <Content Include="Views\Home\Registered.cshtml" />
     <Content Include="Views\Home\Activated.cshtml" />
     <Content Include="Views\Home\SendActivation.cshtml" />
-    <Content Include="Views\Home\ActivationSent.cshtml" />
     <Content Include="Views\Home\LogIn.cshtml" />
     <Content Include="Views\Home\ChangePassword.cshtml" />
-    <Content Include="Views\Home\PasswordChanged.cshtml" />
     <Content Include="Views\Home\ForgotPassword.cshtml" />
     <Content Include="Views\Home\PasswordResetSent.cshtml" />
     <Content Include="Views\Home\PasswordReset.cshtml" />

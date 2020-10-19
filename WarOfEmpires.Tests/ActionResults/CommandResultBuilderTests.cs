@@ -100,7 +100,7 @@ namespace WarOfEmpires.Tests.ActionResults {
             var controller = Substitute.For<IBaseController>();
             var modelState = new ModelStateDictionary();
             var builder = new CommandResultBuilder<TestCommand, ViewResult>(messageService, controller, View, modelState, command)
-                .OnFailure("Failure", null)
+                .OnFailure("Failure")
                 .OnSuccess("Success");
             modelState.Add("Test", new ModelState());
             messageService.Dispatch(Arg.Any<TestCommand>()).Returns(commandResult);
@@ -121,7 +121,7 @@ namespace WarOfEmpires.Tests.ActionResults {
             var controller = Substitute.For<IBaseController>();
             var modelState = new ModelStateDictionary();
             var builder = new CommandResultBuilder<TestCommand, ViewResult>(messageService, controller, View, modelState, command)
-                .OnFailure("Failure", null)
+                .OnFailure("Failure")
                 .OnSuccess("Success");
             modelState.Add("Test", new ModelState());
             commandResult.AddWarning("Be aware");

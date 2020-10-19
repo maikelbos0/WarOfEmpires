@@ -153,7 +153,7 @@ namespace WarOfEmpires.Controllers {
         [AllianceAuthorize]
         [HttpPost]
         [Route("PostChatMessage")]
-        public ActionResult PostChatMessage(AllianceHomeViewModel model) {
+        public ViewResult PostChatMessage(AllianceHomeViewModel model) {
             return BuildViewResultFor(new PostChatMessageCommand(_authenticationService.Identity, model.ChatMessage))
                 .OnSuccess(Home)
                 .ThrowOnFailure()
@@ -163,7 +163,7 @@ namespace WarOfEmpires.Controllers {
         [AllianceAuthorize(CanDeleteChatMessages = true)]
         [HttpPost]
         [Route("DeleteChatMessage")]
-        public ActionResult DeleteChatMessage(string id) {
+        public ViewResult DeleteChatMessage(string id) {
             return BuildViewResultFor(new DeleteChatMessageCommand(_authenticationService.Identity, id))
                 .OnSuccess(Home)
                 .ThrowOnFailure()
