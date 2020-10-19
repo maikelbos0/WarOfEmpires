@@ -14,6 +14,8 @@ using System.Web.Mvc;
 using Unity;
 
 namespace WarOfEmpires.Tests.Integration {
+    // TODO remove all redundant casts
+    // TODO fix
     [TestClass]
     public sealed class HomeControllerTests {
         private readonly FakeAuthenticationService _authenticationService = new FakeAuthenticationService();
@@ -35,7 +37,7 @@ namespace WarOfEmpires.Tests.Integration {
         [TestMethod]
         public void HomeController_Registration_Activation_To_LogIn_Succeeds() {
             // Registration
-            var registrationResult = (ViewResult)GetController().Register(new RegisterUserModel() {
+            var registrationResult = GetController().Register(new RegisterUserModel() {
                 Email = "test@test.com",
                 Password = "test",
                 ConfirmPassword = "test",
@@ -47,7 +49,7 @@ namespace WarOfEmpires.Tests.Integration {
 
             // Activation
             var activationCode = Regex.Match(_mailClient.SentMessages.Last().Body, "\\d+").Value;
-            var activationResult = (ViewResult)GetController().Activate(activationCode, "test@test.com");
+            var activationResult = GetController().Activate(activationCode, "test@test.com");
 
             activationResult.ViewName.Should().Be("Activated");
 
@@ -69,7 +71,7 @@ namespace WarOfEmpires.Tests.Integration {
             _context.Users.Add(user);
 
             // Request password reset
-            var forgotPasswordResult = (ViewResult)GetController().ForgotPassword(new ForgotUserPasswordModel() {
+            var forgotPasswordResult = GetController().ForgotPassword(new ForgotUserPasswordModel() {
                 Email = "test@test.com"
             });
 
@@ -104,7 +106,7 @@ namespace WarOfEmpires.Tests.Integration {
             _authenticationService.Identity = "test@test.com";
 
             // Change password
-            var changePasswordResult = (ViewResult)GetController().ChangePassword(new ChangeUserPasswordModel() {
+            var changePasswordResult = GetController().ChangePassword(new ChangeUserPasswordModel() {
                 CurrentPassword = "test",
                 NewPassword = "hunter2",
                 ConfirmNewPassword = "hunter2"
