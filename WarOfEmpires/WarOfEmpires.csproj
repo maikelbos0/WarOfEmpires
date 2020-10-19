@@ -472,7 +472,6 @@
     <Content Include="Views\Home\LogIn.cshtml" />
     <Content Include="Views\Home\ChangePassword.cshtml" />
     <Content Include="Views\Home\ForgotPassword.cshtml" />
-    <Content Include="Views\Home\PasswordResetSent.cshtml" />
     <Content Include="Views\Home\PasswordReset.cshtml" />
     <Content Include="Views\Home\ResetPassword.cshtml" />
     <Content Include="Views\Home\Deactivate.cshtml" />

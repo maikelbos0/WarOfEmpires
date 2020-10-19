@@ -27,7 +27,6 @@ namespace WarOfEmpires {
         /*
          * TODO @using (Html.BeginForm()) {	C:\Users\Gebruiker\source\repos\WarOfEmpires\WarOfEmpires\Views\Home\ChangeEmail.cshtml	9	14
          * TODO @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "html-only" })) {	C:\Users\Gebruiker\source\repos\WarOfEmpires\WarOfEmpires\Views\Home\Deactivate.cshtml	9	14
-         * TODO @using (Html.BeginForm()) {	C:\Users\Gebruiker\source\repos\WarOfEmpires\WarOfEmpires\Views\Home\ForgotPassword.cshtml	9	14
          * TODO @using (Html.BeginForm()) {	C:\Users\Gebruiker\source\repos\WarOfEmpires\WarOfEmpires\Views\Home\ResetPassword.cshtml	9	14
         */
     }

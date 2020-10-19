@@ -124,24 +124,26 @@ namespace WarOfEmpires.Controllers {
                 .Execute();
         }
 
-
-
-
-
-
-
-
         [Route("ForgotPassword")]
         [HttpGet]
-        public ActionResult ForgotPassword() {
+        public ViewResult ForgotPassword() {
             return View(new ForgotUserPasswordModel());
         }
 
         [Route("ForgotPassword")]
         [HttpPost]
-        public ActionResult ForgotPassword(ForgotUserPasswordModel model) {
-            return ValidatedCommandResult(model, new ForgotUserPasswordCommand(model.Email), "PasswordResetSent");
+        public ViewResult ForgotPassword(ForgotUserPasswordModel model) {
+            return BuildViewResultFor(new ForgotUserPasswordCommand(model.Email))
+            .OnSuccess(Index)
+            .ThrowOnFailure()
+            .Execute();
         }
+
+
+
+
+
+
 
         [Route("ResetPassword")]
         [HttpGet]
