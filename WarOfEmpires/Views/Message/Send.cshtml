@@ -10,7 +10,7 @@
     Send a message to another player below.
 </p>
 
-@using (Html.BeginForm()) {
+@using (Html.BeginForm(null, null, FormMethod.Post, new { data_success_message = "Your message has been sent." } )) {
     @Html.HiddenFor(m => m.RecipientId)
     @Html.HiddenFor(m => m.Recipient)
 
