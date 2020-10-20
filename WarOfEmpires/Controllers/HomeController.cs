@@ -139,29 +139,26 @@ namespace WarOfEmpires.Controllers {
             .Execute();
         }
 
-
-
-
-
-
-
         [Route("ResetPassword")]
         [HttpGet]
-        public ActionResult ResetPassword() {
+        public ViewResult ResetPassword() {
             return View(new ResetUserPasswordModel());
         }
 
         [Route("ResetPassword")]
         [HttpPost]
-        public ActionResult ResetPassword(string email, string token, ResetUserPasswordModel model) {
-            return ValidatedCommandResult(model, new ResetUserPasswordCommand(email, token, model.NewPassword), "PasswordReset");
+        public ViewResult ResetPassword(string email, string token, ResetUserPasswordModel model) {
+            return  BuildViewResultFor(new ResetUserPasswordCommand(email, token, model.NewPassword))
+                .OnSuccess("PasswordReset")
+                .OnFailure("ResetPassword", model)
+                .Execute();
         }
 
         [UserOnline]
         [Route("Deactivate")]
         [HttpGet]
         [Authorize]
-        public ActionResult Deactivate() {
+        public ViewResult Deactivate() {
             return View(new DeactivateUserModel());
         }
 
@@ -170,19 +167,22 @@ namespace WarOfEmpires.Controllers {
         [HttpPost]
         [Authorize]
         public ActionResult Deactivate(DeactivateUserModel model) {
-            return ValidatedCommandResult(model,
-                new DeactivateUserCommand(_authenticationService.Identity, model.Password),
-                () => {
-                    _authenticationService.SignOut();
-                    return RedirectToAction("Index");
-                });
+            var result = _messageService.Dispatch(new DeactivateUserCommand(_authenticationService.Identity, model.Password));
+
+            if (result.Success) {
+                _authenticationService.SignOut();
+                return RedirectToAction("Index");
+            }
+            else {
+                return View(model);
+            }
         }
 
         [UserOnline]
         [Route("ChangeEmail")]
         [HttpGet]
         [Authorize]
-        public ActionResult ChangeEmail() {
+        public ViewResult ChangeEmail() {
             return View(new ChangeUserEmailModel());
         }
 
@@ -190,11 +190,13 @@ namespace WarOfEmpires.Controllers {
         [Route("ChangeEmail")]
         [HttpPost]
         [Authorize]
-        public ActionResult ChangeEmail(ChangeUserEmailModel model) {
-            return ValidatedCommandResult(model, new ChangeUserEmailCommand(_authenticationService.Identity, model.Password, model.NewEmail), "EmailChangeRequested");
+        public ViewResult ChangeEmail(ChangeUserEmailModel model) {
+            return BuildViewResultFor(new ChangeUserEmailCommand(_authenticationService.Identity, model.Password, model.NewEmail))
+                .OnSuccess(Index)
+                .OnFailure("ChangeEmail", model)
+                .Execute();
         }
 
-        [UserOnline]
         [Route("ConfirmEmail")]
         [HttpGet]
         public ActionResult ConfirmEmail(string confirmationCode, string email) {
@@ -213,11 +215,10 @@ namespace WarOfEmpires.Controllers {
             }
         }
 
-        [UserOnline]
         [Route("EmailChangeConfirmed")]
         [HttpGet]
         [Authorize]
-        public ActionResult EmailChangeConfirmed() {
+        public ViewResult EmailChangeConfirmed() {
             return View();
         }
     }

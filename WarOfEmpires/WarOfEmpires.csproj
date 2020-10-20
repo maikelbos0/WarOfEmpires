@@ -477,7 +477,6 @@
     <Content Include="Views\Home\Deactivate.cshtml" />
     <Content Include="Views\Home\ProfileChanged.cshtml" />
     <Content Include="Views\Player\Index.cshtml" />
-    <Content Include="Views\Home\EmailChangeRequested.cshtml" />
     <Content Include="Views\Home\ChangeEmail.cshtml" />
     <Content Include="Views\Home\ActivationFailed.cshtml" />
     <Content Include="Views\Home\EmailChangeConfirmed.cshtml" />
