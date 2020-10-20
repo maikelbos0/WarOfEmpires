@@ -30,39 +30,6 @@ namespace WarOfEmpires.Controllers {
             return new CommandResultBuilder<TCommand, PartialViewResult>(_messageService, this, PartialView, ModelState, command);
         }
 
-        [Obsolete]
-        protected ActionResult ValidatedCommandResult<TCommand>(object model, TCommand command, string onValidViewName) where TCommand : ICommand {
-            return ValidatedCommandResult(model, command, () => View(onValidViewName));
-        }
-
-        [Obsolete]
-        protected ActionResult ValidatedCommandResult<TCommand>(object model, TCommand command, Func<ActionResult> onValid) where TCommand : ICommand {
-            CommandResult<TCommand> result = null;
-
-            if (ModelState.IsValid) {
-                result = _messageService.Dispatch(command);
-                ModelState.Merge(result);
-            }
-
-            if (ModelState.IsValid) {
-                // We're done so the current model is no longer relevant
-                ModelState.Clear();
-
-                if (result.HasWarnings) {
-                    Response?.AddHeader("X-Warnings", string.Join("|", result.Warnings));
-                }
-                else {
-                    // Let the client know explicitly that everything was valid
-                    Response?.AddHeader("X-IsValid", "true");
-                }
-
-                return onValid();
-            }
-            else {
-                return View(model);
-            }
-        }
-
         protected JsonResult GridJson<TReturnValue>(IQuery<IEnumerable<TReturnValue>> query, DataGridViewMetaData metaData) where TReturnValue : EntityViewModel {
             IEnumerable<TReturnValue> data = _messageService.Dispatch(query);
 

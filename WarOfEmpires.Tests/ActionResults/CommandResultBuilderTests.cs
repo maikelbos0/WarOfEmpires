@@ -33,7 +33,7 @@ namespace WarOfEmpires.Tests.ActionResults {
             var controller = Substitute.For<IBaseController>();
             var modelState = new ModelStateDictionary();
             var builder = new CommandResultBuilder<TestCommand, ViewResult>(messageService, controller, View, modelState, new TestCommand("test"))
-                .OnFailure(() => null);
+                .OnFailure("Failure");
 
             Action action = () => builder.Execute();
 
@@ -46,7 +46,7 @@ namespace WarOfEmpires.Tests.ActionResults {
             var controller = Substitute.For<IBaseController>();
             var modelState = new ModelStateDictionary();
             var builder = new CommandResultBuilder<TestCommand, ViewResult>(messageService, controller, View, modelState, new TestCommand("test"))
-                .OnSuccess(() => null);
+                .OnSuccess("Success");
 
             Action action = () => builder.Execute();
 

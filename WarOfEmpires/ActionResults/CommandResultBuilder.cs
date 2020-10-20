@@ -25,33 +25,30 @@ namespace WarOfEmpires.ActionResults {
             _command = command;
         }
 
+        public CommandResultBuilder<TCommand, TViewResult> OnSuccess(string viewName) {
+            return OnSuccess(() => _createView(viewName, null));
+        }
+
         public CommandResultBuilder<TCommand, TViewResult> OnSuccess(Func<TViewResult> onSuccess) {
             _onSuccess = onSuccess;
 
             return this;
         }
 
-        public CommandResultBuilder<TCommand, TViewResult> OnSuccess(string viewName) {
-            return OnSuccess(() => _createView(viewName, null));
+        public CommandResultBuilder<TCommand, TViewResult> OnFailure(string viewName) {
+            return OnFailure(viewName, null);
         }
 
-        [Obsolete("Test to see if this is needed")]
-        public CommandResultBuilder<TCommand, TViewResult> OnFailure(Func<TViewResult> onFailure) {
-            _onFailure = onFailure;
+        public CommandResultBuilder<TCommand, TViewResult> OnFailure(string viewName, object model) {
+            _onFailure = () => _createView(viewName, model);
 
             return this;
         }
 
-        public CommandResultBuilder<TCommand, TViewResult> OnFailure(string viewName) {
-            return OnFailure(() => _createView(viewName, null));
-        }
+        public CommandResultBuilder<TCommand, TViewResult> ThrowOnFailure() {
+            _onFailure = () => throw new InvalidOperationException($"Unexpected error executing {typeof(TCommand).FullName}: {JsonConvert.SerializeObject(_command)}");
 
-        public CommandResultBuilder<TCommand, TViewResult> OnFailure(string viewName, object model) {
-            return OnFailure(() => _createView(viewName, model));
-        }
-
-        public CommandResultBuilder<TCommand, TViewResult> ThrowOnFailure() {            
-            return OnFailure(() => throw new InvalidOperationException($"Unexpected error executing {typeof(TCommand).FullName}: {JsonConvert.SerializeObject(_command)}"));
+            return this;
         }
 
         public TViewResult Execute() {
