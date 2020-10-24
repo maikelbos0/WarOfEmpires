@@ -17,14 +17,16 @@ namespace WarOfEmpires.Domain.Tests.Alliances {
         }
 
         [TestMethod]
-        public void Alliance_AddMember_Succeeds() {
+        public void Alliance_RemoveMember_Succeeds() {
             var leader = new Player(1, "Member");
             var player = new Player(2, "Player");
             var alliance = new Alliance(leader, "TEST", "The Test");
 
-            alliance.AddMember(player);
+            alliance.Members.Add(player);
 
-            alliance.Members.Should().BeEquivalentTo(new[] { leader, player });
+            alliance.RemoveMember(player);
+
+            alliance.Members.Should().BeEquivalentTo(new[] { leader });
         }
 
         [TestMethod]

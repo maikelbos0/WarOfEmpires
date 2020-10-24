@@ -22,8 +22,8 @@ namespace WarOfEmpires.Domain.Alliances {
             Members.Add(leader);
         }
 
-        public virtual void AddMember(Player member) {
-            Members.Add(member);
+        public virtual void RemoveMember(Player member) {
+            Members.Remove(member);
         }
 
         public virtual void SendInvite(Player player, string subject, string body) {
