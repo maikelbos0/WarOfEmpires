@@ -34,7 +34,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
                 .WithLeader(1);
 
             var handler = new LeaveAllianceCommandHandler(new PlayerRepository(builder.Context));
-            var command = new LeaveAllianceCommand("test2@test.com");
+            var command = new LeaveAllianceCommand("test1@test.com");
 
             Action action = () => handler.Execute(command);
 

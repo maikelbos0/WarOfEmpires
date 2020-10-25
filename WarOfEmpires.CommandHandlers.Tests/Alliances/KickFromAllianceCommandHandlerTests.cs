@@ -55,7 +55,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
 
             Action action = () => handler.Execute(command);
 
-            action.Should().Throw<InvalidOperationException>();
+            action.Should().Throw<NullReferenceException>();
             builder.Alliance.DidNotReceiveWithAnyArgs().RemoveMember(default);
             builder.Context.CallsToSaveChanges.Should().Be(0);
         }

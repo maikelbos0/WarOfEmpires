@@ -1,4 +1,6 @@
-﻿using WarOfEmpires.CommandHandlers.Decorators;
+﻿using System;
+using System.Linq;
+using WarOfEmpires.CommandHandlers.Decorators;
 using WarOfEmpires.Commands.Alliances;
 using WarOfEmpires.Repositories.Alliances;
 using WarOfEmpires.Utilities.Container;
@@ -14,7 +16,18 @@ namespace WarOfEmpires.CommandHandlers.Alliances {
         }
 
         public CommandResult<KickFromAllianceCommand> Execute(KickFromAllianceCommand command) {
-            throw new System.NotImplementedException();
+            var result = new CommandResult<KickFromAllianceCommand>();
+            var alliance = _repository.Get(command.Email);
+            var member = alliance.Members.Single(m => m.Id == int.Parse(command.PlayerID));
+
+            if (member == alliance.Leader) {
+                throw new InvalidOperationException("The alliance leader can't leave the alliance");
+            }
+
+            alliance.RemoveMember(member);
+            _repository.SaveChanges();
+
+            return result;
         }
     }
 }
