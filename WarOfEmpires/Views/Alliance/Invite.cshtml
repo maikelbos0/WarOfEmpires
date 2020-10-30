@@ -10,9 +10,7 @@
     Send an alliance invite to another player below.
 </p>
 
-@using (Html.BeginForm(null, null, FormMethod.Post, new {
-    data_success_message = "An invite has been sent."
-})) {
+@using (Html.BeginForm(null, null, FormMethod.Post, new { data_success_message = "An invite has been sent." })) {
     @Html.HiddenFor(m => m.PlayerId)
     @Html.HiddenFor(m => m.PlayerName)
 
@@ -30,7 +28,7 @@
                 @Html.TextBoxFor(m => m.Subject, new { @class = "form-control" })
                 @Html.ValidationMessageFor(m => m.Subject, null, new { @class = "small form-text text-danger" })
             </div>
-            
+
             <div class="form-group">
                 @Html.LabelFor(m => m.Body)
                 @Html.TextAreaFor(m => m.Body, new { @class = "form-control", rows = 8 })

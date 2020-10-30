@@ -18,10 +18,11 @@
     <li>Total available capacity: @Model.AvailableCapacity.ToString(StringFormat.Integer) @Html.Icon("Market")</li>
 </ul>
 
-@using (Html.BeginForm(null, null, FormMethod.Post, new {
+@using (Html.BeginForm("Sell", null, FormMethod.Post, new {
     data_success_message = "Your resources have been sent to the market."
 })) {
     @Html.ValidationSummary(true, null, new { @class = "site-validation-summary text-danger" })
+
     @Html.HiddenFor(m => m.TotalMerchants)
     @Html.HiddenFor(m => m.AvailableMerchants)
     @Html.HiddenFor(m => m.CaravanCapacity)
@@ -74,5 +75,5 @@
 }
 
 @{
-    Html.RenderAction("Caravans");
+    Html.RenderAction("_Caravans");
 }

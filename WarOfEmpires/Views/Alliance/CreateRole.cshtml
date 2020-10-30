@@ -10,7 +10,7 @@
     In an alliance, you can assign a role to players to give them an in-alliance title and to give them rights to various alliance actions.
 </p>
 
-@using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "html-only" })) {
+@using (Html.BeginForm(null, null, FormMethod.Post, new { data_success_message = "The role has been created." })) {
     <div class="row">
         <div class="col-12 col-md-6 offset-md-3">
             @Html.ValidationSummary(true, null, new { @class = "site-validation-summary text-danger" })

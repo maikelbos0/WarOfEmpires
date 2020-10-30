@@ -32,9 +32,7 @@
     </div>
 </div>
 
-@using (Html.BeginForm("WithdrawInvite", null, FormMethod.Post, new {
-    data_success_message = "The invite has been withdrawn."
-})) {
+@using (Html.BeginForm("WithdrawInvite", null, FormMethod.Post, new { data_success_message = "The invite has been withdrawn." })) {
     @Html.Hidden("id", Model.Id);
 
     <div class="row mt-3">

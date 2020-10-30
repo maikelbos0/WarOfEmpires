@@ -17,30 +17,33 @@ namespace WarOfEmpires.Controllers {
         [Route]
         [Route("Index")]
         [HttpGet]
-        public ActionResult Index() {
+        public ViewResult Index() {
             return View();
         }
 
         [Route("ScheduledTasks")]
         [HttpGet]
-        public ActionResult ScheduledTasks() {
-            return PartialView(_messageService.Dispatch(new GetScheduledTasksPausedQuery()));
+        public PartialViewResult ScheduledTasks() {
+            // Explicitly name view so it works from other actions
+            return PartialView("ScheduledTasks", _messageService.Dispatch(new GetScheduledTasksPausedQuery()));
         }
 
         [Route("UnpauseScheduledTasks")]
         [HttpPost]
-        public ActionResult UnpauseScheduledTasks() {
-            _messageService.Dispatch(new UnpauseScheduledTasksCommand());
-
-            return PartialView("ScheduledTasks", _messageService.Dispatch(new GetScheduledTasksPausedQuery()));
+        public PartialViewResult UnpauseScheduledTasks() {
+            return BuildPartialViewResultFor(new UnpauseScheduledTasksCommand())
+                .OnSuccess(ScheduledTasks)
+                .ThrowOnFailure()
+                .Execute();
         }
 
         [Route("PauseScheduledTasks")]
         [HttpPost]
-        public ActionResult PauseScheduledTasks() {
-            _messageService.Dispatch(new PauseScheduledTasksCommand());
-
-            return PartialView("ScheduledTasks", _messageService.Dispatch(new GetScheduledTasksPausedQuery()));
+        public PartialViewResult PauseScheduledTasks() {
+            return BuildPartialViewResultFor(new PauseScheduledTasksCommand())
+                .OnSuccess(ScheduledTasks)
+                .ThrowOnFailure()
+                .Execute();
         }
     }
 }

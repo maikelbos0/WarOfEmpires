@@ -35,19 +35,19 @@ namespace WarOfEmpires.Tests.Integration {
         [TestMethod]
         public void HomeController_Registration_Activation_To_LogIn_Succeeds() {
             // Registration
-            var registrationResult = (ViewResult)GetController().Register(new RegisterUserModel() {
+            var registrationResult = GetController().Register(new RegisterUserModel() {
                 Email = "test@test.com",
                 Password = "test",
                 ConfirmPassword = "test",
                 DisplayName = "Test display"
             });
 
-            registrationResult.ViewName.Should().Be("Registered");
+            registrationResult.ViewName.Should().Be("Index");
             _mailClient.SentMessages.Should().NotBeEmpty();
 
             // Activation
             var activationCode = Regex.Match(_mailClient.SentMessages.Last().Body, "\\d+").Value;
-            var activationResult = (ViewResult)GetController().Activate(activationCode, "test@test.com");
+            var activationResult = GetController().Activate(activationCode, "test@test.com");
 
             activationResult.ViewName.Should().Be("Activated");
 
@@ -57,7 +57,7 @@ namespace WarOfEmpires.Tests.Integration {
                 Password = "test"
             });
 
-            logInResult.Should().BeOfType<RedirectToRouteResult>();
+            logInResult.Should().BeOfType<RedirectResult>();
             _authenticationService.Identity.Should().Be("test@test.com");
         }
 
@@ -69,16 +69,16 @@ namespace WarOfEmpires.Tests.Integration {
             _context.Users.Add(user);
 
             // Request password reset
-            var forgotPasswordResult = (ViewResult)GetController().ForgotPassword(new ForgotUserPasswordModel() {
+            var forgotPasswordResult = GetController().ForgotPassword(new ForgotUserPasswordModel() {
                 Email = "test@test.com"
             });
 
-            forgotPasswordResult.ViewName.Should().Be("PasswordResetSent");
+            forgotPasswordResult.ViewName.Should().Be("Index");
             _mailClient.SentMessages.Should().NotBeEmpty();
 
             // Reset password
             var token = Regex.Match(_mailClient.SentMessages.Last().Body, "(?<=\\=)\\w+(?=\")").Value;
-            var resetResult = (ViewResult)GetController().ResetPassword("test@test.com", token, new ResetUserPasswordModel() {
+            var resetResult = GetController().ResetPassword("test@test.com", token, new ResetUserPasswordModel() {
                 NewPassword = "test",
                 ConfirmNewPassword = "test"
             });
@@ -91,7 +91,7 @@ namespace WarOfEmpires.Tests.Integration {
                 Password = "test"
             });
 
-            logInResult.Should().BeOfType<RedirectToRouteResult>();
+            logInResult.Should().BeOfType<RedirectResult>();
             _authenticationService.Identity.Should().Be("test@test.com");
         }
 
@@ -104,12 +104,12 @@ namespace WarOfEmpires.Tests.Integration {
             _authenticationService.Identity = "test@test.com";
 
             // Change password
-            var changePasswordResult = (ViewResult)GetController().ChangePassword(new ChangeUserPasswordModel() {
+            var changePasswordResult = GetController().ChangePassword(new ChangeUserPasswordModel() {
                 CurrentPassword = "test",
                 NewPassword = "hunter2",
                 ConfirmNewPassword = "hunter2"
             });
-            changePasswordResult.ViewName.Should().Be("PasswordChanged");
+            changePasswordResult.ViewName.Should().Be("Index");
 
             // Log out
             var logOutResult = GetController().LogOut();
@@ -123,7 +123,7 @@ namespace WarOfEmpires.Tests.Integration {
                 Password = "hunter2"
             });
 
-            logInResult.Should().BeOfType<RedirectToRouteResult>();
+            logInResult.Should().BeOfType<RedirectResult>();
             _authenticationService.Identity.Should().Be("test@test.com");
         }
 
@@ -149,7 +149,7 @@ namespace WarOfEmpires.Tests.Integration {
                 Password = "test"
             });
 
-            logInResult.Should().BeOfType<RedirectToRouteResult>();
+            logInResult.Should().BeOfType<RedirectResult>();
             _authenticationService.Identity.Should().Be("test@test.com");
 
             // Deactivate
@@ -171,12 +171,12 @@ namespace WarOfEmpires.Tests.Integration {
             _authenticationService.Identity = "test@test.com";
 
             // Change email
-            var changeEmailResult = (ViewResult)GetController().ChangeEmail(new ChangeUserEmailModel() {
+            var changeEmailResult = GetController().ChangeEmail(new ChangeUserEmailModel() {
                 Password = "test",
                 NewEmail = "new@test.com",
                 ConfirmNewEmail = "new@test.com"
             });
-            changeEmailResult.ViewName.Should().Be("EmailChangeRequested");
+            changeEmailResult.ViewName.Should().Be("Index");
 
             // Log out
             var logOutResult = GetController().LogOut();
@@ -197,7 +197,7 @@ namespace WarOfEmpires.Tests.Integration {
                 Password = "test"
             });
 
-            logInResult.Should().BeOfType<RedirectToRouteResult>();
+            logInResult.Should().BeOfType<RedirectResult>();
             _authenticationService.Identity.Should().Be("new@test.com");
         }
 
@@ -210,12 +210,12 @@ namespace WarOfEmpires.Tests.Integration {
             _authenticationService.Identity = "test@test.com";
 
             // Change email
-            var changeEmailResult = (ViewResult)GetController().ChangeEmail(new ChangeUserEmailModel() {
+            var changeEmailResult = GetController().ChangeEmail(new ChangeUserEmailModel() {
                 Password = "test",
                 NewEmail = "new@test.com",
                 ConfirmNewEmail = "new@test.com"
             });
-            changeEmailResult.ViewName.Should().Be("EmailChangeRequested");
+            changeEmailResult.ViewName.Should().Be("Index");
 
             // Confirm email change
             var confirmationCode = Regex.Match(_mailClient.SentMessages.Last().Body, "\\d+").Value;

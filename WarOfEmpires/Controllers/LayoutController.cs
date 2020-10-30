@@ -11,7 +11,7 @@ namespace WarOfEmpires.Controllers {
         }
 
         [Route("_Menu")]
-        public ActionResult _Menu() {
+        public PartialViewResult _Menu() {
             if (_authenticationService.IsAuthenticated) {
                 return PartialView(_messageService.Dispatch(new GetCurrentPlayerQuery(_authenticationService.Identity)));
             }

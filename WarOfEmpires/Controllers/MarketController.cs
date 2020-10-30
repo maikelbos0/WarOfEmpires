@@ -18,49 +18,52 @@ namespace WarOfEmpires.Controllers {
 
         [Route("Sell")]
         [HttpGet]
-        public ActionResult Sell() {
-            // Explicitly name view so it works from WithdrawCaravan
+        public ViewResult Sell() {
+            // Explicitly name view so it works from other actions
             return View("Sell", _messageService.Dispatch(new GetMarketQuery(_authenticationService.Identity)));
         }
 
         [Route("Sell")]
         [HttpPost]
-        public ActionResult Sell(MarketModel model) {
-            return ValidatedCommandResult(model,
-                new SellResourcesCommand(_authenticationService.Identity, model.Merchandise.Select(m => new MerchandiseInfo(m.Type, m.Quantity, m.Price))),
-                () => Sell());
+        public ViewResult Sell(MarketModel model) {
+            return BuildViewResultFor(new SellResourcesCommand(_authenticationService.Identity, model.Merchandise.Select(m => new MerchandiseInfo(m.Type, m.Quantity, m.Price))))
+                .OnSuccess(Sell)
+                .OnFailure("Sell", model)
+                .Execute();
         }
 
-        [Route("Caravans")]
-        public ActionResult Caravans() {
+        [Route("_Caravans")]
+        public PartialViewResult _Caravans() {
             return PartialView("_Caravans", _messageService.Dispatch(new GetCaravansQuery(_authenticationService.Identity)));
         }
 
         [Route("WithdrawCaravan")]
         [HttpPost]
-        public ActionResult WithdrawCaravan(string id) {
-            return ValidatedCommandResult(id,
-                new WithdrawCaravanCommand(_authenticationService.Identity, id),
-                () => Sell());
+        public ViewResult WithdrawCaravan(string id) {
+            return BuildViewResultFor(new WithdrawCaravanCommand(_authenticationService.Identity, id))
+                .OnSuccess(Sell)
+                .ThrowOnFailure()
+                .Execute();
         }
 
         [Route("Buy")]
         [HttpGet]
-        public ActionResult Buy() {
+        public ViewResult Buy() {
             return View(_messageService.Dispatch(new GetMarketQuery(_authenticationService.Identity)));
         }
 
         [Route("Buy")]
         [HttpPost]
-        public ActionResult Buy(MarketModel model) {
-            return ValidatedCommandResult(model,
-                new BuyResourcesCommand(_authenticationService.Identity, model.Merchandise.Select(m => new MerchandiseInfo(m.Type, m.Quantity, m.Price))),
-                () => Buy());
+        public ViewResult Buy(MarketModel model) {
+            return BuildViewResultFor(new BuyResourcesCommand(_authenticationService.Identity, model.Merchandise.Select(m => new MerchandiseInfo(m.Type, m.Quantity, m.Price))))
+                .OnSuccess(Buy)
+                .OnFailure("Buy", model)
+                .Execute();
         }
 
         [Route("SellTransactions")]
         [HttpGet]
-        public ActionResult SellTransactions() {
+        public ViewResult SellTransactions() {
             _messageService.Dispatch(new ReadTransactionsCommand(_authenticationService.Identity));
 
             return View();
@@ -68,19 +71,19 @@ namespace WarOfEmpires.Controllers {
 
         [Route("GetSellTransactions")]
         [HttpPost]
-        public ActionResult GetSellTransactions(DataGridViewMetaData metaData) {
+        public JsonResult GetSellTransactions(DataGridViewMetaData metaData) {
             return GridJson(new GetSellTransactionsQuery(_authenticationService.Identity), metaData);
         }
 
         [Route("BuyTransactions")]
         [HttpGet]
-        public ActionResult BuyTransactions() {
+        public ViewResult BuyTransactions() {
             return View();
         }
 
         [Route("GetBuyTransactions")]
         [HttpPost]
-        public ActionResult GetBuyTransactions(DataGridViewMetaData metaData) {
+        public JsonResult GetBuyTransactions(DataGridViewMetaData metaData) {
             return GridJson(new GetBuyTransactionsQuery(_authenticationService.Identity), metaData);
         }
     }

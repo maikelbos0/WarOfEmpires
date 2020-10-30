@@ -17,25 +17,25 @@ namespace WarOfEmpires.Controllers {
         [Route]
         [Route("Index")]
         [HttpGet]
-        public ActionResult Index() {
+        public ViewResult Index() {
             return View(new PlayerSearchModel());
         }
 
         [Route("GetPlayers")]
         [HttpPost]
-        public ActionResult GetPlayers(DataGridViewMetaData metaData, PlayerSearchModel search) {
+        public JsonResult GetPlayers(DataGridViewMetaData metaData, PlayerSearchModel search) {
             return GridJson(new GetPlayersQuery(search.DisplayName), metaData);
         }
 
         [Route("Details")]
         [HttpGet]
-        public ActionResult Details(string id) {
+        public ViewResult Details(string id) {
             return View(_messageService.Dispatch(new GetPlayerDetailsQuery(_authenticationService.Identity, id)));
         }
 
-        [Route("_Notifications")]
+        [Route("GetNotifications")]
         [HttpPost]
-        public ActionResult _Notifications() {
+        public JsonResult GetNotifications() {
             return Json(_messageService.Dispatch(new GetNotificationsQuery(_authenticationService.Identity)));
         }
     }
