@@ -6,11 +6,9 @@
 
 <h2>Resend activation link</h2>
 
-@using (Html.BeginForm()) {
+@using (Html.BeginForm(null, null, FormMethod.Post, new { data_success_message = "An email has been sent to the provided email address with a validation link." })) {
     <div class="row">
         <div class="col-12 col-md-6 offset-md-3">
-            @Html.ValidationSummary(true, null, new { @class = "site-validation-summary text-danger" })
-
             <div class="form-group">
                 @Html.LabelFor(m => m.Email, new { @class = "site-required" })
                 @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })

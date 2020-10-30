@@ -18,22 +18,24 @@ namespace WarOfEmpires.Controllers {
 
         [Route("Workers")]
         [HttpGet]
-        public ActionResult Workers() {
+        public ViewResult Workers() {
             return View(_messageService.Dispatch(new GetWorkersQuery(_authenticationService.Identity)));
         }
 
         [Route("Workers")]
         [HttpPost]
-        public ActionResult Workers(WorkersModel model) {
+        public ViewResult Workers(WorkersModel model) {
             switch (model.Command) {
                 case "train":
-                    return ValidatedCommandResult(model,
-                        new TrainWorkersCommand(_authenticationService.Identity, model.Workers.Select(w => new WorkerInfo(w.Type, w.Count))),
-                        () => Workers());
+                    return BuildViewResultFor(new TrainWorkersCommand(_authenticationService.Identity, model.Workers.Select(w => new WorkerInfo(w.Type, w.Count))))
+                        .OnSuccess(Workers)
+                        .OnFailure("Workers", model)
+                        .Execute();
                 case "untrain":
-                    return ValidatedCommandResult(model,
-                        new UntrainWorkersCommand(_authenticationService.Identity, model.Workers.Select(w => new WorkerInfo(w.Type, w.Count))),
-                        () => Workers());
+                    return BuildViewResultFor(new UntrainWorkersCommand(_authenticationService.Identity, model.Workers.Select(w => new WorkerInfo(w.Type, w.Count))))
+                        .OnSuccess(Workers)
+                        .OnFailure("Workers", model)
+                        .Execute();
                 default:
                     throw new InvalidOperationException($"Invalid operation '{model.Command}' found");
             }
@@ -41,142 +43,150 @@ namespace WarOfEmpires.Controllers {
 
         [Route("Troops")]
         [HttpGet]
-        public ActionResult Troops() {
+        public ViewResult Troops() {
             return View(_messageService.Dispatch(new GetTroopsQuery(_authenticationService.Identity)));
         }
 
         [Route("Troops")]
         [HttpPost]
-        public ActionResult Troops(TroopsModel model) {
+        public ViewResult Troops(TroopsModel model) {
             switch (model.Command) {
                 case "train":
-                    return ValidatedCommandResult(model,
-                        new TrainTroopsCommand(_authenticationService.Identity, model.Troops.Select(t => new TroopInfo(t.Type, t.Soldiers, t.Mercenaries))),
-                        () => Troops());
+                    return BuildViewResultFor(new TrainTroopsCommand(_authenticationService.Identity, model.Troops.Select(t => new TroopInfo(t.Type, t.Soldiers, t.Mercenaries))))
+                        .OnSuccess(Troops)
+                        .OnFailure("Troops", model)
+                        .Execute();
                 case "untrain":
-                    return ValidatedCommandResult(model,
-                        new UntrainTroopsCommand(_authenticationService.Identity, model.Troops.Select(t => new TroopInfo(t.Type, t.Soldiers, t.Mercenaries))),
-                        () => Troops());
+                    return BuildViewResultFor(new UntrainTroopsCommand(_authenticationService.Identity, model.Troops.Select(t => new TroopInfo(t.Type, t.Soldiers, t.Mercenaries))))
+                        .OnSuccess(Troops)
+                        .OnFailure("Troops", model)
+                        .Execute();
                 case "heal":
-                    return ValidatedCommandResult(model,
-                        new HealTroopsCommand(_authenticationService.Identity, model.StaminaToHeal),
-                        () => Troops());
+                    return BuildViewResultFor(new HealTroopsCommand(_authenticationService.Identity, model.StaminaToHeal))
+                        .OnSuccess(Troops)
+                        .OnFailure("Troops", model)
+                        .Execute();
                 default:
                     throw new InvalidOperationException($"Invalid operation '{model.Command}' found");
             }
         }
 
         [Route("Tax")]
-        public ActionResult Tax() {
+        public ViewResult Tax() {
             return View(_messageService.Dispatch(new GetTaxQuery(_authenticationService.Identity)));
         }
 
         [Route("Tax")]
         [HttpPost]
-        public ActionResult Tax(TaxModel model) {
-            return ValidatedCommandResult(model,
-                new SetTaxCommand(_authenticationService.Identity, model.Tax),
-                () => Tax());
+        public ViewResult Tax(TaxModel model) {
+            return BuildViewResultFor(new SetTaxCommand(_authenticationService.Identity, model.Tax))
+                .OnSuccess(Tax)
+                .OnFailure("Tax", model)
+                .Execute();
         }
 
         [Route("_ResourceHeader")]
         [HttpGet]
-        public ActionResult _ResourceHeader() {
+        public PartialViewResult _ResourceHeader() {
             return PartialView(_messageService.Dispatch(new GetResourceHeaderQuery(_authenticationService.Identity)));
         }
 
         [Route("ResourceBuildings")]
         [HttpGet]
-        public ActionResult ResourceBuildings() {
+        public ViewResult ResourceBuildings() {
             return View();
-        }
-
-        [Route("_Building")]
-        [HttpGet]
-        public ActionResult _Building(string buildingType) {
-            return PartialView(_messageService.Dispatch(new GetBuildingQuery(_authenticationService.Identity, buildingType)));
-        }
-
-        [Route("_Building")]
-        [HttpPost]
-        public ActionResult _Building(BuildingModel model) {
-            return ValidatedCommandResult(model,
-                new UpgradeBuildingCommand(_authenticationService.Identity, model.BuildingType),
-                () => _Building(model.BuildingType));
-        }
-
-        [Route("_BuildingTotals")]
-        public ActionResult _BuildingTotals() {
-            return PartialView(_messageService.Dispatch(new GetBuildingTotalsQuery(_authenticationService.Identity)));
         }
 
         [Route("TroopBuildings")]
         [HttpGet]
-        public ActionResult TroopBuildings() {
+        public ViewResult TroopBuildings() {
             return View();
         }
 
         [Route("EmpireBuildings")]
         [HttpGet]
-        public ActionResult EmpireBuildings() {
+        public ViewResult EmpireBuildings() {
             return View();
         }
 
+        [Route("BankBuildings")]
+        [HttpGet]
+        public ViewResult BankBuildings() {
+            return View();
+        }
+
+        [Route("SpecialtyBuildings")]
+        [HttpGet]
+        public ViewResult SpecialtyBuildings() {
+            return View();
+        }
+
+        [Route("_Building")]
+        [HttpGet]
+        public PartialViewResult _Building(string buildingType) {
+            return PartialView(_messageService.Dispatch(new GetBuildingQuery(_authenticationService.Identity, buildingType)));
+        }
+
+        [Route("_Building")]
+        [HttpPost]
+        public PartialViewResult _Building(BuildingModel model) {
+            return BuildPartialViewResultFor(new UpgradeBuildingCommand(_authenticationService.Identity, model.BuildingType))
+                .OnSuccess(() => _Building(model.BuildingType))
+                .OnFailure("_Building", model)
+                .Execute();
+        }
+
+        [Route("_BuildingTotals")]
+        public PartialViewResult _BuildingTotals() {
+            return PartialView(_messageService.Dispatch(new GetBuildingTotalsQuery(_authenticationService.Identity)));
+        }
+
         [Route("_HousingTotals")]
-        public ActionResult _HousingTotals() {
+        public PartialViewResult _HousingTotals() {
             return PartialView(_messageService.Dispatch(new GetHousingTotalsQuery(_authenticationService.Identity)));
         }
 
         [Route("BuildingUpgrades")]
         [HttpGet]
-        public ActionResult BuildingUpgrades(string buildingType) {
+        public ViewResult BuildingUpgrades(string buildingType) {
             return View(_messageService.Dispatch(new GetBuildingUpgradesQuery(_authenticationService.Identity, buildingType)));
-        }
-
-        [Route("BankBuildings")]
-        [HttpGet]
-        public ActionResult BankBuildings() {
-            return View();
         }
 
         [Route("Banking")]
         [HttpGet]
-        public ActionResult Banking() {
+        public ViewResult Banking() {
             return View(_messageService.Dispatch(new GetBankedResourcesQuery(_authenticationService.Identity)));
         }
 
         [Route("Banking")]
         [HttpPost]
-        public ActionResult Banking(BankedResourcesViewModel model) {
-            return ValidatedCommandResult(model,
-                new BankCommand(_authenticationService.Identity),
-                () => Banking());
-        }
-
-        [Route("SpecialtyBuildings")]
-        [HttpGet]
-        public ActionResult SpecialtyBuildings() {
-            return View();
+        public ViewResult Banking(BankedResourcesViewModel model) {
+            return BuildViewResultFor(new BankCommand(_authenticationService.Identity))
+                .OnSuccess(Banking)
+                .OnFailure("Banking", model)
+                .Execute();
         }
 
         [Route("Siege")]
         [HttpGet]
-        public ActionResult Siege() {
+        public ViewResult Siege() {
             return View(_messageService.Dispatch(new GetSiegeQuery(_authenticationService.Identity)));
         }
 
         [Route("Siege")]
         [HttpPost]
-        public ActionResult Siege(SiegeModel model) {
+        public ViewResult Siege(SiegeModel model) {
             switch (model.Command) {
                 case "build":
-                    return ValidatedCommandResult(model,
-                        new BuildSiegeCommand(_authenticationService.Identity, model.SiegeWeapons.Select(d => new SiegeWeaponInfo(d.Type, d.Count))),
-                        () => Siege());
+                    return BuildViewResultFor(new BuildSiegeCommand(_authenticationService.Identity, model.SiegeWeapons.Select(d => new SiegeWeaponInfo(d.Type, d.Count))))
+                        .OnSuccess(Siege)
+                        .OnFailure("Siege", model)
+                        .Execute();
                 case "discard":
-                    return ValidatedCommandResult(model,
-                        new DiscardSiegeCommand(_authenticationService.Identity, model.SiegeWeapons.Select(d => new SiegeWeaponInfo(d.Type, d.Count))),
-                        () => Siege());
+                    return BuildViewResultFor(new DiscardSiegeCommand(_authenticationService.Identity, model.SiegeWeapons.Select(d => new SiegeWeaponInfo(d.Type, d.Count))))
+                        .OnSuccess(Siege)
+                        .OnFailure("Siege", model)
+                        .Execute();
                 default:
                     throw new InvalidOperationException($"Invalid operation '{model.Command}' found");
             }

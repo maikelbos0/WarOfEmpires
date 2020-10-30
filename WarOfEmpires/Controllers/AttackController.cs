@@ -18,44 +18,44 @@ namespace WarOfEmpires.Controllers {
         [Route]
         [Route("Index")]
         [HttpGet]
-        public ActionResult Index() {
+        public ViewResult Index() {
             return View();
         }
 
         [Route("GetReceivedAttacks")]
         [HttpPost]
-        public ActionResult GetReceivedAttacks(DataGridViewMetaData metaData) {
+        public JsonResult GetReceivedAttacks(DataGridViewMetaData metaData) {
             return GridJson(new GetReceivedAttacksQuery(_authenticationService.Identity), metaData);
         }
 
         [Route("ExecutedIndex")]
         [HttpGet]
-        public ActionResult ExecutedIndex() {
+        public ViewResult ExecutedIndex() {
             return View();
         }
         
         [Route("GetExecutedAttacks")]
         [HttpPost]
-        public ActionResult GetExecutedAttacks(DataGridViewMetaData metaData) {
+        public JsonResult GetExecutedAttacks(DataGridViewMetaData metaData) {
             return GridJson(new GetExecutedAttacksQuery(_authenticationService.Identity), metaData);
         }
 
         [Route("Details")]
         [HttpGet]
-        public ActionResult Details(string id) {
+        public ViewResult Details(string id) {
             var model = _messageService.Dispatch(new GetAttackDetailsQuery(_authenticationService.Identity, id));
 
             if (!model.IsRead) {
                 _messageService.Dispatch(new ReadAttackCommand(_authenticationService.Identity, id));
             }
 
-            // Explicitly name view so it works from Execute
+            // Explicitly name view so it works from other actions
             return View("Details", model);
         }
 
         [Route("Details")]
         [HttpGet]
-        public ActionResult Details() {
+        public ViewResult Details() {
             var id = _messageService.Dispatch(new GetLastExecutedAttackQuery(_authenticationService.Identity));
 
             return Details(id.ToString());
@@ -63,16 +63,17 @@ namespace WarOfEmpires.Controllers {
 
         [Route("Execute")]
         [HttpGet]
-        public ActionResult Execute(string defenderId) {
+        public ViewResult Execute(string defenderId) {
             return View(_messageService.Dispatch(new GetDefenderQuery(defenderId)));
         }
 
         [Route("Execute")]
         [HttpPost]
-        public ActionResult Execute(ExecuteAttackModel model) {
-            return ValidatedCommandResult(model, 
-                new AttackCommand(model.AttackType, _authenticationService.Identity, model.DefenderId.ToString(), model.Turns),
-                Details);
+        public ViewResult Execute(ExecuteAttackModel model) {
+            return BuildViewResultFor(new AttackCommand(model.AttackType, _authenticationService.Identity, model.DefenderId.ToString(), model.Turns))
+                .OnSuccess(Details)
+                .OnFailure("Execute", model)
+                .Execute();
         }
     }
 }

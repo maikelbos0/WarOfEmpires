@@ -18,40 +18,41 @@ namespace WarOfEmpires.Controllers {
         [Route]
         [Route("Index")]
         [HttpGet]
-        public ActionResult Index() {
+        public ViewResult Index() {
             return View();
         }
 
         [Route("GetReceivedMessages")]
         [HttpPost]
-        public ActionResult GetReceivedMessages(DataGridViewMetaData metaData) {
+        public JsonResult GetReceivedMessages(DataGridViewMetaData metaData) {
             return GridJson(new GetReceivedMessagesQuery(_authenticationService.Identity), metaData);
         }
 
         [Route("Send")]
         [HttpGet]
-        public ActionResult Send(string recipientId) {
+        public ViewResult Send(string recipientId) {
             return View(_messageService.Dispatch(new GetMessageRecipientQuery(recipientId)));
         }
 
         [Route("Reply")]
         [HttpGet]
-        public ActionResult Reply(string messageId) {
+        public ViewResult Reply(string messageId) {
             return View("Send", _messageService.Dispatch(new GetReplyToMessageQuery(_authenticationService.Identity, messageId)));
         }
 
         [Route("Reply")]
         [Route("Send")]
         [HttpPost]
-        public ActionResult Send(MessageModel model) {
-            return ValidatedCommandResult(model,
-                new SendMessageCommand(_authenticationService.Identity, model.RecipientId, model.Subject, model.Body),
-                "Sent");
+        public ViewResult Send(MessageModel model) {
+            return BuildViewResultFor(new SendMessageCommand(_authenticationService.Identity, model.RecipientId, model.Subject, model.Body))
+                .OnSuccess(SentIndex)
+                .OnFailure("Send", model)
+                .Execute();
         }
 
         [Route("ReceivedDetails")]
         [HttpGet]
-        public ActionResult ReceivedDetails(string id) {
+        public ViewResult ReceivedDetails(string id) {
             var model = _messageService.Dispatch(new GetReceivedMessageQuery(_authenticationService.Identity, id));
 
             if (!model.IsRead) {
@@ -63,19 +64,20 @@ namespace WarOfEmpires.Controllers {
 
         [Route("SentIndex")]
         [HttpGet]
-        public ActionResult SentIndex() {
-            return View();
+        public ViewResult SentIndex() {
+            // Explicitly name view so it works from other actions
+            return View("SentIndex");
         }
 
         [Route("GetSentMessages")]
         [HttpPost]
-        public ActionResult GetSentMessages(DataGridViewMetaData metaData) {
+        public JsonResult GetSentMessages(DataGridViewMetaData metaData) {
             return GridJson(new GetSentMessagesQuery(_authenticationService.Identity), metaData);
         }
 
         [Route("SentDetails")]
         [HttpGet]
-        public ActionResult SentDetails(string id) {
+        public ViewResult SentDetails(string id) {
             return View(_messageService.Dispatch(new GetSentMessageQuery(_authenticationService.Identity, id)));
         }
     }

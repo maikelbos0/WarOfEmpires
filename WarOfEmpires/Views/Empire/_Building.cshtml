@@ -15,6 +15,7 @@
     @Html.HiddenFor(m => m.BuildingType)
     @Html.HiddenFor(m => m.Level)
     @Html.HiddenFor(m => m.UpdateCost)
+
     @Html.ValidationSummary(true, null, new { @class = "site-validation-summary text-danger" })
 
     <button type="submit" class="btn btn-primary form-control">Upgrade</button>
