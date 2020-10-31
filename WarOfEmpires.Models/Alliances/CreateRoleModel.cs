@@ -12,7 +12,7 @@ namespace WarOfEmpires.Models.Alliances {
         public bool CanManageRoles { get; set; }
         [DisplayName("Can delete messages from chat")]
         public bool CanDeleteChatMessages { get; set; }
-        [DisplayName("Can kick alliance members")]
+        [DisplayName("Can kick members")]
         public bool CanKickMembers { get; set; }
     }
 }

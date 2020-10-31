@@ -32,6 +32,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
             result.Single(r => r.Id == 1).CanInvite.Should().BeTrue();
             result.Single(r => r.Id == 1).CanManageRoles.Should().BeTrue();
             result.Single(r => r.Id == 1).CanDeleteChatMessages.Should().BeTrue();
+            result.Single(r => r.Id == 1).CanKickMembers.Should().BeTrue();
             result.Single(r => r.Id == 1).Players.Should().Be(2);
         }
     }

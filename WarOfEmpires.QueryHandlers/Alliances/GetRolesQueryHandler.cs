@@ -31,6 +31,7 @@ namespace WarOfEmpires.QueryHandlers.Alliances {
                 CanInvite = r.CanInvite,
                 CanManageRoles = r.CanManageRoles,
                 CanDeleteChatMessages = r.CanDeleteChatMessages,
+                CanKickMembers = r.CanKickMembers,
                 Players = r.Players.Count(p => p.User.Status == UserStatus.Active)
             });
         }
