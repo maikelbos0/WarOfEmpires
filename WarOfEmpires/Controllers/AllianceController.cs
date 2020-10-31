@@ -196,7 +196,7 @@ namespace WarOfEmpires.Controllers {
         [HttpPost]
         [Route("CreateRole")]
         public ViewResult CreateRole(CreateRoleModel model) {
-            return BuildViewResultFor(new CreateRoleCommand(_authenticationService.Identity, model.Name, model.CanInvite, model.CanManageRoles, model.CanDeleteChatMessages))
+            return BuildViewResultFor(new CreateRoleCommand(_authenticationService.Identity, model.Name, model.CanInvite, model.CanManageRoles, model.CanDeleteChatMessages, model.CanKickMembers))
                 .OnSuccess(Roles)
                 .OnFailure("CreateRole", model)
                 .Execute();
