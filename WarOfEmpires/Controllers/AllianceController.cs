@@ -246,5 +246,25 @@ namespace WarOfEmpires.Controllers {
                 .ThrowOnFailure()
                 .Execute();
         }
+
+        [AllianceAuthorize]
+        [HttpPost]
+        [Route("LeaveAlliance")]
+        public ViewResult LeaveAlliance() {
+            return BuildViewResultFor(new LeaveAllianceCommand(_authenticationService.Identity))
+                .OnSuccess(Index)
+                .ThrowOnFailure()
+                .Execute();
+        }
+
+        [AllianceAuthorize] // TODO create right
+        [HttpPost]
+        [Route("KickFromAlliance")]
+        public ViewResult KickFromAlliance(string id) {
+            return BuildViewResultFor(new KickFromAllianceCommand(_authenticationService.Identity, id))
+                .OnSuccess(Home)
+                .ThrowOnFailure()
+                .Execute();
+        }
     }
 }
