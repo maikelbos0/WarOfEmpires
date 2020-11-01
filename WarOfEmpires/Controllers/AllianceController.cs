@@ -257,7 +257,7 @@ namespace WarOfEmpires.Controllers {
                 .Execute();
         }
 
-        [AllianceAuthorize] // TODO create right
+        [AllianceAuthorize(CanKickMembers = true)]
         [HttpPost]
         [Route("KickFromAlliance")]
         public ViewResult KickFromAlliance(string id) {
