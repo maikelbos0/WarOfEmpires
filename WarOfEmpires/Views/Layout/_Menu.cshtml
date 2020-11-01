@@ -71,10 +71,11 @@
                                     @Html.ActionLink("Roles", "Roles", "Alliance", null, new { @class = "dropdown-item" })
                                 }
 
-                                // TODO check if we're leader
-                                using (Html.BeginForm("LeaveAlliance", "Alliance", FormMethod.Post, new { @class = "html-only d-inline" })) {
+                                if (Model.CanLeaveAlliance) {
+                                    using (Html.BeginForm("LeaveAlliance", "Alliance", FormMethod.Post, new { @class = "html-only d-inline" })) {
                                     <div class="dropdown-divider"></div>
                                     <button type="submit" class="btn btn-link dropdown-item">Leave</button>
+                                    }
                                 }
                             }
                             else {

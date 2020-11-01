@@ -31,13 +31,18 @@ namespace WarOfEmpires.QueryHandlers.Players {
                 DisplayName = player.DisplayName
             };
 
-            if (player == player.Alliance?.Leader) {
-                result.CanInvite = true;
-                result.CanManageRoles = true;
-            }
-            else if (player.AllianceRole != null) {
-                result.CanInvite = player.AllianceRole.CanInvite;
-                result.CanManageRoles = player.AllianceRole.CanManageRoles;
+            if (player.Alliance != null) {
+                result.IsInAlliance = true;
+                result.CanLeaveAlliance = player != player.Alliance.Leader;
+
+                if (player == player.Alliance.Leader) {
+                    result.CanInvite = true;
+                    result.CanManageRoles = true;
+                }
+                else if (player.AllianceRole != null) {
+                    result.CanInvite = player.AllianceRole.CanInvite;
+                    result.CanManageRoles = player.AllianceRole.CanManageRoles;
+                }
             }
 
             return result;
