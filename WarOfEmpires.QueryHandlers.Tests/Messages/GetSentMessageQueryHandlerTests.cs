@@ -16,7 +16,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Messages {
                 .WithMessageTo(1, recipient, new DateTime(2019, 1, 1));
 
             var handler = new GetSentMessageQueryHandler(builder.Context);
-            var query = new GetSentMessageQuery("test1@test.com", "1");
+            var query = new GetSentMessageQuery("test1@test.com", 1);
 
             var result = handler.Execute(query);
 
@@ -35,26 +35,11 @@ namespace WarOfEmpires.QueryHandlers.Tests.Messages {
                 .WithMessageTo(1, recipient, new DateTime(2019, 1, 1));
 
             var handler = new GetSentMessageQueryHandler(builder.Context);
-            var query = new GetSentMessageQuery("recipient@test.com", "1");
+            var query = new GetSentMessageQuery("recipient@test.com", 1);
 
             Action action = () => handler.Execute(query);
 
             action.Should().Throw<InvalidOperationException>();
-        }
-
-        [TestMethod]
-        public void GetSentMessageQueryHandler_Throws_Exception_For_Alphanumeric_MessageId() {
-            var builder = new FakeBuilder()
-                .WithPlayer(2, out var recipient, email: "recipient@test.com", displayName: "Recipient test")
-                .BuildPlayer(1)
-                .WithMessageTo(1, recipient, new DateTime(2019, 1, 1));
-
-            var handler = new GetSentMessageQueryHandler(builder.Context);
-            var query = new GetSentMessageQuery("test1@test.com", "A");
-
-            Action action = () => handler.Execute(query);
-
-            action.Should().Throw<FormatException>();
         }
     }
 }

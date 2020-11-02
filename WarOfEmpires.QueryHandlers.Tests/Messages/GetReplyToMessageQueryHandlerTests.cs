@@ -16,7 +16,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Messages {
                 .WithMessageTo(1, player, new DateTime(2019, 1, 5, 14, 15, 33));
 
             var handler = new GetReplyToMessageQueryHandler(builder.Context);
-            var query = new GetReplyToMessageQuery("test2@test.com", "1");
+            var query = new GetReplyToMessageQuery("test2@test.com", 1);
 
             var result = handler.Execute(query);
 
@@ -27,33 +27,18 @@ namespace WarOfEmpires.QueryHandlers.Tests.Messages {
         }
 
         [TestMethod]
-        public void GetReplyToMessageQueryHandler_Throws_Exception_For_Alphanumeric_Id() {
+        public void GetReplyToMessageQueryHandler_Throws_Exception_For_Nonexistent_Id() {
             var builder = new FakeBuilder()
                 .WithPlayer(2, out var player)
                 .BuildPlayer(1, email: "sender@test.com")
                 .WithMessageTo(1, player, new DateTime(2019, 1, 5, 14, 15, 33));
 
             var handler = new GetReplyToMessageQueryHandler(builder.Context);
-            var query = new GetReplyToMessageQuery("sender@test.com", "1");
+            var query = new GetReplyToMessageQuery("sender@test.com", 1);
 
             Action action = () => handler.Execute(query);
 
             action.Should().Throw<InvalidOperationException>();
-        }
-
-        [TestMethod]
-        public void GetReplyToMessageQueryHandler_Throws_Exception_For_Nonexistent_Id() {
-            var builder = new FakeBuilder()
-                .WithPlayer(2, out var player)
-                .BuildPlayer(1)
-                .WithMessageTo(1, player, new DateTime(2019, 1, 5, 14, 15, 33));
-
-            var handler = new GetReplyToMessageQueryHandler(builder.Context);
-            var query = new GetReplyToMessageQuery("recipient@test.com", "A");
-
-            Action action = () => handler.Execute(query);
-
-            action.Should().Throw<FormatException>();
         }
     }
 }

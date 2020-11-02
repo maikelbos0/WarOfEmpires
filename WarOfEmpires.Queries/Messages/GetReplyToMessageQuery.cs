@@ -3,9 +3,9 @@
 namespace WarOfEmpires.Queries.Messages {
     public sealed class GetReplyToMessageQuery : IQuery<MessageModel> {
         public string Email { get; }
-        public string MessageId { get; }
+        public int MessageId { get; }
 
-        public GetReplyToMessageQuery(string email, string messageId) {
+        public GetReplyToMessageQuery(string email, int messageId) {
             Email = email;
             MessageId = messageId;
         }

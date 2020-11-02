@@ -18,7 +18,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
                 .WithPopulation();
 
             var handler = new GetPlayerDetailsQueryHandler(builder.Context, new EnumFormatter());
-            var query = new GetPlayerDetailsQuery("test1@test.com", "2");
+            var query = new GetPlayerDetailsQuery("test1@test.com", 2);
 
             var result = handler.Execute(query);
 
@@ -40,7 +40,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
                 .WithPlayer(2);
 
             var handler = new GetPlayerDetailsQueryHandler(builder.Context, new EnumFormatter());
-            var query = new GetPlayerDetailsQuery("test1@test.com", "2");
+            var query = new GetPlayerDetailsQuery("test1@test.com", 2);
 
             var result = handler.Execute(query);
 
@@ -53,7 +53,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
                 .WithPlayer(1);
 
             var handler = new GetPlayerDetailsQueryHandler(builder.Context, new EnumFormatter());
-            var query = new GetPlayerDetailsQuery("test1@test.com", "1");
+            var query = new GetPlayerDetailsQuery("test1@test.com", 1);
 
             var result = handler.Execute(query);
             
@@ -68,24 +68,11 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
                 .WithMember(2);
 
             var handler = new GetPlayerDetailsQueryHandler(builder.Context, new EnumFormatter());
-            var query = new GetPlayerDetailsQuery("test1@test.com", "2");
+            var query = new GetPlayerDetailsQuery("test1@test.com", 2);
 
             var result = handler.Execute(query);
 
             result.CanBeAttacked.Should().BeFalse();
-        }
-
-        [TestMethod]
-        public void GetPlayerDetailsQueryHandler_Throws_Exception_For_Alphanumeric_Id() {
-            var builder = new FakeBuilder()
-                .BuildPlayer(1);
-
-            var handler = new GetPlayerDetailsQueryHandler(builder.Context, new EnumFormatter());
-            var query = new GetPlayerDetailsQuery("test1@test.com", "A");
-
-            Action action = () => handler.Execute(query);
-
-            action.Should().Throw<FormatException>();
         }
 
         [TestMethod]
@@ -94,7 +81,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
                 .BuildPlayer(1);
 
             var handler = new GetPlayerDetailsQueryHandler(builder.Context, new EnumFormatter());
-            var query = new GetPlayerDetailsQuery("test1@test.com", "5");
+            var query = new GetPlayerDetailsQuery("test1@test.com", 5);
 
             Action action = () => handler.Execute(query);
 

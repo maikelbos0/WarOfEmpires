@@ -2,9 +2,9 @@
 
 namespace WarOfEmpires.Queries.Messages {
     public sealed class GetMessageRecipientQuery : IQuery<MessageModel> {
-        public string PlayerId { get; }
+        public int PlayerId { get; }
 
-        public GetMessageRecipientQuery(string playerId) {
+        public GetMessageRecipientQuery(int playerId) {
             PlayerId = playerId;
         }
     }

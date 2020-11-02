@@ -17,10 +17,9 @@ namespace WarOfEmpires.QueryHandlers.Messages {
         }
 
         public SentMessageDetailsViewModel Execute(GetSentMessageQuery query) {
-            var messageId = int.Parse(query.MessageId);
             var message = _context.Players
                 .Single(p => EmailComparisonService.Equals(p.User.Email, query.Email))
-                .SentMessages.Single(m => m.Id == messageId);
+                .SentMessages.Single(m => m.Id == query.MessageId);
 
             return new SentMessageDetailsViewModel() {
                 Id = message.Id,
