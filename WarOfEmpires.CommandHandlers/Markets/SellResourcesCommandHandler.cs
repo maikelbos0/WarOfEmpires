@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using WarOfEmpires.CommandHandlers.Decorators;
 using WarOfEmpires.Commands.Markets;
 using WarOfEmpires.Domain.Empires;
 using WarOfEmpires.Domain.Markets;
-using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Repositories.Players;
 using WarOfEmpires.Utilities.Container;
 using WarOfEmpires.Utilities.Formatting;
@@ -33,26 +31,17 @@ namespace WarOfEmpires.CommandHandlers.Markets {
             for (var index = 0; index < command.Merchandise.Count; index++) {
                 var i = index; // Don't use iterator in lambdas
                 var type = (MerchandiseType)Enum.Parse(typeof(MerchandiseType), command.Merchandise[i].Type);
-                int quantity = 0;
-                int price = 0;
-
-                if (!string.IsNullOrEmpty(command.Merchandise[i].Quantity) && !int.TryParse(command.Merchandise[i].Quantity, out quantity) || quantity < 0) {
-                    result.AddError(c => c.Merchandise[i].Quantity, "Invalid number");
-                }
-
-                if (!string.IsNullOrEmpty(command.Merchandise[i].Price) && !int.TryParse(command.Merchandise[i].Price, out price) || price < 0) {
-                    result.AddError(c => c.Merchandise[i].Price, "Invalid number");
-                }
-                else if (quantity > 0 && price <= 0) {
+                
+                if (command.Merchandise[i].Quantity.HasValue && !command.Merchandise[i].Price.HasValue) {
                     result.AddError(c => c.Merchandise[i].Price, $"{_formatter.ToString(type)} price is required when selling {_formatter.ToString(type, false)}");
                 }
 
-                if (quantity > 0 && !player.CanAfford(MerchandiseTotals.ToResources(type, quantity))) {
+                if (command.Merchandise[i].Quantity.HasValue && !player.CanAfford(MerchandiseTotals.ToResources(type, command.Merchandise[i].Quantity.Value))) {
                     result.AddError(c => c.Merchandise[i].Quantity, $"You don't have enough {_formatter.ToString(type, false)} available to sell that much");
                 }
 
-                if (result.Success && price > 0 && quantity > 0) {
-                    merchandiseTotals.Add(new MerchandiseTotals(type, quantity, price));
+                if (result.Success && command.Merchandise[i].Quantity.HasValue && command.Merchandise[i].Price.HasValue) {
+                    merchandiseTotals.Add(new MerchandiseTotals(type, command.Merchandise[i].Quantity.Value, command.Merchandise[i].Price.Value));
                 }
             }
 
