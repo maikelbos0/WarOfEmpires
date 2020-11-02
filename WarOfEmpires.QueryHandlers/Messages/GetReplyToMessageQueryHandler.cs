@@ -23,7 +23,7 @@ namespace WarOfEmpires.QueryHandlers.Messages {
                 .ReceivedMessages.Single(m => m.Id == query.MessageId);
 
             return new MessageModel() {
-                RecipientId = message.Sender.Id.ToString(),
+                RecipientId = message.Sender.Id,
                 Recipient = message.Sender.DisplayName,
                 Subject = $"Re: {message.Subject}",
                 Body = $"{Environment.NewLine}{message.Sender.DisplayName} wrote on {message.Date:yyyy-MM-dd HH:mm}:{Environment.NewLine}{message.Body}"

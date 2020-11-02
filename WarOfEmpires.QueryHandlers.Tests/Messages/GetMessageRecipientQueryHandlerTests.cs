@@ -19,7 +19,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Messages {
 
             var result = handler.Execute(query);
 
-            result.RecipientId.Should().Be("2");
+            result.RecipientId.Should().Be(2);
             result.Recipient.Should().Be("Test display name 2");
         }
 

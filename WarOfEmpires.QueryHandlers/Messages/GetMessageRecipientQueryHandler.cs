@@ -21,7 +21,7 @@ namespace WarOfEmpires.QueryHandlers.Messages {
                 .Single(p => p.Id == query.PlayerId);
 
             return new MessageModel() {
-                RecipientId = query.PlayerId.ToString(),
+                RecipientId = query.PlayerId,
                 Recipient = player.DisplayName
             };
         }

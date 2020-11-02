@@ -20,7 +20,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Messages {
 
             var result = handler.Execute(query);
 
-            result.RecipientId.Should().Be("1");
+            result.RecipientId.Should().Be(1);
             result.Recipient.Should().Be("Sender test");
             result.Subject.Should().Be("Re: Message subject");
             result.Body.Should().Be($"{Environment.NewLine}Sender test wrote on 2019-01-05 14:15:{Environment.NewLine}Message body");
