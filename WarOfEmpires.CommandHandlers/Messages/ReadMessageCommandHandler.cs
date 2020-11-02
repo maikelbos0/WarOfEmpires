@@ -17,8 +17,7 @@ namespace WarOfEmpires.CommandHandlers.Messages {
         public CommandResult<ReadMessageCommand> Execute(ReadMessageCommand command) {
             var result = new CommandResult<ReadMessageCommand>();
             var player = _repository.Get(command.Email);
-            var messageId = int.Parse(command.MessageId);
-            var message = player.ReceivedMessages.Single(m => m.Id == messageId);
+            var message = player.ReceivedMessages.Single(m => m.Id == command.MessageId);
 
             message.IsRead = true;
 

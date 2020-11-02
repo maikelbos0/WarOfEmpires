@@ -44,7 +44,7 @@ namespace WarOfEmpires.Controllers {
         [Route("Send")]
         [HttpPost]
         public ViewResult Send(MessageModel model) {
-            return BuildViewResultFor(new SendMessageCommand(_authenticationService.Identity, model.RecipientId.ToString(), model.Subject, model.Body))
+            return BuildViewResultFor(new SendMessageCommand(_authenticationService.Identity, model.RecipientId, model.Subject, model.Body))
                 .OnSuccess(SentIndex)
                 .OnFailure("Send", model)
                 .Execute();
@@ -56,7 +56,7 @@ namespace WarOfEmpires.Controllers {
             var model = _messageService.Dispatch(new GetReceivedMessageQuery(_authenticationService.Identity, id));
 
             if (!model.IsRead) {
-                _messageService.Dispatch(new ReadMessageCommand(_authenticationService.Identity, id.ToString()));
+                _messageService.Dispatch(new ReadMessageCommand(_authenticationService.Identity, id));
             }
 
             return View(model);
