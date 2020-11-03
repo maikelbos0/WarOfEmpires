@@ -18,6 +18,17 @@ namespace WarOfEmpires {
                 TelemetryConfiguration.Active.InstrumentationKey = instrumentationKey;
             }
 
+            /*
+             TODO 
+             Alliances
+             Attacks
+             Decorators
+             Events
+             Administration
+             Empires
+             -> not Tax
+             */
+
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
