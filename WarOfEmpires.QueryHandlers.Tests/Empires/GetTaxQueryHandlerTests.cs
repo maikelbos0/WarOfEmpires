@@ -20,7 +20,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
 
             var result = handler.Execute(query);
 
-            result.Tax.Should().Be("50");
+            result.Tax.Should().Be(50);
 
             result.BaseGoldPerTurn.Should().Be(500);
             result.BaseFoodPerTurn.Should().Be(20);
