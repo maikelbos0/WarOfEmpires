@@ -22,9 +22,9 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
             var handler = new BuildSiegeCommandHandler(new PlayerRepository(builder.Context));
             var command = new BuildSiegeCommand("test1@test.com", new List<SiegeWeaponInfo>() {
-                new SiegeWeaponInfo("FireArrows", "1"),
-                new SiegeWeaponInfo("BatteringRams", "2"),
-                new SiegeWeaponInfo("ScalingLadders", "3")
+                new SiegeWeaponInfo("FireArrows", 1),
+                new SiegeWeaponInfo("BatteringRams", 2),
+                new SiegeWeaponInfo("ScalingLadders", 3)
             });
 
             var result = handler.Execute(command);
@@ -45,9 +45,9 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
             var handler = new BuildSiegeCommandHandler(new PlayerRepository(builder.Context));
             var command = new BuildSiegeCommand("test1@test.com", new List<SiegeWeaponInfo>() {
-                new SiegeWeaponInfo("FireArrows", ""),
-                new SiegeWeaponInfo("BatteringRams", ""),
-                new SiegeWeaponInfo("ScalingLadders", "")
+                new SiegeWeaponInfo("FireArrows", null),
+                new SiegeWeaponInfo("BatteringRams", null),
+                new SiegeWeaponInfo("ScalingLadders", null)
             });
 
             var result = handler.Execute(command);
@@ -63,7 +63,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
             var handler = new BuildSiegeCommandHandler(new PlayerRepository(builder.Context));
             var command = new BuildSiegeCommand("test1@test.com", new List<SiegeWeaponInfo>() {
-                new SiegeWeaponInfo("FireArrows", "1")
+                new SiegeWeaponInfo("FireArrows", 1)
             });
 
             var result = handler.Execute(command);
@@ -80,46 +80,12 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
             var handler = new BuildSiegeCommandHandler(new PlayerRepository(builder.Context));
             var command = new BuildSiegeCommand("test1@test.com", new List<SiegeWeaponInfo>() {
-                new SiegeWeaponInfo("Test", "1")
+                new SiegeWeaponInfo("Test", 1)
             });
 
             Action action = () => handler.Execute(command);
 
             action.Should().Throw<ArgumentException>();
-            builder.Player.DidNotReceiveWithAnyArgs().BuildSiege(default, default);
-            builder.Context.CallsToSaveChanges.Should().Be(0);
-        }
-
-        [TestMethod]
-        public void BuildSiegeCommandHandler_Fails_For_Alphanumeric_Count() {
-            var builder = new FakeBuilder()
-                .BuildPlayer(1);
-
-            var handler = new BuildSiegeCommandHandler(new PlayerRepository(builder.Context));
-            var command = new BuildSiegeCommand("test1@test.com", new List<SiegeWeaponInfo>() {
-                new SiegeWeaponInfo("FireArrows", "A")
-            });
-
-            var result = handler.Execute(command);
-
-            result.Should().HaveError("SiegeWeapons[0].Count", "Invalid number");
-            builder.Player.DidNotReceiveWithAnyArgs().BuildSiege(default, default);
-            builder.Context.CallsToSaveChanges.Should().Be(0);
-        }
-
-        [TestMethod]
-        public void BuildSiegeCommandHandler_Fails_For_Negative_Count() {
-            var builder = new FakeBuilder()
-                .BuildPlayer(1);
-
-            var handler = new BuildSiegeCommandHandler(new PlayerRepository(builder.Context));
-            var command = new BuildSiegeCommand("test1@test.com", new List<SiegeWeaponInfo>() {
-                new SiegeWeaponInfo("FireArrows", "-1")
-            });
-
-            var result = handler.Execute(command);
-
-            result.Should().HaveError("SiegeWeapons[0].Count", "Invalid number");
             builder.Player.DidNotReceiveWithAnyArgs().BuildSiege(default, default);
             builder.Context.CallsToSaveChanges.Should().Be(0);
         }
@@ -133,7 +99,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
             var handler = new BuildSiegeCommandHandler(new PlayerRepository(builder.Context));
             var command = new BuildSiegeCommand("test1@test.com", new List<SiegeWeaponInfo>() {
-                new SiegeWeaponInfo("FireArrows", "1")
+                new SiegeWeaponInfo("FireArrows", 1)
             });
 
             var result = handler.Execute(command);

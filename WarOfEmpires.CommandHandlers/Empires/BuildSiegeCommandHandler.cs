@@ -26,17 +26,11 @@ namespace WarOfEmpires.CommandHandlers.Empires {
                 - player.SiegeWeapons.Sum(s => s.Count * SiegeWeaponDefinitionFactory.Get(s.Type).Maintenance);
             var siegeWeapons = new List<SiegeWeaponInfo>();
 
-            for (var index = 0; index < command.SiegeWeapons.Count; index++) {
-                var i = index; // Don't use iterator in lambdas
+            for (var i = 0; i < command.SiegeWeapons.Count; i++) {
                 var type = (SiegeWeaponType)Enum.Parse(typeof(SiegeWeaponType), command.SiegeWeapons[i].Type);
-                int count = 0;
 
-                if (!string.IsNullOrEmpty(command.SiegeWeapons[i].Count) && !int.TryParse(command.SiegeWeapons[i].Count, out count) || count < 0) {
-                    result.AddError(c => c.SiegeWeapons[i].Count, "Invalid number");
-                }
-
-                if (result.Success && count > 0) {
-                    siegeWeapons.Add(new SiegeWeaponInfo(type, count));
+                if (result.Success && command.SiegeWeapons[i].Count.HasValue) {
+                    siegeWeapons.Add(new SiegeWeaponInfo(type, command.SiegeWeapons[i].Count.Value));
                 }
             }
 
