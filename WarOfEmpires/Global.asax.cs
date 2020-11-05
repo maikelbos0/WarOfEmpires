@@ -26,7 +26,7 @@ namespace WarOfEmpires {
              Events
              Administration
              Empires
-             -> - Tax - Siege
+             -> - Tax - Siege - Workers
              */
 
             AreaRegistration.RegisterAllAreas();

@@ -27,12 +27,12 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
             var handler = new UntrainWorkersCommandHandler(new PlayerRepository(builder.Context), new EnumFormatter());
             var command = new UntrainWorkersCommand("test1@test.com", new List<WorkerInfo>() {
-                new WorkerInfo("Farmers", "5"),
-                new WorkerInfo("WoodWorkers", "4"),
-                new WorkerInfo("StoneMasons", "3"),
-                new WorkerInfo("OreMiners", "2"),
-                new WorkerInfo("SiegeEngineers", "1"),
-                new WorkerInfo("Merchants", "6")
+                new WorkerInfo("Farmers", 5),
+                new WorkerInfo("WoodWorkers", 4),
+                new WorkerInfo("StoneMasons", 3),
+                new WorkerInfo("OreMiners", 2),
+                new WorkerInfo("SiegeEngineers", 1),
+                new WorkerInfo("Merchants", 6)
             });
 
             var result = handler.Execute(command);
@@ -60,12 +60,12 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
             var handler = new UntrainWorkersCommandHandler(new PlayerRepository(builder.Context), new EnumFormatter());
             var command = new UntrainWorkersCommand("test1@test.com", new List<WorkerInfo>() {
-                new WorkerInfo("Farmers", ""),
-                new WorkerInfo("WoodWorkers", ""),
-                new WorkerInfo("StoneMasons", ""),
-                new WorkerInfo("OreMiners", ""),
-                new WorkerInfo("SiegeEngineers", ""),
-                new WorkerInfo("Merchants", "")
+                new WorkerInfo("Farmers", null),
+                new WorkerInfo("WoodWorkers", null),
+                new WorkerInfo("StoneMasons", null),
+                new WorkerInfo("OreMiners", null),
+                new WorkerInfo("SiegeEngineers", null),
+                new WorkerInfo("Merchants", null)
             });
 
             var result = handler.Execute(command);
@@ -82,49 +82,13 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
             var handler = new UntrainWorkersCommandHandler(new PlayerRepository(builder.Context), new EnumFormatter());
             var command = new UntrainWorkersCommand("test1@test.com", new List<WorkerInfo>() {
-                new WorkerInfo("Test", "1")
+                new WorkerInfo("Test", 1)
             });
 
             Action action = () => handler.Execute(command);
 
             action.Should().Throw<ArgumentException>();
             builder.Player.DidNotReceiveWithAnyArgs().TrainWorkers(default, default);
-            builder.Context.CallsToSaveChanges.Should().Be(0);
-        }
-
-        [TestMethod]
-        public void UntrainWorkersCommandHandler_Fails_For_Alphanumeric_Count() {
-            var builder = new FakeBuilder()
-                .BuildPlayer(1)
-                .WithWorkers(WorkerType.Farmers, 10);
-
-            var handler = new UntrainWorkersCommandHandler(new PlayerRepository(builder.Context), new EnumFormatter());
-            var command = new UntrainWorkersCommand("test1@test.com", new List<WorkerInfo>() {
-                new WorkerInfo("Farmers", "A")
-            });
-
-            var result = handler.Execute(command);
-
-            result.Should().HaveError("Workers[0].Count", "Invalid number");
-            builder.Player.DidNotReceiveWithAnyArgs().UntrainWorkers(default, default);
-            builder.Context.CallsToSaveChanges.Should().Be(0);
-        }
-
-        [TestMethod]
-        public void UntrainWorkersCommandHandler_Fails_For_Negative_Count() {
-            var builder = new FakeBuilder()
-                .BuildPlayer(1)
-                .WithWorkers(WorkerType.Farmers, 10);
-
-            var handler = new UntrainWorkersCommandHandler(new PlayerRepository(builder.Context), new EnumFormatter());
-            var command = new UntrainWorkersCommand("test1@test.com", new List<WorkerInfo>() {
-                new WorkerInfo("Farmers", "-1")
-            });
-
-            var result = handler.Execute(command);
-
-            result.Should().HaveError("Workers[0].Count", "Invalid number");
-            builder.Player.DidNotReceiveWithAnyArgs().UntrainWorkers(default, default);
             builder.Context.CallsToSaveChanges.Should().Be(0);
         }
 
@@ -136,7 +100,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
             var handler = new UntrainWorkersCommandHandler(new PlayerRepository(builder.Context), new EnumFormatter());
             var command = new UntrainWorkersCommand("test1@test.com", new List<WorkerInfo>() {
-                new WorkerInfo("Farmers", "11")
+                new WorkerInfo("Farmers", 11)
             });
 
             var result = handler.Execute(command);
@@ -158,7 +122,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
             var handler = new UntrainWorkersCommandHandler(new PlayerRepository(builder.Context), new EnumFormatter());
             var command = new UntrainWorkersCommand("test1@test.com", new List<WorkerInfo>() {
-                new WorkerInfo("SiegeEngineers", "1")
+                new WorkerInfo("SiegeEngineers", 1)
             });
 
             var result = handler.Execute(command);
@@ -178,7 +142,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
             var handler = new UntrainWorkersCommandHandler(new PlayerRepository(builder.Context), new EnumFormatter());
             var command = new UntrainWorkersCommand("test1@test.com", new List<WorkerInfo>() {
-                new WorkerInfo("Merchants", "9")
+                new WorkerInfo("Merchants", 9)
             });
 
             var result = handler.Execute(command);

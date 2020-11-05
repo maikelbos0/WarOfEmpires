@@ -30,25 +30,21 @@ namespace WarOfEmpires.CommandHandlers.Empires {
             for (var index = 0; index < command.Workers.Count; index++) {
                 var i = index; // Don't use iterator in lambdas
                 var type = (WorkerType)Enum.Parse(typeof(WorkerType), command.Workers[i].Type);
-                int count = 0;
-
-                if (!string.IsNullOrEmpty(command.Workers[i].Count) && !int.TryParse(command.Workers[i].Count, out count) || count < 0) {
-                    result.AddError(c => c.Workers[i].Count, "Invalid number");
-                }
-                else if (count > player.GetWorkerCount(type)) {
+                
+                if (command.Workers[i].Count.HasValue && command.Workers[i].Count.Value > player.GetWorkerCount(type)) {
                     result.AddError(c => c.Workers[i].Count, $"You don't have that many {_formatter.ToString(type, false)} to untrain");
                 }
 
-                if (type == WorkerType.SiegeEngineers && count > 0 && (player.GetWorkerCount(WorkerType.SiegeEngineers) - count) * player.GetBuildingBonus(BuildingType.SiegeFactory) < player.SiegeWeapons.Sum(s => s.Count * SiegeWeaponDefinitionFactory.Get(s.Type).Maintenance)) {
+                if (type == WorkerType.SiegeEngineers && command.Workers[i].Count.HasValue && (player.GetWorkerCount(WorkerType.SiegeEngineers) - command.Workers[i].Count.Value) * player.GetBuildingBonus(BuildingType.SiegeFactory) < player.SiegeWeapons.Sum(s => s.Count * SiegeWeaponDefinitionFactory.Get(s.Type).Maintenance)) {
                     result.AddError(c => c.Workers[i].Count, "Your siege engineers are maintaining too many siege weapons for that many to be untrained");
                 }
 
-                if (type == WorkerType.Merchants && count > 0 && player.GetWorkerCount(WorkerType.Merchants) - count < player.Caravans.Count) {
+                if (type == WorkerType.Merchants && command.Workers[i].Count.HasValue && player.GetWorkerCount(WorkerType.Merchants) - command.Workers[i].Count.Value < player.Caravans.Count) {
                     result.AddError(c => c.Workers[i].Count, "You can't untrain merchants that have a caravan on the market");
                 }
 
-                if (result.Success && count > 0) {
-                    workers.Add(new WorkerInfo(type, count));
+                if (result.Success && command.Workers[i].Count.HasValue) {
+                    workers.Add(new WorkerInfo(type, command.Workers[i].Count.Value));
                 }
             }
 
