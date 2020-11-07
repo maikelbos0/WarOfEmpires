@@ -25,8 +25,6 @@ namespace WarOfEmpires {
              Decorators
              Events
              Administration
-             Empires
-             -> Troops, Stamina
              */
 
             AreaRegistration.RegisterAllAreas();

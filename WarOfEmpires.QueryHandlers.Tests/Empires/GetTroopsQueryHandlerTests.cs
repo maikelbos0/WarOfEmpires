@@ -37,7 +37,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
             result.HasUpkeepRunOut.Should().BeTrue();
             result.HasSoldierShortage.Should().BeTrue();
             result.CurrentStamina.Should().Be(100);
-            result.StaminaToHeal.Should().Be("0");
+            result.StaminaToHeal.Should().Be(0);
             result.Troops.Should().HaveCount(3);
 
             var troop = result.Troops.Single(t => t.Type == "Archers");

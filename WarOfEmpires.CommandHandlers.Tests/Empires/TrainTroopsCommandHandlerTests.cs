@@ -22,9 +22,9 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
             var handler = new TrainTroopsCommandHandler(new PlayerRepository(builder.Context));
             var command = new TrainTroopsCommand("test1@test.com", new List<TroopInfo>(){
-                new TroopInfo("Archers", "6", "3"),
-                new TroopInfo("Cavalry", "4", "2"),
-                new TroopInfo("Footmen", "4", "1")
+                new TroopInfo("Archers", 6, 3),
+                new TroopInfo("Cavalry", 4, 2),
+                new TroopInfo("Footmen", 4, 1)
             });
 
             var result = handler.Execute(command);
@@ -44,9 +44,9 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
             var handler = new TrainTroopsCommandHandler(new PlayerRepository(builder.Context));
             var command = new TrainTroopsCommand("test1@test.com", new List<TroopInfo>(){
-                new TroopInfo("Archers", "", ""),
-                new TroopInfo("Cavalry", "", ""),
-                new TroopInfo("Footmen", "", "")
+                new TroopInfo("Archers", null, null),
+                new TroopInfo("Cavalry", null, null),
+                new TroopInfo("Footmen", null, null)
             });
 
             var result = handler.Execute(command);
@@ -62,7 +62,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
             var handler = new TrainTroopsCommandHandler(new PlayerRepository(builder.Context));
             var command = new TrainTroopsCommand("test1@test.com", new List<TroopInfo>() {
-                new TroopInfo("Test", "1", "1")
+                new TroopInfo("Test", 1, 1)
             });
 
             Action action = () => handler.Execute(command);
@@ -82,9 +82,9 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
             var handler = new TrainTroopsCommandHandler(new PlayerRepository(builder.Context));
             var command = new TrainTroopsCommand("test1@test.com", new List<TroopInfo>(){
-                new TroopInfo("Archers", "5", "2"),
-                new TroopInfo("Cavalry", "5", "2"),
-                new TroopInfo("Footmen", "5", "2")
+                new TroopInfo("Archers", 5, 2),
+                new TroopInfo("Cavalry", 5, 2),
+                new TroopInfo("Footmen", 5, 2)
             });
 
             var result = handler.Execute(command);
@@ -95,74 +95,6 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
         }
 
         [TestMethod]
-        public void TrainTroopsCommandHandler_Fails_For_Alphanumeric_Soldiers() {
-            var builder = new FakeBuilder()
-                .BuildPlayer(1);
-
-            var handler = new TrainTroopsCommandHandler(new PlayerRepository(builder.Context));
-            var command = new TrainTroopsCommand("test1@test.com", new List<TroopInfo>(){
-                new TroopInfo("Archers", "A", "2")
-            });
-
-            var result = handler.Execute(command);
-
-            result.Should().HaveError("Troops[0].Soldiers", "Invalid number");
-            builder.Player.DidNotReceiveWithAnyArgs().TrainTroops(default, default, default);
-            builder.Context.CallsToSaveChanges.Should().Be(0);
-        }
-
-        [TestMethod]
-        public void TrainTroopsCommandHandler_Fails_For_Alphanumeric_Mercenaries() {
-            var builder = new FakeBuilder()
-                .BuildPlayer(1);
-
-            var handler = new TrainTroopsCommandHandler(new PlayerRepository(builder.Context));
-            var command = new TrainTroopsCommand("test1@test.com", new List<TroopInfo>(){
-                new TroopInfo("Archers", "2", "A")
-            });
-
-            var result = handler.Execute(command);
-
-            result.Should().HaveError("Troops[0].Mercenaries", "Invalid number");
-            builder.Player.DidNotReceiveWithAnyArgs().TrainTroops(default, default, default);
-            builder.Context.CallsToSaveChanges.Should().Be(0);
-        }
-
-        [TestMethod]
-        public void TrainTroopsCommandHandler_Fails_For_Negative_Soldiers() {
-            var builder = new FakeBuilder()
-                .BuildPlayer(1);
-
-            var handler = new TrainTroopsCommandHandler(new PlayerRepository(builder.Context));
-            var command = new TrainTroopsCommand("test1@test.com", new List<TroopInfo>(){
-                new TroopInfo("Archers", "-1", "2")
-            });
-
-            var result = handler.Execute(command);
-
-            result.Should().HaveError("Troops[0].Soldiers", "Invalid number");
-            builder.Player.DidNotReceiveWithAnyArgs().TrainTroops(default, default, default);
-            builder.Context.CallsToSaveChanges.Should().Be(0);
-        }
-
-        [TestMethod]
-        public void TrainTroopsCommandHandler_Fails_For_Negative_Mercenaries() {
-            var builder = new FakeBuilder()
-                .BuildPlayer(1);
-
-            var handler = new TrainTroopsCommandHandler(new PlayerRepository(builder.Context));
-            var command = new TrainTroopsCommand("test1@test.com", new List<TroopInfo>(){
-                new TroopInfo("Archers", "2", "-1")
-            });
-
-            var result = handler.Execute(command);
-
-            result.Should().HaveError("Troops[0].Mercenaries", "Invalid number");
-            builder.Player.DidNotReceiveWithAnyArgs().TrainTroops(default, default, default);
-            builder.Context.CallsToSaveChanges.Should().Be(0);
-        }
-        
-        [TestMethod]
         public void TrainTroopsCommandHandler_Fails_For_Too_High_TroopCounts() {
             var builder = new FakeBuilder()
                 .BuildPlayer(1)
@@ -172,9 +104,9 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
             var handler = new TrainTroopsCommandHandler(new PlayerRepository(builder.Context));
             var command = new TrainTroopsCommand("test1@test.com", new List<TroopInfo>(){
-                new TroopInfo("Archers", "11", "0"),
-                new TroopInfo("Cavalry", "10", "0"),
-                new TroopInfo("Footmen", "10", "0")
+                new TroopInfo("Archers", 11, 0),
+                new TroopInfo("Cavalry", 10, 0),
+                new TroopInfo("Footmen", 10, 0)
             });
 
             var result = handler.Execute(command);
@@ -194,7 +126,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
             var handler = new TrainTroopsCommandHandler(new PlayerRepository(builder.Context));
             var command = new TrainTroopsCommand("test1@test.com", new List<TroopInfo>(){
-                new TroopInfo("Archers", "1", "1")
+                new TroopInfo("Archers", 1, 1)
             });
 
             var result = handler.Execute(command);

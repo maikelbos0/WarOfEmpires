@@ -23,9 +23,9 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
             var handler = new UntrainTroopsCommandHandler(new PlayerRepository(builder.Context), new EnumFormatter());
             var command = new UntrainTroopsCommand("test1@test.com", new List<TroopInfo>(){
-                new TroopInfo("Archers", "0", "1"),
-                new TroopInfo("Cavalry", "2", "3"),
-                new TroopInfo("Footmen", "4", "5")
+                new TroopInfo("Archers", 0, 1),
+                new TroopInfo("Cavalry", 2, 3),
+                new TroopInfo("Footmen", 4, 5)
             });
 
             var result = handler.Execute(command);
@@ -47,9 +47,9 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
             var handler = new UntrainTroopsCommandHandler(new PlayerRepository(builder.Context), new EnumFormatter());
             var command = new UntrainTroopsCommand("test1@test.com", new List<TroopInfo>(){
-                new TroopInfo("Archers", "", ""),
-                new TroopInfo("Cavalry", "", ""),
-                new TroopInfo("Footmen", "", "")
+                new TroopInfo("Archers", null, null),
+                new TroopInfo("Cavalry", null, null),
+                new TroopInfo("Footmen", null, null)
             });
 
             var result = handler.Execute(command);
@@ -65,84 +65,12 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
             var handler = new UntrainTroopsCommandHandler(new PlayerRepository(builder.Context), new EnumFormatter());
             var command = new UntrainTroopsCommand("test1@test.com", new List<TroopInfo>() {
-                new TroopInfo("Test", "1", "1")
+                new TroopInfo("Test", 1, 1)
             });
 
             Action action = () => handler.Execute(command);
 
             action.Should().Throw<ArgumentException>();
-            builder.Player.DidNotReceiveWithAnyArgs().UntrainTroops(default, default, default);
-            builder.Context.CallsToSaveChanges.Should().Be(0);
-        }
-
-        [TestMethod]
-        public void UntrainTroopsCommandHandler_Fails_For_Alphanumeric_Soldiers() {
-            var builder = new FakeBuilder()
-                .BuildPlayer(1)
-                .WithTroops(TroopType.Archers, 10, 10);
-
-            var handler = new UntrainTroopsCommandHandler(new PlayerRepository(builder.Context), new EnumFormatter());
-            var command = new UntrainTroopsCommand("test1@test.com", new List<TroopInfo>() {
-                new TroopInfo("Archers", "A", "1")
-            });
-
-            var result = handler.Execute(command);
-
-            result.Should().HaveError("Troops[0].Soldiers", "Invalid number");
-            builder.Player.DidNotReceiveWithAnyArgs().UntrainTroops(default, default, default);
-            builder.Context.CallsToSaveChanges.Should().Be(0);
-        }
-
-        [TestMethod]
-        public void UntrainTroopsCommandHandler_Fails_For_Alphanumeric_Mercenaries() {
-            var builder = new FakeBuilder()
-                .BuildPlayer(1)
-                .WithTroops(TroopType.Archers, 10, 10);
-
-            var handler = new UntrainTroopsCommandHandler(new PlayerRepository(builder.Context), new EnumFormatter());
-            var command = new UntrainTroopsCommand("test1@test.com", new List<TroopInfo>() {
-                new TroopInfo("Archers", "1", "A")
-            });
-
-            var result = handler.Execute(command);
-
-            result.Should().HaveError("Troops[0].Mercenaries", "Invalid number");
-            builder.Player.DidNotReceiveWithAnyArgs().UntrainTroops(default, default, default);
-            builder.Context.CallsToSaveChanges.Should().Be(0);
-        }
-
-        [TestMethod]
-        public void UntrainTroopsCommandHandler_Fails_For_Negative_Soldiers() {
-            var builder = new FakeBuilder()
-                .BuildPlayer(1)
-                .WithTroops(TroopType.Archers, 10, 10);
-
-            var handler = new UntrainTroopsCommandHandler(new PlayerRepository(builder.Context), new EnumFormatter());
-            var command = new UntrainTroopsCommand("test1@test.com", new List<TroopInfo>() {
-                new TroopInfo("Archers", "-1", "1")
-            });
-
-            var result = handler.Execute(command);
-
-            result.Should().HaveError("Troops[0].Soldiers", "Invalid number");
-            builder.Player.DidNotReceiveWithAnyArgs().UntrainTroops(default, default, default);
-            builder.Context.CallsToSaveChanges.Should().Be(0);
-        }
-
-        [TestMethod]
-        public void UntrainTroopsCommandHandler_Fails_For_Negative_Mercenaries() {
-            var builder = new FakeBuilder()
-                .BuildPlayer(1)
-                .WithTroops(TroopType.Archers, 10, 10);
-
-            var handler = new UntrainTroopsCommandHandler(new PlayerRepository(builder.Context), new EnumFormatter());
-            var command = new UntrainTroopsCommand("test1@test.com", new List<TroopInfo>() {
-                new TroopInfo("Archers", "1", "-1")
-            });
-
-            var result = handler.Execute(command);
-
-            result.Should().HaveError("Troops[0].Mercenaries", "Invalid number");
             builder.Player.DidNotReceiveWithAnyArgs().UntrainTroops(default, default, default);
             builder.Context.CallsToSaveChanges.Should().Be(0);
         }
@@ -155,7 +83,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
             var handler = new UntrainTroopsCommandHandler(new PlayerRepository(builder.Context), new EnumFormatter());
             var command = new UntrainTroopsCommand("test1@test.com", new List<TroopInfo>() {
-                new TroopInfo("Archers", "12", "2")
+                new TroopInfo("Archers", 12, 2)
             });
 
             var result = handler.Execute(command);
@@ -173,7 +101,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
             var handler = new UntrainTroopsCommandHandler(new PlayerRepository(builder.Context), new EnumFormatter());
             var command = new UntrainTroopsCommand("test1@test.com", new List<TroopInfo>() {
-                new TroopInfo("Archers", "2", "12")
+                new TroopInfo("Archers", 2, 12)
             });
 
             var result = handler.Execute(command);
