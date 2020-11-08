@@ -21,7 +21,6 @@ namespace WarOfEmpires {
             /*
              TODO 
              Alliances
-             Attacks
              Decorators
              Events
              Administration

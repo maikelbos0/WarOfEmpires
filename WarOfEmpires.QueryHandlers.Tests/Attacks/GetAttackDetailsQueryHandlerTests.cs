@@ -26,7 +26,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Attacks {
                 .WithRound(true, 130, 14000, TroopType.Footmen, new Casualties(TroopType.Archers, 4, 6), new Casualties(TroopType.Cavalry, 5, 5), new Casualties(TroopType.Footmen, 6, 4));
 
             var handler = new GetAttackDetailsQueryHandler(builder.Context, new ResourcesMap(), new EnumFormatter());
-            var query = new GetAttackDetailsQuery("defender@test.com", "1");
+            var query = new GetAttackDetailsQuery("defender@test.com", 1);
 
             var result = handler.Execute(query);
 
@@ -71,7 +71,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Attacks {
                 .WithAttackOn(1, defender, AttackType.Raid, AttackResult.Won);
 
             var handler = new GetAttackDetailsQueryHandler(builder.Context, new ResourcesMap(), new EnumFormatter());
-            var query = new GetAttackDetailsQuery("defender@test.com", "1");
+            var query = new GetAttackDetailsQuery("defender@test.com", 1);
 
             var result = handler.Execute(query);
 
@@ -86,7 +86,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Attacks {
                 .WithAttackOn(1, defender, AttackType.Raid, AttackResult.Won);
 
             var handler = new GetAttackDetailsQueryHandler(builder.Context, new ResourcesMap(), new EnumFormatter());
-            var query = new GetAttackDetailsQuery("attacker@test.com", "1");
+            var query = new GetAttackDetailsQuery("attacker@test.com", 1);
 
             var result = handler.Execute(query);
 
@@ -101,26 +101,11 @@ namespace WarOfEmpires.QueryHandlers.Tests.Attacks {
                 .WithAttackOn(1, defender, AttackType.Raid, AttackResult.Won);
 
             var handler = new GetAttackDetailsQueryHandler(builder.Context, new ResourcesMap(), new EnumFormatter());
-            var query = new GetAttackDetailsQuery("attacker@test.com", "1");
+            var query = new GetAttackDetailsQuery("attacker@test.com", 1);
 
             var result = handler.Execute(query);
 
             result.IsRead.Should().BeTrue();
-        }
-
-        [TestMethod]
-        public void GetAttackDetailsQueryHandler_Throws_Exception_For_Alphanumeric_AttackId() {
-            var builder = new FakeBuilder()
-                .WithPlayer(1, out var defender, email: "defender@test.com")
-                .BuildPlayer(2, email: "attacker@test.com")
-                .WithAttackOn(1, defender, AttackType.Raid, AttackResult.Won);
-
-            var handler = new GetAttackDetailsQueryHandler(builder.Context, new ResourcesMap(), new EnumFormatter());
-            var query = new GetAttackDetailsQuery("attacker@test.com", "A");
-
-            Action action = () => handler.Execute(query);
-
-            action.Should().Throw<FormatException>();
         }
 
         [TestMethod]
@@ -132,7 +117,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Attacks {
                 .WithPlayer(3, email: "random@test.com");
 
             var handler = new GetAttackDetailsQueryHandler(builder.Context, new ResourcesMap(), new EnumFormatter());
-            var query = new GetAttackDetailsQuery("random@test.com", "1");
+            var query = new GetAttackDetailsQuery("random@test.com", 1);
 
             Action action = () => handler.Execute(query);
 

@@ -17,14 +17,14 @@ namespace WarOfEmpires.QueryHandlers.Attacks {
         }
 
         public ExecuteAttackModel Execute(GetDefenderQuery query) {
-            var id = int.Parse(query.Id);
             var player = _context.Players
-                .Single(p => p.User.Status == UserStatus.Active && p.Id == id);
+                .Single(p => p.User.Status == UserStatus.Active && p.Id == query.Id);
 
             return new ExecuteAttackModel() {
                 DefenderId = player.Id,
                 DisplayName = player.DisplayName,
-                Population = player.Peasants + player.Workers.Sum(w => w.Count) + player.Troops.Sum(t => t.GetTotals())
+                Population = player.Peasants + player.Workers.Sum(w => w.Count) + player.Troops.Sum(t => t.GetTotals()),
+                Turns = 10
             };
         }
     }

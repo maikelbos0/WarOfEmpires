@@ -2,9 +2,9 @@
 
 namespace WarOfEmpires.Queries.Attacks {
     public class GetDefenderQuery : IQuery<ExecuteAttackModel> {
-        public string Id { get; }
+        public int Id { get; }
 
-        public GetDefenderQuery(string id) {
+        public GetDefenderQuery(int id) {
             Id = id;
         }
     }

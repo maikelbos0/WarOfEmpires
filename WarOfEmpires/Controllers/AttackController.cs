@@ -42,7 +42,7 @@ namespace WarOfEmpires.Controllers {
 
         [Route("Details")]
         [HttpGet]
-        public ViewResult Details(string id) {
+        public ViewResult Details(int id) {
             var model = _messageService.Dispatch(new GetAttackDetailsQuery(_authenticationService.Identity, id));
 
             if (!model.IsRead) {
@@ -53,25 +53,25 @@ namespace WarOfEmpires.Controllers {
             return View("Details", model);
         }
 
-        [Route("Details")]
+        [Route("LastExecutedAttackDetails")]
         [HttpGet]
-        public ViewResult Details() {
+        public ViewResult LastExecutedAttackDetails() {
             var id = _messageService.Dispatch(new GetLastExecutedAttackQuery(_authenticationService.Identity));
 
-            return Details(id.ToString());
+            return Details(id);
         }
 
         [Route("Execute")]
         [HttpGet]
-        public ViewResult Execute(string defenderId) {
+        public ViewResult Execute(int defenderId) {
             return View(_messageService.Dispatch(new GetDefenderQuery(defenderId)));
         }
 
         [Route("Execute")]
         [HttpPost]
         public ViewResult Execute(ExecuteAttackModel model) {
-            return BuildViewResultFor(new AttackCommand(model.AttackType, _authenticationService.Identity, model.DefenderId.ToString(), model.Turns))
-                .OnSuccess(Details)
+            return BuildViewResultFor(new AttackCommand(model.AttackType, _authenticationService.Identity, model.DefenderId, model.Turns))
+                .OnSuccess(LastExecutedAttackDetails)
                 .OnFailure("Execute", model)
                 .Execute();
         }
