@@ -86,6 +86,7 @@ namespace WarOfEmpires.Test.Utilities {
             role.CanInvite.Returns(true);
             role.CanManageRoles.Returns(true);
             role.CanDeleteChatMessages.Returns(true);
+            role.CanKickMembers.Returns(true);
             role.Players.Returns(players);
 
             foreach (var player in players) {

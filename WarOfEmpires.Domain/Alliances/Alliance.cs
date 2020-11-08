@@ -22,8 +22,8 @@ namespace WarOfEmpires.Domain.Alliances {
             Members.Add(leader);
         }
 
-        public virtual void AddMember(Player member) {
-            Members.Add(member);
+        public virtual void RemoveMember(Player member) {
+            Members.Remove(member);
         }
 
         public virtual void SendInvite(Player player, string subject, string body) {
@@ -49,8 +49,8 @@ namespace WarOfEmpires.Domain.Alliances {
             ChatMessages.Remove(chatMessage);
         }
 
-        public virtual void CreateRole(string name, bool canInvite, bool canManageRoles, bool canDeleteChatMessages) {
-            Roles.Add(new Role(this, name, canInvite, canManageRoles, canDeleteChatMessages));
+        public virtual void CreateRole(string name, bool canInvite, bool canManageRoles, bool canDeleteChatMessages, bool canKickMembers) {
+            Roles.Add(new Role(this, name, canInvite, canManageRoles, canDeleteChatMessages, canKickMembers));
         }
 
         public virtual void DeleteRole(Role role) {

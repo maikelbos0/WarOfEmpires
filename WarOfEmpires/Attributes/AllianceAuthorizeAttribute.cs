@@ -8,6 +8,7 @@ namespace WarOfEmpires.Attributes {
         public bool CanInvite { get; set; }
         public bool CanManageRoles { get; set; }
         public bool CanDeleteChatMessages { get; set; }
+        public bool CanKickMembers { get; set; }
 
         public override void OnActionExecuting(ActionExecutingContext filterContext) {
             if (!UnityConfig.Container.Resolve<IAuthorizationService>().IsAuthorized(this)) {

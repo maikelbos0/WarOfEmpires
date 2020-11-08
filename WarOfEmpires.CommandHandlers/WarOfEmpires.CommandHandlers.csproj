@@ -56,6 +56,8 @@
     <Compile Include="Alliances\CreateAllianceCommandHandler.cs" />
     <Compile Include="Alliances\CreateRoleCommandHandler.cs" />
     <Compile Include="Alliances\DeleteRoleCommandHandler.cs" />
+    <Compile Include="Alliances\KickFromAllianceCommandHandler.cs" />
+    <Compile Include="Alliances\LeaveAllianceCommandHandler.cs" />
     <Compile Include="Alliances\PostChatMessageCommandHandler.cs" />
     <Compile Include="Alliances\ReadInviteCommandHandler.cs" />
     <Compile Include="Alliances\RejectInviteCommandHandler.cs" />

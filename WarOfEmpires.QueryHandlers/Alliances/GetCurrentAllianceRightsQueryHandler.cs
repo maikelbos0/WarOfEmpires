@@ -31,11 +31,13 @@ namespace WarOfEmpires.QueryHandlers.Alliances {
                 result.CanInvite = true;
                 result.CanManageRoles = true;
                 result.CanDeleteChatMessages = true;
+                result.CanKickMembers = true;
             }
             else if (player.AllianceRole != null) {
                 result.CanInvite = player.AllianceRole.CanInvite;
                 result.CanManageRoles = player.AllianceRole.CanManageRoles;
                 result.CanDeleteChatMessages = player.AllianceRole.CanDeleteChatMessages;
+                result.CanKickMembers = player.AllianceRole.CanKickMembers;
             }
 
             return result;

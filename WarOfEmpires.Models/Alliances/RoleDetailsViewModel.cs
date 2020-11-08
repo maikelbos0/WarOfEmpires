@@ -6,9 +6,10 @@ namespace WarOfEmpires.Models.Alliances {
         public bool CanInvite { get; set; }
         public bool CanManageRoles { get; set; }
         public bool CanDeleteChatMessages { get; set; }
+        public bool CanKickMembers { get; set; }
         public bool HasRights {
             get {
-                return CanInvite || CanManageRoles || CanDeleteChatMessages;
+                return CanInvite || CanManageRoles || CanDeleteChatMessages || CanKickMembers;
             }
         }
         public List<RolePlayerViewModel> Players { get; set; }

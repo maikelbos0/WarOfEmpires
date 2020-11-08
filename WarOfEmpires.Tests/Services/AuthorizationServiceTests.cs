@@ -94,5 +94,24 @@ namespace WarOfEmpires.Tests.Services {
 
             authorizationService.IsAuthorized(request).Should().Be(expectedOutcome);
         }
+
+        [DataTestMethod]
+        [DataRow(null, false, false, false, DisplayName = "Not authenticated")]
+        [DataRow("User", false, false, false, DisplayName = "Not in alliance")]
+        [DataRow("User", true, false, false, DisplayName = "In alliance but can't kick members")]
+        [DataRow("User", true, true, true, DisplayName = "Can kick members")]
+        public void AuthorizationService_IsAuthorized_Succeeds_CanKickMembers(string identity, bool isInAlliance, bool canKickMembers, bool expectedOutcome) {
+            var messageService = Substitute.For<IMessageService>();
+            var request = Substitute.For<IAllianceAuthorizationRequest>();
+            var authorizationService = new AuthorizationService(new FakeAuthenticationService() { Identity = identity }, messageService);
+
+            messageService.Dispatch(Arg.Any<IQuery<CurrentAllianceRightsViewModel>>()).Returns(new CurrentAllianceRightsViewModel() {
+                IsInAlliance = isInAlliance,
+                CanKickMembers = canKickMembers
+            });
+            request.CanKickMembers.Returns(true);
+
+            authorizationService.IsAuthorized(request).Should().Be(expectedOutcome);
+        }
     }
 }

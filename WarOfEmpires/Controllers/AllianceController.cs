@@ -196,7 +196,7 @@ namespace WarOfEmpires.Controllers {
         [HttpPost]
         [Route("CreateRole")]
         public ViewResult CreateRole(CreateRoleModel model) {
-            return BuildViewResultFor(new CreateRoleCommand(_authenticationService.Identity, model.Name, model.CanInvite, model.CanManageRoles, model.CanDeleteChatMessages))
+            return BuildViewResultFor(new CreateRoleCommand(_authenticationService.Identity, model.Name, model.CanInvite, model.CanManageRoles, model.CanDeleteChatMessages, model.CanKickMembers))
                 .OnSuccess(Roles)
                 .OnFailure("CreateRole", model)
                 .Execute();
@@ -243,6 +243,26 @@ namespace WarOfEmpires.Controllers {
         public ViewResult SetRole(string id, string playerId) {
             return BuildViewResultFor(new SetRoleCommand(_authenticationService.Identity, playerId, id))
                 .OnSuccess(() => RoleDetails(id))
+                .ThrowOnFailure()
+                .Execute();
+        }
+
+        [AllianceAuthorize]
+        [HttpPost]
+        [Route("LeaveAlliance")]
+        public ViewResult LeaveAlliance() {
+            return BuildViewResultFor(new LeaveAllianceCommand(_authenticationService.Identity))
+                .OnSuccess(Index)
+                .ThrowOnFailure()
+                .Execute();
+        }
+
+        [AllianceAuthorize(CanKickMembers = true)]
+        [HttpPost]
+        [Route("KickFromAlliance")]
+        public ViewResult KickFromAlliance(string id) {
+            return BuildViewResultFor(new KickFromAllianceCommand(_authenticationService.Identity, id))
+                .OnSuccess(Home)
                 .ThrowOnFailure()
                 .Execute();
         }

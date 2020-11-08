@@ -1,6 +1,9 @@
 ﻿@model WarOfEmpires.Models.Alliances.AllianceHomeViewModel
 
 @{
+    var canKickMembers = AuthorizationService.IsAuthorized(new AllianceAuthorizationRequest() { CanKickMembers = true });
+    var canDeleteChatMessages = AuthorizationService.IsAuthorized(new AllianceAuthorizationRequest() { CanDeleteChatMessages = true });
+
     ViewBag.Title = $"{Model.Name} - Alliance home";
 }
 
@@ -32,6 +35,10 @@
                     <th>Display name</th>
                     <th>Role</th>
                     <th>Last online</th>
+
+                    @if (canKickMembers) {
+                        <th></th>
+                    }
                 </tr>
             </thead>
 
@@ -52,6 +59,18 @@
                                 @Html.ActionLink(member.LastOnline.Value.ToString(StringFormat.Date), "Details", "Player", new { id = member.Id }, null)
                             }
                         </td>
+
+                        @if (canKickMembers) {
+                            <td class="@(member.LastOnline > DateTime.UtcNow.AddMinutes(-30) ? "bg-highlight" : "")">
+                                @if (member.Id != Model.LeaderId) {
+                                    using (Html.BeginForm("KickFromAlliance", null, FormMethod.Post, new { data_success_message = "The player has been kicked out." })) {
+                                        @Html.Hidden("id", member.Id)
+
+                                        <button type="submit" class="btn btn-secondary py-0">X</button>
+                                    }
+                                }
+                            </td>
+                        }
                     </tr>
                 }
             </tbody>
@@ -90,7 +109,7 @@
                     posted on @chatMessage.Date.ToString(StringFormat.Date)
                 </label>
 
-                @if (AuthorizationService.IsAuthorized(new AllianceAuthorizationRequest() { CanDeleteChatMessages = true })) {
+                @if (canDeleteChatMessages) {
                     using (Html.BeginForm("DeleteChatMessage", null, FormMethod.Post, new { data_success_message = "The message has been deleted." })) {
                         @Html.Hidden("id", chatMessage.Id)
 

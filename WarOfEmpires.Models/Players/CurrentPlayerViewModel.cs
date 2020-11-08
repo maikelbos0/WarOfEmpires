@@ -5,6 +5,7 @@
         public bool IsInAlliance { get; set; }
         public bool CanInvite { get; set; }
         public bool CanManageRoles { get; set; }
+        public bool CanLeaveAlliance { get; set; }
         public string DisplayName { get; set; }
     }
 }
