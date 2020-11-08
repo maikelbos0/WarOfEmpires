@@ -40,6 +40,10 @@ namespace WarOfEmpires.Services {
                 return false;
             }
 
+            if (request.CanKickMembers && !allianceRights.CanKickMembers) {
+                return false;
+            }
+
             return true;
         }
     }

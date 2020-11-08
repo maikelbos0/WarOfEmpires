@@ -21,6 +21,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
             result.CanInvite.Should().BeFalse();
             result.CanManageRoles.Should().BeFalse();
             result.CanDeleteChatMessages.Should().BeFalse();
+            result.CanKickMembers.Should().BeFalse();
         }
 
         [TestMethod]
@@ -39,6 +40,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
             result.CanInvite.Should().BeTrue();
             result.CanManageRoles.Should().BeTrue();
             result.CanDeleteChatMessages.Should().BeTrue();
+            result.CanKickMembers.Should().BeTrue();
         }
 
         [TestMethod]
@@ -56,6 +58,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
             result.CanInvite.Should().BeTrue();
             result.CanManageRoles.Should().BeTrue();
             result.CanDeleteChatMessages.Should().BeTrue();
+            result.CanKickMembers.Should().BeTrue();
         }
     }
 }

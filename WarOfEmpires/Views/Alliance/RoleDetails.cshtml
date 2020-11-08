@@ -74,6 +74,10 @@
                 @if (Model.CanDeleteChatMessages) {
                     <li>Can delete messages from chat</li>
                 }
+
+                @if (Model.CanKickMembers) {
+                    <li>Can kick alliance members</li>
+                }
             </ul>
         </div>
     }

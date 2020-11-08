@@ -26,6 +26,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
             result.IsInAlliance.Should().BeFalse();
             result.CanInvite.Should().BeFalse();
             result.CanManageRoles.Should().BeFalse();
+            result.CanLeaveAlliance.Should().BeFalse();
             result.DisplayName.Should().Be("Test display name 1");
         }
 
@@ -46,6 +47,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
             result.IsInAlliance.Should().BeTrue();
             result.CanInvite.Should().BeFalse();
             result.CanManageRoles.Should().BeFalse();
+            result.CanLeaveAlliance.Should().BeTrue();
         }
 
         [TestMethod]
@@ -77,6 +79,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
 
             result.CanInvite.Should().BeTrue();
             result.CanManageRoles.Should().BeTrue();
+            result.CanLeaveAlliance.Should().BeFalse();
         }
 
         [TestMethod]

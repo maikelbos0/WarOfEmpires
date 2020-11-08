@@ -35,6 +35,11 @@
                 @Html.CheckBoxFor(m => m.CanDeleteChatMessages, new { @class = "form-check-input" })
                 @Html.LabelFor(m => m.CanDeleteChatMessages, new { @class = "form-check-label" })
             </div>
+
+            <div class="form-check">
+                @Html.CheckBoxFor(m => m.CanKickMembers, new { @class = "form-check-input" })
+                @Html.LabelFor(m => m.CanKickMembers, new { @class = "form-check-label" })
+            </div>
         </div>
     </div>
 

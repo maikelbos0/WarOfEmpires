@@ -42,7 +42,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
 
             result.Should().HaveError("You are already in an alliance; leave your current alliance before accepting an invite");
             builder.Alliance.Invites.Should().HaveCount(1);
-            builder.Alliance.DidNotReceiveWithAnyArgs().AddMember(default);
+            builder.Alliance.DidNotReceiveWithAnyArgs().AcceptInvite(default);
             builder.Context.CallsToSaveChanges.Should().Be(0);
         }
 
@@ -60,7 +60,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
 
             action.Should().Throw<FormatException>();
             builder.Alliance.Invites.Should().HaveCount(1);
-            builder.Alliance.DidNotReceiveWithAnyArgs().AddMember(default);
+            builder.Alliance.DidNotReceiveWithAnyArgs().AcceptInvite(default);
             builder.Context.CallsToSaveChanges.Should().Be(0);
         }
 
@@ -78,7 +78,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
 
             action.Should().Throw<InvalidOperationException>();
             builder.Alliance.Invites.Should().HaveCount(1);
-            builder.Alliance.DidNotReceiveWithAnyArgs().AddMember(default);
+            builder.Alliance.DidNotReceiveWithAnyArgs().AcceptInvite(default);
             builder.Context.CallsToSaveChanges.Should().Be(0);
         }
 
@@ -97,7 +97,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
 
             action.Should().Throw<InvalidOperationException>();
             builder.Alliance.Invites.Should().HaveCount(1);
-            builder.Alliance.DidNotReceiveWithAnyArgs().AddMember(default);
+            builder.Alliance.DidNotReceiveWithAnyArgs().AcceptInvite(default);
             builder.Context.CallsToSaveChanges.Should().Be(0);
         }
     }
