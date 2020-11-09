@@ -21,9 +21,7 @@ namespace WarOfEmpires {
             /*
              TODO 
              Alliances
-             Decorators
-             Events
-             Administration
+             - Roles
              */
 
             AreaRegistration.RegisterAllAreas();

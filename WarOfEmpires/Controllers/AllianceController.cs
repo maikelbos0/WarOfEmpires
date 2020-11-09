@@ -205,7 +205,7 @@ namespace WarOfEmpires.Controllers {
         [AllianceAuthorize(CanManageRoles = true)]
         [HttpGet]
         [Route("RoleDetails")]
-        public ViewResult RoleDetails(string id) {
+        public ViewResult RoleDetails(int id) {
             // Explicitly name view so it works from other actions
             return View("RoleDetails", _messageService.Dispatch(new GetRoleDetailsQuery(_authenticationService.Identity, id)));
         }
@@ -213,7 +213,7 @@ namespace WarOfEmpires.Controllers {
         [AllianceAuthorize(CanManageRoles = true)]
         [HttpPost]
         [Route("ClearRole")]
-        public ViewResult ClearRole(string id, string playerId) {
+        public ViewResult ClearRole(int id, int playerId) {
             return BuildViewResultFor(new ClearRoleCommand(_authenticationService.Identity, playerId))
                 .OnSuccess(() => RoleDetails(id))
                 .ThrowOnFailure()
@@ -223,7 +223,7 @@ namespace WarOfEmpires.Controllers {
         [AllianceAuthorize(CanManageRoles = true)]
         [HttpPost]
         [Route("DeleteRole")]
-        public ViewResult DeleteRole(string id) {
+        public ViewResult DeleteRole(int id) {
             return BuildViewResultFor(new DeleteRoleCommand(_authenticationService.Identity, id))
                 .OnSuccess(Roles)
                 .ThrowOnFailure()
@@ -233,14 +233,14 @@ namespace WarOfEmpires.Controllers {
         [AllianceAuthorize(CanManageRoles = true)]
         [HttpGet]
         [Route("SetRole")]
-        public ViewResult SetRole(string id) {
+        public ViewResult SetRole(int id) {
             return View(_messageService.Dispatch(new GetNewRolePlayerQuery(_authenticationService.Identity, id)));
         }
 
         [AllianceAuthorize(CanManageRoles = true)]
         [HttpPost]
         [Route("SetRole")]
-        public ViewResult SetRole(string id, string playerId) {
+        public ViewResult SetRole(int id, int playerId) {
             return BuildViewResultFor(new SetRoleCommand(_authenticationService.Identity, playerId, id))
                 .OnSuccess(() => RoleDetails(id))
                 .ThrowOnFailure()

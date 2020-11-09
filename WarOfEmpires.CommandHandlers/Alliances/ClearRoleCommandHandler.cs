@@ -17,7 +17,7 @@ namespace WarOfEmpires.CommandHandlers.Alliances {
         public CommandResult<ClearRoleCommand> Execute(ClearRoleCommand command) {
             var result = new CommandResult<ClearRoleCommand>();
             var alliance = _repository.Get(command.Email);
-            var member = alliance.Members.Single(p => p.Id == int.Parse(command.PlayerId));
+            var member = alliance.Members.Single(p => p.Id == command.PlayerId);
 
             alliance.ClearRole(member);
             _repository.SaveChanges();

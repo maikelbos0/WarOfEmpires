@@ -22,7 +22,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
                 .WithRole(2, "Peasant", peasant);
 
             var handler = new GetNewRolePlayerQueryHandler(builder.Context);
-            var query = new GetNewRolePlayerQuery("test3@test.com", "2");
+            var query = new GetNewRolePlayerQuery("test3@test.com", 2);
 
             var result = handler.Execute(query);
 
@@ -43,7 +43,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
                 .WithMember(5, email: "wrong@test.com");
 
             var handler = new GetNewRolePlayerQueryHandler(builder.Context);
-            var query = new GetNewRolePlayerQuery("wrong@test.com", "2");
+            var query = new GetNewRolePlayerQuery("wrong@test.com", 2);
 
             Action action = () => handler.Execute(query);
 

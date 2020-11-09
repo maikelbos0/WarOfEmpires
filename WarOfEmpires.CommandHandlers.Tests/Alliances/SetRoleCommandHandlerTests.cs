@@ -18,7 +18,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
                 .WithRole(3, out var role, "Test");
 
             var handler = new SetRoleCommandHandler(new AllianceRepository(builder.Context));
-            var command = new SetRoleCommand("test1@test.com", "1", "3");
+            var command = new SetRoleCommand("test1@test.com", 1, 3);
 
             var result = handler.Execute(command);
 
@@ -36,7 +36,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
                 .WithRole(3, "Test");
 
             var handler = new SetRoleCommandHandler(new AllianceRepository(builder.Context));
-            var command = new SetRoleCommand("wrong@test.com", "1", "3");
+            var command = new SetRoleCommand("wrong@test.com", 1, 3);
 
             Action action = () => handler.Execute(command);
 
@@ -54,7 +54,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
                 .WithMember(1);
 
             var handler = new SetRoleCommandHandler(new AllianceRepository(builder.Context));
-            var command = new SetRoleCommand("test1@test.com", "1", "3");
+            var command = new SetRoleCommand("test1@test.com", 1, 3);
 
             Action action = () => handler.Execute(command);
 
@@ -73,7 +73,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
                 .WithRole(3, "Test");
 
             var handler = new SetRoleCommandHandler(new AllianceRepository(builder.Context));
-            var command = new SetRoleCommand("test1@test.com", "2", "3");
+            var command = new SetRoleCommand("test1@test.com", 2, 3);
 
             Action action = () => handler.Execute(command);
 

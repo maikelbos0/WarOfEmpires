@@ -25,7 +25,7 @@ namespace WarOfEmpires.QueryHandlers.Alliances {
                 .Single(p => EmailComparisonService.Equals(p.User.Email, query.Email))
                 .Alliance;
 
-            var role = alliance.Roles.Single(r => r.Id == int.Parse(query.RoleId));
+            var role = alliance.Roles.Single(r => r.Id == query.RoleId);
 
             return new NewRolePlayersModel() {
                 Id = role.Id,
