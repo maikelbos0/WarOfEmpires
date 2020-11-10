@@ -17,7 +17,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
                 .WithInvite(3, out var invite, player);
 
             var handler = new ReadInviteCommandHandler(new PlayerRepository(builder.Context));
-            var command = new ReadInviteCommand("test1@test.com", "3");
+            var command = new ReadInviteCommand("test1@test.com", 3);
 
             var result = handler.Execute(command);
 

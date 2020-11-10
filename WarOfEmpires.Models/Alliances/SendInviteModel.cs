@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace WarOfEmpires.Models.Alliances {
     public sealed class SendInviteModel {
-        public string PlayerId { get; set; }
+        public int PlayerId { get; set; }
         public string PlayerName { get; set; }
         [DisplayName("Subject")]
         [Required(ErrorMessage = "Subject is required")]

@@ -16,7 +16,7 @@ namespace WarOfEmpires.CommandHandlers.Alliances {
 
         public CommandResult<SendInviteCommand> Execute(SendInviteCommand command) {
             var result = new CommandResult<SendInviteCommand>();
-            var player = _repository.Get(int.Parse(command.PlayerId));
+            var player = _repository.Get(command.PlayerId);
             var member = _repository.Get(command.Email);
             var alliance = member.Alliance;
 

@@ -18,29 +18,13 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
                 .WithInvite(1, out var invite, player);
 
             var handler = new RejectInviteCommandHandler(new PlayerRepository(builder.Context));
-            var command = new RejectInviteCommand("test1@test.com", "1");
+            var command = new RejectInviteCommand("test1@test.com", 1);
 
             var result = handler.Execute(command);
 
             result.Success.Should().BeTrue();
             builder.Alliance.Received().RemoveInvite(invite);
             builder.Context.CallsToSaveChanges.Should().Be(1);
-        }
-
-        [TestMethod]
-        public void RejectInviteCommandHandler_Throws_Exception_For_Alphanumeric_InviteId() {
-            var builder = new FakeBuilder()
-                .WithPlayer(1, out var player)
-                .BuildAlliance(1)
-                .WithInvite(1, player);
-
-            var handler = new RejectInviteCommandHandler(new PlayerRepository(builder.Context));
-            var command = new RejectInviteCommand("test1@test.com", "A");
-
-            Action action = () => handler.Execute(command);
-
-            action.Should().Throw<FormatException>();
-            builder.Context.CallsToSaveChanges.Should().Be(0);
         }
 
         [TestMethod]
@@ -51,7 +35,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
                 .WithInvite(1, player);
 
             var handler = new RejectInviteCommandHandler(new PlayerRepository(builder.Context));
-            var command = new RejectInviteCommand("test1@test.com", "2");
+            var command = new RejectInviteCommand("test1@test.com", 2);
 
             Action action = () => handler.Execute(command);
 
@@ -68,7 +52,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
                 .WithInvite(1, player);
 
             var handler = new RejectInviteCommandHandler(new PlayerRepository(builder.Context));
-            var command = new RejectInviteCommand("wrong@test.com", "1");
+            var command = new RejectInviteCommand("wrong@test.com", 1);
 
             Action action = () => handler.Execute(command);
 

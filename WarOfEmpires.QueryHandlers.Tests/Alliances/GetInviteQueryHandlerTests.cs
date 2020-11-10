@@ -17,7 +17,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
                 .WithLeader(1);
 
             var handler = new GetInviteQueryHandler(builder.Context);
-            var query = new GetInviteQuery("test1@test.com", "1");
+            var query = new GetInviteQuery("test1@test.com", 1);
 
             var result = handler.Execute(query);
 
@@ -40,27 +40,11 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
                 .WithLeader(1);
 
             var handler = new GetInviteQueryHandler(builder.Context);
-            var query = new GetInviteQuery("wrong@test.com", "1");
+            var query = new GetInviteQuery("wrong@test.com", 1);
 
             Action action = () => handler.Execute(query);
 
             action.Should().Throw<NullReferenceException>();
-        }
-
-        [TestMethod]
-        public void GetInviteQueryHandler_Throws_Exception_For_Alphanumeric_MessageId() {
-            var builder = new FakeBuilder()
-                .WithPlayer(4, out var player)
-                .BuildAlliance(1)
-                .WithInvite(1, player, isRead: false, date: new DateTime(2020, 2, 15))
-                .WithLeader(1);
-
-            var handler = new GetInviteQueryHandler(builder.Context);
-            var query = new GetInviteQuery("test1@test.com", "A");
-
-            Action action = () => handler.Execute(query);
-
-            action.Should().Throw<FormatException>();
         }
     }
 }

@@ -18,7 +18,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
                 .WithInvite(1, out var invite, player);
             
             var handler = new AcceptInviteCommandHandler(new PlayerRepository(builder.Context));
-            var command = new AcceptInviteCommand("test1@test.com", "1");
+            var command = new AcceptInviteCommand("test1@test.com", 1);
 
             var result = handler.Execute(command);
 
@@ -36,29 +36,11 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
                 .WithInvite(1, player);
 
             var handler = new AcceptInviteCommandHandler(new PlayerRepository(builder.Context));
-            var command = new AcceptInviteCommand("test1@test.com", "1");
+            var command = new AcceptInviteCommand("test1@test.com", 1);
 
             var result = handler.Execute(command);
 
             result.Should().HaveError("You are already in an alliance; leave your current alliance before accepting an invite");
-            builder.Alliance.Invites.Should().HaveCount(1);
-            builder.Alliance.DidNotReceiveWithAnyArgs().AcceptInvite(default);
-            builder.Context.CallsToSaveChanges.Should().Be(0);
-        }
-
-        [TestMethod]
-        public void AcceptInviteCommandHandler_Throws_Exception_For_Alphanumeric_InviteId() {
-            var builder = new FakeBuilder()
-                .WithPlayer(1, out var player)
-                .BuildAlliance(1)
-                .WithInvite(1, player);
-
-            var handler = new AcceptInviteCommandHandler(new PlayerRepository(builder.Context));
-            var command = new AcceptInviteCommand("test1@test.com", "A");
-
-            Action action = () => handler.Execute(command);
-
-            action.Should().Throw<FormatException>();
             builder.Alliance.Invites.Should().HaveCount(1);
             builder.Alliance.DidNotReceiveWithAnyArgs().AcceptInvite(default);
             builder.Context.CallsToSaveChanges.Should().Be(0);
@@ -72,7 +54,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
                 .WithInvite(1, player);
 
             var handler = new AcceptInviteCommandHandler(new PlayerRepository(builder.Context));
-            var command = new AcceptInviteCommand("test1@test.com", "2");
+            var command = new AcceptInviteCommand("test1@test.com", 2);
 
             Action action = () => handler.Execute(command);
 
@@ -91,7 +73,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
                 .WithInvite(1, player);
 
             var handler = new AcceptInviteCommandHandler(new PlayerRepository(builder.Context));
-            var command = new AcceptInviteCommand("wrong@test.com", "1");
+            var command = new AcceptInviteCommand("wrong@test.com", 1);
 
             Action action = () => handler.Execute(command);
 

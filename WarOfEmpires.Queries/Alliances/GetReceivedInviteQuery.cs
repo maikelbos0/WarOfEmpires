@@ -3,9 +3,9 @@
 namespace WarOfEmpires.Queries.Alliances {
     public sealed class GetReceivedInviteQuery : IQuery<ReceivedInviteDetailsViewModel> {
         public string Email { get; set; }
-        public string InviteId { get; }
+        public int InviteId { get; }
 
-        public GetReceivedInviteQuery(string email, string inviteId) {
+        public GetReceivedInviteQuery(string email, int inviteId) {
             Email = email;
             InviteId = inviteId;
         }
