@@ -31,7 +31,7 @@ namespace WarOfEmpires.Controllers {
 
         [HttpGet]
         [Route("Details")]
-        public ViewResult Details(string id) {
+        public ViewResult Details(int id) {
             return View(_messageService.Dispatch(new GetAllianceDetailsQuery(id)));
         }
 
@@ -163,7 +163,7 @@ namespace WarOfEmpires.Controllers {
         [AllianceAuthorize(CanDeleteChatMessages = true)]
         [HttpPost]
         [Route("DeleteChatMessage")]
-        public ViewResult DeleteChatMessage(string id) {
+        public ViewResult DeleteChatMessage(int id) {
             return BuildViewResultFor(new DeleteChatMessageCommand(_authenticationService.Identity, id))
                 .OnSuccess(Home)
                 .ThrowOnFailure()
