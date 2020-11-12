@@ -51,6 +51,7 @@
     <Compile Include="Alliances\ReadInviteCommand.cs" />
     <Compile Include="Alliances\DeleteChatMessageCommand.cs" />
     <Compile Include="Alliances\SetRoleCommand.cs" />
+    <Compile Include="Alliances\TransferLeadershipCommand.cs" />
     <Compile Include="Alliances\WithdrawInviteCommand.cs" />
     <Compile Include="Alliances\CreateAllianceCommand.cs" />
     <Compile Include="Alliances\RejectInviteCommand.cs" />
