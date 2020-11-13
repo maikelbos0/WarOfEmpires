@@ -23,8 +23,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
             var result = handler.Execute(command);
 
             result.Success.Should().BeTrue();
-            //TODO enable
-            //builder.Alliance.Received().TransferLeadership(member);
+            builder.Alliance.Received().TransferLeadership(member);
             builder.Context.CallsToSaveChanges.Should().Be(1);
         }
 
@@ -42,8 +41,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
             Action action = () => handler.Execute(command);
 
             action.Should().Throw<NullReferenceException>();
-            //TODO enable
-            //builder.Alliance.DidNotReceiveWithAnyArgs().TransferLeadership(default);
+            builder.Alliance.DidNotReceiveWithAnyArgs().TransferLeadership(default);
             builder.Context.CallsToSaveChanges.Should().Be(0);
         }
 
@@ -61,8 +59,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
             Action action = () => handler.Execute(command);
 
             action.Should().Throw<InvalidOperationException>();
-            //TODO enable
-            //builder.Alliance.DidNotReceiveWithAnyArgs().TransferLeadership(default);
+            builder.Alliance.DidNotReceiveWithAnyArgs().TransferLeadership(default);
             builder.Context.CallsToSaveChanges.Should().Be(0);
         }
 
@@ -78,8 +75,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
             Action action = () => handler.Execute(command);
 
             action.Should().Throw<InvalidOperationException>();
-            //TODO enable
-            //builder.Alliance.DidNotReceiveWithAnyArgs().TransferLeadership(default);
+            builder.Alliance.DidNotReceiveWithAnyArgs().TransferLeadership(default);
             builder.Context.CallsToSaveChanges.Should().Be(0);
         }
 
@@ -96,8 +92,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
             Action action = () => handler.Execute(command);
 
             action.Should().Throw<InvalidOperationException>();
-            //TODO enable
-            //builder.Alliance.DidNotReceiveWithAnyArgs().TransferLeadership(default);
+            builder.Alliance.DidNotReceiveWithAnyArgs().TransferLeadership(default);
             builder.Context.CallsToSaveChanges.Should().Be(0);
         }
     }

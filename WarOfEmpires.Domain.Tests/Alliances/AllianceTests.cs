@@ -161,5 +161,17 @@ namespace WarOfEmpires.Domain.Tests.Alliances {
             alliance.ClearRole(leader);
             role.Players.Should().BeEquivalentTo(member);
         }
+
+        [TestMethod]
+        public void Alliance_TransferLeadership_Succeeds() {
+            var leader = new Player(1, "Member 1");
+            var member = new Player(2, "Member 2");
+            var alliance = new Alliance(leader, "TEST", "The Test");
+
+            alliance.Members.Add(member);
+
+            alliance.TransferLeadership(member);
+            alliance.Leader.Should().Be(member);
+        }
     }
 }
