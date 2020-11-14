@@ -46,24 +46,6 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
         }
 
         [TestMethod]
-        public void TransferLeadershipCommandHandler_Throws_Exception_When_Not_Leader() {
-            var builder = new FakeBuilder()
-                .BuildAlliance(1)
-                .WithLeader(2)
-                .WithMember(1)
-                .WithMember(3);
-
-            var handler = new TransferLeadershipCommandHandler(new AllianceRepository(builder.Context));
-            var command = new TransferLeadershipCommand("test1@test.com", 3);
-
-            Action action = () => handler.Execute(command);
-
-            action.Should().Throw<InvalidOperationException>();
-            builder.Alliance.DidNotReceiveWithAnyArgs().TransferLeadership(default);
-            builder.Context.CallsToSaveChanges.Should().Be(0);
-        }
-
-        [TestMethod]
         public void TransferLeadershipCommandHandler_Throws_Exception_For_Member_Current_Leader() {
             var builder = new FakeBuilder()
                 .BuildAlliance(1)

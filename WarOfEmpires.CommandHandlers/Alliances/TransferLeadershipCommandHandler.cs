@@ -1,4 +1,6 @@
-﻿using WarOfEmpires.CommandHandlers.Decorators;
+﻿using System;
+using System.Linq;
+using WarOfEmpires.CommandHandlers.Decorators;
 using WarOfEmpires.Commands.Alliances;
 using WarOfEmpires.Repositories.Alliances;
 using WarOfEmpires.Utilities.Container;
@@ -14,7 +16,18 @@ namespace WarOfEmpires.CommandHandlers.Alliances {
         }
 
         public CommandResult<TransferLeadershipCommand> Execute(TransferLeadershipCommand command) {
-            throw new System.NotImplementedException();
+            var result = new CommandResult<TransferLeadershipCommand>();
+            var alliance = _repository.Get(command.Email);
+            var newLeader = alliance.Members.Single(p => p.Id == command.MemberId);
+
+            if (alliance.Leader == newLeader) {
+                throw new InvalidOperationException("You can't transfer leadership to yourself");
+            }
+
+            alliance.TransferLeadership(newLeader);
+            _repository.SaveChanges();
+
+            return result;
         }
     }
 }
