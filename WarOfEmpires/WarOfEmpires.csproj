@@ -541,6 +541,7 @@
     <Content Include="Views\Alliance\CreateRole.cshtml" />
     <Content Include="Views\Alliance\RoleDetails.cshtml" />
     <Content Include="Views\Alliance\SetRole.cshtml" />
+    <Content Include="Views\Alliance\TransferLeadership.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

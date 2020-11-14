@@ -20,7 +20,8 @@ namespace WarOfEmpires.Controllers {
         [Route]
         [Route("Index")]
         public ViewResult Index() {
-            return View(new AllianceSearchModel());
+            // Explicitly name view so it works from other actions
+            return View("Index", new AllianceSearchModel());
         }
 
         [Route("GetAlliances")]
@@ -266,5 +267,14 @@ namespace WarOfEmpires.Controllers {
                 .ThrowOnFailure()
                 .Execute();
         }
+
+        [AllianceAuthorize(CanTransferLeadership = true)]
+        [HttpGet]
+        [Route("TransferLeadership")]
+        public ViewResult TransferLeadership() {
+            return View();
+        }
+
+        // TODO post
     }
 }
