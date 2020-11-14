@@ -5,5 +5,6 @@
         public bool CanManageRoles { get; set; }
         public bool CanDeleteChatMessages { get; set; }
         public bool CanKickMembers { get; set; }
+        public bool CanTransferLeadership { get; set; }
     }
 }
