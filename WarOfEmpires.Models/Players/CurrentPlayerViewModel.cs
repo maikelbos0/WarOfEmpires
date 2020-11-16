@@ -6,6 +6,7 @@
         public bool CanInvite { get; set; }
         public bool CanManageRoles { get; set; }
         public bool CanLeaveAlliance { get; set; }
+        public bool CanDisbandAlliance { get; set; }
         public string DisplayName { get; set; }
     }
 }
