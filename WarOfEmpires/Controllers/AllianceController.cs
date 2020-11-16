@@ -272,9 +272,17 @@ namespace WarOfEmpires.Controllers {
         [HttpGet]
         [Route("TransferLeadership")]
         public ViewResult TransferLeadership() {
-            return View();
+            return View(_messageService.Dispatch(new GetNewLeaderQuery(_authenticationService.Identity)));
         }
 
-        // TODO post
+        [AllianceAuthorize(CanTransferLeadership = true)]
+        [HttpPost]
+        [Route("TransferLeadership")]
+        public ViewResult TransferLeadership(int memberId) {
+            return BuildViewResultFor(new TransferLeadershipCommand(_authenticationService.Identity, memberId))
+                .OnSuccess(Home)
+                .ThrowOnFailure()
+                .Execute();
+        }
     }
 }

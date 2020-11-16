@@ -1,1 +1,30 @@
-﻿
+﻿@model WarOfEmpires.Models.Alliances.NewLeadersModel
+
+@{
+    ViewBag.Title = $"Transfer leadership";
+}
+
+<h2>Transfer leadership</h2>
+
+<p>
+    Choose a new leader to lead your alliance.
+</p>
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "html-only" })) {
+    <div class="row">
+        <div class="col-12 col-md-6 offset-md-3">
+            <div class="form-group">
+                @Html.LabelFor(m => m.MemberId, new { @class = "site-required" })
+                @Html.DropDownListFor(m => m.MemberId, Model.Members.Select(m => new SelectListItem() {
+                    Value = m.Id.ToString(),
+                    Text = m.DisplayName
+                }), new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.MemberId, null, new { @class = "small form-text text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-6 offset-6 col-md-3"><button type="submit" class="btn btn-primary form-control">Transfer leadership</button></div>
+    </div>
+}
