@@ -45,6 +45,7 @@
     <Compile Include="Alliances\ClearRoleCommand.cs" />
     <Compile Include="Alliances\CreateRoleCommand.cs" />
     <Compile Include="Alliances\DeleteRoleCommand.cs" />
+    <Compile Include="Alliances\DisbandAllianceCommand.cs" />
     <Compile Include="Alliances\KickFromAllianceCommand.cs" />
     <Compile Include="Alliances\LeaveAllianceCommand.cs" />
     <Compile Include="Alliances\PostChatMessageCommand.cs" />

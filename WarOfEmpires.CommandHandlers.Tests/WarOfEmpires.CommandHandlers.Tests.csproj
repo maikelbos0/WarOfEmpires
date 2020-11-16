@@ -102,6 +102,7 @@
     <Compile Include="Alliances\CreateAllianceCommandHandlerTests.cs" />
     <Compile Include="Alliances\CreateRoleCommandHandlerTests.cs" />
     <Compile Include="Alliances\DeleteRoleCommandHandlerTests.cs" />
+    <Compile Include="Alliances\DisbandAllianceCommandHandlerTests.cs" />
     <Compile Include="Alliances\KickFromAllianceCommandHandlerTests.cs" />
     <Compile Include="Alliances\LeaveAllianceCommandHandlerTests.cs" />
     <Compile Include="Alliances\PostChatMessageCommandHandlerTests.cs" />
