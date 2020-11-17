@@ -65,5 +65,11 @@ namespace WarOfEmpires.Domain.Alliances {
         public virtual void ClearRole(Player member) {
             Roles.Single(r => r.Players.Contains(member)).Players.Remove(member);
         }
+
+        // TODO test cascade paths of invites, roles, chatmessages
+        public virtual void Disband() {
+            Members.Clear();
+            Leader = null;
+        }
     }
 }

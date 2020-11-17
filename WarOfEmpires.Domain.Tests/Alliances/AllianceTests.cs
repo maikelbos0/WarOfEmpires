@@ -161,5 +161,20 @@ namespace WarOfEmpires.Domain.Tests.Alliances {
             alliance.ClearRole(leader);
             role.Players.Should().BeEquivalentTo(member);
         }
+
+        [TestMethod]
+        public void Alliance_Disband_Succeeds() {
+            var leader = new Player(1, "Member");
+            var member = new Player(2, "Player");
+            var alliance = new Alliance(leader, "TEST", "The Test");
+
+            alliance.Members.Add(leader);
+            alliance.Members.Add(member);
+
+            alliance.Disband();
+
+            alliance.Leader.Should().BeNull();
+            alliance.Members.Should().BeEmpty();
+        }
     }
 }
