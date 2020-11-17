@@ -18,5 +18,10 @@ namespace WarOfEmpires.Repositories.Alliances {
             _context.Alliances.Add(alliance);
             _context.SaveChanges();
         }
+
+        public void Remove(Alliance alliance) {
+            _context.Alliances.Remove(alliance);
+            _context.SaveChanges();
+        }
     }
 }
