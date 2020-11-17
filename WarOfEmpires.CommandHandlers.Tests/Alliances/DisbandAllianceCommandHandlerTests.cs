@@ -14,7 +14,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
         public void DisbandAllianceCommandHandler_Succeeds() {
             var builder = new FakeBuilder()
                 .BuildAlliance(1)
-                .WithLeader(1, out var leader);            
+                .WithLeader(1);
 
             var handler = new DisbandAllianceCommandHandler(new AllianceRepository(builder.Context));
             var command = new DisbandAllianceCommand("test1@test.com");
@@ -22,17 +22,16 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
             var result = handler.Execute(command);
 
             result.Success.Should().BeTrue();
-            // TODO enable
-            // builder.Alliance.Received().Disband(leader);
-            // TODO test delete
+            builder.Alliance.Received().Disband();
+            builder.Context.Alliances.Should().NotContain(builder.Alliance);
             builder.Context.CallsToSaveChanges.Should().Be(1);
         }
 
         [TestMethod]
         public void DisbandAllianceCommandHandler_Throws_Exception_For_Player_Not_In_Alliance() {
             var builder = new FakeBuilder()
-                .BuildAlliance(1)
-                .WithPlayer(1);
+                .WithPlayer(1)
+                .BuildAlliance(1);
 
             var handler = new DisbandAllianceCommandHandler(new AllianceRepository(builder.Context));
             var command = new DisbandAllianceCommand("test1@test.com");
@@ -40,7 +39,8 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
             Action action = () => handler.Execute(command);
 
             action.Should().Throw<InvalidOperationException>();
-            // TODO test delete
+            builder.Alliance.DidNotReceiveWithAnyArgs().Disband();
+            builder.Context.Alliances.Should().Contain(builder.Alliance);
             builder.Context.CallsToSaveChanges.Should().Be(0);
         }
     }
