@@ -14,7 +14,13 @@ namespace WarOfEmpires.CommandHandlers.Alliances {
         }
 
         public CommandResult<DisbandAllianceCommand> Execute(DisbandAllianceCommand command) {
-            throw new System.NotImplementedException();
+            var result = new CommandResult<DisbandAllianceCommand>();
+            var alliance = _repository.Get(command.Email);
+
+            alliance.Disband();
+            _repository.Remove(alliance);
+
+            return result;
         }
     }
 }
