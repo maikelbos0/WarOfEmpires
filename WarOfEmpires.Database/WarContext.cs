@@ -54,7 +54,7 @@ namespace WarOfEmpires.Database {
         }
 
         private IEnumerable<TEntity> GetChangeTrackerEntities<TEntity>() {
-            return ChangeTracker.Entries().Select(e => e.Entity).OfType<TEntity>();
+            return ChangeTracker.Entries().Where(e => e.State != EntityState.Deleted).Select(e => e.Entity).OfType<TEntity>();
         }
 
         private void DeleteOrphanedCaravans() {

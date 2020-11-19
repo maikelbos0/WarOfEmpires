@@ -167,14 +167,20 @@ namespace WarOfEmpires.Domain.Tests.Alliances {
             var leader = new Player(1, "Member");
             var member = new Player(2, "Player");
             var alliance = new Alliance(leader, "TEST", "The Test");
+            var role = new Role(alliance, "Testrole", false, false, false, false);
 
             alliance.Members.Add(leader);
             alliance.Members.Add(member);
+
+            alliance.Roles.Add(role);
+            role.Players.Add(leader);
+            role.Players.Add(member);
 
             alliance.Disband();
 
             alliance.Leader.Should().BeNull();
             alliance.Members.Should().BeEmpty();
+            role.Players.Should().BeEmpty();
         }
     }
 }

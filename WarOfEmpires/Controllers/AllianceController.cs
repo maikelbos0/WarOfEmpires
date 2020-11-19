@@ -20,7 +20,7 @@ namespace WarOfEmpires.Controllers {
         [Route]
         [Route("Index")]
         public ViewResult Index() {
-            return View(new AllianceSearchModel());
+            return View("Index", new AllianceSearchModel());
         }
 
         [Route("GetAlliances")]
