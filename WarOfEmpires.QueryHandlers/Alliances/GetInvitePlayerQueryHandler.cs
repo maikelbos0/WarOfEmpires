@@ -17,9 +17,8 @@ namespace WarOfEmpires.QueryHandlers.Alliances {
         }
 
         public SendInviteModel Execute(GetInvitePlayerQuery query) {
-            var playerId = int.Parse(query.PlayerId);
             var player = _context.Players
-                .Single(p => p.User.Status == UserStatus.Active && p.Id == playerId);
+                .Single(p => p.User.Status == UserStatus.Active && p.Id == query.PlayerId);
 
             return new SendInviteModel() {
                 PlayerId = query.PlayerId,

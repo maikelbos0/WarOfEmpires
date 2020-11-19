@@ -30,13 +30,13 @@ namespace WarOfEmpires.Controllers {
 
         [Route("Send")]
         [HttpGet]
-        public ViewResult Send(string recipientId) {
+        public ViewResult Send(int recipientId) {
             return View(_messageService.Dispatch(new GetMessageRecipientQuery(recipientId)));
         }
 
         [Route("Reply")]
         [HttpGet]
-        public ViewResult Reply(string messageId) {
+        public ViewResult Reply(int messageId) {
             return View("Send", _messageService.Dispatch(new GetReplyToMessageQuery(_authenticationService.Identity, messageId)));
         }
 
@@ -52,7 +52,7 @@ namespace WarOfEmpires.Controllers {
 
         [Route("ReceivedDetails")]
         [HttpGet]
-        public ViewResult ReceivedDetails(string id) {
+        public ViewResult ReceivedDetails(int id) {
             var model = _messageService.Dispatch(new GetReceivedMessageQuery(_authenticationService.Identity, id));
 
             if (!model.IsRead) {
@@ -77,7 +77,7 @@ namespace WarOfEmpires.Controllers {
 
         [Route("SentDetails")]
         [HttpGet]
-        public ViewResult SentDetails(string id) {
+        public ViewResult SentDetails(int id) {
             return View(_messageService.Dispatch(new GetSentMessageQuery(_authenticationService.Identity, id)));
         }
     }

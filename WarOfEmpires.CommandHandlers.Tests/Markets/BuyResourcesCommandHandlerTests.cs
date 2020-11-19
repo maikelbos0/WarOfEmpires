@@ -27,7 +27,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
 
             var handler = new BuyResourcesCommandHandler(new PlayerRepository(builder.Context), new EnumFormatter());
             var command = new BuyResourcesCommand("test1@test.com", new List<MerchandiseInfo>() {
-                new MerchandiseInfo("Wood", "16000", "5")
+                new MerchandiseInfo("Wood", 16000, 5)
             });
 
             var result = handler.Execute(command);
@@ -53,7 +53,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
 
             var handler = new BuyResourcesCommandHandler(new PlayerRepository(builder.Context), new EnumFormatter());
             var command = new BuyResourcesCommand("test1@test.com", new List<MerchandiseInfo>() {
-                new MerchandiseInfo("Wood", "16000", "5")
+                new MerchandiseInfo("Wood", 16000, 5)
             });
 
             handler.Execute(command);
@@ -71,7 +71,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
 
             var handler = new BuyResourcesCommandHandler(new PlayerRepository(builder.Context), new EnumFormatter());
             var command = new BuyResourcesCommand("seller@test.com", new List<MerchandiseInfo>() {
-                new MerchandiseInfo("Wood", "1", "5")
+                new MerchandiseInfo("Wood", 1, 5)
             });
 
             var result = handler.Execute(command);
@@ -90,7 +90,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
 
             var handler = new BuyResourcesCommandHandler(new PlayerRepository(builder.Context), new EnumFormatter());
             var command = new BuyResourcesCommand("test1@test.com", new List<MerchandiseInfo>() {
-                new MerchandiseInfo("Wood", "", "")
+                new MerchandiseInfo("Wood", null, null)
             });
 
             var result = handler.Execute(command);
@@ -108,7 +108,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
 
             var handler = new BuyResourcesCommandHandler(new PlayerRepository(builder.Context), new EnumFormatter());
             var command = new BuyResourcesCommand("test1@test.com", new List<MerchandiseInfo>() {
-                new MerchandiseInfo("Test", "1", "1")
+                new MerchandiseInfo("Test", 1, 1)
             });
 
             Action action = () => handler.Execute(command);
@@ -127,7 +127,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
 
             var handler = new BuyResourcesCommandHandler(new PlayerRepository(builder.Context), new EnumFormatter());
             var command = new BuyResourcesCommand("test1@test.com", new List<MerchandiseInfo>() {
-                new MerchandiseInfo("Wood", "6000", "5")
+                new MerchandiseInfo("Wood", 6000, 5)
             });
 
             var result = handler.Execute(command);
@@ -146,7 +146,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
 
             var handler = new BuyResourcesCommandHandler(new PlayerRepository(builder.Context), new EnumFormatter());
             var command = new BuyResourcesCommand("test1@test.com", new List<MerchandiseInfo>() {
-                new MerchandiseInfo("Wood", "10001", "5")
+                new MerchandiseInfo("Wood", 10001, 5)
             });
 
             var result = handler.Execute(command);
@@ -158,82 +158,6 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
         }
 
         [TestMethod]
-        public void BuyResourcesCommandHandler_Fails_For_Alphanumeric_Quantity() {
-            var builder = new FakeBuilder()
-                .WithPlayer(1)
-                .BuildPlayer(2, email: "seller@test.com")
-                .WithCaravan(1, out var caravan, new Merchandise(MerchandiseType.Wood, 10000, 5));
-
-            var handler = new BuyResourcesCommandHandler(new PlayerRepository(builder.Context), new EnumFormatter());
-            var command = new BuyResourcesCommand("test1@test.com", new List<MerchandiseInfo>() {
-                new MerchandiseInfo("Food", "A", "5")
-            });
-
-            var result = handler.Execute(command);
-
-            result.Should().HaveError("Merchandise[0].Quantity", "Invalid number");
-            caravan.DidNotReceiveWithAnyArgs().Buy(default, default, default);
-            builder.Context.CallsToSaveChanges.Should().Be(0);
-        }
-
-        [TestMethod]
-        public void BuyResourcesCommandHandler_Fails_For_Negative_Quantity() {
-            var builder = new FakeBuilder()
-                .WithPlayer(1)
-                .BuildPlayer(2, email: "seller@test.com")
-                .WithCaravan(1, out var caravan, new Merchandise(MerchandiseType.Wood, 10000, 5));
-
-            var handler = new BuyResourcesCommandHandler(new PlayerRepository(builder.Context), new EnumFormatter());
-            var command = new BuyResourcesCommand("test1@test.com", new List<MerchandiseInfo>() {
-                new MerchandiseInfo("Wood", "-1", "5")
-            });
-
-            var result = handler.Execute(command);
-
-            result.Should().HaveError("Merchandise[0].Quantity", "Invalid number");
-            caravan.DidNotReceiveWithAnyArgs().Buy(default, default, default);
-            builder.Context.CallsToSaveChanges.Should().Be(0);
-        }
-
-        [TestMethod]
-        public void BuyResourcesCommandHandler_Fails_For_Alphanumeric_Price() {
-            var builder = new FakeBuilder()
-                .WithPlayer(1)
-                .BuildPlayer(2, email: "seller@test.com")
-                .WithCaravan(1, out var caravan, new Merchandise(MerchandiseType.Wood, 10000, 5));
-
-            var handler = new BuyResourcesCommandHandler(new PlayerRepository(builder.Context), new EnumFormatter());
-            var command = new BuyResourcesCommand("test1@test.com", new List<MerchandiseInfo>() {
-                new MerchandiseInfo("Wood", "10000", "A")
-            });
-
-            var result = handler.Execute(command);
-
-            result.Should().HaveError("Merchandise[0].Price", "Invalid number");
-            caravan.DidNotReceiveWithAnyArgs().Buy(default, default, default);
-            builder.Context.CallsToSaveChanges.Should().Be(0);
-        }
-
-        [TestMethod]
-        public void BuyResourcesCommandHandler_Fails_For_Negative_Price() {
-            var builder = new FakeBuilder()
-                .WithPlayer(1)
-                .BuildPlayer(2, email: "seller@test.com")
-                .WithCaravan(1, out var caravan, new Merchandise(MerchandiseType.Wood, 10000, 5));
-
-            var handler = new BuyResourcesCommandHandler(new PlayerRepository(builder.Context), new EnumFormatter());
-            var command = new BuyResourcesCommand("test1@test.com", new List<MerchandiseInfo>() {
-                new MerchandiseInfo("Wood", "16000", "-1")
-            });
-
-            var result = handler.Execute(command);
-
-            result.Should().HaveError("Merchandise[0].Price", "Invalid number");
-            caravan.DidNotReceiveWithAnyArgs().Buy(default, default, default);
-            builder.Context.CallsToSaveChanges.Should().Be(0);
-        }
-
-        [TestMethod]
         public void BuyResourcesCommandHandler_Fails_For_Quantity_Without_Price() {
             var builder = new FakeBuilder()
                 .WithPlayer(1)
@@ -242,7 +166,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
 
             var handler = new BuyResourcesCommandHandler(new PlayerRepository(builder.Context), new EnumFormatter());
             var command = new BuyResourcesCommand("test1@test.com", new List<MerchandiseInfo>() {
-                new MerchandiseInfo("Wood", "16000", "")
+                new MerchandiseInfo("Wood", 16000, null)
             });
 
             var result = handler.Execute(command);

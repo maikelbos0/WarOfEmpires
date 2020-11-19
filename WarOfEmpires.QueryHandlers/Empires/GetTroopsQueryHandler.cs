@@ -41,7 +41,7 @@ namespace WarOfEmpires.QueryHandlers.Empires {
                 HasUpkeepRunOut = player.HasUpkeepRunOut,
                 CurrentStamina = player.Stamina,
                 HasSoldierShortage = player.GetSoldierRecruitsPenalty() > 0,
-                StaminaToHeal = player.GetStaminaToHeal().ToString()
+                StaminaToHeal = player.GetStaminaToHeal()
             };
         }
 

@@ -7,7 +7,7 @@ namespace WarOfEmpires.Models.Alliances {
         public string Name { get; set; }
         [DisplayName("Player")]
         [Required(ErrorMessage = "Player is required")]
-        public string PlayerId { get; set; }
+        public int PlayerId { get; set; }
 
         public List<NewRolePlayerModel> Players { get; set; }
     }

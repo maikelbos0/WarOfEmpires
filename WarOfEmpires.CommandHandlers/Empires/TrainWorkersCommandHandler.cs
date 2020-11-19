@@ -23,17 +23,11 @@ namespace WarOfEmpires.CommandHandlers.Empires {
             var player = _repository.Get(command.Email);
             var workers = new List<WorkerInfo>();
 
-            for (var index = 0; index < command.Workers.Count; index++) {
-                var i = index; // Don't use iterator in lambdas
+            for (var i = 0; i < command.Workers.Count; i++) {
                 var type = (WorkerType)Enum.Parse(typeof(WorkerType), command.Workers[i].Type);
-                int count = 0;
-
-                if (!string.IsNullOrEmpty(command.Workers[i].Count) && !int.TryParse(command.Workers[i].Count, out count) || count < 0) {
-                    result.AddError(c => c.Workers[i].Count, "Invalid number");
-                }
-
-                if (result.Success && count > 0) {
-                    workers.Add(new WorkerInfo(type, count));
+                
+                if (result.Success && command.Workers[i].Count.HasValue) {
+                    workers.Add(new WorkerInfo(type, command.Workers[i].Count.Value));
                 }
             }
 

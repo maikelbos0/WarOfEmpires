@@ -18,7 +18,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Attacks {
                 .WithPlayer(2, out var defender);
 
             var handler = new AttackCommandHandler(new PlayerRepository(builder.Context));
-            var command = new AttackCommand("Raid", "test1@test.com", "2", "10");
+            var command = new AttackCommand("Raid", "test1@test.com", 2, 10);
 
             var result = handler.Execute(command);
 
@@ -33,7 +33,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Attacks {
                 .WithPlayer(1, out var player);
 
             var handler = new AttackCommandHandler(new PlayerRepository(builder.Context));
-            var command = new AttackCommand("Raid", "test1@test.com", "1", "10");
+            var command = new AttackCommand("Raid", "test1@test.com", 1, 10);
 
             Action action = () => handler.Execute(command);
 
@@ -49,28 +49,12 @@ namespace WarOfEmpires.CommandHandlers.Tests.Attacks {
                 .WithMember(2, out var defender);
 
             var handler = new AttackCommandHandler(new PlayerRepository(builder.Context));
-            var command = new AttackCommand("Raid", "test1@test.com", "2", "10");
+            var command = new AttackCommand("Raid", "test1@test.com", 2, 10);
 
             Action action = () => handler.Execute(command);
 
             action.Should().Throw<InvalidOperationException>();
             attacker.DidNotReceiveWithAnyArgs().ExecuteAttack(default, default, default);
-        }
-
-        [TestMethod]
-        public void AttackCommandHandler_Throws_Exception_For_Alphanumeric_Defender() {
-            var builder = new FakeBuilder()
-                .WithPlayer(1, out var attacker)
-                .WithPlayer(2, out var defender);
-
-            var handler = new AttackCommandHandler(new PlayerRepository(builder.Context));
-            var command = new AttackCommand("Raid", "test1@test.com", "A", "10");
-
-            Action action = () => handler.Execute(command);
-
-            action.Should().Throw<FormatException>();
-            attacker.DidNotReceiveWithAnyArgs().ExecuteAttack(default, default, default);
-            builder.Context.CallsToSaveChanges.Should().Be(0);
         }
 
         [TestMethod]
@@ -80,7 +64,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Attacks {
                 .WithPlayer(2, out var defender);
 
             var handler = new AttackCommandHandler(new PlayerRepository(builder.Context));
-            var command = new AttackCommand("Raid", "test1@test.com", "5", "10");
+            var command = new AttackCommand("Raid", "test1@test.com", 5, 10);
 
             Action action = () => handler.Execute(command);
 
@@ -96,7 +80,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Attacks {
                 .WithPlayer(2, out var defender);
 
             var handler = new AttackCommandHandler(new PlayerRepository(builder.Context));
-            var command = new AttackCommand("wrong", "test1@test.com", "5", "10");
+            var command = new AttackCommand("wrong", "test1@test.com", 5, 10);
 
             Action action = () => handler.Execute(command);
 
@@ -114,27 +98,11 @@ namespace WarOfEmpires.CommandHandlers.Tests.Attacks {
                 .WithPlayer(2, out var defender);
 
             var handler = new AttackCommandHandler(new PlayerRepository(builder.Context));
-            var command = new AttackCommand(typeParameter, "test1@test.com", "2", "10");
+            var command = new AttackCommand(typeParameter, "test1@test.com", 2, 10);
 
             handler.Execute(command);
 
             attacker.Received().ExecuteAttack(attackType, defender, 10);
-        }
-
-        [TestMethod]
-        public void AttackCommandHandler_Fails_For_AlphaNumeric_Turns() {
-            var builder = new FakeBuilder()
-                .WithPlayer(1, out var attacker)
-                .WithPlayer(2);
-
-            var handler = new AttackCommandHandler(new PlayerRepository(builder.Context));
-            var command = new AttackCommand("Raid", "test1@test.com", "2", "A");
-
-            var result = handler.Execute(command);
-
-            result.Should().HaveError("Turns", "Turns must be a valid number");
-            attacker.DidNotReceiveWithAnyArgs().ExecuteAttack(default, default, default);
-            builder.Context.CallsToSaveChanges.Should().Be(0);
         }
 
         [TestMethod]
@@ -144,43 +112,11 @@ namespace WarOfEmpires.CommandHandlers.Tests.Attacks {
                 .WithPlayer(2);
 
             var handler = new AttackCommandHandler(new PlayerRepository(builder.Context));
-            var command = new AttackCommand("Raid", "test1@test.com", "2", "10");
+            var command = new AttackCommand("Raid", "test1@test.com", 2, 10);
 
             var result = handler.Execute(command);
 
             result.Should().HaveError("Turns", "You don't have enough attack turns");
-            attacker.DidNotReceiveWithAnyArgs().ExecuteAttack(default, default, default);
-            builder.Context.CallsToSaveChanges.Should().Be(0);
-        }
-
-        [TestMethod]
-        public void AttackCommandHandler_Fails_For_Less_Than_One_Turn() {
-            var builder = new FakeBuilder()
-                .WithPlayer(1, out var attacker)
-                .WithPlayer(2);
-
-            var handler = new AttackCommandHandler(new PlayerRepository(builder.Context));
-            var command = new AttackCommand("Raid", "test1@test.com", "2", "0");
-
-            var result = handler.Execute(command);
-
-            result.Should().HaveError("Turns", "Turns must be a valid number");
-            attacker.DidNotReceiveWithAnyArgs().ExecuteAttack(default, default, default);
-            builder.Context.CallsToSaveChanges.Should().Be(0);
-        }
-
-        [TestMethod]
-        public void AttackCommandHandler_Fails_For_More_Than_Ten_Turns() {
-            var builder = new FakeBuilder()
-                .WithPlayer(1, out var attacker)
-                .WithPlayer(2);
-
-            var handler = new AttackCommandHandler(new PlayerRepository(builder.Context));
-            var command = new AttackCommand("Raid", "test1@test.com", "2", "11");
-
-            var result = handler.Execute(command);
-
-            result.Should().HaveError("Turns", "Turns must be a valid number");
             attacker.DidNotReceiveWithAnyArgs().ExecuteAttack(default, default, default);
             builder.Context.CallsToSaveChanges.Should().Be(0);
         }

@@ -1,9 +1,9 @@
 ﻿namespace WarOfEmpires.Commands.Alliances {
     public sealed class DeleteRoleCommand : ICommand {
         public string Email { get; }
-        public string RoleId { get; }
+        public int RoleId { get; }
 
-        public DeleteRoleCommand(string email, string roleId) {
+        public DeleteRoleCommand(string email, int roleId) {
             Email = email;
             RoleId = roleId;
         }

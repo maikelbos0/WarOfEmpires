@@ -21,7 +21,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
                 .WithRole(2, "Peasant", peasant, inactivePeasant);
 
             var handler = new GetRoleDetailsQueryHandler(builder.Context);
-            var query = new GetRoleDetailsQuery("test3@test.com", "2");
+            var query = new GetRoleDetailsQuery("test3@test.com", 2);
 
             var result = handler.Execute(query);
 
@@ -47,7 +47,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
                 .WithMember(5, email: "wrong@test.com");
 
             var handler = new GetRoleDetailsQueryHandler(builder.Context);
-            var query = new GetRoleDetailsQuery("wrong@test.com", "1");
+            var query = new GetRoleDetailsQuery("wrong@test.com", 1);
 
             Action action = () => handler.Execute(query);
 

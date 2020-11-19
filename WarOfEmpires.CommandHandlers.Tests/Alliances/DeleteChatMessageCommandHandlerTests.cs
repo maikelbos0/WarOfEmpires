@@ -19,7 +19,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
                 .WithChatMessage(2, out var chatMessage, leader, new DateTime(2020, 1, 1), "Test 2");
 
             var handler = new DeleteChatMessageCommandHandler(new AllianceRepository(builder.Context));
-            var command = new DeleteChatMessageCommand("test1@test.com", "2");
+            var command = new DeleteChatMessageCommand("test1@test.com", 2);
 
             var result = handler.Execute(command);
 
@@ -37,7 +37,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
                 .WithChatMessage(1, leader, new DateTime(2020, 1, 1), "Test 1");
 
             var handler = new DeleteChatMessageCommandHandler(new AllianceRepository(builder.Context));
-            var command = new DeleteChatMessageCommand("test1@test.com", "2");
+            var command = new DeleteChatMessageCommand("test1@test.com", 2);
 
             Action action = () => handler.Execute(command);
 

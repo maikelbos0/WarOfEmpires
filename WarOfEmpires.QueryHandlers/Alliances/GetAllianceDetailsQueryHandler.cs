@@ -21,19 +21,18 @@ namespace WarOfEmpires.QueryHandlers.Alliances {
         }
 
         public AllianceDetailsViewModel Execute(GetAllianceDetailsQuery query) {
-            var id = int.Parse(query.Id);
             var alliance = _context.Alliances
                 .Include(a => a.Leader)
-                .Single(a => a.Id == id);
+                .Single(a => a.Id == query.Id);
             var members = _context.Players
                 .Include(p => p.Workers)
                 .Include(p => p.Troops)
-                .Where(p => p.User.Status == UserStatus.Active && p.Alliance.Id == id)
+                .Where(p => p.User.Status == UserStatus.Active && p.Alliance.Id == query.Id)
                 .OrderBy(p => p.Rank)
                 .ToList();
 
             return new AllianceDetailsViewModel() {
-                Id = id,
+                Id = query.Id,
                 Code = alliance.Code,
                 Name = alliance.Name,
                 LeaderId = alliance.Leader.Id,

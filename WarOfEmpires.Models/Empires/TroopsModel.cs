@@ -6,7 +6,7 @@ namespace WarOfEmpires.Models.Empires {
     public sealed class TroopsModel {
         [DisplayName("Stamina to heal")]
         [RegularExpression("^\\d{1,3}$", ErrorMessage = "Stamina to heal must be a valid number")]
-        public string StaminaToHeal { get; set; }
+        public int StaminaToHeal { get; set; }
         public int CurrentPeasants { get; set; }
         public List<TroopModel> Troops { get; set; }
         public ResourcesViewModel MercenaryTrainingCost { get; set; }

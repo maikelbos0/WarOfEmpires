@@ -2,9 +2,9 @@
 
 namespace WarOfEmpires.Queries.Alliances {
     public sealed class GetAllianceDetailsQuery : IQuery<AllianceDetailsViewModel> {
-        public string Id { get; }
+        public int Id { get; }
 
-        public GetAllianceDetailsQuery(string id) {
+        public GetAllianceDetailsQuery(int id) {
             Id = id;
         }
     }

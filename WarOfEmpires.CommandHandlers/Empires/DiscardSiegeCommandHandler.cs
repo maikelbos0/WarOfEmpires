@@ -27,17 +27,13 @@ namespace WarOfEmpires.CommandHandlers.Empires {
             for (var index = 0; index < command.SiegeWeapons.Count; index++) {
                 var i = index; // Don't use iterator in lambdas
                 var type = (SiegeWeaponType)Enum.Parse(typeof(SiegeWeaponType), command.SiegeWeapons[i].Type);
-                int count = 0;
-
-                if (!string.IsNullOrEmpty(command.SiegeWeapons[i].Count) && !int.TryParse(command.SiegeWeapons[i].Count, out count) || count < 0) {
-                    result.AddError(c => c.SiegeWeapons[i].Count, "Invalid number");
-                }
-                else if (count > player.GetSiegeWeaponCount(type)) {
+                
+                if (command.SiegeWeapons[i].Count.HasValue && command.SiegeWeapons[i].Count.Value > player.GetSiegeWeaponCount(type)) {
                     result.AddError(c => c.SiegeWeapons[i].Count, $"You don't have that many {_formatter.ToString(type, false)} to discard");
                 }
 
-                if (result.Success && count > 0) {
-                    siegeWeapons.Add(new SiegeWeaponInfo(type, count));
+                if (result.Success && command.SiegeWeapons[i].Count.HasValue) {
+                    siegeWeapons.Add(new SiegeWeaponInfo(type, command.SiegeWeapons[i].Count.Value));
                 }
             }
 

@@ -31,7 +31,7 @@ namespace WarOfEmpires.QueryHandlers.Alliances {
                     Subject = i.Subject,
                     Body = i.Body
                 })
-                .Single(i => i.Id == int.Parse(query.InviteId));
+                .Single(i => i.Id == query.InviteId);
         }
     }
 }

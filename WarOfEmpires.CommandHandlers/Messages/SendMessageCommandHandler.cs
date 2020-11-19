@@ -16,7 +16,7 @@ namespace WarOfEmpires.CommandHandlers.Messages {
         public CommandResult<SendMessageCommand> Execute(SendMessageCommand command) {
             var result = new CommandResult<SendMessageCommand>();
             var sender = _repository.Get(command.SenderEmail);
-            var recipient = _repository.Get(int.Parse(command.RecipientId));
+            var recipient = _repository.Get(command.RecipientId);
 
             sender.SendMessage(recipient, command.Subject, command.Body);
             _repository.SaveChanges();

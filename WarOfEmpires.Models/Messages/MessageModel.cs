@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace WarOfEmpires.Models.Messages {
     public sealed class MessageModel {
-        public string RecipientId { get; set; }
+        public int RecipientId { get; set; }
         public string Recipient { get; set; }
 
         [DisplayName("Subject")]

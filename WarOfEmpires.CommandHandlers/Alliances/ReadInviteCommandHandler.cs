@@ -17,8 +17,7 @@ namespace WarOfEmpires.CommandHandlers.Alliances {
         public CommandResult<ReadInviteCommand> Execute(ReadInviteCommand command) {
             var result = new CommandResult<ReadInviteCommand>();
             var player = _repository.Get(command.Email);
-            var inviteId = int.Parse(command.InviteId);
-            var invite = player.Invites.Single(m => m.Id == inviteId);
+            var invite = player.Invites.Single(m => m.Id == command.InviteId);
 
             invite.IsRead = true;
 

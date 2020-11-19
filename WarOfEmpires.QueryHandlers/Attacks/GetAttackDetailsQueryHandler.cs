@@ -23,16 +23,15 @@ namespace WarOfEmpires.QueryHandlers.Attacks {
         }
 
         public AttackDetailsViewModel Execute(GetAttackDetailsQuery query) {
-            var attackId = int.Parse(query.AttackId);
             var attack = _context.Players
                 .Single(p => EmailComparisonService.Equals(p.User.Email, query.Email))
-                .ReceivedAttacks.SingleOrDefault(a => a.Id == attackId);
+                .ReceivedAttacks.SingleOrDefault(a => a.Id == query.AttackId);
             var isRead = attack?.IsRead ?? true;
 
             if (attack == null) {
                 attack = _context.Players
                     .Single(p => EmailComparisonService.Equals(p.User.Email, query.Email))
-                    .ExecutedAttacks.Single(a => a.Id == attackId);
+                    .ExecutedAttacks.Single(a => a.Id == query.AttackId);
             }
 
             return new AttackDetailsViewModel() {

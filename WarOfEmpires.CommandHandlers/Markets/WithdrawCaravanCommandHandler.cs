@@ -17,8 +17,7 @@ namespace WarOfEmpires.CommandHandlers.Markets {
         public CommandResult<WithdrawCaravanCommand> Execute(WithdrawCaravanCommand command) {
             var result = new CommandResult<WithdrawCaravanCommand>();
             var player = _repository.Get(command.Email);
-            var caravanId = int.Parse(command.CaravanId);
-            var caravan = player.Caravans.Single(c => c.Id == caravanId);
+            var caravan = player.Caravans.Single(c => c.Id == command.CaravanId);
 
             caravan.Withdraw();
             _repository.SaveChanges();

@@ -1,10 +1,10 @@
 ﻿namespace WarOfEmpires.Commands.Markets {
     public sealed class MerchandiseInfo {
         public string Type { get; }
-        public string Quantity { get; }
-        public string Price { get; }
+        public int? Quantity { get; }
+        public int? Price { get; }
 
-        public MerchandiseInfo(string type, string quantity, string price) {
+        public MerchandiseInfo(string type, int? quantity, int? price) {
             Type = type;
             Quantity = quantity;
             Price = price;

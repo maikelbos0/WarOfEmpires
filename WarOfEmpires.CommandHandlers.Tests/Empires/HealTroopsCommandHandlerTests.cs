@@ -17,46 +17,13 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
                 .WithTroops(TroopType.Archers, 10, 2);
 
             var handler = new HealTroopsCommandHandler(new PlayerRepository(builder.Context));
-            var command = new HealTroopsCommand("test1@test.com", "5");
+            var command = new HealTroopsCommand("test1@test.com", 5);
 
             var result = handler.Execute(command);
 
             result.Success.Should().BeTrue();
             builder.Player.Received().HealTroops(5);
             builder.Context.CallsToSaveChanges.Should().Be(1);
-        }
-
-
-        [TestMethod]
-        public void HealTroopsCommandHandler_Fails_For_Alphanumeric_Value() {
-            var builder = new FakeBuilder()
-                .BuildPlayer(1, stamina: 90)
-                .WithTroops(TroopType.Archers, 10, 2);
-
-            var handler = new HealTroopsCommandHandler(new PlayerRepository(builder.Context));
-            var command = new HealTroopsCommand("test1@test.com", "K");
-
-            var result = handler.Execute(command);
-
-            result.Should().HaveError("StaminaToHeal", "Stamina to heal must be a valid number");
-            builder.Player.DidNotReceiveWithAnyArgs().HealTroops(default);
-            builder.Context.CallsToSaveChanges.Should().Be(0);
-        }
-
-        [TestMethod]
-        public void HealTroopsCommandHandler_Fails_For_Negative_Value() {
-            var builder = new FakeBuilder()
-                .BuildPlayer(1, stamina: 90)
-                .WithTroops(TroopType.Archers, 10, 2);
-
-            var handler = new HealTroopsCommandHandler(new PlayerRepository(builder.Context));
-            var command = new HealTroopsCommand("test1@test.com", "-5");
-
-            var result = handler.Execute(command);
-
-            result.Should().HaveError("StaminaToHeal", "Stamina to heal must be a valid number");
-            builder.Player.DidNotReceiveWithAnyArgs().HealTroops(default);
-            builder.Context.CallsToSaveChanges.Should().Be(0);
         }
 
         [TestMethod]
@@ -66,7 +33,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
                 .WithTroops(TroopType.Archers, 10, 2);
 
             var handler = new HealTroopsCommandHandler(new PlayerRepository(builder.Context));
-            var command = new HealTroopsCommand("test1@test.com", "11");
+            var command = new HealTroopsCommand("test1@test.com", 11);
 
             var result = handler.Execute(command);
 
@@ -83,7 +50,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
                 .WithTroops(TroopType.Archers, 10, 2);
 
             var handler = new HealTroopsCommandHandler(new PlayerRepository(builder.Context));
-            var command = new HealTroopsCommand("test1@test.com", "5");
+            var command = new HealTroopsCommand("test1@test.com", 5);
 
             var result = handler.Execute(command);
 

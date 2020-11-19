@@ -1,9 +1,9 @@
 ﻿namespace WarOfEmpires.Commands.Markets {
     public sealed class WithdrawCaravanCommand : ICommand {
         public string Email { get; }
-        public string CaravanId { get; }
+        public int CaravanId { get; }
 
-        public WithdrawCaravanCommand(string email, string caravanId) {
+        public WithdrawCaravanCommand(string email, int caravanId) {
             Email = email;
             CaravanId = caravanId;
         }

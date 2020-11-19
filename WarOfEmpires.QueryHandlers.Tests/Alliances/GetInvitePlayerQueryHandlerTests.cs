@@ -13,11 +13,11 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
                 .WithPlayer(1);
 
             var handler = new GetInvitePlayerQueryHandler(builder.Context);
-            var query = new GetInvitePlayerQuery("1");
+            var query = new GetInvitePlayerQuery(1);
 
             var result = handler.Execute(query);
 
-            result.PlayerId.Should().Be("1");
+            result.PlayerId.Should().Be(1);
             result.PlayerName.Should().Be("Test display name 1");
         }
     }

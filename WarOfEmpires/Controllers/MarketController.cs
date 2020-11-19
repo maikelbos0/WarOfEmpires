@@ -39,7 +39,7 @@ namespace WarOfEmpires.Controllers {
 
         [Route("WithdrawCaravan")]
         [HttpPost]
-        public ViewResult WithdrawCaravan(string id) {
+        public ViewResult WithdrawCaravan(int id) {
             return BuildViewResultFor(new WithdrawCaravanCommand(_authenticationService.Identity, id))
                 .OnSuccess(Sell)
                 .ThrowOnFailure()

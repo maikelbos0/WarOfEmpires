@@ -17,8 +17,8 @@ namespace WarOfEmpires.CommandHandlers.Alliances {
         public CommandResult<SetRoleCommand> Execute(SetRoleCommand command) {
             var result = new CommandResult<SetRoleCommand>();
             var alliance = _repository.Get(command.Email);
-            var member = alliance.Members.Single(p => p.Id == int.Parse(command.PlayerId));
-            var role = alliance.Roles.Single(r => r.Id == int.Parse(command.RoleId));
+            var member = alliance.Members.Single(p => p.Id == command.PlayerId);
+            var role = alliance.Roles.Single(r => r.Id == command.RoleId);
 
             alliance.SetRole(member, role);
             _repository.SaveChanges();

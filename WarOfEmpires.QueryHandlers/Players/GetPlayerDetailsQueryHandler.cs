@@ -25,12 +25,11 @@ namespace WarOfEmpires.QueryHandlers.Players {
             var currentPlayer = _context.Players
                 .Include(p => p.Alliance)
                 .Single(p => EmailComparisonService.Equals(p.User.Email, query.Email));
-            var id = int.Parse(query.Id);
             var player = _context.Players
                 .Include(p => p.Alliance)
                 .Include(p => p.Workers)
                 .Include(p => p.Troops)
-                .Single(p => p.User.Status == UserStatus.Active && p.Id == id);
+                .Single(p => p.User.Status == UserStatus.Active && p.Id == query.Id);
 
             return new PlayerDetailsViewModel() {
                 Id = player.Id,

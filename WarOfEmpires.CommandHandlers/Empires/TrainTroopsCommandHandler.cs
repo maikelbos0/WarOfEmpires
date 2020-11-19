@@ -24,22 +24,11 @@ namespace WarOfEmpires.CommandHandlers.Empires {
             var player = _repository.Get(command.Email);
             var troops = new List<TroopInfo>();
 
-            for (var index = 0; index < command.Troops.Count; index++) {
-                var i = index; // Don't use iterator in lambdas
+            for (var i = 0; i < command.Troops.Count; i++) {
                 var type = (TroopType)Enum.Parse(typeof(TroopType), command.Troops[i].Type);
-                int soldiers = 0;
-                int mercenaries = 0;
-
-                if (!string.IsNullOrEmpty(command.Troops[i].Soldiers) && !int.TryParse(command.Troops[i].Soldiers, out soldiers) || soldiers < 0) {
-                    result.AddError(c => c.Troops[i].Soldiers, "Invalid number");
-                }
-
-                if (!string.IsNullOrEmpty(command.Troops[i].Mercenaries) && !int.TryParse(command.Troops[i].Mercenaries, out mercenaries) || mercenaries < 0) {
-                    result.AddError(c => c.Troops[i].Mercenaries, "Invalid number");
-                }
-
-                if (result.Success && (soldiers > 0 || mercenaries > 0)) {
-                    troops.Add(new TroopInfo(type, soldiers, mercenaries));
+                
+                if (result.Success && (command.Troops[i].Soldiers.HasValue || command.Troops[i].Mercenaries.HasValue)) {
+                    troops.Add(new TroopInfo(type, command.Troops[i].Soldiers ?? 0, command.Troops[i].Mercenaries ?? 0));
                 }
             }
 
