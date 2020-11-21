@@ -24,7 +24,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
             builder.Player.WillUpkeepRunOut().Returns(true);
             builder.Player.GetSoldierRecruitsPenalty().Returns(1);
             builder.Player.HasUpkeepRunOut.Returns(true);
-            builder.Player.Stamina.Returns(100);
+            builder.Player.GetStaminaToHeal().Returns(4);
 
             var query = new GetTroopsQuery("test1@test.com");
             var handler = new GetTroopsQueryHandler(builder.Context, new ResourcesMap(), new EnumFormatter());
@@ -37,7 +37,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
             result.HasUpkeepRunOut.Should().BeTrue();
             result.HasSoldierShortage.Should().BeTrue();
             result.CurrentStamina.Should().Be(100);
-            result.StaminaToHeal.Should().Be(0);
+            result.StaminaToHeal.Should().Be(4);
             result.Troops.Should().HaveCount(3);
 
             var troop = result.Troops.Single(t => t.Type == "Archers");
