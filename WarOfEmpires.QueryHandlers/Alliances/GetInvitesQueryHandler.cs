@@ -20,9 +20,8 @@ namespace WarOfEmpires.QueryHandlers.Alliances {
 
         public IEnumerable<InviteViewModel> Execute(GetInvitesQuery query) {
             return _context.Players
-                .Single(p => EmailComparisonService.Equals(p.User.Email, query.Email))
-                .Alliance
-                .Invites
+                .Where(p => p.Alliance != null && EmailComparisonService.Equals(p.User.Email, query.Email))
+                .SelectMany(p => p.Alliance.Invites)
                 .Where(i => i.Player.User.Status == UserStatus.Active)
                 .Select(i => new InviteViewModel() {
                     Id = i.Id,
