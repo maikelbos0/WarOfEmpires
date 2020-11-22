@@ -44,7 +44,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
 
             Action action = () => handler.Execute(query);
 
-            action.Should().Throw<NullReferenceException>();
+            action.Should().Throw<InvalidOperationException>();
         }
     }
 }
