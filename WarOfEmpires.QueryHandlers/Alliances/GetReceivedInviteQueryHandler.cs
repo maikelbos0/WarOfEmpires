@@ -18,9 +18,8 @@ namespace WarOfEmpires.QueryHandlers.Alliances {
 
         public ReceivedInviteDetailsViewModel Execute(GetReceivedInviteQuery query) {
             return _context.Players
-                .Single(p => EmailComparisonService.Equals(p.User.Email, query.Email))
-                .Invites
-                .OrderBy(i => i.Date)
+                .Where(p => EmailComparisonService.Equals(p.User.Email, query.Email))
+                .SelectMany(p => p.Invites)
                 .Select(i => new ReceivedInviteDetailsViewModel() {
                     Id = i.Id,
                     Date = i.Date,
