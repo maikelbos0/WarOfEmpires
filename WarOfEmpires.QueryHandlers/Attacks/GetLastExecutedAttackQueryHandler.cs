@@ -17,8 +17,8 @@ namespace WarOfEmpires.QueryHandlers.Attacks {
 
         public int Execute(GetLastExecutedAttackQuery query) {
             return _context.Players
-                .Single(p => EmailComparisonService.Equals(p.User.Email, query.Email))
-                .ExecutedAttacks
+                .Where(p => EmailComparisonService.Equals(p.User.Email, query.Email))
+                .SelectMany(p => p.ExecutedAttacks)
                 .Max(a => a.Id);
         }
     }
