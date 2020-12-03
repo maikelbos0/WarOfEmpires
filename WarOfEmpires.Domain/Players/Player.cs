@@ -363,22 +363,32 @@ namespace WarOfEmpires.Domain.Players {
             return buildingTotals;
         }
 
-        public int GetStaminaToHeal() {
-            var troops = Troops.Sum(t => t.GetTotals());
-            int staminaCanAfford = 0;
-            int staminaToFull = 100 - Stamina;
-            if (CanAfford(staminaToFull * HealCostPerTroopPerTurn * troops)) {
-                return staminaToFull;
+        public virtual int GetStaminaToHeal() {
+            var healCostPerTurn = Troops.Sum(t => t.GetTotals()) * HealCostPerTroopPerTurn;
+            var totalResources = GetTotalResources();
+            var staminaToHeal = 100 - Stamina;
+
+            if (healCostPerTurn.Gold > 0 && totalResources.Gold / healCostPerTurn.Gold < staminaToHeal) {
+                staminaToHeal = (int)(totalResources.Gold / healCostPerTurn.Gold);
             }
-            else {
-                for (int i = staminaToFull; i > 0; i--) {
-                    if (CanAfford(i * HealCostPerTroopPerTurn * troops)) {
-                        staminaCanAfford = i;
-                        break;
-                    }
-                }
-                return staminaCanAfford;
+
+            if (healCostPerTurn.Food > 0 && totalResources.Food / healCostPerTurn.Food < staminaToHeal) {
+                staminaToHeal = (int)(totalResources.Food / healCostPerTurn.Food);
             }
+
+            if (healCostPerTurn.Wood > 0 && totalResources.Wood / healCostPerTurn.Wood < staminaToHeal) {
+                staminaToHeal = (int)(totalResources.Wood / healCostPerTurn.Wood);
+            }
+
+            if (healCostPerTurn.Stone > 0 && totalResources.Stone / healCostPerTurn.Stone < staminaToHeal) {
+                staminaToHeal = (int)(totalResources.Stone / healCostPerTurn.Stone);
+            }
+
+            if (healCostPerTurn.Ore > 0 && totalResources.Ore / healCostPerTurn.Ore < staminaToHeal) {
+                staminaToHeal = (int)(totalResources.Ore / healCostPerTurn.Ore);
+            }
+
+            return staminaToHeal;
         }
 
         public virtual void TrainTroops(TroopType type, int soldiers, int mercenaries) {

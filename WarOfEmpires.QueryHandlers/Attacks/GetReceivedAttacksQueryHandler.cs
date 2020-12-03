@@ -22,19 +22,34 @@ namespace WarOfEmpires.QueryHandlers.Attacks {
 
         public IEnumerable<ReceivedAttackViewModel> Execute(GetReceivedAttacksQuery query) {
             return _context.Players
-                .Single(p => EmailComparisonService.Equals(p.User.Email, query.Email))
-                .ReceivedAttacks
+                .Where(p => EmailComparisonService.Equals(p.User.Email, query.Email))
+                .SelectMany(p => p.ReceivedAttacks)
+                .Select(a => new {
+                    a.Id,
+                    a.Date,
+                    a.Turns,
+                    a.Type,
+                    Attacker = a.Attacker.DisplayName,
+                    AttackerAlliance = a.Attacker.Alliance == null ? null : a.Attacker.Alliance.Code,
+                    DefenderSoldierCasualties = (int?)a.Rounds.Where(r => r.IsAggressor).Sum(r => r.Casualties.Sum(c => c.Soldiers)),
+                    DefenderMercenaryCasualties = (int?)a.Rounds.Where(r => r.IsAggressor).Sum(r => r.Casualties.Sum(c => c.Mercenaries)),
+                    AttackerSoldierCasualties = (int?)a.Rounds.Where(r => !r.IsAggressor).Sum(r => r.Casualties.Sum(c => c.Soldiers)),
+                    AttackerMercenaryCasualties = (int?)a.Rounds.Where(r => !r.IsAggressor).Sum(r => r.Casualties.Sum(c => c.Mercenaries)),
+                    a.Result,
+                    a.IsRead
+                })
+                .ToList()
                 .Select(a => new ReceivedAttackViewModel() {
                     Id = a.Id,
                     Date = a.Date,
                     Turns = a.Turns,
                     Type = _formatter.ToString(a.Type),
-                    Attacker = a.Attacker.DisplayName,
-                    AttackerAlliance = a.Attacker.Alliance?.Code,
-                    DefenderSoldierCasualties = a.Rounds.Where(r => r.IsAggressor).Sum(r => r.Casualties.Sum(c => c.Soldiers)),
-                    DefenderMercenaryCasualties = a.Rounds.Where(r => r.IsAggressor).Sum(r => r.Casualties.Sum(c => c.Mercenaries)),
-                    AttackerSoldierCasualties = a.Rounds.Where(r => !r.IsAggressor).Sum(r => r.Casualties.Sum(c => c.Soldiers)),
-                    AttackerMercenaryCasualties = a.Rounds.Where(r => !r.IsAggressor).Sum(r => r.Casualties.Sum(c => c.Mercenaries)),
+                    Attacker = a.Attacker,
+                    AttackerAlliance = a.AttackerAlliance,
+                    DefenderSoldierCasualties = a.DefenderSoldierCasualties ?? 0,
+                    DefenderMercenaryCasualties = a.DefenderMercenaryCasualties ?? 0,
+                    AttackerSoldierCasualties = a.AttackerSoldierCasualties ?? 0,
+                    AttackerMercenaryCasualties = a.AttackerMercenaryCasualties ?? 0,
                     Result = _formatter.ToString(a.Result),
                     IsRead = a.IsRead
                 })

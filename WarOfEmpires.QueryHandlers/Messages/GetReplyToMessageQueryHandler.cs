@@ -18,13 +18,12 @@ namespace WarOfEmpires.QueryHandlers.Messages {
         }
 
         public MessageModel Execute(GetReplyToMessageQuery query) {
-            var messageId = int.Parse(query.MessageId);
             var message = _context.Players
                 .Single(p => EmailComparisonService.Equals(p.User.Email, query.Email))
-                .ReceivedMessages.Single(m => m.Id == messageId);
+                .ReceivedMessages.Single(m => m.Id == query.MessageId);
 
             return new MessageModel() {
-                RecipientId = message.Sender.Id.ToString(),
+                RecipientId = message.Sender.Id,
                 Recipient = message.Sender.DisplayName,
                 Subject = $"Re: {message.Subject}",
                 Body = $"{Environment.NewLine}{message.Sender.DisplayName} wrote on {message.Date:yyyy-MM-dd HH:mm}:{Environment.NewLine}{message.Body}"

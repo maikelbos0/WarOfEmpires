@@ -17,7 +17,7 @@ namespace WarOfEmpires.CommandHandlers.Alliances {
         public CommandResult<AcceptInviteCommand> Execute(AcceptInviteCommand command) {
             var result = new CommandResult<AcceptInviteCommand>();
             var player = _repository.Get(command.Email);
-            var invite = player.Invites.Single(i => i.Id == int.Parse(command.InviteId));
+            var invite = player.Invites.Single(i => i.Id == command.InviteId);
 
             if (player.Alliance != null) {
                 result.AddError("You are already in an alliance; leave your current alliance before accepting an invite");

@@ -972,7 +972,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
         }
 
         [TestMethod]
-        public void Player_GetStaminaToHeal_Correct_For_Zero_Troops_Zero_Food() {
+        public void Player_GetStaminaToHeal_Correct_For_Zero_Troops() {
             var player = new Player(0, "Test");
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(food: 100000));
             typeof(Player).GetProperty(nameof(Player.Stamina)).SetValue(player, 90);

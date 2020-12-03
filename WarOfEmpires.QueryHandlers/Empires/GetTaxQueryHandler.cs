@@ -23,7 +23,7 @@ namespace WarOfEmpires.QueryHandlers.Empires {
                 .Single(p => EmailComparisonService.Equals(p.User.Email, query.Email));
 
             return new TaxModel() {
-                Tax = player.Tax.ToString(),
+                Tax = player.Tax,
                 BaseGoldPerTurn = Player.BaseGoldPerTurn,
                 BaseFoodPerTurn = player.GetProduction(WorkerType.Farmers).GetBaseProduction(),
                 BaseWoodPerTurn = player.GetProduction(WorkerType.WoodWorkers).GetBaseProduction(),

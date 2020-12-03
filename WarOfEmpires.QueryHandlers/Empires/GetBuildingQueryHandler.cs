@@ -25,8 +25,9 @@ namespace WarOfEmpires.QueryHandlers.Empires {
             var buildingType = (BuildingType)Enum.Parse(typeof(BuildingType), query.BuildingType);
             var buildingDefinition = BuildingDefinitionFactory.Get(buildingType);
             var buildingLevel = _context.Players
-                .Single(p => EmailComparisonService.Equals(p.User.Email, query.Email))
-                .Buildings.SingleOrDefault(b => b.Type == buildingType)?.Level ?? 0;
+                .Where(p => EmailComparisonService.Equals(p.User.Email, query.Email))
+                .SelectMany(p => p.Buildings)
+                .SingleOrDefault(b => b.Type == buildingType)?.Level ?? 0;
 
             return new BuildingModel() {
                 BuildingType = query.BuildingType,

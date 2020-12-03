@@ -20,6 +20,7 @@ namespace WarOfEmpires.Controllers {
         [Route]
         [Route("Index")]
         public ViewResult Index() {
+            // Explicitly name view so it works from other actions
             return View("Index", new AllianceSearchModel());
         }
 
@@ -31,7 +32,7 @@ namespace WarOfEmpires.Controllers {
 
         [HttpGet]
         [Route("Details")]
-        public ViewResult Details(string id) {
+        public ViewResult Details(int id) {
             return View(_messageService.Dispatch(new GetAllianceDetailsQuery(id)));
         }
 
@@ -61,7 +62,7 @@ namespace WarOfEmpires.Controllers {
         [AllianceAuthorize(CanInvite = true)]
         [HttpGet]
         [Route("Invite")]
-        public ViewResult Invite(string playerId) {
+        public ViewResult Invite(int playerId) {
             return View(_messageService.Dispatch(new GetInvitePlayerQuery(playerId)));
         }
 
@@ -93,14 +94,14 @@ namespace WarOfEmpires.Controllers {
         [AllianceAuthorize(CanInvite = true)]
         [HttpGet]
         [Route("InviteDetails")]
-        public ViewResult InviteDetails(string id) {
+        public ViewResult InviteDetails(int id) {
             return View(_messageService.Dispatch(new GetInviteQuery(_authenticationService.Identity, id)));
         }
 
         [AllianceAuthorize(CanInvite = true)]
         [HttpPost]
         [Route("WithdrawInvite")]
-        public ViewResult WithdrawInvite(string id) {
+        public ViewResult WithdrawInvite(int id) {
             return BuildViewResultFor(new WithdrawInviteCommand(_authenticationService.Identity, id))
                 .OnSuccess(Invites)
                 .ThrowOnFailure()
@@ -122,7 +123,7 @@ namespace WarOfEmpires.Controllers {
 
         [HttpGet]
         [Route("ReceivedInviteDetails")]
-        public ViewResult ReceivedInviteDetails(string id) {
+        public ViewResult ReceivedInviteDetails(int id) {
             var model = _messageService.Dispatch(new GetReceivedInviteQuery(_authenticationService.Identity, id));
 
             if (!model.IsRead) {
@@ -135,7 +136,7 @@ namespace WarOfEmpires.Controllers {
         [HttpPost]
         [Route("AcceptInvite")]
         public ViewResult AcceptInvite(ReceivedInviteDetailsViewModel model) {
-            return BuildViewResultFor(new AcceptInviteCommand(_authenticationService.Identity, model.Id.ToString()))
+            return BuildViewResultFor(new AcceptInviteCommand(_authenticationService.Identity, model.Id))
                 .OnSuccess(Home)
                 .OnFailure("ReceivedInviteDetails", model)
                 .Execute();
@@ -143,7 +144,7 @@ namespace WarOfEmpires.Controllers {
 
         [HttpPost]
         [Route("RejectInvite")]
-        public ViewResult RejectInvite(string id) {
+        public ViewResult RejectInvite(int id) {
             return BuildViewResultFor(new RejectInviteCommand(_authenticationService.Identity, id))
                 .OnSuccess(ReceivedInvites)
                 .ThrowOnFailure()
@@ -163,7 +164,7 @@ namespace WarOfEmpires.Controllers {
         [AllianceAuthorize(CanDeleteChatMessages = true)]
         [HttpPost]
         [Route("DeleteChatMessage")]
-        public ViewResult DeleteChatMessage(string id) {
+        public ViewResult DeleteChatMessage(int id) {
             return BuildViewResultFor(new DeleteChatMessageCommand(_authenticationService.Identity, id))
                 .OnSuccess(Home)
                 .ThrowOnFailure()
@@ -205,7 +206,7 @@ namespace WarOfEmpires.Controllers {
         [AllianceAuthorize(CanManageRoles = true)]
         [HttpGet]
         [Route("RoleDetails")]
-        public ViewResult RoleDetails(string id) {
+        public ViewResult RoleDetails(int id) {
             // Explicitly name view so it works from other actions
             return View("RoleDetails", _messageService.Dispatch(new GetRoleDetailsQuery(_authenticationService.Identity, id)));
         }
@@ -213,7 +214,7 @@ namespace WarOfEmpires.Controllers {
         [AllianceAuthorize(CanManageRoles = true)]
         [HttpPost]
         [Route("ClearRole")]
-        public ViewResult ClearRole(string id, string playerId) {
+        public ViewResult ClearRole(int id, int playerId) {
             return BuildViewResultFor(new ClearRoleCommand(_authenticationService.Identity, playerId))
                 .OnSuccess(() => RoleDetails(id))
                 .ThrowOnFailure()
@@ -223,7 +224,7 @@ namespace WarOfEmpires.Controllers {
         [AllianceAuthorize(CanManageRoles = true)]
         [HttpPost]
         [Route("DeleteRole")]
-        public ViewResult DeleteRole(string id) {
+        public ViewResult DeleteRole(int id) {
             return BuildViewResultFor(new DeleteRoleCommand(_authenticationService.Identity, id))
                 .OnSuccess(Roles)
                 .ThrowOnFailure()
@@ -233,14 +234,14 @@ namespace WarOfEmpires.Controllers {
         [AllianceAuthorize(CanManageRoles = true)]
         [HttpGet]
         [Route("SetRole")]
-        public ViewResult SetRole(string id) {
+        public ViewResult SetRole(int id) {
             return View(_messageService.Dispatch(new GetNewRolePlayerQuery(_authenticationService.Identity, id)));
         }
 
         [AllianceAuthorize(CanManageRoles = true)]
         [HttpPost]
         [Route("SetRole")]
-        public ViewResult SetRole(string id, string playerId) {
+        public ViewResult SetRole(int id, int playerId) {
             return BuildViewResultFor(new SetRoleCommand(_authenticationService.Identity, playerId, id))
                 .OnSuccess(() => RoleDetails(id))
                 .ThrowOnFailure()
@@ -262,6 +263,23 @@ namespace WarOfEmpires.Controllers {
         [Route("KickFromAlliance")]
         public ViewResult KickFromAlliance(string id) {
             return BuildViewResultFor(new KickFromAllianceCommand(_authenticationService.Identity, id))
+                .OnSuccess(Home)
+                .ThrowOnFailure()
+                .Execute();
+        }
+
+        [AllianceAuthorize(CanTransferLeadership = true)]
+        [HttpGet]
+        [Route("TransferLeadership")]
+        public ViewResult TransferLeadership() {
+            return View(_messageService.Dispatch(new GetNewLeaderQuery(_authenticationService.Identity)));
+        }
+
+        [AllianceAuthorize(CanTransferLeadership = true)]
+        [HttpPost]
+        [Route("TransferLeadership")]
+        public ViewResult TransferLeadership(int memberId) {
+            return BuildViewResultFor(new TransferLeadershipCommand(_authenticationService.Identity, memberId))
                 .OnSuccess(Home)
                 .ThrowOnFailure()
                 .Execute();

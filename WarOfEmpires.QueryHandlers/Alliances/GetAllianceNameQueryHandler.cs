@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Data.Entity;
+using System.Linq;
 using WarOfEmpires.Database;
 using WarOfEmpires.Queries.Alliances;
 using WarOfEmpires.QueryHandlers.Decorators;
@@ -17,6 +18,7 @@ namespace WarOfEmpires.QueryHandlers.Alliances {
 
         public string Execute(GetAllianceNameQuery query) {
             return _context.Players
+                .Include(p => p.Alliance)
                 .Single(p => EmailComparisonService.Equals(p.User.Email, query.Email))
                 .Alliance.Name;
         }

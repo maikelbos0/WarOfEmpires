@@ -24,10 +24,10 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
 
             var handler = new SellResourcesCommandHandler(new PlayerRepository(builder.Context), new EnumFormatter());
             var command = new SellResourcesCommand("test1@test.com", new List<MerchandiseInfo>() {
-                new MerchandiseInfo("Food", "15000", "10"),
-                new MerchandiseInfo("Wood", "16000", "9"),
-                new MerchandiseInfo("Stone", "17000", "8"),
-                new MerchandiseInfo("Ore", "18000", "7")
+                new MerchandiseInfo("Food", 15000, 10),
+                new MerchandiseInfo("Wood", 16000, 9),
+                new MerchandiseInfo("Stone", 17000, 8),
+                new MerchandiseInfo("Ore", 18000, 7)
             });
 
             var result = handler.Execute(command);
@@ -44,10 +44,10 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
 
             var handler = new SellResourcesCommandHandler(new PlayerRepository(builder.Context), new EnumFormatter());
             var command = new SellResourcesCommand("test1@test.com", new List<MerchandiseInfo>() {
-                new MerchandiseInfo("Food", "", ""),
-                new MerchandiseInfo("Wood", "", ""),
-                new MerchandiseInfo("Stone", "", ""),
-                new MerchandiseInfo("Ore", "", "")
+                new MerchandiseInfo("Food", null, null),
+                new MerchandiseInfo("Wood", null, null),
+                new MerchandiseInfo("Stone", null, null),
+                new MerchandiseInfo("Ore", null, null)
             });
 
             var result = handler.Execute(command);
@@ -63,7 +63,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
 
             var handler = new SellResourcesCommandHandler(new PlayerRepository(builder.Context), new EnumFormatter());
             var command = new SellResourcesCommand("test1@test.com", new List<MerchandiseInfo>() {
-                new MerchandiseInfo("Test", "1", "1")
+                new MerchandiseInfo("Test", 1, 1)
             });
 
             Action action = () => handler.Execute(command);
@@ -84,10 +84,10 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
 
             var handler = new SellResourcesCommandHandler(new PlayerRepository(builder.Context), new EnumFormatter());
             var command = new SellResourcesCommand("test1@test.com", new List<MerchandiseInfo>() {
-                new MerchandiseInfo("Food", "50000", "10"),
-                new MerchandiseInfo("Wood", "50000", "9"),
-                new MerchandiseInfo("Stone", "50000", "8"),
-                new MerchandiseInfo("Ore", "51000", "7")
+                new MerchandiseInfo("Food", 50000, 10),
+                new MerchandiseInfo("Wood", 50000, 9),
+                new MerchandiseInfo("Stone", 50000, 8),
+                new MerchandiseInfo("Ore", 51000, 7)
             });
 
             var result = handler.Execute(command);
@@ -98,47 +98,13 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
         }
 
         [TestMethod]
-        public void SellResourcesCommandHandler_Fails_For_Alphanumeric_Quantity() {
-            var builder = new FakeBuilder()
-                .BuildPlayer(1);
-
-            var handler = new SellResourcesCommandHandler(new PlayerRepository(builder.Context), new EnumFormatter());
-            var command = new SellResourcesCommand("test1@test.com", new List<MerchandiseInfo>() {
-                new MerchandiseInfo("Food", "A", "10")
-            });
-
-            var result = handler.Execute(command);
-
-            result.Should().HaveError("Merchandise[0].Quantity", "Invalid number");
-            builder.Player.DidNotReceiveWithAnyArgs().SellResources(default);
-            builder.Context.CallsToSaveChanges.Should().Be(0);
-        }
-
-        [TestMethod]
-        public void SellResourcesCommandHandler_Fails_For_Negative_Quantity() {
-            var builder = new FakeBuilder()
-                .BuildPlayer(1);
-
-            var handler = new SellResourcesCommandHandler(new PlayerRepository(builder.Context), new EnumFormatter());
-            var command = new SellResourcesCommand("test1@test.com", new List<MerchandiseInfo>() {
-                new MerchandiseInfo("Food", "-1", "10")
-            });
-
-            var result = handler.Execute(command);
-
-            result.Should().HaveError("Merchandise[0].Quantity", "Invalid number");
-            builder.Player.DidNotReceiveWithAnyArgs().SellResources(default);
-            builder.Context.CallsToSaveChanges.Should().Be(0);
-        }
-        
-        [TestMethod]
         public void SellResourcesCommandHandler_Fails_For_Too_Little_Available_Quantity() {
             var builder = new FakeBuilder()
                 .BuildPlayer(1, canAffordAnything: false);
 
             var handler = new SellResourcesCommandHandler(new PlayerRepository(builder.Context), new EnumFormatter());
             var command = new SellResourcesCommand("test1@test.com", new List<MerchandiseInfo>() {
-                new MerchandiseInfo("Food", "5", "5")
+                new MerchandiseInfo("Food", 5, 5)
             });
 
             var result = handler.Execute(command);
@@ -147,41 +113,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
             builder.Player.DidNotReceiveWithAnyArgs().SellResources(default);
             builder.Context.CallsToSaveChanges.Should().Be(0);
         }
-        
-        [TestMethod]
-        public void SellResourcesCommandHandler_Fails_For_Alphanumeric_Price() {
-            var builder = new FakeBuilder()
-                .BuildPlayer(1);
 
-            var handler = new SellResourcesCommandHandler(new PlayerRepository(builder.Context), new EnumFormatter());
-            var command = new SellResourcesCommand("test1@test.com", new List<MerchandiseInfo>() {
-                new MerchandiseInfo("Food", "5", "A")
-            });
-
-            var result = handler.Execute(command);
-
-            result.Should().HaveError("Merchandise[0].Price", "Invalid number");
-            builder.Player.DidNotReceiveWithAnyArgs().SellResources(default);
-            builder.Context.CallsToSaveChanges.Should().Be(0);
-        }
-
-        [TestMethod]
-        public void SellResourcesCommandHandler_Fails_For_Negative_Price() {
-            var builder = new FakeBuilder()
-                .BuildPlayer(1);
-
-            var handler = new SellResourcesCommandHandler(new PlayerRepository(builder.Context), new EnumFormatter());
-            var command = new SellResourcesCommand("test1@test.com", new List<MerchandiseInfo>() {
-                new MerchandiseInfo("Food", "5", "-1")
-            });
-
-            var result = handler.Execute(command);
-
-            result.Should().HaveError("Merchandise[0].Price", "Invalid number");
-            builder.Player.DidNotReceiveWithAnyArgs().SellResources(default);
-            builder.Context.CallsToSaveChanges.Should().Be(0);
-        }
-        
         [TestMethod]
         public void SellResourcesCommandHandler_Fails_For_Food_Without_FoodPrice() {
             var builder = new FakeBuilder()
@@ -189,7 +121,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
 
             var handler = new SellResourcesCommandHandler(new PlayerRepository(builder.Context), new EnumFormatter());
             var command = new SellResourcesCommand("test1@test.com", new List<MerchandiseInfo>() {
-                new MerchandiseInfo("Food", "5", "")
+                new MerchandiseInfo("Food", 5, null)
             });
 
             var result = handler.Execute(command);

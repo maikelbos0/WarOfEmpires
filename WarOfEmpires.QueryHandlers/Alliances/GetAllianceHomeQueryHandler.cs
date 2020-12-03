@@ -32,10 +32,14 @@ namespace WarOfEmpires.QueryHandlers.Alliances {
                 .Where(p => p.User.Status == UserStatus.Active && p.Alliance.Id == alliance.Id)
                 .OrderBy(p => p.Rank)
                 .ToList();
+            var chatMessageCutoffDate = DateTime.UtcNow.AddDays(-7);
             var chatMessages = _context.Alliances
                 .Include(a => a.ChatMessages.Select(m => m.Player.User))
-                .Single(a => a.Id == alliance.Id)
-                .ChatMessages;
+                .Where(a => a.Id == alliance.Id)
+                .SelectMany(a => a.ChatMessages)
+                .Where(m => m.Date >= chatMessageCutoffDate)
+                .OrderByDescending(m => m.Date)
+                .ToList();
 
             return new AllianceHomeViewModel() {
                 Id = alliance.Id,
@@ -51,9 +55,7 @@ namespace WarOfEmpires.QueryHandlers.Alliances {
                     Role = p.AllianceRole?.Name
                 }).ToList(),
                 ChatMessages = chatMessages
-                    .Where(m => m.Date >= DateTime.UtcNow.AddDays(-7))
-                    .OrderByDescending(m => m.Date)
-                    .Select(m => new ChatMessageViewModel() { 
+                    .Select(m => new ChatMessageViewModel() {
                         Id = m.Id,
                         PlayerId = m.Player.User.Status == UserStatus.Active ? m.Player.Id : default(int?),
                         Player = m.Player.DisplayName,
@@ -61,7 +63,7 @@ namespace WarOfEmpires.QueryHandlers.Alliances {
                         Message = m.Message
                     })
                     .ToList()
-        };
+            };
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using WarOfEmpires.Database;
 using WarOfEmpires.Domain.Security;
@@ -20,20 +19,18 @@ namespace WarOfEmpires.QueryHandlers.Alliances {
         }
 
         public IEnumerable<RoleViewModel> Execute(GetRolesQuery query) {
-            var alliance = _context.Players
-                .Include(p => p.Alliance.Roles)
-                .Single(p => EmailComparisonService.Equals(p.User.Email, query.Email))
-                .Alliance;
-
-            return alliance.Roles.Select(r => new RoleViewModel() {
-                Id = r.Id,
-                Name = r.Name,
-                CanInvite = r.CanInvite,
-                CanManageRoles = r.CanManageRoles,
-                CanDeleteChatMessages = r.CanDeleteChatMessages,
-                CanKickMembers = r.CanKickMembers,
-                Players = r.Players.Count(p => p.User.Status == UserStatus.Active)
-            });
+            return _context.Players
+                .Where(p => EmailComparisonService.Equals(p.User.Email, query.Email))
+                .SelectMany(p => p.Alliance.Roles)
+                .Select(r => new RoleViewModel() {
+                    Id = r.Id,
+                    Name = r.Name,
+                    CanInvite = r.CanInvite,
+                    CanManageRoles = r.CanManageRoles,
+                    CanDeleteChatMessages = r.CanDeleteChatMessages,
+                    CanKickMembers = r.CanKickMembers,
+                    Players = r.Players.Count(p => p.User.Status == UserStatus.Active)
+                });
         }
     }
 }

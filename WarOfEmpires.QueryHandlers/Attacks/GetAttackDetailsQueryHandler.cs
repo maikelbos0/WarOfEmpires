@@ -7,6 +7,7 @@ using WarOfEmpires.QueryHandlers.Common;
 using WarOfEmpires.Utilities.Container;
 using WarOfEmpires.Utilities.Services;
 using WarOfEmpires.Utilities.Formatting;
+using System.Data.Entity;
 
 namespace WarOfEmpires.QueryHandlers.Attacks {
     [InterfaceInjectable]
@@ -23,16 +24,19 @@ namespace WarOfEmpires.QueryHandlers.Attacks {
         }
 
         public AttackDetailsViewModel Execute(GetAttackDetailsQuery query) {
-            var attackId = int.Parse(query.AttackId);
             var attack = _context.Players
-                .Single(p => EmailComparisonService.Equals(p.User.Email, query.Email))
-                .ReceivedAttacks.SingleOrDefault(a => a.Id == attackId);
+                .Include(p => p.ReceivedAttacks.Select(a => a.Rounds.Select(r => r.Casualties)))
+                .Where(p => EmailComparisonService.Equals(p.User.Email, query.Email))
+                .SelectMany(p => p.ReceivedAttacks)
+                .SingleOrDefault(a => a.Id == query.AttackId);
             var isRead = attack?.IsRead ?? true;
 
             if (attack == null) {
                 attack = _context.Players
-                    .Single(p => EmailComparisonService.Equals(p.User.Email, query.Email))
-                    .ExecutedAttacks.Single(a => a.Id == attackId);
+                    .Include(p => p.ExecutedAttacks.Select(a => a.Rounds.Select(r => r.Casualties)))
+                    .Where(p => EmailComparisonService.Equals(p.User.Email, query.Email))
+                    .SelectMany(p => p.ExecutedAttacks)
+                    .Single(a => a.Id == query.AttackId);
             }
 
             return new AttackDetailsViewModel() {

@@ -24,6 +24,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
             result.IsAuthenticated.Should().BeTrue();
             result.IsAdmin.Should().BeFalse();
             result.IsInAlliance.Should().BeFalse();
+            result.CanTransferLeadership.Should().BeFalse();
             result.CanInvite.Should().BeFalse();
             result.CanManageRoles.Should().BeFalse();
             result.CanLeaveAlliance.Should().BeFalse();
@@ -46,6 +47,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
 
             result.IsAdmin.Should().BeTrue();
             result.IsInAlliance.Should().BeTrue();
+            result.CanTransferLeadership.Should().BeFalse();
             result.CanInvite.Should().BeFalse();
             result.CanManageRoles.Should().BeFalse();
             result.CanLeaveAlliance.Should().BeTrue();
@@ -66,6 +68,8 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
 
             result.CanInvite.Should().BeTrue();
             result.CanManageRoles.Should().BeTrue();
+            result.CanLeaveAlliance.Should().BeTrue();
+            result.CanTransferLeadership.Should().BeFalse();
             result.CanDisbandAlliance.Should().BeFalse();
         }
 
@@ -83,6 +87,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
             result.CanInvite.Should().BeTrue();
             result.CanManageRoles.Should().BeTrue();
             result.CanLeaveAlliance.Should().BeFalse();
+            result.CanTransferLeadership.Should().BeTrue();
             result.CanDisbandAlliance.Should().BeTrue();
         }
 

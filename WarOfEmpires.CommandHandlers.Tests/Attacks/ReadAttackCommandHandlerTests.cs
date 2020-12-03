@@ -19,7 +19,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Attacks {
                 .WithAttackOn(1, out var attack, defender, AttackType.Raid, AttackResult.Won);
 
             var handler = new ReadAttackCommandHandler(new PlayerRepository(builder.Context));
-            var command = new ReadAttackCommand("defender@test.com", "1");
+            var command = new ReadAttackCommand("defender@test.com", 1);
 
             var result = handler.Execute(command);
 
@@ -36,28 +36,11 @@ namespace WarOfEmpires.CommandHandlers.Tests.Attacks {
                 .WithAttackOn(1, out var attack, defender, AttackType.Raid, AttackResult.Won);
 
             var handler = new ReadAttackCommandHandler(new PlayerRepository(builder.Context));
-            var command = new ReadAttackCommand("attacker@test.com", "1");
+            var command = new ReadAttackCommand("attacker@test.com", 1);
 
             Action action = () => handler.Execute(command);
 
             action.Should().Throw<InvalidOperationException>();
-            attack.DidNotReceiveWithAnyArgs().IsRead = default;
-            builder.Context.CallsToSaveChanges.Should().Be(0);
-        }
-
-        [TestMethod]
-        public void ReadAttackCommandHandler_Throws_Exception_For_Alphanumeric_AttackId() {
-            var builder = new FakeBuilder()
-                .WithPlayer(1, out var defender, email: "defender@test.com")
-                .BuildPlayer(2)
-                .WithAttackOn(1, out var attack, defender, AttackType.Raid, AttackResult.Won);
-
-            var handler = new ReadAttackCommandHandler(new PlayerRepository(builder.Context));
-            var command = new ReadAttackCommand("defender@test.com", "A");
-
-            Action action = () => handler.Execute(command);
-
-            action.Should().Throw<FormatException>();
             attack.DidNotReceiveWithAnyArgs().IsRead = default;
             builder.Context.CallsToSaveChanges.Should().Be(0);
         }

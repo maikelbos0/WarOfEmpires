@@ -3,9 +3,9 @@
 namespace WarOfEmpires.Models.Empires {
     public sealed class TroopModel {
         [RegularExpression("^\\d{0,6}$", ErrorMessage = "Invalid number")]
-        public string Soldiers { get; set; }
+        public int? Soldiers { get; set; }
         [RegularExpression("^\\d{0,6}$", ErrorMessage = "Invalid number")]
-        public string Mercenaries { get; set; }
+        public int? Mercenaries { get; set; }
         public string Type { get; set; }
         public string Name { get; set; }
         public ResourcesViewModel Cost { get; set; }

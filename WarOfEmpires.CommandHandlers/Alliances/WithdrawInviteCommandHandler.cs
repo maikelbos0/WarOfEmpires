@@ -17,7 +17,7 @@ namespace WarOfEmpires.CommandHandlers.Alliances {
         public CommandResult<WithdrawInviteCommand> Execute(WithdrawInviteCommand command) {
             var result = new CommandResult<WithdrawInviteCommand>();
             var alliance = _repository.Get(command.Email);
-            var invite = alliance.Invites.Single(i => i.Id == int.Parse(command.InviteId));
+            var invite = alliance.Invites.Single(i => i.Id == command.InviteId);
 
             alliance.RemoveInvite(invite);
             _repository.SaveChanges();

@@ -21,7 +21,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
                 .WithPopulation();
 
             var handler = new GetAllianceDetailsQueryHandler(builder.Context, new EnumFormatter());
-            var query = new GetAllianceDetailsQuery("1");
+            var query = new GetAllianceDetailsQuery(1);
 
             var result = handler.Execute(query);
 
@@ -39,19 +39,9 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
         }
 
         [TestMethod]
-        public void GetAllianceDetailsQueryHandler_Throws_Exception_For_Alphanumeric_Id() {
-            var handler = new GetAllianceDetailsQueryHandler(new FakeWarContext(), new EnumFormatter());
-            var query = new GetAllianceDetailsQuery("A");
-
-            Action action = () => handler.Execute(query);
-
-            action.Should().Throw<FormatException>();
-        }
-
-        [TestMethod]
         public void GetAllianceDetailsQueryHandler_Throws_Exception_For_Nonexistent_Id() {
             var handler = new GetAllianceDetailsQueryHandler(new FakeWarContext(), new EnumFormatter());
-            var query = new GetAllianceDetailsQuery("5");
+            var query = new GetAllianceDetailsQuery(5);
 
             Action action = () => handler.Execute(query);
 

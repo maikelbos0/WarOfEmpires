@@ -3,9 +3,9 @@
 namespace WarOfEmpires.Queries.Messages {
     public sealed class GetReceivedMessageQuery : IQuery<ReceivedMessageDetailsViewModel> {
         public string Email { get; }
-        public string MessageId { get; }
+        public int MessageId { get; }
 
-        public GetReceivedMessageQuery(string email, string messageId) {
+        public GetReceivedMessageQuery(string email, int messageId) {
             Email = email;
             MessageId = messageId;
         }

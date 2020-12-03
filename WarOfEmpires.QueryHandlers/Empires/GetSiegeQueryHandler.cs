@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using WarOfEmpires.Database;
 using WarOfEmpires.Domain.Empires;
@@ -28,6 +29,9 @@ namespace WarOfEmpires.QueryHandlers.Empires {
 
         public SiegeModel Execute(GetSiegeQuery query) {
             var player = _context.Players
+                .Include(p => p.SiegeWeapons)
+                .Include(p => p.Buildings)
+                .Include(p => p.Workers)
                 .Single(p => EmailComparisonService.Equals(p.User.Email, query.Email));
             
             return new SiegeModel() {

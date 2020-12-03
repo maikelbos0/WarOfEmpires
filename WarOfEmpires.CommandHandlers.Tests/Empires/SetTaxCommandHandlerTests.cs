@@ -10,10 +10,10 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
     [TestClass]
     public sealed class SetTaxCommandHandlerTests {
         [DataTestMethod]
-        [DataRow("0", DisplayName = "Minimum")]
-        [DataRow("50", DisplayName = "Normal")]
-        [DataRow("100", DisplayName = "Maximum")]
-        public void SetTaxCommandHandler_Succeeds(string tax) {
+        [DataRow(0, DisplayName = "Minimum")]
+        [DataRow(50, DisplayName = "Normal")]
+        [DataRow(100, DisplayName = "Maximum")]
+        public void SetTaxCommandHandler_Succeeds(int tax) {
             var builder = new FakeBuilder()
                 .BuildPlayer(1);
 
@@ -23,26 +23,8 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
             var result = handler.Execute(command);
 
             result.Success.Should().BeTrue();
-            builder.Player.Received().Tax = int.Parse(tax);
+            builder.Player.Received().Tax = tax;
             builder.Context.CallsToSaveChanges.Should().Be(1);
-        }
-
-        [DataTestMethod]
-        [DataRow("A", DisplayName = "Alphanumeric")]
-        [DataRow("-1", DisplayName = "Negative")]
-        [DataRow("101", DisplayName = "Too High")]
-        public void SetTaxCommandHandler_Fails_For_Invalid_Tax(string tax) {
-            var builder = new FakeBuilder()
-                .BuildPlayer(1);
-
-            var handler = new SetTaxCommandHandler(new PlayerRepository(builder.Context));
-            var command = new SetTaxCommand("test1@test.com", tax);
-
-            var result = handler.Execute(command);
-            
-            result.Should().HaveError("Tax", "Tax must be a valid number");
-            builder.Player.DidNotReceiveWithAnyArgs().Tax = default;
-            builder.Context.CallsToSaveChanges.Should().Be(0);
         }
     }
 }

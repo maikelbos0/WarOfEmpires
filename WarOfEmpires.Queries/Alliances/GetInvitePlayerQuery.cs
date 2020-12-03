@@ -2,9 +2,9 @@
 
 namespace WarOfEmpires.Queries.Alliances {
     public sealed class GetInvitePlayerQuery : IQuery<SendInviteModel> {
-        public string PlayerId { get; }
+        public int PlayerId { get; }
 
-        public GetInvitePlayerQuery(string playerId) {
+        public GetInvitePlayerQuery(int playerId) {
             PlayerId = playerId;
         }
     }

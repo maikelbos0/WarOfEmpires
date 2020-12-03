@@ -19,7 +19,7 @@ namespace WarOfEmpires.CommandHandlers.Attacks {
             var result = new CommandResult<AttackCommand>();
             var type = (AttackType)Enum.Parse(typeof(AttackType), command.AttackType);
             var attacker = _repository.Get(command.AttackerEmail);
-            var defender = _repository.Get(int.Parse(command.DefenderId));
+            var defender = _repository.Get(command.DefenderId);
 
             if (attacker == defender) {
                 throw new InvalidOperationException("You can't attack yourself");
@@ -29,16 +29,12 @@ namespace WarOfEmpires.CommandHandlers.Attacks {
                 throw new InvalidOperationException("You can't attack an alliance member");
             }
 
-            if (!int.TryParse(command.Turns, out int turns) || turns < 1 || turns > 10) {
-                result.AddError(c => c.Turns, "Turns must be a valid number");
-            }
-
-            if (attacker.AttackTurns < turns) {
+            if (attacker.AttackTurns < command.Turns) {
                 result.AddError(c => c.Turns, "You don't have enough attack turns");
             }
 
             if (result.Success) {
-                attacker.ExecuteAttack(type, defender, turns);
+                attacker.ExecuteAttack(type, defender, command.Turns);
                 _repository.SaveChanges();
             }
 

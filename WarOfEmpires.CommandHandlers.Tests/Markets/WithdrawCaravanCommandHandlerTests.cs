@@ -17,7 +17,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
                 .WithCaravan(1, out var caravan);
 
             var handler = new WithdrawCaravanCommandHandler(new PlayerRepository(builder.Context));
-            var command = new WithdrawCaravanCommand("test1@test.com", "1");
+            var command = new WithdrawCaravanCommand("test1@test.com", 1);
 
             var result = handler.Execute(command);
 
@@ -28,31 +28,13 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
         }
 
         [TestMethod]
-        public void WithdrawCaravanCommandHandler_Throws_Exception_For_Alphanumeric_CaravanId() {
-            var builder = new FakeBuilder()
-                .BuildPlayer(1)
-                .WithCaravan(1, out var caravan);
-
-            var handler = new WithdrawCaravanCommandHandler(new PlayerRepository(builder.Context));
-            var command = new WithdrawCaravanCommand("test1@test.com", "A");
-
-            Action commandAction = () => {
-                var result = handler.Execute(command);
-            };
-
-            commandAction.Should().Throw<FormatException>();
-            caravan.DidNotReceiveWithAnyArgs().Withdraw();
-            builder.Context.CallsToSaveChanges.Should().Be(0);
-        }
-
-        [TestMethod]
         public void WithdrawCaravanCommandHandler_Throws_Exception_For_Invalid_CaravanId() {
             var builder = new FakeBuilder()
                 .BuildPlayer(1)
                 .WithCaravan(1, out var caravan);
 
             var handler = new WithdrawCaravanCommandHandler(new PlayerRepository(builder.Context));
-            var command = new WithdrawCaravanCommand("test1@test.com", "51");
+            var command = new WithdrawCaravanCommand("test1@test.com", 51);
 
             Action commandAction = () => {
                 var result = handler.Execute(command);
@@ -71,7 +53,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
                 .WithCaravan(1, out var caravan);
 
             var handler = new WithdrawCaravanCommandHandler(new PlayerRepository(builder.Context));
-            var command = new WithdrawCaravanCommand("wrong@test.com", "1");
+            var command = new WithdrawCaravanCommand("wrong@test.com", 1);
 
             Action commandAction = () => {
                 var result = handler.Execute(command);

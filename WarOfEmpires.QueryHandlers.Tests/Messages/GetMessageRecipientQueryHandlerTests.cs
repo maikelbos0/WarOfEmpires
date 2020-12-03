@@ -15,26 +15,12 @@ namespace WarOfEmpires.QueryHandlers.Tests.Messages {
                 .WithPlayer(2);
 
             var handler = new GetMessageRecipientQueryHandler(builder.Context);
-            var query = new GetMessageRecipientQuery("2");
+            var query = new GetMessageRecipientQuery(2);
 
             var result = handler.Execute(query);
 
-            result.RecipientId.Should().Be("2");
+            result.RecipientId.Should().Be(2);
             result.Recipient.Should().Be("Test display name 2");
-        }
-
-        [TestMethod]
-        public void GetMessageRecipientQueryHandler_Throws_Exception_For_Alphanumeric_Id() {
-            var builder = new FakeBuilder()
-                .WithPlayer(1)
-                .WithPlayer(2);
-
-            var handler = new GetMessageRecipientQueryHandler(builder.Context);
-            var query = new GetMessageRecipientQuery("A");
-                        
-            Action action = () => handler.Execute(query);
-
-            action.Should().Throw<FormatException>();
         }
 
         [TestMethod]
@@ -44,7 +30,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Messages {
                 .WithPlayer(2);
 
             var handler = new GetMessageRecipientQueryHandler(builder.Context);
-            var query = new GetMessageRecipientQuery("5");
+            var query = new GetMessageRecipientQuery(5);
 
             Action action = () => handler.Execute(query);
 

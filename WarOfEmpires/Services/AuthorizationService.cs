@@ -44,6 +44,10 @@ namespace WarOfEmpires.Services {
                 return false;
             }
 
+            if (request.CanTransferLeadership && !allianceRights.CanTransferLeadership) {
+                return false;
+            }
+
             if (request.CanDisbandAlliance && !allianceRights.CanDisbandAlliance) {
                 return false;
             }

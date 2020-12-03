@@ -3,9 +3,9 @@
 namespace WarOfEmpires.Queries.Alliances {
     public sealed class GetNewRolePlayerQuery : IQuery<NewRolePlayersModel> {
         public string Email { get; set; }
-        public string RoleId { get; }
+        public int RoleId { get; }
 
-        public GetNewRolePlayerQuery(string email, string roleId) {
+        public GetNewRolePlayerQuery(string email, int roleId) {
             Email = email;
             RoleId = roleId;
         }

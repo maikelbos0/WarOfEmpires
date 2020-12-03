@@ -17,7 +17,7 @@ namespace WarOfEmpires.CommandHandlers.Alliances {
         public CommandResult<DeleteRoleCommand> Execute(DeleteRoleCommand command) {
             var result = new CommandResult<DeleteRoleCommand>();
             var alliance = _repository.Get(command.Email);
-            var role = alliance.Roles.Single(r => r.Id == int.Parse(command.RoleId));
+            var role = alliance.Roles.Single(r => r.Id == command.RoleId);
 
             alliance.DeleteRole(role);
             _repository.SaveChanges();

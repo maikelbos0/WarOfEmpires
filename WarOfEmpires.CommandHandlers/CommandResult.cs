@@ -22,10 +22,12 @@ namespace WarOfEmpires.CommandHandlers {
         }
 
         public void AddError(string message) {
-            AddError(null, message);
+            Errors.Add(new CommandError<TCommand>() {
+                Message = message
+            });
         }
 
-        public void AddError(Expression<Func<TCommand, object>> expression, string message) {
+        public void AddError<TProperty>(Expression<Func<TCommand, TProperty>> expression, string message) {
             Errors.Add(new CommandError<TCommand>() {
                 Expression = expression,
                 Message = message

@@ -65,6 +65,7 @@
     <Compile Include="Alliances\DeleteChatMessageCommandHandler.cs" />
     <Compile Include="Alliances\SendInviteCommandHandler.cs" />
     <Compile Include="Alliances\SetRoleCommandHandler.cs" />
+    <Compile Include="Alliances\TransferLeadershipCommandHandler.cs" />
     <Compile Include="Alliances\WithdrawInviteCommandHandler.cs" />
     <Compile Include="Attacks\AttackCommandHandler.cs" />
     <Compile Include="Attacks\ReadAttackCommandHandler.cs" />

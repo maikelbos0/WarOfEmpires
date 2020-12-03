@@ -20,11 +20,10 @@ namespace WarOfEmpires.QueryHandlers.Alliances {
 
         public RoleDetailsViewModel Execute(GetRoleDetailsQuery query) {
             var role = _context.Players
-                .Include(p => p.Alliance.Roles)
-                .Single(p => EmailComparisonService.Equals(p.User.Email, query.Email))
-                .Alliance
-                .Roles
-                .Single(r => r.Id == int.Parse(query.RoleId));
+                .Include(p => p.Alliance.Roles.Select(r => r.Players.Select(rp => rp.User)))
+                .Where(p => EmailComparisonService.Equals(p.User.Email, query.Email))
+                .SelectMany(p => p.Alliance.Roles)
+                .Single(r => r.Id == query.RoleId);
 
             return new RoleDetailsViewModel() {
                 Id = role.Id,

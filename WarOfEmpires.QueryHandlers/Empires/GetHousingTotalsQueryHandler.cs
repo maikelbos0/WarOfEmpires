@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Data.Entity;
+using System.Linq;
 using WarOfEmpires.Database;
 using WarOfEmpires.Domain.Empires;
 using WarOfEmpires.Models.Empires;
@@ -19,6 +20,9 @@ namespace WarOfEmpires.QueryHandlers.Empires {
 
         public HousingTotalsViewModel Execute(GetHousingTotalsQuery query) {
             var player = _context.Players
+                .Include(p => p.Buildings)
+                .Include(p => p.Workers)
+                .Include(p => p.Troops)
                 .Single(p => EmailComparisonService.Equals(p.User.Email, query.Email));
 
             return new HousingTotalsViewModel() {

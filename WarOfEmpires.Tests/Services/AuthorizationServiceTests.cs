@@ -117,6 +117,25 @@ namespace WarOfEmpires.Tests.Services {
         [DataTestMethod]
         [DataRow(null, false, false, false, DisplayName = "Not authenticated")]
         [DataRow("User", false, false, false, DisplayName = "Not in alliance")]
+        [DataRow("User", true, false, false, DisplayName = "In alliance but can't transfer leadership")]
+        [DataRow("User", true, true, true, DisplayName = "Can transfer leadership")]
+        public void AuthorizationService_IsAuthorized_Succeeds_CanTransferLeadership(string identity, bool isInAlliance, bool canTransferLeadership, bool expectedOutcome) {
+            var messageService = Substitute.For<IMessageService>();
+            var request = Substitute.For<IAllianceAuthorizationRequest>();
+            var authorizationService = new AuthorizationService(new FakeAuthenticationService() { Identity = identity }, messageService);
+
+            messageService.Dispatch(Arg.Any<IQuery<CurrentAllianceRightsViewModel>>()).Returns(new CurrentAllianceRightsViewModel() {
+                IsInAlliance = isInAlliance,
+                CanTransferLeadership = canTransferLeadership
+            });
+            request.CanTransferLeadership.Returns(true);
+
+            authorizationService.IsAuthorized(request).Should().Be(expectedOutcome);
+        }
+
+        [DataTestMethod]
+        [DataRow(null, false, false, false, DisplayName = "Not authenticated")]
+        [DataRow("User", false, false, false, DisplayName = "Not in alliance")]
         [DataRow("User", true, false, false, DisplayName = "In alliance but can't disband it")]
         [DataRow("User", true, true, true, DisplayName = "Can disband alliance")]
         public void AuthorizationService_IsAuthorized_Succeeds_CanDisbandAlliance(string identity, bool isInAlliance, bool canDisbandAlliance, bool expectedOutcome) {

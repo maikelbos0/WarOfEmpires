@@ -16,16 +16,9 @@ namespace WarOfEmpires.CommandHandlers.Empires {
         public CommandResult<SetTaxCommand> Execute(SetTaxCommand command) {
             var result = new CommandResult<SetTaxCommand>();
             var player = _repository.Get(command.Email);
-            int tax;
 
-            if (!int.TryParse(command.Tax, out tax) || tax < 0 || tax > 100) {
-                result.AddError(c => c.Tax, "Tax must be a valid number");
-            }
-
-            if (result.Success) {
-                player.Tax = tax;
-                _repository.SaveChanges();
-            }
+            player.Tax = command.Tax;
+            _repository.SaveChanges();
 
             return result;
         }

@@ -18,7 +18,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
                 .WithInvite(2, player, subject: "Invite from Another", body: "Hey, here's your invite into Another", isRead: true, date: new DateTime(2020, 1, 29));
 
             var handler = new GetReceivedInviteQueryHandler(builder.Context);
-            var query = new GetReceivedInviteQuery("test1@test.com", "2");
+            var query = new GetReceivedInviteQuery("test1@test.com", 2);
 
             var result = handler.Execute(query);
 
@@ -41,26 +41,11 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
                 .WithInvite(2, player);
 
             var handler = new GetReceivedInviteQueryHandler(builder.Context);
-            var query = new GetReceivedInviteQuery("wrong@test.com", "2");
+            var query = new GetReceivedInviteQuery("wrong@test.com", 2);
 
             Action action = () => handler.Execute(query);
 
             action.Should().Throw<InvalidOperationException>();
-        }
-
-        [TestMethod]
-        public void GetReceivedInviteQueryHandler_Throws_Exception_For_Alphanumeric_MessageId() {
-            var builder = new FakeBuilder()
-                .WithPlayer(1, out var player)
-                .BuildAlliance(3)
-                .WithInvite(2, player);
-            
-            var handler = new GetReceivedInviteQueryHandler(builder.Context);
-            var query = new GetReceivedInviteQuery("test1@test.com", "A");
-
-            Action action = () => handler.Execute(query);
-
-            action.Should().Throw<FormatException>();
         }
     }
 }

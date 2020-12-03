@@ -18,7 +18,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
                 .WithMember(1);
 
             var handler = new SendInviteCommandHandler(new PlayerRepository(builder.Context));
-            var command = new SendInviteCommand("test1@test.com", "2", "Test message", "Message body");
+            var command = new SendInviteCommand("test1@test.com", 2, "Test message", "Message body");
 
             var result = handler.Execute(command);
 
@@ -36,7 +36,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
                 .WithInvite(1, player);
 
             var handler = new SendInviteCommandHandler(new PlayerRepository(builder.Context));
-            var command = new SendInviteCommand("test1@test.com", "2", "Test message", "Message body");
+            var command = new SendInviteCommand("test1@test.com", 2, "Test message", "Message body");
 
             var result = handler.Execute(command);
 
@@ -52,27 +52,11 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
                 .WithPlayer(1);
 
             var handler = new SendInviteCommandHandler(new PlayerRepository(builder.Context));
-            var command = new SendInviteCommand("test1@test.com", "2", "Test message", "Message body");
+            var command = new SendInviteCommand("test1@test.com", 2, "Test message", "Message body");
 
             Action action = () => handler.Execute(command);
 
             action.Should().Throw<NullReferenceException>();            
-            builder.Context.CallsToSaveChanges.Should().Be(0);
-        }
-
-        [TestMethod]
-        public void SendInviteCommandHandler_Throws_Exception_For_Alphanumeric_Player_Id() {
-            var builder = new FakeBuilder()
-                .BuildAlliance(1)
-                .WithMember(1);
-
-            var handler = new SendInviteCommandHandler(new PlayerRepository(builder.Context));
-            var command = new SendInviteCommand("test1@test.com", "A", "Test message", "Message body");
-
-            Action action = () => handler.Execute(command);
-
-            action.Should().Throw<FormatException>();
-            builder.Alliance.DidNotReceiveWithAnyArgs().SendInvite(default, default, default);
             builder.Context.CallsToSaveChanges.Should().Be(0);
         }
 
@@ -83,7 +67,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
                 .WithMember(1);
 
             var handler = new SendInviteCommandHandler(new PlayerRepository(builder.Context));
-            var command = new SendInviteCommand("test1@test.com", "3", "Test message", "Message body");
+            var command = new SendInviteCommand("test1@test.com", 3, "Test message", "Message body");
 
             Action action = () => handler.Execute(command);
 
