@@ -20,7 +20,8 @@ namespace WarOfEmpires.Controllers {
         [Route]
         [Route("Index")]
         public ViewResult Index() {
-            return View(new AllianceSearchModel());
+            // Explicitly name view so it works from other actions
+            return View("Index", new AllianceSearchModel());
         }
 
         [Route("GetAlliances")]
@@ -262,6 +263,23 @@ namespace WarOfEmpires.Controllers {
         [Route("KickFromAlliance")]
         public ViewResult KickFromAlliance(string id) {
             return BuildViewResultFor(new KickFromAllianceCommand(_authenticationService.Identity, id))
+                .OnSuccess(Home)
+                .ThrowOnFailure()
+                .Execute();
+        }
+
+        [AllianceAuthorize(CanTransferLeadership = true)]
+        [HttpGet]
+        [Route("TransferLeadership")]
+        public ViewResult TransferLeadership() {
+            return View(_messageService.Dispatch(new GetNewLeaderQuery(_authenticationService.Identity)));
+        }
+
+        [AllianceAuthorize(CanTransferLeadership = true)]
+        [HttpPost]
+        [Route("TransferLeadership")]
+        public ViewResult TransferLeadership(int memberId) {
+            return BuildViewResultFor(new TransferLeadershipCommand(_authenticationService.Identity, memberId))
                 .OnSuccess(Home)
                 .ThrowOnFailure()
                 .Execute();

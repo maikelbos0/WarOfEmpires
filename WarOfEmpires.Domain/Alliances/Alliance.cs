@@ -65,5 +65,9 @@ namespace WarOfEmpires.Domain.Alliances {
         public virtual void ClearRole(Player member) {
             Roles.Single(r => r.Players.Contains(member)).Players.Remove(member);
         }
+
+        public virtual void TransferLeadership(Player member) {
+            Leader = member;
+        }
     }
 }

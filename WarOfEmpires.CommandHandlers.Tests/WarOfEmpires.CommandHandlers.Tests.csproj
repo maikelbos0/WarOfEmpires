@@ -110,6 +110,7 @@
     <Compile Include="Alliances\DeleteChatMessageCommandHandlerTests.cs" />
     <Compile Include="Alliances\SendInviteCommandHandlerTests.cs" />
     <Compile Include="Alliances\SetRoleCommandHandlerTests.cs" />
+    <Compile Include="Alliances\TransferLeadershipCommandHandlerTests.cs" />
     <Compile Include="Alliances\WithdrawInviteCommandHandlerTests.cs" />
     <Compile Include="Attacks\AttackCommandHandlerTests.cs" />
     <Compile Include="Attacks\ReadAttackCommandHandlerTests.cs" />
