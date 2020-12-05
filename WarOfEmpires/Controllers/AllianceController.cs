@@ -284,5 +284,15 @@ namespace WarOfEmpires.Controllers {
                 .ThrowOnFailure()
                 .Execute();
         }
+
+        [AllianceAuthorize(CanDisbandAlliance = true)]
+        [HttpPost]
+        [Route("Disband")]
+        public ViewResult Disband() {
+            return BuildViewResultFor(new DisbandAllianceCommand(_authenticationService.Identity))
+                .OnSuccess(Index)
+                .ThrowOnFailure()
+                .Execute();
+        }
     }
 }

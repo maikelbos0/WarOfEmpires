@@ -69,5 +69,14 @@ namespace WarOfEmpires.Domain.Alliances {
         public virtual void TransferLeadership(Player member) {
             Leader = member;
         }
+
+        public virtual void Disband() {
+            foreach (var role in Roles) {
+                role.Players.Clear();
+            }
+
+            Members.Clear();
+            Leader = null;
+        }
     }
 }

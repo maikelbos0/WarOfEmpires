@@ -33,6 +33,7 @@ namespace WarOfEmpires.QueryHandlers.Alliances {
                 result.CanDeleteChatMessages = true;
                 result.CanKickMembers = true;
                 result.CanTransferLeadership = true;
+                result.CanDisbandAlliance = true;
             }
             else if (player.AllianceRole != null) {
                 result.CanInvite = player.AllianceRole.CanInvite;

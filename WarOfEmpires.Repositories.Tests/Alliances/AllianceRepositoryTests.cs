@@ -56,5 +56,31 @@ namespace WarOfEmpires.Repositories.Tests.Alliances {
 
             context.CallsToSaveChanges.Should().Be(1);
         }
+
+        [TestMethod]
+        public void AllianceRepository_Remove_Succeeds() {
+            var builder = new FakeBuilder()
+                .BuildAlliance(1)
+                .WithMember(1);
+
+            var repository = new AllianceRepository(builder.Context);
+
+            repository.Remove(builder.Alliance);
+
+            builder.Context.Alliances.Should().NotContain(builder.Alliance);
+        }
+
+        [TestMethod]
+        public void AllianceRepository_Remove_Saves() {
+            var builder = new FakeBuilder()
+                .BuildAlliance(1)
+                .WithMember(1);
+
+            var repository = new AllianceRepository(builder.Context);
+
+            repository.Remove(builder.Alliance);
+
+            builder.Context.CallsToSaveChanges.Should().Be(1);
+        }
     }
 }

@@ -33,16 +33,17 @@ namespace WarOfEmpires.QueryHandlers.Players {
 
             if (player.Alliance != null) {
                 result.IsInAlliance = true;
-                result.CanLeaveAlliance = player != player.Alliance.Leader;
 
                 if (player == player.Alliance.Leader) {
                     result.CanInvite = true;
                     result.CanManageRoles = true;
                     result.CanTransferLeadership = true;
+                    result.CanDisbandAlliance = true;
                 }
                 else if (player.AllianceRole != null) {
                     result.CanInvite = player.AllianceRole.CanInvite;
                     result.CanManageRoles = player.AllianceRole.CanManageRoles;
+                    result.CanLeaveAlliance = true;
                 }
             }
 
