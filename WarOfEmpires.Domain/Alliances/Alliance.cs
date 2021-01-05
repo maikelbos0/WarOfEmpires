@@ -11,6 +11,8 @@ namespace WarOfEmpires.Domain.Alliances {
         public virtual ICollection<Role> Roles { get; protected set; } = new List<Role>();
         public virtual ICollection<Invite> Invites { get; protected set; } = new List<Invite>();
         public virtual ICollection<ChatMessage> ChatMessages { get; protected set; } = new List<ChatMessage>();
+        public virtual ICollection<NonAggressionPactRequest> SentNonAggressionPactRequests { get; protected set; } = new List<NonAggressionPactRequest>();
+        public virtual ICollection<NonAggressionPactRequest> ReceivedNonAggressionPactRequests { get; protected set; } = new List<NonAggressionPactRequest>();
 
         protected Alliance() {
         }
