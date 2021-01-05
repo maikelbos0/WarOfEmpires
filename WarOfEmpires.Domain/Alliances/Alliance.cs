@@ -13,6 +13,7 @@ namespace WarOfEmpires.Domain.Alliances {
         public virtual ICollection<ChatMessage> ChatMessages { get; protected set; } = new List<ChatMessage>();
         public virtual ICollection<NonAggressionPactRequest> SentNonAggressionPactRequests { get; protected set; } = new List<NonAggressionPactRequest>();
         public virtual ICollection<NonAggressionPactRequest> ReceivedNonAggressionPactRequests { get; protected set; } = new List<NonAggressionPactRequest>();
+        public virtual ICollection<NonAggressionPact> NonAggressionPacts { get; protected set; } = new List<NonAggressionPact>();
 
         protected Alliance() {
         }
