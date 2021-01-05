@@ -9,7 +9,6 @@
         public NonAggressionPactRequest(Alliance sender, Alliance recipient) {
             Sender = sender;
             Recipient = recipient;
-            IsAccepted = false;
         }
     }
 }
