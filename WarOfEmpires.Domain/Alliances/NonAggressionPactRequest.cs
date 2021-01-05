@@ -10,5 +10,9 @@
             Sender = sender;
             Recipient = recipient;
         }
+
+        public void Accept() {
+            throw new System.NotImplementedException();
+        }
     }
 }

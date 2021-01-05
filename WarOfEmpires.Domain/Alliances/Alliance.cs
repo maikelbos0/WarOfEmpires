@@ -81,5 +81,9 @@ namespace WarOfEmpires.Domain.Alliances {
             Members.Clear();
             Leader = null;
         }
+
+        public virtual void SendNonAggressionPactRequest(Alliance recipient) {
+            throw new System.NotImplementedException();
+        }
     }
 }

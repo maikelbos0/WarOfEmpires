@@ -194,5 +194,10 @@ namespace WarOfEmpires.Domain.Tests.Alliances {
             alliance.Members.Should().BeEmpty();
             role.Players.Should().BeEmpty();
         }
+
+        [TestMethod]
+        public void Alliance_SendNonAggressionPactRequest_Succeeds() {
+            throw new NotImplementedException();
+        }
     }
 }
