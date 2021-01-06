@@ -6,5 +6,9 @@ namespace WarOfEmpires.Domain.Alliances {
 
         public NonAggressionPact() {
         }
+
+        public void Dissolve() {
+            throw new System.NotImplementedException();
+        }
     }
 }

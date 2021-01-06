@@ -6,7 +6,7 @@ using WarOfEmpires.Domain.Players;
 
 namespace WarOfEmpires.Domain.Tests.Alliances {
     [TestClass]
-    public class NonAggressionPactRequestTests {
+    public sealed class NonAggressionPactRequestTests {
         [TestMethod]
         public void NonAggressionPactRequest_Accept_Succeeds() {
             var senderAlliance = new Alliance(new Player(1, "Sender"), "SEND", "The Senders");
