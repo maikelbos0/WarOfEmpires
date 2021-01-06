@@ -83,7 +83,10 @@ namespace WarOfEmpires.Domain.Alliances {
         }
 
         public virtual void SendNonAggressionPactRequest(Alliance recipient) {
-            throw new System.NotImplementedException();
+            var request = new NonAggressionPactRequest(this, recipient);
+
+            SentNonAggressionPactRequests.Add(request);
+            recipient.ReceivedNonAggressionPactRequests.Add(request);
         }
     }
 }
