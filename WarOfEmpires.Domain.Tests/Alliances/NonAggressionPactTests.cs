@@ -19,7 +19,6 @@ namespace WarOfEmpires.Domain.Tests.Alliances {
 
             pact.Dissolve();
 
-            pact.Alliances.Should().BeEmpty();
             firstAlliance.NonAggressionPacts.Should().BeEmpty();
             secondAlliance.NonAggressionPacts.Should().BeEmpty();
         }

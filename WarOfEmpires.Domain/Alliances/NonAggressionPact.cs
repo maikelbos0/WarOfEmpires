@@ -2,13 +2,15 @@
 
 namespace WarOfEmpires.Domain.Alliances {
     public class NonAggressionPact {
-        public virtual ICollection<Alliance> Alliances { get; set; }
+        public virtual ICollection<Alliance> Alliances { get; set; } = new List<Alliance>();
 
         public NonAggressionPact() {
         }
 
         public void Dissolve() {
-            throw new System.NotImplementedException();
+            foreach (var alliance in Alliances) {
+                alliance.NonAggressionPacts.Remove(this);
+            }
         }
     }
 }
