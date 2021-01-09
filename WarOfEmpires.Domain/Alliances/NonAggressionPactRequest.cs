@@ -22,5 +22,10 @@
             Sender.SentNonAggressionPactRequests.Remove(this);
             Recipient.ReceivedNonAggressionPactRequests.Remove(this);
         }
+
+        public void Reject() {
+            Sender.SentNonAggressionPactRequests.Remove(this);
+            Recipient.ReceivedNonAggressionPactRequests.Remove(this);
+        }
     }
 }
