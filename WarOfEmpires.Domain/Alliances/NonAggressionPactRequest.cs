@@ -12,7 +12,15 @@
         }
 
         public void Accept() {
-            throw new System.NotImplementedException();
+            var pact = new NonAggressionPact();
+
+            pact.Alliances.Add(Sender);
+            pact.Alliances.Add(Recipient);
+            Sender.NonAggressionPacts.Add(pact);
+            Recipient.NonAggressionPacts.Add(pact);
+
+            Sender.SentNonAggressionPactRequests.Remove(this);
+            Recipient.ReceivedNonAggressionPactRequests.Remove(this);
         }
     }
 }
