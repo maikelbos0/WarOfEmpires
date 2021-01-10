@@ -58,12 +58,15 @@
     <Compile Include="Alliances\NewLeadersModel.cs" />
     <Compile Include="Alliances\NewRolePlayersModel.cs" />
     <Compile Include="Alliances\NewRolePlayerModel.cs" />
+    <Compile Include="Alliances\NonAggressionPactViewModel.cs" />
     <Compile Include="Alliances\ReceivedInviteDetailsViewModel.cs" />
     <Compile Include="Alliances\ReceivedInviteViewModel.cs" />
+    <Compile Include="Alliances\ReceivedNonAggressionPactRequestViewModel.cs" />
     <Compile Include="Alliances\RoleDetailsViewModel.cs" />
     <Compile Include="Alliances\RolePlayerViewModel.cs" />
     <Compile Include="Alliances\RoleViewModel.cs" />
     <Compile Include="Alliances\SendInviteModel.cs" />
+    <Compile Include="Alliances\SentNonAggressionPactRequestViewModel.cs" />
     <Compile Include="Attacks\AttackDetailsViewModel.cs" />
     <Compile Include="Attacks\AttackRoundDetailsViewModel.cs" />
     <Compile Include="Attacks\ExecuteAttackModel.cs" />

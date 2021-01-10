@@ -51,10 +51,13 @@
     <Compile Include="Alliances\GetInvitesQuery.cs" />
     <Compile Include="Alliances\GetNewLeaderQuery.cs" />
     <Compile Include="Alliances\GetNewRolePlayerQuery.cs" />
+    <Compile Include="Alliances\GetNonAggressionPactsQuery.cs" />
     <Compile Include="Alliances\GetReceivedInviteQuery.cs" />
     <Compile Include="Alliances\GetReceivedInvitesQuery.cs" />
+    <Compile Include="Alliances\GetReceivedNonAggressionPactRequestsQuery.cs" />
     <Compile Include="Alliances\GetRoleDetailsQuery.cs" />
     <Compile Include="Alliances\GetRolesQuery.cs" />
+    <Compile Include="Alliances\GetSentNonAggressionPactRequestsQuery.cs" />
     <Compile Include="Attacks\GetLastExecutedAttackQuery.cs" />
     <Compile Include="Attacks\GetAttackDetailsQuery.cs" />
     <Compile Include="Attacks\GetDefenderQuery.cs" />
