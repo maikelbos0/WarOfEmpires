@@ -1,10 +1,11 @@
 ﻿using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
+using WarOfEmpires.Queries.Alliances;
 using WarOfEmpires.QueryHandlers.Alliances;
 using WarOfEmpires.Test.Utilities;
 
-namespace WarOfEmpires.Queries.Alliances {
+namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
     [TestClass]
     public sealed class GetNonAggressionPactsQueryHandlerTests {
         [TestMethod]
