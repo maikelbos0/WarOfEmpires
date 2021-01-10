@@ -18,6 +18,7 @@ namespace WarOfEmpires.Test.Utilities {
             Alliance.ChatMessages.Returns(new List<ChatMessage>());
             Alliance.Invites.Returns(new List<Invite>());
             Alliance.Roles.Returns(new List<Role>());
+            Alliance.NonAggressionPacts.Returns(new List<NonAggressionPact>());
             Context.Alliances.Add(Alliance);
         }
 
@@ -116,6 +117,21 @@ namespace WarOfEmpires.Test.Utilities {
 
         public FakeAllianceBuilder WithChatMessage(int id, Player player, DateTime date, string message) {
             return WithChatMessage(id, out _, player, date, message);
+        }
+
+        public FakeAllianceBuilder WithNonAggressionPact(int id, out NonAggressionPact pact, Alliance alliance) {
+            pact = Substitute.For<NonAggressionPact>();
+
+            pact.Id.Returns(id);
+            pact.Alliances.Returns(new List<Alliance>() { Alliance, alliance });
+            Alliance.NonAggressionPacts.Add(pact);
+            alliance.NonAggressionPacts.Add(pact);
+
+            return this;
+        }
+
+        public FakeAllianceBuilder WithNonAggressionPact(int id, Alliance alliance) {
+            return WithNonAggressionPact(id, out _, alliance);
         }
     }
 }
