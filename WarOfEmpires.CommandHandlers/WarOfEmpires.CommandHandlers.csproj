@@ -52,18 +52,22 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Alliances\AcceptInviteCommandHandler.cs" />
+    <Compile Include="Alliances\AcceptNonAggressionPactRequestCommandHandler.cs" />
     <Compile Include="Alliances\ClearRoleCommandHandler.cs" />
     <Compile Include="Alliances\CreateAllianceCommandHandler.cs" />
     <Compile Include="Alliances\CreateRoleCommandHandler.cs" />
     <Compile Include="Alliances\DeleteRoleCommandHandler.cs" />
     <Compile Include="Alliances\DisbandAllianceCommandHandler.cs" />
+    <Compile Include="Alliances\DissolveNonAggressionPactCommandHandler.cs" />
     <Compile Include="Alliances\KickFromAllianceCommandHandler.cs" />
     <Compile Include="Alliances\LeaveAllianceCommandHandler.cs" />
     <Compile Include="Alliances\PostChatMessageCommandHandler.cs" />
     <Compile Include="Alliances\ReadInviteCommandHandler.cs" />
     <Compile Include="Alliances\RejectInviteCommandHandler.cs" />
     <Compile Include="Alliances\DeleteChatMessageCommandHandler.cs" />
+    <Compile Include="Alliances\RejectNonAggressionPactRequestCommandHandler.cs" />
     <Compile Include="Alliances\SendInviteCommandHandler.cs" />
+    <Compile Include="Alliances\SendNonAggressionPactRequestCommandHandler.cs" />
     <Compile Include="Alliances\SetRoleCommandHandler.cs" />
     <Compile Include="Alliances\TransferLeadershipCommandHandler.cs" />
     <Compile Include="Alliances\WithdrawInviteCommandHandler.cs" />
