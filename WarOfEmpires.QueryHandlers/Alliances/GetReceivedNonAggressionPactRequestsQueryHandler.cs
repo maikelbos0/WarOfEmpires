@@ -1,9 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
 using WarOfEmpires.Database;
 using WarOfEmpires.Models.Alliances;
 using WarOfEmpires.Queries.Alliances;
 using WarOfEmpires.QueryHandlers.Decorators;
 using WarOfEmpires.Utilities.Container;
+using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Alliances {
     [InterfaceInjectable]
@@ -16,7 +19,18 @@ namespace WarOfEmpires.QueryHandlers.Alliances {
         }
 
         public IEnumerable<ReceivedNonAggressionPactRequestViewModel> Execute(GetReceivedNonAggressionPactRequestsQuery query) {
-            throw new System.NotImplementedException();
+            return _context.Players
+                .Include(p => p.Alliance.ReceivedNonAggressionPactRequests.Select(r => r.Sender))
+                .Single(p => EmailComparisonService.Equals(p.User.Email, query.Email))
+                .Alliance
+                .ReceivedNonAggressionPactRequests
+                .OrderBy(r => r.Id)
+                .Select(r => new ReceivedNonAggressionPactRequestViewModel() {
+                    Id = r.Id,
+                    AllianceId = r.Sender.Id,
+                    Code = r.Sender.Code,
+                    Name = r.Sender.Name
+                });
         }
     }
 }
