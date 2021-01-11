@@ -42,7 +42,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
             var result = handler.Execute(query);
 
             result.First().Id.Should().Be(1);
-            result.First().AllianceId.Should().Be(1);
+            result.First().AllianceId.Should().Be(2);
             result.First().Code.Should().Be("TEST");
             result.First().Name.Should().Be("Pact test");
         }
