@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
+using System;
 using WarOfEmpires.CommandHandlers.Alliances;
 using WarOfEmpires.Commands.Alliances;
 using WarOfEmpires.Repositories.Alliances;
@@ -38,11 +39,11 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
             var handler = new AcceptNonAggressionPactRequestCommandHandler(new AllianceRepository(builder.Context));
             var command = new AcceptNonAggressionPactRequestCommand("test1@test.com", 1);
 
-            var result = handler.Execute(command);
+            Action action = () => handler.Execute(command);
 
-            result.Success.Should().BeTrue();
-            request.Received().Accept();
-            builder.Context.CallsToSaveChanges.Should().Be(1);
+            action.Should().Throw<InvalidOperationException>();
+            request.DidNotReceiveWithAnyArgs().Accept();
+            builder.Context.CallsToSaveChanges.Should().Be(0);
         }
     }
 }
