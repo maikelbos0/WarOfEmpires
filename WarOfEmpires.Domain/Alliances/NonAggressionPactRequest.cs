@@ -11,7 +11,7 @@
             Recipient = recipient;
         }
 
-        public void Accept() {
+        public virtual void Accept() {
             var pact = new NonAggressionPact();
 
             pact.Alliances.Add(Sender);
@@ -23,7 +23,7 @@
             Recipient.ReceivedNonAggressionPactRequests.Remove(this);
         }
 
-        public void Reject() {
+        public virtual void Reject() {
             Sender.SentNonAggressionPactRequests.Remove(this);
             Recipient.ReceivedNonAggressionPactRequests.Remove(this);
         }

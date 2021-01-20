@@ -7,7 +7,7 @@ namespace WarOfEmpires.Domain.Alliances {
         public NonAggressionPact() {
         }
 
-        public void Dissolve() {
+        public virtual void Dissolve() {
             foreach (var alliance in Alliances) {
                 alliance.NonAggressionPacts.Remove(this);
             }
