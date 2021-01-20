@@ -294,5 +294,13 @@ namespace WarOfEmpires.Controllers {
                 .ThrowOnFailure()
                 .Execute();
         }
+
+        // TODO additional authorization
+        [AllianceAuthorize]
+        [HttpGet]
+        [Route("SendNonAggressionPactRequest")]
+        public ViewResult SendNonAggressionPactRequest(int id) {
+            return View();
+        }
     }
 }
