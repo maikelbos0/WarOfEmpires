@@ -1,4 +1,5 @@
-﻿using WarOfEmpires.CommandHandlers.Decorators;
+﻿using System.Linq;
+using WarOfEmpires.CommandHandlers.Decorators;
 using WarOfEmpires.Commands.Alliances;
 using WarOfEmpires.Repositories.Alliances;
 using WarOfEmpires.Utilities.Container;
@@ -14,7 +15,14 @@ namespace WarOfEmpires.CommandHandlers.Alliances {
         }
 
         public CommandResult<DissolveNonAggressionPactCommand> Execute(DissolveNonAggressionPactCommand command) {
-            throw new System.NotImplementedException();
+            var result = new CommandResult<DissolveNonAggressionPactCommand>();
+            var alliance = _repository.Get(command.Email);
+            var pact = alliance.NonAggressionPacts.Single(p => p.Id == command.NonAggressionPactId);
+
+            pact.Dissolve();
+            _repository.SaveChanges();
+
+            return result;
         }
     }
 }
