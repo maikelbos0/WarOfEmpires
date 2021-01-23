@@ -302,5 +302,13 @@ namespace WarOfEmpires.Controllers {
         public ViewResult SendNonAggressionPactRequest(int id) {
             return View(_messageService.Dispatch(new GetCreateNonAggressionPactRequestQuery(id)));
         }
+
+        // TODO additional authorization
+        [AllianceAuthorize]
+        [HttpGet]
+        [Route("SentNonAggressionPactsRequests")]
+        public ViewResult SentNonAggressionPactsRequests() {
+            return View(_messageService.Dispatch(new GetSentNonAggressionPactRequestsQuery(_authenticationService.Identity)));
+        }
     }
 }

@@ -71,6 +71,9 @@
                                     @Html.ActionLink("Roles", "Roles", "Alliance", null, new { @class = "dropdown-item" })
                                 }
 
+                                // TODO authorization
+                                @Html.ActionLink("Sent non aggression pact requests", "SentNonAggressionPactsRequests", "Alliance", null, new { @class = "dropdown-item" })
+
                                 if (Model.CanTransferLeadership) {
                                     @Html.ActionLink("Transfer leadership", "TransferLeadership", "Alliance", null, new { @class = "dropdown-item" })
                                 }
