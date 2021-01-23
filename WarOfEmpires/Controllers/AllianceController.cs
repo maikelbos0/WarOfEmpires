@@ -300,7 +300,7 @@ namespace WarOfEmpires.Controllers {
         [HttpGet]
         [Route("SendNonAggressionPactRequest")]
         public ViewResult SendNonAggressionPactRequest(int id) {
-            return View();
+            return View(_messageService.Dispatch(new GetCreateNonAggressionPactRequestQuery(id)));
         }
     }
 }
