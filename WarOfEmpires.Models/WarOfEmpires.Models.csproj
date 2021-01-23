@@ -46,6 +46,7 @@
     <Compile Include="Alliances\AllianceHomeViewModel.cs" />
     <Compile Include="Alliances\AllianceDetailsViewModel.cs" />
     <Compile Include="Alliances\ChatMessageViewModel.cs" />
+    <Compile Include="Alliances\CreateNonAggressionPactRequestModel.cs" />
     <Compile Include="Alliances\CreateRoleModel.cs" />
     <Compile Include="Alliances\CurrentAllianceRightsViewModel.cs" />
     <Compile Include="Alliances\InviteDetailsViewModel.cs" />

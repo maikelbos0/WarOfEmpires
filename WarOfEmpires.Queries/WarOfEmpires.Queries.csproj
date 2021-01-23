@@ -45,6 +45,7 @@
     <Compile Include="Alliances\GetAllianceNameQuery.cs" />
     <Compile Include="Alliances\GetAlliancesQuery.cs" />
     <Compile Include="Alliances\GetAllianceHomeQuery.cs" />
+    <Compile Include="Alliances\GetCreateNonAggressionPactRequestQuery.cs" />
     <Compile Include="Alliances\GetCurrentAllianceRightsQuery.cs" />
     <Compile Include="Alliances\GetInvitePlayerQuery.cs" />
     <Compile Include="Alliances\GetInviteQuery.cs" />

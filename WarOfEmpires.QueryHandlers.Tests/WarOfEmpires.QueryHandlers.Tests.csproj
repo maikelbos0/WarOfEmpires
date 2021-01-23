@@ -80,6 +80,7 @@
     <Compile Include="Alliances\GetAllianceDetailsQueryHandlerTests.cs" />
     <Compile Include="Alliances\GetAllianceNameQueryHandlerTests.cs" />
     <Compile Include="Alliances\GetAlliancesQueryHandlerTests.cs" />
+    <Compile Include="Alliances\GetCreateNonAggressionPactRequestQueryHandlerTests.cs" />
     <Compile Include="Alliances\GetCurrentAllianceRightsQueryHandlerTests.cs" />
     <Compile Include="Alliances\GetInvitePlayerQueryHandlerTests.cs" />
     <Compile Include="Alliances\GetInviteQueryHandlerTests.cs" />
