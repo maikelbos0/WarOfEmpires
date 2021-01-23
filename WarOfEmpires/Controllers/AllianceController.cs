@@ -305,10 +305,22 @@ namespace WarOfEmpires.Controllers {
 
         // TODO additional authorization
         [AllianceAuthorize]
+        [HttpPost]
+        [Route("SendNonAggressionPactRequest")]
+        public ViewResult SendNonAggressionPactRequest(CreateNonAggressionPactRequestModel model) {
+            return BuildViewResultFor(new SendNonAggressionPactRequestCommand(_authenticationService.Identity, model.AllianceId))
+                .OnSuccess(SentNonAggressionPactsRequests)
+                .OnFailure("SendNonAggressionPactRequest", model)
+                .Execute();
+        }
+
+        // TODO additional authorization
+        [AllianceAuthorize]
         [HttpGet]
         [Route("SentNonAggressionPactsRequests")]
         public ViewResult SentNonAggressionPactsRequests() {
-            return View(_messageService.Dispatch(new GetSentNonAggressionPactRequestsQuery(_authenticationService.Identity)));
+            // Explicitly name view so it works from other actions
+            return View("SentNonAggressionPactsRequests", _messageService.Dispatch(new GetSentNonAggressionPactRequestsQuery(_authenticationService.Identity)));
         }
     }
 }
