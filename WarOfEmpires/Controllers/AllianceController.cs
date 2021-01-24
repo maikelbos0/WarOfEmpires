@@ -333,5 +333,14 @@ namespace WarOfEmpires.Controllers {
                 .ThrowOnFailure()
                 .Execute();
         }
+
+        // TODO additional authorization
+        [AllianceAuthorize]
+        [HttpGet]
+        [Route("ReceivedNonAggressionPactsRequests")]
+        public ViewResult ReceivedNonAggressionPactsRequests() {
+            // Explicitly name view so it works from other actions
+            return View("ReceivedNonAggressionPactsRequests", _messageService.Dispatch(new GetReceivedNonAggressionPactRequestsQuery(_authenticationService.Identity)));
+        }
     }
 }

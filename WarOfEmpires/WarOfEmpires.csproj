@@ -544,6 +544,7 @@
     <Content Include="Views\Alliance\TransferLeadership.cshtml" />
     <Content Include="Views\Alliance\SendNonAggressionPactRequest.cshtml" />
     <Content Include="Views\Alliance\SentNonAggressionPactsRequests.cshtml" />
+    <Content Include="Views\Alliance\ReceivedNonAggressionPactsRequests.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -1,0 +1,55 @@
+﻿@model System.Collections.Generic.IEnumerable<WarOfEmpires.Models.Alliances.ReceivedNonAggressionPactRequestViewModel>
+
+@{
+    ViewBag.Title = "Received non aggression pact requests";
+}
+
+<h2>Received non aggression pact requests</h2>
+
+<p>
+    Below you can find the open non aggression pact requests your alliance has received.
+</p>
+
+<table class="table table-borderless table-striped">
+    <thead>
+        <tr>
+            <th>Alliance code</th>
+            <th>Alliance name</th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var request in Model) {
+            <tr>
+                <td class="table-form-label">@request.Code</td>
+                <td class="table-form-label">@request.Name</td>
+                <td>
+                    @using (Html.BeginForm("AcceptNonAggressionPactRequest", null, FormMethod.Post, new {
+                        data_success_message = "The non aggression pact request has been accepted."
+                    })) {
+                        @Html.Hidden("id", request.Id)
+
+                        <button type="submit" class="btn btn-primary form-control">
+                            <span class="d-none d-lg-inline">Accept</span>
+                            <span class="d-lg-none">V</span>
+                        </button>
+                    }
+                </td>
+                <td>
+                    @using (Html.BeginForm("RejectNonAggressionPactRequest", null, FormMethod.Post, new {
+                        data_success_message = "The non aggression pact request has been rejected."
+                    })) {
+                        @Html.Hidden("id", request.Id)
+
+                        <button type="submit" class="btn btn-secondary form-control">
+                            <span class="d-none d-lg-inline">Reject</span>
+                            <span class="d-lg-none">X</span>
+                        </button>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

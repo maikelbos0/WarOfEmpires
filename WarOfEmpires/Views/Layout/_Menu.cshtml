@@ -72,7 +72,8 @@
                                 }
 
                                 // TODO authorization
-                                @Html.ActionLink("Sent non aggression pact requests", "SentNonAggressionPactsRequests", "Alliance", null, new { @class = "dropdown-item" })
+                                @Html.ActionLink("Sent pact requests", "SentNonAggressionPactsRequests", "Alliance", null, new { @class = "dropdown-item" })
+                                @Html.ActionLink("Received pact requests", "ReceivedNonAggressionPactsRequests", "Alliance", null, new { @class = "dropdown-item" })
 
                                 if (Model.CanTransferLeadership) {
                                     @Html.ActionLink("Transfer leadership", "TransferLeadership", "Alliance", null, new { @class = "dropdown-item" })
