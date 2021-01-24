@@ -27,5 +27,10 @@
             Sender.SentNonAggressionPactRequests.Remove(this);
             Recipient.ReceivedNonAggressionPactRequests.Remove(this);
         }
+
+        public virtual void Withdraw() {
+            Sender.SentNonAggressionPactRequests.Remove(this);
+            Recipient.ReceivedNonAggressionPactRequests.Remove(this);
+        }
     }
 }

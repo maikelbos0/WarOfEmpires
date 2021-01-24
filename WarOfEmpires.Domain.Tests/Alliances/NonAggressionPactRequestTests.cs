@@ -41,5 +41,22 @@ namespace WarOfEmpires.Domain.Tests.Alliances {
             senderAlliance.NonAggressionPacts.Should().BeEmpty();
             recipientAlliance.NonAggressionPacts.Should().BeEmpty();
         }
+
+        [TestMethod]
+        public void NonAggressionPactRequest_Withdraw_Succeeds() {
+            var senderAlliance = new Alliance(new Player(1, "Sender"), "SEND", "The Senders");
+            var recipientAlliance = new Alliance(new Player(2, "Recipient"), "RECV", "The Recipients");
+            var request = new NonAggressionPactRequest(senderAlliance, recipientAlliance);
+
+            senderAlliance.SentNonAggressionPactRequests.Add(request);
+            recipientAlliance.ReceivedNonAggressionPactRequests.Add(request);
+
+            request.Withdraw();
+
+            senderAlliance.SentNonAggressionPactRequests.Should().BeEmpty();
+            recipientAlliance.ReceivedNonAggressionPactRequests.Should().BeEmpty();
+            senderAlliance.NonAggressionPacts.Should().BeEmpty();
+            recipientAlliance.NonAggressionPacts.Should().BeEmpty();
+        }
     }
 }
