@@ -65,6 +65,7 @@
     <Compile Include="Alliances\ReadInviteCommandHandler.cs" />
     <Compile Include="Alliances\RejectInviteCommandHandler.cs" />
     <Compile Include="Alliances\DeleteChatMessageCommandHandler.cs" />
+    <Compile Include="Alliances\WithdrawNonAggressionPactRequestCommandHandler.cs" />
     <Compile Include="Alliances\RejectNonAggressionPactRequestCommandHandler.cs" />
     <Compile Include="Alliances\SendInviteCommandHandler.cs" />
     <Compile Include="Alliances\SendNonAggressionPactRequestCommandHandler.cs" />

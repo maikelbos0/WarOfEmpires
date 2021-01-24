@@ -111,6 +111,7 @@
     <Compile Include="Alliances\ReadInviteCommandHandlerTests.cs" />
     <Compile Include="Alliances\RejectInviteCommandHandlerTests.cs" />
     <Compile Include="Alliances\DeleteChatMessageCommandHandlerTests.cs" />
+    <Compile Include="Alliances\WithdrawNonAggressionPactRequestCommandHandlerTests.cs" />
     <Compile Include="Alliances\RejectNonAggressionPactRequestCommandHandlerTests.cs" />
     <Compile Include="Alliances\SendInviteCommandHandlerTests.cs" />
     <Compile Include="Alliances\SendNonAggressionPactRequestCommandHandlerTests.cs" />
