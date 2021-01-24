@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Alliances\AcceptInviteCommand.cs" />
+    <Compile Include="Alliances\WithdrawNonAggressionPactRequestCommand.cs" />
     <Compile Include="Alliances\AcceptNonAggressionPactRequestCommand.cs" />
     <Compile Include="Alliances\ClearRoleCommand.cs" />
     <Compile Include="Alliances\CreateRoleCommand.cs" />
