@@ -309,7 +309,7 @@ namespace WarOfEmpires.Controllers {
         [Route("SendNonAggressionPactRequest")]
         public ViewResult SendNonAggressionPactRequest(CreateNonAggressionPactRequestModel model) {
             return BuildViewResultFor(new SendNonAggressionPactRequestCommand(_authenticationService.Identity, model.AllianceId))
-                .OnSuccess(SentNonAggressionPactsRequests)
+                .OnSuccess(SentNonAggressionPactRequests)
                 .OnFailure("SendNonAggressionPactRequest", model)
                 .Execute();
         }
@@ -317,10 +317,10 @@ namespace WarOfEmpires.Controllers {
         // TODO additional authorization
         [AllianceAuthorize]
         [HttpGet]
-        [Route("SentNonAggressionPactsRequests")]
-        public ViewResult SentNonAggressionPactsRequests() {
+        [Route("SentNonAggressionPactRequests")]
+        public ViewResult SentNonAggressionPactRequests() {
             // Explicitly name view so it works from other actions
-            return View("SentNonAggressionPactsRequests", _messageService.Dispatch(new GetSentNonAggressionPactRequestsQuery(_authenticationService.Identity)));
+            return View("SentNonAggressionPactRequests", _messageService.Dispatch(new GetSentNonAggressionPactRequestsQuery(_authenticationService.Identity)));
         }
 
         // TODO additional authorization
@@ -329,7 +329,7 @@ namespace WarOfEmpires.Controllers {
         [Route("WithdrawNonAggressionPactRequest")]
         public ViewResult WithdrawNonAggressionPactRequest(int id) {
             return BuildViewResultFor(new WithdrawNonAggressionPactRequestCommand(_authenticationService.Identity, id))
-                .OnSuccess(SentNonAggressionPactsRequests)
+                .OnSuccess(SentNonAggressionPactRequests)
                 .ThrowOnFailure()
                 .Execute();
         }
@@ -337,10 +337,10 @@ namespace WarOfEmpires.Controllers {
         // TODO additional authorization
         [AllianceAuthorize]
         [HttpGet]
-        [Route("ReceivedNonAggressionPactsRequests")]
-        public ViewResult ReceivedNonAggressionPactsRequests() {
+        [Route("ReceivedNonAggressionPactRequests")]
+        public ViewResult ReceivedNonAggressionPactRequests() {
             // Explicitly name view so it works from other actions
-            return View("ReceivedNonAggressionPactsRequests", _messageService.Dispatch(new GetReceivedNonAggressionPactRequestsQuery(_authenticationService.Identity)));
+            return View("ReceivedNonAggressionPactRequests", _messageService.Dispatch(new GetReceivedNonAggressionPactRequestsQuery(_authenticationService.Identity)));
         }
 
         // TODO additional authorization
@@ -350,7 +350,7 @@ namespace WarOfEmpires.Controllers {
         public ViewResult AcceptNonAggressionPactRequest(int id) {
             // TODO un success go to pacts
             return BuildViewResultFor(new AcceptNonAggressionPactRequestCommand(_authenticationService.Identity, id))
-                .OnSuccess(ReceivedNonAggressionPactsRequests)
+                .OnSuccess(ReceivedNonAggressionPactRequests)
                 .ThrowOnFailure()
                 .Execute();
         }
@@ -361,7 +361,7 @@ namespace WarOfEmpires.Controllers {
         [Route("RejectNonAggressionPactRequest")]
         public ViewResult RejectNonAggressionPactRequest(int id) {
             return BuildViewResultFor(new RejectNonAggressionPactRequestCommand(_authenticationService.Identity, id))
-                .OnSuccess(ReceivedNonAggressionPactsRequests)
+                .OnSuccess(ReceivedNonAggressionPactRequests)
                 .ThrowOnFailure()
                 .Execute();
         }
