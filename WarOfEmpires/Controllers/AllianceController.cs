@@ -348,9 +348,8 @@ namespace WarOfEmpires.Controllers {
         [HttpPost]
         [Route("AcceptNonAggressionPactRequest")]
         public ViewResult AcceptNonAggressionPactRequest(int id) {
-            // TODO un success go to pacts
             return BuildViewResultFor(new AcceptNonAggressionPactRequestCommand(_authenticationService.Identity, id))
-                .OnSuccess(ReceivedNonAggressionPactRequests)
+                .OnSuccess(NonAggressionPacts)
                 .ThrowOnFailure()
                 .Execute();
         }
@@ -364,6 +363,14 @@ namespace WarOfEmpires.Controllers {
                 .OnSuccess(ReceivedNonAggressionPactRequests)
                 .ThrowOnFailure()
                 .Execute();
+        }
+
+        [AllianceAuthorize]
+        [HttpGet]
+        [Route("NonAggressionPacts")]
+        public ViewResult NonAggressionPacts() {
+            // Explicitly name view so it works from other actions
+            return View("NonAggressionPacts", _messageService.Dispatch(new GetNonAggressionPactsQuery(_authenticationService.Identity)));
         }
     }
 }
