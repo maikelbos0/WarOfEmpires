@@ -372,5 +372,16 @@ namespace WarOfEmpires.Controllers {
             // Explicitly name view so it works from other actions
             return View("NonAggressionPacts", _messageService.Dispatch(new GetNonAggressionPactsQuery(_authenticationService.Identity)));
         }
+
+        // TODO additional authorization
+        [AllianceAuthorize]
+        [HttpPost]
+        [Route("DissolveNonAggressionPact")]
+        public ViewResult DissolveNonAggressionPact(int id) {
+            return BuildViewResultFor(new DissolveNonAggressionPactCommand(_authenticationService.Identity, id))
+                .OnSuccess(NonAggressionPacts)
+                .ThrowOnFailure()
+                .Execute();
+        }
     }
 }
