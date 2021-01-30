@@ -295,8 +295,7 @@ namespace WarOfEmpires.Controllers {
         public ViewResult SendNonAggressionPactRequest(CreateNonAggressionPactRequestModel model) {
             return BuildViewResultFor(new SendNonAggressionPactRequestCommand(_authenticationService.Identity, model.AllianceId))
                 .OnSuccess(SentNonAggressionPactRequests)
-                .OnFailure("SendNonAggressionPactRequest", model)
-                .Execute();
+                .OnFailure("SendNonAggressionPactRequest", model);
         }
 
         // TODO additional authorization
@@ -315,8 +314,7 @@ namespace WarOfEmpires.Controllers {
         public ViewResult WithdrawNonAggressionPactRequest(int id) {
             return BuildViewResultFor(new WithdrawNonAggressionPactRequestCommand(_authenticationService.Identity, id))
                 .OnSuccess(SentNonAggressionPactRequests)
-                .ThrowOnFailure()
-                .Execute();
+                .ThrowOnFailure();
         }
 
         // TODO additional authorization
@@ -335,8 +333,7 @@ namespace WarOfEmpires.Controllers {
         public ViewResult AcceptNonAggressionPactRequest(int id) {
             return BuildViewResultFor(new AcceptNonAggressionPactRequestCommand(_authenticationService.Identity, id))
                 .OnSuccess(NonAggressionPacts)
-                .ThrowOnFailure()
-                .Execute();
+                .ThrowOnFailure();
         }
 
         // TODO additional authorization
@@ -346,8 +343,7 @@ namespace WarOfEmpires.Controllers {
         public ViewResult RejectNonAggressionPactRequest(int id) {
             return BuildViewResultFor(new RejectNonAggressionPactRequestCommand(_authenticationService.Identity, id))
                 .OnSuccess(ReceivedNonAggressionPactRequests)
-                .ThrowOnFailure()
-                .Execute();
+                .ThrowOnFailure();
         }
 
         [AllianceAuthorize]
@@ -365,8 +361,7 @@ namespace WarOfEmpires.Controllers {
         public ViewResult DissolveNonAggressionPact(int id) {
             return BuildViewResultFor(new DissolveNonAggressionPactCommand(_authenticationService.Identity, id))
                 .OnSuccess(NonAggressionPacts)
-                .ThrowOnFailure()
-                .Execute();
+                .ThrowOnFailure();
         }
     }
 }
