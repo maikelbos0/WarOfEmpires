@@ -72,8 +72,7 @@ namespace WarOfEmpires.Controllers {
         public ViewResult Execute(ExecuteAttackModel model) {
             return BuildViewResultFor(new AttackCommand(model.AttackType, _authenticationService.Identity, model.DefenderId, model.Turns))
                 .OnSuccess(LastExecutedAttackDetails)
-                .OnFailure("Execute", model)
-                .Execute();
+                .OnFailure("Execute", model);
         }
     }
 }
