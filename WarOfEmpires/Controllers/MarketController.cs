@@ -28,8 +28,7 @@ namespace WarOfEmpires.Controllers {
         public ViewResult Sell(MarketModel model) {
             return BuildViewResultFor(new SellResourcesCommand(_authenticationService.Identity, model.Merchandise.Select(m => new MerchandiseInfo(m.Type, m.Quantity, m.Price))))
                 .OnSuccess(Sell)
-                .OnFailure("Sell", model)
-                .Execute();
+                .OnFailure("Sell", model);
         }
 
         [Route("_Caravans")]
@@ -42,8 +41,7 @@ namespace WarOfEmpires.Controllers {
         public ViewResult WithdrawCaravan(int id) {
             return BuildViewResultFor(new WithdrawCaravanCommand(_authenticationService.Identity, id))
                 .OnSuccess(Sell)
-                .ThrowOnFailure()
-                .Execute();
+                .ThrowOnFailure();
         }
 
         [Route("Buy")]
@@ -57,8 +55,7 @@ namespace WarOfEmpires.Controllers {
         public ViewResult Buy(MarketModel model) {
             return BuildViewResultFor(new BuyResourcesCommand(_authenticationService.Identity, model.Merchandise.Select(m => new MerchandiseInfo(m.Type, m.Quantity, m.Price))))
                 .OnSuccess(Buy)
-                .OnFailure("Buy", model)
-                .Execute();
+                .OnFailure("Buy", model);
         }
 
         [Route("SellTransactions")]

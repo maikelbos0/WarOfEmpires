@@ -46,8 +46,7 @@ namespace WarOfEmpires.Controllers {
         public ViewResult Send(MessageModel model) {
             return BuildViewResultFor(new SendMessageCommand(_authenticationService.Identity, model.RecipientId, model.Subject, model.Body))
                 .OnSuccess(SentIndex)
-                .OnFailure("Send", model)
-                .Execute();
+                .OnFailure("Send", model);
         }
 
         [Route("ReceivedDetails")]

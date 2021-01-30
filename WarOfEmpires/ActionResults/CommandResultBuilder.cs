@@ -85,5 +85,9 @@ namespace WarOfEmpires.ActionResults {
                 return _onFailure();
             }
         }
+
+        public static implicit operator TViewResult (CommandResultBuilder<TCommand, TViewResult> builder) {
+            return builder.Execute();
+        }
     }
 }

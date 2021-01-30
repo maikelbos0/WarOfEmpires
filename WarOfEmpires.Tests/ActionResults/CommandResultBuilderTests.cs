@@ -150,7 +150,7 @@ namespace WarOfEmpires.Tests.ActionResults {
             commandResult.AddError(c => c.Test, "An error occurred");
             messageService.Dispatch(Arg.Any<TestCommand>()).Returns(commandResult);
 
-            Action action = () => builder.Execute().Should();
+            Action action = () => builder.Execute();
 
             action.Should().Throw<InvalidOperationException>().WithMessage("Unexpected error executing WarOfEmpires.Tests.ActionResults.CommandResultBuilderTests+TestCommand: {\"Test\":\"test\"}");
         }

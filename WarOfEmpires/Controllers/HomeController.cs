@@ -38,8 +38,7 @@ namespace WarOfEmpires.Controllers {
                     _messageService.Dispatch(new RegisterPlayerCommand(model.Email, model.DisplayName));
                     return Index();
                 })
-                .OnFailure("Register", model)
-                .Execute();
+                .OnFailure("Register", model);
         }
 
         [Route("Activate")]
@@ -47,8 +46,7 @@ namespace WarOfEmpires.Controllers {
         public ViewResult Activate(string activationCode, string email) {
             return BuildViewResultFor(new ActivateUserCommand(email, activationCode))
                 .OnSuccess("Activated")
-                .OnFailure("ActivationFailed")
-                .Execute();
+                .OnFailure("ActivationFailed");
         }
 
         [Route("SendActivation")]
@@ -62,8 +60,7 @@ namespace WarOfEmpires.Controllers {
         public ViewResult SendActivation(SendUserActivationModel model) {
             return BuildViewResultFor(new SendUserActivationCommand(model.Email))
                 .OnSuccess(Index)
-                .ThrowOnFailure()
-                .Execute();
+                .ThrowOnFailure();
         }
 
         [Route("LogIn")]
@@ -120,8 +117,7 @@ namespace WarOfEmpires.Controllers {
         public ViewResult ChangePassword(ChangeUserPasswordModel model) {
             return BuildViewResultFor(new ChangeUserPasswordCommand(_authenticationService.Identity, model.CurrentPassword, model.NewPassword))
                 .OnSuccess(Index)
-                .OnFailure("ChangePassword", model)
-                .Execute();
+                .OnFailure("ChangePassword", model);
         }
 
         [Route("ForgotPassword")]
@@ -135,8 +131,7 @@ namespace WarOfEmpires.Controllers {
         public ViewResult ForgotPassword(ForgotUserPasswordModel model) {
             return BuildViewResultFor(new ForgotUserPasswordCommand(model.Email))
             .OnSuccess(Index)
-            .ThrowOnFailure()
-            .Execute();
+            .ThrowOnFailure();
         }
 
         [Route("ResetPassword")]
@@ -150,8 +145,7 @@ namespace WarOfEmpires.Controllers {
         public ViewResult ResetPassword(string email, string token, ResetUserPasswordModel model) {
             return  BuildViewResultFor(new ResetUserPasswordCommand(email, token, model.NewPassword))
                 .OnSuccess("PasswordReset")
-                .OnFailure("ResetPassword", model)
-                .Execute();
+                .OnFailure("ResetPassword", model);
         }
 
         [UserOnline]
@@ -193,8 +187,7 @@ namespace WarOfEmpires.Controllers {
         public ViewResult ChangeEmail(ChangeUserEmailModel model) {
             return BuildViewResultFor(new ChangeUserEmailCommand(_authenticationService.Identity, model.Password, model.NewEmail))
                 .OnSuccess(Index)
-                .OnFailure("ChangeEmail", model)
-                .Execute();
+                .OnFailure("ChangeEmail", model);
         }
 
         [Route("ConfirmEmail")]
