@@ -47,8 +47,7 @@ namespace WarOfEmpires.Controllers {
         public ViewResult Create(CreateAllianceModel model) {
             return BuildViewResultFor(new CreateAllianceCommand(_authenticationService.Identity, model.Code, model.Name))
                 .OnSuccess(Home)
-                .OnFailure("Create", model)
-                .Execute();
+                .OnFailure("Create", model);
         }
 
         [AllianceAuthorize]
@@ -72,8 +71,7 @@ namespace WarOfEmpires.Controllers {
         public ViewResult Invite(SendInviteModel model) {
             return BuildViewResultFor(new SendInviteCommand(_authenticationService.Identity, model.PlayerId, model.Subject, model.Body))
                 .OnSuccess(Invites)
-                .OnFailure("Invite", model)
-                .Execute();
+                .OnFailure("Invite", model);
         }
 
         [AllianceAuthorize(CanInvite = true)]
@@ -104,8 +102,7 @@ namespace WarOfEmpires.Controllers {
         public ViewResult WithdrawInvite(int id) {
             return BuildViewResultFor(new WithdrawInviteCommand(_authenticationService.Identity, id))
                 .OnSuccess(Invites)
-                .ThrowOnFailure()
-                .Execute();
+                .ThrowOnFailure();
         }
 
         [HttpGet]
@@ -138,8 +135,7 @@ namespace WarOfEmpires.Controllers {
         public ViewResult AcceptInvite(ReceivedInviteDetailsViewModel model) {
             return BuildViewResultFor(new AcceptInviteCommand(_authenticationService.Identity, model.Id))
                 .OnSuccess(Home)
-                .OnFailure("ReceivedInviteDetails", model)
-                .Execute();
+                .OnFailure("ReceivedInviteDetails", model);
         }
 
         [HttpPost]
@@ -147,8 +143,7 @@ namespace WarOfEmpires.Controllers {
         public ViewResult RejectInvite(int id) {
             return BuildViewResultFor(new RejectInviteCommand(_authenticationService.Identity, id))
                 .OnSuccess(ReceivedInvites)
-                .ThrowOnFailure()
-                .Execute();
+                .ThrowOnFailure();
         }
 
         [AllianceAuthorize]
@@ -157,8 +152,7 @@ namespace WarOfEmpires.Controllers {
         public ViewResult PostChatMessage(AllianceHomeViewModel model) {
             return BuildViewResultFor(new PostChatMessageCommand(_authenticationService.Identity, model.ChatMessage))
                 .OnSuccess(Home)
-                .ThrowOnFailure()
-                .Execute();
+                .ThrowOnFailure();
         }
 
         [AllianceAuthorize(CanDeleteChatMessages = true)]
@@ -167,8 +161,7 @@ namespace WarOfEmpires.Controllers {
         public ViewResult DeleteChatMessage(int id) {
             return BuildViewResultFor(new DeleteChatMessageCommand(_authenticationService.Identity, id))
                 .OnSuccess(Home)
-                .ThrowOnFailure()
-                .Execute();
+                .ThrowOnFailure();
         }
 
         [AllianceAuthorize(CanManageRoles = true)]
@@ -199,8 +192,7 @@ namespace WarOfEmpires.Controllers {
         public ViewResult CreateRole(CreateRoleModel model) {
             return BuildViewResultFor(new CreateRoleCommand(_authenticationService.Identity, model.Name, model.CanInvite, model.CanManageRoles, model.CanDeleteChatMessages, model.CanKickMembers))
                 .OnSuccess(Roles)
-                .OnFailure("CreateRole", model)
-                .Execute();
+                .OnFailure("CreateRole", model);
         }
 
         [AllianceAuthorize(CanManageRoles = true)]
@@ -217,8 +209,7 @@ namespace WarOfEmpires.Controllers {
         public ViewResult ClearRole(int id, int playerId) {
             return BuildViewResultFor(new ClearRoleCommand(_authenticationService.Identity, playerId))
                 .OnSuccess(() => RoleDetails(id))
-                .ThrowOnFailure()
-                .Execute();
+                .ThrowOnFailure();
         }
 
         [AllianceAuthorize(CanManageRoles = true)]
@@ -227,8 +218,7 @@ namespace WarOfEmpires.Controllers {
         public ViewResult DeleteRole(int id) {
             return BuildViewResultFor(new DeleteRoleCommand(_authenticationService.Identity, id))
                 .OnSuccess(Roles)
-                .ThrowOnFailure()
-                .Execute();
+                .ThrowOnFailure();
         }
 
         [AllianceAuthorize(CanManageRoles = true)]
@@ -244,8 +234,7 @@ namespace WarOfEmpires.Controllers {
         public ViewResult SetRole(int id, int playerId) {
             return BuildViewResultFor(new SetRoleCommand(_authenticationService.Identity, playerId, id))
                 .OnSuccess(() => RoleDetails(id))
-                .ThrowOnFailure()
-                .Execute();
+                .ThrowOnFailure();
         }
 
         [AllianceAuthorize]
@@ -254,8 +243,7 @@ namespace WarOfEmpires.Controllers {
         public ViewResult LeaveAlliance() {
             return BuildViewResultFor(new LeaveAllianceCommand(_authenticationService.Identity))
                 .OnSuccess(Index)
-                .ThrowOnFailure()
-                .Execute();
+                .ThrowOnFailure();
         }
 
         [AllianceAuthorize(CanKickMembers = true)]
@@ -264,8 +252,7 @@ namespace WarOfEmpires.Controllers {
         public ViewResult KickFromAlliance(string id) {
             return BuildViewResultFor(new KickFromAllianceCommand(_authenticationService.Identity, id))
                 .OnSuccess(Home)
-                .ThrowOnFailure()
-                .Execute();
+                .ThrowOnFailure();
         }
 
         [AllianceAuthorize(CanTransferLeadership = true)]
@@ -281,8 +268,7 @@ namespace WarOfEmpires.Controllers {
         public ViewResult TransferLeadership(int memberId) {
             return BuildViewResultFor(new TransferLeadershipCommand(_authenticationService.Identity, memberId))
                 .OnSuccess(Home)
-                .ThrowOnFailure()
-                .Execute();
+                .ThrowOnFailure();
         }
 
         [AllianceAuthorize(CanDisbandAlliance = true)]
@@ -291,8 +277,7 @@ namespace WarOfEmpires.Controllers {
         public ViewResult Disband() {
             return BuildViewResultFor(new DisbandAllianceCommand(_authenticationService.Identity))
                 .OnSuccess(Index)
-                .ThrowOnFailure()
-                .Execute();
+                .ThrowOnFailure();
         }
     }
 }
