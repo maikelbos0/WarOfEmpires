@@ -22,8 +22,9 @@ namespace WarOfEmpires.QueryHandlers.Markets {
 
         public IEnumerable<TransactionViewModel> Execute(GetSellTransactionsQuery query) {
             return _context.Players
-                .Single(p => EmailComparisonService.Equals(p.User.Email, query.Email))
-                .SellTransactions
+                .Where(p => EmailComparisonService.Equals(p.User.Email, query.Email))
+                .SelectMany(p => p.SellTransactions)
+                .ToList()
                 .Select(m => new TransactionViewModel() {
                     Id = m.Id,
                     Date = m.Date,
