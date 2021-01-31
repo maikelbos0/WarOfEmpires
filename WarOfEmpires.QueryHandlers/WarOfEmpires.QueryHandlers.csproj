@@ -89,6 +89,7 @@
     <Compile Include="Markets\GetMarketQueryHandler.cs" />
     <Compile Include="Markets\GetCaravansQueryHandler.cs" />
     <Compile Include="Markets\GetSellTransactionsQueryHandler.cs" />
+    <Compile Include="Markets\MerchandiseInfo.cs" />
     <Compile Include="Messages\GetMessageRecipientQueryHandler.cs" />
     <Compile Include="Messages\GetReceivedMessageQueryHandler.cs" />
     <Compile Include="Messages\GetReplyToMessageQueryHandler.cs" />
