@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using WarOfEmpires.Database;
 using WarOfEmpires.Domain.Markets;
@@ -21,6 +22,7 @@ namespace WarOfEmpires.QueryHandlers.Markets {
 
         public IEnumerable<CaravanViewModel> Execute(GetCaravansQuery query) {
             var player = _context.Players
+                .Include(p => p.Caravans.Select(c => c.Merchandise))
                 .Single(p => EmailComparisonService.Equals(p.User.Email, query.Email));
 
             return player.Caravans.Select(c => new CaravanViewModel() {
