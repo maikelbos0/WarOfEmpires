@@ -17,13 +17,12 @@ namespace WarOfEmpires.QueryHandlers.Messages {
         }
 
         public MessageModel Execute(GetMessageRecipientQuery query) {
-            var player = _context.Players
-                .Single(p => p.Id == query.PlayerId);
-
-            return new MessageModel() {
-                RecipientId = query.PlayerId,
-                Recipient = player.DisplayName
-            };
+            return _context.Players
+                .Select(p => new MessageModel() {
+                    RecipientId = p.Id,
+                    Recipient = p.DisplayName
+                })
+                .Single(m => m.RecipientId == query.PlayerId);  
         }
     }
 }
