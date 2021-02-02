@@ -17,18 +17,17 @@ namespace WarOfEmpires.QueryHandlers.Messages {
         }
 
         public SentMessageDetailsViewModel Execute(GetSentMessageQuery query) {
-            var message = _context.Players
-                .Single(p => EmailComparisonService.Equals(p.User.Email, query.Email))
-                .SentMessages.Single(m => m.Id == query.MessageId);
-
-            return new SentMessageDetailsViewModel() {
-                Id = message.Id,
-                Recipient = message.Recipient.DisplayName,
-                Date = message.Date,
-                Subject = message.Subject,
-                Body = message.Body,
-                IsRead = message.IsRead
-            };
+            return _context.Players
+                .Where(p => EmailComparisonService.Equals(p.User.Email, query.Email))
+                .SelectMany(p => p.SentMessages.Select(m => new SentMessageDetailsViewModel() {
+                    Id = m.Id,
+                    Recipient = m.Recipient.DisplayName,
+                    Date = m.Date,
+                    Subject = m.Subject,
+                    Body = m.Body,
+                    IsRead = m.IsRead
+                }))
+                .Single(m => m.Id == query.MessageId);
         }
     }
 }
