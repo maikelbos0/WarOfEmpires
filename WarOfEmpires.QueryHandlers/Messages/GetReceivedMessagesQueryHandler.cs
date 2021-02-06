@@ -20,15 +20,14 @@ namespace WarOfEmpires.QueryHandlers.Messages {
 
         public IEnumerable<ReceivedMessageViewModel> Execute(GetReceivedMessagesQuery query) {
             return _context.Players
-                .Single(p => EmailComparisonService.Equals(p.User.Email, query.Email))
-                .ReceivedMessages
-                .Select(m => new ReceivedMessageViewModel() {
+                .Where(p => EmailComparisonService.Equals(p.User.Email, query.Email))
+                .SelectMany(p => p.ReceivedMessages.Select(m => new ReceivedMessageViewModel() {
                     Id = m.Id,
                     Sender = m.Sender.DisplayName,
                     Date = m.Date,
                     IsRead = m.IsRead,
                     Subject = m.Subject
-                })
+                }))
                 .ToList();
         }
     }
