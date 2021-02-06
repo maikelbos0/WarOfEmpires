@@ -19,15 +19,14 @@ namespace WarOfEmpires.QueryHandlers.Messages {
 
         public IEnumerable<SentMessageViewModel> Execute(GetSentMessagesQuery query) {
             return _context.Players
-                .Single(p => EmailComparisonService.Equals(p.User.Email, query.Email))
-                .SentMessages
-                .Select(m => new SentMessageViewModel() {
+                .Where(p => EmailComparisonService.Equals(p.User.Email, query.Email))
+                .SelectMany(p => p.SentMessages.Select(m => new SentMessageViewModel() {
                     Id = m.Id,
                     Recipient = m.Recipient.DisplayName,
                     Date = m.Date,
                     IsRead = m.IsRead,
                     Subject = m.Subject
-                })
+                }))
                 .ToList();
         }
     }
