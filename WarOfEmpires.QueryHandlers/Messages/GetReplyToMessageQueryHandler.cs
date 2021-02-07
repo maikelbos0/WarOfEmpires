@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.Entity;
 using System.Linq;
 using WarOfEmpires.Database;
 using WarOfEmpires.Models.Messages;
@@ -19,8 +20,9 @@ namespace WarOfEmpires.QueryHandlers.Messages {
 
         public MessageModel Execute(GetReplyToMessageQuery query) {
             var message = _context.Players
-                .Single(p => EmailComparisonService.Equals(p.User.Email, query.Email))
-                .ReceivedMessages.Single(m => m.Id == query.MessageId);
+                .Where(p => EmailComparisonService.Equals(p.User.Email, query.Email))
+                .SelectMany(p => p.ReceivedMessages)
+                .Single(m => m.Id == query.MessageId);
 
             return new MessageModel() {
                 RecipientId = message.Sender.Id,
