@@ -14,10 +14,10 @@ namespace WarOfEmpires.QueryHandlers.Security {
         }
 
         public string Execute(GetUserNewEmailQuery query) {
-            var user = _context.Users
-                .Single(u => EmailComparisonService.Equals(u.Email, query.Email));
-
-            return user.NewEmail;
+            return _context.Users
+                .Where(u => EmailComparisonService.Equals(u.Email, query.Email))
+                .Select(u => u.NewEmail)
+                .Single();
         }
     }
 }
