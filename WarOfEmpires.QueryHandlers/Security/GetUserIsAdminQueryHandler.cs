@@ -14,10 +14,10 @@ namespace WarOfEmpires.QueryHandlers.Security {
         }
 
         public bool Execute(GetUserIsAdminQuery query) {
-            var user = _context.Users
-                .Single(p => EmailComparisonService.Equals(p.Email, query.Email));
-
-            return user.IsAdmin;
+            return _context.Users
+                .Where(p => EmailComparisonService.Equals(p.Email, query.Email))
+                .Select(p => p.IsAdmin)
+                .Single();
         }
     }
 }
