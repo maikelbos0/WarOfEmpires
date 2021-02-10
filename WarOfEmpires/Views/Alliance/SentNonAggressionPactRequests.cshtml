@@ -27,7 +27,7 @@
                 <td class="table-form-label">@request.Name</td>
                 <td>
                     @using (Html.BeginForm("WithdrawNonAggressionPactRequest", null, FormMethod.Post, new {
-                        data_success_message = "Your non aggression pact request has been withdrawn."
+                        data_success_message = "Your non-aggression pact request has been withdrawn."
                     })) {
                         @Html.Hidden("id", request.Id)
 
