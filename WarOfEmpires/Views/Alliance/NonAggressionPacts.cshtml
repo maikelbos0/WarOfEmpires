@@ -1,14 +1,14 @@
 ﻿@model System.Collections.Generic.IEnumerable<WarOfEmpires.Models.Alliances.NonAggressionPactViewModel>
 
 @{
-    ViewBag.Title = "Non aggression pact";
+    ViewBag.Title = "Non-aggression pact";
 }
 
 <h2>Non aggression pacts</h2>
 
 <p>
-    Below you can find the currently active non aggression pacts your alliance is in.
-    A non aggression pact between two alliances prevents members of those alliances to attack each other.
+    Below you can find the currently active non-aggression pacts your alliance is in.
+    A non-aggression pact between two alliances prevents members of those alliances to attack each other.
 </p>
 
 <table class="table table-borderless table-striped">
@@ -27,7 +27,7 @@
                 <td class="table-form-label">@request.Name</td>
                 <td>
                     @using (Html.BeginForm("DissolveNonAggressionPact", null, FormMethod.Post, new {
-                        data_success_message = "Your non aggression pact has been dissolved."
+                        data_success_message = "Your non-aggression pact has been dissolved."
                     })) {
                         @Html.Hidden("id", request.Id)
 
