@@ -40,7 +40,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
 
             var result = handler.Execute(command);
 
-            result.Should().HaveError("This alliance already has an outstanding non aggression pact request from your alliance");
+            result.Should().HaveError("This alliance already has an outstanding non-aggression pact request from your alliance");
             builder.Alliance.DidNotReceiveWithAnyArgs().SendNonAggressionPactRequest(default);
             builder.Context.CallsToSaveChanges.Should().Be(0);
         }
@@ -58,7 +58,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
 
             var result = handler.Execute(command);
 
-            result.Should().HaveError("Your alliance is already in a non aggression pact with this alliance");
+            result.Should().HaveError("Your alliance is already in a non-aggression pact with this alliance");
             builder.Alliance.DidNotReceiveWithAnyArgs().SendNonAggressionPactRequest(default);
             builder.Context.CallsToSaveChanges.Should().Be(0);
         }

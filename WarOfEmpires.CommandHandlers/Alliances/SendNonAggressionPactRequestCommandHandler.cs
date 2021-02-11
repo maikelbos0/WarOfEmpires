@@ -21,15 +21,15 @@ namespace WarOfEmpires.CommandHandlers.Alliances {
             var recipient = _repository.Get(command.AllianceId);
             
             if (sender == recipient) {
-                throw new InvalidOperationException("You can't send a non aggression pact request to yourself");
+                throw new InvalidOperationException("You can't send a non-aggression pact request to yourself");
             }
 
             if (recipient.ReceivedNonAggressionPactRequests.Any(r => r.Sender == sender)) {
-                result.AddError("This alliance already has an outstanding non aggression pact request from your alliance");
+                result.AddError("This alliance already has an outstanding non-aggression pact request from your alliance");
             }
 
             if (recipient.NonAggressionPacts.Any(r => r.Alliances.Any(a => a == sender))) {
-                result.AddError("Your alliance is already in a non aggression pact with this alliance");
+                result.AddError("Your alliance is already in a non-aggression pact with this alliance");
             }
 
             if (result.Success) {
