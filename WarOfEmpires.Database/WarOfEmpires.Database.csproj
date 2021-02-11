@@ -275,6 +275,10 @@
     <Compile Include="Migrations\202010311408371_Alliance-Rights-Kick.designer.cs">
       <DependentUpon>202010311408371_Alliance-Rights-Kick.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202101091652153_Alliances-NonAggressionPacts.cs" />
+    <Compile Include="Migrations\202101091652153_Alliances-NonAggressionPacts.designer.cs">
+      <DependentUpon>202101091652153_Alliances-NonAggressionPacts.cs</DependentUpon>
+    </Compile>
     <Compile Include="ReferenceEntities\AttackResultEntity.cs" />
     <Compile Include="ReferenceEntities\AttackTypeEntity.cs" />
     <Compile Include="ReferenceEntities\BaseReferenceEntity.cs" />
@@ -474,6 +478,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202010311408371_Alliance-Rights-Kick.resx">
       <DependentUpon>202010311408371_Alliance-Rights-Kick.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202101091652153_Alliances-NonAggressionPacts.resx">
+      <DependentUpon>202101091652153_Alliances-NonAggressionPacts.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

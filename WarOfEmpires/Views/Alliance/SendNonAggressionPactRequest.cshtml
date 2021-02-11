@@ -1,0 +1,38 @@
+﻿@model WarOfEmpires.Models.Alliances.CreateNonAggressionPactRequestModel
+
+@{
+    ViewBag.Title = "Send non-aggression pact request";
+}
+
+<h2>Send non-aggression pact request</h2>
+
+<p>
+    Send a request to enter a non-aggression pact with another alliance below.
+    A non-aggression pact between two alliances prevents members of those alliances to attack each other.
+</p>
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { data_success_message = "A request has been sent." })) {
+    @Html.HiddenFor(m => m.AllianceId)
+    @Html.HiddenFor(m => m.AllianceCode)
+    @Html.HiddenFor(m => m.AllianceName)
+
+    <div class="row">
+        <div class="col-12 col-md-6 offset-md-3">
+            @Html.ValidationSummary(true, null, new { @class = "site-validation-summary text-danger" })
+
+            <div class="form-group">
+                <label>Alliance code</label>
+                <div class="form-control" readonly="readonly">@Model.AllianceCode</div>
+            </div>
+
+            <div class="form-group">
+                <label>Alliance name</label>
+                <div class="form-control" readonly="readonly">@Model.AllianceName</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-6 offset-6 col-md-3"><button type="submit" class="btn btn-primary form-control">Send</button></div>
+    </div>
+}

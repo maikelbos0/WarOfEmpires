@@ -18,6 +18,9 @@ namespace WarOfEmpires.Test.Utilities {
             Alliance.ChatMessages.Returns(new List<ChatMessage>());
             Alliance.Invites.Returns(new List<Invite>());
             Alliance.Roles.Returns(new List<Role>());
+            Alliance.NonAggressionPacts.Returns(new List<NonAggressionPact>());
+            Alliance.SentNonAggressionPactRequests.Returns(new List<NonAggressionPactRequest>());
+            Alliance.ReceivedNonAggressionPactRequests.Returns(new List<NonAggressionPactRequest>());
             Context.Alliances.Add(Alliance);
         }
 
@@ -116,6 +119,53 @@ namespace WarOfEmpires.Test.Utilities {
 
         public FakeAllianceBuilder WithChatMessage(int id, Player player, DateTime date, string message) {
             return WithChatMessage(id, out _, player, date, message);
+        }
+
+        public FakeAllianceBuilder WithNonAggressionPact(int id, out NonAggressionPact pact, Alliance alliance) {
+            pact = Substitute.For<NonAggressionPact>();
+
+            pact.Id.Returns(id);
+            pact.Alliances.Returns(new List<Alliance>() { Alliance, alliance });
+            Alliance.NonAggressionPacts.Add(pact);
+            alliance.NonAggressionPacts.Add(pact);
+
+            return this;
+        }
+
+        public FakeAllianceBuilder WithNonAggressionPact(int id, Alliance alliance) {
+            return WithNonAggressionPact(id, out _, alliance);
+        }
+
+        public FakeAllianceBuilder WithNonAggressionPactRequestTo(int id, out NonAggressionPactRequest request, Alliance recipient) {
+            request = Substitute.For<NonAggressionPactRequest>();
+
+            request.Id.Returns(id);
+            request.Sender.Returns(Alliance);
+            request.Recipient.Returns(recipient);
+            Alliance.SentNonAggressionPactRequests.Add(request);
+            recipient.ReceivedNonAggressionPactRequests.Add(request);
+
+            return this;
+        }
+
+        public FakeAllianceBuilder WithNonAggressionPactRequestTo(int id, Alliance recipient) {
+            return WithNonAggressionPactRequestTo(id, out _, recipient);
+        }
+
+        public FakeAllianceBuilder WithNonAggressionPactRequestFrom(int id, out NonAggressionPactRequest request, Alliance sender) {
+            request = Substitute.For<NonAggressionPactRequest>();
+
+            request.Id.Returns(id);
+            request.Recipient.Returns(Alliance);
+            request.Sender.Returns(sender);
+            Alliance.ReceivedNonAggressionPactRequests.Add(request);
+            sender.SentNonAggressionPactRequests.Add(request);
+
+            return this;
+        }
+
+        public FakeAllianceBuilder WithNonAggressionPactRequestFrom(int id, Alliance sender) {
+            return WithNonAggressionPactRequestFrom(id, out _, sender);
         }
     }
 }

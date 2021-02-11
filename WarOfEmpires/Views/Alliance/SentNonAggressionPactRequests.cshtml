@@ -1,0 +1,43 @@
+﻿@model System.Collections.Generic.IEnumerable<WarOfEmpires.Models.Alliances.SentNonAggressionPactRequestViewModel>
+
+@{
+    ViewBag.Title = "Sent non-aggression pact requests";
+}
+
+<h2>Sent non-aggression pact requests</h2>
+
+<p>
+    Below you can find the open non-aggression pact requests your alliance has sent.
+    A non-aggression pact between two alliances prevents members of those alliances to attack each other.
+</p>
+
+<table class="table table-borderless table-striped">
+    <thead>
+        <tr>
+            <th>Alliance code</th>
+            <th>Alliance name</th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var request in Model) {
+            <tr>
+                <td class="table-form-label">@request.Code</td>
+                <td class="table-form-label">@request.Name</td>
+                <td>
+                    @using (Html.BeginForm("WithdrawNonAggressionPactRequest", null, FormMethod.Post, new {
+                        data_success_message = "Your non-aggression pact request has been withdrawn."
+                    })) {
+                        @Html.Hidden("id", request.Id)
+
+                        <button type="submit" class="btn btn-secondary form-control">
+                            <span class="d-none d-lg-inline">Withdraw</span>
+                            <span class="d-lg-none">X</span>
+                        </button>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

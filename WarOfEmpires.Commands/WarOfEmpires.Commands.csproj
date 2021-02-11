@@ -42,15 +42,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Alliances\AcceptInviteCommand.cs" />
+    <Compile Include="Alliances\WithdrawNonAggressionPactRequestCommand.cs" />
+    <Compile Include="Alliances\AcceptNonAggressionPactRequestCommand.cs" />
     <Compile Include="Alliances\ClearRoleCommand.cs" />
     <Compile Include="Alliances\CreateRoleCommand.cs" />
     <Compile Include="Alliances\DeleteRoleCommand.cs" />
     <Compile Include="Alliances\DisbandAllianceCommand.cs" />
+    <Compile Include="Alliances\DissolveNonAggressionPactCommand.cs" />
     <Compile Include="Alliances\KickFromAllianceCommand.cs" />
     <Compile Include="Alliances\LeaveAllianceCommand.cs" />
     <Compile Include="Alliances\PostChatMessageCommand.cs" />
     <Compile Include="Alliances\ReadInviteCommand.cs" />
     <Compile Include="Alliances\DeleteChatMessageCommand.cs" />
+    <Compile Include="Alliances\RejectNonAggressionPactRequestCommand.cs" />
+    <Compile Include="Alliances\SendNonAggressionPactRequestCommand.cs" />
     <Compile Include="Alliances\SetRoleCommand.cs" />
     <Compile Include="Alliances\TransferLeadershipCommand.cs" />
     <Compile Include="Alliances\WithdrawInviteCommand.cs" />

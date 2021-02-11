@@ -14,6 +14,10 @@ namespace WarOfEmpires.Repositories.Alliances {
             return _context.Players.Single(p => p.User.Status == UserStatus.Active && EmailComparisonService.Equals(p.User.Email, playerEmail)).Alliance;
         }
 
+        public Alliance Get(int id) {
+            return _context.Alliances.Single(a => a.Id == id);
+        }
+
         public void Add(Alliance alliance) {
             _context.Alliances.Add(alliance);
             _context.SaveChanges();

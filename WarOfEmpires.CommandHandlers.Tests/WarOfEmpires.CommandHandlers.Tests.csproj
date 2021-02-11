@@ -98,18 +98,23 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Alliances\AcceptInviteCommandHandlerTests.cs" />
+    <Compile Include="Alliances\AcceptNonAggressionPactRequestCommandHandlerTests.cs" />
     <Compile Include="Alliances\ClearRoleCommandHandlerTests.cs" />
     <Compile Include="Alliances\CreateAllianceCommandHandlerTests.cs" />
     <Compile Include="Alliances\CreateRoleCommandHandlerTests.cs" />
     <Compile Include="Alliances\DeleteRoleCommandHandlerTests.cs" />
     <Compile Include="Alliances\DisbandAllianceCommandHandlerTests.cs" />
+    <Compile Include="Alliances\DissolveNonAggressionPactCommandHandlerTests.cs" />
     <Compile Include="Alliances\KickFromAllianceCommandHandlerTests.cs" />
     <Compile Include="Alliances\LeaveAllianceCommandHandlerTests.cs" />
     <Compile Include="Alliances\PostChatMessageCommandHandlerTests.cs" />
     <Compile Include="Alliances\ReadInviteCommandHandlerTests.cs" />
     <Compile Include="Alliances\RejectInviteCommandHandlerTests.cs" />
     <Compile Include="Alliances\DeleteChatMessageCommandHandlerTests.cs" />
+    <Compile Include="Alliances\WithdrawNonAggressionPactRequestCommandHandlerTests.cs" />
+    <Compile Include="Alliances\RejectNonAggressionPactRequestCommandHandlerTests.cs" />
     <Compile Include="Alliances\SendInviteCommandHandlerTests.cs" />
+    <Compile Include="Alliances\SendNonAggressionPactRequestCommandHandlerTests.cs" />
     <Compile Include="Alliances\SetRoleCommandHandlerTests.cs" />
     <Compile Include="Alliances\TransferLeadershipCommandHandlerTests.cs" />
     <Compile Include="Alliances\WithdrawInviteCommandHandlerTests.cs" />

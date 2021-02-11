@@ -48,6 +48,7 @@ namespace WarOfEmpires.Database {
             DeleteOrphanedChatMessages();
             DeleteOrphanedInvites();
             DeleteOrphanedMerchandise();
+            DeleteOrphanedNonAggressionPactRequests();
             DeleteOrphanedRoles();
 
             return base.SaveChanges();
@@ -74,7 +75,7 @@ namespace WarOfEmpires.Database {
         private void DeleteOrphanedInvites() {
             var orphans = GetChangeTrackerEntities<Alliances.Invite>()
                 .Except(GetChangeTrackerEntities<Alliances.Alliance>().SelectMany(a => a.Invites))
-                .Except(GetChangeTrackerEntities< Players.Player>().SelectMany(p => p.Invites));
+                .Except(GetChangeTrackerEntities<Players.Player>().SelectMany(p => p.Invites));
 
             Set<Alliances.Invite>().RemoveRange(orphans);
         }
@@ -84,6 +85,14 @@ namespace WarOfEmpires.Database {
                 .Except(GetChangeTrackerEntities<Markets.Caravan>().SelectMany(c => c.Merchandise));
 
             Set<Markets.Merchandise>().RemoveRange(orphans);
+        }
+
+        private void DeleteOrphanedNonAggressionPactRequests() {
+            var orphans = GetChangeTrackerEntities<Alliances.NonAggressionPactRequest>()
+                .Except(GetChangeTrackerEntities<Alliances.Alliance>().SelectMany(a => a.SentNonAggressionPactRequests))
+                .Except(GetChangeTrackerEntities<Alliances.Alliance>().SelectMany(a => a.ReceivedNonAggressionPactRequests));
+
+            Set<Alliances.NonAggressionPactRequest>().RemoveRange(orphans);
         }
 
         private void DeleteOrphanedRoles() {
@@ -194,6 +203,9 @@ namespace WarOfEmpires.Database {
             alliances.HasMany(a => a.Members).WithOptional(p => p.Alliance);
             alliances.HasMany(a => a.Invites).WithRequired(i => i.Alliance);
             alliances.HasMany(a => a.Roles).WithRequired(r => r.Alliance);
+            alliances.HasMany(a => a.NonAggressionPacts).WithMany(p => p.Alliances).Map(p => p.ToTable("AllianceNonAggressionPacts", "Alliances"));
+            alliances.HasMany(a => a.SentNonAggressionPactRequests).WithRequired(r => r.Sender).WillCascadeOnDelete(false);
+            alliances.HasMany(a => a.ReceivedNonAggressionPactRequests).WithRequired(r => r.Recipient);
             alliances.HasMany(a => a.ChatMessages).WithRequired();
             alliances.HasRequired(a => a.Leader);
             alliances.Property(a => a.Code).IsRequired();
@@ -208,6 +220,10 @@ namespace WarOfEmpires.Database {
 
             var roles = modelBuilder.Entity<Alliances.Role>().ToTable("Roles", "Alliances").HasKey(r => r.Id);
             roles.Property(r => r.Name).IsRequired();
+
+            modelBuilder.Entity<Alliances.NonAggressionPact>().ToTable("NonAggressionPacts", "Alliances").HasKey(m => m.Id);
+
+            modelBuilder.Entity<Alliances.NonAggressionPactRequest>().ToTable("NonAggressionPactRequests", "Alliances").HasKey(m => m.Id);
         }
 
         private void OnAttacksModelCreating(DbModelBuilder modelBuilder) {

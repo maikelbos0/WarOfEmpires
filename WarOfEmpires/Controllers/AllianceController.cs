@@ -279,5 +279,89 @@ namespace WarOfEmpires.Controllers {
                 .OnSuccess(Index)
                 .ThrowOnFailure();
         }
+
+        // TODO additional authorization
+        [AllianceAuthorize]
+        [HttpGet]
+        [Route("SendNonAggressionPactRequest")]
+        public ViewResult SendNonAggressionPactRequest(int id) {
+            return View(_messageService.Dispatch(new GetCreateNonAggressionPactRequestQuery(id)));
+        }
+
+        // TODO additional authorization
+        [AllianceAuthorize]
+        [HttpPost]
+        [Route("SendNonAggressionPactRequest")]
+        public ViewResult SendNonAggressionPactRequest(CreateNonAggressionPactRequestModel model) {
+            return BuildViewResultFor(new SendNonAggressionPactRequestCommand(_authenticationService.Identity, model.AllianceId))
+                .OnSuccess(SentNonAggressionPactRequests)
+                .OnFailure("SendNonAggressionPactRequest", model);
+        }
+
+        // TODO additional authorization
+        [AllianceAuthorize]
+        [HttpGet]
+        [Route("SentNonAggressionPactRequests")]
+        public ViewResult SentNonAggressionPactRequests() {
+            // Explicitly name view so it works from other actions
+            return View("SentNonAggressionPactRequests", _messageService.Dispatch(new GetSentNonAggressionPactRequestsQuery(_authenticationService.Identity)));
+        }
+
+        // TODO additional authorization
+        [AllianceAuthorize]
+        [HttpPost]
+        [Route("WithdrawNonAggressionPactRequest")]
+        public ViewResult WithdrawNonAggressionPactRequest(int id) {
+            return BuildViewResultFor(new WithdrawNonAggressionPactRequestCommand(_authenticationService.Identity, id))
+                .OnSuccess(SentNonAggressionPactRequests)
+                .ThrowOnFailure();
+        }
+
+        // TODO additional authorization
+        [AllianceAuthorize]
+        [HttpGet]
+        [Route("ReceivedNonAggressionPactRequests")]
+        public ViewResult ReceivedNonAggressionPactRequests() {
+            // Explicitly name view so it works from other actions
+            return View("ReceivedNonAggressionPactRequests", _messageService.Dispatch(new GetReceivedNonAggressionPactRequestsQuery(_authenticationService.Identity)));
+        }
+
+        // TODO additional authorization
+        [AllianceAuthorize]
+        [HttpPost]
+        [Route("AcceptNonAggressionPactRequest")]
+        public ViewResult AcceptNonAggressionPactRequest(int id) {
+            return BuildViewResultFor(new AcceptNonAggressionPactRequestCommand(_authenticationService.Identity, id))
+                .OnSuccess(NonAggressionPacts)
+                .ThrowOnFailure();
+        }
+
+        // TODO additional authorization
+        [AllianceAuthorize]
+        [HttpPost]
+        [Route("RejectNonAggressionPactRequest")]
+        public ViewResult RejectNonAggressionPactRequest(int id) {
+            return BuildViewResultFor(new RejectNonAggressionPactRequestCommand(_authenticationService.Identity, id))
+                .OnSuccess(ReceivedNonAggressionPactRequests)
+                .ThrowOnFailure();
+        }
+
+        [AllianceAuthorize]
+        [HttpGet]
+        [Route("NonAggressionPacts")]
+        public ViewResult NonAggressionPacts() {
+            // Explicitly name view so it works from other actions
+            return View("NonAggressionPacts", _messageService.Dispatch(new GetNonAggressionPactsQuery(_authenticationService.Identity)));
+        }
+
+        // TODO additional authorization
+        [AllianceAuthorize]
+        [HttpPost]
+        [Route("DissolveNonAggressionPact")]
+        public ViewResult DissolveNonAggressionPact(int id) {
+            return BuildViewResultFor(new DissolveNonAggressionPactCommand(_authenticationService.Identity, id))
+                .OnSuccess(NonAggressionPacts)
+                .ThrowOnFailure();
+        }
     }
 }

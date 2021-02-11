@@ -69,6 +69,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Alliances\AllianceTests.cs" />
+    <Compile Include="Alliances\NonAggressionPactRequestTests.cs" />
+    <Compile Include="Alliances\NonAggressionPactTests.cs" />
     <Compile Include="Attacks\AttackFactoryTests.cs" />
     <Compile Include="Attacks\AttackTests.cs" />
     <Compile Include="Attacks\AssaultTests.cs" />

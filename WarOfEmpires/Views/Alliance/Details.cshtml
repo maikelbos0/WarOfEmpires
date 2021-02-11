@@ -7,6 +7,17 @@
 <h2>@Model.Name</h2>
 
 <div class="row">
+    <div class="col-12">
+        <div class="text-right">
+            <div class="btn-group">
+                @*TODO: only show when possible to do so*@
+                @Html.ActionLink("Send non-aggression pact request", "SendNonAggressionPactRequest", "Alliance", new { id = Model.Id }, new { @class = "btn btn-secondary" })
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
     <div class="col-12 col-lg-6">
         <div class="form-group">
             <label>Code</label>

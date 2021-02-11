@@ -542,6 +542,10 @@
     <Content Include="Views\Alliance\RoleDetails.cshtml" />
     <Content Include="Views\Alliance\SetRole.cshtml" />
     <Content Include="Views\Alliance\TransferLeadership.cshtml" />
+    <Content Include="Views\Alliance\SendNonAggressionPactRequest.cshtml" />
+    <Content Include="Views\Alliance\SentNonAggressionPactRequests.cshtml" />
+    <Content Include="Views\Alliance\ReceivedNonAggressionPactRequests.cshtml" />
+    <Content Include="Views\Alliance\NonAggressionPacts.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

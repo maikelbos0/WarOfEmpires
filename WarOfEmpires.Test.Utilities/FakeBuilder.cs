@@ -1,6 +1,7 @@
 ﻿using NSubstitute;
 using System;
 using System.Linq;
+using WarOfEmpires.Domain.Alliances;
 using WarOfEmpires.Domain.Events;
 using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Domain.Security;
@@ -19,6 +20,12 @@ namespace WarOfEmpires.Test.Utilities {
 
         public FakeAllianceBuilder BuildAlliance(int id, string code = "FS", string name = "Føroyskir Samgonga") {
             return new FakeAllianceBuilder(Context, id, code, name);
+        }
+
+        public FakeBuilder WithAlliance(int id, out Alliance alliance, string code = "FS", string name = "Føroyskir Samgonga") {
+            alliance = BuildAlliance(id, code, name).Alliance;
+
+            return this;
         }
 
         public FakeUserBuilder BuildUser(int id, string email = null, string password = "test", DateTime? lastOnline = null, UserStatus status = UserStatus.Active) {

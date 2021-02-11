@@ -194,5 +194,19 @@ namespace WarOfEmpires.Domain.Tests.Alliances {
             alliance.Members.Should().BeEmpty();
             role.Players.Should().BeEmpty();
         }
+
+        [TestMethod]
+        public void Alliance_SendNonAggressionPactRequest_Succeeds() {
+            var senderAlliance = new Alliance(new Player(1, "Sender"), "SEND", "The Senders");
+            var recipientAlliance = new Alliance(new Player(2, "Recipient"), "RECV", "The Recipients");
+
+            senderAlliance.SendNonAggressionPactRequest(recipientAlliance);
+
+            senderAlliance.SentNonAggressionPactRequests.Should().HaveCount(1);
+            recipientAlliance.ReceivedNonAggressionPactRequests.Should().HaveCount(1);
+
+            senderAlliance.SentNonAggressionPactRequests.Single().Sender.Should().Be(senderAlliance);
+            senderAlliance.SentNonAggressionPactRequests.Single().Recipient.Should().Be(recipientAlliance);
+        }
     }
 }
