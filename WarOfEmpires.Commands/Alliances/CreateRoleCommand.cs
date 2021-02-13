@@ -6,14 +6,16 @@
         public bool CanManageRoles { get; }
         public bool CanDeleteChatMessages { get; }
         public bool CanKickMembers { get; }
+        public bool CanManageNonAggressionPacts { get; }
 
-        public CreateRoleCommand(string email, string name, bool canInvite, bool canManageRoles, bool canDeleteChatMessages, bool canKickMembers) {
+        public CreateRoleCommand(string email, string name, bool canInvite, bool canManageRoles, bool canDeleteChatMessages, bool canKickMembers, bool canManageNonAggressionPacts) {
             Email = email;
             Name = name;
             CanInvite = canInvite;
             CanManageRoles = canManageRoles;
             CanDeleteChatMessages = canDeleteChatMessages;
             CanKickMembers = canKickMembers;
+            CanManageNonAggressionPacts = canManageNonAggressionPacts;
         }
     }
 }

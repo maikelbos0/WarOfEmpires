@@ -17,7 +17,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
                 .WithMember(1);
 
             var handler = new CreateRoleCommandHandler(new AllianceRepository(builder.Context));
-            var command = new CreateRoleCommand("test1@test.com", "Diva", true, false, true, false);
+            var command = new CreateRoleCommand("test1@test.com", "Diva", true, false, true, false, true);
 
             var result = handler.Execute(command);
 
@@ -33,7 +33,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
                 .WithMember(1);
 
             var handler = new CreateRoleCommandHandler(new AllianceRepository(builder.Context));
-            var command = new CreateRoleCommand("wrong@test.com", "Diva", true, false, true, false);
+            var command = new CreateRoleCommand("wrong@test.com", "Diva", true, false, true, false, true);
 
             Action action = () => handler.Execute(command);
 
@@ -48,7 +48,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
                 .WithPlayer(1);
 
             var handler = new CreateRoleCommandHandler(new AllianceRepository(builder.Context));
-            var command = new CreateRoleCommand("test1@test.com", "Diva", true, false, true, false);
+            var command = new CreateRoleCommand("test1@test.com", "Diva", true, false, true, false, true);
 
             Action action = () => handler.Execute(command);
 
