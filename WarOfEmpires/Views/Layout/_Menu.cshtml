@@ -3,7 +3,7 @@
 <nav class="navbar navbar-expand-lg navbar-toggleable-lg navbar-light bg-info">
     <div class="container">
         @Html.ActionLink("War of Empires", "Index", "Home", null, new { @class = "navbar-brand" })
-        
+
         <button class="navbar-toggler btn shadow-none border-0" type="button" data-toggle="collapse" data-target="#navbar-collapse" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon site-toggler-icon"></span>
         </button>
@@ -71,10 +71,11 @@
                                     @Html.ActionLink("Roles", "Roles", "Alliance", null, new { @class = "dropdown-item" })
                                 }
 
-                                // TODO authorization
-                                @Html.ActionLink("Sent pact requests", "SentNonAggressionPactRequests", "Alliance", null, new { @class = "dropdown-item" })
-                                @Html.ActionLink("Received pact requests", "ReceivedNonAggressionPactRequests", "Alliance", null, new { @class = "dropdown-item" })
-                                @Html.ActionLink("Non-aggression pacts", "NonAggressionPacts", "Alliance", null, new { @class = "dropdown-item" })
+                                if (Model.CanManageNonAggressionPacts) {
+                                    @Html.ActionLink("Sent pact requests", "SentNonAggressionPactRequests", "Alliance", null, new { @class = "dropdown-item" })
+                                    @Html.ActionLink("Received pact requests", "ReceivedNonAggressionPactRequests", "Alliance", null, new { @class = "dropdown-item" })
+                                    @Html.ActionLink("Non-aggression pacts", "NonAggressionPacts", "Alliance", null, new { @class = "dropdown-item" })
+                                }
 
                                 if (Model.CanTransferLeadership) {
                                     @Html.ActionLink("Transfer leadership", "TransferLeadership", "Alliance", null, new { @class = "dropdown-item" })

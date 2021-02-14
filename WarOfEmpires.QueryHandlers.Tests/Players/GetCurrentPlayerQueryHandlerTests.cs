@@ -29,6 +29,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
             result.CanManageRoles.Should().BeFalse();
             result.CanLeaveAlliance.Should().BeFalse();
             result.CanDisbandAlliance.Should().BeFalse();
+            result.CanManageNonAggressionPacts.Should().BeFalse();
             result.DisplayName.Should().Be("Test display name 1");
         }
 
@@ -52,6 +53,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
             result.CanManageRoles.Should().BeFalse();
             result.CanLeaveAlliance.Should().BeTrue();
             result.CanDisbandAlliance.Should().BeFalse();
+            result.CanManageNonAggressionPacts.Should().BeFalse();
         }
 
         [TestMethod]
@@ -71,6 +73,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
             result.CanLeaveAlliance.Should().BeTrue();
             result.CanTransferLeadership.Should().BeFalse();
             result.CanDisbandAlliance.Should().BeFalse();
+            result.CanManageNonAggressionPacts.Should().BeTrue();
         }
 
         [TestMethod]
@@ -89,6 +92,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
             result.CanLeaveAlliance.Should().BeFalse();
             result.CanTransferLeadership.Should().BeTrue();
             result.CanDisbandAlliance.Should().BeTrue();
+            result.CanManageNonAggressionPacts.Should().BeTrue();
         }
 
         [TestMethod]
