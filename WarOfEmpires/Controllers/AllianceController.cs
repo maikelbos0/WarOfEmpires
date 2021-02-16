@@ -33,7 +33,7 @@ namespace WarOfEmpires.Controllers {
         [HttpGet]
         [Route("Details")]
         public ViewResult Details(int id) {
-            return View(_messageService.Dispatch(new GetAllianceDetailsQuery(id)));
+            return View(_messageService.Dispatch(new GetAllianceDetailsQuery(_authenticationService.Identity, id)));
         }
 
         [HttpGet]
