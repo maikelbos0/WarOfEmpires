@@ -36,6 +36,25 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
             result.Members.First().DisplayName.Should().Be("Test display name 3");
             result.Members.First().Title.Should().Be("Sub chieftain");
             result.Members.First().Population.Should().Be(49);
+
+            throw new NotImplementedException();
+            result.CanReceiveNonAggressionPactRequest.Should().BeFalse();
+        }
+
+        public void GetAllianceDetailsQueryHandler_CanReceiveNonAggressionPactRequest_Returns_False_For_Allianceless() {
+            throw new NotImplementedException();
+        }
+
+        public void GetAllianceDetailsQueryHandler_CanReceiveNonAggressionPactRequest_Returns_False_For_Self() {
+            throw new NotImplementedException();
+        }
+
+        public void GetAllianceDetailsQueryHandler_CanReceiveNonAggressionPactRequest_Returns_False_For_Outstanding_Request() {
+            throw new NotImplementedException();
+        }
+
+        public void GetAllianceDetailsQueryHandler_CanReceiveNonAggressionPactRequest_Returns_False_For_Existing_Pact() {
+            throw new NotImplementedException();
         }
 
         [TestMethod]
