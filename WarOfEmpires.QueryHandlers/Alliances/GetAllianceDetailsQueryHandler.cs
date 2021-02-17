@@ -1,12 +1,15 @@
-﻿using System.Data.Entity;
+﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using WarOfEmpires.Database;
+using WarOfEmpires.Domain.Alliances;
 using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Models.Alliances;
 using WarOfEmpires.Queries.Alliances;
 using WarOfEmpires.QueryHandlers.Decorators;
 using WarOfEmpires.Utilities.Container;
 using WarOfEmpires.Utilities.Formatting;
+using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Alliances {
     [InterfaceInjectable]
@@ -21,6 +24,20 @@ namespace WarOfEmpires.QueryHandlers.Alliances {
         }
 
         public AllianceDetailsViewModel Execute(GetAllianceDetailsQuery query) {
+            var nonAggressionPactAlliances = new List<Alliance>();
+            var playerAlliance = _context.Players
+                .Include(p => p.Alliance)
+                .Include(p => p.Alliance.SentNonAggressionPactRequests.Select(r => r.Recipient))
+                .Include(p => p.Alliance.NonAggressionPacts.Select(n => n.Alliances))
+                .Single(p => EmailComparisonService.Equals(p.User.Email, query.Email))
+                .Alliance;
+
+            if (playerAlliance != null) {
+                nonAggressionPactAlliances.Add(playerAlliance);
+                nonAggressionPactAlliances.AddRange(playerAlliance.SentNonAggressionPactRequests.Select(r => r.Recipient));
+                nonAggressionPactAlliances.AddRange(playerAlliance.NonAggressionPacts.SelectMany(p => p.Alliances));
+            }
+
             var alliance = _context.Alliances
                 .Include(a => a.Leader)
                 .Single(a => a.Id == query.Id);
@@ -43,7 +60,8 @@ namespace WarOfEmpires.QueryHandlers.Alliances {
                     DisplayName = p.DisplayName,
                     Title = _formatter.ToString(p.Title),
                     Population = p.Peasants + p.Workers.Sum(w => w.Count) + p.Troops.Sum(t => t.GetTotals())
-                }).ToList()
+                }).ToList(),
+                CanReceiveNonAggressionPactRequest = !nonAggressionPactAlliances.Contains(alliance)
             };
         }
     }
