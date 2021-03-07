@@ -14,5 +14,7 @@ namespace WarOfEmpires.Models.Alliances {
         public bool CanDeleteChatMessages { get; set; }
         [DisplayName("Can kick members")]
         public bool CanKickMembers { get; set; }
+        [DisplayName("Can manage non-aggression pacts")]
+        public bool CanManageNonAggressionPacts { get; set; }
     }
 }

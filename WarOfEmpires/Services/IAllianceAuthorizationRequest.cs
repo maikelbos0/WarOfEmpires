@@ -6,5 +6,6 @@
         bool CanKickMembers { get; set; }
         bool CanTransferLeadership { get; set; }
         bool CanDisbandAlliance { get; set; }
+        bool CanManageNonAggressionPacts { get; set; }
     }
 }

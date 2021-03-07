@@ -78,6 +78,10 @@
                 @if (Model.CanKickMembers) {
                     <li>Can kick alliance members</li>
                 }
+
+                @if (Model.CanManageNonAggressionPacts) {
+                    <li>Can manage non-aggression pacts</li>
+                }
             </ul>
         </div>
     }

@@ -33,7 +33,7 @@ namespace WarOfEmpires.Controllers {
         [HttpGet]
         [Route("Details")]
         public ViewResult Details(int id) {
-            return View(_messageService.Dispatch(new GetAllianceDetailsQuery(id)));
+            return View(_messageService.Dispatch(new GetAllianceDetailsQuery(_authenticationService.Identity, id)));
         }
 
         [HttpGet]
@@ -190,7 +190,7 @@ namespace WarOfEmpires.Controllers {
         [HttpPost]
         [Route("CreateRole")]
         public ViewResult CreateRole(CreateRoleModel model) {
-            return BuildViewResultFor(new CreateRoleCommand(_authenticationService.Identity, model.Name, model.CanInvite, model.CanManageRoles, model.CanDeleteChatMessages, model.CanKickMembers))
+            return BuildViewResultFor(new CreateRoleCommand(_authenticationService.Identity, model.Name, model.CanInvite, model.CanManageRoles, model.CanDeleteChatMessages, model.CanKickMembers, model.CanManageNonAggressionPacts))
                 .OnSuccess(Roles)
                 .OnFailure("CreateRole", model);
         }
@@ -280,16 +280,14 @@ namespace WarOfEmpires.Controllers {
                 .ThrowOnFailure();
         }
 
-        // TODO additional authorization
-        [AllianceAuthorize]
+        [AllianceAuthorize(CanManageNonAggressionPacts = true)]
         [HttpGet]
         [Route("SendNonAggressionPactRequest")]
         public ViewResult SendNonAggressionPactRequest(int id) {
             return View(_messageService.Dispatch(new GetCreateNonAggressionPactRequestQuery(id)));
         }
 
-        // TODO additional authorization
-        [AllianceAuthorize]
+        [AllianceAuthorize(CanManageNonAggressionPacts = true)]
         [HttpPost]
         [Route("SendNonAggressionPactRequest")]
         public ViewResult SendNonAggressionPactRequest(CreateNonAggressionPactRequestModel model) {
@@ -298,8 +296,7 @@ namespace WarOfEmpires.Controllers {
                 .OnFailure("SendNonAggressionPactRequest", model);
         }
 
-        // TODO additional authorization
-        [AllianceAuthorize]
+        [AllianceAuthorize(CanManageNonAggressionPacts = true)]
         [HttpGet]
         [Route("SentNonAggressionPactRequests")]
         public ViewResult SentNonAggressionPactRequests() {
@@ -307,8 +304,7 @@ namespace WarOfEmpires.Controllers {
             return View("SentNonAggressionPactRequests", _messageService.Dispatch(new GetSentNonAggressionPactRequestsQuery(_authenticationService.Identity)));
         }
 
-        // TODO additional authorization
-        [AllianceAuthorize]
+        [AllianceAuthorize(CanManageNonAggressionPacts = true)]
         [HttpPost]
         [Route("WithdrawNonAggressionPactRequest")]
         public ViewResult WithdrawNonAggressionPactRequest(int id) {
@@ -317,8 +313,7 @@ namespace WarOfEmpires.Controllers {
                 .ThrowOnFailure();
         }
 
-        // TODO additional authorization
-        [AllianceAuthorize]
+        [AllianceAuthorize(CanManageNonAggressionPacts = true)]
         [HttpGet]
         [Route("ReceivedNonAggressionPactRequests")]
         public ViewResult ReceivedNonAggressionPactRequests() {
@@ -326,8 +321,7 @@ namespace WarOfEmpires.Controllers {
             return View("ReceivedNonAggressionPactRequests", _messageService.Dispatch(new GetReceivedNonAggressionPactRequestsQuery(_authenticationService.Identity)));
         }
 
-        // TODO additional authorization
-        [AllianceAuthorize]
+        [AllianceAuthorize(CanManageNonAggressionPacts = true)]
         [HttpPost]
         [Route("AcceptNonAggressionPactRequest")]
         public ViewResult AcceptNonAggressionPactRequest(int id) {
@@ -336,8 +330,7 @@ namespace WarOfEmpires.Controllers {
                 .ThrowOnFailure();
         }
 
-        // TODO additional authorization
-        [AllianceAuthorize]
+        [AllianceAuthorize(CanManageNonAggressionPacts = true)]
         [HttpPost]
         [Route("RejectNonAggressionPactRequest")]
         public ViewResult RejectNonAggressionPactRequest(int id) {
@@ -346,7 +339,7 @@ namespace WarOfEmpires.Controllers {
                 .ThrowOnFailure();
         }
 
-        [AllianceAuthorize]
+        [AllianceAuthorize(CanManageNonAggressionPacts = true)]
         [HttpGet]
         [Route("NonAggressionPacts")]
         public ViewResult NonAggressionPacts() {
@@ -354,8 +347,7 @@ namespace WarOfEmpires.Controllers {
             return View("NonAggressionPacts", _messageService.Dispatch(new GetNonAggressionPactsQuery(_authenticationService.Identity)));
         }
 
-        // TODO additional authorization
-        [AllianceAuthorize]
+        [AllianceAuthorize(CanManageNonAggressionPacts = true)]
         [HttpPost]
         [Route("DissolveNonAggressionPact")]
         public ViewResult DissolveNonAggressionPact(int id) {

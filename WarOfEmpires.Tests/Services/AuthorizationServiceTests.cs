@@ -151,5 +151,24 @@ namespace WarOfEmpires.Tests.Services {
 
             authorizationService.IsAuthorized(request).Should().Be(expectedOutcome);
         }
+
+        [DataTestMethod]
+        [DataRow(null, false, false, false, DisplayName = "Not authenticated")]
+        [DataRow("User", false, false, false, DisplayName = "Not in alliance")]
+        [DataRow("User", true, false, false, DisplayName = "In alliance but can't manage pacts")]
+        [DataRow("User", true, true, true, DisplayName = "Can manage pacts")]
+        public void AuthorizationService_IsAuthorized_Succeeds_CanManageNonAggressionPacts(string identity, bool isInAlliance, bool canManageNonAggressionPacts, bool expectedOutcome) {
+            var messageService = Substitute.For<IMessageService>();
+            var request = Substitute.For<IAllianceAuthorizationRequest>();
+            var authorizationService = new AuthorizationService(new FakeAuthenticationService() { Identity = identity }, messageService);
+
+            messageService.Dispatch(Arg.Any<IQuery<CurrentAllianceRightsViewModel>>()).Returns(new CurrentAllianceRightsViewModel() {
+                IsInAlliance = isInAlliance,
+                CanManageNonAggressionPacts = canManageNonAggressionPacts
+            });
+            request.CanManageNonAggressionPacts.Returns(true);
+
+            authorizationService.IsAuthorized(request).Should().Be(expectedOutcome);
+        }
     }
 }

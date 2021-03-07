@@ -24,6 +24,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
             result.CanKickMembers.Should().BeFalse();
             result.CanTransferLeadership.Should().BeFalse();
             result.CanDisbandAlliance.Should().BeFalse();
+            result.CanManageNonAggressionPacts.Should().BeFalse();
         }
 
         [TestMethod]
@@ -45,6 +46,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
             result.CanKickMembers.Should().BeTrue();
             result.CanTransferLeadership.Should().BeFalse();
             result.CanDisbandAlliance.Should().BeFalse();
+            result.CanManageNonAggressionPacts.Should().BeTrue();
         }
 
         [TestMethod]
@@ -65,6 +67,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
             result.CanKickMembers.Should().BeTrue();
             result.CanTransferLeadership.Should().BeTrue();
             result.CanDisbandAlliance.Should().BeTrue();
+            result.CanManageNonAggressionPacts.Should().BeTrue();
         }
     }
 }

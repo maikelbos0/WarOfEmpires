@@ -34,12 +34,14 @@ namespace WarOfEmpires.QueryHandlers.Alliances {
                 result.CanKickMembers = true;
                 result.CanTransferLeadership = true;
                 result.CanDisbandAlliance = true;
+                result.CanManageNonAggressionPacts = true;
             }
             else if (player.AllianceRole != null) {
                 result.CanInvite = player.AllianceRole.CanInvite;
                 result.CanManageRoles = player.AllianceRole.CanManageRoles;
                 result.CanDeleteChatMessages = player.AllianceRole.CanDeleteChatMessages;
                 result.CanKickMembers = player.AllianceRole.CanKickMembers;
+                result.CanManageNonAggressionPacts = player.AllianceRole.CanManageNonAggressionPacts;
             }
 
             return result;

@@ -279,6 +279,10 @@
     <Compile Include="Migrations\202101091652153_Alliances-NonAggressionPacts.designer.cs">
       <DependentUpon>202101091652153_Alliances-NonAggressionPacts.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202102131437225_Roles-CanManageNonAggressionPacts.cs" />
+    <Compile Include="Migrations\202102131437225_Roles-CanManageNonAggressionPacts.designer.cs">
+      <DependentUpon>202102131437225_Roles-CanManageNonAggressionPacts.cs</DependentUpon>
+    </Compile>
     <Compile Include="ReferenceEntities\AttackResultEntity.cs" />
     <Compile Include="ReferenceEntities\AttackTypeEntity.cs" />
     <Compile Include="ReferenceEntities\BaseReferenceEntity.cs" />
@@ -481,6 +485,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202101091652153_Alliances-NonAggressionPacts.resx">
       <DependentUpon>202101091652153_Alliances-NonAggressionPacts.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202102131437225_Roles-CanManageNonAggressionPacts.resx">
+      <DependentUpon>202102131437225_Roles-CanManageNonAggressionPacts.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
