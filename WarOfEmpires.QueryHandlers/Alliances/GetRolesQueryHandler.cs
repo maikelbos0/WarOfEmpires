@@ -29,7 +29,7 @@ namespace WarOfEmpires.QueryHandlers.Alliances {
                     CanManageRoles = r.CanManageRoles,
                     CanDeleteChatMessages = r.CanDeleteChatMessages,
                     CanKickMembers = r.CanKickMembers,
-                    CanManageNonAggressionPacts=r.CanManageNonAggressionPacts,
+                    CanManageNonAggressionPacts = r.CanManageNonAggressionPacts,
                     Players = r.Players.Count(p => p.User.Status == UserStatus.Active)
                 });
         }
