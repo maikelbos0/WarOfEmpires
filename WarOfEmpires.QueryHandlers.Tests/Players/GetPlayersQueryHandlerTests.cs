@@ -49,6 +49,16 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
         }
 
         [TestMethod]
+        public void GetPlayersQueryHandler_Returns_Correct_Status_For_Own_Alliance() {
+            throw new System.NotImplementedException();
+        }
+
+        [TestMethod]
+        public void GetPlayersQueryHandler_Returns_Correct_Status_For_Pact() {
+            throw new System.NotImplementedException();
+        }
+
+        [TestMethod]
         public void GetPlayersQueryHandler_Searches() {
             var builder = new FakeBuilder()
                 .WithPlayer(1)
