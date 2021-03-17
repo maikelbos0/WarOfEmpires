@@ -47,6 +47,16 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
         }
 
         [TestMethod]
+        public void GetAlliancesQueryHandler_Returns_Correct_Status_For_Own_Alliance() {
+            throw new System.NotImplementedException();
+        }
+
+        [TestMethod]
+        public void GetAlliancesQueryHandler_Returns_Correct_Status_For_Pact() {
+            throw new System.NotImplementedException();
+        }
+
+        [TestMethod]
         public void GetAlliancesQueryHandler_Searches_By_Code() {
             var builder = new FakeBuilder()
                 .BuildAlliance(1, "C1", "N1")
