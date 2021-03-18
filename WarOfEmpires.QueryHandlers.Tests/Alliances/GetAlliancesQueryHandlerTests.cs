@@ -47,13 +47,54 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
         }
 
         [TestMethod]
+        public void GetAlliancesQueryHandler_Returns_Empty_Status_By_Default() {
+            var builder = new FakeBuilder()
+                .BuildAlliance(2, code: "TEST")
+                .WithLeader(2)
+                .BuildAlliance(1)
+                .WithLeader(1);
+
+            var handler = new GetAlliancesQueryHandler(builder.Context);
+            var query = new GetAlliancesQuery("test1@test.com", "TEST", null);
+
+            var result = handler.Execute(query);
+
+            result.Should().HaveCount(1);
+            result.Single().Status.Should().BeNull();
+        }
+
+        [TestMethod]
         public void GetAlliancesQueryHandler_Returns_Correct_Status_For_Own_Alliance() {
-            throw new System.NotImplementedException();
+            var builder = new FakeBuilder()
+                .BuildAlliance(1)
+                .WithLeader(1);
+
+            var handler = new GetAlliancesQueryHandler(builder.Context);
+            var query = new GetAlliancesQuery("test1@test.com", null, null);
+
+            var result = handler.Execute(query);
+
+            result.Should().HaveCount(1);
+            result.Single().Status.Should().Be("Mine");
         }
 
         [TestMethod]
         public void GetAlliancesQueryHandler_Returns_Correct_Status_For_Pact() {
-            throw new System.NotImplementedException();
+            var builder = new FakeBuilder()
+                .BuildAlliance(2, code: "TEST")
+                .WithLeader(2);
+
+            builder.BuildAlliance(1)
+                .WithLeader(1)
+                .WithNonAggressionPact(1, builder.Alliance);
+
+            var handler = new GetAlliancesQueryHandler(builder.Context);
+            var query = new GetAlliancesQuery("test1@test.com", "TEST", null);
+
+            var result = handler.Execute(query);
+
+            result.Should().HaveCount(1);
+            result.Single().Status.Should().Be("Pact");
         }
 
         [TestMethod]
