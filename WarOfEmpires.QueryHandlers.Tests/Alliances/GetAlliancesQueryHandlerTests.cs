@@ -17,7 +17,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
                 .WithLeader(2);
 
             var handler = new GetAlliancesQueryHandler(builder.Context);
-            var query = new GetAlliancesQuery(null, null);
+            var query = new GetAlliancesQuery("test1@test.com", null, null);
 
             var result = handler.Execute(query);
 
@@ -34,7 +34,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
                 .WithLeader(4, displayName: "Capitain");
 
             var handler = new GetAlliancesQueryHandler(builder.Context);
-            var query = new GetAlliancesQuery(null, null);
+            var query = new GetAlliancesQuery("test1@test.com", null, null);
 
             var result = handler.Execute(query);
 
@@ -68,7 +68,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
                 .BuildAlliance(4, "C4", "N4").BuildLeader(4);
             
             var handler = new GetAlliancesQueryHandler(builder.Context);
-            var query = new GetAlliancesQuery("od", null);
+            var query = new GetAlliancesQuery("test1@test.com", "od", null);
 
             var result = handler.Execute(query);
 
@@ -88,7 +88,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
                 .WithLeader(4);
 
             var handler = new GetAlliancesQueryHandler(builder.Context);
-            var query = new GetAlliancesQuery(null, "ame");
+            var query = new GetAlliancesQuery("test1@test.com", null, "ame");
 
             var result = handler.Execute(query);
 
