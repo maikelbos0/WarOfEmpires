@@ -20,7 +20,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
                 .WithPlayer(5);
 
             var handler = new GetPlayersQueryHandler(builder.Context, new EnumFormatter());
-            var query = new GetPlayersQuery(null);
+            var query = new GetPlayersQuery("test1@test.com", null);
 
             var result = handler.Execute(query);
 
@@ -35,7 +35,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
                 .WithPopulation();
 
             var handler = new GetPlayersQueryHandler(builder.Context, new EnumFormatter());
-            var query = new GetPlayersQuery(null);
+            var query = new GetPlayersQuery("test1@test.com", null);
 
             var result = handler.Execute(query);
 
@@ -65,7 +65,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
                 .WithPlayer(2, displayName: "Wrong");
 
             var handler = new GetPlayersQueryHandler(builder.Context, new EnumFormatter());
-            var query = new GetPlayersQuery("Test");
+            var query = new GetPlayersQuery("test1@test.com", "Test");
 
             var result = handler.Execute(query);
 
