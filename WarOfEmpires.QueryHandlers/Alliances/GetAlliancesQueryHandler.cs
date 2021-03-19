@@ -22,7 +22,7 @@ namespace WarOfEmpires.QueryHandlers.Alliances {
             var allianceId = _context.Players
                 .Include(p => p.Alliance)
                 .Single(p => EmailComparisonService.Equals(p.User.Email, query.Email))
-                .Alliance.Id;
+                .Alliance?.Id;
             var alliances = _context.Alliances.AsQueryable();
 
             if (!string.IsNullOrEmpty(query.Name)) {

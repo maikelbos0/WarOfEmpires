@@ -51,8 +51,8 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
         [TestMethod]
         public void GetPlayersQueryHandler_Returns_Empty_Status_By_Default() {
             var builder = new FakeBuilder()
-                .WithPlayer(1, displayName: "Player")
-                .WithPlayer(2);
+                .WithPlayer(2, displayName: "Player")
+                .WithPlayer(1);
 
             var handler = new GetPlayersQueryHandler(builder.Context, new EnumFormatter());
             var query = new GetPlayersQuery("test1@test.com", "Player");
