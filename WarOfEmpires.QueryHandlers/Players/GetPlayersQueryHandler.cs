@@ -38,6 +38,7 @@ namespace WarOfEmpires.QueryHandlers.Players {
             return players
                 .Select(p => new {
                     p.Id,
+                    Status = p.Id == currentPlayer.Id ? "Mine" : p.Alliance != null ? (p.Alliance.Id == currentAllianceId ? "Ally" : p.Alliance.NonAggressionPacts.Any(pact => pact.Alliances.Any(pa => pa.Id == currentAllianceId)) ? "Pact" : null) : null,
                     p.Rank,
                     p.Title,
                     p.DisplayName,
@@ -50,7 +51,7 @@ namespace WarOfEmpires.QueryHandlers.Players {
                 .ToList()
                 .Select(p => new PlayerViewModel() {
                     Id = p.Id,
-                    Status = p.Id == currentPlayer.Id ? "Mine" : p.Alliance != null ? (p.Alliance.Id == currentAllianceId ? "Ally" : p.Alliance.NonAggressionPacts.Any(pact => pact.Alliances.Any(pa => pa.Id == currentAllianceId)) ? "Pact" : null) : null,
+                    Status = p.Status,
                     Rank = p.Rank,
                     Title = _formatter.ToString(p.Title),
                     DisplayName = p.DisplayName,

@@ -32,6 +32,7 @@ namespace WarOfEmpires.QueryHandlers.Players {
                 .Where(p => p.User.Status == UserStatus.Active && p.Id == query.Id)
                 .Select( p => new {
                     p.Id,
+                    Status = p.Id == currentPlayer.Id ? "Mine" : p.Alliance != null ? (p.Alliance.Id == currentAllianceId ? "Ally" : p.Alliance.NonAggressionPacts.Any(pact => pact.Alliances.Any(pa => pa.Id == currentAllianceId)) ? "Pact" : null) : null,
                     p.Rank,
                     p.Title,
                     p.DisplayName,
@@ -46,6 +47,7 @@ namespace WarOfEmpires.QueryHandlers.Players {
 
             return new PlayerDetailsViewModel() {
                 Id = player.Id,
+                Status = player.Status,
                 Rank = player.Rank,
                 Title = _formatter.ToString(player.Title),
                 DisplayName = player.DisplayName,
