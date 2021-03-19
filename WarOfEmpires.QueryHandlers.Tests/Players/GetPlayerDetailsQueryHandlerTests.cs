@@ -94,6 +94,67 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
         }
 
         [TestMethod]
+        public void GetPlayerDetailsQueryHandler_Returns_Empty_Status_By_Default() {
+            var builder = new FakeBuilder()
+                .WithPlayer(2)
+                .WithPlayer(1);
+
+            var handler = new GetPlayerDetailsQueryHandler(builder.Context, new EnumFormatter());
+            var query = new GetPlayerDetailsQuery("test1@test.com", 2);
+
+            var result = handler.Execute(query);
+
+            result.Status.Should().BeNull();
+        }
+
+        [TestMethod]
+        public void GetPlayerDetailsQueryHandler_Returns_Correct_Status_For_Self() {
+            var builder = new FakeBuilder()
+                .BuildAlliance(1)
+                .WithMember(1);
+
+            var handler = new GetPlayerDetailsQueryHandler(builder.Context, new EnumFormatter());
+            var query = new GetPlayerDetailsQuery("test1@test.com", 1);
+
+            var result = handler.Execute(query);
+
+            result.Status.Should().Be("Mine");
+        }
+
+        [TestMethod]
+        public void GetPlayerDetailsQueryHandler_Returns_Correct_Status_For_Own_Alliance() {
+            var builder = new FakeBuilder()
+                .BuildAlliance(1)
+                .WithMember(1)
+                .WithMember(2, displayName: "Allied");
+
+            var handler = new GetPlayerDetailsQueryHandler(builder.Context, new EnumFormatter());
+            var query = new GetPlayerDetailsQuery("test1@test.com", 2);
+
+            var result = handler.Execute(query);
+
+            result.Status.Should().Be("Ally");
+        }
+
+        [TestMethod]
+        public void GetPlayerDetailsQueryHandler_Returns_Correct_Status_For_Pact() {
+            var builder = new FakeBuilder()
+                .BuildAlliance(1)
+                .WithMember(1);
+
+            builder.BuildAlliance(2)
+                .WithMember(2, displayName: "Don't attack")
+                .WithNonAggressionPact(1, builder.Alliance);
+
+            var handler = new GetPlayerDetailsQueryHandler(builder.Context, new EnumFormatter());
+            var query = new GetPlayerDetailsQuery("test1@test.com", 2);
+
+            var result = handler.Execute(query);
+
+            result.Status.Should().Be("Pact");
+        }
+
+        [TestMethod]
         public void GetPlayerDetailsQueryHandler_Throws_Exception_For_Nonexistent_Id() {
             var builder = new FakeBuilder()
                 .BuildPlayer(1);

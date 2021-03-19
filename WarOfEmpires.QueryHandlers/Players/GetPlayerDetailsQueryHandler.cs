@@ -33,7 +33,7 @@ namespace WarOfEmpires.QueryHandlers.Players {
                 .Select( p => new {
                     p.Id,
                     p.Rank,
-                    Title = p.Title,
+                    p.Title,
                     p.DisplayName,
                     Population = p.Peasants
                         + (p.Workers.Sum(w => (int?)w.Count) ?? 0)

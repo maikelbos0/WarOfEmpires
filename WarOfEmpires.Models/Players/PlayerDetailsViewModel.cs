@@ -1,5 +1,6 @@
 ﻿namespace WarOfEmpires.Models.Players {
     public sealed class PlayerDetailsViewModel : EntityViewModel {
+        public string Status { get; set; }
         public int Rank { get; set; }
         public string DisplayName { get; set; }
         public int? AllianceId { get; set; }
