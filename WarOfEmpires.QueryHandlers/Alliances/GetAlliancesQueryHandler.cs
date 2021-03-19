@@ -19,7 +19,7 @@ namespace WarOfEmpires.QueryHandlers.Alliances {
         }
 
         public IEnumerable<AllianceViewModel> Execute(GetAlliancesQuery query) {
-            var allianceId = _context.Players
+            var currentAllianceId = _context.Players
                 .Include(p => p.Alliance)
                 .Single(p => EmailComparisonService.Equals(p.User.Email, query.Email))
                 .Alliance?.Id;
@@ -36,7 +36,7 @@ namespace WarOfEmpires.QueryHandlers.Alliances {
             return alliances.
                 Select(a => new AllianceViewModel() {
                     Id = a.Id,
-                    Status = a.Id == allianceId ? "Mine" : a.NonAggressionPacts.Any(p => p.Alliances.Any(pa => pa.Id == allianceId)) ? "Pact" : null,
+                    Status = a.Id == currentAllianceId ? "Mine" : a.NonAggressionPacts.Any(p => p.Alliances.Any(pa => pa.Id == currentAllianceId)) ? "Pact" : null,
                     Code = a.Code,
                     Name = a.Name,
                     Members = a.Members.Count(),

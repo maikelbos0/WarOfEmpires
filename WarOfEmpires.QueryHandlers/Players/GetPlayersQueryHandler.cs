@@ -23,10 +23,10 @@ namespace WarOfEmpires.QueryHandlers.Players {
         }
 
         public IEnumerable<PlayerViewModel> Execute(GetPlayersQuery query) {
-            var player = _context.Players
+            var currentPlayer = _context.Players
                 .Include(p => p.Alliance)
                 .Single(p => EmailComparisonService.Equals(p.User.Email, query.Email));
-            var allianceId = player.Alliance?.Id;
+            var currentAllianceId = currentPlayer.Alliance?.Id;
             var players = _context.Players
                 .Where(p => p.User.Status == UserStatus.Active);
 
@@ -50,7 +50,7 @@ namespace WarOfEmpires.QueryHandlers.Players {
                 .ToList()
                 .Select(p => new PlayerViewModel() {
                     Id = p.Id,
-                    Status = p.Id == player.Id ? "Mine" : p.Alliance != null ? (p.Alliance.Id == allianceId ? "Ally" : p.Alliance.NonAggressionPacts.Any(pact => pact.Alliances.Any(pa => pa.Id == allianceId)) ? "Pact" : null) : null,
+                    Status = p.Id == currentPlayer.Id ? "Mine" : p.Alliance != null ? (p.Alliance.Id == currentAllianceId ? "Ally" : p.Alliance.NonAggressionPacts.Any(pact => pact.Alliances.Any(pa => pa.Id == currentAllianceId)) ? "Pact" : null) : null,
                     Rank = p.Rank,
                     Title = _formatter.ToString(p.Title),
                     DisplayName = p.DisplayName,
