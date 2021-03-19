@@ -49,7 +49,8 @@ namespace WarOfEmpires.QueryHandlers.Alliances {
                 .ToList();
 
             return new AllianceDetailsViewModel() {
-                Id = query.Id,
+                Id = alliance.Id,
+                Status = currentAlliance == null ? null : alliance.Id == currentAlliance.Id ? "Mine" : currentAlliance.NonAggressionPacts.Any(p => p.Alliances.Contains(alliance)) ? "Pact" : null,
                 Code = alliance.Code,
                 Name = alliance.Name,
                 LeaderId = alliance.Leader.Id,
