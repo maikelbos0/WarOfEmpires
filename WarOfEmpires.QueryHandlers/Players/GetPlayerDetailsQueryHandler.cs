@@ -25,22 +25,35 @@ namespace WarOfEmpires.QueryHandlers.Players {
             var currentPlayer = _context.Players
                 .Include(p => p.Alliance)
                 .Single(p => EmailComparisonService.Equals(p.User.Email, query.Email));
+            var currentAllianceId = currentPlayer.Alliance?.Id;
+            
+            // Materialize before setting the title
             var player = _context.Players
-                .Include(p => p.Alliance)
-                .Include(p => p.Workers)
-                .Include(p => p.Troops)
-                .Single(p => p.User.Status == UserStatus.Active && p.Id == query.Id);
+                .Where(p => p.User.Status == UserStatus.Active && p.Id == query.Id)
+                .Select( p => new {
+                    p.Id,
+                    p.Rank,
+                    Title = p.Title,
+                    p.DisplayName,
+                    Population = p.Peasants
+                        + (p.Workers.Sum(w => (int?)w.Count) ?? 0)
+                        + (p.Troops.Sum(t => (int?)t.Soldiers) ?? 0)
+                        + (p.Troops.Sum(t => (int?)t.Mercenaries) ?? 0),
+                    p.Alliance,
+                    CanBeAttacked = p.Id != currentPlayer.Id && (p.Alliance == null || (p.Alliance.Id != currentAllianceId && !p.Alliance.NonAggressionPacts.Any(pact => pact.Alliances.Any(pa => pa.Id == currentAllianceId))))
+                })
+                .Single();
 
             return new PlayerDetailsViewModel() {
                 Id = player.Id,
                 Rank = player.Rank,
                 Title = _formatter.ToString(player.Title),
                 DisplayName = player.DisplayName,
-                Population = player.Peasants + player.Workers.Sum(w => w.Count) + player.Troops.Sum(t => t.GetTotals()),
+                Population = player.Population,
                 AllianceId = player.Alliance?.Id,
                 AllianceCode = player.Alliance?.Code,
                 AllianceName = player.Alliance?.Name,
-                CanBeAttacked = player != currentPlayer && (player.Alliance == null || player.Alliance != currentPlayer.Alliance)
+                CanBeAttacked = player.CanBeAttacked
             };
         }
     }
