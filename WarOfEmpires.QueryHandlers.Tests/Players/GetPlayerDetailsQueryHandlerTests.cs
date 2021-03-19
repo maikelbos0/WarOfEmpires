@@ -76,6 +76,24 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
         }
 
         [TestMethod]
+        public void GetPlayerDetailsQueryHandler_Returns_CanBeAttacked_False_For_Pact() {
+            var builder = new FakeBuilder()
+                .BuildAlliance(1)
+                .WithLeader(1);
+
+            builder.BuildAlliance(2)
+                .WithMember(2)
+                .WithNonAggressionPact(1, builder.Alliance);
+
+            var handler = new GetPlayerDetailsQueryHandler(builder.Context, new EnumFormatter());
+            var query = new GetPlayerDetailsQuery("test1@test.com", 2);
+
+            var result = handler.Execute(query);
+
+            result.CanBeAttacked.Should().BeFalse();
+        }
+
+        [TestMethod]
         public void GetPlayerDetailsQueryHandler_Throws_Exception_For_Nonexistent_Id() {
             var builder = new FakeBuilder()
                 .BuildPlayer(1);
