@@ -98,6 +98,54 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
         }
 
         [TestMethod]
+        public void GetAllianceDetailsQueryHandler_Returns_Empty_Status_By_Default() {
+            var builder = new FakeBuilder()
+                .BuildAlliance(2)
+                .WithLeader(2)
+                .BuildAlliance(1)
+                .WithLeader(1);
+
+            var handler = new GetAllianceDetailsQueryHandler(builder.Context, new EnumFormatter());
+            var query = new GetAllianceDetailsQuery("test1@test.com", 2);
+
+            var result = handler.Execute(query);
+
+            result.Status.Should().BeNull();
+        }
+
+        [TestMethod]
+        public void GetAllianceDetailsQueryHandler_Returns_Correct_Status_For_Own_Alliance() {
+            var builder = new FakeBuilder()
+                .BuildAlliance(1)
+                .WithLeader(1);
+
+            var handler = new GetAllianceDetailsQueryHandler(builder.Context, new EnumFormatter());
+            var query = new GetAllianceDetailsQuery("test1@test.com", 1);
+
+            var result = handler.Execute(query);
+
+            result.Status.Should().Be("Mine");
+        }
+
+        [TestMethod]
+        public void GetAllianceDetailsQueryHandler_Returns_Correct_Status_For_Pact() {
+            var builder = new FakeBuilder()
+                .BuildAlliance(2)
+                .WithLeader(2);
+
+            builder.BuildAlliance(1)
+                .WithLeader(1)
+                .WithNonAggressionPact(1, builder.Alliance);
+
+            var handler = new GetAllianceDetailsQueryHandler(builder.Context, new EnumFormatter());
+            var query = new GetAllianceDetailsQuery("test1@test.com", 2);
+
+            var result = handler.Execute(query);
+
+            result.Status.Should().Be("Pact");
+        }
+
+        [TestMethod]
         public void GetAllianceDetailsQueryHandler_Throws_Exception_For_Nonexistent_Id() {
             var builder = new FakeBuilder()
                 .BuildAlliance(1)
