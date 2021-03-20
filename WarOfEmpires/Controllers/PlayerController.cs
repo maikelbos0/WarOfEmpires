@@ -24,7 +24,7 @@ namespace WarOfEmpires.Controllers {
         [Route("GetPlayers")]
         [HttpPost]
         public JsonResult GetPlayers(DataGridViewMetaData metaData, PlayerSearchModel search) {
-            return GridJson(new GetPlayersQuery(search.DisplayName), metaData);
+            return GridJson(new GetPlayersQuery(_authenticationService.Identity, search.DisplayName), metaData);
         }
 
         [Route("Details")]

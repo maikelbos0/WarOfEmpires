@@ -58,6 +58,25 @@ namespace WarOfEmpires.CommandHandlers.Tests.Attacks {
         }
 
         [TestMethod]
+        public void AttackCommandHandler_Throws_Exception_For_Pact() {
+            var builder = new FakeBuilder()
+                .BuildAlliance(1)
+                .WithMember(1, out var attacker);
+
+            builder.BuildAlliance(2)
+                .WithMember(2, out var defender)
+                .WithNonAggressionPact(1, builder.Alliance);
+
+            var handler = new AttackCommandHandler(new PlayerRepository(builder.Context));
+            var command = new AttackCommand("Raid", "test1@test.com", 2, 10);
+
+            Action action = () => handler.Execute(command);
+
+            action.Should().Throw<InvalidOperationException>();
+            attacker.DidNotReceiveWithAnyArgs().ExecuteAttack(default, default, default);
+        }
+
+        [TestMethod]
         public void AttackCommandHandler_Throws_Exception_For_Nonexistent_Defender() {
             var builder = new FakeBuilder()
                 .WithPlayer(1, out var attacker)

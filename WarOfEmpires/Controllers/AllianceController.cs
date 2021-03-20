@@ -27,7 +27,7 @@ namespace WarOfEmpires.Controllers {
         [Route("GetAlliances")]
         [HttpPost]
         public JsonResult GetAlliances(DataGridViewMetaData metaData, AllianceSearchModel search) {
-            return GridJson(new GetAlliancesQuery(search.Code, search.Name), metaData);
+            return GridJson(new GetAlliancesQuery(_authenticationService.Identity, search.Code, search.Name), metaData);
         }
 
         [HttpGet]

@@ -25,17 +25,17 @@ namespace WarOfEmpires.QueryHandlers.Alliances {
 
         public AllianceDetailsViewModel Execute(GetAllianceDetailsQuery query) {
             var nonAggressionPactAlliances = new List<Alliance>();
-            var playerAlliance = _context.Players
+            var currentAlliance = _context.Players
                 .Include(p => p.Alliance)
                 .Include(p => p.Alliance.SentNonAggressionPactRequests.Select(r => r.Recipient))
                 .Include(p => p.Alliance.NonAggressionPacts.Select(n => n.Alliances))
                 .Single(p => EmailComparisonService.Equals(p.User.Email, query.Email))
                 .Alliance;
 
-            if (playerAlliance != null) {
-                nonAggressionPactAlliances.Add(playerAlliance);
-                nonAggressionPactAlliances.AddRange(playerAlliance.SentNonAggressionPactRequests.Select(r => r.Recipient));
-                nonAggressionPactAlliances.AddRange(playerAlliance.NonAggressionPacts.SelectMany(p => p.Alliances));
+            if (currentAlliance != null) {
+                nonAggressionPactAlliances.Add(currentAlliance);
+                nonAggressionPactAlliances.AddRange(currentAlliance.SentNonAggressionPactRequests.Select(r => r.Recipient));
+                nonAggressionPactAlliances.AddRange(currentAlliance.NonAggressionPacts.SelectMany(p => p.Alliances));
             }
 
             var alliance = _context.Alliances
@@ -49,7 +49,8 @@ namespace WarOfEmpires.QueryHandlers.Alliances {
                 .ToList();
 
             return new AllianceDetailsViewModel() {
-                Id = query.Id,
+                Id = alliance.Id,
+                Status = currentAlliance == null ? null : alliance.Id == currentAlliance.Id ? "Mine" : currentAlliance.NonAggressionPacts.Any(p => p.Alliances.Contains(alliance)) ? "Pact" : null,
                 Code = alliance.Code,
                 Name = alliance.Name,
                 LeaderId = alliance.Leader.Id,

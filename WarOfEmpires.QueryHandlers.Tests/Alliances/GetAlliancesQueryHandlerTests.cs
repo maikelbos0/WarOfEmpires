@@ -17,7 +17,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
                 .WithLeader(2);
 
             var handler = new GetAlliancesQueryHandler(builder.Context);
-            var query = new GetAlliancesQuery(null, null);
+            var query = new GetAlliancesQuery("test1@test.com", null, null);
 
             var result = handler.Execute(query);
 
@@ -34,7 +34,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
                 .WithLeader(4, displayName: "Capitain");
 
             var handler = new GetAlliancesQueryHandler(builder.Context);
-            var query = new GetAlliancesQuery(null, null);
+            var query = new GetAlliancesQuery("test1@test.com", null, null);
 
             var result = handler.Execute(query);
 
@@ -44,6 +44,57 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
             result.Single().Name.Should().Be("Føroyskir Samgonga");
             result.Single().Members.Should().Be(4);
             result.Single().Leader.Should().Be("Capitain");
+        }
+
+        [TestMethod]
+        public void GetAlliancesQueryHandler_Returns_Empty_Status_By_Default() {
+            var builder = new FakeBuilder()
+                .BuildAlliance(2, code: "TEST")
+                .WithLeader(2)
+                .BuildAlliance(1)
+                .WithLeader(1);
+
+            var handler = new GetAlliancesQueryHandler(builder.Context);
+            var query = new GetAlliancesQuery("test1@test.com", "TEST", null);
+
+            var result = handler.Execute(query);
+
+            result.Should().HaveCount(1);
+            result.Single().Status.Should().BeNull();
+        }
+
+        [TestMethod]
+        public void GetAlliancesQueryHandler_Returns_Correct_Status_For_Own_Alliance() {
+            var builder = new FakeBuilder()
+                .BuildAlliance(1)
+                .WithLeader(1);
+
+            var handler = new GetAlliancesQueryHandler(builder.Context);
+            var query = new GetAlliancesQuery("test1@test.com", null, null);
+
+            var result = handler.Execute(query);
+
+            result.Should().HaveCount(1);
+            result.Single().Status.Should().Be("Mine");
+        }
+
+        [TestMethod]
+        public void GetAlliancesQueryHandler_Returns_Correct_Status_For_Pact() {
+            var builder = new FakeBuilder()
+                .BuildAlliance(2, code: "TEST")
+                .WithLeader(2);
+
+            builder.BuildAlliance(1)
+                .WithLeader(1)
+                .WithNonAggressionPact(1, builder.Alliance);
+
+            var handler = new GetAlliancesQueryHandler(builder.Context);
+            var query = new GetAlliancesQuery("test1@test.com", "TEST", null);
+
+            var result = handler.Execute(query);
+
+            result.Should().HaveCount(1);
+            result.Single().Status.Should().Be("Pact");
         }
 
         [TestMethod]
@@ -58,7 +109,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
                 .BuildAlliance(4, "C4", "N4").BuildLeader(4);
             
             var handler = new GetAlliancesQueryHandler(builder.Context);
-            var query = new GetAlliancesQuery("od", null);
+            var query = new GetAlliancesQuery("test1@test.com", "od", null);
 
             var result = handler.Execute(query);
 
@@ -78,7 +129,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
                 .WithLeader(4);
 
             var handler = new GetAlliancesQueryHandler(builder.Context);
-            var query = new GetAlliancesQuery(null, "ame");
+            var query = new GetAlliancesQuery("test1@test.com", null, "ame");
 
             var result = handler.Execute(query);
 
