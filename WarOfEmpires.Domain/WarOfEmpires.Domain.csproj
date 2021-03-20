@@ -1,134 +1,20 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" />
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{E157B9C5-042F-4DC3-B2E2-A721ECA67CDC}</ProjectGuid>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WarOfEmpires.Domain</RootNamespace>
-    <AssemblyName>WarOfEmpires.Domain</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <Deterministic>true</Deterministic>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
-    </Reference>
-    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
+    <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
+    <PackageReference Include="Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers" Version="0.2.212405">
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AggregateRoot.cs" />
-    <Compile Include="Alliances\Alliance.cs" />
-    <Compile Include="Alliances\ChatMessage.cs" />
-    <Compile Include="Alliances\Invite.cs" />
-    <Compile Include="Alliances\NonAggressionPact.cs" />
-    <Compile Include="Alliances\NonAggressionPactRequest.cs" />
-    <Compile Include="Alliances\Role.cs" />
-    <Compile Include="Attacks\AttackFactory.cs" />
-    <Compile Include="Attacks\AttackResult.cs" />
-    <Compile Include="Attacks\AttackRound.cs" />
-    <Compile Include="Attacks\Attack.cs" />
-    <Compile Include="Attacks\AttackType.cs" />
-    <Compile Include="Attacks\Assault.cs" />
-    <Compile Include="Attacks\Raid.cs" />
-    <Compile Include="Attacks\TroopDefinition.cs" />
-    <Compile Include="Attacks\TroopDefinitionFactory.cs" />
-    <Compile Include="Empires\BankTurnTaskTriggeredEvent.cs" />
-    <Compile Include="Empires\SequenceGeneratorFactory.cs" />
-    <Compile Include="Attacks\Casualties.cs" />
-    <Compile Include="Attacks\TroopType.cs" />
-    <Compile Include="Auditing\QueryExecution.cs" />
-    <Compile Include="Auditing\CommandExecution.cs" />
-    <Compile Include="Common\Resources.cs" />
-    <Compile Include="Empires\BuildingDefinition.cs" />
-    <Compile Include="Empires\BuildingDefinitionFactory.cs" />
-    <Compile Include="Empires\Building.cs" />
-    <Compile Include="Empires\ExpressionGenerator.cs" />
-    <Compile Include="Empires\BuildingType.cs" />
-    <Compile Include="Empires\UpdateRankTaskTriggeredEvent.cs" />
-    <Compile Include="Empires\WorkerDefinition.cs" />
-    <Compile Include="Empires\WorkerDefinitionFactory.cs" />
-    <Compile Include="Empires\Workers.cs" />
-    <Compile Include="Empires\WorkerType.cs" />
-    <Compile Include="Entity.cs" />
-    <Compile Include="Events\IEvent.cs" />
-    <Compile Include="Empires\TurnTaskTriggeredEvent.cs" />
-    <Compile Include="Events\TaskExecutionMode.cs" />
-    <Compile Include="Markets\Caravan.cs" />
-    <Compile Include="Markets\Merchandise.cs" />
-    <Compile Include="Markets\MerchandiseTotals.cs" />
-    <Compile Include="Markets\MerchandiseType.cs" />
-    <Compile Include="Markets\Transaction.cs" />
-    <Compile Include="Players\Message.cs" />
-    <Compile Include="Players\ProductionInfo.cs" />
-    <Compile Include="Empires\RecruitTaskTriggeredEvent.cs" />
-    <Compile Include="Players\RankService.cs" />
-    <Compile Include="Players\TitleDefinitionFactory.cs" />
-    <Compile Include="Players\TitleType.cs" />
-    <Compile Include="Players\TitleDefinition.cs" />
-    <Compile Include="Players\TroopInfo.cs" />
-    <Compile Include="Attacks\Troops.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Events\ScheduledTask.cs" />
-    <Compile Include="Security\Password.cs" />
-    <Compile Include="Security\TemporaryPassword.cs" />
-    <Compile Include="Security\User.cs" />
-    <Compile Include="Security\UserEvent.cs" />
-    <Compile Include="Security\UserEventType.cs" />
-    <Compile Include="Security\UserStatus.cs" />
-    <Compile Include="Players\Player.cs" />
-    <Compile Include="Siege\SiegeWeapon.cs" />
-    <Compile Include="Siege\SiegeWeaponDefinition.cs" />
-    <Compile Include="Siege\SiegeWeaponDefinitionFactory.cs" />
-    <Compile Include="Siege\SiegeWeaponType.cs" />
-    <Compile Include="ValueObject.cs" />
+    <PackageReference Include="EntityFramework" Version="6.4.4" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup />
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.props'))" />
-    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.targets'))" />
-  </Target>
   <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" />
 </Project>
