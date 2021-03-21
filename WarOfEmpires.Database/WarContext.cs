@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using WarOfEmpires.Database.ReferenceEntities;
@@ -15,15 +16,16 @@ using Siege = WarOfEmpires.Domain.Siege;
 
 namespace WarOfEmpires.Database {
     [InterfaceInjectable]
-    public sealed class WarContext : DbContext, IWarContext {
-        static WarContext() {
-            // Create database
-            using (var context = new WarContext()) {
-                context.Database.EnsureCreated();
+    public class WarContext : DbContext, IWarContext {
+        // TODO make sure the database gets created
+        //static WarContext() {
+        //    // Create database
+        //    using (var context = new WarContext()) {
+        //        context.Database.EnsureCreated();
 
-                new Seeder().Seed(context);
-            }
-        }
+        //        new Seeder().Seed(context);
+        //    }
+        //}
 
         public DbSet<Security.User> Users { get; set; }
         public DbSet<Auditing.CommandExecution> CommandExecutions { get; set; }
@@ -32,9 +34,12 @@ namespace WarOfEmpires.Database {
         public DbSet<Players.Player> Players { get; set; }
         public DbSet<Events.ScheduledTask> ScheduledTasks { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
-            // TODO move to configuration
-            optionsBuilder.UseSqlServer(@"data source=(local);initial catalog=WarOfEmpires;persist security info=True;Integrated Security=True;");
+        // TODO move to configuration
+        public WarContext() : base(new DbContextOptionsBuilder<WarContext>().UseSqlServer(@"data source=(local);initial catalog=WarOfEmpires;persist security info=True;Integrated Security=True;").Options) {
+        }
+
+        // TODO make abstract base class and override only for configuration
+        public WarContext(DbContextOptions<WarContext> options) : base(options) {
         }
 
         public override int SaveChanges() {
