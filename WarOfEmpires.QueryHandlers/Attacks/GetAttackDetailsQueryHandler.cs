@@ -1,13 +1,13 @@
-﻿using System.Linq;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using WarOfEmpires.Database;
 using WarOfEmpires.Models.Attacks;
 using WarOfEmpires.Queries.Attacks;
-using WarOfEmpires.QueryHandlers.Decorators;
 using WarOfEmpires.QueryHandlers.Common;
+using WarOfEmpires.QueryHandlers.Decorators;
 using WarOfEmpires.Utilities.Container;
-using WarOfEmpires.Utilities.Services;
 using WarOfEmpires.Utilities.Formatting;
-using System.Data.Entity;
+using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Attacks {
     [InterfaceInjectable]

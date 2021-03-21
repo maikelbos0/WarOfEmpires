@@ -1,5 +1,5 @@
-﻿using System;
-using System.Data.Entity;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 using WarOfEmpires.Database;
 using WarOfEmpires.Domain.Security;

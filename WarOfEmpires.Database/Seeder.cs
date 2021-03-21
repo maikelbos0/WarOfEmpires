@@ -1,19 +1,18 @@
-namespace WarOfEmpires.Database.Migrations {
-    using System;
-    using System.Data.Entity.Migrations;
-    using System.Linq;
-    using WarOfEmpires.Database.ReferenceEntities;
-    using WarOfEmpires.Domain.Players;
-    using WarOfEmpires.Utilities.Services;
-    using Attacks = WarOfEmpires.Domain.Attacks;
-    using Empires = WarOfEmpires.Domain.Empires;
-    using Events = WarOfEmpires.Domain.Events;
-    using Markets = WarOfEmpires.Domain.Markets;
-    using Security = WarOfEmpires.Domain.Security;
-    using Siege = WarOfEmpires.Domain.Siege;
+﻿using System;
+using System.Linq;
+using WarOfEmpires.Database.ReferenceEntities;
+using WarOfEmpires.Domain.Players;
+using WarOfEmpires.Utilities.Services;
+using Attacks = WarOfEmpires.Domain.Attacks;
+using Empires = WarOfEmpires.Domain.Empires;
+using Events = WarOfEmpires.Domain.Events;
+using Markets = WarOfEmpires.Domain.Markets;
+using Security = WarOfEmpires.Domain.Security;
+using Siege = WarOfEmpires.Domain.Siege;
 
-    public sealed class Configuration : DbMigrationsConfiguration<WarContext> {
-        protected override void Seed(WarContext context) {
+namespace WarOfEmpires.Database {
+    public sealed class Seeder {
+        public void Seed(WarContext context) {
             SeedEntityType<Security.UserEventType, UserEventTypeEntity>(context);
             SeedEntityType<Empires.BuildingType, BuildingTypeEntity>(context);
             SeedEntityType<Security.UserStatus, UserStatusEntity>(context);
@@ -46,7 +45,12 @@ namespace WarOfEmpires.Database.Migrations {
             where TReferenceEntity : BaseReferenceEntity<TEnum>, new() {
 
             foreach (var entity in ReferenceEntityExtensions.GetValues<TEnum, TReferenceEntity>()) {
-                context.Set<TReferenceEntity>().AddOrUpdate(entity);
+                if (context.Set<TReferenceEntity>().Any(e => e.Id.Equals(entity.Id))) {
+                    context.Set<TReferenceEntity>().Update(entity);
+                }
+                else {
+                    context.Set<TReferenceEntity>().Add(entity);
+                }
             }
 
             context.SaveChanges();

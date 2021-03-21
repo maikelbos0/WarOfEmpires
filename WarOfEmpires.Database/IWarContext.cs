@@ -1,5 +1,5 @@
+using Microsoft.EntityFrameworkCore;
 using System;
-using System.Data.Entity;
 using Alliances = WarOfEmpires.Domain.Alliances;
 using Auditing = WarOfEmpires.Domain.Auditing;
 using Events = WarOfEmpires.Domain.Events;
@@ -8,12 +8,12 @@ using Security = WarOfEmpires.Domain.Security;
 
 namespace WarOfEmpires.Database {
     public interface IWarContext : IDisposable {
-        IDbSet<Security.User> Users { get; set; }
-        IDbSet<Auditing.CommandExecution> CommandExecutions { get; set; }
-        IDbSet<Auditing.QueryExecution> QueryExecutions { get; set; }
-        IDbSet<Alliances.Alliance> Alliances { get; set; }
-        IDbSet<Players.Player> Players { get; set; }
-        IDbSet<Events.ScheduledTask> ScheduledTasks { get; set; }
+        DbSet<Security.User> Users { get; set; }
+        DbSet<Auditing.CommandExecution> CommandExecutions { get; set; }
+        DbSet<Auditing.QueryExecution> QueryExecutions { get; set; }
+        DbSet<Alliances.Alliance> Alliances { get; set; }
+        DbSet<Players.Player> Players { get; set; }
+        DbSet<Events.ScheduledTask> ScheduledTasks { get; set; }
         int SaveChanges();
     }
 }
