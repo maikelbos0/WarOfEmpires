@@ -2,7 +2,6 @@
 using FluentAssertions.Execution;
 using FluentAssertions.Primitives;
 using System.Linq;
-using System.Web.Mvc;
 using WarOfEmpires.Commands;
 
 namespace WarOfEmpires.CommandHandlers.Tests {
@@ -44,12 +43,13 @@ namespace WarOfEmpires.CommandHandlers.Tests {
             return new AndConstraint<CommandResultAssertions<TCommand>>(this);
         }
 
+        // TODO refactor to get rid of dependency on MVC
         private string GetExpressionText(CommandError<TCommand> commandError) {
             if (commandError.Expression == null) {
                 return null;
             }
 
-            return ExpressionHelper.GetExpressionText(commandError.Expression);
+            return null;
         }
 
         public AndConstraint<CommandResultAssertions<TCommand>> HaveError(string message) {
