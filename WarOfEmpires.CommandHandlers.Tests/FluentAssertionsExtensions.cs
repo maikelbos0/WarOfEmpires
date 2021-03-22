@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using FluentAssertions.Execution;
 using FluentAssertions.Primitives;
+using System;
 using System.Linq;
 using WarOfEmpires.Commands;
 
@@ -18,6 +19,16 @@ namespace WarOfEmpires.CommandHandlers.Tests {
             Subject = instance;
         }
 
+        // TODO refactor to accept expression type to get rid of dependency on MVC
+        /* Ex:
+            var result = new CommandResult<Commands.Markets.SellResourcesCommand>();
+            result.AddError(c => c.Merchandise[0].Type, "test");
+
+            System.Linq.Expressions.Expression<System.Func<Commands.Markets.SellResourcesCommand, string>> expression = c => c.Merchandise[0].Type;
+
+            result.Errors[0].Expression.ToString().Should().Be(expression.ToString());
+        */
+        [Obsolete]
         public AndConstraint<CommandResultAssertions<TCommand>> HaveError(string expression, string message) {
             Execute.Assertion
                 .ForCondition(Subject.Errors.Count == 1)
