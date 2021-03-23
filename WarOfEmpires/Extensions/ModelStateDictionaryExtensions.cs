@@ -1,6 +1,5 @@
 using WarOfEmpires.CommandHandlers;
 using WarOfEmpires.Commands;
-using System.Web.Mvc;
 
 namespace WarOfEmpires.Extensions {
     public static class ModelStateDictionaryExtensions {

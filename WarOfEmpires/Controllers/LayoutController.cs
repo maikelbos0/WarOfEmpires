@@ -1,7 +1,7 @@
-﻿using System.Web.Mvc;
-using WarOfEmpires.Models.Players;
+﻿using WarOfEmpires.Models.Players;
 using WarOfEmpires.Queries.Players;
 using WarOfEmpires.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace WarOfEmpires.Controllers {
     [RoutePrefix("Layout")]

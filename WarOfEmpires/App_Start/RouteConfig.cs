@@ -1,5 +1,3 @@
-using System.Web.Mvc;
-using System.Web.Routing;
 
 namespace WarOfEmpires.App_Start {
     public static class RouteConfig {

@@ -1,4 +1,3 @@
-using System.Web.Mvc;
 using WarOfEmpires.Attributes;
 using WarOfEmpires.Commands.Players;
 using WarOfEmpires.Commands.Security;
@@ -6,6 +5,7 @@ using WarOfEmpires.Extensions;
 using WarOfEmpires.Models.Security;
 using WarOfEmpires.Queries.Security;
 using WarOfEmpires.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace WarOfEmpires.Controllers {
     [RoutePrefix("Home")]

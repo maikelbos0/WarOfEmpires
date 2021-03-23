@@ -1,4 +1,3 @@
-using System.Web.Optimization;
 
 namespace WarOfEmpires.App_Start {
     public static class BundleConfig {

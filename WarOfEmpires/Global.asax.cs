@@ -2,9 +2,6 @@ using WarOfEmpires.App_Start;
 using Microsoft.ApplicationInsights.Extensibility;
 using System;
 using System.Configuration;
-using System.Web.Mvc;
-using System.Web.Optimization;
-using System.Web.Routing;
 
 namespace WarOfEmpires {
     public class Global : System.Web.HttpApplication {

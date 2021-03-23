@@ -2,21 +2,21 @@
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using System.Web.Mvc;
-using System.Web.Mvc.Html;
 using WarOfEmpires.Models;
 using WarOfEmpires.Models.Empires;
 using WarOfEmpires.Models.Grids;
+using Microsoft.AspNetCore.Html;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace WarOfEmpires.Extensions {
     public static class HtmlHelperExtensions {
-        public static MvcHtmlString DisplayFor<TModel>(this HtmlHelper<TModel> html, Expression<Func<TModel, ResourcesViewModel>> expression) {
+        public static HtmlString DisplayFor<TModel>(this HtmlHelper<TModel> html, Expression<Func<TModel, ResourcesViewModel>> expression) {
             var model = expression.Compile().Invoke(html.ViewData.Model);
 
             return html.Partial("_DisplayResources", model);
         }
 
-        public static MvcHtmlString HiddenFor<TModel>(this HtmlHelper<TModel> html, Expression<Func<TModel, ResourcesViewModel>> expression) {
+        public static HtmlString HiddenFor<TModel>(this HtmlHelper<TModel> html, Expression<Func<TModel, ResourcesViewModel>> expression) {
             var model = expression.Compile().Invoke(html.ViewData.Model);
             var name = ExpressionHelper.GetExpressionText(expression);
             var viewData = new ViewDataDictionary(html.ViewData) {
@@ -28,17 +28,17 @@ namespace WarOfEmpires.Extensions {
             return html.Partial("_HiddenResources", model, viewData);
         }
 
-        public static MvcHtmlString IconFor<TModel>(this HtmlHelper<TModel> html, Expression<Func<TModel, string>> expression) {
+        public static HtmlString IconFor<TModel>(this HtmlHelper<TModel> html, Expression<Func<TModel, string>> expression) {
             var model = expression.Compile().Invoke(html.ViewData.Model);
 
             return html.Icon(model);
         }
 
-        public static MvcHtmlString Icon(this HtmlHelper html, string expression) {
+        public static HtmlString Icon(this IHtmlHelper html, string expression) {
             return html.Partial("_Icon", expression);
         }
 
-        public static MvcHtmlString Grid<TGridItem>(this HtmlHelper html, string id, string dataUrl, string detailUrl = null, string searchFormId = null) where TGridItem : EntityViewModel {
+        public static HtmlString Grid<TGridItem>(this IHtmlHelper html, string id, string dataUrl, string detailUrl = null, string searchFormId = null) where TGridItem : EntityViewModel {
             var gridSorting = typeof(TGridItem).GetCustomAttribute<GridSortingAttribute>();
             var gridColumns = typeof(TGridItem).GetProperties()
                 .Select(p => new {

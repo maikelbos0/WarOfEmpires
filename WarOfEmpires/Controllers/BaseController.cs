@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Web.Mvc;
 using WarOfEmpires.ActionResults;
 using WarOfEmpires.CommandHandlers;
 using WarOfEmpires.Commands;
@@ -9,6 +8,7 @@ using WarOfEmpires.Models;
 using WarOfEmpires.Models.Grids;
 using WarOfEmpires.Queries;
 using WarOfEmpires.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace WarOfEmpires.Controllers {
     public abstract class BaseController : Controller, IBaseController {

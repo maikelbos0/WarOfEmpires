@@ -1,19 +1,18 @@
-using System.Web;
-using System.Web.Security;
 using WarOfEmpires.Utilities.Container;
+using AlloyTemplates;
 
 namespace WarOfEmpires.Services {
     [InterfaceInjectable]
     public sealed class AuthenticationService : IAuthenticationService {
         public bool IsAuthenticated {
             get {
-                return HttpContext.Current.User.Identity.IsAuthenticated;
+                return HttpContextHelper.Current.User.Identity.IsAuthenticated;
             }
         }
 
         public string Identity {
             get {
-                return HttpContext.Current.User.Identity.Name;
+                return HttpContextHelper.Current.User.Identity.Name;
             }
         }
 

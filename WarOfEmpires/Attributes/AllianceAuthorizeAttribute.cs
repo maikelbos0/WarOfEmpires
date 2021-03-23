@@ -1,7 +1,8 @@
 ﻿using System.Net;
-using System.Web.Mvc;
 using Unity;
 using WarOfEmpires.Services;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace WarOfEmpires.Attributes {
     public sealed class AllianceAuthorizeAttribute : ActionFilterAttribute, IAllianceAuthorizationRequest {
@@ -15,7 +16,7 @@ namespace WarOfEmpires.Attributes {
 
         public override void OnActionExecuting(ActionExecutingContext filterContext) {
             if (!UnityConfig.Container.Resolve<IAuthorizationService>().IsAuthorized(this)) {
-                filterContext.Result = new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+                filterContext.Result = new StatusCodeResult(HttpStatusCode.Forbidden);
             }
         }
     }
