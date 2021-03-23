@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace WarOfEmpires.Controllers {
     [Authorize]
     [UserOnline]
-    [RoutePrefix("Empire")]
+    [Route("Empire")]
     public class EmpireController : BaseController {
         public EmpireController(IAuthenticationService authenticationService, IMessageService messageService, IDataGridViewService dataGridViewService)
             : base(messageService, authenticationService, dataGridViewService) {

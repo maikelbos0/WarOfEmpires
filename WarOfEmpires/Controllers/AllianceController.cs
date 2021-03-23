@@ -10,14 +10,13 @@ using Microsoft.AspNetCore.Mvc;
 namespace WarOfEmpires.Controllers {
     [Authorize]
     [UserOnline]
-    [RoutePrefix("Alliance")]
+    [Route("Alliance")]
     public class AllianceController : BaseController {
         public AllianceController(IAuthenticationService authenticationService, IMessageService messageService, IDataGridViewService dataGridViewService)
             : base(messageService, authenticationService, dataGridViewService) {
         }
 
         [HttpGet]
-        [Route]
         [Route("Index")]
         public ViewResult Index() {
             // Explicitly name view so it works from other actions

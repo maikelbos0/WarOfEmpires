@@ -8,15 +8,13 @@ using WarOfEmpires.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WarOfEmpires.Controllers {
-    [RoutePrefix("Home")]
+    [Route("Home")]
     public sealed class HomeController : BaseController {
         public HomeController(IAuthenticationService authenticationService, IMessageService messageService, IDataGridViewService dataGridViewService)
             : base(messageService, authenticationService, dataGridViewService) {
         }
 
         [UserOnline]
-        [Route("~/")]
-        [Route]
         [Route("Index")]
         [HttpGet]
         public ViewResult Index() {

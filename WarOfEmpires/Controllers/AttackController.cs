@@ -9,13 +9,12 @@ using Microsoft.AspNetCore.Mvc;
 namespace WarOfEmpires.Controllers {
     [Authorize]
     [UserOnline]
-    [RoutePrefix("Attack")]
+    [Route("Attack")]
     public class AttackController : BaseController {
         public AttackController(IAuthenticationService authenticationService, IMessageService messageService, IDataGridViewService dataGridViewService)
             : base(messageService, authenticationService, dataGridViewService) {
         }
 
-        [Route]
         [Route("Index")]
         [HttpGet]
         public ViewResult Index() {

@@ -23,6 +23,7 @@ namespace warofempires {
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // TODO should be AddMVC?
             services.AddControllersWithViews(ConfigureMvcOptions);
             services.AddHttpContextAccessor();
         }
@@ -40,6 +41,8 @@ namespace warofempires {
             app.UseStaticFiles();
             app.UseRouting();
             app.UseAuthorization();
+
+            // TODO test default controller and default action for non default controller
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

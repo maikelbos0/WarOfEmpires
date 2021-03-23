@@ -8,13 +8,12 @@ namespace WarOfEmpires.Controllers {
     [Authorize]
     [AdminAuthorize]
     [UserOnline]
-    [RoutePrefix("Administration")]
+    [Route("Administration")]
     public class AdministrationController : BaseController {
         public AdministrationController(IAuthenticationService authenticationService, IMessageService messageService, IDataGridViewService dataGridViewService)
             : base(messageService, authenticationService, dataGridViewService) {
         }
 
-        [Route]
         [Route("Index")]
         [HttpGet]
         public ViewResult Index() {

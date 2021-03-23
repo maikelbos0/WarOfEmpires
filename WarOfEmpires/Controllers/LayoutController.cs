@@ -4,7 +4,7 @@ using WarOfEmpires.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WarOfEmpires.Controllers {
-    [RoutePrefix("Layout")]
+    [Route("Layout")]
     public class LayoutController : BaseController {
         public LayoutController(IAuthenticationService authenticationService, IMessageService messageService, IDataGridViewService dataGridViewService)
             : base(messageService, authenticationService, dataGridViewService) {
