@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Newtonsoft.Json;
 using System;
 using WarOfEmpires.CommandHandlers;
 using WarOfEmpires.Commands;
@@ -7,16 +9,16 @@ using WarOfEmpires.Extensions;
 using WarOfEmpires.Services;
 
 namespace WarOfEmpires.ActionResults {
-    public class CommandResultBuilder<TCommand, TViewResult> where TCommand : ICommand where TViewResult : ViewResultBase, new() {
+    public class CommandResultBuilder<TCommand, TActionResult> where TCommand : ICommand where TActionResult : IActionResult, new() {
         private readonly IMessageService _messageService;
         private readonly IBaseController _controller;
-        private readonly Func<string, object, TViewResult> _createView;
+        private readonly Func<string, object, TActionResult> _createView;
         private readonly ModelStateDictionary _modelState;
         private readonly TCommand _command;
-        private Func<TViewResult> _onFailure;
-        private Func<TViewResult> _onSuccess;
+        private Func<TActionResult> _onFailure;
+        private Func<TActionResult> _onSuccess;
 
-        public CommandResultBuilder(IMessageService messageService, IBaseController controller, Func<string, object, TViewResult> createView, ModelStateDictionary modelState, TCommand command) {
+        public CommandResultBuilder(IMessageService messageService, IBaseController controller, Func<string, object, TActionResult> createView, ModelStateDictionary modelState, TCommand command) {
             _messageService = messageService;
             _controller = controller;
             _createView = createView;
@@ -24,33 +26,33 @@ namespace WarOfEmpires.ActionResults {
             _command = command;
         }
 
-        public CommandResultBuilder<TCommand, TViewResult> OnSuccess(string viewName) {
+        public CommandResultBuilder<TCommand, TActionResult> OnSuccess(string viewName) {
             return OnSuccess(() => _createView(viewName, null));
         }
 
-        public CommandResultBuilder<TCommand, TViewResult> OnSuccess(Func<TViewResult> onSuccess) {
+        public CommandResultBuilder<TCommand, TActionResult> OnSuccess(Func<TActionResult> onSuccess) {
             _onSuccess = onSuccess;
 
             return this;
         }
 
-        public CommandResultBuilder<TCommand, TViewResult> OnFailure(string viewName) {
+        public CommandResultBuilder<TCommand, TActionResult> OnFailure(string viewName) {
             return OnFailure(viewName, null);
         }
 
-        public CommandResultBuilder<TCommand, TViewResult> OnFailure(string viewName, object model) {
+        public CommandResultBuilder<TCommand, TActionResult> OnFailure(string viewName, object model) {
             _onFailure = () => _createView(viewName, model);
 
             return this;
         }
 
-        public CommandResultBuilder<TCommand, TViewResult> ThrowOnFailure() {
+        public CommandResultBuilder<TCommand, TActionResult> ThrowOnFailure() {
             _onFailure = () => throw new InvalidOperationException($"Unexpected error executing {typeof(TCommand).FullName}: {JsonConvert.SerializeObject(_command)}");
 
             return this;
         }
 
-        public TViewResult Execute() {
+        public TActionResult Execute() {
             if (_onFailure == null) {
                 throw new InvalidOperationException("Missing on failure result handler");
             }
@@ -85,7 +87,7 @@ namespace WarOfEmpires.ActionResults {
             }
         }
 
-        public static implicit operator TViewResult (CommandResultBuilder<TCommand, TViewResult> builder) {
+        public static implicit operator TActionResult (CommandResultBuilder<TCommand, TActionResult> builder) {
             return builder.Execute();
         }
     }
