@@ -35,6 +35,8 @@ namespace warofempires {
                 app.UseDeveloperExceptionPage();
             }
 
+            // TODO consider adding Application Insights back
+
             app.UseStaticFiles();
             app.UseRouting();
             app.UseAuthorization();
