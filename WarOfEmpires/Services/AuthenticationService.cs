@@ -1,18 +1,24 @@
 using WarOfEmpires.Utilities.Container;
-using AlloyTemplates;
+using Microsoft.AspNetCore.Http;
 
 namespace WarOfEmpires.Services {
     [InterfaceInjectable]
     public sealed class AuthenticationService : IAuthenticationService {
+        private readonly IHttpContextAccessor httpContextAccessor;
+
+        public AuthenticationService(IHttpContextAccessor httpContextAccessor) {
+            this.httpContextAccessor = httpContextAccessor;
+        }
+
         public bool IsAuthenticated {
             get {
-                return HttpContextHelper.Current.User.Identity.IsAuthenticated;
+                return httpContextAccessor.HttpContext.User.Identity.IsAuthenticated;
             }
         }
 
         public string Identity {
             get {
-                return HttpContextHelper.Current.User.Identity.Name;
+                return httpContextAccessor.HttpContext.User.Identity.Name;
             }
         }
 
