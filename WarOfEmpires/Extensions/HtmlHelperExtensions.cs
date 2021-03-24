@@ -7,16 +7,18 @@ using WarOfEmpires.Models.Empires;
 using WarOfEmpires.Models.Grids;
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
 namespace WarOfEmpires.Extensions {
     public static class HtmlHelperExtensions {
-        public static HtmlString DisplayFor<TModel>(this HtmlHelper<TModel> html, Expression<Func<TModel, ResourcesViewModel>> expression) {
+        // TODO fix warnings by switching to async
+        public static IHtmlContent DisplayFor<TModel>(this HtmlHelper<TModel> html, Expression<Func<TModel, ResourcesViewModel>> expression) {
             var model = expression.Compile().Invoke(html.ViewData.Model);
 
             return html.Partial("_DisplayResources", model);
         }
 
-        public static HtmlString HiddenFor<TModel>(this HtmlHelper<TModel> html, Expression<Func<TModel, ResourcesViewModel>> expression) {
+        public static IHtmlContent HiddenFor<TModel>(this HtmlHelper<TModel> html, Expression<Func<TModel, ResourcesViewModel>> expression) {
             var model = expression.Compile().Invoke(html.ViewData.Model);
             var name = ExpressionHelper.GetExpressionText(expression);
             var viewData = new ViewDataDictionary(html.ViewData) {
@@ -28,17 +30,17 @@ namespace WarOfEmpires.Extensions {
             return html.Partial("_HiddenResources", model, viewData);
         }
 
-        public static HtmlString IconFor<TModel>(this HtmlHelper<TModel> html, Expression<Func<TModel, string>> expression) {
+        public static IHtmlContent IconFor<TModel>(this HtmlHelper<TModel> html, Expression<Func<TModel, string>> expression) {
             var model = expression.Compile().Invoke(html.ViewData.Model);
 
             return html.Icon(model);
         }
 
-        public static HtmlString Icon(this IHtmlHelper html, string expression) {
+        public static IHtmlContent Icon(this IHtmlHelper html, string expression) {
             return html.Partial("_Icon", expression);
         }
 
-        public static HtmlString Grid<TGridItem>(this IHtmlHelper html, string id, string dataUrl, string detailUrl = null, string searchFormId = null) where TGridItem : EntityViewModel {
+        public static IHtmlContent Grid<TGridItem>(this IHtmlHelper html, string id, string dataUrl, string detailUrl = null, string searchFormId = null) where TGridItem : EntityViewModel {
             var gridSorting = typeof(TGridItem).GetCustomAttribute<GridSortingAttribute>();
             var gridColumns = typeof(TGridItem).GetProperties()
                 .Select(p => new {
