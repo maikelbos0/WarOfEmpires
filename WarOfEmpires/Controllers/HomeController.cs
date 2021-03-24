@@ -6,6 +6,7 @@ using WarOfEmpires.Models.Security;
 using WarOfEmpires.Queries.Security;
 using WarOfEmpires.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WarOfEmpires.Controllers {
     [Route("Home")]

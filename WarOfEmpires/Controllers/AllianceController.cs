@@ -4,8 +4,8 @@ using WarOfEmpires.Models.Alliances;
 using WarOfEmpires.Queries.Alliances;
 using WarOfEmpires.Services;
 using WarOfEmpires.Attributes;
-using System;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WarOfEmpires.Controllers {
     [Authorize]

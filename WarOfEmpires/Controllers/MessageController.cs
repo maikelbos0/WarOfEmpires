@@ -5,6 +5,7 @@ using WarOfEmpires.Models.Messages;
 using WarOfEmpires.Queries.Messages;
 using WarOfEmpires.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WarOfEmpires.Controllers {
     [Authorize]
