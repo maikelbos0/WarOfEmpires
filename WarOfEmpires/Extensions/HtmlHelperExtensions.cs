@@ -22,7 +22,7 @@ namespace WarOfEmpires.Extensions {
             var model = expression.Compile().Invoke(html.ViewData.Model);
             var name = ExpressionHelper.GetExpressionText(expression);
             var viewData = new ViewDataDictionary(html.ViewData) {
-                TemplateInfo = new TemplateInfo {
+                TemplateInfo = {
                     HtmlFieldPrefix = name
                 }
             };
