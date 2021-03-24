@@ -8,9 +8,12 @@ using WarOfEmpires.Models.Grids;
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace WarOfEmpires.Extensions {
     public static class HtmlHelperExtensions {
+        private static readonly ModelExpressionProvider modelExpressionProvider = new ModelExpressionProvider(new EmptyModelMetadataProvider());
+
         // TODO fix warnings by switching to async
         public static IHtmlContent DisplayFor<TModel>(this HtmlHelper<TModel> html, Expression<Func<TModel, ResourcesViewModel>> expression) {
             var model = expression.Compile().Invoke(html.ViewData.Model);
@@ -20,7 +23,7 @@ namespace WarOfEmpires.Extensions {
 
         public static IHtmlContent HiddenFor<TModel>(this HtmlHelper<TModel> html, Expression<Func<TModel, ResourcesViewModel>> expression) {
             var model = expression.Compile().Invoke(html.ViewData.Model);
-            var name = ExpressionHelper.GetExpressionText(expression);
+            var name = modelExpressionProvider.GetExpressionText(expression);
             var viewData = new ViewDataDictionary(html.ViewData) {
                 TemplateInfo = {
                     HtmlFieldPrefix = name
