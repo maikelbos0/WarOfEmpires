@@ -67,7 +67,7 @@ namespace WarOfEmpires.Controllers {
         public ActionResult LogIn(string returnUrl = null) {
             // TODO test ajax redirect to log in
             if (Request.Headers["X-Requested-With"] == "XMLHttpRequest") {
-                Response.AddHeader("X-Unauthenticated", "true");
+                Response.Headers.Add("X-Unauthenticated", "true");
                 return new EmptyResult();
             }
             else {

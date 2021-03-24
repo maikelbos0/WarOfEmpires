@@ -40,7 +40,7 @@ namespace WarOfEmpires.Controllers {
 
         [NonAction]
         public void AddResponseHeader(string name, string value) {
-            Response?.AddHeader(name, value);
+            Response?.Headers.Add(name, value);
         }
     }
 }
