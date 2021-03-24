@@ -64,14 +64,15 @@ namespace WarOfEmpires.Controllers {
 
         [Route("LogIn")]
         [HttpGet]
-        public ActionResult LogIn() {
+        public ActionResult LogIn(string returnUrl = null) {
             if (Request.IsAjaxRequest()) {
                 Response.AddHeader("X-Unauthenticated", "true");
                 return new EmptyResult();
             }
             else {
+                // TODO test return url
                 return View(new LogInUserModel() {
-                    ReturnUrl = Request.QueryString["ReturnUrl"]
+                    ReturnUrl = returnUrl
                 });
             }
         }
