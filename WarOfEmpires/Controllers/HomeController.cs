@@ -97,7 +97,7 @@ namespace WarOfEmpires.Controllers {
         [Route("LogOut")]
         [HttpPost]
         [Authorize]
-        public RedirectToRouteResult LogOut() {
+        public RedirectToActionResult LogOut() {
             _messageService.Dispatch(new LogOutUserCommand(_authenticationService.Identity));
             _authenticationService.SignOut();
             return RedirectToAction("Index");
