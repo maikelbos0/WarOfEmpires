@@ -1,8 +1,11 @@
 ﻿using FluentAssertions;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 using System;
-using System.Web.Mvc;
+using System.Linq;
 using WarOfEmpires.ActionResults;
 using WarOfEmpires.CommandHandlers;
 using WarOfEmpires.Commands;
@@ -23,7 +26,9 @@ namespace WarOfEmpires.Tests.ActionResults {
         private ViewResult View(string viewName, object model) {
             return new ViewResult() { 
                 ViewName = viewName,
-                ViewData = new ViewDataDictionary(model)
+                ViewData = new ViewDataDictionary(new EmptyModelMetadataProvider(), new ModelStateDictionary()) {  
+                    Model = model
+                }
             };
         }
 
@@ -80,7 +85,6 @@ namespace WarOfEmpires.Tests.ActionResults {
             var builder = new CommandResultBuilder<TestCommand, ViewResult>(messageService, controller, View, modelState, command)
                 .OnFailure("Failure", "test")
                 .OnSuccess("Success");
-            modelState.Add("Test", new ModelState());
             commandResult.AddError(c => c.Test, "An error occurred");
             messageService.Dispatch(Arg.Any<TestCommand>()).Returns(commandResult);
 
@@ -88,7 +92,7 @@ namespace WarOfEmpires.Tests.ActionResults {
 
             result.ViewName.Should().Be("Failure");
             result.Model.Should().Be("test");
-            modelState["Test"].Errors.Should().Contain(e => e.ErrorMessage == "An error occurred");
+            modelState.Should().Contain(m => m.Key == "Test" && m.Value.Errors.Any(e => e.ErrorMessage == "An error occurred"));
             messageService.Received().Dispatch(command);
         }
 
@@ -102,7 +106,6 @@ namespace WarOfEmpires.Tests.ActionResults {
             var builder = new CommandResultBuilder<TestCommand, ViewResult>(messageService, controller, View, modelState, command)
                 .OnFailure("Failure")
                 .OnSuccess("Success");
-            modelState.Add("Test", new ModelState());
             messageService.Dispatch(Arg.Any<TestCommand>()).Returns(commandResult);
 
             var result = builder.Execute();
@@ -123,7 +126,6 @@ namespace WarOfEmpires.Tests.ActionResults {
             var builder = new CommandResultBuilder<TestCommand, ViewResult>(messageService, controller, View, modelState, command)
                 .OnFailure("Failure")
                 .OnSuccess("Success");
-            modelState.Add("Test", new ModelState());
             commandResult.AddWarning("Be aware");
             commandResult.AddWarning("Second warning");
             messageService.Dispatch(Arg.Any<TestCommand>()).Returns(commandResult);
@@ -146,7 +148,6 @@ namespace WarOfEmpires.Tests.ActionResults {
             var builder = new CommandResultBuilder<TestCommand, ViewResult>(messageService, controller, View, modelState, command)
                 .ThrowOnFailure()
                 .OnSuccess("Success");
-            modelState.Add("Test", new ModelState());
             commandResult.AddError(c => c.Test, "An error occurred");
             messageService.Dispatch(Arg.Any<TestCommand>()).Returns(commandResult);
 
