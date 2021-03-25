@@ -14,10 +14,12 @@ namespace WarOfEmpires {
         /// Integrates Unity when the application starts.
         /// </summary>
         public static void Start() {
-            FilterProviders.Providers.Remove(FilterProviders.Providers.OfType<FilterAttributeFilterProvider>().First());
-            FilterProviders.Providers.Add(new UnityFilterAttributeFilterProvider(UnityConfig.Container));
+            //TODO move to .NET Core DI
 
-            DependencyResolver.SetResolver(new UnityDependencyResolver(UnityConfig.Container));
+            //FilterProviders.Providers.Remove(FilterProviders.Providers.OfType<FilterAttributeFilterProvider>().First());
+            //FilterProviders.Providers.Add(new UnityFilterAttributeFilterProvider(UnityConfig.Container));
+
+            //DependencyResolver.SetResolver(new UnityDependencyResolver(UnityConfig.Container));
         }
 
         /// <summary>
