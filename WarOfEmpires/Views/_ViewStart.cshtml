@@ -1,5 +1,5 @@
 ﻿@{
-    if (!Context.Request.IsAjaxRequest()) {
+    if (Context.Request.Headers["X-Requested-With"] != "XMLHttpRequest") {
         Layout = "~/Views/Shared/_Layout.cshtml";
     }
 }
