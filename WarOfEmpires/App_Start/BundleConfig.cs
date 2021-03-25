@@ -39,6 +39,6 @@ namespace WarOfEmpires.App_Start {
         //        "~/Content/jquery-datagridview.css",
         //        "~/Content/jquery-datagridview.style-custom.css",
         //        "~/Content/jquery-rangeslider.css"));
-        }
+        //}
     }
 }

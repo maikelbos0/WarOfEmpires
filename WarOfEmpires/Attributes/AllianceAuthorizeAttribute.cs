@@ -15,8 +15,9 @@ namespace WarOfEmpires.Attributes {
         public bool CanManageNonAggressionPacts { get; set; }
 
         public override void OnActionExecuting(ActionExecutingContext filterContext) {
+            // TODO determine if this is still the way to do custom authorization
             if (!UnityConfig.Container.Resolve<IAuthorizationService>().IsAuthorized(this)) {
-                filterContext.Result = new StatusCodeResult(HttpStatusCode.Forbidden);
+                filterContext.Result = new StatusCodeResult((int)HttpStatusCode.Forbidden);
             }
         }
     }

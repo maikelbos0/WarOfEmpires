@@ -8,8 +8,9 @@ namespace WarOfEmpires.Attributes {
     public sealed class AdminAuthorizeAttribute : ActionFilterAttribute
     {
         public override void OnActionExecuting(ActionExecutingContext filterContext) {
+            // TODO determine if this is still the way to do custom authorization
             if (!UnityConfig.Container.Resolve<IAuthorizationService>().IsAdmin()) {
-                filterContext.Result = new StatusCodeResult(HttpStatusCode.Forbidden);
+                filterContext.Result = new StatusCodeResult((int)HttpStatusCode.Forbidden);
             }
         }
     }

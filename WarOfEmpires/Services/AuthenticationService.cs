@@ -23,11 +23,13 @@ namespace WarOfEmpires.Services {
         }
 
         public void SignIn(string identity) {
-            FormsAuthentication.SetAuthCookie(identity, false);
+            // TODO figure out how sign in / out works
+            //FormsAuthentication.SetAuthCookie(identity, false);
         }
 
         public void SignOut() {
-            FormsAuthentication.SignOut();
+            // TODO figure out how sign in / out works
+            //FormsAuthentication.SignOut();
         }
     }
 }
