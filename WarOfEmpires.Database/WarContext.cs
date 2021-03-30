@@ -267,6 +267,9 @@ namespace WarOfEmpires.Database {
                 ar.Property(r => r.Stone).HasColumnName("Stone");
                 ar.Property(r => r.Ore).HasColumnName("Ore");
             });
+            attacks.HasDiscriminator<string>("AttackType")
+                .HasValue<Attacks.Assault>(nameof(Attacks.Assault))
+                .HasValue<Attacks.Raid>(nameof(Attacks.Raid));
 
             var troopTypes = modelBuilder.Entity<TroopTypeEntity>().ToTable("TroopTypes", "Attacks");
             troopTypes.HasKey(t => t.Id);
