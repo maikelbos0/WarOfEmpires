@@ -296,11 +296,15 @@ namespace WarOfEmpires.Database {
             users.HasIndex(u => u.Email).IsUnique();
             users.Property(u => u.Status).HasColumnName("UserStatus_Id");
             users.Property(u => u.Email).IsRequired().HasMaxLength(255);
-            users.Property(u => u.Password.Salt).IsRequired().HasMaxLength(20);
-            users.Property(u => u.Password.Hash).IsRequired().HasMaxLength(20);
-            users.Property(u => u.Password.HashIterations).IsRequired();
-            users.Property(u => u.PasswordResetToken.Salt).HasMaxLength(20);
-            users.Property(u => u.PasswordResetToken.Hash).HasMaxLength(20);
+            users.OwnsOne(u => u.Password, up => {
+                up.Property(p => p.Salt).IsRequired().HasMaxLength(20);
+                up.Property(p => p.Hash).IsRequired().HasMaxLength(20);
+                up.Property(p => p.HashIterations).IsRequired();
+            });
+            users.OwnsOne(u => u.PasswordResetToken, up => {
+                up.Property(p => p.Salt).HasMaxLength(20);
+                up.Property(p => p.Hash).HasMaxLength(20);
+            });
             users.Property(u => u.NewEmail).HasMaxLength(255);
 
             var userEvents = modelBuilder.Entity<Security.UserEvent>().ToTable("UserEvents", "Security");
