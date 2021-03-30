@@ -166,16 +166,20 @@ namespace WarOfEmpires.Database {
             players.HasMany(p => p.Caravans).WithOne(a => a.Player).IsRequired();
             players.HasMany(p => p.Invites).WithOne(i => i.Player).IsRequired().OnDelete(DeleteBehavior.NoAction);
             players.Property(p => p.DisplayName).IsRequired().HasMaxLength(25);
-            players.Property(p => p.Resources.Gold).HasColumnName("Gold");
-            players.Property(p => p.Resources.Food).HasColumnName("Food");
-            players.Property(p => p.Resources.Wood).HasColumnName("Wood");
-            players.Property(p => p.Resources.Stone).HasColumnName("Stone");
-            players.Property(p => p.Resources.Ore).HasColumnName("Ore");
-            players.Property(p => p.BankedResources.Gold).HasColumnName("BankedGold");
-            players.Property(p => p.BankedResources.Food).HasColumnName("BankedFood");
-            players.Property(p => p.BankedResources.Wood).HasColumnName("BankedWood");
-            players.Property(p => p.BankedResources.Stone).HasColumnName("BankedStone");
-            players.Property(p => p.BankedResources.Ore).HasColumnName("BankedOre");
+            players.OwnsOne(p => p.Resources, pr => {
+                pr.Property(r => r.Gold).HasColumnName("Gold");
+                pr.Property(r => r.Food).HasColumnName("Food");
+                pr.Property(r => r.Wood).HasColumnName("Wood");
+                pr.Property(r => r.Stone).HasColumnName("Stone");
+                pr.Property(r => r.Ore).HasColumnName("Ore");
+            });
+            players.OwnsOne(p => p.BankedResources, pr => {
+                pr.Property(r => r.Gold).HasColumnName("BankedGold");
+                pr.Property(r => r.Food).HasColumnName("BankedFood");
+                pr.Property(r => r.Wood).HasColumnName("BankedWood");
+                pr.Property(r => r.Stone).HasColumnName("BankedStone");
+                pr.Property(r => r.Ore).HasColumnName("BankedOre");
+            });
 
             var workerTypes = modelBuilder.Entity<WorkerTypeEntity>().ToTable("WorkerTypes", "Empires");
             workerTypes.HasKey(t => t.Id);
@@ -215,6 +219,7 @@ namespace WarOfEmpires.Database {
             alliances.HasMany(a => a.Members).WithOne(p => p.Alliance);
             alliances.HasMany(a => a.Invites).WithOne(i => i.Alliance).IsRequired();
             alliances.HasMany(a => a.Roles).WithOne(r => r.Alliance).IsRequired();
+            // TODO rework many to many
             //alliances.HasMany(a => a.NonAggressionPacts).WithMany(p => p.Alliances).Map(p => p.ToTable("AllianceNonAggressionPacts", "Alliances"));
             alliances.HasMany(a => a.SentNonAggressionPactRequests).WithOne(r => r.Sender).IsRequired().OnDelete(DeleteBehavior.NoAction);
             alliances.HasMany(a => a.ReceivedNonAggressionPactRequests).WithOne(r => r.Recipient).IsRequired();
@@ -255,11 +260,13 @@ namespace WarOfEmpires.Database {
             var attacks = modelBuilder.Entity<Attacks.Attack>().ToTable("Attacks", "Attacks");
             attacks.HasKey(a => a.Id);
             attacks.HasMany(a => a.Rounds).WithOne().IsRequired();
-            attacks.Property(a => a.Resources.Gold).HasColumnName("Gold");
-            attacks.Property(a => a.Resources.Food).HasColumnName("Food");
-            attacks.Property(a => a.Resources.Wood).HasColumnName("Wood");
-            attacks.Property(a => a.Resources.Stone).HasColumnName("Stone");
-            attacks.Property(a => a.Resources.Ore).HasColumnName("Ore");
+            attacks.OwnsOne(a => a.Resources, ar => {
+                ar.Property(r => r.Gold).HasColumnName("Gold");
+                ar.Property(r => r.Food).HasColumnName("Food");
+                ar.Property(r => r.Wood).HasColumnName("Wood");
+                ar.Property(r => r.Stone).HasColumnName("Stone");
+                ar.Property(r => r.Ore).HasColumnName("Ore");
+            });
 
             var troopTypes = modelBuilder.Entity<TroopTypeEntity>().ToTable("TroopTypes", "Attacks");
             troopTypes.HasKey(t => t.Id);
