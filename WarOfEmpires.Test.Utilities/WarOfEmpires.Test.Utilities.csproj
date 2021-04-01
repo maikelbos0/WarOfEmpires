@@ -12,7 +12,6 @@
     <ProjectReference Include="..\WarOfEmpires\WarOfEmpires.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="5.0.4" />
     <PackageReference Include="NSubstitute" Version="4.2.2" />
   </ItemGroup>
 </Project>
