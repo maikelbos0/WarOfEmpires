@@ -16,7 +16,7 @@ using Siege = WarOfEmpires.Domain.Siege;
 
 namespace WarOfEmpires.Database {
     [InterfaceInjectable]
-    public class WarContext : DbContext, IWarContext {
+    public sealed class WarContext : DbContext, IWarContext {
         // TODO make sure the database gets created
         //static WarContext() {
         //    // Create database
@@ -36,10 +36,6 @@ namespace WarOfEmpires.Database {
 
         // TODO move to configuration
         public WarContext() : base(new DbContextOptionsBuilder<WarContext>().UseSqlServer(@"data source=(local);initial catalog=WarOfEmpires;persist security info=True;Integrated Security=True;").Options) {
-        }
-
-        // TODO make abstract base class and override only for configuration
-        public WarContext(DbContextOptions<WarContext> options) : base(options) {
         }
 
         public override int SaveChanges() {
