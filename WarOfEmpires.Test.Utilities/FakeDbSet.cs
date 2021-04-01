@@ -14,6 +14,12 @@ namespace WarOfEmpires.Test.Utilities {
             return null;
         }
 
+        public override EntityEntry<TEntity> Remove(TEntity entity) {
+            data.Remove(entity);
+
+            return null;
+        }
+
         IEnumerator<TEntity> IEnumerable<TEntity>.GetEnumerator() {
             return data.GetEnumerator();
         }
