@@ -19,7 +19,7 @@ namespace WarOfEmpires.CommandHandlers.Security {
                 user.ChangePassword(parameter.NewPassword);
             }
             else { 
-                result.AddError(p => p.CurrentPassword, "Invalid password");
+                result.AddError(c => c.CurrentPassword, "Invalid password");
                 user.ChangePasswordFailed();
             }
 

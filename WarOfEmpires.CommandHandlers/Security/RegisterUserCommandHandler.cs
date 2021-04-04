@@ -22,7 +22,7 @@ namespace WarOfEmpires.CommandHandlers.Security {
             var user = new User(parameter.Email, parameter.Password);
 
             if (_repository.TryGetByEmail(user.Email) != null) {
-                result.AddError(p => p.Email, "Email address already exists");
+                result.AddError(c => c.Email, "Email address already exists");
             }
 
             if (result.Success) {

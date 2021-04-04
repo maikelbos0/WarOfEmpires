@@ -54,7 +54,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Security {
 
             var result = handler.Execute(command);
 
-            result.Should().HaveError("Email", "Email address already exists");
+            result.Should().HaveError(c => c.Email, "Email address already exists");
             builder.Context.Users.Should().HaveCount(1);
             mailClient.SentMessages.Should().BeEmpty();
         }

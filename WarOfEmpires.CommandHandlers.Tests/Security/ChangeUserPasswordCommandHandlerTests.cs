@@ -53,7 +53,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Security {
 
             var result = handler.Execute(command);
 
-            result.Should().HaveError("CurrentPassword", "Invalid password");
+            result.Should().HaveError(c => c.CurrentPassword, "Invalid password");
             builder.User.DidNotReceiveWithAnyArgs().ChangePassword(Arg.Any<string>());
             builder.User.Received().ChangePasswordFailed();
             builder.Context.CallsToSaveChanges.Should().Be(1);

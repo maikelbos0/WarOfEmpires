@@ -19,7 +19,7 @@ namespace WarOfEmpires.CommandHandlers.Security {
                 user.Deactivate();
             }
             else {
-                result.AddError(p => p.Password, "Invalid password");
+                result.AddError(c => c.Password, "Invalid password");
                 user.DeactivationFailed();
             }
 

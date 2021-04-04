@@ -23,7 +23,7 @@ namespace WarOfEmpires.CommandHandlers.Security {
                 || user.ActivationCode != activationCode) {
 
                 user?.ActivationFailed();
-                result.AddError(p => p.ActivationCode, "This activation code is invalid");
+                result.AddError(c => c.ActivationCode, "This activation code is invalid");
             }
             else {
                 user.Activate();

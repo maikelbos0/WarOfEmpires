@@ -36,7 +36,7 @@ namespace WarOfEmpires.CommandHandlers.Tests {
                 .FailWith("Expected {context:CommandResult} to contain an error, but found {0} errors.", Subject.Errors.Count)
                 .Then
                 .ForCondition(Subject.Errors.Single().Expression.ToString() == expression.ToString())
-                .FailWith("Expected {context:CommandResult} to contain an error with expression {0}, but found expression {1}.", expression, GetExpressionText(Subject.Errors.Single()))
+                .FailWith("Expected {context:CommandResult} to contain an error with expression {0}, but found expression {1}.", expression, Subject.Errors.Single().Expression)
                 .Then
                 .ForCondition(Subject.Errors.Single().Message == message)
                 .FailWith("Expected {context:CommandResult} to contain an error with message {0}, but found message {1}.", message, Subject.Errors.Single().Message);

@@ -40,7 +40,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Security {
 
             var result = handler.Execute(command);
 
-            result.Should().HaveError("ActivationCode", "This activation code is invalid");
+            result.Should().HaveError(c => c.ActivationCode, "This activation code is invalid");
             builder.User.DidNotReceiveWithAnyArgs().Activate();
             builder.User.DidNotReceiveWithAnyArgs().ActivationFailed();
         }
@@ -57,7 +57,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Security {
 
             var result = handler.Execute(command);
 
-            result.Should().HaveError("ActivationCode", "This activation code is invalid");
+            result.Should().HaveError(c => c.ActivationCode, "This activation code is invalid");
             builder.User.DidNotReceiveWithAnyArgs().Activate();
             builder.User.Received().ActivationFailed();
             builder.Context.CallsToSaveChanges.Should().Be(1);
@@ -75,7 +75,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Security {
 
             var result = handler.Execute(command);
 
-            result.Should().HaveError("ActivationCode", "This activation code is invalid");
+            result.Should().HaveError(c => c.ActivationCode, "This activation code is invalid");
             builder.User.DidNotReceiveWithAnyArgs().Activate();
             builder.User.Received().ActivationFailed();
             builder.Context.CallsToSaveChanges.Should().Be(1);
@@ -93,7 +93,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Security {
 
             var result = handler.Execute(command);
             
-            result.Should().HaveError("ActivationCode", "This activation code is invalid");
+            result.Should().HaveError(c => c.ActivationCode, "This activation code is invalid");
             builder.User.DidNotReceiveWithAnyArgs().Activate();
             builder.User.Received().ActivationFailed();
             builder.Context.CallsToSaveChanges.Should().Be(1);

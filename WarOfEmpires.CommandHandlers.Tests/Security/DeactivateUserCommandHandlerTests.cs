@@ -37,7 +37,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Security {
 
             var result = handler.Execute(command);
 
-            result.Should().HaveError("Password", "Invalid password");
+            result.Should().HaveError(c => c.Password, "Invalid password");
             builder.User.DidNotReceiveWithAnyArgs().Deactivate();
             builder.User.Received().DeactivationFailed();
             builder.Context.CallsToSaveChanges.Should().Be(1);
