@@ -37,7 +37,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
             var result = handler.Execute(command);
 
-            result.Should().HaveError("StaminaToHeal", "You cannot heal above 100%");
+            result.Should().HaveError(c => c.StaminaToHeal, "You cannot heal above 100%");
             builder.Player.DidNotReceiveWithAnyArgs().HealTroops(default);
             builder.Context.CallsToSaveChanges.Should().Be(0);
         }

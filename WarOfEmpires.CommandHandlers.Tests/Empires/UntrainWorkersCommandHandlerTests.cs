@@ -105,7 +105,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
             var result = handler.Execute(command);
 
-            result.Should().HaveError("Workers[0].Count", "You don't have that many farmers to untrain");
+            result.Should().HaveError(c => c.Workers[0].Count, "You don't have that many farmers to untrain");
             builder.Player.DidNotReceiveWithAnyArgs().UntrainWorkers(default, default);
             builder.Context.CallsToSaveChanges.Should().Be(0);
         }
@@ -127,7 +127,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
             var result = handler.Execute(command);
 
-            result.Should().HaveError("Workers[0].Count", "Your siege engineers are maintaining too many siege weapons for that many to be untrained");
+            result.Should().HaveError(c => c.Workers[0].Count, "Your siege engineers are maintaining too many siege weapons for that many to be untrained");
             builder.Player.DidNotReceiveWithAnyArgs().UntrainWorkers(default, default);
             builder.Context.CallsToSaveChanges.Should().Be(0);
         }
@@ -147,7 +147,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
             var result = handler.Execute(command);
 
-            result.Should().HaveError("Workers[0].Count", "You can't untrain merchants that have a caravan on the market");
+            result.Should().HaveError(c => c.Workers[0].Count, "You can't untrain merchants that have a caravan on the market");
             builder.Player.DidNotReceiveWithAnyArgs().UntrainWorkers(default, default);
             builder.Context.CallsToSaveChanges.Should().Be(0);
         }

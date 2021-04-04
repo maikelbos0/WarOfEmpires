@@ -91,7 +91,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
             var result = handler.Execute(command);
 
-            result.Should().HaveError("SiegeWeapons[0].Count", message);
+            result.Should().HaveError(c => c.SiegeWeapons[0].Count, message);
             builder.Player.DidNotReceiveWithAnyArgs().DiscardSiege(default, default);
             builder.Context.CallsToSaveChanges.Should().Be(0);
         }

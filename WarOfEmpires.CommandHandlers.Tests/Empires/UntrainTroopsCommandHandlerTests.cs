@@ -88,7 +88,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
             var result = handler.Execute(command);
 
-            result.Should().HaveError("Troops[0].Soldiers", "You don't have that many archers to untrain");
+            result.Should().HaveError(c => c.Troops[0].Soldiers, "You don't have that many archers to untrain");
             builder.Player.DidNotReceiveWithAnyArgs().UntrainTroops(default, default, default);
             builder.Context.CallsToSaveChanges.Should().Be(0);
         }
@@ -106,7 +106,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
 
             var result = handler.Execute(command);
 
-            result.Should().HaveError("Troops[0].Mercenaries", "You don't have that many mercenary archers to untrain");
+            result.Should().HaveError(c => c.Troops[0].Mercenaries, "You don't have that many mercenary archers to untrain");
             builder.Player.DidNotReceiveWithAnyArgs().UntrainTroops(default, default, default);
             builder.Context.CallsToSaveChanges.Should().Be(0);
         }
