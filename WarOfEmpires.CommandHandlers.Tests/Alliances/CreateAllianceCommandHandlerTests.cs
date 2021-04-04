@@ -56,7 +56,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
 
             var result = handler.Execute(command);
 
-            result.Should().HaveError("Code", "Code must be 4 characters or less");
+            result.Should().HaveError(c => c.Code, "Code must be 4 characters or less");
             builder.Context.Alliances.Should().BeEmpty();
             builder.Context.CallsToSaveChanges.Should().Be(0);
         }

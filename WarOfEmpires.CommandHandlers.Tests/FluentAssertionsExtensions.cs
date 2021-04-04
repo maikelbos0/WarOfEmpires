@@ -3,6 +3,7 @@ using FluentAssertions.Execution;
 using FluentAssertions.Primitives;
 using System;
 using System.Linq;
+using System.Linq.Expressions;
 using WarOfEmpires.Commands;
 
 namespace WarOfEmpires.CommandHandlers.Tests {
@@ -28,6 +29,21 @@ namespace WarOfEmpires.CommandHandlers.Tests {
 
             result.Errors[0].Expression.ToString().Should().Be(expression.ToString());
         */
+
+        public AndConstraint<CommandResultAssertions<TCommand>> HaveError(Expression<Func<TCommand, object>> expression, string message) {
+            Execute.Assertion
+                .ForCondition(Subject.Errors.Count == 1)
+                .FailWith("Expected {context:CommandResult} to contain an error, but found {0} errors.", Subject.Errors.Count)
+                .Then
+                .ForCondition(Subject.Errors.Single().Expression.ToString() == expression.ToString())
+                .FailWith("Expected {context:CommandResult} to contain an error with expression {0}, but found expression {1}.", expression, GetExpressionText(Subject.Errors.Single()))
+                .Then
+                .ForCondition(Subject.Errors.Single().Message == message)
+                .FailWith("Expected {context:CommandResult} to contain an error with message {0}, but found message {1}.", message, Subject.Errors.Single().Message);
+
+            return new AndConstraint<CommandResultAssertions<TCommand>>(this);
+        }
+
         [Obsolete]
         public AndConstraint<CommandResultAssertions<TCommand>> HaveError(string expression, string message) {
             Execute.Assertion
@@ -64,7 +80,7 @@ namespace WarOfEmpires.CommandHandlers.Tests {
         }
 
         public AndConstraint<CommandResultAssertions<TCommand>> HaveError(string message) {
-            return HaveError(null, message);
+            return HaveError((string)null, message);
         }
     }
 }
