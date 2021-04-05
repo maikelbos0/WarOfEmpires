@@ -135,7 +135,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Attacks {
 
             var result = handler.Execute(command);
 
-            result.Should().HaveError("Turns", "You don't have enough attack turns");
+            result.Should().HaveError(c => c.Turns, "You don't have enough attack turns");
             attacker.DidNotReceiveWithAnyArgs().ExecuteAttack(default, default, default);
             builder.Context.CallsToSaveChanges.Should().Be(0);
         }

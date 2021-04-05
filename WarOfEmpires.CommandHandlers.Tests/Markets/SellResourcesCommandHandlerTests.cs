@@ -109,7 +109,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
 
             var result = handler.Execute(command);
 
-            result.Should().HaveError("Merchandise[0].Quantity", "You don't have enough food available to sell that much");
+            result.Should().HaveError(c => c.Merchandise[0].Quantity, "You don't have enough food available to sell that much");
             builder.Player.DidNotReceiveWithAnyArgs().SellResources(default);
             builder.Context.CallsToSaveChanges.Should().Be(0);
         }
@@ -126,7 +126,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
 
             var result = handler.Execute(command);
 
-            result.Should().HaveError("Merchandise[0].Price", "Food price is required when selling food");
+            result.Should().HaveError(c => c.Merchandise[0].Price, "Food price is required when selling food");
             builder.Player.DidNotReceiveWithAnyArgs().SellResources(default);
             builder.Context.CallsToSaveChanges.Should().Be(0);
         }

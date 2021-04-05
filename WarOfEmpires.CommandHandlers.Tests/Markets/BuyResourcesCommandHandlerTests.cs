@@ -171,7 +171,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Markets {
 
             var result = handler.Execute(command);
 
-            result.Should().HaveError("Merchandise[0].Price", "Wood price is required when buying wood");
+            result.Should().HaveError(c => c.Merchandise[0].Price, "Wood price is required when buying wood");
             caravan.DidNotReceiveWithAnyArgs().Buy(default, default, default);
             builder.Context.CallsToSaveChanges.Should().Be(0);
         }
