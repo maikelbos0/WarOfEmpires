@@ -1,16 +1,28 @@
-﻿using Unity;
+﻿using Microsoft.Extensions.DependencyInjection;
+using VDT.Core.DependencyInjection;
 using WarOfEmpires.CommandHandlers.Events;
 using WarOfEmpires.Commands.Events;
-using WarOfEmpires.Utilities.Container;
 using WarOfEmpires.Utilities.Reflection;
 
 namespace WarOfEmpires.Console {
     public static class Program {
         static void Main() {
-            var containerService = new ContainerService(new ClassFinder());
+            var classFinder = new ClassFinder();
+            var serviceCollection = new ServiceCollection();
 
-            using (var container = containerService.GetContainer()) {
-                var handler = container.Resolve<RunScheduledTasksCommandHandler>();
+            foreach (var assembly in classFinder.FindAllAssemblies()) {
+                // TODO move to more centralized, refactor to maybe not use classfinder
+                // TODO add decorations
+                serviceCollection.AddAttributeServices(assembly);
+            }
+
+            var serviceProvider = serviceCollection.BuildServiceProvider(new ServiceProviderOptions {
+                ValidateOnBuild = true,
+                ValidateScopes = true
+            });
+
+            using (var scope = serviceProvider.CreateScope()) {
+                var handler = scope.ServiceProvider.GetRequiredService<RunScheduledTasksCommandHandler>();
 
                 handler.Execute(new RunScheduledTasksCommand());
             }
