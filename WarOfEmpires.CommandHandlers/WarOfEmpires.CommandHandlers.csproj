@@ -5,6 +5,9 @@
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="VDT.Core.DependencyInjection" Version="1.1.0" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\WarOfEmpires.Commands\WarOfEmpires.Commands.csproj" />
     <ProjectReference Include="..\WarOfEmpires.Domain\WarOfEmpires.Domain.csproj" />
     <ProjectReference Include="..\WarOfEmpires.Repositories\WarOfEmpires.Repositories.csproj" />

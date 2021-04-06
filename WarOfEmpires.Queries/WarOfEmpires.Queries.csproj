@@ -5,6 +5,9 @@
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="VDT.Core.DependencyInjection" Version="1.1.0" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\WarOfEmpires.Models\WarOfEmpires.Models.csproj" />
   </ItemGroup>
 </Project>
