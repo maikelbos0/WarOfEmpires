@@ -1,14 +1,14 @@
 ﻿using System;
+using VDT.Core.DependencyInjection;
 using WarOfEmpires.CommandHandlers.Decorators;
 using WarOfEmpires.Commands.Events;
 using WarOfEmpires.Domain.Events;
 using WarOfEmpires.Repositories.Events;
-using WarOfEmpires.Utilities.Container;
 using WarOfEmpires.Utilities.Events;
 
 namespace WarOfEmpires.CommandHandlers.Events {
-    [InterfaceInjectable]
     [Audit]
+    [ScopedServiceImplementation(typeof(ICommandHandler<RunScheduledTasksCommand>))]
     public sealed class RunScheduledTasksCommandHandler : ICommandHandler<RunScheduledTasksCommand> {
         private readonly IScheduledTaskRepository _repository;
         private readonly IEventService _eventService;

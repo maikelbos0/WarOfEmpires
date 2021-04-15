@@ -1,9 +1,8 @@
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
+using VDT.Core.DependencyInjection;
 using WarOfEmpires.Database.ReferenceEntities;
-using WarOfEmpires.Utilities.Container;
 using Alliances = WarOfEmpires.Domain.Alliances;
 using Attacks = WarOfEmpires.Domain.Attacks;
 using Auditing = WarOfEmpires.Domain.Auditing;
@@ -15,7 +14,7 @@ using Security = WarOfEmpires.Domain.Security;
 using Siege = WarOfEmpires.Domain.Siege;
 
 namespace WarOfEmpires.Database {
-    [InterfaceInjectable]
+    [ScopedServiceImplementation(typeof(IWarContext))]
     public sealed class WarContext : DbContext, IWarContext {
         // TODO make sure the database gets created
         //static WarContext() {

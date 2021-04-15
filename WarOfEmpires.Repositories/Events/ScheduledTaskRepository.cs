@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using VDT.Core.DependencyInjection;
 using WarOfEmpires.Database;
 using WarOfEmpires.Domain.Events;
-using WarOfEmpires.Utilities.Container;
 
 namespace WarOfEmpires.Repositories.Events {
-    [InterfaceInjectable]
+    [ScopedServiceImplementation(typeof(IScheduledTaskRepository))]
     public class ScheduledTaskRepository : BaseRepository, IScheduledTaskRepository {
         public ScheduledTaskRepository(IWarContext context) : base(context) { }
 

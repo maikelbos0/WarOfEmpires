@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using VDT.Core.DependencyInjection;
-using WarOfEmpires.CommandHandlers.Events;
+using WarOfEmpires.CommandHandlers;
 using WarOfEmpires.Commands.Events;
 using WarOfEmpires.Utilities.Reflection;
 
@@ -22,7 +22,7 @@ namespace WarOfEmpires.Console {
             });
 
             using (var scope = serviceProvider.CreateScope()) {
-                var handler = scope.ServiceProvider.GetRequiredService<RunScheduledTasksCommandHandler>();
+                var handler = scope.ServiceProvider.GetRequiredService<ICommandHandler<RunScheduledTasksCommand>>();
 
                 handler.Execute(new RunScheduledTasksCommand());
             }

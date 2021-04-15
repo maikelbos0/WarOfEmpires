@@ -3,14 +3,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using WarOfEmpires.Utilities.Container;
+using VDT.Core.DependencyInjection;
 
 namespace WarOfEmpires.Utilities.Reflection {
-    // TODO probably doesn't need injection and interface
-    [InterfaceInjectable]
-    public sealed class ClassFinder : IClassFinder {
-        // TODO rename to AssemblyFinder
 
+    [ScopedServiceImplementation(typeof(IClassFinder))]
+    public sealed class ClassFinder : IClassFinder {
         public IEnumerable<Assembly> FindAllAssemblies() {
             // Ensure that all present solution assemblies are loaded
             foreach (var assemblyFile in Directory.GetFiles(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "*WarOfEmpires*.dll")) {
