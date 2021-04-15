@@ -63,7 +63,7 @@
     <PackageReference Include="toastr" Version="2.1.1" />
     <PackageReference Include="Unity.Container" Version="5.11.8" />
     <PackageReference Include="Unity.Mvc" Version="5.11.1" />
-    <PackageReference Include="VDT.Core.DependencyInjection" Version="1.1.0" />
+    <PackageReference Include="VDT.Core.DependencyInjection" Version="1.2.0" />
     <PackageReference Include="WebActivatorEx" Version="2.2.0" />
     <PackageReference Include="Antlr4" Version="4.6.6" />
   </ItemGroup>
