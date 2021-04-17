@@ -10,13 +10,23 @@ namespace WarOfEmpires.Utilities.Reflection {
     [ScopedServiceImplementation(typeof(IClassFinder))]
     public sealed class ClassFinder : IClassFinder {
         public IEnumerable<Assembly> FindAllAssemblies() {
-            // Ensure that all present solution assemblies are loaded
-            foreach (var assemblyFile in Directory.GetFiles(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "*WarOfEmpires*.dll")) {
-                Assembly.LoadFile(assemblyFile);
+            return FindAssemblies(Assembly.GetEntryAssembly(), assemblyName => assemblyName.FullName.Contains("WarOfEmpires"));
+        }
+
+        private IEnumerable<Assembly> FindAssemblies(Assembly assembly, Func<AssemblyName, bool> predicate) {
+            var assemblies = new HashSet<Assembly>();
+
+            if (predicate(assembly.GetName())) {
+                assemblies.Add(assembly);
             }
 
-            return AppDomain.CurrentDomain.GetAssemblies()
-                .Where(assembly => assembly.FullName.Contains("WarOfEmpires"));
+            foreach (var referencedAssembly in assembly.GetReferencedAssemblies().Where(predicate).Select(Assembly.Load)) {
+                foreach (var foundAssembly in FindAssemblies(referencedAssembly, predicate)) {
+                    assemblies.Add(foundAssembly);
+                }
+            }
+
+            return assemblies;
         }
 
         public IEnumerable<Type> FindAllClasses() {
