@@ -1,8 +1,10 @@
-﻿using WarOfEmpires.Commands.Empires;
+﻿using VDT.Core.DependencyInjection;
+using WarOfEmpires.Commands.Empires;
 using WarOfEmpires.Domain.Empires;
 using WarOfEmpires.Utilities.Events;
 
 namespace WarOfEmpires.CommandHandlers.Empires {
+    [ScopedServiceImplementation(typeof(IEventHandler<UpdateRankTaskTriggeredEvent>))]
     public sealed class UpdateRankTaskTriggeredEventHandler : IEventHandler<UpdateRankTaskTriggeredEvent> {
         private readonly ICommandHandler<UpdateRankCommand> _commandHandler;
 

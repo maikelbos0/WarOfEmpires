@@ -1,11 +1,9 @@
 ﻿using FluentAssertions;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NSubstitute;
 using System;
-using Unity;
 using WarOfEmpires.Domain.Events;
 using WarOfEmpires.Utilities.Events;
-using WarOfEmpires.Utilities.Reflection;
 
 namespace WarOfEmpires.Utilities.Tests.Events {
     [TestClass]
@@ -31,26 +29,23 @@ namespace WarOfEmpires.Utilities.Tests.Events {
             }
         }
 
-        public IClassFinder GetClassFinder() {
-            var classFinder = Substitute.For<IClassFinder>();
-
-            classFinder.FindAllClasses().Returns(new Type[] {
-                typeof(TestEventHandler),
-                typeof(DoubleTestEvent1Handler),
-                typeof(DoubleTestEvent2Handler)
-            });
-
-            return classFinder;
-        }
         public static bool TestHandlerCalled { get; set; }
         public static bool DoubleTestHandler1Called { get; set; }
         public static bool DoubleTestHandler2Called { get; set; }
 
-        private readonly IUnityContainer _container = new UnityContainer();
+        private readonly IServiceProvider _serviceProvider;
+
+        public EventServiceTests() {
+            _serviceProvider = new ServiceCollection()
+                .AddScoped<IEventHandler<TestEvent>, TestEventHandler>()
+                .AddScoped<IEventHandler<DoubleTestEvent>, DoubleTestEvent1Handler>()
+                .AddScoped<IEventHandler<DoubleTestEvent>, DoubleTestEvent2Handler>()
+                .BuildServiceProvider();
+        }
 
         [TestMethod]
         public void EventService_Dispatches_Event() {
-            var service = new EventService(GetClassFinder(), _container);
+            var service = new EventService(_serviceProvider);
 
             TestHandlerCalled = false;
 
@@ -61,7 +56,7 @@ namespace WarOfEmpires.Utilities.Tests.Events {
 
         [TestMethod]
         public void EventService_Dispatches_Event_For_Multiple_Handlers() {
-            var service = new EventService(GetClassFinder(), _container);
+            var service = new EventService(_serviceProvider);
 
             DoubleTestHandler1Called = false;
             DoubleTestHandler2Called = false;
@@ -74,7 +69,7 @@ namespace WarOfEmpires.Utilities.Tests.Events {
 
         [TestMethod]
         public void EventService_Dispatches_Correct_Event() {
-            var service = new EventService(GetClassFinder(), _container);
+            var service = new EventService(_serviceProvider);
 
             DoubleTestHandler1Called = false;
             DoubleTestHandler2Called = false;
