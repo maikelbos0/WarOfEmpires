@@ -1,11 +1,11 @@
-﻿using WarOfEmpires.CommandHandlers.Decorators;
+﻿using VDT.Core.DependencyInjection;
+using WarOfEmpires.CommandHandlers.Decorators;
 using WarOfEmpires.Commands.Empires;
 using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Repositories.Players;
-using WarOfEmpires.Utilities.Container;
 
 namespace WarOfEmpires.CommandHandlers.Empires {
-    [InterfaceInjectable]
+    [ScopedServiceImplementation(typeof(ICommandHandler<UpdateRankCommand>))]
     [Audit]
     public sealed class UpdateRankCommandHandler : ICommandHandler<UpdateRankCommand> {
         private readonly IPlayerRepository _repository;

@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
+using VDT.Core.DependencyInjection;
 using WarOfEmpires.CommandHandlers.Decorators;
 using WarOfEmpires.Commands.Empires;
 using WarOfEmpires.Domain.Empires;
 using WarOfEmpires.Domain.Siege;
 using WarOfEmpires.Repositories.Players;
-using WarOfEmpires.Utilities.Container;
 using WarOfEmpires.Utilities.Formatting;
 
 namespace WarOfEmpires.CommandHandlers.Empires {
-    [InterfaceInjectable]
+    [ScopedServiceImplementation(typeof(ICommandHandler<UntrainWorkersCommand>))]
     [Audit]
     public sealed class UntrainWorkersCommandHandler : ICommandHandler<UntrainWorkersCommand> {
         private readonly IPlayerRepository _repository;

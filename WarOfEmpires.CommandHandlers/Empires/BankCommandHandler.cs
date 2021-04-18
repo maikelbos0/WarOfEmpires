@@ -1,10 +1,10 @@
-﻿using WarOfEmpires.CommandHandlers.Decorators;
+﻿using VDT.Core.DependencyInjection;
+using WarOfEmpires.CommandHandlers.Decorators;
 using WarOfEmpires.Commands.Empires;
 using WarOfEmpires.Repositories.Players;
-using WarOfEmpires.Utilities.Container;
 
 namespace WarOfEmpires.CommandHandlers.Empires {
-    [InterfaceInjectable]
+    [ScopedServiceImplementation(typeof(ICommandHandler<BankCommand>))]
     [Audit]
     public sealed class BankCommandHandler : ICommandHandler<BankCommand> {
         private readonly IPlayerRepository _repository;

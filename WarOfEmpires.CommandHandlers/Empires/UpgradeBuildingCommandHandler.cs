@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Linq;
+using VDT.Core.DependencyInjection;
 using WarOfEmpires.CommandHandlers.Decorators;
 using WarOfEmpires.Commands.Empires;
 using WarOfEmpires.Domain.Empires;
 using WarOfEmpires.Repositories.Players;
-using WarOfEmpires.Utilities.Container;
 
 namespace WarOfEmpires.CommandHandlers.Empires {
-    [InterfaceInjectable]
+    [ScopedServiceImplementation(typeof(ICommandHandler<UpgradeBuildingCommand>))]
     [Audit]
     public sealed class UpgradeBuildingCommandHandler : ICommandHandler<UpgradeBuildingCommand> {
         private readonly IPlayerRepository _repository;
