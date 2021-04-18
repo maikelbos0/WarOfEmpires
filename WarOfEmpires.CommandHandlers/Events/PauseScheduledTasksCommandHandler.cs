@@ -1,10 +1,10 @@
-﻿using WarOfEmpires.CommandHandlers.Decorators;
+﻿using VDT.Core.DependencyInjection;
+using WarOfEmpires.CommandHandlers.Decorators;
 using WarOfEmpires.Commands.Events;
 using WarOfEmpires.Repositories.Events;
-using WarOfEmpires.Utilities.Container;
 
 namespace WarOfEmpires.CommandHandlers.Events {
-    [InterfaceInjectable]
+    [ScopedServiceImplementation(typeof(ICommandHandler<PauseScheduledTasksCommand>))]
     [Audit]
     public sealed class PauseScheduledTasksCommandHandler : ICommandHandler<PauseScheduledTasksCommand> {
         private readonly IScheduledTaskRepository _repository;

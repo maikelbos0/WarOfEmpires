@@ -6,7 +6,8 @@ using Unity;
 using Unity.Lifetime;
 
 namespace WarOfEmpires.Utilities.Container {
-    public sealed class ContainerService {
+    [Obsolete]
+    public sealed class ContainerService {        
         private readonly IClassFinder _classFinder;
 
         public ContainerService(IClassFinder classFinder) {
