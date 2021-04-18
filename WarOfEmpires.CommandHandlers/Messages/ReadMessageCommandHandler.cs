@@ -1,11 +1,11 @@
 ﻿using System.Linq;
+using VDT.Core.DependencyInjection;
 using WarOfEmpires.CommandHandlers.Decorators;
 using WarOfEmpires.Commands.Messages;
 using WarOfEmpires.Repositories.Players;
-using WarOfEmpires.Utilities.Container;
 
 namespace WarOfEmpires.CommandHandlers.Messages {
-    [InterfaceInjectable]
+    [ScopedServiceImplementation(typeof(ICommandHandler<ReadMessageCommand>))]
     [Audit]
     public sealed class ReadMessageCommandHandler : ICommandHandler<ReadMessageCommand> {
         private readonly IPlayerRepository _repository;

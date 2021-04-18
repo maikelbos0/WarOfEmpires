@@ -1,10 +1,10 @@
-﻿using WarOfEmpires.CommandHandlers.Decorators;
+﻿using VDT.Core.DependencyInjection;
+using WarOfEmpires.CommandHandlers.Decorators;
 using WarOfEmpires.Commands.Messages;
 using WarOfEmpires.Repositories.Players;
-using WarOfEmpires.Utilities.Container;
 
 namespace WarOfEmpires.CommandHandlers.Messages {
-    [InterfaceInjectable]
+    [ScopedServiceImplementation(typeof(ICommandHandler<SendMessageCommand>))]
     [Audit]
     public sealed class SendMessageCommandHandler : ICommandHandler<SendMessageCommand> {
         private readonly IPlayerRepository _repository;
