@@ -1,11 +1,11 @@
 ﻿using System.Linq;
+using VDT.Core.DependencyInjection;
 using WarOfEmpires.CommandHandlers.Decorators;
 using WarOfEmpires.Commands.Alliances;
 using WarOfEmpires.Repositories.Alliances;
-using WarOfEmpires.Utilities.Container;
 
 namespace WarOfEmpires.CommandHandlers.Alliances {
-    [InterfaceInjectable]
+    [ScopedServiceImplementation(typeof(ICommandHandler<RejectNonAggressionPactRequestCommand>))]
     [Audit]
     public sealed class RejectNonAggressionPactRequestCommandHandler : ICommandHandler<RejectNonAggressionPactRequestCommand> {
         private readonly IAllianceRepository _repository;

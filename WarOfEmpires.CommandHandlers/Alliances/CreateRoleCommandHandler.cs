@@ -1,10 +1,10 @@
-﻿using WarOfEmpires.CommandHandlers.Decorators;
+﻿using VDT.Core.DependencyInjection;
+using WarOfEmpires.CommandHandlers.Decorators;
 using WarOfEmpires.Commands.Alliances;
 using WarOfEmpires.Repositories.Alliances;
-using WarOfEmpires.Utilities.Container;
 
 namespace WarOfEmpires.CommandHandlers.Alliances {
-    [InterfaceInjectable]
+    [ScopedServiceImplementation(typeof(ICommandHandler<CreateRoleCommand>))]
     [Audit]
     public sealed class CreateRoleCommandHandler : ICommandHandler<CreateRoleCommand> {
         private readonly IAllianceRepository _repository;

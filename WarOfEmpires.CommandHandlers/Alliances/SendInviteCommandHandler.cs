@@ -1,11 +1,11 @@
 ﻿using System.Linq;
+using VDT.Core.DependencyInjection;
 using WarOfEmpires.CommandHandlers.Decorators;
 using WarOfEmpires.Commands.Alliances;
 using WarOfEmpires.Repositories.Players;
-using WarOfEmpires.Utilities.Container;
 
 namespace WarOfEmpires.CommandHandlers.Alliances {
-    [InterfaceInjectable]
+    [ScopedServiceImplementation(typeof(ICommandHandler<SendInviteCommand>))]
     [Audit]
     public sealed class SendInviteCommandHandler : ICommandHandler<SendInviteCommand> {
         private readonly IPlayerRepository _repository;

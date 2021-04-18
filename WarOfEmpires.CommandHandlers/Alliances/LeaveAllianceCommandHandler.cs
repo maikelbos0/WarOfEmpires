@@ -1,11 +1,11 @@
 ﻿using System;
+using VDT.Core.DependencyInjection;
 using WarOfEmpires.CommandHandlers.Decorators;
 using WarOfEmpires.Commands.Alliances;
 using WarOfEmpires.Repositories.Players;
-using WarOfEmpires.Utilities.Container;
 
 namespace WarOfEmpires.CommandHandlers.Alliances {
-    [InterfaceInjectable]
+    [ScopedServiceImplementation(typeof(ICommandHandler<LeaveAllianceCommand>))]
     [Audit]
     public sealed class LeaveAllianceCommandHandler : ICommandHandler<LeaveAllianceCommand> {
         private readonly IPlayerRepository _repository;
