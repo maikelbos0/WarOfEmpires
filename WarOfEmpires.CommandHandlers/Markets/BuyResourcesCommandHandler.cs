@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using VDT.Core.DependencyInjection;
 using WarOfEmpires.CommandHandlers.Decorators;
 using WarOfEmpires.Commands.Markets;
 using WarOfEmpires.Domain.Common;
 using WarOfEmpires.Domain.Markets;
 using WarOfEmpires.Repositories.Players;
-using WarOfEmpires.Utilities.Container;
 using WarOfEmpires.Utilities.Formatting;
 
 namespace WarOfEmpires.CommandHandlers.Markets {
-    [InterfaceInjectable]
+    [ScopedServiceImplementation(typeof(ICommandHandler<BuyResourcesCommand>))]
     [Audit]
     public sealed class BuyResourcesCommandHandler : ICommandHandler<BuyResourcesCommand> {
         private readonly IPlayerRepository _repository;

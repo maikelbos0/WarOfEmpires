@@ -1,11 +1,11 @@
 ﻿using System.Linq;
+using VDT.Core.DependencyInjection;
 using WarOfEmpires.CommandHandlers.Decorators;
 using WarOfEmpires.Commands.Markets;
 using WarOfEmpires.Repositories.Players;
-using WarOfEmpires.Utilities.Container;
 
 namespace WarOfEmpires.CommandHandlers.Markets {
-    [InterfaceInjectable]
+    [ScopedServiceImplementation(typeof(ICommandHandler<WithdrawCaravanCommand>))]
     [Audit]
     public sealed class WithdrawCaravanCommandHandler : ICommandHandler<WithdrawCaravanCommand> {
         private readonly IPlayerRepository _repository;
