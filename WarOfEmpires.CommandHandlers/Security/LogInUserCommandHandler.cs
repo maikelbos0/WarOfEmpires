@@ -1,10 +1,10 @@
+using VDT.Core.DependencyInjection;
 using WarOfEmpires.Commands.Security;
 using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Repositories.Security;
-using WarOfEmpires.Utilities.Container;
 
 namespace WarOfEmpires.CommandHandlers.Security {
-    [InterfaceInjectable]
+    [ScopedServiceImplementation(typeof(ICommandHandler<LogInUserCommand>))]
     public sealed class LogInUserCommandHandler : ICommandHandler<LogInUserCommand> {
         private readonly IUserRepository _repository;
 

@@ -1,11 +1,11 @@
-﻿using WarOfEmpires.Commands.Players;
+﻿using VDT.Core.DependencyInjection;
+using WarOfEmpires.Commands.Players;
 using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Repositories.Players;
 using WarOfEmpires.Repositories.Security;
-using WarOfEmpires.Utilities.Container;
 
 namespace WarOfEmpires.CommandHandlers.Players {
-    [InterfaceInjectable]
+    [ScopedServiceImplementation(typeof(ICommandHandler<RegisterPlayerCommand>))]
     public sealed class RegisterPlayerCommandHandler : ICommandHandler<RegisterPlayerCommand> {
         private readonly IUserRepository _userRepository;
         private readonly IPlayerRepository _repository;

@@ -1,11 +1,11 @@
+using VDT.Core.DependencyInjection;
 using WarOfEmpires.Commands.Security;
 using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Repositories.Security;
-using WarOfEmpires.Utilities.Container;
 using WarOfEmpires.Utilities.Mail;
 
 namespace WarOfEmpires.CommandHandlers.Security {
-    [InterfaceInjectable]
+    [ScopedServiceImplementation(typeof(ICommandHandler<ForgotUserPasswordCommand>))]
     public sealed class ForgotUserPasswordCommandHandler : ICommandHandler<ForgotUserPasswordCommand> {
         private readonly IUserRepository _repository;
         private readonly IMailClient _mailClient;

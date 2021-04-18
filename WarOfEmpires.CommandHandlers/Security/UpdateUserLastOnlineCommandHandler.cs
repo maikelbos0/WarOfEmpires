@@ -1,10 +1,9 @@
-﻿using WarOfEmpires.Commands.Security;
+﻿using VDT.Core.DependencyInjection;
+using WarOfEmpires.Commands.Security;
 using WarOfEmpires.Repositories.Security;
-using WarOfEmpires.Utilities.Container;
 
 namespace WarOfEmpires.CommandHandlers.Security {
-    // Not audited on purpose
-    [InterfaceInjectable]
+    [ScopedServiceImplementation(typeof(ICommandHandler<UpdateUserLastOnlineCommand>))]
     public sealed class UpdateUserLastOnlineCommandHandler : ICommandHandler<UpdateUserLastOnlineCommand> {
         private readonly IUserRepository _repository;
 

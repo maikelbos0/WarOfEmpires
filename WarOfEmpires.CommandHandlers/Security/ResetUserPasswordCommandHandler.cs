@@ -1,9 +1,9 @@
+using VDT.Core.DependencyInjection;
 using WarOfEmpires.Commands.Security;
 using WarOfEmpires.Repositories.Security;
-using WarOfEmpires.Utilities.Container;
 
 namespace WarOfEmpires.CommandHandlers.Security {
-    [InterfaceInjectable]
+    [ScopedServiceImplementation(typeof(ICommandHandler<ResetUserPasswordCommand>))]
     public sealed class ResetUserPasswordCommandHandler : ICommandHandler<ResetUserPasswordCommand> {
         private readonly IUserRepository _repository;
 

@@ -1,9 +1,9 @@
+using VDT.Core.DependencyInjection;
 using WarOfEmpires.Commands.Security;
 using WarOfEmpires.Repositories.Security;
-using WarOfEmpires.Utilities.Container;
 
 namespace WarOfEmpires.CommandHandlers.Security {
-    [InterfaceInjectable]
+    [ScopedServiceImplementation(typeof(ICommandHandler<LogOutUserCommand>))]
     public sealed class LogOutUserCommandHandler : ICommandHandler<LogOutUserCommand> {
         private readonly IUserRepository _repository;
 

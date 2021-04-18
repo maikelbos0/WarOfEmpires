@@ -1,10 +1,10 @@
+using VDT.Core.DependencyInjection;
 using WarOfEmpires.Commands.Security;
 using WarOfEmpires.Repositories.Security;
-using WarOfEmpires.Utilities.Container;
 using WarOfEmpires.Utilities.Mail;
 
 namespace WarOfEmpires.CommandHandlers.Security {
-    [InterfaceInjectable]
+    [ScopedServiceImplementation(typeof(ICommandHandler<ChangeUserEmailCommand>))]
     public sealed class ChangeUserEmailCommandHandler : ICommandHandler<ChangeUserEmailCommand> {
         private readonly IUserRepository _repository;
         private readonly IMailClient _mailClient;
