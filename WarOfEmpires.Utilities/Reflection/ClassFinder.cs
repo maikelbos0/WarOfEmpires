@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Reflection;
 using VDT.Core.DependencyInjection;
 
 namespace WarOfEmpires.Utilities.Reflection {
+    // TODO remove FindAllClasses
+    // TODO rename to AssemblyFinder
 
     [ScopedServiceImplementation(typeof(IClassFinder))]
     public sealed class ClassFinder : IClassFinder {
