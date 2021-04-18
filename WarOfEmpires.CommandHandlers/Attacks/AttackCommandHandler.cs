@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Linq;
+using VDT.Core.DependencyInjection;
 using WarOfEmpires.CommandHandlers.Decorators;
 using WarOfEmpires.Commands.Attacks;
 using WarOfEmpires.Domain.Attacks;
 using WarOfEmpires.Repositories.Players;
-using WarOfEmpires.Utilities.Container;
 
 namespace WarOfEmpires.CommandHandlers.Attacks {
-    [InterfaceInjectable]
+    [ScopedServiceImplementation(typeof(ICommandHandler<AttackCommand>))]
     [Audit]
     public sealed class AttackCommandHandler : ICommandHandler<AttackCommand> {
         private readonly IPlayerRepository _repository;
