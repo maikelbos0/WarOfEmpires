@@ -1,11 +1,11 @@
 using System.Linq;
+using VDT.Core.DependencyInjection;
 using WarOfEmpires.Database;
 using WarOfEmpires.Domain.Security;
-using WarOfEmpires.Utilities.Container;
 using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.Repositories.Security {
-    [InterfaceInjectable]
+    [ScopedServiceImplementation(typeof(IUserRepository))]
     public sealed class UserRepository : BaseRepository, IUserRepository {
         public UserRepository(IWarContext context) : base(context) { }
 
