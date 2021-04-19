@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using VDT.Core.DependencyInjection;
 using WarOfEmpires.Domain.Empires;
 
 namespace WarOfEmpires.Domain.Players {
+    [ScopedService(typeof(RankService))]
     public class RankService {
         public const double TroopModifier = 0.1;
         public const double WorkerModifier = 10.0;
