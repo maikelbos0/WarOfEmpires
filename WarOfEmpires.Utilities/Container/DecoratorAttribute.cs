@@ -1,6 +1,7 @@
 using System;
 
 namespace WarOfEmpires.Utilities.Container {
+    [Obsolete]
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = false)]
     public abstract class DecoratorAttribute : Attribute {
         public Type DecoratorType { get; private set; }

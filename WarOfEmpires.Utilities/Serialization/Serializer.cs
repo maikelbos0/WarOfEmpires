@@ -1,8 +1,8 @@
-using WarOfEmpires.Utilities.Container;
 using Newtonsoft.Json;
+using VDT.Core.DependencyInjection;
 
 namespace WarOfEmpires.Utilities.Serialization {
-    [InterfaceInjectable]
+    [ScopedServiceImplementation(typeof(ISerializer))]
     public sealed class Serializer : ISerializer {
         public string SerializeToJson(object obj) {
             return JsonConvert.SerializeObject(obj);

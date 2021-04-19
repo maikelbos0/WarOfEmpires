@@ -1,9 +1,9 @@
 using WarOfEmpires.Utilities.Configuration;
-using WarOfEmpires.Utilities.Container;
 using System.Net;
+using VDT.Core.DependencyInjection;
 
 namespace WarOfEmpires.Utilities.Mail {
-    [InterfaceInjectable]
+    [ScopedServiceImplementation(typeof(IMailTemplate<ActivationMailTemplateParameters>))]
     public sealed class ActivationMailTemplate : IMailTemplate<ActivationMailTemplateParameters> {
         private readonly IAppSettings _appSettings;
 

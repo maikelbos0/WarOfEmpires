@@ -1,8 +1,9 @@
-using WarOfEmpires.Utilities.Container;
 using System.Configuration;
+using VDT.Core.DependencyInjection;
 
 namespace WarOfEmpires.Utilities.Configuration {
-    [InterfaceInjectable]
+    // TODO switch to json style settings
+    [ScopedServiceImplementation(typeof(IAppSettings))]
     public sealed class AppSettings : IAppSettings {
         public string this[string name] {
             get {

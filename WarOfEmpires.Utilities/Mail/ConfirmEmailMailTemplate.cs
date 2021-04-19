@@ -1,9 +1,9 @@
 using WarOfEmpires.Utilities.Configuration;
-using WarOfEmpires.Utilities.Container;
 using System.Net;
+using VDT.Core.DependencyInjection;
 
 namespace WarOfEmpires.Utilities.Mail {
-    [InterfaceInjectable]
+    [ScopedServiceImplementation(typeof(IMailTemplate<ConfirmEmailMailTemplateParameters>))]
     public sealed class ConfirmEmailMailTemplate : IMailTemplate<ConfirmEmailMailTemplateParameters> {
         private readonly IAppSettings _appSettings;
 
