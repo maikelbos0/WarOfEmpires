@@ -1,16 +1,16 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using VDT.Core.DependencyInjection;
 using WarOfEmpires.Database;
 using WarOfEmpires.Domain.Markets;
 using WarOfEmpires.Models.Markets;
 using WarOfEmpires.Queries.Markets;
 using WarOfEmpires.QueryHandlers.Decorators;
-using WarOfEmpires.Utilities.Container;
 using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Markets {
-    [InterfaceInjectable]
+    [ScopedServiceImplementation(typeof(IQueryHandler<GetCaravansQuery, IEnumerable<CaravanViewModel>>))]
     [Audit]
     public sealed class GetCaravansQueryHandler : IQueryHandler<GetCaravansQuery, IEnumerable<CaravanViewModel>> {
 

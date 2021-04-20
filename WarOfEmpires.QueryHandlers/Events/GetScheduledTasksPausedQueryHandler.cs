@@ -1,11 +1,11 @@
 ﻿using System.Linq;
+using VDT.Core.DependencyInjection;
 using WarOfEmpires.Database;
 using WarOfEmpires.Queries.Events;
 using WarOfEmpires.QueryHandlers.Decorators;
-using WarOfEmpires.Utilities.Container;
 
 namespace WarOfEmpires.QueryHandlers.Events {
-    [InterfaceInjectable]
+    [ScopedServiceImplementation(typeof(IQueryHandler<GetScheduledTasksPausedQuery, bool?>))]
     [Audit]
     public sealed class GetScheduledTasksPausedQueryHandler : IQueryHandler<GetScheduledTasksPausedQuery, bool?> {
         private readonly IWarContext _context;

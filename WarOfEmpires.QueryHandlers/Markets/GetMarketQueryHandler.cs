@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using VDT.Core.DependencyInjection;
 using WarOfEmpires.Database;
 using WarOfEmpires.Domain.Empires;
 using WarOfEmpires.Domain.Markets;
@@ -8,12 +9,11 @@ using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Models.Markets;
 using WarOfEmpires.Queries.Markets;
 using WarOfEmpires.QueryHandlers.Decorators;
-using WarOfEmpires.Utilities.Container;
 using WarOfEmpires.Utilities.Formatting;
 using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Markets {
-    [InterfaceInjectable]
+    [ScopedServiceImplementation(typeof(IQueryHandler<GetMarketQuery, MarketModel>))]
     [Audit]
     public sealed class GetMarketQueryHandler : IQueryHandler<GetMarketQuery, MarketModel> {
         private readonly IWarContext _context;

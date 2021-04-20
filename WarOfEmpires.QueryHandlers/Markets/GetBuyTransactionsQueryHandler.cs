@@ -1,15 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using VDT.Core.DependencyInjection;
 using WarOfEmpires.Database;
 using WarOfEmpires.Models.Markets;
 using WarOfEmpires.Queries.Markets;
 using WarOfEmpires.QueryHandlers.Decorators;
-using WarOfEmpires.Utilities.Container;
 using WarOfEmpires.Utilities.Formatting;
 using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Markets {
-    [InterfaceInjectable]
+    [ScopedServiceImplementation(typeof(IQueryHandler<GetBuyTransactionsQuery, IEnumerable<TransactionViewModel>>))]
     [Audit]
     public sealed class GetBuyTransactionsQueryHandler : IQueryHandler<GetBuyTransactionsQuery, IEnumerable<TransactionViewModel>> {
         private readonly IWarContext _context;
