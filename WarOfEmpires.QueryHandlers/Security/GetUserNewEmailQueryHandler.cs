@@ -1,11 +1,11 @@
 using System.Linq;
+using VDT.Core.DependencyInjection;
 using WarOfEmpires.Database;
 using WarOfEmpires.Queries.Security;
-using WarOfEmpires.Utilities.Container;
 using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Security {
-    [InterfaceInjectable]
+    [ScopedServiceImplementation(typeof(IQueryHandler<GetUserNewEmailQuery, string>))]
     public sealed class GetUserNewEmailQueryHandler : IQueryHandler<GetUserNewEmailQuery, string> {
         private readonly IWarContext _context;
 

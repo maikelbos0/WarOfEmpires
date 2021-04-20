@@ -1,14 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using VDT.Core.DependencyInjection;
 using WarOfEmpires.Database;
 using WarOfEmpires.Models.Players;
 using WarOfEmpires.Queries.Players;
 using WarOfEmpires.QueryHandlers.Decorators;
-using WarOfEmpires.Utilities.Container;
 using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Players {
-    [InterfaceInjectable]
+    [ScopedServiceImplementation(typeof(IQueryHandler<GetCurrentPlayerQuery, CurrentPlayerViewModel>))]
     [Audit]
     public sealed class GetCurrentPlayerQueryHandler : IQueryHandler<GetCurrentPlayerQuery, CurrentPlayerViewModel> {
         private readonly IWarContext _context;
