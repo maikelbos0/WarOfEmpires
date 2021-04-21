@@ -7,7 +7,7 @@ using Microsoft.Extensions.Hosting;
 using VDT.Core.DependencyInjection;
 using WarOfEmpires.Utilities.Reflection;
 
-namespace warofempires {
+namespace WarOfEmpires {
     public class Startup
     {
         public Startup(IConfiguration configuration)
