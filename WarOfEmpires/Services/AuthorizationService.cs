@@ -1,9 +1,9 @@
-﻿using WarOfEmpires.Queries.Alliances;
+﻿using VDT.Core.DependencyInjection;
+using WarOfEmpires.Queries.Alliances;
 using WarOfEmpires.Queries.Security;
-using WarOfEmpires.Utilities.Container;
 
 namespace WarOfEmpires.Services {
-    [InterfaceInjectable]
+    [ScopedServiceImplementation(typeof(IAuthorizationService))]
     public class AuthorizationService : IAuthorizationService {
         // TODO resolve authorization on views
         public static bool IsAuthorized(object request) {

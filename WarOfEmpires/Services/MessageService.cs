@@ -2,11 +2,11 @@ using WarOfEmpires.CommandHandlers;
 using WarOfEmpires.Commands;
 using WarOfEmpires.Queries;
 using WarOfEmpires.QueryHandlers;
-using WarOfEmpires.Utilities.Container;
 using Unity;
+using VDT.Core.DependencyInjection;
 
 namespace WarOfEmpires.Services {
-    [InterfaceInjectable]
+    [ScopedServiceImplementation(typeof(IMessageService))]
     public sealed class MessageService : IMessageService {
         private readonly IUnityContainer _container;
 

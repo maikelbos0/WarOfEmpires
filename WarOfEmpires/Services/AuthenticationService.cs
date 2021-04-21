@@ -1,8 +1,8 @@
-using WarOfEmpires.Utilities.Container;
 using Microsoft.AspNetCore.Http;
+using VDT.Core.DependencyInjection;
 
 namespace WarOfEmpires.Services {
-    [InterfaceInjectable]
+    [ScopedServiceImplementation(typeof(IAuthenticationService))]
     public sealed class AuthenticationService : IAuthenticationService {
         private readonly IHttpContextAccessor httpContextAccessor;
 
