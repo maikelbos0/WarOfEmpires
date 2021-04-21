@@ -1,12 +1,12 @@
 ﻿using System.Linq;
+using VDT.Core.DependencyInjection;
 using WarOfEmpires.Database;
 using WarOfEmpires.Models.Messages;
 using WarOfEmpires.Queries.Messages;
 using WarOfEmpires.QueryHandlers.Decorators;
-using WarOfEmpires.Utilities.Container;
 
 namespace WarOfEmpires.QueryHandlers.Messages {
-    [InterfaceInjectable]
+    [ScopedServiceImplementation(typeof(IQueryHandler<GetMessageRecipientQuery, MessageModel>))]
     [Audit]
     public sealed class GetMessageRecipientQueryHandler : IQueryHandler<GetMessageRecipientQuery, MessageModel> {
 
