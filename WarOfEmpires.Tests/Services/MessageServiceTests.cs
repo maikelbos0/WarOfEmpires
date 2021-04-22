@@ -4,8 +4,9 @@ using WarOfEmpires.CommandHandlers;
 using WarOfEmpires.Queries;
 using WarOfEmpires.QueryHandlers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using WarOfEmpires.Utilities.Container;
 using FluentAssertions;
+using NSubstitute;
+using System;
 
 namespace WarOfEmpires.Tests.Services {
     [TestClass]
@@ -13,7 +14,6 @@ namespace WarOfEmpires.Tests.Services {
         public sealed class TestCommand : ICommand {
         }
 
-        [InterfaceInjectable]
         public sealed class TestCommandHandler : ICommandHandler<TestCommand> {
             public CommandResult<TestCommand> Execute(TestCommand command) {
                 return new CommandResult<TestCommand>();
@@ -23,7 +23,6 @@ namespace WarOfEmpires.Tests.Services {
         public sealed class TestQuery : IQuery<bool> {
         }
 
-        [InterfaceInjectable]
         public sealed class TestQueryHandler : IQueryHandler<TestQuery, bool> {
             public bool Execute(TestQuery query) {
                 return true;
@@ -32,7 +31,9 @@ namespace WarOfEmpires.Tests.Services {
 
         [TestMethod]
         public void MessageService_Dispatches_Command_To_CommandHandler() {
-            var messageService = new MessageService(UnityConfig.Container);
+            var serviceProvider = Substitute.For<IServiceProvider>();
+            serviceProvider.GetService(typeof(ICommandHandler<TestCommand>)).Returns(new TestCommandHandler());
+            var messageService = new MessageService(serviceProvider);
             var command = new TestCommand();
 
             var result = messageService.Dispatch(command);
@@ -42,7 +43,9 @@ namespace WarOfEmpires.Tests.Services {
 
         [TestMethod]
         public void MessageService_Dispatches_Query_To_QueryHandler() {
-            var messageService = new MessageService(UnityConfig.Container);
+            var serviceProvider = Substitute.For<IServiceProvider>();
+            serviceProvider.GetService(typeof(IQueryHandler<TestQuery, bool>)).Returns(new TestQueryHandler());
+            var messageService = new MessageService(serviceProvider);
             var query = new TestQuery();
 
             var result = messageService.Dispatch(query);
