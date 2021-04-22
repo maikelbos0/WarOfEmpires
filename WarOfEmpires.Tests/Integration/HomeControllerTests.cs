@@ -1,3 +1,12 @@
+using FluentAssertions;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Linq;
+using System.Text.RegularExpressions;
+using VDT.Core.DependencyInjection;
 using WarOfEmpires.Controllers;
 using WarOfEmpires.Database;
 using WarOfEmpires.Domain.Security;
@@ -6,30 +15,36 @@ using WarOfEmpires.Services;
 using WarOfEmpires.Test.Utilities;
 using WarOfEmpires.Utilities.Configuration;
 using WarOfEmpires.Utilities.Mail;
-using FluentAssertions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Linq;
-using System.Text.RegularExpressions;
-using System.Web.Mvc;
-using Unity;
+using WarOfEmpires.Utilities.Reflection;
 
 namespace WarOfEmpires.Tests.Integration {
     [TestClass]
     public sealed class HomeControllerTests {
+        private readonly IServiceProvider serviceProvider;
         private readonly FakeAuthenticationService _authenticationService = new FakeAuthenticationService();
         private readonly FakeWarContext _context = new FakeWarContext();
         private readonly FakeMailClient _mailClient = new FakeMailClient();
         private readonly FakeAppSettings _appSettings = new FakeAppSettings();
 
         public HomeControllerTests() {
-            UnityConfig.Container.RegisterInstance<IAuthenticationService>(_authenticationService);
-            UnityConfig.Container.RegisterInstance<IWarContext>(_context);
-            UnityConfig.Container.RegisterInstance<IMailClient>(_mailClient);
-            UnityConfig.Container.RegisterInstance<IAppSettings>(_appSettings);
+            var services = new ServiceCollection();
+            var classFinder = new ClassFinder();
+
+            foreach (var assembly in classFinder.FindAllAssemblies(typeof(HomeController).Assembly)) {
+                services.AddAttributeServices(assembly);
+            }
+
+            services.Replace(ServiceDescriptor.Scoped<IAuthenticationService>(serviceProvider => _authenticationService));
+            services.Replace(ServiceDescriptor.Scoped<IWarContext>(serviceProvider => _context));
+            services.Replace(ServiceDescriptor.Scoped<IMailClient>(serviceProvider => _mailClient));
+            services.Replace(ServiceDescriptor.Scoped<IAppSettings>(serviceProvider => _appSettings));
+            services.AddScoped<HomeController>();
+
+            serviceProvider = services.BuildServiceProvider();
         }
 
         private HomeController GetController() {
-            return UnityConfig.Container.Resolve<HomeController>();
+            return serviceProvider.GetRequiredService<HomeController>();
         }
 
         [TestMethod]
@@ -114,7 +129,7 @@ namespace WarOfEmpires.Tests.Integration {
             // Log out
             var logOutResult = GetController().LogOut();
 
-            logOutResult.Should().BeOfType<RedirectToRouteResult>();
+            logOutResult.Should().BeOfType<RedirectToActionResult>();
             _authenticationService.Identity.Should().BeNull();
 
             // Log in
@@ -157,7 +172,7 @@ namespace WarOfEmpires.Tests.Integration {
                 Password = "test"
             });
 
-            deactivateResult.Should().BeOfType<RedirectToRouteResult>();
+            deactivateResult.Should().BeOfType<RedirectToActionResult>();
             _authenticationService.Identity.Should().BeNull();
             _context.Users.Single().Status.Should().Be(UserStatus.Inactive);
         }
@@ -181,14 +196,14 @@ namespace WarOfEmpires.Tests.Integration {
             // Log out
             var logOutResult = GetController().LogOut();
 
-            logOutResult.Should().BeOfType<RedirectToRouteResult>();
+            logOutResult.Should().BeOfType<RedirectToActionResult>();
             _authenticationService.Identity.Should().BeNull();
 
             // Confirm email change
             var confirmationCode = Regex.Match(_mailClient.SentMessages.Last().Body, "\\d+").Value;
             var confirmationResult = GetController().ConfirmEmail(confirmationCode, "test@test.com");
 
-            confirmationResult.Should().BeOfType<RedirectToRouteResult>();
+            confirmationResult.Should().BeOfType<RedirectToActionResult>();
             _authenticationService.Identity.Should().BeNull();
 
             // Log in with new email address
@@ -221,7 +236,7 @@ namespace WarOfEmpires.Tests.Integration {
             var confirmationCode = Regex.Match(_mailClient.SentMessages.Last().Body, "\\d+").Value;
             var confirmationResult = GetController().ConfirmEmail(confirmationCode, "test@test.com");
 
-            confirmationResult.Should().BeOfType<RedirectToRouteResult>();
+            confirmationResult.Should().BeOfType<RedirectToActionResult>();
             _authenticationService.Identity.Should().Be("new@test.com");
         }
     }
