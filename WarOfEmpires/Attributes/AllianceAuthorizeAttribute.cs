@@ -1,10 +1,11 @@
 ﻿using System.Net;
-using Unity;
 using WarOfEmpires.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace WarOfEmpires.Attributes {
+    // TODO consider moving away from ActionFilterAttribute
     public sealed class AllianceAuthorizeAttribute : ActionFilterAttribute, IAllianceAuthorizationRequest {
         public bool CanInvite { get; set; }
         public bool CanManageRoles { get; set; }
@@ -16,7 +17,7 @@ namespace WarOfEmpires.Attributes {
 
         public override void OnActionExecuting(ActionExecutingContext filterContext) {
             // TODO determine if this is still the way to do custom authorization
-            if (!UnityConfig.Container.Resolve<IAuthorizationService>().IsAuthorized(this)) {
+            if (!filterContext.HttpContext.RequestServices.GetRequiredService<IAuthorizationService>().IsAuthorized(this)) {
                 filterContext.Result = new StatusCodeResult((int)HttpStatusCode.Forbidden);
             }
         }

@@ -1,16 +1,17 @@
 ﻿using WarOfEmpires.Commands.Security;
 using WarOfEmpires.Services;
-using Unity;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace WarOfEmpires.Attributes {
     public class UserOnlineAttribute : ActionFilterAttribute
     {
+        // TODO consider moving away from ActionFilterAttribute
         public override void OnActionExecuted(ActionExecutedContext filterContext) {
-            var authenticationService = UnityConfig.Container.Resolve<IAuthenticationService>();
+            var authenticationService = filterContext.HttpContext.RequestServices.GetRequiredService<IAuthenticationService>();
 
             if (authenticationService.IsAuthenticated) {
-                var messageService = UnityConfig.Container.Resolve<IMessageService>();
+                var messageService = filterContext.HttpContext.RequestServices.GetRequiredService<IMessageService>();
                 var command = new UpdateUserLastOnlineCommand(authenticationService.Identity);
 
                 messageService.Dispatch(command);
