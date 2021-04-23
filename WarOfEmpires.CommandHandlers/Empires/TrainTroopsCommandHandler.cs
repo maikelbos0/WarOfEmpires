@@ -11,7 +11,6 @@ using WarOfEmpires.Utilities.Linq;
 
 namespace WarOfEmpires.CommandHandlers.Empires {
     [ScopedServiceImplementation(typeof(ICommandHandler<TrainTroopsCommand>))]
-    [Audit]
     public sealed class TrainTroopsCommandHandler : ICommandHandler<TrainTroopsCommand> {
         private readonly IPlayerRepository _repository;
 
@@ -19,6 +18,7 @@ namespace WarOfEmpires.CommandHandlers.Empires {
             _repository = repository;
         }
 
+        [Audit]
         public CommandResult<TrainTroopsCommand> Execute(TrainTroopsCommand command) {
             var result = new CommandResult<TrainTroopsCommand>();
             var player = _repository.Get(command.Email);

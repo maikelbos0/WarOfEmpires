@@ -7,7 +7,6 @@ using WarOfEmpires.Repositories.Alliances;
 
 namespace WarOfEmpires.CommandHandlers.Alliances {
     [ScopedServiceImplementation(typeof(ICommandHandler<KickFromAllianceCommand>))]
-    [Audit]
     public sealed class KickFromAllianceCommandHandler : ICommandHandler<KickFromAllianceCommand> {
         private readonly IAllianceRepository _repository;
 
@@ -15,6 +14,7 @@ namespace WarOfEmpires.CommandHandlers.Alliances {
             _repository = repository;
         }
 
+        [Audit]
         public CommandResult<KickFromAllianceCommand> Execute(KickFromAllianceCommand command) {
             var result = new CommandResult<KickFromAllianceCommand>();
             var alliance = _repository.Get(command.Email);

@@ -5,7 +5,6 @@ using WarOfEmpires.Repositories.Events;
 
 namespace WarOfEmpires.CommandHandlers.Events {
     [ScopedServiceImplementation(typeof(ICommandHandler<UnpauseScheduledTasksCommand>))]
-    [Audit]
     public sealed class UnpauseScheduledTasksCommandHandler : ICommandHandler<UnpauseScheduledTasksCommand> {
         private readonly IScheduledTaskRepository _repository;
 
@@ -13,6 +12,7 @@ namespace WarOfEmpires.CommandHandlers.Events {
             _repository = repository;
         }
 
+        [Audit]
         public CommandResult<UnpauseScheduledTasksCommand> Execute(UnpauseScheduledTasksCommand command) {
             var result = new CommandResult<UnpauseScheduledTasksCommand>();
 

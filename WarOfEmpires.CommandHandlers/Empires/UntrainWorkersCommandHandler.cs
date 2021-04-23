@@ -11,7 +11,6 @@ using WarOfEmpires.Utilities.Formatting;
 
 namespace WarOfEmpires.CommandHandlers.Empires {
     [ScopedServiceImplementation(typeof(ICommandHandler<UntrainWorkersCommand>))]
-    [Audit]
     public sealed class UntrainWorkersCommandHandler : ICommandHandler<UntrainWorkersCommand> {
         private readonly IPlayerRepository _repository;
         private readonly EnumFormatter _formatter;
@@ -21,6 +20,7 @@ namespace WarOfEmpires.CommandHandlers.Empires {
             _formatter = formatter;
         }
 
+        [Audit]
         public CommandResult<UntrainWorkersCommand> Execute(UntrainWorkersCommand command) {
             var result = new CommandResult<UntrainWorkersCommand>();
             var player = _repository.Get(command.Email);

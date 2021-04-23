@@ -7,7 +7,6 @@ using WarOfEmpires.Repositories.Players;
 
 namespace WarOfEmpires.CommandHandlers.Alliances {
     [ScopedServiceImplementation(typeof(ICommandHandler<CreateAllianceCommand>))]
-    [Audit]
     public sealed class CreateAllianceCommandHandler : ICommandHandler<CreateAllianceCommand> {
         private readonly IPlayerRepository _playerRepository;
         private readonly IAllianceRepository _allianceRepository;
@@ -17,6 +16,7 @@ namespace WarOfEmpires.CommandHandlers.Alliances {
             _allianceRepository = allianceRepository;
         }
 
+        [Audit]
         public CommandResult<CreateAllianceCommand> Execute(CreateAllianceCommand command) {
             var result = new CommandResult<CreateAllianceCommand>();
             var player = _playerRepository.Get(command.Email);

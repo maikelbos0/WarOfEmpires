@@ -5,7 +5,6 @@ using WarOfEmpires.Repositories.Players;
 
 namespace WarOfEmpires.CommandHandlers.Empires {
     [ScopedServiceImplementation(typeof(ICommandHandler<RecruitCommand>))]
-    [Audit]
     public sealed class RecruitCommandHandler : ICommandHandler<RecruitCommand> {
         private readonly IPlayerRepository _repository;
 
@@ -13,6 +12,7 @@ namespace WarOfEmpires.CommandHandlers.Empires {
             _repository = repository;
         }
 
+        [Audit]
         public CommandResult<RecruitCommand> Execute(RecruitCommand command) {
             var result = new CommandResult<RecruitCommand>();
 

@@ -7,7 +7,6 @@ using WarOfEmpires.Repositories.Alliances;
 
 namespace WarOfEmpires.CommandHandlers.Alliances {
     [ScopedServiceImplementation(typeof(ICommandHandler<TransferLeadershipCommand>))]
-    [Audit]
     public sealed class TransferLeadershipCommandHandler : ICommandHandler<TransferLeadershipCommand> {
         private readonly IAllianceRepository _repository;
 
@@ -15,6 +14,7 @@ namespace WarOfEmpires.CommandHandlers.Alliances {
             _repository = repository;
         }
 
+        [Audit]
         public CommandResult<TransferLeadershipCommand> Execute(TransferLeadershipCommand command) {
             var result = new CommandResult<TransferLeadershipCommand>();
             var alliance = _repository.Get(command.Email);

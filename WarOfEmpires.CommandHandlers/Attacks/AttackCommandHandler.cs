@@ -8,7 +8,6 @@ using WarOfEmpires.Repositories.Players;
 
 namespace WarOfEmpires.CommandHandlers.Attacks {
     [ScopedServiceImplementation(typeof(ICommandHandler<AttackCommand>))]
-    [Audit]
     public sealed class AttackCommandHandler : ICommandHandler<AttackCommand> {
         private readonly IPlayerRepository _repository;
 
@@ -16,6 +15,7 @@ namespace WarOfEmpires.CommandHandlers.Attacks {
             _repository = repository;
         }
 
+        [Audit]
         public CommandResult<AttackCommand> Execute(AttackCommand command) {
             var result = new CommandResult<AttackCommand>();
             var type = (AttackType)Enum.Parse(typeof(AttackType), command.AttackType);

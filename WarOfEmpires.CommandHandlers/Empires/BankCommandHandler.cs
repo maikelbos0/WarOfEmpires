@@ -5,7 +5,6 @@ using WarOfEmpires.Repositories.Players;
 
 namespace WarOfEmpires.CommandHandlers.Empires {
     [ScopedServiceImplementation(typeof(ICommandHandler<BankCommand>))]
-    [Audit]
     public sealed class BankCommandHandler : ICommandHandler<BankCommand> {
         private readonly IPlayerRepository _repository;
 
@@ -13,6 +12,7 @@ namespace WarOfEmpires.CommandHandlers.Empires {
             _repository = repository;
         }
 
+        [Audit]
         public CommandResult<BankCommand> Execute(BankCommand command) {
             var result = new CommandResult<BankCommand>();
             var player = _repository.Get(command.Email);

@@ -7,7 +7,6 @@ using WarOfEmpires.Repositories.Players;
 
 namespace WarOfEmpires.CommandHandlers.Empires {
     [ScopedServiceImplementation(typeof(ICommandHandler<HealTroopsCommand>))]
-    [Audit]
     public sealed class HealTroopsCommandHandler : ICommandHandler<HealTroopsCommand> {
         private readonly IPlayerRepository _repository;
 
@@ -15,6 +14,7 @@ namespace WarOfEmpires.CommandHandlers.Empires {
             _repository = repository;
         }
 
+        [Audit]
         public CommandResult<HealTroopsCommand> Execute(HealTroopsCommand command) {
             var result = new CommandResult<HealTroopsCommand>();
             var player = _repository.Get(command.Email);

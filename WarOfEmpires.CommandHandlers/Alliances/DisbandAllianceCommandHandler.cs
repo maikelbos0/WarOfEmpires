@@ -5,7 +5,6 @@ using WarOfEmpires.Repositories.Alliances;
 
 namespace WarOfEmpires.CommandHandlers.Alliances {
     [ScopedServiceImplementation(typeof(ICommandHandler<DisbandAllianceCommand>))]
-    [Audit]
     public sealed class DisbandAllianceCommandHandler : ICommandHandler<DisbandAllianceCommand> {
         private readonly IAllianceRepository _repository;
 
@@ -13,6 +12,7 @@ namespace WarOfEmpires.CommandHandlers.Alliances {
             _repository = repository;
         }
 
+        [Audit]
         public CommandResult<DisbandAllianceCommand> Execute(DisbandAllianceCommand command) {
             var result = new CommandResult<DisbandAllianceCommand>();
             var alliance = _repository.Get(command.Email);

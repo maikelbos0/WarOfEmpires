@@ -6,7 +6,6 @@ using WarOfEmpires.Repositories.Alliances;
 
 namespace WarOfEmpires.CommandHandlers.Alliances {
     [ScopedServiceImplementation(typeof(ICommandHandler<WithdrawInviteCommand>))]
-    [Audit]
     public sealed class WithdrawInviteCommandHandler : ICommandHandler<WithdrawInviteCommand> {
         private readonly IAllianceRepository _repository;
 
@@ -14,6 +13,7 @@ namespace WarOfEmpires.CommandHandlers.Alliances {
             _repository = repository;
         }
 
+        [Audit]
         public CommandResult<WithdrawInviteCommand> Execute(WithdrawInviteCommand command) {
             var result = new CommandResult<WithdrawInviteCommand>();
             var alliance = _repository.Get(command.Email);

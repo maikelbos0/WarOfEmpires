@@ -7,7 +7,6 @@ using WarOfEmpires.Repositories.Events;
 using WarOfEmpires.Utilities.Events;
 
 namespace WarOfEmpires.CommandHandlers.Events {
-    [Audit]
     [ScopedServiceImplementation(typeof(ICommandHandler<RunScheduledTasksCommand>))]
     public sealed class RunScheduledTasksCommandHandler : ICommandHandler<RunScheduledTasksCommand> {
         private readonly IScheduledTaskRepository _repository;
@@ -18,6 +17,7 @@ namespace WarOfEmpires.CommandHandlers.Events {
             _eventService = eventService;
         }
 
+        [Audit]
         public CommandResult<RunScheduledTasksCommand> Execute(RunScheduledTasksCommand command) {
             var result = new CommandResult<RunScheduledTasksCommand>();
 

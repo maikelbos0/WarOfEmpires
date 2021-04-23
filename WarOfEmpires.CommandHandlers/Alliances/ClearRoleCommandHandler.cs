@@ -6,7 +6,6 @@ using WarOfEmpires.Repositories.Alliances;
 
 namespace WarOfEmpires.CommandHandlers.Alliances {
     [ScopedServiceImplementation(typeof(ICommandHandler<ClearRoleCommand>))]
-    [Audit]
     public sealed class ClearRoleCommandHandler : ICommandHandler<ClearRoleCommand> {
         private readonly IAllianceRepository _repository;
 
@@ -14,6 +13,7 @@ namespace WarOfEmpires.CommandHandlers.Alliances {
             _repository = repository;
         }
 
+        [Audit]
         public CommandResult<ClearRoleCommand> Execute(ClearRoleCommand command) {
             var result = new CommandResult<ClearRoleCommand>();
             var alliance = _repository.Get(command.Email);

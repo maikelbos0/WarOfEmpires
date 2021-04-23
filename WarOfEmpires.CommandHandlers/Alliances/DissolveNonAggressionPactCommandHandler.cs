@@ -6,7 +6,6 @@ using WarOfEmpires.Repositories.Alliances;
 
 namespace WarOfEmpires.CommandHandlers.Alliances {
     [ScopedServiceImplementation(typeof(ICommandHandler<DissolveNonAggressionPactCommand>))]
-    [Audit]
     public sealed class DissolveNonAggressionPactCommandHandler : ICommandHandler<DissolveNonAggressionPactCommand> {
         private readonly IAllianceRepository _repository;
 
@@ -14,6 +13,7 @@ namespace WarOfEmpires.CommandHandlers.Alliances {
             _repository = repository;
         }
 
+        [Audit]
         public CommandResult<DissolveNonAggressionPactCommand> Execute(DissolveNonAggressionPactCommand command) {
             var result = new CommandResult<DissolveNonAggressionPactCommand>();
             var alliance = _repository.Get(command.Email);

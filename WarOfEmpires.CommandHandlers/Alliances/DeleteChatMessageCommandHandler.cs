@@ -6,7 +6,6 @@ using WarOfEmpires.Repositories.Alliances;
 
 namespace WarOfEmpires.CommandHandlers.Alliances {
     [ScopedServiceImplementation(typeof(ICommandHandler<DeleteChatMessageCommand>))]
-    [Audit]
     public sealed class DeleteChatMessageCommandHandler : ICommandHandler<DeleteChatMessageCommand> {
         private readonly IAllianceRepository _repository;
 
@@ -14,6 +13,7 @@ namespace WarOfEmpires.CommandHandlers.Alliances {
             _repository = repository;
         }
 
+        [Audit]
         public CommandResult<DeleteChatMessageCommand> Execute(DeleteChatMessageCommand command) {
             var result = new CommandResult<DeleteChatMessageCommand>();
             var alliance = _repository.Get(command.Email);

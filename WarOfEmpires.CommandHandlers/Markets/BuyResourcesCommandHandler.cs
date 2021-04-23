@@ -11,7 +11,6 @@ using WarOfEmpires.Utilities.Formatting;
 
 namespace WarOfEmpires.CommandHandlers.Markets {
     [ScopedServiceImplementation(typeof(ICommandHandler<BuyResourcesCommand>))]
-    [Audit]
     public sealed class BuyResourcesCommandHandler : ICommandHandler<BuyResourcesCommand> {
         private readonly IPlayerRepository _repository;
         private readonly EnumFormatter _formatter;
@@ -21,6 +20,7 @@ namespace WarOfEmpires.CommandHandlers.Markets {
             _formatter = formatter;
         }
 
+        [Audit]
         public CommandResult<BuyResourcesCommand> Execute(BuyResourcesCommand command) {
             var result = new CommandResult<BuyResourcesCommand>();
             var merchandiseTotals = new List<MerchandiseTotals>();

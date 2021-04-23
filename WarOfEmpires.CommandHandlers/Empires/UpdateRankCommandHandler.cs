@@ -6,7 +6,6 @@ using WarOfEmpires.Repositories.Players;
 
 namespace WarOfEmpires.CommandHandlers.Empires {
     [ScopedServiceImplementation(typeof(ICommandHandler<UpdateRankCommand>))]
-    [Audit]
     public sealed class UpdateRankCommandHandler : ICommandHandler<UpdateRankCommand> {
         private readonly IPlayerRepository _repository;
         private readonly RankService _rankService;
@@ -16,6 +15,7 @@ namespace WarOfEmpires.CommandHandlers.Empires {
             _rankService = rankService;
         }
 
+        [Audit]
         public CommandResult<UpdateRankCommand> Execute(UpdateRankCommand command) {
             var result = new CommandResult<UpdateRankCommand>();
 

@@ -9,7 +9,6 @@ using WarOfEmpires.Utilities.Formatting;
 
 namespace WarOfEmpires.CommandHandlers.Empires {
     [ScopedServiceImplementation(typeof(ICommandHandler<DiscardSiegeCommand>))]
-    [Audit]
     public sealed class DiscardSiegeCommandHandler : ICommandHandler<DiscardSiegeCommand> {
         private readonly IPlayerRepository _repository;
         private readonly EnumFormatter _formatter;
@@ -19,6 +18,7 @@ namespace WarOfEmpires.CommandHandlers.Empires {
             _formatter = formatter;
         }
 
+        [Audit]
         public CommandResult<DiscardSiegeCommand> Execute(DiscardSiegeCommand command) {
             var result = new CommandResult<DiscardSiegeCommand>();
             var player = _repository.Get(command.Email);

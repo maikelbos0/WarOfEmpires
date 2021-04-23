@@ -26,6 +26,7 @@ namespace WarOfEmpires {
 
             var classFinder = new ClassFinder();
 
+            // TODO centralize
             foreach (var assembly in classFinder.FindAllAssemblies()) {
                 // TODO add decorations
                 services.AddAttributeServices(assembly);

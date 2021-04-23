@@ -10,7 +10,6 @@ using WarOfEmpires.Utilities.Linq;
 
 namespace WarOfEmpires.CommandHandlers.Empires {
     [ScopedServiceImplementation(typeof(ICommandHandler<TrainWorkersCommand>))]
-    [Audit]
     public sealed class TrainWorkersCommandHandler : ICommandHandler<TrainWorkersCommand> {
         private readonly IPlayerRepository _repository;
 
@@ -18,6 +17,7 @@ namespace WarOfEmpires.CommandHandlers.Empires {
             _repository = repository;
         }
 
+        [Audit]
         public CommandResult<TrainWorkersCommand> Execute(TrainWorkersCommand command) {
             var result = new CommandResult<TrainWorkersCommand>();
             var player = _repository.Get(command.Email);

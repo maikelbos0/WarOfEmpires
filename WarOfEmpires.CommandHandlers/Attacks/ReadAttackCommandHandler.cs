@@ -6,7 +6,6 @@ using WarOfEmpires.Repositories.Players;
 
 namespace WarOfEmpires.CommandHandlers.Attacks {
     [ScopedServiceImplementation(typeof(ICommandHandler<ReadAttackCommand>))]
-    [Audit]
     public sealed class ReadAttackCommandHandler : ICommandHandler<ReadAttackCommand> {
         private readonly IPlayerRepository _repository;
 
@@ -14,6 +13,7 @@ namespace WarOfEmpires.CommandHandlers.Attacks {
             _repository = repository;
         }
 
+        [Audit]
         public CommandResult<ReadAttackCommand> Execute(ReadAttackCommand command) {
             var result = new CommandResult<ReadAttackCommand>();
             var player = _repository.Get(command.Email);

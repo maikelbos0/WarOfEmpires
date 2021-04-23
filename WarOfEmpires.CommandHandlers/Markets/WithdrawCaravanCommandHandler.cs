@@ -6,7 +6,6 @@ using WarOfEmpires.Repositories.Players;
 
 namespace WarOfEmpires.CommandHandlers.Markets {
     [ScopedServiceImplementation(typeof(ICommandHandler<WithdrawCaravanCommand>))]
-    [Audit]
     public sealed class WithdrawCaravanCommandHandler : ICommandHandler<WithdrawCaravanCommand> {
         private readonly IPlayerRepository _repository;
 
@@ -14,6 +13,7 @@ namespace WarOfEmpires.CommandHandlers.Markets {
             _repository = repository;
         }
 
+        [Audit]
         public CommandResult<WithdrawCaravanCommand> Execute(WithdrawCaravanCommand command) {
             var result = new CommandResult<WithdrawCaravanCommand>();
             var player = _repository.Get(command.Email);

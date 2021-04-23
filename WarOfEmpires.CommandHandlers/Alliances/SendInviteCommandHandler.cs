@@ -6,7 +6,6 @@ using WarOfEmpires.Repositories.Players;
 
 namespace WarOfEmpires.CommandHandlers.Alliances {
     [ScopedServiceImplementation(typeof(ICommandHandler<SendInviteCommand>))]
-    [Audit]
     public sealed class SendInviteCommandHandler : ICommandHandler<SendInviteCommand> {
         private readonly IPlayerRepository _repository;
 
@@ -14,6 +13,7 @@ namespace WarOfEmpires.CommandHandlers.Alliances {
             _repository = repository;
         }
 
+        [Audit]
         public CommandResult<SendInviteCommand> Execute(SendInviteCommand command) {
             var result = new CommandResult<SendInviteCommand>();
             var player = _repository.Get(command.PlayerId);

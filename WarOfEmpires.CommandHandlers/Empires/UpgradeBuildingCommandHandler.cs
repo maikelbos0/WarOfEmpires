@@ -8,7 +8,6 @@ using WarOfEmpires.Repositories.Players;
 
 namespace WarOfEmpires.CommandHandlers.Empires {
     [ScopedServiceImplementation(typeof(ICommandHandler<UpgradeBuildingCommand>))]
-    [Audit]
     public sealed class UpgradeBuildingCommandHandler : ICommandHandler<UpgradeBuildingCommand> {
         private readonly IPlayerRepository _repository;
 
@@ -16,6 +15,7 @@ namespace WarOfEmpires.CommandHandlers.Empires {
             _repository = repository;
         }
 
+        [Audit]
         public CommandResult<UpgradeBuildingCommand> Execute(UpgradeBuildingCommand command) {
             var result = new CommandResult<UpgradeBuildingCommand>();
             var player = _repository.Get(command.Email);

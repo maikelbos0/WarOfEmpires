@@ -5,7 +5,6 @@ using WarOfEmpires.Repositories.Players;
 
 namespace WarOfEmpires.CommandHandlers.Empires {
     [ScopedServiceImplementation(typeof(ICommandHandler<ProcessTurnCommand>))]
-    [Audit]
     public sealed class ProcessTurnCommandHandler : ICommandHandler<ProcessTurnCommand> {
         private readonly IPlayerRepository _repository;
 
@@ -13,6 +12,7 @@ namespace WarOfEmpires.CommandHandlers.Empires {
             _repository = repository;
         }
 
+        [Audit]
         public CommandResult<ProcessTurnCommand> Execute(ProcessTurnCommand command) {
             var result = new CommandResult<ProcessTurnCommand>();
 

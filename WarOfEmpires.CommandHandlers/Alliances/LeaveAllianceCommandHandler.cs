@@ -6,7 +6,6 @@ using WarOfEmpires.Repositories.Players;
 
 namespace WarOfEmpires.CommandHandlers.Alliances {
     [ScopedServiceImplementation(typeof(ICommandHandler<LeaveAllianceCommand>))]
-    [Audit]
     public sealed class LeaveAllianceCommandHandler : ICommandHandler<LeaveAllianceCommand> {
         private readonly IPlayerRepository _repository;
 
@@ -14,6 +13,7 @@ namespace WarOfEmpires.CommandHandlers.Alliances {
             _repository = repository;
         }
 
+        [Audit]
         public CommandResult<LeaveAllianceCommand> Execute(LeaveAllianceCommand command) {
             var result = new CommandResult<LeaveAllianceCommand>();
             var player = _repository.Get(command.Email);

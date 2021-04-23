@@ -5,7 +5,6 @@ using WarOfEmpires.Repositories.Players;
 
 namespace WarOfEmpires.CommandHandlers.Empires {
     [ScopedServiceImplementation(typeof(ICommandHandler<SetTaxCommand>))]
-    [Audit]
     public sealed class SetTaxCommandHandler : ICommandHandler<SetTaxCommand> {
         private readonly IPlayerRepository _repository;
 
@@ -13,6 +12,7 @@ namespace WarOfEmpires.CommandHandlers.Empires {
             _repository = repository;
         }
 
+        [Audit]
         public CommandResult<SetTaxCommand> Execute(SetTaxCommand command) {
             var result = new CommandResult<SetTaxCommand>();
             var player = _repository.Get(command.Email);
