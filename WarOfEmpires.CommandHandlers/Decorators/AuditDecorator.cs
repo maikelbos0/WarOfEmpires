@@ -7,7 +7,7 @@ using WarOfEmpires.Utilities.Serialization;
 
 namespace WarOfEmpires.CommandHandlers.Decorators {
     [ScopedService(typeof(AuditDecorator))]
-    internal sealed class AuditDecorator : IDecorator {
+    public sealed class AuditDecorator : IDecorator {
         private readonly ICommandExecutionRepository _repository;
         private readonly ISerializer _serializer;
         private Stopwatch _stopwatch;

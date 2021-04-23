@@ -7,6 +7,8 @@ using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Linq;
+using Microsoft.Extensions.DependencyInjection;
+using VDT.Core.DependencyInjection.Decorators;
 
 namespace WarOfEmpires.CommandHandlers.Tests.Decorators {
     [TestClass]
@@ -20,12 +22,9 @@ namespace WarOfEmpires.CommandHandlers.Tests.Decorators {
         }
 
         public sealed class TestCommandHandler : ICommandHandler<TestCommand> {
+            [Audit]
             public CommandResult<TestCommand> Execute(TestCommand command) {
-                var result = new CommandResult<TestCommand>();
-
-                result.AddError("Error success");
-
-                return result;
+                return new CommandResult<TestCommand>();
             }
         }
 
@@ -33,14 +32,16 @@ namespace WarOfEmpires.CommandHandlers.Tests.Decorators {
         public void AuditDecorator_Succeeds() {
             var context = new FakeWarContext();
             var serializer = new Serializer();
-
-            var commandHandler = new TestCommandHandler();
             var command = new TestCommand("Value");
-            var decorator = new AuditDecorator<TestCommand>(new CommandExecutionRepository(context), new Serializer()) {
-                Handler = commandHandler
-            };
+            var commandHandler = new ServiceCollection()
+                .AddScoped<ICommandExecutionRepository>(serviceProvider => new CommandExecutionRepository(context))
+                .AddScoped<ISerializer, Serializer>()
+                .AddScoped<AuditDecorator>()
+                .AddScoped<ICommandHandler<TestCommand>, TestCommandHandler>(options => options.AddAttributeDecorators())
+                .BuildServiceProvider()
+                .GetRequiredService<ICommandHandler<TestCommand>>();
 
-            decorator.Execute(command);
+            commandHandler.Execute(command);
 
             context.CommandExecutions.Should().HaveCount(1);
             context.CommandExecutions.First().Date.Should().BeCloseTo(DateTime.UtcNow, 1000);
@@ -48,19 +49,6 @@ namespace WarOfEmpires.CommandHandlers.Tests.Decorators {
             context.CommandExecutions.First().CommandData.Should().Be(serializer.SerializeToJson(command));
             context.CommandExecutions.First().ElapsedMilliseconds.Should().BeInRange(0, 1000);
             context.CallsToSaveChanges.Should().Be(1);
-        }
-
-        [TestMethod]
-        public void AuditDecorator_Calls_Command() {
-            var commandHandler = new TestCommandHandler();
-            var command = new TestCommand("Value");
-            var decorator = new AuditDecorator<TestCommand>(new CommandExecutionRepository(new FakeWarContext()), new Serializer()) {
-                Handler = commandHandler
-            };
-
-            var result = decorator.Execute(command);
-
-            result.Should().HaveError("Error success");
         }
     }
 }
