@@ -25,7 +25,7 @@ namespace WarOfEmpires.CommandHandlers.Markets {
             var result = new CommandResult<SellResourcesCommand>();
             var merchandiseTotals = new List<MerchandiseTotals>();
             var player = _repository.Get(command.Email);
-            var availableMerchants = player.GetWorkerCount(WorkerType.Merchants) - player.Caravans.Count();
+            var availableMerchants = player.GetWorkerCount(WorkerType.Merchants) - player.Caravans.Count;
             var caravanCapacity = player.GetBuildingBonus(BuildingType.Market);
 
             for (var index = 0; index < command.Merchandise.Count; index++) {

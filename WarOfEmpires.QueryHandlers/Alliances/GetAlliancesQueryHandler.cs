@@ -39,7 +39,7 @@ namespace WarOfEmpires.QueryHandlers.Alliances {
                     Status = a.Id == currentAllianceId ? "Mine" : a.NonAggressionPacts.Any(p => p.Alliances.Any(pa => pa.Id == currentAllianceId)) ? "Pact" : null,
                     Code = a.Code,
                     Name = a.Name,
-                    Members = a.Members.Count(),
+                    Members = a.Members.Count,
                     Leader = a.Leader.DisplayName
                 })
                 .ToList();
