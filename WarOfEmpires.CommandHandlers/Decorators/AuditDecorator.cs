@@ -1,29 +1,32 @@
 using System.Diagnostics;
-using WarOfEmpires.Commands;
+using VDT.Core.DependencyInjection;
+using VDT.Core.DependencyInjection.Decorators;
 using WarOfEmpires.Domain.Auditing;
 using WarOfEmpires.Repositories.Auditing;
-using WarOfEmpires.Utilities.Container;
 using WarOfEmpires.Utilities.Serialization;
 
 namespace WarOfEmpires.CommandHandlers.Decorators {
-    public sealed class AuditDecorator<TCommand> : Decorator<ICommandHandler<TCommand>>, ICommandHandler<TCommand> where TCommand : ICommand {
+    [ScopedService(typeof(AuditDecorator))]
+    internal sealed class AuditDecorator : IDecorator {
         private readonly ICommandExecutionRepository _repository;
         private readonly ISerializer _serializer;
+        private Stopwatch _stopwatch;
 
         public AuditDecorator(ICommandExecutionRepository repository, ISerializer serializer) {
             _repository = repository;
             _serializer = serializer;
         }
 
-        public CommandResult<TCommand> Execute(TCommand command) {
-            var stopwatch = Stopwatch.StartNew();
-            var result = Handler.Execute(command);
+        void IDecorator.BeforeExecute(MethodExecutionContext context) {
+            _stopwatch = Stopwatch.StartNew();
+        }
 
-            stopwatch.Stop();
+        void IDecorator.AfterExecute(MethodExecutionContext context) {
+            _stopwatch.Stop();
 
-            _repository.Add(new CommandExecution(typeof(TCommand).FullName, _serializer.SerializeToJson(command), stopwatch.Elapsed.TotalMilliseconds));
-
-            return result;
+            if (context.Arguments.Length > 0 && context.Arguments[0] != null) {
+                _repository.Add(new CommandExecution(context.Arguments[0].GetType().FullName, _serializer.SerializeToJson(context.Arguments[0]), _stopwatch.Elapsed.TotalMilliseconds));
+            }
         }
     }
 }
