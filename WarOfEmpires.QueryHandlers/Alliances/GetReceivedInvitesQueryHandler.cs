@@ -9,13 +9,13 @@ using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Alliances {
     [ScopedServiceImplementation(typeof(IQueryHandler<GetReceivedInvitesQuery, IEnumerable<ReceivedInviteViewModel>>))]
-    [Audit]
     public sealed class GetReceivedInvitesQueryHandler : IQueryHandler<GetReceivedInvitesQuery, IEnumerable<ReceivedInviteViewModel>> {
         private readonly IWarContext _context;
         public GetReceivedInvitesQueryHandler(IWarContext context) {
             _context = context;
         }
 
+        [Audit]
         public IEnumerable<ReceivedInviteViewModel> Execute(GetReceivedInvitesQuery query) {
             return _context.Players
                 .Where(p => EmailComparisonService.Equals(p.User.Email, query.Email))

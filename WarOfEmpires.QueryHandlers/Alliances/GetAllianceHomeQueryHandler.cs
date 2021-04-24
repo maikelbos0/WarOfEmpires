@@ -11,7 +11,6 @@ using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Alliances {
     [ScopedServiceImplementation(typeof(IQueryHandler<GetAllianceHomeQuery, AllianceHomeViewModel>))]
-    [Audit]
     public sealed class GetAllianceHomeQueryHandler : IQueryHandler<GetAllianceHomeQuery, AllianceHomeViewModel> {
         private readonly IWarContext _context;
 
@@ -19,6 +18,7 @@ namespace WarOfEmpires.QueryHandlers.Alliances {
             _context = context;
         }
 
+        [Audit]
         public AllianceHomeViewModel Execute(GetAllianceHomeQuery query) {
             var alliance = _context.Players
                 .Include(p => p.Alliance.Leader)

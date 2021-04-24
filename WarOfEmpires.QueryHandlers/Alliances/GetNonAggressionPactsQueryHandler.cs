@@ -10,7 +10,6 @@ using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Alliances {
     [ScopedServiceImplementation(typeof(IQueryHandler<GetNonAggressionPactsQuery, IEnumerable<NonAggressionPactViewModel>>))]
-    [Audit]
     public sealed class GetNonAggressionPactsQueryHandler : IQueryHandler<GetNonAggressionPactsQuery, IEnumerable<NonAggressionPactViewModel>> {
         private readonly IWarContext _context;
 
@@ -18,6 +17,7 @@ namespace WarOfEmpires.QueryHandlers.Alliances {
             _context = context;
         }
 
+        [Audit]
         public IEnumerable<NonAggressionPactViewModel> Execute(GetNonAggressionPactsQuery query) {
             var alliance = _context.Players
                 .Include(p => p.Alliance.NonAggressionPacts.Select(n => n.Alliances))

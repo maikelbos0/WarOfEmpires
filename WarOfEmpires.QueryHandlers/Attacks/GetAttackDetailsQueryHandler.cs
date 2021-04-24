@@ -11,7 +11,6 @@ using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Attacks {
     [ScopedServiceImplementation(typeof(IQueryHandler<GetAttackDetailsQuery, AttackDetailsViewModel>))]
-    [Audit]
     public sealed class GetAttackDetailsQueryHandler : IQueryHandler<GetAttackDetailsQuery, AttackDetailsViewModel> {
         private readonly IWarContext _context;
         private readonly ResourcesMap _resourcesMap;
@@ -23,6 +22,7 @@ namespace WarOfEmpires.QueryHandlers.Attacks {
             _formatter = formatter;
         }
 
+        [Audit]
         public AttackDetailsViewModel Execute(GetAttackDetailsQuery query) {
             var attack = _context.Players
                 .Include(p => p.ReceivedAttacks.Select(a => a.Rounds.Select(r => r.Casualties)))

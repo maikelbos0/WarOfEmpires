@@ -11,7 +11,6 @@ using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Players {
     [ScopedServiceImplementation(typeof(IQueryHandler<GetPlayerDetailsQuery, PlayerDetailsViewModel>))]
-    [Audit]
     public sealed class GetPlayerDetailsQueryHandler : IQueryHandler<GetPlayerDetailsQuery, PlayerDetailsViewModel> {
         private readonly IWarContext _context;
         private readonly EnumFormatter _formatter;
@@ -21,6 +20,7 @@ namespace WarOfEmpires.QueryHandlers.Players {
             _context = context;
         }
 
+        [Audit]
         public PlayerDetailsViewModel Execute(GetPlayerDetailsQuery query) {
             var currentPlayer = _context.Players
                 .Include(p => p.Alliance)

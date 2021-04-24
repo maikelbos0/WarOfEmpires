@@ -11,7 +11,6 @@ using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Empires {
     [ScopedServiceImplementation(typeof(IQueryHandler<GetTaxQuery, TaxModel>))]
-    [Audit]
     public sealed class GetTaxQueryHandler : IQueryHandler<GetTaxQuery, TaxModel> {
         private readonly IWarContext _context;
 
@@ -19,6 +18,7 @@ namespace WarOfEmpires.QueryHandlers.Empires {
             _context = context;
         }
 
+        [Audit]
         public TaxModel Execute(GetTaxQuery query) {
             var player = _context.Players
                 .Include(p => p.Buildings)

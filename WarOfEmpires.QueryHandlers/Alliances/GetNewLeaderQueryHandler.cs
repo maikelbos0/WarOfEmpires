@@ -10,7 +10,6 @@ using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Alliances {
     [ScopedServiceImplementation(typeof(IQueryHandler<GetNewLeaderQuery, NewLeadersModel>))]
-    [Audit]
     public sealed class GetNewLeaderQueryHandler : IQueryHandler<GetNewLeaderQuery, NewLeadersModel> {
         private readonly IWarContext _context;
 
@@ -18,6 +17,7 @@ namespace WarOfEmpires.QueryHandlers.Alliances {
             _context = context;
         }
 
+        [Audit]
         public NewLeadersModel Execute(GetNewLeaderQuery query) {
             var alliance = _context.Players
                 .Include(p => p.Alliance.Members)

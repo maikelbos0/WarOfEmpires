@@ -8,7 +8,6 @@ using WarOfEmpires.QueryHandlers.Decorators;
 
 namespace WarOfEmpires.QueryHandlers.Alliances {
     [ScopedServiceImplementation(typeof(IQueryHandler<GetInvitePlayerQuery, SendInviteModel>))]
-    [Audit]
     public sealed class GetInvitePlayerQueryHandler : IQueryHandler<GetInvitePlayerQuery, SendInviteModel> {
         private readonly IWarContext _context;
 
@@ -16,6 +15,7 @@ namespace WarOfEmpires.QueryHandlers.Alliances {
             _context = context;
         }
 
+        [Audit]
         public SendInviteModel Execute(GetInvitePlayerQuery query) {
             var player = _context.Players
                 .Single(p => p.User.Status == UserStatus.Active && p.Id == query.PlayerId);

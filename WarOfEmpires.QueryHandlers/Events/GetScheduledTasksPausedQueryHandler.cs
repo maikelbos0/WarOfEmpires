@@ -6,7 +6,6 @@ using WarOfEmpires.QueryHandlers.Decorators;
 
 namespace WarOfEmpires.QueryHandlers.Events {
     [ScopedServiceImplementation(typeof(IQueryHandler<GetScheduledTasksPausedQuery, bool?>))]
-    [Audit]
     public sealed class GetScheduledTasksPausedQueryHandler : IQueryHandler<GetScheduledTasksPausedQuery, bool?> {
         private readonly IWarContext _context;
 
@@ -14,6 +13,7 @@ namespace WarOfEmpires.QueryHandlers.Events {
             _context = context;
         }
 
+        [Audit]
         public bool? Execute(GetScheduledTasksPausedQuery query) {
             var taskPausedStatus = _context.ScheduledTasks.Select(t => t.IsPaused).Distinct().ToList();
 

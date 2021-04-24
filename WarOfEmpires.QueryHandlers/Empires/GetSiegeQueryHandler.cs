@@ -15,7 +15,6 @@ using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Empires {
     [ScopedServiceImplementation(typeof(IQueryHandler<GetSiegeQuery, SiegeModel>))]
-    [Audit]
     public class GetSiegeQueryHandler : IQueryHandler<GetSiegeQuery, SiegeModel> {
         private readonly IWarContext _context;
         private readonly ResourcesMap _resourcesMap;
@@ -27,6 +26,7 @@ namespace WarOfEmpires.QueryHandlers.Empires {
             _formatter = formatter;
         }
 
+        [Audit]
         public SiegeModel Execute(GetSiegeQuery query) {
             var player = _context.Players
                 .Include(p => p.SiegeWeapons)

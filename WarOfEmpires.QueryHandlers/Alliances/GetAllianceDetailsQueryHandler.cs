@@ -13,7 +13,6 @@ using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Alliances {
     [ScopedServiceImplementation(typeof(IQueryHandler<GetAllianceDetailsQuery, AllianceDetailsViewModel>))]
-    [Audit]
     public sealed class GetAllianceDetailsQueryHandler : IQueryHandler<GetAllianceDetailsQuery, AllianceDetailsViewModel> {
         private readonly IWarContext _context;
         private readonly EnumFormatter _formatter;
@@ -23,6 +22,7 @@ namespace WarOfEmpires.QueryHandlers.Alliances {
             _context = context;
         }
 
+        [Audit]
         public AllianceDetailsViewModel Execute(GetAllianceDetailsQuery query) {
             var nonAggressionPactAlliances = new List<Alliance>();
             var currentAlliance = _context.Players

@@ -9,7 +9,6 @@ using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Alliances {
     [ScopedServiceImplementation(typeof(IQueryHandler<GetNewRolePlayerQuery, NewRolePlayersModel>))]
-    [Audit]
     public sealed class GetNewRolePlayerQueryHandler : IQueryHandler<GetNewRolePlayerQuery, NewRolePlayersModel> {
         private readonly IWarContext _context;
 
@@ -17,6 +16,7 @@ namespace WarOfEmpires.QueryHandlers.Alliances {
             _context = context;
         }
 
+        [Audit]
         public NewRolePlayersModel Execute(GetNewRolePlayerQuery query) {
             var role = _context.Players
                 .Where(p => p.Alliance != null && EmailComparisonService.Equals(p.User.Email, query.Email))

@@ -9,7 +9,6 @@ using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Players {
     [ScopedServiceImplementation(typeof(IQueryHandler<GetCurrentPlayerQuery, CurrentPlayerViewModel>))]
-    [Audit]
     public sealed class GetCurrentPlayerQueryHandler : IQueryHandler<GetCurrentPlayerQuery, CurrentPlayerViewModel> {
         private readonly IWarContext _context;
 
@@ -17,6 +16,7 @@ namespace WarOfEmpires.QueryHandlers.Players {
             _context = context;
         }
 
+        [Audit]
         public CurrentPlayerViewModel Execute(GetCurrentPlayerQuery query) {
             var player = _context.Players
                 .Include(p => p.User)

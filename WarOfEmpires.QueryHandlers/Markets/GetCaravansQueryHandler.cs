@@ -11,7 +11,6 @@ using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Markets {
     [ScopedServiceImplementation(typeof(IQueryHandler<GetCaravansQuery, IEnumerable<CaravanViewModel>>))]
-    [Audit]
     public sealed class GetCaravansQueryHandler : IQueryHandler<GetCaravansQuery, IEnumerable<CaravanViewModel>> {
 
         private readonly IWarContext _context;
@@ -20,6 +19,7 @@ namespace WarOfEmpires.QueryHandlers.Markets {
             _context = context;
         }
 
+        [Audit]
         public IEnumerable<CaravanViewModel> Execute(GetCaravansQuery query) {
             var player = _context.Players
                 .Include(p => p.Caravans.Select(c => c.Merchandise))

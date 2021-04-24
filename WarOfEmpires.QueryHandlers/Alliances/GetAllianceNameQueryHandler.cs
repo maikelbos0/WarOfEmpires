@@ -8,7 +8,6 @@ using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Alliances {
     [ScopedServiceImplementation(typeof(IQueryHandler<GetAllianceNameQuery, string>))]
-    [Audit]
     public sealed class GetAllianceNameQueryHandler : IQueryHandler<GetAllianceNameQuery, string> {
         private readonly IWarContext _context;
 
@@ -16,6 +15,7 @@ namespace WarOfEmpires.QueryHandlers.Alliances {
             _context = context;
         }
 
+        [Audit]
         public string Execute(GetAllianceNameQuery query) {
             return _context.Players
                 .Include(p => p.Alliance)

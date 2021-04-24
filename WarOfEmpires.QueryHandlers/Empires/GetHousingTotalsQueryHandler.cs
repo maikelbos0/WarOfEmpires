@@ -10,7 +10,6 @@ using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Empires {
     [ScopedServiceImplementation(typeof(IQueryHandler<GetHousingTotalsQuery, HousingTotalsViewModel>))]
-    [Audit]
     public sealed class GetHousingTotalsQueryHandler : IQueryHandler<GetHousingTotalsQuery, HousingTotalsViewModel> {
         private readonly IWarContext _context;
 
@@ -18,6 +17,7 @@ namespace WarOfEmpires.QueryHandlers.Empires {
             _context = context;
         }
 
+        [Audit]
         public HousingTotalsViewModel Execute(GetHousingTotalsQuery query) {
             var player = _context.Players
                 .Include(p => p.Buildings)

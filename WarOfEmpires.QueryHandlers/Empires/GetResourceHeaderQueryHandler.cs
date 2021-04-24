@@ -9,7 +9,6 @@ using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Empires {
     [ScopedServiceImplementation(typeof(IQueryHandler<GetResourceHeaderQuery, ResourceHeaderViewModel>))]
-    [Audit]
     public sealed class GetResourceHeaderQueryHandler : IQueryHandler<GetResourceHeaderQuery, ResourceHeaderViewModel> {
         private readonly IWarContext _context;  
         private readonly ResourcesMap _resourcesMap;
@@ -19,6 +18,7 @@ namespace WarOfEmpires.QueryHandlers.Empires {
             _resourcesMap = resourcesMap;
         }
 
+        [Audit]
         public ResourceHeaderViewModel Execute(GetResourceHeaderQuery query) {
             var player = _context.Players
                 .Single(p => EmailComparisonService.Equals(p.User.Email, query.Email));

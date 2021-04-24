@@ -14,7 +14,6 @@ using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Empires {
     [ScopedServiceImplementation(typeof(IQueryHandler<GetTroopsQuery, TroopsModel>))]
-    [Audit]
     public sealed class GetTroopsQueryHandler : IQueryHandler<GetTroopsQuery, TroopsModel> {
         private readonly IWarContext _context;
         private readonly ResourcesMap _resourcesMap;
@@ -26,6 +25,7 @@ namespace WarOfEmpires.QueryHandlers.Empires {
             _formatter = formatter;
         }
 
+        [Audit]
         public TroopsModel Execute(GetTroopsQuery query) {
             var player = _context.Players
                 .Include(p => p.Troops)

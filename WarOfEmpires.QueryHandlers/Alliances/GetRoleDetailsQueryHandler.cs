@@ -10,7 +10,6 @@ using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Alliances {
     [ScopedServiceImplementation(typeof(IQueryHandler<GetRoleDetailsQuery, RoleDetailsViewModel>))]
-    [Audit]
     public sealed class GetRoleDetailsQueryHandler : IQueryHandler<GetRoleDetailsQuery, RoleDetailsViewModel> {
         private readonly IWarContext _context;
 
@@ -18,6 +17,7 @@ namespace WarOfEmpires.QueryHandlers.Alliances {
             _context = context;
         }
 
+        [Audit]
         public RoleDetailsViewModel Execute(GetRoleDetailsQuery query) {
             var role = _context.Players
                 .Include(p => p.Alliance.Roles.Select(r => r.Players.Select(rp => rp.User)))

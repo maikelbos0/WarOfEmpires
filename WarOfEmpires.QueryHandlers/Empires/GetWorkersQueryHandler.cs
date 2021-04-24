@@ -14,7 +14,6 @@ using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Empires {
     [ScopedServiceImplementation(typeof(IQueryHandler<GetWorkersQuery, WorkersModel>))]
-    [Audit]
     public sealed class GetWorkersQueryHandler : IQueryHandler<GetWorkersQuery, WorkersModel> {
         private readonly IWarContext _context;
         private readonly ResourcesMap _resourcesMap;
@@ -26,6 +25,7 @@ namespace WarOfEmpires.QueryHandlers.Empires {
             _formatter = formatter;
         }
 
+        [Audit]
         public WorkersModel Execute(GetWorkersQuery query) {
             var player = _context.Players
                 .Include(p => p.Buildings)

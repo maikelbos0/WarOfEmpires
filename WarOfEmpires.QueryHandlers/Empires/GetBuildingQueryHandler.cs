@@ -11,7 +11,6 @@ using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Empires {
     [ScopedServiceImplementation(typeof(IQueryHandler<GetBuildingQuery, BuildingModel>))]
-    [Audit]
     public sealed class GetBuildingQueryHandler : IQueryHandler<GetBuildingQuery, BuildingModel> {
         private readonly IWarContext _context;
         private readonly ResourcesMap _resourcesMap;
@@ -21,6 +20,7 @@ namespace WarOfEmpires.QueryHandlers.Empires {
             _resourcesMap = resourcesMap;
         }
 
+        [Audit]
         public BuildingModel Execute(GetBuildingQuery query) {
             var buildingType = (BuildingType)Enum.Parse(typeof(BuildingType), query.BuildingType);
             var buildingDefinition = BuildingDefinitionFactory.Get(buildingType);

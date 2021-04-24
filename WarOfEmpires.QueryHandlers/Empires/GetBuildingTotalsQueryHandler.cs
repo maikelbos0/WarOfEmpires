@@ -9,7 +9,6 @@ using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Empires {
     [ScopedServiceImplementation(typeof(IQueryHandler<GetBuildingTotalsQuery, BuildingTotalsViewModel>))]
-    [Audit]
     public sealed class GetBuildingTotalsQueryHandler : IQueryHandler<GetBuildingTotalsQuery, BuildingTotalsViewModel> {
         private readonly IWarContext _context;
 
@@ -17,6 +16,7 @@ namespace WarOfEmpires.QueryHandlers.Empires {
             _context = context;
         }
 
+        [Audit]
         public BuildingTotalsViewModel Execute(GetBuildingTotalsQuery query) {
             var player = _context.Players
                 .Single(p => EmailComparisonService.Equals(p.User.Email, query.Email));

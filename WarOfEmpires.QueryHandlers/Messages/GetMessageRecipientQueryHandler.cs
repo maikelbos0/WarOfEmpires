@@ -7,7 +7,6 @@ using WarOfEmpires.QueryHandlers.Decorators;
 
 namespace WarOfEmpires.QueryHandlers.Messages {
     [ScopedServiceImplementation(typeof(IQueryHandler<GetMessageRecipientQuery, MessageModel>))]
-    [Audit]
     public sealed class GetMessageRecipientQueryHandler : IQueryHandler<GetMessageRecipientQuery, MessageModel> {
 
         private readonly IWarContext _context;
@@ -16,6 +15,7 @@ namespace WarOfEmpires.QueryHandlers.Messages {
             _context = context;
         }
 
+        [Audit]
         public MessageModel Execute(GetMessageRecipientQuery query) {
             return _context.Players
                 .Select(p => new MessageModel() {

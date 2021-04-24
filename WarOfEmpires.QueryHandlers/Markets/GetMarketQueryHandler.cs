@@ -14,7 +14,6 @@ using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Markets {
     [ScopedServiceImplementation(typeof(IQueryHandler<GetMarketQuery, MarketModel>))]
-    [Audit]
     public sealed class GetMarketQueryHandler : IQueryHandler<GetMarketQuery, MarketModel> {
         private readonly IWarContext _context;
         private readonly EnumFormatter _formatter;
@@ -24,6 +23,7 @@ namespace WarOfEmpires.QueryHandlers.Markets {
             _formatter = formatter;
         }
 
+        [Audit]
         public MarketModel Execute(GetMarketQuery query) {
             var player = _context.Players
                 .Include(p => p.Workers)

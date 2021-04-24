@@ -9,7 +9,6 @@ using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Players {
     [ScopedServiceImplementation(typeof(IQueryHandler<GetNotificationsQuery, NotificationsViewModel>))]
-    [Audit]
     public sealed class GetNotificationsQueryHandler : IQueryHandler<GetNotificationsQuery, NotificationsViewModel> {
         private readonly IWarContext _context;
 
@@ -17,6 +16,7 @@ namespace WarOfEmpires.QueryHandlers.Players {
             _context = context;
         }
 
+        [Audit]
         public NotificationsViewModel Execute(GetNotificationsQuery query) {
             var player = _context.Players
                 .Include(p => p.ReceivedMessages)

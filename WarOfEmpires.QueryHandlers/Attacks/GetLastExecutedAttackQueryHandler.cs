@@ -7,7 +7,6 @@ using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Attacks {
     [ScopedServiceImplementation(typeof(IQueryHandler<GetLastExecutedAttackQuery, int>))]
-    [Audit]
     public sealed class GetLastExecutedAttackQueryHandler : IQueryHandler<GetLastExecutedAttackQuery, int> {
         private readonly IWarContext _context;
 
@@ -15,6 +14,7 @@ namespace WarOfEmpires.QueryHandlers.Attacks {
             _context = context;
         }
 
+        [Audit]
         public int Execute(GetLastExecutedAttackQuery query) {
             return _context.Players
                 .Where(p => EmailComparisonService.Equals(p.User.Email, query.Email))

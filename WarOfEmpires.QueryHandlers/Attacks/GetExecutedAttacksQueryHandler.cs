@@ -10,7 +10,6 @@ using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Attacks {
     [ScopedServiceImplementation(typeof(IQueryHandler<GetExecutedAttacksQuery, IEnumerable<ExecutedAttackViewModel>>))]
-    [Audit]
     public sealed class GetExecutedAttacksQueryHandler : IQueryHandler<GetExecutedAttacksQuery, IEnumerable<ExecutedAttackViewModel>> {
         private readonly IWarContext _context;
         private readonly EnumFormatter _formatter;
@@ -20,6 +19,7 @@ namespace WarOfEmpires.QueryHandlers.Attacks {
             _formatter = formatter;
         }
 
+        [Audit]
         public IEnumerable<ExecutedAttackViewModel> Execute(GetExecutedAttacksQuery query) {
             return _context.Players
                 .Where(p => EmailComparisonService.Equals(p.User.Email, query.Email))

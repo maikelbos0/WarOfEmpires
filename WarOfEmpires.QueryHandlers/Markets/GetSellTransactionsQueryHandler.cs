@@ -10,7 +10,6 @@ using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Markets {
     [ScopedServiceImplementation(typeof(IQueryHandler<GetSellTransactionsQuery, IEnumerable<TransactionViewModel>>))]
-    [Audit]
     public sealed class GetSellTransactionsQueryHandler : IQueryHandler<GetSellTransactionsQuery, IEnumerable<TransactionViewModel>> {
         private readonly IWarContext _context;
         private readonly EnumFormatter _formatter;
@@ -20,6 +19,7 @@ namespace WarOfEmpires.QueryHandlers.Markets {
             _formatter = formatter;
         }
 
+        [Audit]
         public IEnumerable<TransactionViewModel> Execute(GetSellTransactionsQuery query) {
             return _context.Players
                 .Where(p => EmailComparisonService.Equals(p.User.Email, query.Email))

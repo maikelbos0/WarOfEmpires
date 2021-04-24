@@ -8,7 +8,6 @@ using WarOfEmpires.QueryHandlers.Decorators;
 
 namespace WarOfEmpires.QueryHandlers.Attacks {
     [ScopedServiceImplementation(typeof(IQueryHandler<GetDefenderQuery, ExecuteAttackModel>))]
-    [Audit]
     public sealed class GetDefenderQueryHandler : IQueryHandler<GetDefenderQuery, ExecuteAttackModel> {
         private readonly IWarContext _context;
 
@@ -16,6 +15,7 @@ namespace WarOfEmpires.QueryHandlers.Attacks {
             _context = context;
         }
 
+        [Audit]
         public ExecuteAttackModel Execute(GetDefenderQuery query) {
             var player = _context.Players
                 .Single(p => p.User.Status == UserStatus.Active && p.Id == query.Id);
