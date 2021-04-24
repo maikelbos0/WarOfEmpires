@@ -1,8 +1,7 @@
-using WarOfEmpires.Utilities.Container;
+using System;
+using VDT.Core.DependencyInjection.Decorators;
 
 namespace WarOfEmpires.QueryHandlers.Decorators {
-    public sealed class AuditAttribute : DecoratorAttribute {
-        public AuditAttribute() : base(typeof(AuditDecorator<,>)) {
-        }
-    }
+    //[AttributeUsage(AttributeTargets.Method)]
+    public sealed class AuditAttribute : Attribute, IDecorateAttribute<AuditDecorator> { }
 }

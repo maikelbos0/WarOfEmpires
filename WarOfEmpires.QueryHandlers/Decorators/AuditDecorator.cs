@@ -1,31 +1,34 @@
-using WarOfEmpires.Queries;
 using WarOfEmpires.Domain.Auditing;
-using WarOfEmpires.Utilities.Container;
 using WarOfEmpires.Utilities.Serialization;
 using WarOfEmpires.Database;
 using System.Diagnostics;
+using VDT.Core.DependencyInjection.Decorators;
+using VDT.Core.DependencyInjection;
 
 namespace WarOfEmpires.QueryHandlers.Decorators {
-    public sealed class AuditDecorator<TQuery, TReturnValue> : Decorator<IQueryHandler<TQuery, TReturnValue>>, IQueryHandler<TQuery, TReturnValue> where TQuery : IQuery<TReturnValue> {
+    [ScopedService(typeof(AuditDecorator))]
+    public sealed class AuditDecorator : IDecorator {
         private readonly IWarContext _context;
         private readonly ISerializer _serializer;
+        private Stopwatch _stopwatch;
 
         public AuditDecorator(IWarContext context, ISerializer serializer) {
             _context = context;
             _serializer = serializer;
         }
 
-        public TReturnValue Execute(TQuery query) {
-            var stopwatch = Stopwatch.StartNew();
-            var result = Handler.Execute(query);
+        void IDecorator.BeforeExecute(MethodExecutionContext context) {
+            _stopwatch = Stopwatch.StartNew();
+        }
 
-            stopwatch.Stop();
+        void IDecorator.AfterExecute(MethodExecutionContext context) {
+            _stopwatch.Stop();
 
-            // Explicitly use the context to prevent having to use a repository
-            _context.QueryExecutions.Add(new QueryExecution(typeof(TQuery).FullName, _serializer.SerializeToJson(query), stopwatch.Elapsed.TotalMilliseconds));
-            _context.SaveChanges();
-
-            return result;
+            if (context.Arguments.Length > 0 && context.Arguments[0] != null) {
+                // Explicitly use the context to prevent having to use a repository
+                _context.QueryExecutions.Add(new QueryExecution(context.Arguments[0].GetType().FullName, _serializer.SerializeToJson(context.Arguments[0]), _stopwatch.Elapsed.TotalMilliseconds));
+                _context.SaveChanges();
+            }
         }
     }
 }

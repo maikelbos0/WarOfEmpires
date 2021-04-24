@@ -31,7 +31,6 @@ namespace WarOfEmpires.CommandHandlers.Tests.Decorators {
         [TestMethod]
         public void AuditDecorator_Succeeds() {
             var context = new FakeWarContext();
-            var serializer = new Serializer();
             var command = new TestCommand("Value");
             var commandHandler = new ServiceCollection()
                 .AddScoped<ICommandExecutionRepository>(serviceProvider => new CommandExecutionRepository(context))
@@ -46,7 +45,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Decorators {
             context.CommandExecutions.Should().HaveCount(1);
             context.CommandExecutions.First().Date.Should().BeCloseTo(DateTime.UtcNow, 1000);
             context.CommandExecutions.First().CommandType.Should().Be("WarOfEmpires.CommandHandlers.Tests.Decorators.AuditDecoratorTests+TestCommand");
-            context.CommandExecutions.First().CommandData.Should().Be(serializer.SerializeToJson(command));
+            context.CommandExecutions.First().CommandData.Should().Be("{\"Test\":\"Value\"}");
             context.CommandExecutions.First().ElapsedMilliseconds.Should().BeInRange(0, 1000);
             context.CallsToSaveChanges.Should().Be(1);
         }

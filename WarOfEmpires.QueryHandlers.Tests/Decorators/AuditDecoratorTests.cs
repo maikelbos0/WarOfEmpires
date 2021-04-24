@@ -1,11 +1,14 @@
-using WarOfEmpires.QueryHandlers.Decorators;
-using WarOfEmpires.Queries;
-using WarOfEmpires.Test.Utilities;
-using WarOfEmpires.Utilities.Serialization;
 using FluentAssertions;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Linq;
+using VDT.Core.DependencyInjection.Decorators;
+using WarOfEmpires.Database;
+using WarOfEmpires.Queries;
+using WarOfEmpires.QueryHandlers.Decorators;
+using WarOfEmpires.Test.Utilities;
+using WarOfEmpires.Utilities.Serialization;
 
 namespace WarOfEmpires.QueryHandlers.Tests.Decorators {
     [TestClass]
@@ -19,6 +22,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Decorators {
         }
 
         public sealed class TestQueryHandler : IQueryHandler<TestQuery, string> {
+            [Audit]
             public string Execute(TestQuery query) {
                 return "Result";
             }
@@ -27,14 +31,16 @@ namespace WarOfEmpires.QueryHandlers.Tests.Decorators {
         [TestMethod]
         public void AuditDecorator_Succeeds() {
             var context = new FakeWarContext();
-
-            var queryHandler = new TestQueryHandler();
             var query = new TestQuery("Value");
-            var decorator = new AuditDecorator<TestQuery, string>(context, new Serializer()) {
-                Handler = queryHandler
-            };
+            var queryHandler = new ServiceCollection()
+                .AddSingleton<IWarContext>(context)
+                .AddScoped<ISerializer, Serializer>()
+                .AddScoped<AuditDecorator>()
+                .AddScoped<IQueryHandler<TestQuery, string>, TestQueryHandler>(options => options.AddAttributeDecorators())
+                .BuildServiceProvider()
+                .GetRequiredService<IQueryHandler<TestQuery, string>>();
 
-            decorator.Execute(query);
+            queryHandler.Execute(query);
 
             context.QueryExecutions.Should().HaveCount(1);
             context.QueryExecutions.First().Date.Should().BeCloseTo(DateTime.UtcNow, 1000);
@@ -42,19 +48,6 @@ namespace WarOfEmpires.QueryHandlers.Tests.Decorators {
             context.QueryExecutions.First().QueryData.Should().Be("{\"Test\":\"Value\"}");
             context.QueryExecutions.First().ElapsedMilliseconds.Should().BeInRange(0, 1000);
             context.CallsToSaveChanges.Should().Be(1);
-        }
-
-        [TestMethod]
-        public void AuditDecorator_Calls_Query() {
-            var queryHandler = new TestQueryHandler();
-            var query = new TestQuery("Value");
-            var decorator = new AuditDecorator<TestQuery, string>(new FakeWarContext(), new Serializer()) {
-                Handler = queryHandler
-            };
-
-            var result = decorator.Execute(query);
-
-            result.Should().Be("Result");
         }
     }
 }
