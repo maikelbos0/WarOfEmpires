@@ -10,7 +10,6 @@
     <ProjectReference Include="..\WarOfEmpires.Utilities\WarOfEmpires.Utilities.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Unity.Abstractions" Version="5.11.6" />
     <PackageReference Include="VDT.Core.DependencyInjection" Version="1.2.0" />
   </ItemGroup>
 </Project>
