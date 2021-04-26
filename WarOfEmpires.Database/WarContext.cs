@@ -276,6 +276,7 @@ namespace WarOfEmpires.Database {
             userEventTypes.HasKey(t => t.Id);
             userEventTypes.HasMany(t => t.UserEvents).WithOne().IsRequired().HasForeignKey(e => e.Type);
             userEventTypes.Property(t => t.Name).IsRequired();
+            userEventTypes.HasData(ReferenceEntityExtensions.GetValues<Security.UserEventType, UserEventTypeEntity>());
 
             var userStatus = modelBuilder.Entity<UserStatusEntity>().ToTable("UserStatus", "Security");
             userStatus.HasKey(s => s.Id);

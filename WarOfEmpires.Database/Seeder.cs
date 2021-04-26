@@ -13,7 +13,6 @@ using Siege = WarOfEmpires.Domain.Siege;
 namespace WarOfEmpires.Database {
     public sealed class Seeder {
         public void Seed(WarContext context) {
-            SeedEntityType<Security.UserEventType, UserEventTypeEntity>(context);
             SeedEntityType<Empires.BuildingType, BuildingTypeEntity>(context);
             SeedEntityType<Security.UserStatus, UserStatusEntity>(context);
             SeedEntityType<Empires.WorkerType, WorkerTypeEntity>(context);
