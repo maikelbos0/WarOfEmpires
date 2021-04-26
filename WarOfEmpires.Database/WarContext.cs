@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using VDT.Core.DependencyInjection;
@@ -16,16 +17,6 @@ using Siege = WarOfEmpires.Domain.Siege;
 namespace WarOfEmpires.Database {
     [ScopedServiceImplementation(typeof(IWarContext))]
     public sealed class WarContext : DbContext, IWarContext {
-        // TODO make sure the database gets created
-        //static WarContext() {
-        //    // Create database
-        //    using (var context = new WarContext()) {
-        //        context.Database.EnsureCreated();
-
-        //        new Seeder().Seed(context);
-        //    }
-        //}
-
         public DbSet<Security.User> Users { get; set; }
         public DbSet<Auditing.CommandExecution> CommandExecutions { get; set; }
         public DbSet<Auditing.QueryExecution> QueryExecutions { get; set; }
@@ -214,8 +205,11 @@ namespace WarOfEmpires.Database {
             alliances.HasMany(a => a.Members).WithOne(p => p.Alliance);
             alliances.HasMany(a => a.Invites).WithOne(i => i.Alliance).IsRequired();
             alliances.HasMany(a => a.Roles).WithOne(r => r.Alliance).IsRequired();
-            // TODO rework many to many
-            //alliances.HasMany(a => a.NonAggressionPacts).WithMany(p => p.Alliances).Map(p => p.ToTable("AllianceNonAggressionPacts", "Alliances"));
+            alliances.HasMany(a => a.NonAggressionPacts).WithMany(p => p.Alliances).UsingEntity<Dictionary<string, object>>(
+                "AllianceNonAggressionPacts",
+                n => n.HasOne<Alliances.NonAggressionPact>().WithMany().HasForeignKey("NonAggressionPactId"),
+                n => n.HasOne<Alliances.Alliance>().WithMany().HasForeignKey("AllianceId")
+            ).ToTable("AllianceNonAggressionPacts", "Alliances");
             alliances.HasMany(a => a.SentNonAggressionPactRequests).WithOne(r => r.Sender).IsRequired().OnDelete(DeleteBehavior.NoAction);
             alliances.HasMany(a => a.ReceivedNonAggressionPactRequests).WithOne(r => r.Recipient).IsRequired();
             alliances.HasMany(a => a.ChatMessages).WithOne().IsRequired();

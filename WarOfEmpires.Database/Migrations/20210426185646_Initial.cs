@@ -301,19 +301,19 @@ namespace WarOfEmpires.Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AllianceNonAggressionPact",
+                name: "AllianceNonAggressionPacts",
                 schema: "Alliances",
                 columns: table => new
                 {
-                    AlliancesId = table.Column<int>(type: "int", nullable: false),
-                    NonAggressionPactsId = table.Column<int>(type: "int", nullable: false)
+                    AllianceId = table.Column<int>(type: "int", nullable: false),
+                    NonAggressionPactId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AllianceNonAggressionPact", x => new { x.AlliancesId, x.NonAggressionPactsId });
+                    table.PrimaryKey("PK_AllianceNonAggressionPacts", x => new { x.AllianceId, x.NonAggressionPactId });
                     table.ForeignKey(
-                        name: "FK_AllianceNonAggressionPact_NonAggressionPacts_NonAggressionPactsId",
-                        column: x => x.NonAggressionPactsId,
+                        name: "FK_AllianceNonAggressionPacts_NonAggressionPacts_NonAggressionPactId",
+                        column: x => x.NonAggressionPactId,
                         principalSchema: "Alliances",
                         principalTable: "NonAggressionPacts",
                         principalColumn: "Id",
@@ -820,10 +820,10 @@ namespace WarOfEmpires.Database.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_AllianceNonAggressionPact_NonAggressionPactsId",
+                name: "IX_AllianceNonAggressionPacts_NonAggressionPactId",
                 schema: "Alliances",
-                table: "AllianceNonAggressionPact",
-                column: "NonAggressionPactsId");
+                table: "AllianceNonAggressionPacts",
+                column: "NonAggressionPactId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Alliances_LeaderId",
@@ -1061,10 +1061,10 @@ namespace WarOfEmpires.Database.Migrations
                 column: "Type");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_AllianceNonAggressionPact_Alliances_AlliancesId",
+                name: "FK_AllianceNonAggressionPacts_Alliances_AllianceId",
                 schema: "Alliances",
-                table: "AllianceNonAggressionPact",
-                column: "AlliancesId",
+                table: "AllianceNonAggressionPacts",
+                column: "AllianceId",
                 principalSchema: "Alliances",
                 principalTable: "Alliances",
                 principalColumn: "Id",
@@ -1162,7 +1162,7 @@ namespace WarOfEmpires.Database.Migrations
                 table: "Roles");
 
             migrationBuilder.DropTable(
-                name: "AllianceNonAggressionPact",
+                name: "AllianceNonAggressionPacts",
                 schema: "Alliances");
 
             migrationBuilder.DropTable(

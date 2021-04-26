@@ -19,19 +19,19 @@ namespace WarOfEmpires.Database.Migrations
                 .HasAnnotation("ProductVersion", "5.0.5")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("AllianceNonAggressionPact", b =>
+            modelBuilder.Entity("AllianceNonAggressionPacts", b =>
                 {
-                    b.Property<int>("AlliancesId")
+                    b.Property<int>("AllianceId")
                         .HasColumnType("int");
 
-                    b.Property<int>("NonAggressionPactsId")
+                    b.Property<int>("NonAggressionPactId")
                         .HasColumnType("int");
 
-                    b.HasKey("AlliancesId", "NonAggressionPactsId");
+                    b.HasKey("AllianceId", "NonAggressionPactId");
 
-                    b.HasIndex("NonAggressionPactsId");
+                    b.HasIndex("NonAggressionPactId");
 
-                    b.ToTable("AllianceNonAggressionPact");
+                    b.ToTable("AllianceNonAggressionPacts", "Alliances");
                 });
 
             modelBuilder.Entity("WarOfEmpires.Database.ReferenceEntities.AttackResultEntity", b =>
@@ -889,17 +889,17 @@ namespace WarOfEmpires.Database.Migrations
                     b.HasDiscriminator().HasValue("Raid");
                 });
 
-            modelBuilder.Entity("AllianceNonAggressionPact", b =>
+            modelBuilder.Entity("AllianceNonAggressionPacts", b =>
                 {
                     b.HasOne("WarOfEmpires.Domain.Alliances.Alliance", null)
                         .WithMany()
-                        .HasForeignKey("AlliancesId")
+                        .HasForeignKey("AllianceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("WarOfEmpires.Domain.Alliances.NonAggressionPact", null)
                         .WithMany()
-                        .HasForeignKey("NonAggressionPactsId")
+                        .HasForeignKey("NonAggressionPactId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
