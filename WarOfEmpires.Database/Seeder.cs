@@ -10,9 +10,6 @@ using Security = WarOfEmpires.Domain.Security;
 namespace WarOfEmpires.Database {
     public sealed class Seeder {
         public void Seed(WarContext context) {
-            SeedEntityType<Security.UserStatus, UserStatusEntity>(context);                        
-            SeedEntityType<Events.TaskExecutionMode, TaskExecutionModeEntity>(context);
-
             AddScheduledTask<Empires.RecruitTaskTriggeredEvent>(context, new TimeSpan(1, 0, 0), Events.TaskExecutionMode.ExecuteAllIntervals);
             AddScheduledTask<Empires.TurnTaskTriggeredEvent>(context, new TimeSpan(0, 10, 0), Events.TaskExecutionMode.ExecuteAllIntervals);
             AddScheduledTask<Empires.BankTurnTaskTriggeredEvent>(context, new TimeSpan(4, 0, 0), Events.TaskExecutionMode.ExecuteAllIntervals);
@@ -27,22 +24,6 @@ namespace WarOfEmpires.Database {
             for (var i = 0; i < 100; i++) {
                 AddOrUpdateUser(context, $"user{i}@test.com", $"User {i}");
             }
-        }
-
-        private void SeedEntityType<TEnum, TReferenceEntity>(WarContext context)
-            where TEnum : Enum
-            where TReferenceEntity : BaseReferenceEntity<TEnum>, new() {
-
-            foreach (var entity in ReferenceEntityExtensions.GetValues<TEnum, TReferenceEntity>()) {
-                if (context.Set<TReferenceEntity>().Any(e => e.Id.Equals(entity.Id))) {
-                    context.Set<TReferenceEntity>().Update(entity);
-                }
-                else {
-                    context.Set<TReferenceEntity>().Add(entity);
-                }
-            }
-
-            context.SaveChanges();
         }
 
         private void AddOrUpdateUser(WarContext context, string email, string displayName) {

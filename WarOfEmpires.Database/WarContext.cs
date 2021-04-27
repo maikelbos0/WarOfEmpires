@@ -121,6 +121,7 @@ namespace WarOfEmpires.Database {
             executionModes.HasKey(t => t.Id);
             executionModes.HasMany(m => m.ScheduledTasks).WithOne().IsRequired().HasForeignKey(e => e.ExecutionMode);
             executionModes.Property(m => m.Name).IsRequired();
+            executionModes.HasData(ReferenceEntityExtensions.GetValues<Events.TaskExecutionMode, TaskExecutionModeEntity>());
         }
 
         private void OnPlayersModelCreating(ModelBuilder modelBuilder) {
@@ -289,6 +290,7 @@ namespace WarOfEmpires.Database {
             userStatus.HasKey(s => s.Id);
             userStatus.HasMany(t => t.Users).WithOne().IsRequired().HasForeignKey(u => u.Status);
             userStatus.Property(t => t.Name).IsRequired();
+            userStatus.HasData(ReferenceEntityExtensions.GetValues<Security.UserStatus, UserStatusEntity>());
 
             var users = modelBuilder.Entity<Security.User>().ToTable("Users", "Security");
             users.HasKey(u => u.Id);
