@@ -240,11 +240,13 @@ namespace WarOfEmpires.Database {
             attackResults.HasKey(r => r.Id);
             attackResults.HasMany(r => r.Attacks).WithOne().IsRequired().HasForeignKey(a => a.Result);
             attackResults.Property(r => r.Name).IsRequired();
+            attackResults.HasData(ReferenceEntityExtensions.GetValues<Attacks.AttackResult, AttackResultEntity>());
 
             var attackTypes = modelBuilder.Entity<AttackTypeEntity>().ToTable("AttackTypes", "Attacks");
             attackTypes.HasKey(r => r.Id);
             attackTypes.HasMany(r => r.Attacks).WithOne().IsRequired().HasForeignKey(a => a.Type);
             attackTypes.Property(r => r.Name).IsRequired();
+            attackTypes.HasData(ReferenceEntityExtensions.GetValues<Attacks.AttackType, AttackTypeEntity>());
 
             var attacks = modelBuilder.Entity<Attacks.Attack>().ToTable("Attacks", "Attacks");
             attacks.HasKey(a => a.Id);
@@ -265,6 +267,7 @@ namespace WarOfEmpires.Database {
             troopTypes.HasMany(t => t.AttackRounds).WithOne().IsRequired().HasForeignKey(r => r.TroopType);
             troopTypes.HasMany(t => t.Troops).WithOne().IsRequired().HasForeignKey(t => t.Type);
             troopTypes.Property(t => t.Name).IsRequired();
+            troopTypes.HasData(ReferenceEntityExtensions.GetValues<Attacks.TroopType, TroopTypeEntity>());
 
             modelBuilder.Entity<Attacks.AttackRound>().ToTable("AttackRounds", "Attacks").HasKey(r => r.Id);
 

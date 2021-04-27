@@ -16,9 +16,6 @@ namespace WarOfEmpires.Database {
             SeedEntityType<Empires.BuildingType, BuildingTypeEntity>(context);
             SeedEntityType<Security.UserStatus, UserStatusEntity>(context);
             SeedEntityType<Empires.WorkerType, WorkerTypeEntity>(context);
-            SeedEntityType<Attacks.TroopType, TroopTypeEntity>(context);
-            SeedEntityType<Attacks.AttackResult, AttackResultEntity>(context);
-            SeedEntityType<Attacks.AttackType, AttackTypeEntity>(context);
             SeedEntityType<Siege.SiegeWeaponType, SiegeWeaponTypeEntity>(context);
             SeedEntityType<Markets.MerchandiseType, MerchandiseTypeEntity>(context);
             SeedEntityType<Events.TaskExecutionMode, TaskExecutionModeEntity>(context);
