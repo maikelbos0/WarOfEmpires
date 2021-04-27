@@ -128,11 +128,13 @@ namespace WarOfEmpires.Database {
             buildingTypes.HasKey(t => t.Id);
             buildingTypes.HasMany(t => t.Buildings).WithOne().IsRequired().HasForeignKey(b => b.Type);
             buildingTypes.Property(t => t.Name).IsRequired();
+            buildingTypes.HasData(ReferenceEntityExtensions.GetValues<Empires.BuildingType, BuildingTypeEntity>());
 
             var siegeWeaponTypes = modelBuilder.Entity<SiegeWeaponTypeEntity>().ToTable("SiegeWeaponTypes", "Siege");
             siegeWeaponTypes.HasKey(t => t.Id);
             siegeWeaponTypes.HasMany(t => t.SiegeWeapons).WithOne().IsRequired().HasForeignKey(b => b.Type);
             siegeWeaponTypes.Property(t => t.Name).IsRequired();
+            siegeWeaponTypes.HasData(ReferenceEntityExtensions.GetValues<Siege.SiegeWeaponType, SiegeWeaponTypeEntity>());
 
             var players = modelBuilder.Entity<Players.Player>().ToTable("Players", "Players");
             players.HasKey(p => p.Id);
@@ -171,6 +173,7 @@ namespace WarOfEmpires.Database {
             workerTypes.HasKey(t => t.Id);
             workerTypes.HasMany(w => w.Workers).WithOne().IsRequired().HasForeignKey(w => w.Type);
             workerTypes.Property(w => w.Name).IsRequired();
+            workerTypes.HasData(ReferenceEntityExtensions.GetValues<Empires.WorkerType, WorkerTypeEntity>());
 
             modelBuilder.Entity<Empires.Workers>().ToTable("Workers", "Empires").HasKey(t => t.Id);
 
@@ -195,6 +198,7 @@ namespace WarOfEmpires.Database {
             merchandiseTypes.HasMany(m => m.Merchandise).WithOne().IsRequired().HasForeignKey(m => m.Type);
             merchandiseTypes.HasMany(m => m.Transactions).WithOne().IsRequired().HasForeignKey(m => m.Type);
             merchandiseTypes.Property(m => m.Name).IsRequired();
+            merchandiseTypes.HasData(ReferenceEntityExtensions.GetValues<Markets.MerchandiseType, MerchandiseTypeEntity>());
 
             modelBuilder.Entity<Markets.Transaction>().ToTable("Transactions", "Markets");
         }

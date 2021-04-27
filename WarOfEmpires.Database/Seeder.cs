@@ -3,21 +3,14 @@ using System.Linq;
 using WarOfEmpires.Database.ReferenceEntities;
 using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Utilities.Services;
-using Attacks = WarOfEmpires.Domain.Attacks;
 using Empires = WarOfEmpires.Domain.Empires;
 using Events = WarOfEmpires.Domain.Events;
-using Markets = WarOfEmpires.Domain.Markets;
 using Security = WarOfEmpires.Domain.Security;
-using Siege = WarOfEmpires.Domain.Siege;
 
 namespace WarOfEmpires.Database {
     public sealed class Seeder {
         public void Seed(WarContext context) {
-            SeedEntityType<Empires.BuildingType, BuildingTypeEntity>(context);
-            SeedEntityType<Security.UserStatus, UserStatusEntity>(context);
-            SeedEntityType<Empires.WorkerType, WorkerTypeEntity>(context);
-            SeedEntityType<Siege.SiegeWeaponType, SiegeWeaponTypeEntity>(context);
-            SeedEntityType<Markets.MerchandiseType, MerchandiseTypeEntity>(context);
+            SeedEntityType<Security.UserStatus, UserStatusEntity>(context);                        
             SeedEntityType<Events.TaskExecutionMode, TaskExecutionModeEntity>(context);
 
             AddScheduledTask<Empires.RecruitTaskTriggeredEvent>(context, new TimeSpan(1, 0, 0), Events.TaskExecutionMode.ExecuteAllIntervals);
