@@ -31,14 +31,15 @@ namespace WarOfEmpires.Domain.Events {
             }
         }
 
-        public static ScheduledTask Create<TEvent>(TimeSpan interval, TaskExecutionMode executionMode) where TEvent : IEvent, new() {
-            return new ScheduledTask(interval, typeof(TEvent).AssemblyQualifiedName, executionMode);
+        public static ScheduledTask Create<TEvent>(int id, TimeSpan interval, TaskExecutionMode executionMode) where TEvent : IEvent, new() {
+            return new ScheduledTask(id, interval, typeof(TEvent).AssemblyQualifiedName, executionMode);
         }
 
         protected ScheduledTask() {
         }
 
-        protected ScheduledTask(TimeSpan interval, string eventType, TaskExecutionMode executionMode) {
+        protected ScheduledTask(int id, TimeSpan interval, string eventType, TaskExecutionMode executionMode) {
+            Id = id;
             Interval = interval;
             EventType = eventType;
             ExecutionMode = executionMode;

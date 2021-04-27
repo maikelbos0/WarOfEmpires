@@ -113,15 +113,21 @@ namespace WarOfEmpires.Database {
         }
 
         private void OnEventsModelCreating(ModelBuilder modelBuilder) {
-            var scheduledTasks = modelBuilder.Entity<Events.ScheduledTask>().ToTable("ScheduledTasks", "Events");
-            scheduledTasks.HasKey(t => t.Id);
-            scheduledTasks.Property(e => e.EventType).IsRequired();
-
             var executionModes = modelBuilder.Entity<TaskExecutionModeEntity>().ToTable("TaskExecutionModes", "Events");
             executionModes.HasKey(t => t.Id);
             executionModes.HasMany(m => m.ScheduledTasks).WithOne().IsRequired().HasForeignKey(e => e.ExecutionMode);
             executionModes.Property(m => m.Name).IsRequired();
             executionModes.HasData(ReferenceEntityExtensions.GetValues<Events.TaskExecutionMode, TaskExecutionModeEntity>());
+
+            var scheduledTasks = modelBuilder.Entity<Events.ScheduledTask>().ToTable("ScheduledTasks", "Events");
+            scheduledTasks.HasKey(t => t.Id);
+            scheduledTasks.Property(e => e.EventType).IsRequired();
+            scheduledTasks.HasData(
+                Events.ScheduledTask.Create<Empires.RecruitTaskTriggeredEvent>(1, new TimeSpan(1, 0, 0), Events.TaskExecutionMode.ExecuteAllIntervals),
+                Events.ScheduledTask.Create<Empires.TurnTaskTriggeredEvent>(2, new TimeSpan(0, 10, 0), Events.TaskExecutionMode.ExecuteAllIntervals),
+                Events.ScheduledTask.Create<Empires.BankTurnTaskTriggeredEvent>(3, new TimeSpan(4, 0, 0), Events.TaskExecutionMode.ExecuteAllIntervals),
+                Events.ScheduledTask.Create<Empires.UpdateRankTaskTriggeredEvent>(4, new TimeSpan(0, 2, 0), Events.TaskExecutionMode.ExecuteOnce)
+            );
         }
 
         private void OnPlayersModelCreating(ModelBuilder modelBuilder) {
