@@ -223,8 +223,8 @@ namespace WarOfEmpires.Database {
             alliances.HasMany(a => a.SentNonAggressionPactRequests).WithOne(r => r.Sender).IsRequired().OnDelete(DeleteBehavior.NoAction);
             alliances.HasMany(a => a.ReceivedNonAggressionPactRequests).WithOne(r => r.Recipient).IsRequired();
             alliances.HasMany(a => a.ChatMessages).WithOne().IsRequired();
-            alliances.HasOne(a => a.Leader);
-            alliances.Property(a => a.Code).IsRequired();
+            alliances.HasOne(a => a.Leader).WithMany().IsRequired().OnDelete(DeleteBehavior.Cascade);
+            alliances.Property(a => a.Code).IsRequired().HasMaxLength(4);
             alliances.Property(a => a.Name).IsRequired();
 
             var invites = modelBuilder.Entity<Alliances.Invite>().ToTable("Invites", "Alliances");
