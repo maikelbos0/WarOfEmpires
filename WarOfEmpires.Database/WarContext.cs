@@ -103,13 +103,13 @@ namespace WarOfEmpires.Database {
             commandExecutions.HasKey(e => e.Id);
             commandExecutions.Property(e => e.Date).IsRequired();
             commandExecutions.Property(e => e.CommandType).IsRequired().HasMaxLength(255);
-            commandExecutions.Property(e => e.CommandData).IsRequired().HasColumnType("NVARCHAR(MAX)");
+            commandExecutions.Property(e => e.CommandData).IsRequired();
 
             var queryExecutions = modelBuilder.Entity<Auditing.QueryExecution>().ToTable("QueryExecutions", "Auditing");
             queryExecutions.HasKey(e => e.Id);
             queryExecutions.Property(e => e.Date).IsRequired();
             queryExecutions.Property(e => e.QueryType).IsRequired().HasMaxLength(255);
-            queryExecutions.Property(e => e.QueryData).IsRequired().HasColumnType("NVARCHAR(MAX)");
+            queryExecutions.Property(e => e.QueryData).IsRequired();
         }
 
         private void OnEventsModelCreating(ModelBuilder modelBuilder) {
@@ -193,7 +193,6 @@ namespace WarOfEmpires.Database {
             var messages = modelBuilder.Entity<Players.Message>().ToTable("Messages", "Players");
             messages.HasKey(m => m.Id);
             messages.Property(m => m.Subject).IsRequired().HasMaxLength(100);
-            messages.Property(m => m.Body).HasColumnType("NVARCHAR(MAX)");
 
             var caravans = modelBuilder.Entity<Markets.Caravan>().ToTable("Caravans", "Markets");
             caravans.HasMany(c => c.Merchandise).WithOne().IsRequired();
@@ -231,11 +230,10 @@ namespace WarOfEmpires.Database {
             var invites = modelBuilder.Entity<Alliances.Invite>().ToTable("Invites", "Alliances");
             invites.HasKey(i => i.Id);
             invites.Property(i => i.Subject).IsRequired().HasMaxLength(100);
-            invites.Property(i => i.Body).HasColumnType("NVARCHAR(MAX)");
 
             var chatMessages = modelBuilder.Entity<Alliances.ChatMessage>().ToTable("ChatMessages", "Alliances");
             chatMessages.HasKey(m => m.Id);
-            chatMessages.Property(m => m.Message).IsRequired().HasColumnType("NVARCHAR(MAX)");
+            chatMessages.Property(m => m.Message).IsRequired();
 
             var roles = modelBuilder.Entity<Alliances.Role>().ToTable("Roles", "Alliances");
             roles.HasKey(r => r.Id);
