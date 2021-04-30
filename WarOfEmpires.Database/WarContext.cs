@@ -233,6 +233,7 @@ namespace WarOfEmpires.Database {
 
             var chatMessages = modelBuilder.Entity<Alliances.ChatMessage>().ToTable("ChatMessages", "Alliances");
             chatMessages.HasKey(m => m.Id);
+            chatMessages.HasOne(m => m.Player).WithMany().IsRequired().OnDelete(DeleteBehavior.NoAction);
             chatMessages.Property(m => m.Message).IsRequired();
 
             var roles = modelBuilder.Entity<Alliances.Role>().ToTable("Roles", "Alliances");
