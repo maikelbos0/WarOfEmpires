@@ -154,11 +154,9 @@ namespace WarOfEmpires.Database {
             players.HasMany(p => p.ReceivedMessages).WithOne(m => m.Recipient).IsRequired();
             players.HasMany(p => p.ExecutedAttacks).WithOne(a => a.Attacker).IsRequired().OnDelete(DeleteBehavior.NoAction);
             players.HasMany(p => p.ReceivedAttacks).WithOne(a => a.Defender).IsRequired();
-            // TODO check column name
-            players.HasMany(p => p.SellTransactions).WithOne().IsRequired().OnDelete(DeleteBehavior.NoAction);
-            // TODO check column name
-            players.HasMany(p => p.BuyTransactions).WithOne().IsRequired();
-            players.HasMany(p => p.Caravans).WithOne(a => a.Player).IsRequired();
+            players.HasMany(p => p.SellTransactions).WithOne().IsRequired().OnDelete(DeleteBehavior.NoAction).HasForeignKey("SellerId");
+            players.HasMany(p => p.BuyTransactions).WithOne().IsRequired().HasForeignKey("BuyerId");
+            players.HasMany(p => p.Caravans).WithOne(c => c.Player).IsRequired();
             players.HasMany(p => p.Invites).WithOne(i => i.Player).IsRequired().OnDelete(DeleteBehavior.NoAction);
             players.Property(p => p.DisplayName).IsRequired().HasMaxLength(25);
             players.OwnsOne(p => p.Resources, pr => {
