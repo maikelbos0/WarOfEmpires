@@ -35,7 +35,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Decorators {
             var queryHandler = new ServiceCollection()
                 .AddSingleton<IWarContext>(context)
                 .AddScoped<ISerializer, Serializer>()
-                .AddScoped<AuditDecorator>()
+                .AddScoped<IAuditDecorator, AuditDecorator>()
                 .AddScoped<IQueryHandler<TestQuery, string>, TestQueryHandler>(options => options.AddAttributeDecorators())
                 .BuildServiceProvider()
                 .GetRequiredService<IQueryHandler<TestQuery, string>>();

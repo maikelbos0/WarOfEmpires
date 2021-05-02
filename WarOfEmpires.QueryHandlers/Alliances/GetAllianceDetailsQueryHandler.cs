@@ -15,9 +15,9 @@ namespace WarOfEmpires.QueryHandlers.Alliances {
     [ScopedServiceImplementation(typeof(IQueryHandler<GetAllianceDetailsQuery, AllianceDetailsViewModel>))]
     public sealed class GetAllianceDetailsQueryHandler : IQueryHandler<GetAllianceDetailsQuery, AllianceDetailsViewModel> {
         private readonly IWarContext _context;
-        private readonly EnumFormatter _formatter;
+        private readonly IEnumFormatter _formatter;
 
-        public GetAllianceDetailsQueryHandler(IWarContext context, EnumFormatter formatter) {
+        public GetAllianceDetailsQueryHandler(IWarContext context, IEnumFormatter formatter) {
             _formatter = formatter;
             _context = context;
         }

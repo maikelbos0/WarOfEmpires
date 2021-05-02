@@ -4,8 +4,8 @@ using VDT.Core.DependencyInjection;
 using WarOfEmpires.Domain.Empires;
 
 namespace WarOfEmpires.Domain.Players {
-    [ScopedService(typeof(RankService))]
-    public class RankService {
+    [ScopedServiceImplementation(typeof(IRankService))]
+    public class RankService : IRankService {
         public const double TroopModifier = 0.1;
         public const double WorkerModifier = 10.0;
         public const double DefenceModifier = 1000.0;
@@ -23,7 +23,7 @@ namespace WarOfEmpires.Domain.Players {
         }
 
         public virtual TitleType GetTitle(Player player) {
-            return _titles.First(title => title.RequiredDefenceLevel <= player.GetBuildingBonus(BuildingType.Defences) 
+            return _titles.First(title => title.RequiredDefenceLevel <= player.GetBuildingBonus(BuildingType.Defences)
                 && title.RequiredSoldiers <= player.Troops.Sum(t => t.Soldiers)
                 && title.MeetsAdditionalRequirements(player)).Type;
         }

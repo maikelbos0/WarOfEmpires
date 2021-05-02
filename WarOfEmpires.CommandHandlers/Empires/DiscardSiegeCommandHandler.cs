@@ -11,9 +11,9 @@ namespace WarOfEmpires.CommandHandlers.Empires {
     [ScopedServiceImplementation(typeof(ICommandHandler<DiscardSiegeCommand>))]
     public sealed class DiscardSiegeCommandHandler : ICommandHandler<DiscardSiegeCommand> {
         private readonly IPlayerRepository _repository;
-        private readonly EnumFormatter _formatter;
+        private readonly IEnumFormatter _formatter;
 
-        public DiscardSiegeCommandHandler(IPlayerRepository repository, EnumFormatter formatter) {
+        public DiscardSiegeCommandHandler(IPlayerRepository repository, IEnumFormatter formatter) {
             _repository = repository;
             _formatter = formatter;
         }

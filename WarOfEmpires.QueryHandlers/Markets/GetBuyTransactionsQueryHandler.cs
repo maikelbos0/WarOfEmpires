@@ -12,9 +12,9 @@ namespace WarOfEmpires.QueryHandlers.Markets {
     [ScopedServiceImplementation(typeof(IQueryHandler<GetBuyTransactionsQuery, IEnumerable<TransactionViewModel>>))]
     public sealed class GetBuyTransactionsQueryHandler : IQueryHandler<GetBuyTransactionsQuery, IEnumerable<TransactionViewModel>> {
         private readonly IWarContext _context;
-        private readonly EnumFormatter _formatter;
+        private readonly IEnumFormatter _formatter;
 
-        public GetBuyTransactionsQueryHandler(IWarContext context, EnumFormatter formatter) {
+        public GetBuyTransactionsQueryHandler(IWarContext context, IEnumFormatter formatter) {
             _context = context;
             _formatter = formatter;
         }

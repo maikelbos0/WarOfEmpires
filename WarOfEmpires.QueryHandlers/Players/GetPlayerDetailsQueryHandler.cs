@@ -13,9 +13,9 @@ namespace WarOfEmpires.QueryHandlers.Players {
     [ScopedServiceImplementation(typeof(IQueryHandler<GetPlayerDetailsQuery, PlayerDetailsViewModel>))]
     public sealed class GetPlayerDetailsQueryHandler : IQueryHandler<GetPlayerDetailsQuery, PlayerDetailsViewModel> {
         private readonly IWarContext _context;
-        private readonly EnumFormatter _formatter;
+        private readonly IEnumFormatter _formatter;
 
-        public GetPlayerDetailsQueryHandler(IWarContext context, EnumFormatter formatter) {
+        public GetPlayerDetailsQueryHandler(IWarContext context, IEnumFormatter formatter) {
             _formatter = formatter;
             _context = context;
         }

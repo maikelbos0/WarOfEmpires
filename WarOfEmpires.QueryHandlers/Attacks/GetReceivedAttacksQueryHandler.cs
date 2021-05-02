@@ -12,9 +12,9 @@ namespace WarOfEmpires.QueryHandlers.Attacks {
     [ScopedServiceImplementation(typeof(IQueryHandler<GetReceivedAttacksQuery, IEnumerable<ReceivedAttackViewModel>>))]
     public sealed class GetReceivedAttacksQueryHandler : IQueryHandler<GetReceivedAttacksQuery, IEnumerable<ReceivedAttackViewModel>> {
         private readonly IWarContext _context;
-        private readonly EnumFormatter _formatter;
+        private readonly IEnumFormatter _formatter;
 
-        public GetReceivedAttacksQueryHandler(IWarContext context, EnumFormatter formatter) {
+        public GetReceivedAttacksQueryHandler(IWarContext context, IEnumFormatter formatter) {
             _context = context;
             _formatter = formatter;
         }

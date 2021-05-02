@@ -14,7 +14,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
     public sealed class UpdateRankCommandHandlerTests {
         [TestMethod]
         public void UpdateRankCommandHandler_Calls_RankService_Update_For_Active_Players() {
-            var rankService = Substitute.For<RankService>();
+            var rankService = Substitute.For<IRankService>();
             var builder = new FakeBuilder()
                 .WithPlayer(1, out var player)
                 .WithPlayer(2, out var anotherPlayer)

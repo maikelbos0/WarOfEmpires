@@ -14,9 +14,9 @@ namespace WarOfEmpires.QueryHandlers.Attacks {
     public sealed class GetAttackDetailsQueryHandler : IQueryHandler<GetAttackDetailsQuery, AttackDetailsViewModel> {
         private readonly IWarContext _context;
         private readonly ResourcesMap _resourcesMap;
-        private readonly EnumFormatter _formatter;
+        private readonly IEnumFormatter _formatter;
 
-        public GetAttackDetailsQueryHandler(IWarContext context, ResourcesMap resourcesMap, EnumFormatter formatter) {
+        public GetAttackDetailsQueryHandler(IWarContext context, ResourcesMap resourcesMap, IEnumFormatter formatter) {
             _context = context;
             _resourcesMap = resourcesMap;
             _formatter = formatter;

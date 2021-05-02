@@ -8,9 +8,9 @@ namespace WarOfEmpires.CommandHandlers.Empires {
     [ScopedServiceImplementation(typeof(ICommandHandler<UpdateRankCommand>))]
     public sealed class UpdateRankCommandHandler : ICommandHandler<UpdateRankCommand> {
         private readonly IPlayerRepository _repository;
-        private readonly RankService _rankService;
+        private readonly IRankService _rankService;
 
-        public UpdateRankCommandHandler(IPlayerRepository repository, RankService rankService) {
+        public UpdateRankCommandHandler(IPlayerRepository repository, IRankService rankService) {
             _repository = repository;
             _rankService = rankService;
         }

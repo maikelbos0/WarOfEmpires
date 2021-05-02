@@ -16,9 +16,9 @@ namespace WarOfEmpires.QueryHandlers.Markets {
     [ScopedServiceImplementation(typeof(IQueryHandler<GetMarketQuery, MarketModel>))]
     public sealed class GetMarketQueryHandler : IQueryHandler<GetMarketQuery, MarketModel> {
         private readonly IWarContext _context;
-        private readonly EnumFormatter _formatter;
+        private readonly IEnumFormatter _formatter;
 
-        public GetMarketQueryHandler(IWarContext context, EnumFormatter formatter) {
+        public GetMarketQueryHandler(IWarContext context, IEnumFormatter formatter) {
             _context = context;
             _formatter = formatter;
         }

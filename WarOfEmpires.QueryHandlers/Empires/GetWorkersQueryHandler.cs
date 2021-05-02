@@ -17,9 +17,9 @@ namespace WarOfEmpires.QueryHandlers.Empires {
     public sealed class GetWorkersQueryHandler : IQueryHandler<GetWorkersQuery, WorkersModel> {
         private readonly IWarContext _context;
         private readonly ResourcesMap _resourcesMap;
-        private readonly EnumFormatter _formatter;
+        private readonly IEnumFormatter _formatter;
 
-        public GetWorkersQueryHandler(IWarContext context, ResourcesMap resourcesMap, EnumFormatter formatter) {
+        public GetWorkersQueryHandler(IWarContext context, ResourcesMap resourcesMap, IEnumFormatter formatter) {
             _context = context;
             _resourcesMap = resourcesMap;
             _formatter = formatter;

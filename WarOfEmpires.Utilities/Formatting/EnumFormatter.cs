@@ -3,8 +3,8 @@ using System.Text.RegularExpressions;
 using VDT.Core.DependencyInjection;
 
 namespace WarOfEmpires.Utilities.Formatting {
-    [ScopedService(typeof(EnumFormatter))]
-    public class EnumFormatter {
+    [ScopedServiceImplementation(typeof(IEnumFormatter))]
+    public class EnumFormatter : IEnumFormatter {
         private static readonly Regex _wordBoundaryFinder = new Regex("(\\B[A-Z])", RegexOptions.Compiled);
 
         public string ToString<TEnum>(TEnum value, bool capitalize = true) where TEnum : Enum {

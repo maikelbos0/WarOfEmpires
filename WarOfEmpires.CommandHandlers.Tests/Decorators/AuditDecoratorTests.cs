@@ -35,7 +35,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Decorators {
             var commandHandler = new ServiceCollection()
                 .AddScoped<ICommandExecutionRepository>(serviceProvider => new CommandExecutionRepository(context))
                 .AddScoped<ISerializer, Serializer>()
-                .AddScoped<AuditDecorator>()
+                .AddScoped<IAuditDecorator, AuditDecorator>()
                 .AddScoped<ICommandHandler<TestCommand>, TestCommandHandler>(options => options.AddAttributeDecorators())
                 .BuildServiceProvider()
                 .GetRequiredService<ICommandHandler<TestCommand>>();

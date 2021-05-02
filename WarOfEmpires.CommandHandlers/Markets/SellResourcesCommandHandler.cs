@@ -13,9 +13,9 @@ namespace WarOfEmpires.CommandHandlers.Markets {
     [ScopedServiceImplementation(typeof(ICommandHandler<SellResourcesCommand>))]
     public sealed class SellResourcesCommandHandler : ICommandHandler<SellResourcesCommand> {
         private readonly IPlayerRepository _repository;
-        private readonly EnumFormatter _formatter;
+        private readonly IEnumFormatter _formatter;
 
-        public SellResourcesCommandHandler(IPlayerRepository repository, EnumFormatter formatter) {
+        public SellResourcesCommandHandler(IPlayerRepository repository, IEnumFormatter formatter) {
             _repository = repository;
             _formatter = formatter;
         }

@@ -6,8 +6,8 @@ using VDT.Core.DependencyInjection.Decorators;
 using VDT.Core.DependencyInjection;
 
 namespace WarOfEmpires.QueryHandlers.Decorators {
-    [ScopedService(typeof(AuditDecorator))]
-    public sealed class AuditDecorator : IDecorator {
+    [ScopedServiceImplementation(typeof(AuditDecorator))]
+    public sealed class AuditDecorator : IAuditDecorator {
         private readonly IWarContext _context;
         private readonly ISerializer _serializer;
         private Stopwatch _stopwatch;

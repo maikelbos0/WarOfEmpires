@@ -6,8 +6,8 @@ using WarOfEmpires.Repositories.Auditing;
 using WarOfEmpires.Utilities.Serialization;
 
 namespace WarOfEmpires.CommandHandlers.Decorators {
-    [ScopedService(typeof(AuditDecorator))]
-    public sealed class AuditDecorator : IDecorator {
+    [ScopedServiceImplementation(typeof(IAuditDecorator))]
+    public sealed class AuditDecorator : IAuditDecorator {
         private readonly ICommandExecutionRepository _repository;
         private readonly ISerializer _serializer;
         private Stopwatch _stopwatch;

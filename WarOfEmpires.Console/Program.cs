@@ -11,8 +11,7 @@ namespace WarOfEmpires.Console {
             var serviceCollection = new ServiceCollection();
 
             foreach (var assembly in classFinder.FindAllAssemblies()) {
-                // TODO add decorations
-                serviceCollection.AddAttributeServices(assembly);
+                serviceCollection.AddAttributeServices(assembly, options => options.AddAttributeDecorators());
             }
 
             var serviceProvider = serviceCollection.BuildServiceProvider(new ServiceProviderOptions {

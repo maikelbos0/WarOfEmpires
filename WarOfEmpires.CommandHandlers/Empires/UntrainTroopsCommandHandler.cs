@@ -11,9 +11,9 @@ namespace WarOfEmpires.CommandHandlers.Empires {
     [ScopedServiceImplementation(typeof(ICommandHandler<UntrainTroopsCommand>))]
     public sealed class UntrainTroopsCommandHandler : ICommandHandler<UntrainTroopsCommand> {
         private readonly IPlayerRepository _repository;
-        private readonly EnumFormatter _formatter;
+        private readonly IEnumFormatter _formatter;
 
-        public UntrainTroopsCommandHandler(IPlayerRepository repository, EnumFormatter formatter) {
+        public UntrainTroopsCommandHandler(IPlayerRepository repository, IEnumFormatter formatter) {
             _repository = repository;
             _formatter = formatter;
         }
