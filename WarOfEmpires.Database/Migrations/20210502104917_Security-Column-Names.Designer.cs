@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WarOfEmpires.Database;
 
 namespace WarOfEmpires.Database.Migrations
 {
     [DbContext(typeof(WarContext))]
-    partial class WarContextModelSnapshot : ModelSnapshot
+    [Migration("20210502104917_Security-Column-Names")]
+    partial class SecurityColumnNames
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1795,19 +1797,16 @@ namespace WarOfEmpires.Database.Migrations
                             b1.Property<byte[]>("Hash")
                                 .IsRequired()
                                 .HasMaxLength(20)
-                                .HasColumnType("varbinary(20)")
-                                .HasColumnName("PasswordHash");
+                                .HasColumnType("varbinary(20)");
 
                             b1.Property<int?>("HashIterations")
                                 .IsRequired()
-                                .HasColumnType("int")
-                                .HasColumnName("PasswordHashIterations");
+                                .HasColumnType("int");
 
                             b1.Property<byte[]>("Salt")
                                 .IsRequired()
                                 .HasMaxLength(20)
-                                .HasColumnType("varbinary(20)")
-                                .HasColumnName("PasswordSalt");
+                                .HasColumnType("varbinary(20)");
 
                             b1.HasKey("UserId");
 
@@ -1825,26 +1824,18 @@ namespace WarOfEmpires.Database.Migrations
                                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                             b1.Property<DateTime?>("ExpiryDate")
-                                .IsRequired()
-                                .HasColumnType("datetime2")
-                                .HasColumnName("PasswordResetTokenExpiryDate");
+                                .HasColumnType("datetime2");
 
                             b1.Property<byte[]>("Hash")
-                                .IsRequired()
                                 .HasMaxLength(20)
-                                .HasColumnType("varbinary(20)")
-                                .HasColumnName("PasswordResetTokenHash");
+                                .HasColumnType("varbinary(20)");
 
                             b1.Property<int?>("HashIterations")
-                                .IsRequired()
-                                .HasColumnType("int")
-                                .HasColumnName("PasswordResetTokenHashIterations");
+                                .HasColumnType("int");
 
                             b1.Property<byte[]>("Salt")
-                                .IsRequired()
                                 .HasMaxLength(20)
-                                .HasColumnType("varbinary(20)")
-                                .HasColumnName("PasswordResetTokenSalt");
+                                .HasColumnType("varbinary(20)");
 
                             b1.HasKey("UserId");
 
@@ -1854,8 +1845,7 @@ namespace WarOfEmpires.Database.Migrations
                                 .HasForeignKey("UserId");
                         });
 
-                    b.Navigation("Password")
-                        .IsRequired();
+                    b.Navigation("Password");
 
                     b.Navigation("PasswordResetToken");
                 });

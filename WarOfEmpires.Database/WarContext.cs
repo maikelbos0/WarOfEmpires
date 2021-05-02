@@ -311,22 +311,24 @@ namespace WarOfEmpires.Database {
             users.HasKey(u => u.Id);
             users.HasMany(u => u.UserEvents).WithOne(e => e.User).IsRequired();
             users.HasIndex(u => u.Email).IsUnique();
-            users.Property(u => u.Status).HasColumnName("UserStatus_Id");
+            users.Property(u => u.Status);
             users.Property(u => u.Email).IsRequired().HasMaxLength(255);
             users.OwnsOne(u => u.Password, up => {
-                up.Property(p => p.Salt).IsRequired().HasMaxLength(20);
-                up.Property(p => p.Hash).IsRequired().HasMaxLength(20);
-                up.Property(p => p.HashIterations).IsRequired();
+                up.Property(p => p.Salt).HasColumnName("PasswordSalt").IsRequired().HasMaxLength(20);
+                up.Property(p => p.Hash).HasColumnName("PasswordHash").IsRequired().HasMaxLength(20);
+                up.Property(p => p.HashIterations).HasColumnName("PasswordHashIterations").IsRequired();
             });
+            users.Navigation(u => u.Password).IsRequired();
             users.OwnsOne(u => u.PasswordResetToken, up => {
-                up.Property(p => p.Salt).HasMaxLength(20);
-                up.Property(p => p.Hash).HasMaxLength(20);
+                up.Property(p => p.Salt).HasColumnName("PasswordResetTokenSalt").IsRequired().HasMaxLength(20);
+                up.Property(p => p.Hash).HasColumnName("PasswordResetTokenHash").IsRequired().HasMaxLength(20);
+                up.Property(p => p.HashIterations).HasColumnName("PasswordResetTokenHashIterations").IsRequired();
+                up.Property(p => p.ExpiryDate).HasColumnName("PasswordResetTokenExpiryDate").IsRequired();
             });
             users.Property(u => u.NewEmail).HasMaxLength(255);
 
             var userEvents = modelBuilder.Entity<Security.UserEvent>().ToTable("UserEvents", "Security");
             userEvents.HasKey(e => e.Id);
-            userEvents.Property(e => e.Type).HasColumnName("UserEventType_Id");
         }
     }
 }
