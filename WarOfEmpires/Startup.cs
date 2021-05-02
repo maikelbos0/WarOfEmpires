@@ -4,8 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using VDT.Core.DependencyInjection;
-using WarOfEmpires.Utilities.Reflection;
+using WarOfEmpires.Utilities.DependencyInjection;
 
 namespace WarOfEmpires {
     public class Startup
@@ -23,12 +22,7 @@ namespace WarOfEmpires {
             // TODO should be AddMVC?
             services.AddControllersWithViews(ConfigureMvcOptions);
             services.AddHttpContextAccessor();
-
-            var classFinder = new ClassFinder();
-
-            foreach (var assembly in classFinder.FindAllAssemblies()) {
-                services.AddAttributeServices(assembly, options => options.AddAttributeDecorators());
-            }
+            services.AddServices(typeof(Startup).Assembly);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

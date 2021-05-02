@@ -6,7 +6,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Linq;
 using System.Text.RegularExpressions;
-using VDT.Core.DependencyInjection;
 using WarOfEmpires.Controllers;
 using WarOfEmpires.Database;
 using WarOfEmpires.Domain.Security;
@@ -14,8 +13,8 @@ using WarOfEmpires.Models.Security;
 using WarOfEmpires.Services;
 using WarOfEmpires.Test.Utilities;
 using WarOfEmpires.Utilities.Configuration;
+using WarOfEmpires.Utilities.DependencyInjection;
 using WarOfEmpires.Utilities.Mail;
-using WarOfEmpires.Utilities.Reflection;
 
 namespace WarOfEmpires.Tests.Integration {
     [TestClass]
@@ -28,12 +27,8 @@ namespace WarOfEmpires.Tests.Integration {
 
         public HomeControllerTests() {
             var services = new ServiceCollection();
-            var classFinder = new ClassFinder();
 
-            foreach (var assembly in classFinder.FindAllAssemblies(typeof(HomeController).Assembly)) {
-                services.AddAttributeServices(assembly);
-            }
-
+            services.AddServices(typeof(HomeController).Assembly);
             services.Replace(ServiceDescriptor.Scoped<IAuthenticationService>(serviceProvider => _authenticationService));
             services.Replace(ServiceDescriptor.Scoped<IWarContext>(serviceProvider => _context));
             services.Replace(ServiceDescriptor.Scoped<IMailClient>(serviceProvider => _mailClient));

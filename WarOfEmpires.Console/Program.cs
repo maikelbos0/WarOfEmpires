@@ -1,23 +1,17 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using VDT.Core.DependencyInjection;
 using WarOfEmpires.CommandHandlers;
 using WarOfEmpires.Commands.Events;
-using WarOfEmpires.Utilities.Reflection;
+using WarOfEmpires.Utilities.DependencyInjection;
 
 namespace WarOfEmpires.Console {
     public static class Program {
-        static void Main() {
-            var classFinder = new ClassFinder();
-            var serviceCollection = new ServiceCollection();
-
-            foreach (var assembly in classFinder.FindAllAssemblies()) {
-                serviceCollection.AddAttributeServices(assembly, options => options.AddAttributeDecorators());
-            }
-
-            var serviceProvider = serviceCollection.BuildServiceProvider(new ServiceProviderOptions {
-                ValidateOnBuild = true,
-                ValidateScopes = true
-            });
+        static void Main() {            
+            var serviceProvider = new ServiceCollection()
+                .AddServices(typeof(Program).Assembly)
+                .BuildServiceProvider(new ServiceProviderOptions {
+                    ValidateOnBuild = true,
+                    ValidateScopes = true
+                });
 
             using (var scope = serviceProvider.CreateScope()) {
                 var handler = scope.ServiceProvider.GetRequiredService<ICommandHandler<RunScheduledTasksCommand>>();
