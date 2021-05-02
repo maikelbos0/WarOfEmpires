@@ -175,10 +175,15 @@ namespace WarOfEmpires.Database {
                 pr.Property(r => r.Ore).HasColumnName("BankedOre");
             });
             players.Navigation(a => a.BankedResources).IsRequired();
-            // TODO titles table?
+            
+            var titleTypes = modelBuilder.Entity<TitleTypeEntity>().ToTable("TitleTypes", "Players");
+            titleTypes.HasKey(t => t.Id);
+            titleTypes.HasMany(t => t.Players).WithOne().IsRequired().HasForeignKey(p => p.Title);
+            titleTypes.Property(t => t.Name).IsRequired();
+            titleTypes.HasData(ReferenceEntityExtensions.GetValues<Players.TitleType, TitleTypeEntity>());
 
             var workerTypes = modelBuilder.Entity<WorkerTypeEntity>().ToTable("WorkerTypes", "Empires");
-            workerTypes.HasKey(t => t.Id);
+            workerTypes.HasKey(w => w.Id);
             workerTypes.HasMany(w => w.Workers).WithOne().IsRequired().HasForeignKey(w => w.Type);
             workerTypes.Property(w => w.Name).IsRequired();
             workerTypes.HasData(ReferenceEntityExtensions.GetValues<Empires.WorkerType, WorkerTypeEntity>());
