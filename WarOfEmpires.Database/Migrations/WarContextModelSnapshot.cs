@@ -1206,9 +1206,7 @@ namespace WarOfEmpires.Database.Migrations
             modelBuilder.Entity("WarOfEmpires.Domain.Players.Player", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
 
                     b.Property<int?>("AllianceId")
                         .HasColumnType("int");
@@ -1251,9 +1249,6 @@ namespace WarOfEmpires.Database.Migrations
                     b.Property<int>("Title")
                         .HasColumnType("int");
 
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("AllianceId");
@@ -1261,8 +1256,6 @@ namespace WarOfEmpires.Database.Migrations
                     b.HasIndex("AllianceRoleId");
 
                     b.HasIndex("Title");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Players", "Players");
                 });
@@ -1695,22 +1688,22 @@ namespace WarOfEmpires.Database.Migrations
                         .WithMany("Players")
                         .HasForeignKey("AllianceRoleId");
 
+                    b.HasOne("WarOfEmpires.Domain.Security.User", "User")
+                        .WithOne()
+                        .HasForeignKey("WarOfEmpires.Domain.Players.Player", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("WarOfEmpires.Database.ReferenceEntities.TitleTypeEntity", null)
                         .WithMany("Players")
                         .HasForeignKey("Title")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("WarOfEmpires.Domain.Security.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-
                     b.OwnsOne("WarOfEmpires.Domain.Common.Resources", "BankedResources", b1 =>
                         {
                             b1.Property<int>("PlayerId")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int")
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                                .HasColumnType("int");
 
                             b1.Property<long>("Food")
                                 .HasColumnType("bigint")
@@ -1743,9 +1736,7 @@ namespace WarOfEmpires.Database.Migrations
                     b.OwnsOne("WarOfEmpires.Domain.Common.Resources", "Resources", b1 =>
                         {
                             b1.Property<int>("PlayerId")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int")
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                                .HasColumnType("int");
 
                             b1.Property<long>("Food")
                                 .HasColumnType("bigint")

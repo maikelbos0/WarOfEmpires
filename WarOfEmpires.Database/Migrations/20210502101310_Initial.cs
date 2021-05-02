@@ -82,7 +82,7 @@ namespace WarOfEmpires.Database.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CommandType = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    CommandData = table.Column<string>(type: "NVARCHAR(MAX)", nullable: false),
+                    CommandData = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ElapsedMilliseconds = table.Column<double>(type: "float", nullable: false)
                 },
                 constraints: table =>
@@ -125,7 +125,7 @@ namespace WarOfEmpires.Database.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     QueryType = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    QueryData = table.Column<string>(type: "NVARCHAR(MAX)", nullable: false),
+                    QueryData = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ElapsedMilliseconds = table.Column<double>(type: "float", nullable: false)
                 },
                 constraints: table =>
@@ -157,6 +157,19 @@ namespace WarOfEmpires.Database.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_TaskExecutionModes", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TitleTypes",
+                schema: "Players",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TitleTypes", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -327,9 +340,9 @@ namespace WarOfEmpires.Database.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    PlayerId = table.Column<int>(type: "int", nullable: true),
+                    PlayerId = table.Column<int>(type: "int", nullable: false),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Message = table.Column<string>(type: "NVARCHAR(MAX)", nullable: false),
+                    Message = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     AllianceId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -349,7 +362,7 @@ namespace WarOfEmpires.Database.Migrations
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsRead = table.Column<bool>(type: "bit", nullable: false),
                     Subject = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Body = table.Column<string>(type: "NVARCHAR(MAX)", nullable: true)
+                    Body = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -376,22 +389,20 @@ namespace WarOfEmpires.Database.Migrations
                 schema: "Players",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<int>(type: "int", nullable: false),
                     DisplayName = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: true),
                     CurrentRecruitingEffort = table.Column<int>(type: "int", nullable: false),
                     Peasants = table.Column<int>(type: "int", nullable: false),
-                    Gold = table.Column<long>(type: "bigint", nullable: true),
-                    Food = table.Column<long>(type: "bigint", nullable: true),
-                    Wood = table.Column<long>(type: "bigint", nullable: true),
-                    Stone = table.Column<long>(type: "bigint", nullable: true),
-                    Ore = table.Column<long>(type: "bigint", nullable: true),
-                    BankedGold = table.Column<long>(type: "bigint", nullable: true),
-                    BankedFood = table.Column<long>(type: "bigint", nullable: true),
-                    BankedWood = table.Column<long>(type: "bigint", nullable: true),
-                    BankedStone = table.Column<long>(type: "bigint", nullable: true),
-                    BankedOre = table.Column<long>(type: "bigint", nullable: true),
+                    Gold = table.Column<long>(type: "bigint", nullable: false),
+                    Food = table.Column<long>(type: "bigint", nullable: false),
+                    Wood = table.Column<long>(type: "bigint", nullable: false),
+                    Stone = table.Column<long>(type: "bigint", nullable: false),
+                    Ore = table.Column<long>(type: "bigint", nullable: false),
+                    BankedGold = table.Column<long>(type: "bigint", nullable: false),
+                    BankedFood = table.Column<long>(type: "bigint", nullable: false),
+                    BankedWood = table.Column<long>(type: "bigint", nullable: false),
+                    BankedStone = table.Column<long>(type: "bigint", nullable: false),
+                    BankedOre = table.Column<long>(type: "bigint", nullable: false),
                     Tax = table.Column<int>(type: "int", nullable: false),
                     AttackTurns = table.Column<int>(type: "int", nullable: false),
                     BankTurns = table.Column<int>(type: "int", nullable: false),
@@ -407,12 +418,19 @@ namespace WarOfEmpires.Database.Migrations
                 {
                     table.PrimaryKey("PK_Players", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Players_Users_UserId",
-                        column: x => x.UserId,
+                        name: "FK_Players_TitleTypes_Title",
+                        column: x => x.Title,
+                        principalSchema: "Players",
+                        principalTable: "TitleTypes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Players_Users_Id",
+                        column: x => x.Id,
                         principalSchema: "Security",
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -422,8 +440,8 @@ namespace WarOfEmpires.Database.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    LeaderId = table.Column<int>(type: "int", nullable: true),
-                    Code = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LeaderId = table.Column<int>(type: "int", nullable: false),
+                    Code = table.Column<string>(type: "nvarchar(4)", maxLength: 4, nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
@@ -435,7 +453,7 @@ namespace WarOfEmpires.Database.Migrations
                         principalSchema: "Players",
                         principalTable: "Players",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -451,11 +469,11 @@ namespace WarOfEmpires.Database.Migrations
                     DefenderId = table.Column<int>(type: "int", nullable: false),
                     Result = table.Column<int>(type: "int", nullable: false),
                     Turns = table.Column<int>(type: "int", nullable: false),
-                    Gold = table.Column<long>(type: "bigint", nullable: true),
-                    Food = table.Column<long>(type: "bigint", nullable: true),
-                    Wood = table.Column<long>(type: "bigint", nullable: true),
-                    Stone = table.Column<long>(type: "bigint", nullable: true),
-                    Ore = table.Column<long>(type: "bigint", nullable: true),
+                    Gold = table.Column<long>(type: "bigint", nullable: false),
+                    Food = table.Column<long>(type: "bigint", nullable: false),
+                    Wood = table.Column<long>(type: "bigint", nullable: false),
+                    Stone = table.Column<long>(type: "bigint", nullable: false),
+                    Ore = table.Column<long>(type: "bigint", nullable: false),
                     Type = table.Column<int>(type: "int", nullable: false),
                     AttackType = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
@@ -555,7 +573,7 @@ namespace WarOfEmpires.Database.Migrations
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsRead = table.Column<bool>(type: "bit", nullable: false),
                     Subject = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Body = table.Column<string>(type: "NVARCHAR(MAX)", nullable: true)
+                    Body = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -616,8 +634,8 @@ namespace WarOfEmpires.Database.Migrations
                     Quantity = table.Column<int>(type: "int", nullable: false),
                     Price = table.Column<int>(type: "int", nullable: false),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    PlayerId = table.Column<int>(type: "int", nullable: false),
-                    PlayerId1 = table.Column<int>(type: "int", nullable: false)
+                    BuyerId = table.Column<int>(type: "int", nullable: false),
+                    SellerId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -630,15 +648,15 @@ namespace WarOfEmpires.Database.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Transactions_Players_PlayerId",
-                        column: x => x.PlayerId,
+                        name: "FK_Transactions_Players_BuyerId",
+                        column: x => x.BuyerId,
                         principalSchema: "Players",
                         principalTable: "Players",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Transactions_Players_PlayerId1",
-                        column: x => x.PlayerId1,
+                        name: "FK_Transactions_Players_SellerId",
+                        column: x => x.SellerId,
                         principalSchema: "Players",
                         principalTable: "Players",
                         principalColumn: "Id");
@@ -805,7 +823,7 @@ namespace WarOfEmpires.Database.Migrations
                     TroopType = table.Column<int>(type: "int", nullable: false),
                     Soldiers = table.Column<int>(type: "int", nullable: false),
                     Mercenaries = table.Column<int>(type: "int", nullable: false),
-                    AttackRoundId = table.Column<int>(type: "int", nullable: true)
+                    AttackRoundId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -816,7 +834,200 @@ namespace WarOfEmpires.Database.Migrations
                         principalSchema: "Attacks",
                         principalTable: "AttackRounds",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Casualties_TroopTypes_TroopType",
+                        column: x => x.TroopType,
+                        principalSchema: "Attacks",
+                        principalTable: "TroopTypes",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.InsertData(
+                schema: "Attacks",
+                table: "AttackResults",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 1, "Undefined" },
+                    { 2, "Won" },
+                    { 3, "Defended" },
+                    { 4, "Surrendered" },
+                    { 5, "Fatigued" }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "Attacks",
+                table: "AttackTypes",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 1, "Raid" },
+                    { 2, "Assault" }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "Attacks",
+                table: "TroopTypes",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 1, "Archers" },
+                    { 3, "Footmen" },
+                    { 2, "Cavalry" }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "Empires",
+                table: "BuildingTypes",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 19, "Market" },
+                    { 18, "Siege factory" },
+                    { 17, "Ore bank" },
+                    { 16, "Stone bank" },
+                    { 15, "Wood bank" },
+                    { 14, "Food bank" },
+                    { 13, "Gold bank" },
+                    { 12, "Barracks" },
+                    { 10, "Defences" },
+                    { 9, "Footman range" },
+                    { 8, "Cavalry range" },
+                    { 7, "Archery range" },
+                    { 6, "Armoury" },
+                    { 5, "Forge" },
+                    { 4, "Mine" },
+                    { 3, "Quarry" },
+                    { 2, "Lumberyard" },
+                    { 1, "Farm" },
+                    { 11, "Huts" }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "Empires",
+                table: "WorkerTypes",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 4, "Ore miners" },
+                    { 3, "Stone masons" },
+                    { 2, "Wood workers" },
+                    { 1, "Farmers" },
+                    { 5, "Siege engineers" },
+                    { 6, "Merchants" }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "Events",
+                table: "TaskExecutionModes",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 1, "Execute once" },
+                    { 2, "Execute all intervals" }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "Markets",
+                table: "MerchandiseTypes",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 1, "Food" },
+                    { 2, "Wood" },
+                    { 3, "Stone" },
+                    { 4, "Ore" }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "Players",
+                table: "TitleTypes",
+                columns: new[] { "Id", "Name" },
+                values: new object[] { 1, "Peasant leader" });
+
+            migrationBuilder.InsertData(
+                schema: "Players",
+                table: "TitleTypes",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 16, "Grand overlord" },
+                    { 15, "Overlord" },
+                    { 14, "Emperor" },
+                    { 13, "King" },
+                    { 6, "Warlord" },
+                    { 11, "Duke" },
+                    { 7, "Baron" },
+                    { 5, "Chief" },
+                    { 4, "Sub chieftain" },
+                    { 3, "Warband leader" },
+                    { 12, "Prince" },
+                    { 8, "Viscount" },
+                    { 9, "Earl" },
+                    { 10, "Marquis" },
+                    { 2, "Bandit leader" }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "Security",
+                table: "UserEventTypes",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { (byte)12, "Failed password reset" },
+                    { (byte)18, "Failed email change" },
+                    { (byte)17, "Email changed" },
+                    { (byte)16, "Failed email change request" },
+                    { (byte)15, "Email change requested" },
+                    { (byte)14, "Failed deactivation" },
+                    { (byte)13, "Deactivated" },
+                    { (byte)19, "Failed password reset request" },
+                    { (byte)11, "Password reset" },
+                    { (byte)9, "Failed password change" },
+                    { (byte)8, "Password changed" },
+                    { (byte)7, "Logged out" },
+                    { (byte)6, "Activation code sent" },
+                    { (byte)4, "Activated" },
+                    { (byte)3, "Registered" },
+                    { (byte)2, "Failed log in" },
+                    { (byte)1, "Logged in" },
+                    { (byte)10, "Password reset requested" },
+                    { (byte)5, "Failed activation" }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "Security",
+                table: "UserStatus",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { (byte)1, "New" },
+                    { (byte)2, "Active" },
+                    { (byte)3, "Inactive" }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "Siege",
+                table: "SiegeWeaponTypes",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 1, "Fire arrows" },
+                    { 2, "Battering rams" },
+                    { 3, "Scaling ladders" }
+                });
+
+            migrationBuilder.InsertData(
+                schema: "Events",
+                table: "ScheduledTasks",
+                columns: new[] { "Id", "EventType", "ExecutionMode", "Interval", "IsPaused", "LastExecutionDate" },
+                values: new object[,]
+                {
+                    { 4, "WarOfEmpires.Domain.Empires.UpdateRankTaskTriggeredEvent, WarOfEmpires.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null", 1, new TimeSpan(0, 0, 2, 0, 0), true, null },
+                    { 1, "WarOfEmpires.Domain.Empires.RecruitTaskTriggeredEvent, WarOfEmpires.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null", 2, new TimeSpan(0, 1, 0, 0, 0), true, null },
+                    { 2, "WarOfEmpires.Domain.Empires.TurnTaskTriggeredEvent, WarOfEmpires.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null", 2, new TimeSpan(0, 0, 10, 0, 0), true, null },
+                    { 3, "WarOfEmpires.Domain.Empires.BankTurnTaskTriggeredEvent, WarOfEmpires.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null", 2, new TimeSpan(0, 4, 0, 0, 0), true, null }
                 });
 
             migrationBuilder.CreateIndex(
@@ -892,6 +1103,12 @@ namespace WarOfEmpires.Database.Migrations
                 column: "AttackRoundId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Casualties_TroopType",
+                schema: "Attacks",
+                table: "Casualties",
+                column: "TroopType");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ChatMessages_AllianceId",
                 schema: "Alliances",
                 table: "ChatMessages",
@@ -964,10 +1181,10 @@ namespace WarOfEmpires.Database.Migrations
                 column: "AllianceRoleId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Players_UserId",
+                name: "IX_Players_Title",
                 schema: "Players",
                 table: "Players",
-                column: "UserId");
+                column: "Title");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Roles_AllianceId",
@@ -994,16 +1211,16 @@ namespace WarOfEmpires.Database.Migrations
                 column: "Type");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Transactions_PlayerId",
+                name: "IX_Transactions_BuyerId",
                 schema: "Markets",
                 table: "Transactions",
-                column: "PlayerId");
+                column: "BuyerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Transactions_PlayerId1",
+                name: "IX_Transactions_SellerId",
                 schema: "Markets",
                 table: "Transactions",
-                column: "PlayerId1");
+                column: "SellerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Transactions_Type",
@@ -1087,8 +1304,7 @@ namespace WarOfEmpires.Database.Migrations
                 column: "PlayerId",
                 principalSchema: "Players",
                 principalTable: "Players",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
+                principalColumn: "Id");
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Invites_Alliances_AllianceId",
@@ -1288,6 +1504,10 @@ namespace WarOfEmpires.Database.Migrations
             migrationBuilder.DropTable(
                 name: "Roles",
                 schema: "Alliances");
+
+            migrationBuilder.DropTable(
+                name: "TitleTypes",
+                schema: "Players");
 
             migrationBuilder.DropTable(
                 name: "Users",

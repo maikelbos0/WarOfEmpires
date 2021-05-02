@@ -145,7 +145,7 @@ namespace WarOfEmpires.Database {
 
             var players = modelBuilder.Entity<Players.Player>().ToTable("Players", "Players");
             players.HasKey(p => p.Id);
-            players.HasOne(p => p.User); // TODO merge id userid and make not null
+            players.HasOne(p => p.User).WithOne().HasForeignKey<Players.Player>(p => p.Id);
             players.HasMany(p => p.Workers).WithOne().IsRequired();
             players.HasMany(p => p.Troops).WithOne().IsRequired();
             players.HasMany(p => p.SiegeWeapons).WithOne().IsRequired();
@@ -175,7 +175,7 @@ namespace WarOfEmpires.Database {
                 pr.Property(r => r.Ore).HasColumnName("BankedOre");
             });
             players.Navigation(a => a.BankedResources).IsRequired();
-            
+
             var titleTypes = modelBuilder.Entity<TitleTypeEntity>().ToTable("TitleTypes", "Players");
             titleTypes.HasKey(t => t.Id);
             titleTypes.HasMany(t => t.Players).WithOne().IsRequired().HasForeignKey(p => p.Title);

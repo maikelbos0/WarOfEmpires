@@ -10,8 +10,8 @@ using WarOfEmpires.Database;
 namespace WarOfEmpires.Database.Migrations
 {
     [DbContext(typeof(WarContext))]
-    [Migration("20210427111046_Events-Seed")]
-    partial class EventsSeed
+    [Migration("20210502101310_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -307,6 +307,102 @@ namespace WarOfEmpires.Database.Migrations
                         });
                 });
 
+            modelBuilder.Entity("WarOfEmpires.Database.ReferenceEntities.TitleTypeEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TitleTypes", "Players");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Peasant leader"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Bandit leader"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Warband leader"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Sub chieftain"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "Chief"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Name = "Warlord"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Name = "Baron"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Name = "Viscount"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Name = "Earl"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Name = "Marquis"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            Name = "Duke"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            Name = "Prince"
+                        },
+                        new
+                        {
+                            Id = 13,
+                            Name = "King"
+                        },
+                        new
+                        {
+                            Id = 14,
+                            Name = "Emperor"
+                        },
+                        new
+                        {
+                            Id = 15,
+                            Name = "Overlord"
+                        },
+                        new
+                        {
+                            Id = 16,
+                            Name = "Grand overlord"
+                        });
+                });
+
             modelBuilder.Entity("WarOfEmpires.Database.ReferenceEntities.TroopTypeEntity", b =>
                 {
                     b.Property<int>("Id")
@@ -535,9 +631,10 @@ namespace WarOfEmpires.Database.Migrations
 
                     b.Property<string>("Code")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(4)
+                        .HasColumnType("nvarchar(4)");
 
-                    b.Property<int?>("LeaderId")
+                    b.Property<int>("LeaderId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -566,9 +663,9 @@ namespace WarOfEmpires.Database.Migrations
 
                     b.Property<string>("Message")
                         .IsRequired()
-                        .HasColumnType("NVARCHAR(MAX)");
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("PlayerId")
+                    b.Property<int>("PlayerId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -591,7 +688,7 @@ namespace WarOfEmpires.Database.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Body")
-                        .HasColumnType("NVARCHAR(MAX)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
@@ -771,7 +868,7 @@ namespace WarOfEmpires.Database.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("AttackRoundId")
+                    b.Property<int>("AttackRoundId")
                         .HasColumnType("int");
 
                     b.Property<int>("Mercenaries")
@@ -786,6 +883,8 @@ namespace WarOfEmpires.Database.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AttackRoundId");
+
+                    b.HasIndex("TroopType");
 
                     b.ToTable("Casualties", "Attacks");
                 });
@@ -827,7 +926,7 @@ namespace WarOfEmpires.Database.Migrations
 
                     b.Property<string>("CommandData")
                         .IsRequired()
-                        .HasColumnType("NVARCHAR(MAX)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CommandType")
                         .IsRequired()
@@ -860,7 +959,7 @@ namespace WarOfEmpires.Database.Migrations
 
                     b.Property<string>("QueryData")
                         .IsRequired()
-                        .HasColumnType("NVARCHAR(MAX)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("QueryType")
                         .IsRequired()
@@ -950,6 +1049,40 @@ namespace WarOfEmpires.Database.Migrations
                     b.HasIndex("ExecutionMode");
 
                     b.ToTable("ScheduledTasks", "Events");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            EventType = "WarOfEmpires.Domain.Empires.RecruitTaskTriggeredEvent, WarOfEmpires.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+                            ExecutionMode = 2,
+                            Interval = new TimeSpan(0, 1, 0, 0, 0),
+                            IsPaused = true
+                        },
+                        new
+                        {
+                            Id = 2,
+                            EventType = "WarOfEmpires.Domain.Empires.TurnTaskTriggeredEvent, WarOfEmpires.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+                            ExecutionMode = 2,
+                            Interval = new TimeSpan(0, 0, 10, 0, 0),
+                            IsPaused = true
+                        },
+                        new
+                        {
+                            Id = 3,
+                            EventType = "WarOfEmpires.Domain.Empires.BankTurnTaskTriggeredEvent, WarOfEmpires.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+                            ExecutionMode = 2,
+                            Interval = new TimeSpan(0, 4, 0, 0, 0),
+                            IsPaused = true
+                        },
+                        new
+                        {
+                            Id = 4,
+                            EventType = "WarOfEmpires.Domain.Empires.UpdateRankTaskTriggeredEvent, WarOfEmpires.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+                            ExecutionMode = 1,
+                            Interval = new TimeSpan(0, 0, 2, 0, 0),
+                            IsPaused = true
+                        });
                 });
 
             modelBuilder.Entity("WarOfEmpires.Domain.Markets.Caravan", b =>
@@ -1007,14 +1140,11 @@ namespace WarOfEmpires.Database.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("BuyerId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
-
-                    b.Property<int>("PlayerId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PlayerId1")
-                        .HasColumnType("int");
 
                     b.Property<int>("Price")
                         .HasColumnType("int");
@@ -1022,14 +1152,17 @@ namespace WarOfEmpires.Database.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
+                    b.Property<int>("SellerId")
+                        .HasColumnType("int");
+
                     b.Property<int>("Type")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PlayerId");
+                    b.HasIndex("BuyerId");
 
-                    b.HasIndex("PlayerId1");
+                    b.HasIndex("SellerId");
 
                     b.HasIndex("Type");
 
@@ -1044,7 +1177,7 @@ namespace WarOfEmpires.Database.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Body")
-                        .HasColumnType("NVARCHAR(MAX)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
@@ -1075,9 +1208,7 @@ namespace WarOfEmpires.Database.Migrations
             modelBuilder.Entity("WarOfEmpires.Domain.Players.Player", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
 
                     b.Property<int?>("AllianceId")
                         .HasColumnType("int");
@@ -1120,16 +1251,13 @@ namespace WarOfEmpires.Database.Migrations
                     b.Property<int>("Title")
                         .HasColumnType("int");
 
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("AllianceId");
 
                     b.HasIndex("AllianceRoleId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("Title");
 
                     b.ToTable("Players", "Players");
                 });
@@ -1260,7 +1388,9 @@ namespace WarOfEmpires.Database.Migrations
                 {
                     b.HasOne("WarOfEmpires.Domain.Players.Player", "Leader")
                         .WithMany()
-                        .HasForeignKey("LeaderId");
+                        .HasForeignKey("LeaderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Leader");
                 });
@@ -1275,7 +1405,9 @@ namespace WarOfEmpires.Database.Migrations
 
                     b.HasOne("WarOfEmpires.Domain.Players.Player", "Player")
                         .WithMany()
-                        .HasForeignKey("PlayerId");
+                        .HasForeignKey("PlayerId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
                     b.Navigation("Player");
                 });
@@ -1394,7 +1526,8 @@ namespace WarOfEmpires.Database.Migrations
 
                     b.Navigation("Defender");
 
-                    b.Navigation("Resources");
+                    b.Navigation("Resources")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("WarOfEmpires.Domain.Attacks.AttackRound", b =>
@@ -1416,7 +1549,15 @@ namespace WarOfEmpires.Database.Migrations
                 {
                     b.HasOne("WarOfEmpires.Domain.Attacks.AttackRound", null)
                         .WithMany("Casualties")
-                        .HasForeignKey("AttackRoundId");
+                        .HasForeignKey("AttackRoundId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WarOfEmpires.Database.ReferenceEntities.TroopTypeEntity", null)
+                        .WithMany("Casualties")
+                        .HasForeignKey("TroopType")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("WarOfEmpires.Domain.Attacks.Troops", b =>
@@ -1503,13 +1644,13 @@ namespace WarOfEmpires.Database.Migrations
                 {
                     b.HasOne("WarOfEmpires.Domain.Players.Player", null)
                         .WithMany("BuyTransactions")
-                        .HasForeignKey("PlayerId")
+                        .HasForeignKey("BuyerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("WarOfEmpires.Domain.Players.Player", null)
                         .WithMany("SellTransactions")
-                        .HasForeignKey("PlayerId1")
+                        .HasForeignKey("SellerId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
@@ -1550,15 +1691,21 @@ namespace WarOfEmpires.Database.Migrations
                         .HasForeignKey("AllianceRoleId");
 
                     b.HasOne("WarOfEmpires.Domain.Security.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
+                        .WithOne()
+                        .HasForeignKey("WarOfEmpires.Domain.Players.Player", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WarOfEmpires.Database.ReferenceEntities.TitleTypeEntity", null)
+                        .WithMany("Players")
+                        .HasForeignKey("Title")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.OwnsOne("WarOfEmpires.Domain.Common.Resources", "BankedResources", b1 =>
                         {
                             b1.Property<int>("PlayerId")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int")
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                                .HasColumnType("int");
 
                             b1.Property<long>("Food")
                                 .HasColumnType("bigint")
@@ -1591,9 +1738,7 @@ namespace WarOfEmpires.Database.Migrations
                     b.OwnsOne("WarOfEmpires.Domain.Common.Resources", "Resources", b1 =>
                         {
                             b1.Property<int>("PlayerId")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int")
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                                .HasColumnType("int");
 
                             b1.Property<long>("Food")
                                 .HasColumnType("bigint")
@@ -1627,9 +1772,11 @@ namespace WarOfEmpires.Database.Migrations
 
                     b.Navigation("AllianceRole");
 
-                    b.Navigation("BankedResources");
+                    b.Navigation("BankedResources")
+                        .IsRequired();
 
-                    b.Navigation("Resources");
+                    b.Navigation("Resources")
+                        .IsRequired();
 
                     b.Navigation("User");
                 });
@@ -1769,9 +1916,16 @@ namespace WarOfEmpires.Database.Migrations
                     b.Navigation("ScheduledTasks");
                 });
 
+            modelBuilder.Entity("WarOfEmpires.Database.ReferenceEntities.TitleTypeEntity", b =>
+                {
+                    b.Navigation("Players");
+                });
+
             modelBuilder.Entity("WarOfEmpires.Database.ReferenceEntities.TroopTypeEntity", b =>
                 {
                     b.Navigation("AttackRounds");
+
+                    b.Navigation("Casualties");
 
                     b.Navigation("Troops");
                 });
