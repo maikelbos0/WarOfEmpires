@@ -145,7 +145,7 @@ namespace WarOfEmpires.Database {
 
             var players = modelBuilder.Entity<Players.Player>().ToTable("Players", "Players");
             players.HasKey(p => p.Id);
-            players.HasOne(p => p.User);
+            players.HasOne(p => p.User); // TODO merge id userid and make not null
             players.HasMany(p => p.Workers).WithOne().IsRequired();
             players.HasMany(p => p.Troops).WithOne().IsRequired();
             players.HasMany(p => p.SiegeWeapons).WithOne().IsRequired();
@@ -166,6 +166,7 @@ namespace WarOfEmpires.Database {
                 pr.Property(r => r.Stone).HasColumnName("Stone");
                 pr.Property(r => r.Ore).HasColumnName("Ore");
             });
+            players.Navigation(a => a.Resources).IsRequired();
             players.OwnsOne(p => p.BankedResources, pr => {
                 pr.Property(r => r.Gold).HasColumnName("BankedGold");
                 pr.Property(r => r.Food).HasColumnName("BankedFood");
@@ -173,6 +174,8 @@ namespace WarOfEmpires.Database {
                 pr.Property(r => r.Stone).HasColumnName("BankedStone");
                 pr.Property(r => r.Ore).HasColumnName("BankedOre");
             });
+            players.Navigation(a => a.BankedResources).IsRequired();
+            // TODO titles table?
 
             var workerTypes = modelBuilder.Entity<WorkerTypeEntity>().ToTable("WorkerTypes", "Empires");
             workerTypes.HasKey(t => t.Id);
