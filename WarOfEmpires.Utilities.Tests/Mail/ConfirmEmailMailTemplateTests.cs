@@ -1,12 +1,14 @@
-using WarOfEmpires.Test.Utilities;
-using WarOfEmpires.Utilities.Mail;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using WarOfEmpires.Utilities.Configuration;
+using WarOfEmpires.Utilities.Mail;
 
 namespace WarOfEmpires.Utilities.Tests.Mail {
     [TestClass]
     public sealed class ConfirmEmailMailTemplateTests {
-        private readonly FakeAppSettings _appSettings = new FakeAppSettings();
+        private readonly AppSettings _appSettings = new AppSettings() {
+            ApplicationBaseUrl = "http://localhost/"
+        };
 
         [TestMethod]
         public void ConfirmEmailMailTemplate_Generates_Correct_Subject() {

@@ -1,13 +1,13 @@
-using WarOfEmpires.Utilities.Configuration;
 using System.Net;
 using VDT.Core.DependencyInjection;
+using WarOfEmpires.Utilities.Configuration;
 
 namespace WarOfEmpires.Utilities.Mail {
     [ScopedServiceImplementation(typeof(IMailTemplate<ConfirmEmailMailTemplateParameters>))]
     public sealed class ConfirmEmailMailTemplate : IMailTemplate<ConfirmEmailMailTemplateParameters> {
-        private readonly IAppSettings _appSettings;
+        private readonly AppSettings _appSettings;
 
-        public ConfirmEmailMailTemplate(IAppSettings appSettings) {
+        public ConfirmEmailMailTemplate(AppSettings appSettings) {
             _appSettings = appSettings;
         }
 
@@ -15,7 +15,7 @@ namespace WarOfEmpires.Utilities.Mail {
             return new MailMessage() {
                 To = to,
                 Subject = "Please confirm your email address",
-                Body = $"<p>Please <a href=\"{_appSettings["Application.BaseUrl"]}Home/ConfirmEmail/?confirmationCode={parameters.ActivationCode}&email={WebUtility.UrlEncode(parameters.Email)}\">click here to confirm your new email address</a>.</p>"
+                Body = $"<p>Please <a href=\"{_appSettings.ApplicationBaseUrl}Home/ConfirmEmail/?confirmationCode={parameters.ActivationCode}&email={WebUtility.UrlEncode(parameters.Email)}\">click here to confirm your new email address</a>.</p>"
             };
         }
     }

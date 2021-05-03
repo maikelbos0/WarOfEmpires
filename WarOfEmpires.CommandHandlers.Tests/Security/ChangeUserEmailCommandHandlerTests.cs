@@ -1,13 +1,14 @@
+using FluentAssertions;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NSubstitute;
+using System;
 using WarOfEmpires.CommandHandlers.Security;
 using WarOfEmpires.Commands.Security;
 using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Repositories.Security;
 using WarOfEmpires.Test.Utilities;
+using WarOfEmpires.Utilities.Configuration;
 using WarOfEmpires.Utilities.Mail;
-using FluentAssertions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NSubstitute;
-using System;
 
 namespace WarOfEmpires.CommandHandlers.Tests.Security {
     [TestClass]
@@ -19,7 +20,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Security {
 
             builder.User.NewEmailConfirmationCode.Returns(999999);
 
-            var handler = new ChangeUserEmailCommandHandler(new UserRepository(builder.Context), new FakeMailClient(), new ConfirmEmailMailTemplate(new FakeAppSettings()));
+            var handler = new ChangeUserEmailCommandHandler(new UserRepository(builder.Context), new FakeMailClient(), new ConfirmEmailMailTemplate(new AppSettings()));
             var command = new ChangeUserEmailCommand("test1@test.com", "test", "new@test.com");
             
             handler.Execute(command);
@@ -38,7 +39,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Security {
             builder.User.NewEmailConfirmationCode.Returns(999999);
             builder.User.NewEmail.Returns("new@test.com");
 
-            var handler = new ChangeUserEmailCommandHandler(new UserRepository(builder.Context), mailClient, new ConfirmEmailMailTemplate(new FakeAppSettings()));
+            var handler = new ChangeUserEmailCommandHandler(new UserRepository(builder.Context), mailClient, new ConfirmEmailMailTemplate(new AppSettings()));
             var command = new ChangeUserEmailCommand("test1@test.com", "test", "new@test.com");
 
             handler.Execute(command);
@@ -54,7 +55,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Security {
             var builder = new FakeBuilder()
                 .BuildUser(1);
 
-            var handler = new ChangeUserEmailCommandHandler(new UserRepository(builder.Context), mailClient, new ConfirmEmailMailTemplate(new FakeAppSettings()));
+            var handler = new ChangeUserEmailCommandHandler(new UserRepository(builder.Context), mailClient, new ConfirmEmailMailTemplate(new AppSettings()));
             var command = new ChangeUserEmailCommand("test1@test.com", "wrong", "new@test.com");
 
             var result = handler.Execute(command);
@@ -73,7 +74,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Security {
                 .WithUser(2, email: "new@test.com")
                 .BuildUser(1);
 
-            var handler = new ChangeUserEmailCommandHandler(new UserRepository(builder.Context), mailClient, new ConfirmEmailMailTemplate(new FakeAppSettings()));
+            var handler = new ChangeUserEmailCommandHandler(new UserRepository(builder.Context), mailClient, new ConfirmEmailMailTemplate(new AppSettings()));
             var command = new ChangeUserEmailCommand("test1@test.com", "test", "new@test.com");
 
             var result = handler.Execute(command);
@@ -91,7 +92,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Security {
             var builder = new FakeBuilder()
                 .BuildUser(1, status: UserStatus.Inactive);
 
-            var handler = new ChangeUserEmailCommandHandler(new UserRepository(builder.Context), mailClient, new ConfirmEmailMailTemplate(new FakeAppSettings()));
+            var handler = new ChangeUserEmailCommandHandler(new UserRepository(builder.Context), mailClient, new ConfirmEmailMailTemplate(new AppSettings()));
             var command = new ChangeUserEmailCommand("test1@test.com", "test", "new@test.com");
 
             Action commandAction = () => handler.Execute(command);

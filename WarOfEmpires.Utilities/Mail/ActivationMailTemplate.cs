@@ -1,13 +1,13 @@
-using WarOfEmpires.Utilities.Configuration;
 using System.Net;
 using VDT.Core.DependencyInjection;
+using WarOfEmpires.Utilities.Configuration;
 
 namespace WarOfEmpires.Utilities.Mail {
     [ScopedServiceImplementation(typeof(IMailTemplate<ActivationMailTemplateParameters>))]
     public sealed class ActivationMailTemplate : IMailTemplate<ActivationMailTemplateParameters> {
-        private readonly IAppSettings _appSettings;
+        private readonly AppSettings _appSettings;
 
-        public ActivationMailTemplate(IAppSettings appSettings) {
+        public ActivationMailTemplate(AppSettings appSettings) {
             _appSettings = appSettings;
         }
 
@@ -15,7 +15,7 @@ namespace WarOfEmpires.Utilities.Mail {
             return new MailMessage() {
                 To = to,
                 Subject = "Please activate your account",
-                Body = $"<p>Please <a href=\"{_appSettings["Application.BaseUrl"]}Home/Activate/?activationCode={parameters.ActivationCode}&email={WebUtility.UrlEncode(parameters.Email)}\">click here to activate your account</a>.</p>"
+                Body = $"<p>Please <a href=\"{_appSettings.ApplicationBaseUrl}Home/Activate/?activationCode={parameters.ActivationCode}&email={WebUtility.UrlEncode(parameters.Email)}\">click here to activate your account</a>.</p>"
             };
         }
     }

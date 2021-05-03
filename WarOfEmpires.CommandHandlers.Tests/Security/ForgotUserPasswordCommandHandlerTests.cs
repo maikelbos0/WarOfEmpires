@@ -1,12 +1,13 @@
-using WarOfEmpires.CommandHandlers.Security;
-using WarOfEmpires.Domain.Security;
-using WarOfEmpires.Commands.Security;
-using WarOfEmpires.Test.Utilities;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using WarOfEmpires.Utilities.Mail;
 using NSubstitute;
+using WarOfEmpires.CommandHandlers.Security;
+using WarOfEmpires.Commands.Security;
+using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Repositories.Security;
+using WarOfEmpires.Test.Utilities;
+using WarOfEmpires.Utilities.Configuration;
+using WarOfEmpires.Utilities.Mail;
 
 namespace WarOfEmpires.CommandHandlers.Tests.Security {
     [TestClass]
@@ -17,7 +18,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Security {
             var builder = new FakeBuilder()
                 .BuildUser(1);
 
-            var handler = new ForgotUserPasswordCommandHandler(new UserRepository(builder.Context), mailClient, new PasswordResetMailTemplate(new FakeAppSettings()));
+            var handler = new ForgotUserPasswordCommandHandler(new UserRepository(builder.Context), mailClient, new PasswordResetMailTemplate(new AppSettings()));
             var command = new ForgotUserPasswordCommand("test1@test.com");
             
             handler.Execute(command);
@@ -32,7 +33,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Security {
             var builder = new FakeBuilder()
                 .BuildUser(1);
 
-            var handler = new ForgotUserPasswordCommandHandler(new UserRepository(builder.Context), new FakeMailClient(), new PasswordResetMailTemplate(new FakeAppSettings()));
+            var handler = new ForgotUserPasswordCommandHandler(new UserRepository(builder.Context), new FakeMailClient(), new PasswordResetMailTemplate(new AppSettings()));
             var command = new ForgotUserPasswordCommand("test1@test.com");
 
             var result = handler.Execute(command);
@@ -49,7 +50,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Security {
             var builder = new FakeBuilder()
                 .BuildUser(1);
 
-            var handler = new ForgotUserPasswordCommandHandler(new UserRepository(builder.Context), mailClient, new PasswordResetMailTemplate(new FakeAppSettings()));
+            var handler = new ForgotUserPasswordCommandHandler(new UserRepository(builder.Context), mailClient, new PasswordResetMailTemplate(new AppSettings()));
             var command = new ForgotUserPasswordCommand("wrong@test.com");
 
             var result = handler.Execute(command);
@@ -67,7 +68,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Security {
             var builder = new FakeBuilder()
                 .BuildUser(1, status: UserStatus.Inactive);
 
-            var handler = new ForgotUserPasswordCommandHandler(new UserRepository(builder.Context), mailClient, new PasswordResetMailTemplate(new FakeAppSettings()));
+            var handler = new ForgotUserPasswordCommandHandler(new UserRepository(builder.Context), mailClient, new PasswordResetMailTemplate(new AppSettings()));
             var command = new ForgotUserPasswordCommand("test1@test.com");
             
             var result = handler.Execute(command);
@@ -85,7 +86,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Security {
             var builder = new FakeBuilder()
                 .BuildUser(1, status: UserStatus.New);
 
-            var handler = new ForgotUserPasswordCommandHandler(new UserRepository(builder.Context), mailClient, new PasswordResetMailTemplate(new FakeAppSettings()));
+            var handler = new ForgotUserPasswordCommandHandler(new UserRepository(builder.Context), mailClient, new PasswordResetMailTemplate(new AppSettings()));
             var command = new ForgotUserPasswordCommand("test1@test.com");
 
             var result = handler.Execute(command);

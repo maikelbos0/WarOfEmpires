@@ -1,7 +1,9 @@
 using WarOfEmpires.Utilities.Configuration;
 using System.Collections.Generic;
+using System;
 
 namespace WarOfEmpires.Test.Utilities {
+    [Obsolete]
     public sealed class FakeAppSettings : IAppSettings {
         public Dictionary<string, string> Settings { get; }
 

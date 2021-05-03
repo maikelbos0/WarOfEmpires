@@ -1,12 +1,13 @@
-using WarOfEmpires.CommandHandlers.Security;
-using WarOfEmpires.Domain.Security;
-using WarOfEmpires.Commands.Security;
-using WarOfEmpires.Test.Utilities;
-using WarOfEmpires.Utilities.Mail;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
+using WarOfEmpires.CommandHandlers.Security;
+using WarOfEmpires.Commands.Security;
+using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Repositories.Security;
+using WarOfEmpires.Test.Utilities;
+using WarOfEmpires.Utilities.Configuration;
+using WarOfEmpires.Utilities.Mail;
 
 namespace WarOfEmpires.CommandHandlers.Tests.Security {
     [TestClass]
@@ -15,7 +16,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Security {
         public void RegisterUserCommandHandler_Succeeds() {
             var context = new FakeWarContext();
 
-            var handler = new RegisterUserCommandHandler(new UserRepository(context), new FakeMailClient(), new ActivationMailTemplate(new FakeAppSettings()));
+            var handler = new RegisterUserCommandHandler(new UserRepository(context), new FakeMailClient(), new ActivationMailTemplate(new AppSettings()));
             var command = new RegisterUserCommand("test1@test.com", "test");
 
             var result = handler.Execute(command);
@@ -33,7 +34,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Security {
         public void RegisterUserCommandHandler_Sends_Email() {
             var mailClient = new FakeMailClient();
             
-            var handler = new RegisterUserCommandHandler(new UserRepository(new FakeWarContext()), mailClient, new ActivationMailTemplate(new FakeAppSettings()));
+            var handler = new RegisterUserCommandHandler(new UserRepository(new FakeWarContext()), mailClient, new ActivationMailTemplate(new AppSettings()));
             var command = new RegisterUserCommand("test1@test.com", "test");
 
             handler.Execute(command);
@@ -49,7 +50,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Security {
             var builder = new FakeBuilder()
                 .BuildUser(1);
 
-            var handler = new RegisterUserCommandHandler(new UserRepository(builder.Context), mailClient, new ActivationMailTemplate(new FakeAppSettings()));
+            var handler = new RegisterUserCommandHandler(new UserRepository(builder.Context), mailClient, new ActivationMailTemplate(new AppSettings()));
             var command = new RegisterUserCommand("test1@test.com", "test");
 
             var result = handler.Execute(command);
