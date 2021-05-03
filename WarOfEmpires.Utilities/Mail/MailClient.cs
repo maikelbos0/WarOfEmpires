@@ -1,16 +1,21 @@
 using SendGrid;
 using SendGrid.Helpers.Mail;
-using System.Configuration;
 using VDT.Core.DependencyInjection;
+using WarOfEmpires.Utilities.Configuration;
 
 namespace WarOfEmpires.Utilities.Mail {
     [ScopedServiceImplementation(typeof(IMailClient))]
     public sealed class MailClient : IMailClient {
+        private readonly AppSettings _appSettings;
+
+        public MailClient(AppSettings appSettings) {
+            _appSettings = appSettings;
+        }
+
         public void Send(MailMessage model) {
-            // TODO inject settings
-            var client = new SendGridClient(ConfigurationManager.AppSettings["SendGrid.ApiKey"]);
+            var client = new SendGridClient(_appSettings.SendGridApiKey);
             var message = new SendGridMessage() {
-                From = new EmailAddress("maikel.bos0@gmail.com"),
+                From = new EmailAddress(_appSettings.EmailFromAddress),
                 Subject = model.Subject,
                 HtmlContent = model.Body
             };
