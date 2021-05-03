@@ -23,7 +23,6 @@ namespace WarOfEmpires.Tests.Integration {
         private readonly FakeAuthenticationService _authenticationService = new FakeAuthenticationService();
         private readonly FakeWarContext _context = new FakeWarContext();
         private readonly FakeMailClient _mailClient = new FakeMailClient();
-        private readonly FakeAppSettings _appSettings = new FakeAppSettings();
 
         public HomeControllerTests() {
             var services = new ServiceCollection();
@@ -32,7 +31,7 @@ namespace WarOfEmpires.Tests.Integration {
             services.Replace(ServiceDescriptor.Scoped<IAuthenticationService>(serviceProvider => _authenticationService));
             services.Replace(ServiceDescriptor.Scoped<IWarContext>(serviceProvider => _context));
             services.Replace(ServiceDescriptor.Scoped<IMailClient>(serviceProvider => _mailClient));
-            services.Replace(ServiceDescriptor.Scoped<IAppSettings>(serviceProvider => _appSettings));
+            services.AddSingleton<AppSettings>();
             services.AddScoped<HomeController>();
 
             serviceProvider = services.BuildServiceProvider();

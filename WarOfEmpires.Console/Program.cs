@@ -5,7 +5,8 @@ using WarOfEmpires.Utilities.DependencyInjection;
 
 namespace WarOfEmpires.Console {
     public static class Program {
-        static void Main() {            
+        static void Main() {
+            // TODO add configuration with user secret for SendGrid API key
             var serviceProvider = new ServiceCollection()
                 .AddServices(typeof(Program).Assembly)
                 .BuildServiceProvider(new ServiceProviderOptions {

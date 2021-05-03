@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using WarOfEmpires.Utilities.Configuration;
 using WarOfEmpires.Utilities.DependencyInjection;
 
 namespace WarOfEmpires {
@@ -23,6 +24,9 @@ namespace WarOfEmpires {
             services.AddControllersWithViews(ConfigureMvcOptions);
             services.AddHttpContextAccessor();
             services.AddServices(typeof(Startup).Assembly);
+
+            // TODO add user secret for SendGrid API key
+            services.AddSingleton(Configuration.GetSection(AppSettings.Key).Get<AppSettings>());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
