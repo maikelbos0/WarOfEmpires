@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using VDT.Core.DependencyInjection;
 using WarOfEmpires.Database.ReferenceEntities;
+using WarOfEmpires.Utilities.Configuration;
 using Alliances = WarOfEmpires.Domain.Alliances;
 using Attacks = WarOfEmpires.Domain.Attacks;
 using Auditing = WarOfEmpires.Domain.Auditing;
@@ -24,9 +25,7 @@ namespace WarOfEmpires.Database {
         public DbSet<Players.Player> Players { get; set; }
         public DbSet<Events.ScheduledTask> ScheduledTasks { get; set; }
 
-        // TODO move to configuration
-        public WarContext() : base(new DbContextOptionsBuilder<WarContext>().UseSqlServer(@"data source=(local);initial catalog=WarOfEmpires;persist security info=True;Integrated Security=True;").Options) {
-        }
+        public WarContext(AppSettings appSettings) : base(new DbContextOptionsBuilder<WarContext>().UseSqlServer(appSettings.DatabaseConnectionString).Options) { }
 
         public override int SaveChanges() {
             DeleteOrphanedCaravans();
