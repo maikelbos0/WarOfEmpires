@@ -16,10 +16,10 @@ namespace WarOfEmpires.QueryHandlers.Empires {
     [ScopedServiceImplementation(typeof(IQueryHandler<GetTroopsQuery, TroopsModel>))]
     public sealed class GetTroopsQueryHandler : IQueryHandler<GetTroopsQuery, TroopsModel> {
         private readonly IWarContext _context;
-        private readonly ResourcesMap _resourcesMap;
+        private readonly IResourcesMap _resourcesMap;
         private readonly IEnumFormatter _formatter;
 
-        public GetTroopsQueryHandler(IWarContext context, ResourcesMap resourcesMap, IEnumFormatter formatter) {
+        public GetTroopsQueryHandler(IWarContext context, IResourcesMap resourcesMap, IEnumFormatter formatter) {
             _context = context;
             _resourcesMap = resourcesMap;
             _formatter = formatter;

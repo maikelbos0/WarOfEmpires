@@ -11,9 +11,9 @@ namespace WarOfEmpires.QueryHandlers.Empires {
     [ScopedServiceImplementation(typeof(IQueryHandler<GetBankedResourcesQuery, BankedResourcesViewModel>))]
     public sealed class GetBankedResourcesQueryHandler : IQueryHandler<GetBankedResourcesQuery, BankedResourcesViewModel> {
         private readonly IWarContext _context;
-        private readonly ResourcesMap _resourcesMap;
+        private readonly IResourcesMap _resourcesMap;
 
-        public GetBankedResourcesQueryHandler(IWarContext context, ResourcesMap resourcesMap) {
+        public GetBankedResourcesQueryHandler(IWarContext context, IResourcesMap resourcesMap) {
             _context = context;
             _resourcesMap = resourcesMap;
         }

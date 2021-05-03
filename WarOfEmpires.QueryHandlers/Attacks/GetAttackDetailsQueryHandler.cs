@@ -13,10 +13,10 @@ namespace WarOfEmpires.QueryHandlers.Attacks {
     [ScopedServiceImplementation(typeof(IQueryHandler<GetAttackDetailsQuery, AttackDetailsViewModel>))]
     public sealed class GetAttackDetailsQueryHandler : IQueryHandler<GetAttackDetailsQuery, AttackDetailsViewModel> {
         private readonly IWarContext _context;
-        private readonly ResourcesMap _resourcesMap;
+        private readonly IResourcesMap _resourcesMap;
         private readonly IEnumFormatter _formatter;
 
-        public GetAttackDetailsQueryHandler(IWarContext context, ResourcesMap resourcesMap, IEnumFormatter formatter) {
+        public GetAttackDetailsQueryHandler(IWarContext context, IResourcesMap resourcesMap, IEnumFormatter formatter) {
             _context = context;
             _resourcesMap = resourcesMap;
             _formatter = formatter;

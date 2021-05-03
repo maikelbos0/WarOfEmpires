@@ -16,10 +16,10 @@ namespace WarOfEmpires.QueryHandlers.Empires {
     [ScopedServiceImplementation(typeof(IQueryHandler<GetWorkersQuery, WorkersModel>))]
     public sealed class GetWorkersQueryHandler : IQueryHandler<GetWorkersQuery, WorkersModel> {
         private readonly IWarContext _context;
-        private readonly ResourcesMap _resourcesMap;
+        private readonly IResourcesMap _resourcesMap;
         private readonly IEnumFormatter _formatter;
 
-        public GetWorkersQueryHandler(IWarContext context, ResourcesMap resourcesMap, IEnumFormatter formatter) {
+        public GetWorkersQueryHandler(IWarContext context, IResourcesMap resourcesMap, IEnumFormatter formatter) {
             _context = context;
             _resourcesMap = resourcesMap;
             _formatter = formatter;

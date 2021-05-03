@@ -13,9 +13,9 @@ namespace WarOfEmpires.QueryHandlers.Empires {
     [ScopedServiceImplementation(typeof(IQueryHandler<GetBuildingQuery, BuildingModel>))]
     public sealed class GetBuildingQueryHandler : IQueryHandler<GetBuildingQuery, BuildingModel> {
         private readonly IWarContext _context;
-        private readonly ResourcesMap _resourcesMap;
+        private readonly IResourcesMap _resourcesMap;
 
-        public GetBuildingQueryHandler(IWarContext context, ResourcesMap resourcesMap) {
+        public GetBuildingQueryHandler(IWarContext context, IResourcesMap resourcesMap) {
             _context = context;
             _resourcesMap = resourcesMap;
         }

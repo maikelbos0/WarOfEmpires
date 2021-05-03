@@ -11,9 +11,9 @@ namespace WarOfEmpires.QueryHandlers.Empires {
     [ScopedServiceImplementation(typeof(IQueryHandler<GetResourceHeaderQuery, ResourceHeaderViewModel>))]
     public sealed class GetResourceHeaderQueryHandler : IQueryHandler<GetResourceHeaderQuery, ResourceHeaderViewModel> {
         private readonly IWarContext _context;  
-        private readonly ResourcesMap _resourcesMap;
+        private readonly IResourcesMap _resourcesMap;
 
-        public GetResourceHeaderQueryHandler(IWarContext context, ResourcesMap resourcesMap) {
+        public GetResourceHeaderQueryHandler(IWarContext context, IResourcesMap resourcesMap) {
             _context = context;
             _resourcesMap = resourcesMap;
         }

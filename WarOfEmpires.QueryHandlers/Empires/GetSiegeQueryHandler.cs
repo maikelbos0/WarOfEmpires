@@ -17,10 +17,10 @@ namespace WarOfEmpires.QueryHandlers.Empires {
     [ScopedServiceImplementation(typeof(IQueryHandler<GetSiegeQuery, SiegeModel>))]
     public class GetSiegeQueryHandler : IQueryHandler<GetSiegeQuery, SiegeModel> {
         private readonly IWarContext _context;
-        private readonly ResourcesMap _resourcesMap;
+        private readonly IResourcesMap _resourcesMap;
         private readonly IEnumFormatter _formatter;
 
-        public GetSiegeQueryHandler(IWarContext context, ResourcesMap resourcesMap, IEnumFormatter formatter) {
+        public GetSiegeQueryHandler(IWarContext context, IResourcesMap resourcesMap, IEnumFormatter formatter) {
             _context = context;
             _resourcesMap = resourcesMap;
             _formatter = formatter;
