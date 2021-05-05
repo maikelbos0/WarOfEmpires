@@ -12,7 +12,7 @@ namespace WarOfEmpires {
         public Startup(IWebHostEnvironment env) {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile("appsettings.json")
                 .AddEnvironmentVariables()
                 .AddUserSecrets("c61bb83f-efb6-4b20-a8d9-eca92057923a");
 
