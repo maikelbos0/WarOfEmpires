@@ -42,7 +42,6 @@ namespace WarOfEmpires {
             app.UseRouting();
             app.UseAuthorization();
 
-            // TODO test default controller and default action for non default controller
             app.UseEndpoints(endpoints => {
                 endpoints.MapControllerRoute(
                     name: "default",

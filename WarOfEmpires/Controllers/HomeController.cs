@@ -10,12 +10,14 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace WarOfEmpires.Controllers {
     [Route("Home")]
+    [Route("")]
     public sealed class HomeController : BaseController {
         public HomeController(IAuthenticationService authenticationService, IMessageService messageService, IDataGridViewService dataGridViewService)
             : base(messageService, authenticationService, dataGridViewService) {
         }
 
         [UserOnline]
+        [Route("")]
         [Route("Index")]
         [HttpGet]
         public ViewResult Index() {
