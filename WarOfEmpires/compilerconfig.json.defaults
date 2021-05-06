@@ -50,14 +50,10 @@
   },
   "minifiers": {
     "css": {
-      "enabled": true,
-      "termSemicolons": true,
-      "gzip": false
+      "enabled": false
     },
     "javascript": {
-      "enabled": true,
-      "termSemicolons": true,
-      "gzip": false
+      "enabled": false
     }
   }
 }
