@@ -1,0 +1,14 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "provider": "unpkg",
+      "library": "bootstrap@5.0.0",
+      "destination": "wwwroot/lib/bootstrap/",
+      "files": [
+        "scss/**/*.*"
+      ]
+    }
+  ]
+}

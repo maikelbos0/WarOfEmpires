@@ -1,6 +1,6 @@
 ﻿[
   {
-    "outputFile": "Content/bootstrap-site.css",
-    "inputFile": "Content/bootstrap-site.scss"
+    "outputFile": "wwwroot/css/bootstrap-site.css",
+    "inputFile": "wwwroot/css/bootstrap-site.scss"
   }
 ]
