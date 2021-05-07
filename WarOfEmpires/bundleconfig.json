@@ -4,5 +4,11 @@
       "wwwroot/css/bootstrap-site.css"
     ],
     "outputFileName": "wwwroot/css/_bundle.css"
+  },
+  {
+    "inputFiles": [
+      "wwwroot/lib/jquery/dist/jquery.js"
+    ],
+    "outputFileName": "wwwroot/js/_bundle.js"
   }
 ]

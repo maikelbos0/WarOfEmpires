@@ -10,20 +10,15 @@
 
     <environment include="Development">
         <link rel="stylesheet" href="~/css/_bundle.css" />
+
+        <script src="~/js/_bundle.js"></script>
     </environment>
 
     <environment exclude="Development">
         <link rel="stylesheet" href="~/css/_bundle.min.css" asp-append-version="true" />
+
+        <script src="~/js/_bundle.min.js"></script>
     </environment>
-
-    @*
-        TODO readd bundles
-
-        @Scripts.Render("~/Scripts/jquery")
-        @Scripts.Render("~/Scripts/app")
-
-        @Styles.Render("~/Content/css")
-    *@
 </head>
 <body>
     <div class="container py-3">

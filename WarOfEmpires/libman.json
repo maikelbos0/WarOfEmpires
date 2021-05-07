@@ -9,6 +9,14 @@
       "files": [
         "scss/**/*.*"
       ]
+    },
+    {
+      "provider": "unpkg",
+      "library": "jquery@3.6.0",
+      "destination": "wwwroot/lib/jquery/",
+      "files": [
+        "dist/jquery.js"
+      ]
     }
   ]
 }

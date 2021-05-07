@@ -5,7 +5,6 @@ namespace WarOfEmpires.App_Start {
 
         //public static void RegisterBundles(BundleCollection bundles) {
         //    bundles.Add(new ScriptBundle("~/Scripts/jquery").Include(
-        //        "~/Scripts/jquery-{version}.js",
         //        "~/Scripts/jquery.validate.js",
         //        "~/Scripts/jquery.validate.unobtrusive.js",
         //        "~/Scripts/toastr.js",
