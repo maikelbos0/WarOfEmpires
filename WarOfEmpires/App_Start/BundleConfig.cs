@@ -12,10 +12,6 @@ namespace WarOfEmpires.App_Start {
         //        "~/Scripts/jquery-datagridview.js",
         //        "~/Scripts/jquery-rangeslider.js"));
 
-        //    bundles.Add(new ScriptBundle("~/Scripts/bootstrap").Include(
-        //        "~/Scripts/umd/popper.js",
-        //        "~/Scripts/bootstrap.js"));
-
         //    bundles.Add(new ScriptBundle("~/Scripts/app").Include(
         //        "~/Scripts/application/ajax-form.js",
         //        "~/Scripts/application/building-totals-manager.js",
@@ -28,9 +24,6 @@ namespace WarOfEmpires.App_Start {
         //        "~/Scripts/application/resource-manager.js",
         //        "~/Scripts/application/jquery-datagridview-defaults.js",
         //        "~/Scripts/application/toastr-defaults.js"));
-
-        //    bundles.Add(new StyleBundle("~/Content/css-bootstrap").Include(
-        //        "~/Content/bootstrap-site.css"));
 
         //    bundles.Add(new StyleBundle("~/Content/css").Include(
         //        "~/Content/site.css",

@@ -3,6 +3,6 @@
     "inputFiles": [
       "wwwroot/css/bootstrap-site.css"
     ],
-    "outputFileName": "wwwroot/css/bootstrap-bundle.css"
+    "outputFileName": "wwwroot/css/_bundle.css"
   }
 ]
