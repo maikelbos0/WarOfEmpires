@@ -25,8 +25,6 @@ namespace WarOfEmpires.App_Start {
         //        "~/Scripts/application/toastr-defaults.js"));
 
         //    bundles.Add(new StyleBundle("~/Content/css").Include(
-        //        "~/Content/site.css",
-        //        "~/Content/site-icons.css",
         //        "~/Content/toastr.css",
         //        "~/Content/jquery-datagridview.css",
         //        "~/Content/jquery-datagridview.style-custom.css",

@@ -1,7 +1,9 @@
 [
   {
     "inputFiles": [
-      "wwwroot/css/bootstrap-site.css"
+      "wwwroot/css/bootstrap-site.css",
+      "wwwroot/css/site.css",
+      "wwwroot/css/site-icons.css"
     ],
     "outputFileName": "wwwroot/css/_bundle.css"
   },
