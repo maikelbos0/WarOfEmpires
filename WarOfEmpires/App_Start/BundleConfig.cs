@@ -7,7 +7,6 @@ namespace WarOfEmpires.App_Start {
         //    bundles.Add(new ScriptBundle("~/Scripts/jquery").Include(
         //        "~/Scripts/jquery.validate.js",
         //        "~/Scripts/jquery.validate.unobtrusive.js",
-        //        "~/Scripts/toastr.js",
         //        "~/Scripts/jquery-datagridview.js",
 
         //    bundles.Add(new ScriptBundle("~/Scripts/app").Include(
@@ -21,10 +20,8 @@ namespace WarOfEmpires.App_Start {
         //        "~/Scripts/application/password-strength.js",
         //        "~/Scripts/application/resource-manager.js",
         //        "~/Scripts/application/jquery-datagridview-defaults.js",
-        //        "~/Scripts/application/toastr-defaults.js"));
 
         //    bundles.Add(new StyleBundle("~/Content/css").Include(
-        //        "~/Content/toastr.css",
         //        "~/Content/jquery-datagridview.css",
         //        "~/Content/jquery-datagridview.style-custom.css",
         //}

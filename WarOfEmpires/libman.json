@@ -27,6 +27,15 @@
         "Content/jquery-rangeslider.style.css",
         "Scripts/jquery-rangeslider.js"
       ]
+    },
+    {
+      "provider": "unpkg",
+      "library": "toastr@2.1.4",
+      "destination": "wwwroot/lib/toastr",
+      "files": [
+        "toastr.js",
+        "build/toastr.css"
+      ]
     }
   ]
 }

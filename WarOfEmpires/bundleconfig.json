@@ -4,14 +4,17 @@
       "wwwroot/css/bootstrap-site.css",
       "wwwroot/css/site.css",
       "wwwroot/css/site-icons.css",
-      "wwwroot/lib/jquery-rangeslider/Content/jquery-rangeslider.css"
+      "wwwroot/lib/jquery-rangeslider/Content/jquery-rangeslider.css",
+      "wwwroot/lib/toastr/build/toastr.css"
     ],
     "outputFileName": "wwwroot/css/_bundle.css"
   },
   {
     "inputFiles": [
       "wwwroot/lib/jquery/dist/jquery.js",
-      "wwwroot/lib/jquery-rangeslider/Scripts/jquery-rangeslider.js"
+      "wwwroot/lib/jquery-rangeslider/Scripts/jquery-rangeslider.js",
+      "wwwroot/lib/toastr/toastr.js",
+      "wwwroot/js/toastr-defaults.js"
     ],
     "outputFileName": "wwwroot/js/_bundle.js"
   }
