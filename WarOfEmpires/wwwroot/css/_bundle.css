@@ -7659,3 +7659,16 @@ textarea.form-control-lg {
 .si.si-search::after {
     background: url('icons/magnifying-glass.svg');
 }
+.rangeslider {
+    user-select: none;
+    position: relative;
+}
+
+.rangeslider-thumb {
+    position: absolute;
+}
+
+.rangeslider-track {
+    position: absolute;
+    width: 100%;
+}

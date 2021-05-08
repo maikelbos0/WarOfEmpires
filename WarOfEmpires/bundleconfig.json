@@ -3,13 +3,15 @@
     "inputFiles": [
       "wwwroot/css/bootstrap-site.css",
       "wwwroot/css/site.css",
-      "wwwroot/css/site-icons.css"
+      "wwwroot/css/site-icons.css",
+      "wwwroot/lib/jquery-rangeslider/Content/jquery-rangeslider.css"
     ],
     "outputFileName": "wwwroot/css/_bundle.css"
   },
   {
     "inputFiles": [
-      "wwwroot/lib/jquery/dist/jquery.js"
+      "wwwroot/lib/jquery/dist/jquery.js",
+      "wwwroot/lib/jquery-rangeslider/Scripts/jquery-rangeslider.js"
     ],
     "outputFileName": "wwwroot/js/_bundle.js"
   }

@@ -9,7 +9,6 @@ namespace WarOfEmpires.App_Start {
         //        "~/Scripts/jquery.validate.unobtrusive.js",
         //        "~/Scripts/toastr.js",
         //        "~/Scripts/jquery-datagridview.js",
-        //        "~/Scripts/jquery-rangeslider.js"));
 
         //    bundles.Add(new ScriptBundle("~/Scripts/app").Include(
         //        "~/Scripts/application/ajax-form.js",
@@ -28,7 +27,6 @@ namespace WarOfEmpires.App_Start {
         //        "~/Content/toastr.css",
         //        "~/Content/jquery-datagridview.css",
         //        "~/Content/jquery-datagridview.style-custom.css",
-        //        "~/Content/jquery-rangeslider.css"));
         //}
     }
 }

@@ -17,6 +17,16 @@
       "files": [
         "dist/jquery.js"
       ]
+    },
+    {
+      "provider": "unpkg",
+      "library": "jquery-rangeslider@1.0.2",
+      "destination": "wwwroot/lib/jquery-rangeslider",
+      "files": [
+        "Content/jquery-rangeslider.css",
+        "Content/jquery-rangeslider.style.css",
+        "Scripts/jquery-rangeslider.js"
+      ]
     }
   ]
 }
