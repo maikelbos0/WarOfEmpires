@@ -20,7 +20,7 @@
     },
     {
       "provider": "unpkg",
-      "library": "jquery-rangeslider@1.0.2",
+      "library": "@vdt-jquery/jquery-rangeslider@1.0.1",
       "destination": "wwwroot/lib/jquery-rangeslider",
       "files": [
         "Content/jquery-rangeslider.css",
