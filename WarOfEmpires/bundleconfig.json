@@ -21,7 +21,15 @@
       "wwwroot/lib/jquery-rangeslider/Scripts/jquery-rangeslider.js",
       "wwwroot/lib/jquery-datagridview/Scripts/jquery-datagridview.js",
       "wwwroot/js/jquery-datagridview-defaults.js",
-      "wwwroot/js/grid.js"
+      "wwwroot/js/grid.js",
+      "wwwroot/js/ajax-form.js",
+      "wwwroot/js/building-totals-manager.js",
+      "wwwroot/js/command.js",
+      "wwwroot/js/housing-totals-manager.js",
+      "wwwroot/js/html-form.js",
+      "wwwroot/js/notification-manager.js",
+      "wwwroot/js/password-strength.js",
+      "wwwroot/js/resource-manager.js"
     ],
     "outputFileName": "wwwroot/js/_bundle.js"
   }

@@ -14879,3 +14879,325 @@ function Grid(id, dataUrl) {
         populate(new DataGridViewMetaData(this.sortColumn, this.sortDescending, 0, 25, 0));
     }
 }
+let AjaxManager = {
+    onSuccess: []
+}
+
+$(function () {
+    function redirectUnauthenticatedRequest(jqXHR) {
+        if (jqXHR.getResponseHeader("X-Unauthenticated")) {
+            // Don't reload in case the current request is a POST
+            window.location.assign(window.location.href);
+            return true;
+        }
+    }
+
+    function displaySuccessMessage(form, jqXHR) {
+        let successMessage = form.data("success-message");
+        let command = form.find("#Command").val();
+
+        if (command && form.data("success-message-" + command)) {
+            successMessage = form.data("success-message-" + command);
+        }
+
+        if (jqXHR.getResponseHeader("X-IsValid") === "true" && successMessage) {
+            toastr.success(successMessage);
+        }
+    }
+
+    function displayWarningMessages(jqXHR) {
+        if (jqXHR.getResponseHeader("X-Warnings")) {
+            $.each(decodeURIComponent(jqXHR.getResponseHeader("X-Warnings")).split("|"), function () {
+                toastr.warning(this);
+            });
+        }
+    }
+
+    function displayResult(panel, result) {
+        panel.html(result);
+
+        // Since the page won't be refreshed we try to find the title in the new content
+        let title = panel.find('h2').text();
+
+        if (title) {
+            document.title = title + ' - War of Empires';
+        }
+    }
+
+    function callAjaxCallbacks() {
+        $.each(AjaxManager.onSuccess, function (i, func) {
+            func();
+        });
+    }
+
+    $('body').on('submit', 'form:not(.html-only):not(.search-form)', function () {        
+        let form = $(this);
+        let panel = form.closest('#main-content, .partial-content');
+        let submitButtons = form.find('button[type="submit"]');
+
+        if (panel.length === 0) {
+            toastr.error("An error occurred locating content panel; please contact support to resolve this issue.");
+        }
+        else if (form.valid()) {
+            submitButtons.prop('disabled', true);
+
+            $.ajax({
+                url: this.action,
+                method: this.method,
+                data: form.serialize(),
+                success: function (result, status, jqXHR) {
+                    if (!redirectUnauthenticatedRequest(jqXHR)) {
+                        displaySuccessMessage(form, jqXHR);
+                        displayWarningMessages(jqXHR);
+                        displayResult(panel, result);
+                        callAjaxCallbacks();
+                    }
+                },
+                error: function () {
+                    toastr.error("An error occurred processing data; please try again.");
+                    submitButtons.prop('disabled', false);
+                }
+            });
+        }
+
+        return false;
+    });
+});
+let BuildingTotalsManager = {
+    url: null,
+
+    refresh: function () {
+        let totalsPanel = $('#empire-building-totals');
+
+        if (totalsPanel.length > 0) {
+            $.ajax({
+                url: BuildingTotalsManager.url,
+                cache: false,
+                success: function (result) {
+                    totalsPanel.html(result);
+                },
+                error: function () {
+                    toastr.error("An error occurred loading building totals; please refresh the page for accurate values.");
+                }
+            });
+        }
+    }
+}
+
+$(function () {
+    BuildingTotalsManager.refresh();
+    AjaxManager.onSuccess.push(BuildingTotalsManager.refresh);
+});
+$(function () {
+    $('body').on('click', 'button[type="submit"]', function () {
+        let commandField = $(this).closest('form').find('input#Command');
+
+        if (commandField.length > 0) {
+            commandField.val($(this).val());
+        }
+    })
+});
+let HousingTotalsManager = {
+    url: null,
+
+    refresh: function () {
+        let totalsPanel = $('#empire-housing-totals');
+
+        if (totalsPanel.length > 0) {
+            $.ajax({
+                url: HousingTotalsManager.url,
+                cache: false,
+                success: function (result) {
+                    totalsPanel.html(result);
+                },
+                error: function () {
+                    toastr.error("An error occurred loading housing totals; please refresh the page for accurate values.");
+                }
+            });
+        }
+    }
+}
+
+$(function () {
+    HousingTotalsManager.refresh();
+    AjaxManager.onSuccess.push(HousingTotalsManager.refresh);
+});
+$(function () {
+    $('body').on('submit', 'form.html-only', function () {
+        let submitButtons = $(this).find('button[type="submit"]');
+
+        if ($(this).valid()) {
+            submitButtons.prop('disabled', true);
+        }
+
+        return true;
+    });
+});
+let NotificationManager = {
+    showNotifications: false,
+    url: null,
+
+    refresh: function () {
+        if (!NotificationManager.showNotifications) {
+            return;
+        }
+
+        $.ajax({
+            url: NotificationManager.url,
+            method: "POST",
+            success: function (result) {
+                $('#navbar-message-dropdown').toggleClass("notify", result.HasNewInvites || result.HasNewMessages);
+                $('#invite-link').toggleClass("notify", result.HasNewInvites);
+                $('#message-link').toggleClass("notify", result.HasNewMessages);
+
+                $('#navbar-attack-dropdown, #attack-link').toggleClass("notify", result.HasNewAttacks);
+
+                $('#navbar-market-dropdown, #market-link').toggleClass("notify", result.HasNewMarketSales);
+
+                $('#navbar-empire-dropdown').toggleClass("notify", result.HasHousingShortage || result.HasUpkeepShortage || result.HasSoldierShortage);
+                $('#empire-buildings-link').toggleClass("notify", result.HasHousingShortage);
+                $('#worker-link').toggleClass("notify", result.HasUpkeepShortage);
+                $('#troops-link').toggleClass("notify", result.HasSoldierShortage);
+            },
+            error: function () {
+                toastr.error("An error occurred loading notitications; please refresh the page for accurate values.");
+            }
+        });
+    }
+}
+
+$(function () {
+    NotificationManager.refresh();
+    AjaxManager.onSuccess.push(NotificationManager.refresh);
+});
+let PasswordStrength = {
+    get: function (password) {
+        if (password === null || password === undefined || password.toString().trim() === '') {
+            return 0;
+        }
+
+        password = password.toString().trim();
+
+        let score = 0;
+
+        if (PasswordStrength.hasLowerCaseLetters(password)) { score++; }
+        if (PasswordStrength.hasUpperCaseLetters(password)) { score++; }
+        if (PasswordStrength.hasDigits(password)) { score++; }
+        if (PasswordStrength.hasSpecialCharacters(password)) { score++; }
+
+        if (password.length < 6) {
+            return Math.min(score, 1);
+        }
+        else if (password.length < 8) {
+            return Math.min(score, 2);
+        }
+        else if (password.length < 10) {
+            return Math.min(score, 3);
+        }
+        else {
+            return score;
+        }
+    },
+
+    hasLowerCaseLetters: function (password) {
+        for (var i = 0; i < password.length; i++) {
+            let c = password.charAt(i);
+
+            if (c === c.toLowerCase() && c !== c.toUpperCase()) {
+                return true;
+            }
+        }
+
+        return false;
+    },
+
+    hasUpperCaseLetters: function (password) {
+        for (var i = 0; i < password.length; i++) {
+            let c = password.charAt(i);
+
+            if (c !== c.toLowerCase() && c === c.toUpperCase()) {
+                return true;
+            }
+        }
+
+        return false;
+    },
+
+    hasDigits: function (password) {
+        return /\d/.test(password);
+    },
+
+    hasSpecialCharacters: function (password) {
+        for (var i = 0; i < password.length; i++) {
+            let c = password.charAt(i);
+
+            if (c === c.toLowerCase() && c === c.toUpperCase() && !/\d/.test(c)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+}
+
+$(function () {
+    $('input.password-strength').each(function () {
+        let base = $(this);
+        let meter = $('<div>', { class: 'small site-password-meter' }).hide();
+
+        base.after(meter);
+
+        base.on('keyup', function () {
+            switch (PasswordStrength.get(base.val())) {
+                case 0:
+                    meter.hide();
+                    break;
+                case 1:
+                case 2:
+                    meter.removeClass('site-password-meter-2 site-password-meter-3');
+                    meter.text('Weak');
+                    meter.addClass('site-password-meter-1');
+                    meter.show();
+                    break;
+                case 3:
+                    meter.removeClass('site-password-meter-1 site-password-meter-3');
+                    meter.text('Moderate');
+                    meter.addClass('site-password-meter-2');
+                    meter.show();
+                    break;
+                case 4:
+                    meter.removeClass('site-password-meter-1 site-password-meter-2');
+                    meter.text('Strong');
+                    meter.addClass('site-password-meter-3');
+                    meter.show();
+                    break;
+            }
+
+        });
+    });
+});
+let ResourceManager = {
+    url: null,
+
+    refresh: function () {
+        let resourcePanel = $('#empire-resources');
+
+        if (resourcePanel.length > 0) {
+            $.ajax({
+                url: ResourceManager.url,
+                cache: false,
+                success: function (result) {
+                    resourcePanel.html(result);
+                },
+                error: function () {
+                    toastr.error("An error occurred loading resource values; please refresh the page for accurate values.");
+                }
+            });
+        }
+    }
+}
+
+$(function () {
+    ResourceManager.refresh();
+    AjaxManager.onSuccess.push(ResourceManager.refresh);
+});
