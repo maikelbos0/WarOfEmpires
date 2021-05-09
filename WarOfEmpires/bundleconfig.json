@@ -15,6 +15,8 @@
     "inputFiles": [
       "wwwroot/lib/jquery/dist/jquery.js",
       "wwwroot/lib/toastr/toastr.js",
+      "wwwroot/lib/jquery-validation/dist/jquery.validate.js",
+      "wwwroot/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.js",
       "wwwroot/js/toastr-defaults.js",
       "wwwroot/lib/jquery-rangeslider/Scripts/jquery-rangeslider.js",
       "wwwroot/lib/jquery-datagridview/Scripts/jquery-datagridview.js",

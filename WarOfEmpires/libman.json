@@ -20,8 +20,24 @@
     },
     {
       "provider": "unpkg",
+      "library": "jquery-validation@1.19.3",
+      "destination": "wwwroot/lib/jquery-validation/",
+      "files": [
+        "dist/jquery.validate.js"
+      ]
+    },
+    {
+      "provider": "unpkg",
+      "library": "jquery-validation-unobtrusive@3.2.12",
+      "destination": "wwwroot/lib/jquery-validation-unobtrusive/",
+      "files": [
+        "dist/jquery.validate.unobtrusive.js"
+      ]
+    },
+    {
+      "provider": "unpkg",
       "library": "@vdt-jquery/jquery-rangeslider@1.0.1",
-      "destination": "wwwroot/lib/jquery-rangeslider",
+      "destination": "wwwroot/lib/jquery-rangeslider/",
       "files": [
         "Content/jquery-rangeslider.css",
         "Content/jquery-rangeslider.style.css",
@@ -31,7 +47,7 @@
     {
       "provider": "unpkg",
       "library": "@vdt-jquery/jquery-datagridview@1.3.1",
-      "destination": "wwwroot/lib/jquery-datagridview",
+      "destination": "wwwroot/lib/jquery-datagridview/",
       "files": [
         "Content/jquery-datagridview.css",
         "Content/jquery-datagridview.style.css",
@@ -41,7 +57,7 @@
     {
       "provider": "unpkg",
       "library": "toastr@2.1.4",
-      "destination": "wwwroot/lib/toastr",
+      "destination": "wwwroot/lib/toastr/",
       "files": [
         "toastr.js",
         "build/toastr.css"

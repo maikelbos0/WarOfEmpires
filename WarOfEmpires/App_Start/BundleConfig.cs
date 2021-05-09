@@ -3,11 +3,6 @@ namespace WarOfEmpires.App_Start {
     public static class BundleConfig {
         // TODO move to new bundler with support for only bundling in release mode
 
-        //public static void RegisterBundles(BundleCollection bundles) {
-        //    bundles.Add(new ScriptBundle("~/Scripts/jquery").Include(
-        //        "~/Scripts/jquery.validate.js",
-        //        "~/Scripts/jquery.validate.unobtrusive.js",
-
         //    bundles.Add(new ScriptBundle("~/Scripts/app").Include(
         //        "~/Scripts/application/ajax-form.js",
         //        "~/Scripts/application/building-totals-manager.js",
