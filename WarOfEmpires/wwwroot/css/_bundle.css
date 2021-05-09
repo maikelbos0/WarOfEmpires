@@ -7900,3 +7900,225 @@ button.toast-close-button {
     padding: 15px 50px 15px 15px;
   }
 }
+
+.datagridview {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.datagridview-content-container {
+    flex-grow: 1;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.datagridview-header {
+    flex-grow: 0;
+    position: -webkit-sticky; /* Safari */
+    position: sticky;
+    top: 0;
+    user-select: none;
+}
+
+.datagridview-header-move-title {
+    position: absolute;
+    display: inline-block;
+}
+
+.datagridview-body {
+    flex-grow: 1;
+}
+
+.datagridview-container-multiselect .datagridview-body, .datagridview-header {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.datagridview-header, .datagridview-row, .datagridview-total-row, .datagridview-footer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+
+.datagridview-header-cell, .datagridview-row > div, .datagridview-total-row > div {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex-basis: 0;
+}
+
+.datagridview-total-row {
+    position: -webkit-sticky; /* Safari */
+    position: sticky;
+    bottom: 0;
+}
+
+.datagridview-header-cell {
+    position: relative;
+}
+
+.datagridview-header-drag {
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    height: 100%;
+    width: 5px;
+    cursor: col-resize;
+}
+
+.datagridview-checkbox-header-cell, .datagridview-row > div.datagridview-checkbox-cell, .datagridview-total-row > div.datagridview-checkbox-cell {
+    flex-basis: 30px;
+}
+
+.datagridview-footer {
+    justify-content: space-between;
+}
+
+.datagridview-footer > .datagridview-footer-element {
+    flex-basis: auto;
+}
+
+.datagridview-header-cell-sortable {
+    cursor: pointer;
+}
+
+.datagridview-sort-toggle, .datagridview-header-move-indicator {
+    display: inline-block;
+    width: 0;
+    vertical-align: middle;
+    margin-left: .3em;
+    margin-right: .3em;
+    border-right: .4em solid transparent;
+    border-left: .4em solid transparent;
+}
+
+.datagridview-sort-toggle-ascending, .datagridview-header-move-indicator {
+    border-top: 0;
+    border-bottom: .4em solid #000000;
+}
+
+.datagridview-sort-toggle-descending {
+    border-top: .4em solid #000000;
+    border-bottom: 0;
+}
+
+.datagridview-header-move-indicator {
+    position: absolute;
+    margin-left: -0.4em;
+    margin-top: 1px;
+}
+/* colours */
+:root {
+    --grid-body-bg-color-even: #F5E0B7; /* apricot */
+    --grid-body-bg-color-odd: #F3FCDC; /* pale lemon */
+    --grid-body-txt-hover-color: #6184D8; /* blue */
+    --grid-body-txt-color: #333399; /* dark blue */
+    --grid-border-color: #333399; /* dark blue */
+    --grid-btn-txt-color: #F3FCDC; /* pale lemon */
+    --grid-btn-bg-color: #333399; /* dark blue */
+    --grid-btn-hover-color: #6184D8; /* blue */
+    --grid-header-bg-color: #6184D8; /* blue */
+    --grid-header-txt-color: #333399; /* dark blue */
+    --grid-footer-txt-color: #272775; /* darker blue */
+}
+
+.datagridview {
+    border: 1px solid var(--grid-border-color);
+}
+
+.datagridview-header-cell {
+    font-weight: bold;
+    color: var(--grid-header-txt-color);
+}
+
+.datagridview-header, .datagridview-footer {
+    background-color: var(--grid-header-bg-color);
+}
+
+.datagridview-header-cell {
+    padding-top: 0.2rem;
+    padding-bottom: 0.2rem;
+}
+
+.datagridview-row > div, .datagridview-header-cell {
+    padding-left: 0.2rem;
+    padding-right: calc(0.2rem + 5px);
+}
+
+.datagridview-body {
+    border-top: 1px solid var(--grid-border-color);
+    border-bottom: 1px solid var(--grid-border-color);
+}
+
+.datagridview-row:nth-child(even) {
+    background-color: var(--grid-body-bg-color-even);
+}
+
+.datagridview-row:nth-child(odd) {
+    background-color: var(--grid-body-bg-color-odd);
+}
+
+.datagridview-row a {
+    color: var(--grid-body-txt-color);
+}
+
+.datagridview-row a:hover {
+    color: var(--grid-body-txt-hover-color);
+}
+
+.datagridview-footer {
+    padding: 0.2rem;
+    color: var(--grid-footer-txt-color);
+}
+
+.datagridview-footer input, .datagridview-footer button {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.datagridview-footer-element > button {
+    color: var(--grid-btn-txt-color);
+    background-color: var(--grid-btn-bg-color);
+    border: 1px solid var(--grid-btn-bg-color);
+    font-weight: 400;
+    border-radius: 0.25rem;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.datagridview-footer-element > button:not(:first-child) {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.datagridview-footer-element > button:not(:last-child) {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.datagridview-footer-element > button:hover {
+    background-color: var(--grid-btn-hover-color);
+}
+
+.datagridview-footer-element > button:disabled {
+    opacity: 0.65;
+}
+
+.datagridview-footer-element:nth-child(2) {
+    display: none;
+}
+
+@media (min-width: 768px) {
+    .datagridview-footer-element:nth-child(2) {
+        display: initial;
+    }
+
+    .datagridview-footer-element:nth-child(3) {
+        display: none;
+    }
+}
