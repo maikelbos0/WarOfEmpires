@@ -9,7 +9,9 @@
       "files": [
         "scss/**/*.*",
         "dist/js/bootstrap.bundle.js",
-        "dist/js/bootstrap.bundle.min.js"
+        "dist/js/bootstrap.bundle.js.map",
+        "dist/js/bootstrap.bundle.min.js",
+        "dist/js/bootstrap.bundle.min.js.map"
       ]
     },
     {
