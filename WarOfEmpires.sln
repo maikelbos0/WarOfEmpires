@@ -2,41 +2,41 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29025.244
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarOfEmpires", "WarOfEmpires\WarOfEmpires.csproj", "{F35DA0DD-C226-42A8-B207-B773452C3183}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WarOfEmpires", "WarOfEmpires\WarOfEmpires.csproj", "{F35DA0DD-C226-42A8-B207-B773452C3183}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarOfEmpires.Database", "WarOfEmpires.Database\WarOfEmpires.Database.csproj", "{A6DE6643-8D01-4398-ABED-536D33860AB6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WarOfEmpires.Database", "WarOfEmpires.Database\WarOfEmpires.Database.csproj", "{A6DE6643-8D01-4398-ABED-536D33860AB6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarOfEmpires.Domain", "WarOfEmpires.Domain\WarOfEmpires.Domain.csproj", "{E157B9C5-042F-4DC3-B2E2-A721ECA67CDC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WarOfEmpires.Domain", "WarOfEmpires.Domain\WarOfEmpires.Domain.csproj", "{E157B9C5-042F-4DC3-B2E2-A721ECA67CDC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarOfEmpires.QueryHandlers", "WarOfEmpires.QueryHandlers\WarOfEmpires.QueryHandlers.csproj", "{02A56AF1-A009-4273-B801-8A5F7C98E84F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WarOfEmpires.QueryHandlers", "WarOfEmpires.QueryHandlers\WarOfEmpires.QueryHandlers.csproj", "{02A56AF1-A009-4273-B801-8A5F7C98E84F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarOfEmpires.CommandHandlers", "WarOfEmpires.CommandHandlers\WarOfEmpires.CommandHandlers.csproj", "{AF5556D3-A4CB-4519-8FD6-3F7478656709}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WarOfEmpires.CommandHandlers", "WarOfEmpires.CommandHandlers\WarOfEmpires.CommandHandlers.csproj", "{AF5556D3-A4CB-4519-8FD6-3F7478656709}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarOfEmpires.Models", "WarOfEmpires.Models\WarOfEmpires.Models.csproj", "{FE4C0D69-D134-4F3A-B19E-0BE8E3CB6FC2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WarOfEmpires.Models", "WarOfEmpires.Models\WarOfEmpires.Models.csproj", "{FE4C0D69-D134-4F3A-B19E-0BE8E3CB6FC2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarOfEmpires.Utilities", "WarOfEmpires.Utilities\WarOfEmpires.Utilities.csproj", "{D4E722C8-0CD3-47C9-A479-CA3FA83FA225}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WarOfEmpires.Utilities", "WarOfEmpires.Utilities\WarOfEmpires.Utilities.csproj", "{D4E722C8-0CD3-47C9-A479-CA3FA83FA225}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarOfEmpires.CommandHandlers.Tests", "WarOfEmpires.CommandHandlers.Tests\WarOfEmpires.CommandHandlers.Tests.csproj", "{A7320F59-F04B-43E4-BC08-5200415BCD07}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WarOfEmpires.CommandHandlers.Tests", "WarOfEmpires.CommandHandlers.Tests\WarOfEmpires.CommandHandlers.Tests.csproj", "{A7320F59-F04B-43E4-BC08-5200415BCD07}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarOfEmpires.Test.Utilities", "WarOfEmpires.Test.Utilities\WarOfEmpires.Test.Utilities.csproj", "{9C94C213-715E-4C3A-ABE9-608337808BC1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WarOfEmpires.Test.Utilities", "WarOfEmpires.Test.Utilities\WarOfEmpires.Test.Utilities.csproj", "{9C94C213-715E-4C3A-ABE9-608337808BC1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarOfEmpires.Tests", "WarOfEmpires.Tests\WarOfEmpires.Tests.csproj", "{6624FDDF-7750-4B7C-97E3-6DCE5CEA46E8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WarOfEmpires.Tests", "WarOfEmpires.Tests\WarOfEmpires.Tests.csproj", "{6624FDDF-7750-4B7C-97E3-6DCE5CEA46E8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarOfEmpires.Domain.Tests", "WarOfEmpires.Domain.Tests\WarOfEmpires.Domain.Tests.csproj", "{22F43CF4-5FB9-4F04-AFAE-1C448264400E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WarOfEmpires.Domain.Tests", "WarOfEmpires.Domain.Tests\WarOfEmpires.Domain.Tests.csproj", "{22F43CF4-5FB9-4F04-AFAE-1C448264400E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarOfEmpires.Commands", "WarOfEmpires.Commands\WarOfEmpires.Commands.csproj", "{F38BE491-8E58-49B6-9BCC-4D97D52A4D55}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WarOfEmpires.Commands", "WarOfEmpires.Commands\WarOfEmpires.Commands.csproj", "{F38BE491-8E58-49B6-9BCC-4D97D52A4D55}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarOfEmpires.Queries", "WarOfEmpires.Queries\WarOfEmpires.Queries.csproj", "{176178A9-63E6-4665-A1CE-EBB8CE87BC7C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WarOfEmpires.Queries", "WarOfEmpires.Queries\WarOfEmpires.Queries.csproj", "{176178A9-63E6-4665-A1CE-EBB8CE87BC7C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarOfEmpires.Utilities.Tests", "WarOfEmpires.Utilities.Tests\WarOfEmpires.Utilities.Tests.csproj", "{E073816E-F4E6-43C8-8FE8-E4B45ED58559}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WarOfEmpires.Utilities.Tests", "WarOfEmpires.Utilities.Tests\WarOfEmpires.Utilities.Tests.csproj", "{E073816E-F4E6-43C8-8FE8-E4B45ED58559}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarOfEmpires.Repositories", "WarOfEmpires.Repositories\WarOfEmpires.Repositories.csproj", "{5F3B837B-41F5-40E9-B662-9069ACB3286D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WarOfEmpires.Repositories", "WarOfEmpires.Repositories\WarOfEmpires.Repositories.csproj", "{5F3B837B-41F5-40E9-B662-9069ACB3286D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarOfEmpires.Repositories.Tests", "WarOfEmpires.Repositories.Tests\WarOfEmpires.Repositories.Tests.csproj", "{45172AB2-999E-477E-9F49-014BE3BD2EE7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WarOfEmpires.Repositories.Tests", "WarOfEmpires.Repositories.Tests\WarOfEmpires.Repositories.Tests.csproj", "{45172AB2-999E-477E-9F49-014BE3BD2EE7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarOfEmpires.QueryHandlers.Tests", "WarOfEmpires.QueryHandlers.Tests\WarOfEmpires.QueryHandlers.Tests.csproj", "{4647FD52-8B1A-4249-AC96-4E04543E0A79}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WarOfEmpires.QueryHandlers.Tests", "WarOfEmpires.QueryHandlers.Tests\WarOfEmpires.QueryHandlers.Tests.csproj", "{4647FD52-8B1A-4249-AC96-4E04543E0A79}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarOfEmpires.Console", "WarOfEmpires.Console\WarOfEmpires.Console.csproj", "{FD1DFB4C-EC9F-479D-B2D9-BFFFB25609C1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WarOfEmpires.Console", "WarOfEmpires.Console\WarOfEmpires.Console.csproj", "{FD1DFB4C-EC9F-479D-B2D9-BFFFB25609C1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
