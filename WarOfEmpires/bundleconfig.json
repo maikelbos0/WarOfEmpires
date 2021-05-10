@@ -4,22 +4,13 @@
       "wwwroot/css/bootstrap-site.css",
       "wwwroot/css/site.css",
       "wwwroot/css/site-icons.css",
-      "wwwroot/lib/jquery-rangeslider/Content/jquery-rangeslider.css",
-      "wwwroot/lib/toastr/build/toastr.css",
-      "wwwroot/lib/jquery-datagridview/Content/jquery-datagridview.css",
       "wwwroot/css/jquery-datagridview.style-custom.css"
     ],
     "outputFileName": "wwwroot/css/_bundle.css"
   },
   {
     "inputFiles": [
-      "wwwroot/lib/jquery/dist/jquery.js",
-      "wwwroot/lib/toastr/toastr.js",
-      "wwwroot/lib/jquery-validation/dist/jquery.validate.js",
-      "wwwroot/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.js",
       "wwwroot/js/toastr-defaults.js",
-      "wwwroot/lib/jquery-rangeslider/Scripts/jquery-rangeslider.js",
-      "wwwroot/lib/jquery-datagridview/Scripts/jquery-datagridview.js",
       "wwwroot/js/jquery-datagridview-defaults.js",
       "wwwroot/js/grid.js",
       "wwwroot/js/ajax-form.js",
