@@ -11,12 +11,14 @@
     <environment include="Development">
         <link rel="stylesheet" href="~/css/_bundle.css" />
 
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
         <script src="~/js/_bundle.js"></script>
     </environment>
 
     <environment exclude="Development">
         <link rel="stylesheet" href="~/css/_bundle.min.css" asp-append-version="true" />
 
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
         <script src="~/js/_bundle.min.js"></script>
     </environment>
 </head>
