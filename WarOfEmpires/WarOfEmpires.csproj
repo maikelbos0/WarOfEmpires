@@ -13,16 +13,6 @@
     <OutputPath>bin\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
-    <None Include="wwwroot\js\ajax-form.js" />
-    <None Include="wwwroot\js\building-totals-manager.js" />
-    <None Include="wwwroot\js\command.js" />
-    <None Include="wwwroot\js\housing-totals-manager.js" />
-    <None Include="wwwroot\js\html-form.js" />
-    <None Include="wwwroot\js\notification-manager.js" />
-    <None Include="wwwroot\js\password-strength.js" />
-    <None Include="wwwroot\js\resource-manager.js" />
-  </ItemGroup>
-  <ItemGroup>
     <None Update="compilerconfig.json.defaults">
       <DependentUpon>compilerconfig.json</DependentUpon>
     </None>
