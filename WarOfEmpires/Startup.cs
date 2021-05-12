@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -23,6 +24,7 @@ namespace WarOfEmpires {
         public void ConfigureServices(IServiceCollection services) {
             services.AddControllersWithViews();
             services.AddHttpContextAccessor();
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options => options.LoginPath = "/Home/LogIn");
             services.AddServices(typeof(Startup).Assembly);
             services.AddSingleton(Configuration.GetSection(AppSettings.Key).Get<AppSettings>());
         }
@@ -34,6 +36,7 @@ namespace WarOfEmpires {
 
             app.UseStaticFiles();
             app.UseRouting();
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints => {

@@ -1,4 +1,8 @@
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
+using System.Threading.Tasks;
 using VDT.Core.DependencyInjection;
 
 namespace WarOfEmpires.Services {
@@ -22,14 +26,15 @@ namespace WarOfEmpires.Services {
             }
         }
 
-        public void SignIn(string identity) {
-            // TODO figure out how sign in / out works
-            //FormsAuthentication.SetAuthCookie(identity, false);
+        public async Task SignIn(string name) {
+            var claims = new[] { new Claim(ClaimTypes.Name, name) };
+            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+            await httpContextAccessor.HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
         }
 
-        public void SignOut() {
-            // TODO figure out how sign in / out works
-            //FormsAuthentication.SignOut();
+        public async Task SignOut() {
+            await httpContextAccessor.HttpContext.SignOutAsync();
         }
     }
 }

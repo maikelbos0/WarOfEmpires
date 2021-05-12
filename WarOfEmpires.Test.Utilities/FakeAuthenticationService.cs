@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using WarOfEmpires.Services;
 
 namespace WarOfEmpires.Test.Utilities {
@@ -13,12 +14,16 @@ namespace WarOfEmpires.Test.Utilities {
             return Identity;
         }
 
-        public void SignIn(string identity) {
+        public Task SignIn(string identity) {
             Identity = identity;
+
+            return Task.CompletedTask;
         }
 
-        public void SignOut() {
+        public Task SignOut() {
             Identity = null;
+
+            return Task.CompletedTask;
         }
     }
 }

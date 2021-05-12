@@ -1,3 +1,6 @@
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 using WarOfEmpires.Attributes;
 using WarOfEmpires.Commands.Players;
 using WarOfEmpires.Commands.Security;
@@ -5,8 +8,6 @@ using WarOfEmpires.Extensions;
 using WarOfEmpires.Models.Security;
 using WarOfEmpires.Queries.Security;
 using WarOfEmpires.Services;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
 
 namespace WarOfEmpires.Controllers {
     [Route("Home")]
@@ -82,11 +83,11 @@ namespace WarOfEmpires.Controllers {
 
         [Route("LogIn")]
         [HttpPost]
-        public ActionResult LogIn(LogInUserModel model) {
+        public async Task<ActionResult> LogIn(LogInUserModel model) {
             var result = _messageService.Dispatch(new LogInUserCommand(model.Email, model.Password));
 
             if (result.Success) {
-                _authenticationService.SignIn(model.Email);
+                await _authenticationService.SignIn(model.Email);
                 return Redirect(model.ReturnUrl ?? "Index");
             }
             else {
@@ -99,9 +100,9 @@ namespace WarOfEmpires.Controllers {
         [Route("LogOut")]
         [HttpPost]
         [Authorize]
-        public RedirectToActionResult LogOut() {
+        public async Task<RedirectToActionResult> LogOut() {
             _messageService.Dispatch(new LogOutUserCommand(_authenticationService.Identity));
-            _authenticationService.SignOut();
+            await _authenticationService.SignOut();
             return RedirectToAction("Index");
         }
 
