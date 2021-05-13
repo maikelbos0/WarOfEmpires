@@ -9,6 +9,8 @@ using WarOfEmpires.Utilities.DependencyInjection;
 namespace WarOfEmpires.Console {
     public static class Program {
         static void Main() {
+            // TODO convert to scheduled?
+
             var builder = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json")
