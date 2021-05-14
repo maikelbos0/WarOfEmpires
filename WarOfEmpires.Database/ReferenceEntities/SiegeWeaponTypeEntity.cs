@@ -2,7 +2,7 @@
 using WarOfEmpires.Domain.Siege;
 
 namespace WarOfEmpires.Database.ReferenceEntities {
-    internal sealed class SiegeWeaponTypeEntity : BaseReferenceEntity<SiegeWeaponType> {
-        public ICollection<SiegeWeapon> SiegeWeapons { get; set; }
+    public class SiegeWeaponTypeEntity : BaseReferenceEntity<SiegeWeaponType> {
+        public virtual ICollection<SiegeWeapon> SiegeWeapons { get; set; }
     }
 }

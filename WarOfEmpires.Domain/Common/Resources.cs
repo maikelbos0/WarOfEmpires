@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 
 namespace WarOfEmpires.Domain.Common {
-    public sealed class Resources : ValueObject {
-        public long Gold { get; private set; }
-        public long Food { get; private set; }
-        public long Wood { get; private set; }
-        public long Stone { get; private set; }
-        public long Ore { get; private set; }
+    public class Resources : ValueObject {
+        public virtual long Gold { get; private set; }
+        public virtual long Food { get; private set; }
+        public virtual long Wood { get; private set; }
+        public virtual long Stone { get; private set; }
+        public virtual long Ore { get; private set; }
 
-        private Resources() {
+        protected Resources() {
         }
 
         public Resources(long gold = 0, long food = 0, long wood = 0, long stone = 0, long ore = 0) {

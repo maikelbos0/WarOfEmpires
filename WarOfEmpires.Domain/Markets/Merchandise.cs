@@ -3,12 +3,12 @@ using WarOfEmpires.Domain.Common;
 using WarOfEmpires.Domain.Players;
 
 namespace WarOfEmpires.Domain.Markets {
-    public sealed class Merchandise : Entity {
+    public class Merchandise : Entity {
         public const double SalesTax = 0.15;
 
-        public MerchandiseType Type { get; private set; }
-        public int Quantity { get; private set; }
-        public int Price { get; private set; }
+        public virtual MerchandiseType Type { get; private set; }
+        public virtual int Quantity { get; private set; }
+        public virtual int Price { get; private set; }
 
         private Merchandise() {
         }

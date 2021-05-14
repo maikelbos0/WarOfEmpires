@@ -1,7 +1,7 @@
 ﻿namespace WarOfEmpires.Domain.Empires {
-    public sealed class Workers : Entity {
-        public WorkerType Type { get; private set; }
-        public int Count { get; set; }
+    public class Workers : Entity {
+        public virtual WorkerType Type { get; private set; }
+        public virtual int Count { get; set; }
         
         private Workers() { }
 

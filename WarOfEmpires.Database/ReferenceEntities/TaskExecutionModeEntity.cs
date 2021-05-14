@@ -2,7 +2,7 @@
 using WarOfEmpires.Domain.Events;
 
 namespace WarOfEmpires.Database.ReferenceEntities {
-    internal sealed class TaskExecutionModeEntity : BaseReferenceEntity<TaskExecutionMode> {
-        public ICollection<ScheduledTask> ScheduledTasks { get; set; }
+    public class TaskExecutionModeEntity : BaseReferenceEntity<TaskExecutionMode> {
+        public virtual ICollection<ScheduledTask> ScheduledTasks { get; set; }
     }
 }

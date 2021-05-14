@@ -1,8 +1,8 @@
 ﻿namespace WarOfEmpires.Domain.Attacks {
-    public sealed class Casualties : Entity {
-        public TroopType TroopType { get; private set; }
-        public int Soldiers { get; private set; }
-        public int Mercenaries { get; private set; }
+    public class Casualties : Entity {
+        public virtual TroopType TroopType { get; private set; }
+        public virtual int Soldiers { get; private set; }
+        public virtual int Mercenaries { get; private set; }
 
         private Casualties() { }
 

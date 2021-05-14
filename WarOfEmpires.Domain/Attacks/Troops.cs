@@ -1,10 +1,10 @@
 ﻿using System;
 
 namespace WarOfEmpires.Domain.Attacks {
-    public sealed class Troops : Entity {
-        public TroopType Type { get; private set; }
-        public int Soldiers { get; private set; }
-        public int Mercenaries { get; private set; }
+    public class Troops : Entity {
+        public virtual TroopType Type { get; private set; }
+        public virtual  int Soldiers { get; private set; }
+        public virtual int Mercenaries { get; private set; }
 
         private Troops() { }
 

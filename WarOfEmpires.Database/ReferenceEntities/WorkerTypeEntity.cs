@@ -2,7 +2,7 @@
 using WarOfEmpires.Domain.Empires;
 
 namespace WarOfEmpires.Database.ReferenceEntities {
-    internal sealed class WorkerTypeEntity : BaseReferenceEntity<WorkerType> {
-        public ICollection<Workers> Workers { get; set; }
+    public class WorkerTypeEntity : BaseReferenceEntity<WorkerType> {
+        public virtual ICollection<Workers> Workers { get; set; }
     }
 }

@@ -2,7 +2,7 @@
 using WarOfEmpires.Domain.Players;
 
 namespace WarOfEmpires.Database.ReferenceEntities {
-    internal sealed class TitleTypeEntity : BaseReferenceEntity<TitleType> {
-        public ICollection<Player> Players { get; set; }
+    public class TitleTypeEntity : BaseReferenceEntity<TitleType> {
+        public virtual ICollection<Player> Players { get; set; }
     }
 }

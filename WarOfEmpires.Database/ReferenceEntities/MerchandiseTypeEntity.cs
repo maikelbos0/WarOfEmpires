@@ -2,8 +2,8 @@
 using WarOfEmpires.Domain.Markets;
 
 namespace WarOfEmpires.Database.ReferenceEntities {
-    internal sealed class MerchandiseTypeEntity : BaseReferenceEntity<MerchandiseType> {
-        public ICollection<Merchandise> Merchandise { get; set; }
-        public ICollection<Transaction> Transactions { get; set; }
+    public class MerchandiseTypeEntity : BaseReferenceEntity<MerchandiseType> {
+        public virtual ICollection<Merchandise> Merchandise { get; set; }
+        public virtual ICollection<Transaction> Transactions { get; set; }
     }
 }

@@ -2,7 +2,7 @@
 using WarOfEmpires.Domain.Empires;
 
 namespace WarOfEmpires.Database.ReferenceEntities {
-    internal sealed class BuildingTypeEntity : BaseReferenceEntity<BuildingType> {
-        public ICollection<Building> Buildings { get; set; }
+    public class BuildingTypeEntity : BaseReferenceEntity<BuildingType> {
+        public virtual ICollection<Building> Buildings { get; set; }
     }
 }
