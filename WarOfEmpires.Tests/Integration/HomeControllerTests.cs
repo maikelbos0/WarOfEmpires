@@ -6,6 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using WarOfEmpires.Controllers;
 using WarOfEmpires.Database;
 using WarOfEmpires.Domain.Security;
@@ -30,8 +31,9 @@ namespace WarOfEmpires.Tests.Integration {
             services.AddServices(typeof(HomeController).Assembly);
             services.Replace(ServiceDescriptor.Scoped<IAuthenticationService>(serviceProvider => _authenticationService));
             services.Replace(ServiceDescriptor.Scoped<IWarContext>(serviceProvider => _context));
+            services.Replace(ServiceDescriptor.Scoped<ILazyWarContext>(serviceProvider => _context));
             services.Replace(ServiceDescriptor.Scoped<IMailClient>(serviceProvider => _mailClient));
-            services.AddSingleton<AppSettings>();
+            services.AddScoped<AppSettings>();
             services.AddScoped<HomeController>();
 
             serviceProvider = services.BuildServiceProvider();
@@ -42,7 +44,7 @@ namespace WarOfEmpires.Tests.Integration {
         }
 
         [TestMethod]
-        public void HomeController_Registration_Activation_To_LogIn_Succeeds() {
+        public async Task HomeController_Registration_Activation_To_LogIn_Succeeds() {
             // Registration
             var registrationResult = GetController().Register(new RegisterUserModel() {
                 Email = "test@test.com",
@@ -61,7 +63,7 @@ namespace WarOfEmpires.Tests.Integration {
             activationResult.ViewName.Should().Be("Activated");
 
             // Log in
-            var logInResult = GetController().LogIn(new LogInUserModel() {
+            var logInResult = await GetController().LogIn(new LogInUserModel() {
                 Email = "test@test.com",
                 Password = "test"
             });
@@ -71,7 +73,7 @@ namespace WarOfEmpires.Tests.Integration {
         }
 
         [TestMethod]
-        public void HomeController_RequestPasswordReset_ResetPassword_To_LogIn_Succeeds() {
+        public async Task HomeController_RequestPasswordReset_ResetPassword_To_LogIn_Succeeds() {
             // Set up
             var user = new User("test@test.com", "old");
             user.Activate();
@@ -95,7 +97,7 @@ namespace WarOfEmpires.Tests.Integration {
             resetResult.ViewName.Should().Be("PasswordReset");
 
             // Log in
-            var logInResult = GetController().LogIn(new LogInUserModel() {
+            var logInResult = await GetController().LogIn(new LogInUserModel() {
                 Email = "test@test.com",
                 Password = "test"
             });
@@ -105,7 +107,7 @@ namespace WarOfEmpires.Tests.Integration {
         }
 
         [TestMethod]
-        public void HomeController_ChangePassword_LogOut_To_LogIn_Succeeds() {
+        public async Task HomeController_ChangePassword_LogOut_To_LogIn_Succeeds() {
             // Set up
             var user = new User("test@test.com", "test");
             user.Activate();
@@ -121,13 +123,13 @@ namespace WarOfEmpires.Tests.Integration {
             changePasswordResult.ViewName.Should().Be("Index");
 
             // Log out
-            var logOutResult = GetController().LogOut();
+            var logOutResult = await GetController().LogOut();
 
             logOutResult.Should().BeOfType<RedirectToActionResult>();
             _authenticationService.Identity.Should().BeNull();
 
             // Log in
-            var logInResult = GetController().LogIn(new LogInUserModel() {
+            var logInResult = await GetController().LogIn(new LogInUserModel() {
                 Email = "test@test.com",
                 Password = "hunter2"
             });
@@ -137,14 +139,14 @@ namespace WarOfEmpires.Tests.Integration {
         }
 
         [TestMethod]
-        public void HomeController_FailedLogIn_To_LogIn_To_Deactivate_Succeeds() {
+        public async Task HomeController_FailedLogIn_To_LogIn_To_Deactivate_Succeeds() {
             // Set up
             var user = new User("test@test.com", "test");
             user.Activate();
             _context.Users.Add(user);
 
             // Failed log in
-            var failedLogInResult = GetController().LogIn(new LogInUserModel() {
+            var failedLogInResult = await GetController().LogIn(new LogInUserModel() {
                 Email = "test@test.com",
                 Password = "hunter2"
             });
@@ -153,7 +155,7 @@ namespace WarOfEmpires.Tests.Integration {
             _authenticationService.Identity.Should().BeNull();
 
             // Log in
-            var logInResult = GetController().LogIn(new LogInUserModel() {
+            var logInResult = await GetController().LogIn(new LogInUserModel() {
                 Email = "test@test.com",
                 Password = "test"
             });
@@ -172,7 +174,7 @@ namespace WarOfEmpires.Tests.Integration {
         }
 
         [TestMethod]
-        public void HomeController_ChangeEmail_LogOut_ConfirmEmail_To_LogIn_Succeeds() {
+        public async Task HomeController_ChangeEmail_LogOut_ConfirmEmail_To_LogIn_Succeeds() {
             // Set up
             var user = new User("test@test.com", "test");
             user.Activate();
@@ -188,7 +190,7 @@ namespace WarOfEmpires.Tests.Integration {
             changeEmailResult.ViewName.Should().Be("Index");
 
             // Log out
-            var logOutResult = GetController().LogOut();
+            var logOutResult = await GetController().LogOut();
 
             logOutResult.Should().BeOfType<RedirectToActionResult>();
             _authenticationService.Identity.Should().BeNull();
@@ -201,7 +203,7 @@ namespace WarOfEmpires.Tests.Integration {
             _authenticationService.Identity.Should().BeNull();
 
             // Log in with new email address
-            var logInResult = GetController().LogIn(new LogInUserModel() {
+            var logInResult = await GetController().LogIn(new LogInUserModel() {
                 Email = "new@test.com",
                 Password = "test"
             });
