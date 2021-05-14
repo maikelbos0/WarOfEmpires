@@ -8,7 +8,7 @@ using WarOfEmpires.Utilities.Services;
 namespace WarOfEmpires.Repositories.Alliances {
     [ScopedServiceImplementation(typeof(IAllianceRepository))]
     public sealed class AllianceRepository : BaseRepository, IAllianceRepository {
-        public AllianceRepository(IWarContext context) : base(context) { }
+        public AllianceRepository(ILazyWarContext context) : base(context) { }
 
         public Alliance Get(string playerEmail) {
             return _context.Players.Single(p => p.User.Status == UserStatus.Active && EmailComparisonService.Equals(p.User.Email, playerEmail)).Alliance;

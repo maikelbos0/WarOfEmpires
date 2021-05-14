@@ -7,7 +7,7 @@ using WarOfEmpires.Utilities.Services;
 namespace WarOfEmpires.Repositories.Security {
     [ScopedServiceImplementation(typeof(IUserRepository))]
     public sealed class UserRepository : BaseRepository, IUserRepository {
-        public UserRepository(IWarContext context) : base(context) { }
+        public UserRepository(ILazyWarContext context) : base(context) { }
 
         public User TryGetByEmail(string email) {
             return _context.Users.SingleOrDefault(u => EmailComparisonService.Equals(u.Email, email));

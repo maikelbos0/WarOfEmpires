@@ -5,7 +5,7 @@ using WarOfEmpires.Domain.Auditing;
 namespace WarOfEmpires.Repositories.Auditing {
     [ScopedServiceImplementation(typeof(ICommandExecutionRepository))]
     public sealed class CommandExecutionRepository : BaseRepository, ICommandExecutionRepository {
-        public CommandExecutionRepository(IWarContext context) : base(context) { }
+        public CommandExecutionRepository(ILazyWarContext context) : base(context) { }
 
         public void Add(CommandExecution commandExecution) {
             _context.CommandExecutions.Add(commandExecution);
