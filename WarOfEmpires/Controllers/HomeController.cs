@@ -10,8 +10,8 @@ using WarOfEmpires.Queries.Security;
 using WarOfEmpires.Services;
 
 namespace WarOfEmpires.Controllers {
-    [Route("Home")]
     [Route("")]
+    [Route("Home")]
     public sealed class HomeController : BaseController {
         public HomeController(IAuthenticationService authenticationService, IMessageService messageService, IDataGridViewService dataGridViewService)
             : base(messageService, authenticationService, dataGridViewService) {
