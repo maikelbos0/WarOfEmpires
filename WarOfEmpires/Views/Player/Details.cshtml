@@ -42,7 +42,7 @@
         @if (Model.AllianceId.HasValue) {
             <div class="form-group">
                 <label>Alliance</label>
-                @Html.ActionLink($"{Model.AllianceCode} - {Model.AllianceName}", "Details", "Alliance", new { id = Model.AllianceId }, new { @class = "form-control btn btn-secondary text-left " })
+                @Html.ActionLink($"{Model.AllianceCode} - {Model.AllianceName}", "Details", "Alliance", new { id = Model.AllianceId }, new { @class = "w-100 btn btn-secondary text-start " })
             </div>
         }
 
