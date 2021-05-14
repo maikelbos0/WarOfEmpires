@@ -34,7 +34,7 @@ namespace WarOfEmpires.QueryHandlers.Alliances {
                 .ToList();
             var chatMessageCutoffDate = DateTime.UtcNow.AddDays(-7);
             var chatMessages = _context.Alliances
-                .Include(a => a.ChatMessages.Select(m => m.Player.User))
+                .Include(a => a.ChatMessages).ThenInclude(m => m.Player.User)
                 .Where(a => a.Id == alliance.Id)
                 .SelectMany(a => a.ChatMessages)
                 .Where(m => m.Date >= chatMessageCutoffDate)
