@@ -15,30 +15,26 @@ namespace WarOfEmpires.Controllers {
             : base(messageService, authenticationService, dataGridViewService) {
         }
 
-        [Route("")]
-        [Route("Index")]
-        [HttpGet]
+        [HttpGet("")]
+        [HttpGet("Index")]
         public ViewResult Index() {
             return View();
         }
 
-        [Route("ScheduledTasks")]
-        [HttpGet]
+        [HttpGet("ScheduledTasks")]
         public PartialViewResult ScheduledTasks() {
             // Explicitly name view so it works from other actions
             return PartialView("ScheduledTasks", _messageService.Dispatch(new GetScheduledTasksPausedQuery()));
         }
 
-        [Route("UnpauseScheduledTasks")]
-        [HttpPost]
+        [HttpPost("UnpauseScheduledTasks")]
         public PartialViewResult UnpauseScheduledTasks() {
             return BuildPartialViewResultFor(new UnpauseScheduledTasksCommand())
                 .OnSuccess(ScheduledTasks)
                 .ThrowOnFailure();
         }
 
-        [Route("PauseScheduledTasks")]
-        [HttpPost]
+        [HttpPost("PauseScheduledTasks")]
         public PartialViewResult PauseScheduledTasks() {
             return BuildPartialViewResultFor(new PauseScheduledTasksCommand())
                 .OnSuccess(ScheduledTasks)
