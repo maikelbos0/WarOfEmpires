@@ -2,6 +2,15 @@
 
 @{
     ViewBag.Title = "Workers";
+
+    var iconTypes = new Dictionary<string, IconType> {
+        { "Farmers", IconType.Food },
+        { "WoodWorkers", IconType.Wood },
+        { "StoneMasons", IconType.Stone },
+        { "OreMiners", IconType.Ore },
+        { "SiegeEngineers", IconType.Siege },
+        { "Merchants", IconType.Market }
+    };
 }
 
 <h2>Workers</h2>
@@ -13,7 +22,7 @@
 <ul class="text-muted">
     <li>Peasants available for training: @Model.CurrentPeasants.ToString(StringFormat.Integer)</li>
     <li>Worker training cost: @Html.DisplayFor(m => m.WorkerCost)</li>
-    <li>Gold production per turn: @Model.CurrentGoldPerTurn.ToString(StringFormat.Integer) @Html.Icon("Gold")</li>
+    <li>Gold production per turn: @Model.CurrentGoldPerTurn.ToString(StringFormat.Integer) @await Html.Icon(IconType.Gold)</li>
     <li>Upkeep per turn: @Html.DisplayFor(m => m.UpkeepPerTurn)</li>
     <li>Recruits per day: @Model.RecruitsPerDay.ToString(StringFormat.Integer)</li>
 
@@ -76,7 +85,7 @@
                     }
                     <div class="form-control" readonly="readonly">
                         @Model.Workers[i].CurrentProductionPerWorkerPerTurn.ToString(StringFormat.Integer)
-                        @Html.IconFor(m => m.Workers[i].Type)
+                        @await Html.Icon(iconTypes[Model.Workers[i].Type])
                     </div>
                 </div>
 
@@ -88,7 +97,7 @@
                     }
                     <div class="form-control" readonly="readonly">
                         @Model.Workers[i].CurrentProductionPerTurn.ToString(StringFormat.Integer)
-                        @Html.IconFor(m => m.Workers[i].Type)
+                        @await Html.Icon(iconTypes[Model.Workers[i].Type])
                     </div>
                 </div>
 

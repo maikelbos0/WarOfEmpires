@@ -1,15 +1,15 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Html;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using System;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Threading.Tasks;
 using WarOfEmpires.Models;
 using WarOfEmpires.Models.Empires;
 using WarOfEmpires.Models.Grids;
-using Microsoft.AspNetCore.Html;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using System.Threading.Tasks;
 
 namespace WarOfEmpires.Extensions {
     public static class HtmlHelperExtensions {
@@ -35,15 +35,12 @@ namespace WarOfEmpires.Extensions {
             return html.Partial("_HiddenResources", model, viewData);
         }
 
-        public static IHtmlContent IconFor<TModel>(this IHtmlHelper<TModel> html, Expression<Func<TModel, string>> expression) {
-            var model = expression.Compile().Invoke(html.ViewData.Model);
+        public static async Task<IHtmlContent> Icon(this IHtmlHelper html, IconType type) {
+            if (!Enum.IsDefined<IconType>(type)) {
+                throw new ArgumentException($"Invalid icon type found: '{type}'");
+            }
 
-            return html.Icon(model);
-        }
-
-        // TODO fix warnings by switching to async
-        public static IHtmlContent Icon(this IHtmlHelper html, string expression) {
-            return html.Partial("_Icon", expression);
+            return await html.PartialAsync("_Icon", type);
         }
 
         public static async Task<IHtmlContent> Grid<TGridItem>(this IHtmlHelper html, string id, string dataUrl, string detailUrl = null, string searchFormId = null) where TGridItem : EntityViewModel {

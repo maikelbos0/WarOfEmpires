@@ -14,8 +14,8 @@
 <ul class="text-muted">
     <li>Total number of merchants: @Model.TotalMerchants.ToString(StringFormat.Integer)</li>
     <li>Available merchants: @Model.AvailableMerchants.ToString(StringFormat.Integer)</li>
-    <li>Capacity per caravan: @Model.CaravanCapacity.ToString(StringFormat.Integer) @Html.Icon("Market")</li>
-    <li>Total available capacity: @Model.AvailableCapacity.ToString(StringFormat.Integer) @Html.Icon("Market")</li>
+    <li>Capacity per caravan: @Model.CaravanCapacity.ToString(StringFormat.Integer) @await Html.Icon(IconType.Market)</li>
+    <li>Total available capacity: @Model.AvailableCapacity.ToString(StringFormat.Integer) @await Html.Icon(IconType.Market)</li>
 </ul>
 
 @using (Html.BeginForm("Sell", null, FormMethod.Post, new {

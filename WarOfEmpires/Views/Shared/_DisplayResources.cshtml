@@ -1,23 +1,23 @@
 ﻿@model WarOfEmpires.Models.Empires.ResourcesViewModel
 
 @if (Model.Gold > 0) {
-    <span class="d-inline-block">@Model.Gold.ToString(StringFormat.Integer) @Html.Icon("Gold")</span>
+    <span class="d-inline-block">@Model.Gold.ToString(StringFormat.Integer) @await Html.Icon(IconType.Gold)</span>
 }
 
 @if (Model.Food > 0) {
-    <span class="d-inline-block">@Model.Food.ToString(StringFormat.Integer) @Html.Icon("Food")</span>
+    <span class="d-inline-block">@Model.Food.ToString(StringFormat.Integer) @await Html.Icon(IconType.Food)</span>
 }
 
 @if (Model.Wood > 0) {
-    <span class="d-inline-block">@Model.Wood.ToString(StringFormat.Integer) @Html.Icon("Wood")</span>
+    <span class="d-inline-block">@Model.Wood.ToString(StringFormat.Integer) @await Html.Icon(IconType.Wood)</span>
 }
 
 @if (Model.Stone > 0) {
-    <span class="d-inline-block">@Model.Stone.ToString(StringFormat.Integer) @Html.Icon("Stone")</span>
+    <span class="d-inline-block">@Model.Stone.ToString(StringFormat.Integer) @await Html.Icon(IconType.Stone)</span>
 }
 
 @if (Model.Ore > 0) {
-    <span class="d-inline-block">@Model.Ore.ToString(StringFormat.Integer) @Html.Icon("Ore")</span>
+    <span class="d-inline-block">@Model.Ore.ToString(StringFormat.Integer) @await Html.Icon(IconType.Ore)</span>
 }
 
 @if (Model.Gold == 0 && Model.Food == 0 && Model.Wood == 0 && Model.Stone == 0 && Model.Ore == 0) {
