@@ -56,7 +56,7 @@ function Grid(id, dataUrl) {
 
     let renderer = function (cell, value, dataRow) {
         if (base.detailUrl) {
-            cell.append($('<a>', { title: value, href: base.detailUrl + '?id=' + dataRow.Id }).text(value));
+            cell.append($('<a>', { title: value, href: base.detailUrl + '?id=' + dataRow.id }).text(value));
         }
         else {
             cell.text(value).attr('title', value);

@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using System.Threading.Tasks;
 
 namespace WarOfEmpires.Extensions {
     public static class HtmlHelperExtensions {
@@ -21,6 +22,7 @@ namespace WarOfEmpires.Extensions {
             return html.Partial("_DisplayResources", model);
         }
 
+        // TODO fix warnings by switching to async
         public static IHtmlContent HiddenFor<TModel>(this HtmlHelper<TModel> html, Expression<Func<TModel, ResourcesViewModel>> expression) {
             var model = expression.Compile().Invoke(html.ViewData.Model);
             var name = modelExpressionProvider.GetExpressionText(expression);
@@ -39,11 +41,12 @@ namespace WarOfEmpires.Extensions {
             return html.Icon(model);
         }
 
+        // TODO fix warnings by switching to async
         public static IHtmlContent Icon(this IHtmlHelper html, string expression) {
             return html.Partial("_Icon", expression);
         }
 
-        public static IHtmlContent Grid<TGridItem>(this IHtmlHelper html, string id, string dataUrl, string detailUrl = null, string searchFormId = null) where TGridItem : EntityViewModel {
+        public static async Task<IHtmlContent> Grid<TGridItem>(this IHtmlHelper html, string id, string dataUrl, string detailUrl = null, string searchFormId = null) where TGridItem : EntityViewModel {
             var gridSorting = typeof(TGridItem).GetCustomAttribute<GridSortingAttribute>();
             var gridColumns = typeof(TGridItem).GetProperties()
                 .Select(p => new {
@@ -55,13 +58,13 @@ namespace WarOfEmpires.Extensions {
                 .Select(c => new GridColumnViewModel() {
                     Width = c.Attribute.Width,
                     Header = c.Attribute.Header,
-                    Data = c.Property.Name,
-                    SortData = c.Attribute.SortData ?? c.Property.Name,
+                    Data = c.Property.Name.ToCamelCase(),
+                    SortData = (c.Attribute.SortData ?? c.Property.Name).ToCamelCase(),
                     ResponsiveDisplayBehaviour = c.Attribute.ResponsiveDisplayBehaviour
                 })
                 .ToList();
 
-            return html.Partial("_Grid", new GridViewModel() {
+            return await html.PartialAsync("_Grid", new GridViewModel() {
                 Id = id,
                 DataUrl = dataUrl,
                 DetailUrl = detailUrl,

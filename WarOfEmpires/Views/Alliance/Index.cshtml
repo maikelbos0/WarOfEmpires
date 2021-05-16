@@ -30,4 +30,4 @@
     </div>
 </form>
 
-@(Html.Grid<WarOfEmpires.Models.Alliances.AllianceViewModel>("alliancesGrid", Url.Action("GetAlliances"), Url.Action("Details"), "alliancesSearch"))
+@(await Html.Grid<WarOfEmpires.Models.Alliances.AllianceViewModel>("alliancesGrid", Url.Action("GetAlliances"), Url.Action("Details"), "alliancesSearch"))
