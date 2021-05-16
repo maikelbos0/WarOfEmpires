@@ -27,8 +27,8 @@ namespace WarOfEmpires.QueryHandlers.Alliances {
             var nonAggressionPactAlliances = new List<Alliance>();
             var currentAlliance = _context.Players
                 .Include(p => p.Alliance)
-                .Include(p => p.Alliance.SentNonAggressionPactRequests.Select(r => r.Recipient))
-                .Include(p => p.Alliance.NonAggressionPacts.Select(n => n.Alliances))
+                .Include(p => p.Alliance.SentNonAggressionPactRequests).ThenInclude(r => r.Recipient)
+                .Include(p => p.Alliance.NonAggressionPacts).ThenInclude(n => n.Alliances)
                 .Single(p => EmailComparisonService.Equals(p.User.Email, query.Email))
                 .Alliance;
 
