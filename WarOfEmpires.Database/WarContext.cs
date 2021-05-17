@@ -4,7 +4,7 @@ using WarOfEmpires.Utilities.Configuration;
 
 namespace WarOfEmpires.Database {
 
-    [ScopedServiceImplementation(typeof(IWarContext))]
+    [TransientServiceImplementation(typeof(IWarContext))]
     public class WarContext : BaseWarContext<WarContext>, IWarContext {
         public WarContext(AppSettings appSettings) 
             : base(new DbContextOptionsBuilder<WarContext>()

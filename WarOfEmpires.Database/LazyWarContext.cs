@@ -3,7 +3,7 @@ using VDT.Core.DependencyInjection;
 using WarOfEmpires.Utilities.Configuration;
 
 namespace WarOfEmpires.Database {
-    [ScopedServiceImplementation(typeof(ILazyWarContext))]
+    [TransientServiceImplementation(typeof(ILazyWarContext))]
     public class LazyWarContext : BaseWarContext<LazyWarContext>, ILazyWarContext {
         public LazyWarContext(AppSettings appSettings)
             : base(new DbContextOptionsBuilder<LazyWarContext>()
