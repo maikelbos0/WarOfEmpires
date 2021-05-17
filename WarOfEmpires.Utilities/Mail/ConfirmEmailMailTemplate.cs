@@ -3,7 +3,7 @@ using VDT.Core.DependencyInjection;
 using WarOfEmpires.Utilities.Configuration;
 
 namespace WarOfEmpires.Utilities.Mail {
-    [ScopedServiceImplementation(typeof(IMailTemplate<ConfirmEmailMailTemplateParameters>))]
+    [TransientServiceImplementation(typeof(IMailTemplate<ConfirmEmailMailTemplateParameters>))]
     public sealed class ConfirmEmailMailTemplate : IMailTemplate<ConfirmEmailMailTemplateParameters> {
         private readonly AppSettings _appSettings;
 

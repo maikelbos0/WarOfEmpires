@@ -4,7 +4,7 @@ using VDT.Core.DependencyInjection;
 using WarOfEmpires.Domain.Events;
 
 namespace WarOfEmpires.Utilities.Events {
-    [ScopedServiceImplementation(typeof(IEventService))]
+    [TransientServiceImplementation(typeof(IEventService))]
     public sealed class EventService : IEventService {
         private readonly IServiceProvider _serviceProvider;
 

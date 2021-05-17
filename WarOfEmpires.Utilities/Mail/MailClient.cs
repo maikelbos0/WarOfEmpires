@@ -4,7 +4,7 @@ using VDT.Core.DependencyInjection;
 using WarOfEmpires.Utilities.Configuration;
 
 namespace WarOfEmpires.Utilities.Mail {
-    [ScopedServiceImplementation(typeof(IMailClient))]
+    [TransientServiceImplementation(typeof(IMailClient))]
     public sealed class MailClient : IMailClient {
         private readonly AppSettings _appSettings;
 

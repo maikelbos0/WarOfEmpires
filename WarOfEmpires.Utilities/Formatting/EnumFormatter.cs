@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 using VDT.Core.DependencyInjection;
 
 namespace WarOfEmpires.Utilities.Formatting {
-    [ScopedServiceImplementation(typeof(IEnumFormatter))]
+    [TransientServiceImplementation(typeof(IEnumFormatter))]
     public class EnumFormatter : IEnumFormatter {
         private static readonly Regex _wordBoundaryFinder = new Regex("(\\B[A-Z])", RegexOptions.Compiled);
 

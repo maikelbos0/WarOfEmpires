@@ -3,7 +3,7 @@ using VDT.Core.DependencyInjection;
 using WarOfEmpires.Utilities.Configuration;
 
 namespace WarOfEmpires.Utilities.Mail {
-    [ScopedServiceImplementation(typeof(IMailTemplate<PasswordResetMailTemplateParameters>))]
+    [TransientServiceImplementation(typeof(IMailTemplate<PasswordResetMailTemplateParameters>))]
     public sealed class PasswordResetMailTemplate : IMailTemplate<PasswordResetMailTemplateParameters> {
         private readonly AppSettings _appSettings;
 

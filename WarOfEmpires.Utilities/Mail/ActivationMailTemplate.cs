@@ -3,7 +3,7 @@ using VDT.Core.DependencyInjection;
 using WarOfEmpires.Utilities.Configuration;
 
 namespace WarOfEmpires.Utilities.Mail {
-    [ScopedServiceImplementation(typeof(IMailTemplate<ActivationMailTemplateParameters>))]
+    [TransientServiceImplementation(typeof(IMailTemplate<ActivationMailTemplateParameters>))]
     public sealed class ActivationMailTemplate : IMailTemplate<ActivationMailTemplateParameters> {
         private readonly AppSettings _appSettings;
 
