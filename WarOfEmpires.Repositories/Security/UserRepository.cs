@@ -5,7 +5,7 @@ using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.Repositories.Security {
-    [ScopedServiceImplementation(typeof(IUserRepository))]
+    [TransientServiceImplementation(typeof(IUserRepository))]
     public sealed class UserRepository : BaseRepository, IUserRepository {
         public UserRepository(ILazyWarContext context) : base(context) { }
 

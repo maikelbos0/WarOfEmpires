@@ -3,7 +3,7 @@ using WarOfEmpires.Database;
 using WarOfEmpires.Domain.Auditing;
 
 namespace WarOfEmpires.Repositories.Auditing {
-    [ScopedServiceImplementation(typeof(ICommandExecutionRepository))]
+    [TransientServiceImplementation(typeof(ICommandExecutionRepository))]
     public sealed class CommandExecutionRepository : BaseRepository, ICommandExecutionRepository {
         public CommandExecutionRepository(ILazyWarContext context) : base(context) { }
 

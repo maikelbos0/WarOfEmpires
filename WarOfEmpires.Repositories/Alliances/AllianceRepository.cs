@@ -6,7 +6,7 @@ using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.Repositories.Alliances {
-    [ScopedServiceImplementation(typeof(IAllianceRepository))]
+    [TransientServiceImplementation(typeof(IAllianceRepository))]
     public sealed class AllianceRepository : BaseRepository, IAllianceRepository {
         public AllianceRepository(ILazyWarContext context) : base(context) { }
 

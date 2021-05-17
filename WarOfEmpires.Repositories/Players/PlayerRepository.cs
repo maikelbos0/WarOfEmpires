@@ -9,7 +9,7 @@ using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.Repositories.Players {
-    [ScopedServiceImplementation(typeof(IPlayerRepository))]
+    [TransientServiceImplementation(typeof(IPlayerRepository))]
     public sealed class PlayerRepository : BaseRepository, IPlayerRepository {
         public PlayerRepository(ILazyWarContext context) : base(context) { }
 
