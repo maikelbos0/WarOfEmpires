@@ -9,7 +9,7 @@ using WarOfEmpires.Repositories.Players;
 using WarOfEmpires.Utilities.Linq;
 
 namespace WarOfEmpires.CommandHandlers.Empires {
-    [ScopedServiceImplementation(typeof(ICommandHandler<TrainWorkersCommand>))]
+    [TransientServiceImplementation(typeof(ICommandHandler<TrainWorkersCommand>))]
     public sealed class TrainWorkersCommandHandler : ICommandHandler<TrainWorkersCommand> {
         private readonly IPlayerRepository _repository;
 

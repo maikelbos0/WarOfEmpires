@@ -5,7 +5,7 @@ using WarOfEmpires.Commands.Markets;
 using WarOfEmpires.Repositories.Players;
 
 namespace WarOfEmpires.CommandHandlers.Markets {
-    [ScopedServiceImplementation(typeof(ICommandHandler<WithdrawCaravanCommand>))]
+    [TransientServiceImplementation(typeof(ICommandHandler<WithdrawCaravanCommand>))]
     public sealed class WithdrawCaravanCommandHandler : ICommandHandler<WithdrawCaravanCommand> {
         private readonly IPlayerRepository _repository;
 

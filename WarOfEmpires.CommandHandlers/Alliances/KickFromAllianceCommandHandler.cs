@@ -6,7 +6,7 @@ using WarOfEmpires.Commands.Alliances;
 using WarOfEmpires.Repositories.Alliances;
 
 namespace WarOfEmpires.CommandHandlers.Alliances {
-    [ScopedServiceImplementation(typeof(ICommandHandler<KickFromAllianceCommand>))]
+    [TransientServiceImplementation(typeof(ICommandHandler<KickFromAllianceCommand>))]
     public sealed class KickFromAllianceCommandHandler : ICommandHandler<KickFromAllianceCommand> {
         private readonly IAllianceRepository _repository;
 

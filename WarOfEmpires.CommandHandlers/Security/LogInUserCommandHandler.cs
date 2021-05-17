@@ -4,7 +4,7 @@ using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Repositories.Security;
 
 namespace WarOfEmpires.CommandHandlers.Security {
-    [ScopedServiceImplementation(typeof(ICommandHandler<LogInUserCommand>))]
+    [TransientServiceImplementation(typeof(ICommandHandler<LogInUserCommand>))]
     public sealed class LogInUserCommandHandler : ICommandHandler<LogInUserCommand> {
         private readonly IUserRepository _repository;
 

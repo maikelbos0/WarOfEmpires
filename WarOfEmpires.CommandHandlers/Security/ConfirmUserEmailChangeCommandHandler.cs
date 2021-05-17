@@ -4,7 +4,7 @@ using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Repositories.Security;
 
 namespace WarOfEmpires.CommandHandlers.Security {
-    [ScopedServiceImplementation(typeof(ICommandHandler<ConfirmUserEmailChangeCommand>))]
+    [TransientServiceImplementation(typeof(ICommandHandler<ConfirmUserEmailChangeCommand>))]
     public sealed class ConfirmUserEmailChangeCommandHandler : ICommandHandler<ConfirmUserEmailChangeCommand> {
         private readonly IUserRepository _repository;
 

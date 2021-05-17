@@ -3,7 +3,7 @@ using WarOfEmpires.Commands.Security;
 using WarOfEmpires.Repositories.Security;
 
 namespace WarOfEmpires.CommandHandlers.Security {
-    [ScopedServiceImplementation(typeof(ICommandHandler<ChangeUserPasswordCommand>))]
+    [TransientServiceImplementation(typeof(ICommandHandler<ChangeUserPasswordCommand>))]
     public sealed class ChangeUserPasswordCommandHandler : ICommandHandler<ChangeUserPasswordCommand> {
         private readonly IUserRepository _repository;
 

@@ -3,7 +3,7 @@ using WarOfEmpires.Commands.Security;
 using WarOfEmpires.Repositories.Security;
 
 namespace WarOfEmpires.CommandHandlers.Security {
-    [ScopedServiceImplementation(typeof(ICommandHandler<LogOutUserCommand>))]
+    [TransientServiceImplementation(typeof(ICommandHandler<LogOutUserCommand>))]
     public sealed class LogOutUserCommandHandler : ICommandHandler<LogOutUserCommand> {
         private readonly IUserRepository _repository;
 

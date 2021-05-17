@@ -5,7 +5,7 @@ using WarOfEmpires.Commands.Alliances;
 using WarOfEmpires.Repositories.Alliances;
 
 namespace WarOfEmpires.CommandHandlers.Alliances {
-    [ScopedServiceImplementation(typeof(ICommandHandler<SetRoleCommand>))]
+    [TransientServiceImplementation(typeof(ICommandHandler<SetRoleCommand>))]
     public sealed class SetRoleCommandHandler : ICommandHandler<SetRoleCommand> {
         private readonly IAllianceRepository _repository;
 

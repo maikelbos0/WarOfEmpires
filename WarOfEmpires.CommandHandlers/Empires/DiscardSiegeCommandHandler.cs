@@ -8,7 +8,7 @@ using WarOfEmpires.Repositories.Players;
 using WarOfEmpires.Utilities.Formatting;
 
 namespace WarOfEmpires.CommandHandlers.Empires {
-    [ScopedServiceImplementation(typeof(ICommandHandler<DiscardSiegeCommand>))]
+    [TransientServiceImplementation(typeof(ICommandHandler<DiscardSiegeCommand>))]
     public sealed class DiscardSiegeCommandHandler : ICommandHandler<DiscardSiegeCommand> {
         private readonly IPlayerRepository _repository;
         private readonly IEnumFormatter _formatter;

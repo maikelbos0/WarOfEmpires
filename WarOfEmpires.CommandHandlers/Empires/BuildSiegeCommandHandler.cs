@@ -10,7 +10,7 @@ using WarOfEmpires.Repositories.Players;
 using WarOfEmpires.Utilities.Linq;
 
 namespace WarOfEmpires.CommandHandlers.Empires {
-    [ScopedServiceImplementation(typeof(ICommandHandler<BuildSiegeCommand>))]
+    [TransientServiceImplementation(typeof(ICommandHandler<BuildSiegeCommand>))]
     public sealed class BuildSiegeCommandHandler : ICommandHandler<BuildSiegeCommand> {
         private readonly IPlayerRepository _repository;
 

@@ -5,7 +5,7 @@ using WarOfEmpires.Repositories.Players;
 using WarOfEmpires.Repositories.Security;
 
 namespace WarOfEmpires.CommandHandlers.Players {
-    [ScopedServiceImplementation(typeof(ICommandHandler<RegisterPlayerCommand>))]
+    [TransientServiceImplementation(typeof(ICommandHandler<RegisterPlayerCommand>))]
     public sealed class RegisterPlayerCommandHandler : ICommandHandler<RegisterPlayerCommand> {
         private readonly IUserRepository _userRepository;
         private readonly IPlayerRepository _repository;

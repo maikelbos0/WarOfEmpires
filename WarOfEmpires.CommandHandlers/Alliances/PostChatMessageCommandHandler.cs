@@ -4,7 +4,7 @@ using WarOfEmpires.Commands.Alliances;
 using WarOfEmpires.Repositories.Players;
 
 namespace WarOfEmpires.CommandHandlers.Alliances {
-    [ScopedServiceImplementation(typeof(ICommandHandler<PostChatMessageCommand>))]
+    [TransientServiceImplementation(typeof(ICommandHandler<PostChatMessageCommand>))]
     public sealed class PostChatMessageCommandHandler : ICommandHandler<PostChatMessageCommand> {
         private readonly IPlayerRepository _repository;
 

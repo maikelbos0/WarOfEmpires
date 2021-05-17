@@ -5,7 +5,7 @@ using WarOfEmpires.Commands.Alliances;
 using WarOfEmpires.Repositories.Alliances;
 
 namespace WarOfEmpires.CommandHandlers.Alliances {
-    [ScopedServiceImplementation(typeof(ICommandHandler<AcceptNonAggressionPactRequestCommand>))]
+    [TransientServiceImplementation(typeof(ICommandHandler<AcceptNonAggressionPactRequestCommand>))]
     public sealed class AcceptNonAggressionPactRequestCommandHandler : ICommandHandler<AcceptNonAggressionPactRequestCommand> {
         private readonly IAllianceRepository _repository;
 

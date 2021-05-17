@@ -5,7 +5,7 @@ using WarOfEmpires.Commands.Alliances;
 using WarOfEmpires.Repositories.Alliances;
 
 namespace WarOfEmpires.CommandHandlers.Alliances {
-    [ScopedServiceImplementation(typeof(ICommandHandler<DeleteChatMessageCommand>))]
+    [TransientServiceImplementation(typeof(ICommandHandler<DeleteChatMessageCommand>))]
     public sealed class DeleteChatMessageCommandHandler : ICommandHandler<DeleteChatMessageCommand> {
         private readonly IAllianceRepository _repository;
 

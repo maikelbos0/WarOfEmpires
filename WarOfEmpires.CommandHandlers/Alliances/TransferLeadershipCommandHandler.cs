@@ -6,7 +6,7 @@ using WarOfEmpires.Commands.Alliances;
 using WarOfEmpires.Repositories.Alliances;
 
 namespace WarOfEmpires.CommandHandlers.Alliances {
-    [ScopedServiceImplementation(typeof(ICommandHandler<TransferLeadershipCommand>))]
+    [TransientServiceImplementation(typeof(ICommandHandler<TransferLeadershipCommand>))]
     public sealed class TransferLeadershipCommandHandler : ICommandHandler<TransferLeadershipCommand> {
         private readonly IAllianceRepository _repository;
 

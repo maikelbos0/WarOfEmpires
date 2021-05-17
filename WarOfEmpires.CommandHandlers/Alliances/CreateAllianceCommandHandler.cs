@@ -6,7 +6,7 @@ using WarOfEmpires.Repositories.Alliances;
 using WarOfEmpires.Repositories.Players;
 
 namespace WarOfEmpires.CommandHandlers.Alliances {
-    [ScopedServiceImplementation(typeof(ICommandHandler<CreateAllianceCommand>))]
+    [TransientServiceImplementation(typeof(ICommandHandler<CreateAllianceCommand>))]
     public sealed class CreateAllianceCommandHandler : ICommandHandler<CreateAllianceCommand> {
         private readonly IPlayerRepository _playerRepository;
         private readonly IAllianceRepository _allianceRepository;

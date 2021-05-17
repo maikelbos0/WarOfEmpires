@@ -4,7 +4,7 @@ using WarOfEmpires.Domain.Empires;
 using WarOfEmpires.Utilities.Events;
 
 namespace WarOfEmpires.CommandHandlers.Empires {
-    [ScopedServiceImplementation(typeof(IEventHandler<UpdateRankTaskTriggeredEvent>))]
+    [TransientServiceImplementation(typeof(IEventHandler<UpdateRankTaskTriggeredEvent>))]
     public sealed class UpdateRankTaskTriggeredEventHandler : IEventHandler<UpdateRankTaskTriggeredEvent> {
         private readonly ICommandHandler<UpdateRankCommand> _commandHandler;
 

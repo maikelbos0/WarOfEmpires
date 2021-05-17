@@ -7,7 +7,7 @@ using WarOfEmpires.Domain.Empires;
 using WarOfEmpires.Repositories.Players;
 
 namespace WarOfEmpires.CommandHandlers.Empires {
-    [ScopedServiceImplementation(typeof(ICommandHandler<UpgradeBuildingCommand>))]
+    [TransientServiceImplementation(typeof(ICommandHandler<UpgradeBuildingCommand>))]
     public sealed class UpgradeBuildingCommandHandler : ICommandHandler<UpgradeBuildingCommand> {
         private readonly IPlayerRepository _repository;
 

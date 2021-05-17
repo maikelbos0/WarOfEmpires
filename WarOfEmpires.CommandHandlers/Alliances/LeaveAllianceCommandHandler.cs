@@ -5,7 +5,7 @@ using WarOfEmpires.Commands.Alliances;
 using WarOfEmpires.Repositories.Players;
 
 namespace WarOfEmpires.CommandHandlers.Alliances {
-    [ScopedServiceImplementation(typeof(ICommandHandler<LeaveAllianceCommand>))]
+    [TransientServiceImplementation(typeof(ICommandHandler<LeaveAllianceCommand>))]
     public sealed class LeaveAllianceCommandHandler : ICommandHandler<LeaveAllianceCommand> {
         private readonly IPlayerRepository _repository;
 

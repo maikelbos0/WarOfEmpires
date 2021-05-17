@@ -4,7 +4,7 @@ using WarOfEmpires.Domain.Empires;
 using WarOfEmpires.Utilities.Events;
 
 namespace WarOfEmpires.CommandHandlers.Empires {
-    [ScopedServiceImplementation(typeof(IEventHandler<TurnTaskTriggeredEvent>))]
+    [TransientServiceImplementation(typeof(IEventHandler<TurnTaskTriggeredEvent>))]
     public sealed class TurnTaskTriggeredEventHandler : IEventHandler<TurnTaskTriggeredEvent> {
         private readonly ICommandHandler<ProcessTurnCommand> _commandHandler;
 

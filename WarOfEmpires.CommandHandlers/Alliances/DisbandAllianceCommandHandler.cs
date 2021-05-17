@@ -4,7 +4,7 @@ using WarOfEmpires.Commands.Alliances;
 using WarOfEmpires.Repositories.Alliances;
 
 namespace WarOfEmpires.CommandHandlers.Alliances {
-    [ScopedServiceImplementation(typeof(ICommandHandler<DisbandAllianceCommand>))]
+    [TransientServiceImplementation(typeof(ICommandHandler<DisbandAllianceCommand>))]
     public sealed class DisbandAllianceCommandHandler : ICommandHandler<DisbandAllianceCommand> {
         private readonly IAllianceRepository _repository;
 

@@ -4,7 +4,7 @@ using WarOfEmpires.Commands.Markets;
 using WarOfEmpires.Repositories.Players;
 
 namespace WarOfEmpires.CommandHandlers.Markets {
-    [ScopedServiceImplementation(typeof(ICommandHandler<ReadTransactionsCommand>))]
+    [TransientServiceImplementation(typeof(ICommandHandler<ReadTransactionsCommand>))]
     public sealed class ReadTransactionsCommandHandler : ICommandHandler<ReadTransactionsCommand> {
         private readonly IPlayerRepository _repository;
 

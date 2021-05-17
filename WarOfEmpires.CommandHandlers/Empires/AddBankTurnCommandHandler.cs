@@ -4,7 +4,7 @@ using WarOfEmpires.Commands.Empires;
 using WarOfEmpires.Repositories.Players;
 
 namespace WarOfEmpires.CommandHandlers.Empires {
-    [ScopedServiceImplementation(typeof(ICommandHandler<AddBankTurnCommand>))]
+    [TransientServiceImplementation(typeof(ICommandHandler<AddBankTurnCommand>))]
     public sealed class AddBankTurnCommandHandler : ICommandHandler<AddBankTurnCommand> {
         private readonly IPlayerRepository _repository;
 

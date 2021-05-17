@@ -4,7 +4,7 @@ using WarOfEmpires.Domain.Empires;
 using WarOfEmpires.Utilities.Events;
 
 namespace WarOfEmpires.CommandHandlers.Empires {
-    [ScopedServiceImplementation(typeof(IEventHandler<BankTurnTaskTriggeredEvent>))]
+    [TransientServiceImplementation(typeof(IEventHandler<BankTurnTaskTriggeredEvent>))]
     public sealed class BankTurnTaskTriggeredEventHandler : IEventHandler<BankTurnTaskTriggeredEvent> {
         private readonly ICommandHandler<AddBankTurnCommand> _commandHandler;
 

@@ -4,7 +4,7 @@ using WarOfEmpires.Commands.Events;
 using WarOfEmpires.Repositories.Events;
 
 namespace WarOfEmpires.CommandHandlers.Events {
-    [ScopedServiceImplementation(typeof(ICommandHandler<UnpauseScheduledTasksCommand>))]
+    [TransientServiceImplementation(typeof(ICommandHandler<UnpauseScheduledTasksCommand>))]
     public sealed class UnpauseScheduledTasksCommandHandler : ICommandHandler<UnpauseScheduledTasksCommand> {
         private readonly IScheduledTaskRepository _repository;
 

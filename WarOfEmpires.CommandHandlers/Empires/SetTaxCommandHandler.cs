@@ -4,7 +4,7 @@ using WarOfEmpires.Commands.Empires;
 using WarOfEmpires.Repositories.Players;
 
 namespace WarOfEmpires.CommandHandlers.Empires {
-    [ScopedServiceImplementation(typeof(ICommandHandler<SetTaxCommand>))]
+    [TransientServiceImplementation(typeof(ICommandHandler<SetTaxCommand>))]
     public sealed class SetTaxCommandHandler : ICommandHandler<SetTaxCommand> {
         private readonly IPlayerRepository _repository;
 

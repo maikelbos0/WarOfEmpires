@@ -10,7 +10,7 @@ using WarOfEmpires.Repositories.Players;
 using WarOfEmpires.Utilities.Formatting;
 
 namespace WarOfEmpires.CommandHandlers.Markets {
-    [ScopedServiceImplementation(typeof(ICommandHandler<SellResourcesCommand>))]
+    [TransientServiceImplementation(typeof(ICommandHandler<SellResourcesCommand>))]
     public sealed class SellResourcesCommandHandler : ICommandHandler<SellResourcesCommand> {
         private readonly IPlayerRepository _repository;
         private readonly IEnumFormatter _formatter;

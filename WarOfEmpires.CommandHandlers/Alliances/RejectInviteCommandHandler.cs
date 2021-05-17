@@ -5,7 +5,7 @@ using WarOfEmpires.Commands.Alliances;
 using WarOfEmpires.Repositories.Players;
 
 namespace WarOfEmpires.CommandHandlers.Alliances {
-    [ScopedServiceImplementation(typeof(ICommandHandler<RejectInviteCommand>))]
+    [TransientServiceImplementation(typeof(ICommandHandler<RejectInviteCommand>))]
     public sealed class RejectInviteCommandHandler : ICommandHandler<RejectInviteCommand> {
         private readonly IPlayerRepository _repository;
 

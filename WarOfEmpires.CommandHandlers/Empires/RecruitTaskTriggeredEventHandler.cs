@@ -4,7 +4,7 @@ using WarOfEmpires.Domain.Empires;
 using WarOfEmpires.Utilities.Events;
 
 namespace WarOfEmpires.CommandHandlers.Empires {
-    [ScopedServiceImplementation(typeof(IEventHandler<RecruitTaskTriggeredEvent>))]
+    [TransientServiceImplementation(typeof(IEventHandler<RecruitTaskTriggeredEvent>))]
     public sealed class RecruitTaskTriggeredEventHandler : IEventHandler<RecruitTaskTriggeredEvent> {
         private readonly ICommandHandler<RecruitCommand> _commandHandler;
 

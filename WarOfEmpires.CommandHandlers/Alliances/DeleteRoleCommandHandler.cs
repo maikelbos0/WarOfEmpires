@@ -5,7 +5,7 @@ using WarOfEmpires.Commands.Alliances;
 using WarOfEmpires.Repositories.Alliances;
 
 namespace WarOfEmpires.CommandHandlers.Alliances {
-    [ScopedServiceImplementation(typeof(ICommandHandler<DeleteRoleCommand>))]
+    [TransientServiceImplementation(typeof(ICommandHandler<DeleteRoleCommand>))]
     public sealed class DeleteRoleCommandHandler : ICommandHandler<DeleteRoleCommand> {
         private readonly IAllianceRepository _repository;
 

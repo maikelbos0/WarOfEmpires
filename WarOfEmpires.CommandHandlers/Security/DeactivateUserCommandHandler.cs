@@ -3,7 +3,7 @@ using WarOfEmpires.Commands.Security;
 using WarOfEmpires.Repositories.Security;
 
 namespace WarOfEmpires.CommandHandlers.Security {
-    [ScopedServiceImplementation(typeof(ICommandHandler<DeactivateUserCommand>))]
+    [TransientServiceImplementation(typeof(ICommandHandler<DeactivateUserCommand>))]
     public sealed class DeactivateUserCommandHandler : ICommandHandler<DeactivateUserCommand> {
         private readonly IUserRepository _repository;
 

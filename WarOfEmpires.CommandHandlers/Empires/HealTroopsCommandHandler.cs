@@ -6,7 +6,7 @@ using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Repositories.Players;
 
 namespace WarOfEmpires.CommandHandlers.Empires {
-    [ScopedServiceImplementation(typeof(ICommandHandler<HealTroopsCommand>))]
+    [TransientServiceImplementation(typeof(ICommandHandler<HealTroopsCommand>))]
     public sealed class HealTroopsCommandHandler : ICommandHandler<HealTroopsCommand> {
         private readonly IPlayerRepository _repository;
 

@@ -5,7 +5,7 @@ using WarOfEmpires.Commands.Attacks;
 using WarOfEmpires.Repositories.Players;
 
 namespace WarOfEmpires.CommandHandlers.Attacks {
-    [ScopedServiceImplementation(typeof(ICommandHandler<ReadAttackCommand>))]
+    [TransientServiceImplementation(typeof(ICommandHandler<ReadAttackCommand>))]
     public sealed class ReadAttackCommandHandler : ICommandHandler<ReadAttackCommand> {
         private readonly IPlayerRepository _repository;
 

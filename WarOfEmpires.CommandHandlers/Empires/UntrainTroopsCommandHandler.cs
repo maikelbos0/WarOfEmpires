@@ -8,7 +8,7 @@ using WarOfEmpires.Repositories.Players;
 using WarOfEmpires.Utilities.Formatting;
 
 namespace WarOfEmpires.CommandHandlers.Empires {
-    [ScopedServiceImplementation(typeof(ICommandHandler<UntrainTroopsCommand>))]
+    [TransientServiceImplementation(typeof(ICommandHandler<UntrainTroopsCommand>))]
     public sealed class UntrainTroopsCommandHandler : ICommandHandler<UntrainTroopsCommand> {
         private readonly IPlayerRepository _repository;
         private readonly IEnumFormatter _formatter;

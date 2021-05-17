@@ -4,7 +4,7 @@ using WarOfEmpires.Commands.Empires;
 using WarOfEmpires.Repositories.Players;
 
 namespace WarOfEmpires.CommandHandlers.Empires {
-    [ScopedServiceImplementation(typeof(ICommandHandler<RecruitCommand>))]
+    [TransientServiceImplementation(typeof(ICommandHandler<RecruitCommand>))]
     public sealed class RecruitCommandHandler : ICommandHandler<RecruitCommand> {
         private readonly IPlayerRepository _repository;
 

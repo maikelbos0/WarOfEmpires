@@ -5,7 +5,7 @@ using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Repositories.Players;
 
 namespace WarOfEmpires.CommandHandlers.Empires {
-    [ScopedServiceImplementation(typeof(ICommandHandler<UpdateRankCommand>))]
+    [TransientServiceImplementation(typeof(ICommandHandler<UpdateRankCommand>))]
     public sealed class UpdateRankCommandHandler : ICommandHandler<UpdateRankCommand> {
         private readonly IPlayerRepository _repository;
         private readonly IRankService _rankService;

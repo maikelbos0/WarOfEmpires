@@ -5,7 +5,7 @@ using WarOfEmpires.Repositories.Security;
 using WarOfEmpires.Utilities.Mail;
 
 namespace WarOfEmpires.CommandHandlers.Security {
-    [ScopedServiceImplementation(typeof(ICommandHandler<ForgotUserPasswordCommand>))]
+    [TransientServiceImplementation(typeof(ICommandHandler<ForgotUserPasswordCommand>))]
     public sealed class ForgotUserPasswordCommandHandler : ICommandHandler<ForgotUserPasswordCommand> {
         private readonly IUserRepository _repository;
         private readonly IMailClient _mailClient;
