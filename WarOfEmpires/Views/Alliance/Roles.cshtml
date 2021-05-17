@@ -16,4 +16,4 @@
     </div>
 </div>
 
-@(Html.Grid<WarOfEmpires.Models.Alliances.RoleViewModel>("rolesGrid", Url.Action("GetRoles"), Url.Action("RoleDetails")))
+@(await Html.Grid<WarOfEmpires.Models.Alliances.RoleViewModel>("rolesGrid", Url.Action("GetRoles"), Url.Action("RoleDetails")))
