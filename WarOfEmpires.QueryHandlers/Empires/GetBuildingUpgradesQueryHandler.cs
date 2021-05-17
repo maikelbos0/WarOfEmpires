@@ -10,7 +10,7 @@ using WarOfEmpires.QueryHandlers.Decorators;
 using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Empires {
-    [ScopedServiceImplementation(typeof(IQueryHandler<GetBuildingUpgradesQuery, BuildingUpgradesViewModel>))]
+    [TransientServiceImplementation(typeof(IQueryHandler<GetBuildingUpgradesQuery, BuildingUpgradesViewModel>))]
     public sealed class GetBuildingUpgradesQueryHandler : IQueryHandler<GetBuildingUpgradesQuery, BuildingUpgradesViewModel> {
         private readonly IWarContext _context;
         private readonly IResourcesMap _resourcesMap;

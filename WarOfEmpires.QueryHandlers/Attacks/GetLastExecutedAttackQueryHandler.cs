@@ -6,7 +6,7 @@ using WarOfEmpires.QueryHandlers.Decorators;
 using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Attacks {
-    [ScopedServiceImplementation(typeof(IQueryHandler<GetLastExecutedAttackQuery, int>))]
+    [TransientServiceImplementation(typeof(IQueryHandler<GetLastExecutedAttackQuery, int>))]
     public sealed class GetLastExecutedAttackQueryHandler : IQueryHandler<GetLastExecutedAttackQuery, int> {
         private readonly IWarContext _context;
 

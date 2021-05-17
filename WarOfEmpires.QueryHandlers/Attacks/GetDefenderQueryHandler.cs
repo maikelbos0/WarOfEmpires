@@ -7,7 +7,7 @@ using WarOfEmpires.Queries.Attacks;
 using WarOfEmpires.QueryHandlers.Decorators;
 
 namespace WarOfEmpires.QueryHandlers.Attacks {
-    [ScopedServiceImplementation(typeof(IQueryHandler<GetDefenderQuery, ExecuteAttackModel>))]
+    [TransientServiceImplementation(typeof(IQueryHandler<GetDefenderQuery, ExecuteAttackModel>))]
     public sealed class GetDefenderQueryHandler : IQueryHandler<GetDefenderQuery, ExecuteAttackModel> {
         private readonly IWarContext _context;
 

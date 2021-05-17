@@ -8,7 +8,7 @@ using WarOfEmpires.QueryHandlers.Decorators;
 using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Alliances {
-    [ScopedServiceImplementation(typeof(IQueryHandler<GetNewRolePlayerQuery, NewRolePlayersModel>))]
+    [TransientServiceImplementation(typeof(IQueryHandler<GetNewRolePlayerQuery, NewRolePlayersModel>))]
     public sealed class GetNewRolePlayerQueryHandler : IQueryHandler<GetNewRolePlayerQuery, NewRolePlayersModel> {
         private readonly IWarContext _context;
 

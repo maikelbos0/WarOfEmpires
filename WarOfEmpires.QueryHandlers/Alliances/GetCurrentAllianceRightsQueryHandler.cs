@@ -8,7 +8,7 @@ using WarOfEmpires.QueryHandlers.Decorators;
 using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Alliances {
-    [ScopedServiceImplementation(typeof(IQueryHandler<GetCurrentAllianceRightsQuery, CurrentAllianceRightsViewModel>))]
+    [TransientServiceImplementation(typeof(IQueryHandler<GetCurrentAllianceRightsQuery, CurrentAllianceRightsViewModel>))]
     public sealed class GetCurrentAllianceRightsQueryHandler : IQueryHandler<GetCurrentAllianceRightsQuery, CurrentAllianceRightsViewModel> {
         private readonly IWarContext _context;
 

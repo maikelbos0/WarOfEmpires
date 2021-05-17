@@ -8,7 +8,7 @@ using WarOfEmpires.QueryHandlers.Decorators;
 using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Players {
-    [ScopedServiceImplementation(typeof(IQueryHandler<GetNotificationsQuery, NotificationsViewModel>))]
+    [TransientServiceImplementation(typeof(IQueryHandler<GetNotificationsQuery, NotificationsViewModel>))]
     public sealed class GetNotificationsQueryHandler : IQueryHandler<GetNotificationsQuery, NotificationsViewModel> {
         private readonly IWarContext _context;
 

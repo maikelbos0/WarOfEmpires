@@ -12,7 +12,7 @@ using WarOfEmpires.Utilities.Formatting;
 using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Alliances {
-    [ScopedServiceImplementation(typeof(IQueryHandler<GetAllianceDetailsQuery, AllianceDetailsViewModel>))]
+    [TransientServiceImplementation(typeof(IQueryHandler<GetAllianceDetailsQuery, AllianceDetailsViewModel>))]
     public sealed class GetAllianceDetailsQueryHandler : IQueryHandler<GetAllianceDetailsQuery, AllianceDetailsViewModel> {
         private readonly IWarContext _context;
         private readonly IEnumFormatter _formatter;

@@ -5,7 +5,7 @@ using WarOfEmpires.Queries.Security;
 using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Security {
-    [ScopedServiceImplementation(typeof(IQueryHandler<GetUserNewEmailQuery, string>))]
+    [TransientServiceImplementation(typeof(IQueryHandler<GetUserNewEmailQuery, string>))]
     public sealed class GetUserNewEmailQueryHandler : IQueryHandler<GetUserNewEmailQuery, string> {
         private readonly IWarContext _context;
 

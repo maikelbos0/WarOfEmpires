@@ -10,7 +10,7 @@ using WarOfEmpires.QueryHandlers.Decorators;
 using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Alliances {
-    [ScopedServiceImplementation(typeof(IQueryHandler<GetAllianceHomeQuery, AllianceHomeViewModel>))]
+    [TransientServiceImplementation(typeof(IQueryHandler<GetAllianceHomeQuery, AllianceHomeViewModel>))]
     public sealed class GetAllianceHomeQueryHandler : IQueryHandler<GetAllianceHomeQuery, AllianceHomeViewModel> {
         private readonly IWarContext _context;
 

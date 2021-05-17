@@ -13,7 +13,7 @@ using WarOfEmpires.Utilities.Formatting;
 using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Empires {
-    [ScopedServiceImplementation(typeof(IQueryHandler<GetTroopsQuery, TroopsModel>))]
+    [TransientServiceImplementation(typeof(IQueryHandler<GetTroopsQuery, TroopsModel>))]
     public sealed class GetTroopsQueryHandler : IQueryHandler<GetTroopsQuery, TroopsModel> {
         private readonly IWarContext _context;
         private readonly IResourcesMap _resourcesMap;

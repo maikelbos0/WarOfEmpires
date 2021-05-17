@@ -9,7 +9,7 @@ using WarOfEmpires.Utilities.Formatting;
 using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Markets {
-    [ScopedServiceImplementation(typeof(IQueryHandler<GetBuyTransactionsQuery, IEnumerable<TransactionViewModel>>))]
+    [TransientServiceImplementation(typeof(IQueryHandler<GetBuyTransactionsQuery, IEnumerable<TransactionViewModel>>))]
     public sealed class GetBuyTransactionsQueryHandler : IQueryHandler<GetBuyTransactionsQuery, IEnumerable<TransactionViewModel>> {
         private readonly IWarContext _context;
         private readonly IEnumFormatter _formatter;

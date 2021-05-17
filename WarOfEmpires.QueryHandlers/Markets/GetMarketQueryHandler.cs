@@ -13,7 +13,7 @@ using WarOfEmpires.Utilities.Formatting;
 using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Markets {
-    [ScopedServiceImplementation(typeof(IQueryHandler<GetMarketQuery, MarketModel>))]
+    [TransientServiceImplementation(typeof(IQueryHandler<GetMarketQuery, MarketModel>))]
     public sealed class GetMarketQueryHandler : IQueryHandler<GetMarketQuery, MarketModel> {
         private readonly IWarContext _context;
         private readonly IEnumFormatter _formatter;

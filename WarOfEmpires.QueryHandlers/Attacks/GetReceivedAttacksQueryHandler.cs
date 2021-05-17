@@ -9,7 +9,7 @@ using WarOfEmpires.Utilities.Formatting;
 using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Attacks {
-    [ScopedServiceImplementation(typeof(IQueryHandler<GetReceivedAttacksQuery, IEnumerable<ReceivedAttackViewModel>>))]
+    [TransientServiceImplementation(typeof(IQueryHandler<GetReceivedAttacksQuery, IEnumerable<ReceivedAttackViewModel>>))]
     public sealed class GetReceivedAttacksQueryHandler : IQueryHandler<GetReceivedAttacksQuery, IEnumerable<ReceivedAttackViewModel>> {
         private readonly IWarContext _context;
         private readonly IEnumFormatter _formatter;

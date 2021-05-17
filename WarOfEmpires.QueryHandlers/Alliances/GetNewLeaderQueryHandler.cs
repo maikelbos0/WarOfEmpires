@@ -9,7 +9,7 @@ using WarOfEmpires.QueryHandlers.Decorators;
 using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Alliances {
-    [ScopedServiceImplementation(typeof(IQueryHandler<GetNewLeaderQuery, NewLeadersModel>))]
+    [TransientServiceImplementation(typeof(IQueryHandler<GetNewLeaderQuery, NewLeadersModel>))]
     public sealed class GetNewLeaderQueryHandler : IQueryHandler<GetNewLeaderQuery, NewLeadersModel> {
         private readonly IWarContext _context;
 

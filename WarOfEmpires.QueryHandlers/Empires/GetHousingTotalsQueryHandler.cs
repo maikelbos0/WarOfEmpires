@@ -9,7 +9,7 @@ using WarOfEmpires.QueryHandlers.Decorators;
 using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Empires {
-    [ScopedServiceImplementation(typeof(IQueryHandler<GetHousingTotalsQuery, HousingTotalsViewModel>))]
+    [TransientServiceImplementation(typeof(IQueryHandler<GetHousingTotalsQuery, HousingTotalsViewModel>))]
     public sealed class GetHousingTotalsQueryHandler : IQueryHandler<GetHousingTotalsQuery, HousingTotalsViewModel> {
         private readonly IWarContext _context;
 

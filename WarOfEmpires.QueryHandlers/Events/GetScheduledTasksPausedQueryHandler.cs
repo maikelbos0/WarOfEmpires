@@ -5,7 +5,7 @@ using WarOfEmpires.Queries.Events;
 using WarOfEmpires.QueryHandlers.Decorators;
 
 namespace WarOfEmpires.QueryHandlers.Events {
-    [ScopedServiceImplementation(typeof(IQueryHandler<GetScheduledTasksPausedQuery, bool?>))]
+    [TransientServiceImplementation(typeof(IQueryHandler<GetScheduledTasksPausedQuery, bool?>))]
     public sealed class GetScheduledTasksPausedQueryHandler : IQueryHandler<GetScheduledTasksPausedQuery, bool?> {
         private readonly IWarContext _context;
 

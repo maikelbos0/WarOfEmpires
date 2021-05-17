@@ -9,7 +9,7 @@ using WarOfEmpires.QueryHandlers.Decorators;
 using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Alliances {
-    [ScopedServiceImplementation(typeof(IQueryHandler<GetInvitesQuery, IEnumerable<InviteViewModel>>))]
+    [TransientServiceImplementation(typeof(IQueryHandler<GetInvitesQuery, IEnumerable<InviteViewModel>>))]
     public sealed class GetInvitesQueryHandler : IQueryHandler<GetInvitesQuery, IEnumerable<InviteViewModel>> {
         private readonly IWarContext _context;
 

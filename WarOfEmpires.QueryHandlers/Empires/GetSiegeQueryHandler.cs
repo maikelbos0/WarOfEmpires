@@ -14,7 +14,7 @@ using WarOfEmpires.Utilities.Formatting;
 using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Empires {
-    [ScopedServiceImplementation(typeof(IQueryHandler<GetSiegeQuery, SiegeModel>))]
+    [TransientServiceImplementation(typeof(IQueryHandler<GetSiegeQuery, SiegeModel>))]
     public class GetSiegeQueryHandler : IQueryHandler<GetSiegeQuery, SiegeModel> {
         private readonly IWarContext _context;
         private readonly IResourcesMap _resourcesMap;

@@ -7,7 +7,7 @@ using WarOfEmpires.QueryHandlers.Decorators;
 using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Alliances {
-    [ScopedServiceImplementation(typeof(IQueryHandler<GetReceivedInviteQuery, ReceivedInviteDetailsViewModel>))]
+    [TransientServiceImplementation(typeof(IQueryHandler<GetReceivedInviteQuery, ReceivedInviteDetailsViewModel>))]
     public sealed class GetReceivedInviteQueryHandler : IQueryHandler<GetReceivedInviteQuery, ReceivedInviteDetailsViewModel> {
         private readonly IWarContext _context;
 

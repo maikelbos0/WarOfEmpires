@@ -5,7 +5,7 @@ using WarOfEmpires.Queries.Security;
 using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Security {
-    [ScopedServiceImplementation(typeof(IQueryHandler<GetUserIsAdminQuery, bool>))]
+    [TransientServiceImplementation(typeof(IQueryHandler<GetUserIsAdminQuery, bool>))]
     public sealed class GetUserIsAdminQueryHandler : IQueryHandler<GetUserIsAdminQuery, bool> {
         private readonly IWarContext _context;
 

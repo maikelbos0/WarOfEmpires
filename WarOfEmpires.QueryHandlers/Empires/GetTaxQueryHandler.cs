@@ -10,7 +10,7 @@ using WarOfEmpires.QueryHandlers.Decorators;
 using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Empires {
-    [ScopedServiceImplementation(typeof(IQueryHandler<GetTaxQuery, TaxModel>))]
+    [TransientServiceImplementation(typeof(IQueryHandler<GetTaxQuery, TaxModel>))]
     public sealed class GetTaxQueryHandler : IQueryHandler<GetTaxQuery, TaxModel> {
         private readonly IWarContext _context;
 
