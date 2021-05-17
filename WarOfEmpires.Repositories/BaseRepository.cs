@@ -2,9 +2,9 @@
 
 namespace WarOfEmpires.Repositories {
     public class BaseRepository : IBaseRepository {
-        protected readonly ILazyWarContext _context;
+        protected readonly IWarContext _context;
 
-        public BaseRepository(ILazyWarContext context) {
+        public BaseRepository(IWarContext context) {
             _context = context;
         }
 

@@ -11,7 +11,7 @@ using WarOfEmpires.Utilities.Services;
 namespace WarOfEmpires.Repositories.Players {
     [TransientServiceImplementation(typeof(IPlayerRepository))]
     public sealed class PlayerRepository : BaseRepository, IPlayerRepository {
-        public PlayerRepository(ILazyWarContext context) : base(context) { }
+        public PlayerRepository(IWarContext context) : base(context) { }
 
         public Player Get(string email) {
             return _context.Players.Single(p => p.User.Status == UserStatus.Active && EmailComparisonService.Equals(p.User.Email, email));

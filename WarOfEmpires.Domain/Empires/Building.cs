@@ -3,7 +3,7 @@
         public virtual BuildingType Type { get; private set; }
         public virtual int Level { get; set; }
 
-        private Building() {
+        protected Building() {
         }
 
         public Building(BuildingType type, int level) {

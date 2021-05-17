@@ -8,7 +8,7 @@ using Security = WarOfEmpires.Domain.Security;
 
 namespace WarOfEmpires.Test.Utilities {
 
-    public sealed class FakeWarContext : IWarContext, ILazyWarContext {
+    public sealed class FakeWarContext : IWarContext {
         public DbSet<Security.User> Users { get; set; } = new FakeDbSet<Security.User>();
         public DbSet<Auditing.CommandExecution> CommandExecutions { get; set; } = new FakeDbSet<Auditing.CommandExecution>();
         public DbSet<Auditing.QueryExecution> QueryExecutions { get; set; } = new FakeDbSet<Auditing.QueryExecution>();
