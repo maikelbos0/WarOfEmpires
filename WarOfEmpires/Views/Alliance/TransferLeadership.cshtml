@@ -18,7 +18,7 @@
                 @Html.DropDownListFor(m => m.MemberId, Model.Members.Select(m => new SelectListItem() {
                     Value = m.Id.ToString(),
                     Text = m.DisplayName
-                }), new { @class = "form-control" })
+                }), new { @class = "form-select" })
                 @Html.ValidationMessageFor(m => m.MemberId, null, new { @class = "small form-text text-danger" })
             </div>
         </div>

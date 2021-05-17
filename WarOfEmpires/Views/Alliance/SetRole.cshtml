@@ -20,7 +20,7 @@
                 @Html.DropDownListFor(m => m.PlayerId, Model.Players.Select(p => new SelectListItem() {
                     Value = p.Id.ToString(),
                     Text = p.DisplayName
-                }), new { @class = "form-control" })
+                }), new { @class = "form-select" })
                 @Html.ValidationMessageFor(m => m.PlayerId, null, new { @class = "small form-text text-danger" })
             </div>
         </div>
