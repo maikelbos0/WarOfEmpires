@@ -59,7 +59,6 @@ namespace WarOfEmpires.Domain.Tests.Alliances {
 
             alliance.Members.Should().BeEquivalentTo(new[] { leader, player });
             alliance.Invites.Should().BeEmpty();
-            player.Invites.Should().BeEmpty();
         }
 
         [TestMethod]
@@ -74,7 +73,6 @@ namespace WarOfEmpires.Domain.Tests.Alliances {
             alliance.RemoveInvite(invite);
 
             alliance.Invites.Should().BeEmpty();
-            player.Invites.Should().BeEmpty();
         }
 
         [TestMethod]
