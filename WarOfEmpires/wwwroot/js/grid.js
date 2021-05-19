@@ -50,9 +50,9 @@
         else {
             cell.text(value).attr('title', value);
         }
-
-        if (dataRow.IsRead === false) {
-            cell.addClass("font-weight-bold");
+        
+        if (dataRow.isRead === false) {
+            cell.addClass("fw-bold");
         }
     }
 
