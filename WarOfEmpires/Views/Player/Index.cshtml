@@ -21,4 +21,4 @@
     </div>
 </form>
 
-@(Html.Grid<WarOfEmpires.Models.Players.PlayerViewModel>("playersGrid", Url.Action("GetPlayers"), @Url.Action("Details"), "playersSearch"))
+@(await Html.Grid<WarOfEmpires.Models.Players.PlayerViewModel>("playersGrid", Url.Action("GetPlayers"), @Url.Action("Details"), "playersSearch"))
