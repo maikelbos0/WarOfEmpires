@@ -8,23 +8,19 @@
 
 <form id="alliancesSearch" class="search-form">
     <div class="row">
-        <div class="col-12 col-md-6">
-            <div class="form-group">
-                @Html.LabelFor(m => m.Code)
-                @Html.TextBoxFor(m => m.Code, new { @class = "form-control" })
-            </div>
+        <div class="col-12 col-md-6 mb-3">
+            @Html.LabelFor(m => m.Code)
+            @Html.TextBoxFor(m => m.Code, new { @class = "form-control" })
         </div>
 
-        <div class="col-12 col-md-6">
-            <div class="form-group">
-                @Html.LabelFor(m => m.Name)
-                @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
-            </div>
+        <div class="col-12 col-md-6 mb-3">
+            @Html.LabelFor(m => m.Name)
+            @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
         </div>
     </div>
 
     <div class="row">
-        <div class="col-12 text-end pb-3">
+        <div class="col-12 text-end mb-3">
             <button type="submit" class="btn btn-info">@await Html.Icon(IconType.Search)</button>
         </div>
     </div>

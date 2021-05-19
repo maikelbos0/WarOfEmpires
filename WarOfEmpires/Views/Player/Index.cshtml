@@ -8,14 +8,12 @@
 
 <form id="playersSearch" class="search-form">
     <div class="row align-items-end">
-        <div class="col-12 col-md-6">
-            <div class="form-group">
-                @Html.LabelFor(m => m.DisplayName)
-                @Html.TextBoxFor(m => m.DisplayName, new { @class = "form-control" })
-            </div>
+        <div class="col-12 col-md-6 mb-3">
+            @Html.LabelFor(m => m.DisplayName)
+            @Html.TextBoxFor(m => m.DisplayName, new { @class = "form-control" })
         </div>
 
-        <div class="col-12 col-md-6 text-end pb-3">
+        <div class="col-12 col-md-6 text-end mb-3">
             <button type="submit" class="btn btn-info">@await Html.Icon(IconType.Search)</button>
         </div>
     </div>

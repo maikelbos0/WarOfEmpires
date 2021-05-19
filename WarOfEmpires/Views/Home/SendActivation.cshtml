@@ -9,7 +9,7 @@
 @using (Html.BeginForm(null, null, FormMethod.Post, new { data_success_message = "An email has been sent to the provided email address with a validation link." })) {
     <div class="row">
         <div class="col-12 col-md-6 offset-md-3">
-            <div class="form-group">
+            <div class="mb-3">
                 @Html.LabelFor(m => m.Email, new { @class = "site-required" })
                 @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
                 @Html.ValidationMessageFor(m => m.Email, null, new { @class = "small form-text text-danger" })

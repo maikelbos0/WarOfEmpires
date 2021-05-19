@@ -15,13 +15,13 @@
         <div class="col-12 col-md-6 offset-md-3">
             @Html.ValidationSummary(true, null, new { @class = "site-validation-summary text-danger" })
 
-            <div class="form-group">
+            <div class="mb-3">
                 @Html.LabelFor(a => a.Code, new { @class = "site-required" })
                 @Html.TextBoxFor(a => a.Code, new { @class = "form-control" })
                 @Html.ValidationMessageFor(a => a.Code, null, new { @class = "small form-text text-danger" })
             </div>
 
-            <div class="form-group">
+            <div class="mb-3">
                 @Html.LabelFor(a => a.Name, new { @class = "site-required" })
                 @Html.TextBoxFor(a => a.Name, new { @class = "form-control" })
                 @Html.ValidationMessageFor(a => a.Name, null, new { @class = "small form-text text-danger" })
