@@ -13,7 +13,7 @@
 @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "html-only" })) {
     <div class="row">
         <div class="col-12 col-md-6 offset-md-3">
-            <div class="form-group">
+            <div class="mb-3">
                 @Html.LabelFor(m => m.MemberId, new { @class = "site-required" })
                 @Html.DropDownListFor(m => m.MemberId, Model.Members.Select(m => new SelectListItem() {
                     Value = m.Id.ToString(),
