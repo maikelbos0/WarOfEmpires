@@ -89,7 +89,8 @@ namespace WarOfEmpires.Database {
 
         private void DeleteOrphanedRoles() {
             var orphans = GetChangeTrackerEntities<Alliances.Role>()
-                .Except(GetChangeTrackerEntities<Alliances.Alliance>().SelectMany(a => a.Roles));
+                .Except(GetChangeTrackerEntities<Alliances.Alliance>().SelectMany(a => a.Roles))
+                .Except(GetChangeTrackerEntities<Players.Player>().Select(p => p.AllianceRole));
 
             Set<Alliances.Role>().RemoveRange(orphans);
         }
