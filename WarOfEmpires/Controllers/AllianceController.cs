@@ -17,32 +17,28 @@ namespace WarOfEmpires.Controllers {
         }
 
         [HttpGet]
-        [Route("Index")]
+        [HttpGet("Index")]
         public ViewResult Index() {
             // Explicitly name view so it works from other actions
             return View("Index", new AllianceSearchModel());
         }
 
-        [Route("GetAlliances")]
-        [HttpPost]
+        [HttpPost("GetAlliances")]
         public JsonResult GetAlliances(DataGridViewMetaData metaData, AllianceSearchModel search) {
             return GridJson(new GetAlliancesQuery(_authenticationService.Identity, search.Code, search.Name), metaData);
         }
 
-        [HttpGet]
-        [Route("Details")]
+        [HttpGet("Details")]
         public ViewResult Details(int id) {
             return View(_messageService.Dispatch(new GetAllianceDetailsQuery(_authenticationService.Identity, id)));
         }
 
-        [HttpGet]
-        [Route("Create")]
+        [HttpGet("Create")]
         public ViewResult Create() {
             return View(new CreateAllianceModel());
         }
 
-        [HttpPost]
-        [Route("Create")]
+        [HttpPost("Create")]
         public ViewResult Create(CreateAllianceModel model) {
             return BuildViewResultFor(new CreateAllianceCommand(_authenticationService.Identity, model.Code, model.Name))
                 .OnSuccess(Home)
@@ -50,23 +46,20 @@ namespace WarOfEmpires.Controllers {
         }
 
         [AllianceAuthorize]
-        [HttpGet]
-        [Route("Home")]
+        [HttpGet("Home")]
         public ViewResult Home() {
             // Explicitly name view so it works from other actions
             return View("Home", _messageService.Dispatch(new GetAllianceHomeQuery(_authenticationService.Identity)));
         }
 
         [AllianceAuthorize(CanInvite = true)]
-        [HttpGet]
-        [Route("Invite")]
+        [HttpGet("Invite")]
         public ViewResult Invite(int playerId) {
             return View(_messageService.Dispatch(new GetInvitePlayerQuery(playerId)));
         }
 
         [AllianceAuthorize(CanInvite = true)]
-        [HttpPost]
-        [Route("Invite")]
+        [HttpPost("Invite")]
         public ViewResult Invite(SendInviteModel model) {
             return BuildViewResultFor(new SendInviteCommand(_authenticationService.Identity, model.PlayerId, model.Subject, model.Body))
                 .OnSuccess(Invites)
@@ -74,51 +67,44 @@ namespace WarOfEmpires.Controllers {
         }
 
         [AllianceAuthorize(CanInvite = true)]
-        [HttpGet]
-        [Route("Invites")]
+        [HttpGet("Invites")]
         public ViewResult Invites() {
             // Explicitly name view so it works from other actions
             return View("Invites", (object)_messageService.Dispatch(new GetAllianceNameQuery(_authenticationService.Identity)));
         }
 
         [AllianceAuthorize(CanInvite = true)]
-        [Route("GetInvites")]
-        [HttpPost]
+        [HttpPost("GetInvites")]
         public JsonResult GetInvites(DataGridViewMetaData metaData) {
             return GridJson(new GetInvitesQuery(_authenticationService.Identity), metaData);
         }
 
         [AllianceAuthorize(CanInvite = true)]
-        [HttpGet]
-        [Route("InviteDetails")]
+        [HttpGet("InviteDetails")]
         public ViewResult InviteDetails(int id) {
             return View(_messageService.Dispatch(new GetInviteQuery(_authenticationService.Identity, id)));
         }
 
         [AllianceAuthorize(CanInvite = true)]
-        [HttpPost]
-        [Route("WithdrawInvite")]
+        [HttpPost("WithdrawInvite")]
         public ViewResult WithdrawInvite(int id) {
             return BuildViewResultFor(new WithdrawInviteCommand(_authenticationService.Identity, id))
                 .OnSuccess(Invites)
                 .ThrowOnFailure();
         }
 
-        [HttpGet]
-        [Route("ReceivedInvites")]
+        [HttpGet("ReceivedInvites")]
         public ViewResult ReceivedInvites() {
             // Explicitly name view so it works from other actions
             return View("ReceivedInvites");
         }
 
-        [HttpPost]
-        [Route("GetReceivedInvites")]
+        [HttpPost("GetReceivedInvites")]
         public JsonResult GetReceivedInvites(DataGridViewMetaData metaData) {
             return GridJson(new GetReceivedInvitesQuery(_authenticationService.Identity), metaData);
         }
 
-        [HttpGet]
-        [Route("ReceivedInviteDetails")]
+        [HttpGet("ReceivedInviteDetails")]
         public ViewResult ReceivedInviteDetails(int id) {
             var model = _messageService.Dispatch(new GetReceivedInviteQuery(_authenticationService.Identity, id));
 
@@ -129,16 +115,14 @@ namespace WarOfEmpires.Controllers {
             return View(model);
         }
 
-        [HttpPost]
-        [Route("AcceptInvite")]
+        [HttpPost("AcceptInvite")]
         public ViewResult AcceptInvite(ReceivedInviteDetailsViewModel model) {
             return BuildViewResultFor(new AcceptInviteCommand(_authenticationService.Identity, model.Id))
                 .OnSuccess(Home)
                 .OnFailure("ReceivedInviteDetails", model);
         }
 
-        [HttpPost]
-        [Route("RejectInvite")]
+        [HttpPost("RejectInvite")]
         public ViewResult RejectInvite(int id) {
             return BuildViewResultFor(new RejectInviteCommand(_authenticationService.Identity, id))
                 .OnSuccess(ReceivedInvites)
@@ -146,8 +130,7 @@ namespace WarOfEmpires.Controllers {
         }
 
         [AllianceAuthorize]
-        [HttpPost]
-        [Route("PostChatMessage")]
+        [HttpPost("PostChatMessage")]
         public ViewResult PostChatMessage(AllianceHomeViewModel model) {
             return BuildViewResultFor(new PostChatMessageCommand(_authenticationService.Identity, model.ChatMessage))
                 .OnSuccess(Home)
@@ -155,8 +138,7 @@ namespace WarOfEmpires.Controllers {
         }
 
         [AllianceAuthorize(CanDeleteChatMessages = true)]
-        [HttpPost]
-        [Route("DeleteChatMessage")]
+        [HttpPost("DeleteChatMessage")]
         public ViewResult DeleteChatMessage(int id) {
             return BuildViewResultFor(new DeleteChatMessageCommand(_authenticationService.Identity, id))
                 .OnSuccess(Home)
@@ -164,30 +146,26 @@ namespace WarOfEmpires.Controllers {
         }
 
         [AllianceAuthorize(CanManageRoles = true)]
-        [HttpGet]
-        [Route("Roles")]
+        [HttpGet("Roles")]
         public ViewResult Roles() {
             // Explicitly name view so it works from other actions
             return View("Roles", (object)_messageService.Dispatch(new GetAllianceNameQuery(_authenticationService.Identity)));
         }
 
         [AllianceAuthorize(CanManageRoles = true)]
-        [HttpPost]
-        [Route("GetRoles")]
+        [HttpPost("GetRoles")]
         public JsonResult GetRoles(DataGridViewMetaData metaData) {
             return GridJson(new GetRolesQuery(_authenticationService.Identity), metaData);
         }
 
         [AllianceAuthorize(CanManageRoles = true)]
-        [HttpGet]
-        [Route("CreateRole")]
+        [HttpGet("CreateRole")]
         public ViewResult CreateRole() {
             return View(new CreateRoleModel());
         }
 
         [AllianceAuthorize(CanManageRoles = true)]
-        [HttpPost]
-        [Route("CreateRole")]
+        [HttpPost("CreateRole")]
         public ViewResult CreateRole(CreateRoleModel model) {
             return BuildViewResultFor(new CreateRoleCommand(_authenticationService.Identity, model.Name, model.CanInvite, model.CanManageRoles, model.CanDeleteChatMessages, model.CanKickMembers, model.CanManageNonAggressionPacts))
                 .OnSuccess(Roles)
@@ -195,16 +173,14 @@ namespace WarOfEmpires.Controllers {
         }
 
         [AllianceAuthorize(CanManageRoles = true)]
-        [HttpGet]
-        [Route("RoleDetails")]
+        [HttpGet("RoleDetails")]
         public ViewResult RoleDetails(int id) {
             // Explicitly name view so it works from other actions
             return View("RoleDetails", _messageService.Dispatch(new GetRoleDetailsQuery(_authenticationService.Identity, id)));
         }
 
         [AllianceAuthorize(CanManageRoles = true)]
-        [HttpPost]
-        [Route("ClearRole")]
+        [HttpPost("ClearRole")]
         public ViewResult ClearRole(int id, int playerId) {
             return BuildViewResultFor(new ClearRoleCommand(_authenticationService.Identity, playerId))
                 .OnSuccess(() => RoleDetails(id))
@@ -212,8 +188,7 @@ namespace WarOfEmpires.Controllers {
         }
 
         [AllianceAuthorize(CanManageRoles = true)]
-        [HttpPost]
-        [Route("DeleteRole")]
+        [HttpPost("DeleteRole")]
         public ViewResult DeleteRole(int id) {
             return BuildViewResultFor(new DeleteRoleCommand(_authenticationService.Identity, id))
                 .OnSuccess(Roles)
@@ -221,15 +196,13 @@ namespace WarOfEmpires.Controllers {
         }
 
         [AllianceAuthorize(CanManageRoles = true)]
-        [HttpGet]
-        [Route("SetRole")]
+        [HttpGet("SetRole")]
         public ViewResult SetRole(int id) {
             return View(_messageService.Dispatch(new GetNewRolePlayerQuery(_authenticationService.Identity, id)));
         }
 
         [AllianceAuthorize(CanManageRoles = true)]
-        [HttpPost]
-        [Route("SetRole")]
+        [HttpPost("SetRole")]
         public ViewResult SetRole(int id, int playerId) {
             return BuildViewResultFor(new SetRoleCommand(_authenticationService.Identity, playerId, id))
                 .OnSuccess(() => RoleDetails(id))
@@ -237,8 +210,7 @@ namespace WarOfEmpires.Controllers {
         }
 
         [AllianceAuthorize]
-        [HttpPost]
-        [Route("LeaveAlliance")]
+        [HttpPost("LeaveAlliance")]
         public ViewResult LeaveAlliance() {
             return BuildViewResultFor(new LeaveAllianceCommand(_authenticationService.Identity))
                 .OnSuccess(Index)
@@ -246,8 +218,7 @@ namespace WarOfEmpires.Controllers {
         }
 
         [AllianceAuthorize(CanKickMembers = true)]
-        [HttpPost]
-        [Route("KickFromAlliance")]
+        [HttpPost("KickFromAlliance")]
         public ViewResult KickFromAlliance(string id) {
             return BuildViewResultFor(new KickFromAllianceCommand(_authenticationService.Identity, id))
                 .OnSuccess(Home)
@@ -255,15 +226,13 @@ namespace WarOfEmpires.Controllers {
         }
 
         [AllianceAuthorize(CanTransferLeadership = true)]
-        [HttpGet]
-        [Route("TransferLeadership")]
+        [HttpGet("TransferLeadership")]
         public ViewResult TransferLeadership() {
             return View(_messageService.Dispatch(new GetNewLeaderQuery(_authenticationService.Identity)));
         }
 
         [AllianceAuthorize(CanTransferLeadership = true)]
-        [HttpPost]
-        [Route("TransferLeadership")]
+        [HttpPost("TransferLeadership")]
         public ViewResult TransferLeadership(int memberId) {
             return BuildViewResultFor(new TransferLeadershipCommand(_authenticationService.Identity, memberId))
                 .OnSuccess(Home)
@@ -271,8 +240,7 @@ namespace WarOfEmpires.Controllers {
         }
 
         [AllianceAuthorize(CanDisbandAlliance = true)]
-        [HttpPost]
-        [Route("Disband")]
+        [HttpPost("Disband")]
         public ViewResult Disband() {
             return BuildViewResultFor(new DisbandAllianceCommand(_authenticationService.Identity))
                 .OnSuccess(Index)
@@ -280,15 +248,13 @@ namespace WarOfEmpires.Controllers {
         }
 
         [AllianceAuthorize(CanManageNonAggressionPacts = true)]
-        [HttpGet]
-        [Route("SendNonAggressionPactRequest")]
+        [HttpGet("SendNonAggressionPactRequest")]
         public ViewResult SendNonAggressionPactRequest(int id) {
             return View(_messageService.Dispatch(new GetCreateNonAggressionPactRequestQuery(id)));
         }
 
         [AllianceAuthorize(CanManageNonAggressionPacts = true)]
-        [HttpPost]
-        [Route("SendNonAggressionPactRequest")]
+        [HttpPost("SendNonAggressionPactRequest")]
         public ViewResult SendNonAggressionPactRequest(CreateNonAggressionPactRequestModel model) {
             return BuildViewResultFor(new SendNonAggressionPactRequestCommand(_authenticationService.Identity, model.AllianceId))
                 .OnSuccess(SentNonAggressionPactRequests)
@@ -296,16 +262,14 @@ namespace WarOfEmpires.Controllers {
         }
 
         [AllianceAuthorize(CanManageNonAggressionPacts = true)]
-        [HttpGet]
-        [Route("SentNonAggressionPactRequests")]
+        [HttpGet("SentNonAggressionPactRequests")]
         public ViewResult SentNonAggressionPactRequests() {
             // Explicitly name view so it works from other actions
             return View("SentNonAggressionPactRequests", _messageService.Dispatch(new GetSentNonAggressionPactRequestsQuery(_authenticationService.Identity)));
         }
 
         [AllianceAuthorize(CanManageNonAggressionPacts = true)]
-        [HttpPost]
-        [Route("WithdrawNonAggressionPactRequest")]
+        [HttpPost("WithdrawNonAggressionPactRequest")]
         public ViewResult WithdrawNonAggressionPactRequest(int id) {
             return BuildViewResultFor(new WithdrawNonAggressionPactRequestCommand(_authenticationService.Identity, id))
                 .OnSuccess(SentNonAggressionPactRequests)
@@ -313,16 +277,14 @@ namespace WarOfEmpires.Controllers {
         }
 
         [AllianceAuthorize(CanManageNonAggressionPacts = true)]
-        [HttpGet]
-        [Route("ReceivedNonAggressionPactRequests")]
+        [HttpGet("ReceivedNonAggressionPactRequests")]
         public ViewResult ReceivedNonAggressionPactRequests() {
             // Explicitly name view so it works from other actions
             return View("ReceivedNonAggressionPactRequests", _messageService.Dispatch(new GetReceivedNonAggressionPactRequestsQuery(_authenticationService.Identity)));
         }
 
         [AllianceAuthorize(CanManageNonAggressionPacts = true)]
-        [HttpPost]
-        [Route("AcceptNonAggressionPactRequest")]
+        [HttpPost("AcceptNonAggressionPactRequest")]
         public ViewResult AcceptNonAggressionPactRequest(int id) {
             return BuildViewResultFor(new AcceptNonAggressionPactRequestCommand(_authenticationService.Identity, id))
                 .OnSuccess(NonAggressionPacts)
@@ -330,8 +292,7 @@ namespace WarOfEmpires.Controllers {
         }
 
         [AllianceAuthorize(CanManageNonAggressionPacts = true)]
-        [HttpPost]
-        [Route("RejectNonAggressionPactRequest")]
+        [HttpPost("RejectNonAggressionPactRequest")]
         public ViewResult RejectNonAggressionPactRequest(int id) {
             return BuildViewResultFor(new RejectNonAggressionPactRequestCommand(_authenticationService.Identity, id))
                 .OnSuccess(ReceivedNonAggressionPactRequests)
@@ -339,16 +300,14 @@ namespace WarOfEmpires.Controllers {
         }
 
         [AllianceAuthorize(CanManageNonAggressionPacts = true)]
-        [HttpGet]
-        [Route("NonAggressionPacts")]
+        [HttpGet("NonAggressionPacts")]
         public ViewResult NonAggressionPacts() {
             // Explicitly name view so it works from other actions
             return View("NonAggressionPacts", _messageService.Dispatch(new GetNonAggressionPactsQuery(_authenticationService.Identity)));
         }
 
         [AllianceAuthorize(CanManageNonAggressionPacts = true)]
-        [HttpPost]
-        [Route("DissolveNonAggressionPact")]
+        [HttpPost("DissolveNonAggressionPact")]
         public ViewResult DissolveNonAggressionPact(int id) {
             return BuildViewResultFor(new DissolveNonAggressionPactCommand(_authenticationService.Identity, id))
                 .OnSuccess(NonAggressionPacts)
