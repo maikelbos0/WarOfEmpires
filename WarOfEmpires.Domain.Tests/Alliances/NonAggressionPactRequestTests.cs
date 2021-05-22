@@ -53,7 +53,6 @@ namespace WarOfEmpires.Domain.Tests.Alliances {
 
             request.Withdraw();
 
-            senderAlliance.SentNonAggressionPactRequests.Should().BeEmpty();
             recipientAlliance.ReceivedNonAggressionPactRequests.Should().BeEmpty();
             senderAlliance.NonAggressionPacts.Should().BeEmpty();
             recipientAlliance.NonAggressionPacts.Should().BeEmpty();
