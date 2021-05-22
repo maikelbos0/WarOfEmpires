@@ -20,7 +20,7 @@ namespace WarOfEmpires.QueryHandlers.Alliances {
         [Audit]
         public IEnumerable<SentNonAggressionPactRequestViewModel> Execute(GetSentNonAggressionPactRequestsQuery query) {
             return _context.Players
-                .Include(p => p.Alliance.SentNonAggressionPactRequests.Select(r => r.Recipient))
+                .Include(p => p.Alliance.SentNonAggressionPactRequests).ThenInclude(r => r.Recipient)
                 .Single(p => EmailComparisonService.Equals(p.User.Email, query.Email))
                 .Alliance
                 .SentNonAggressionPactRequests
