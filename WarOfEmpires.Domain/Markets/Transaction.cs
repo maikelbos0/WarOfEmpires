@@ -7,7 +7,7 @@ namespace WarOfEmpires.Domain.Markets {
         public virtual int Price { get; private set; }
         public virtual DateTime Date { get; private set; }
 
-        private Transaction() {
+        protected Transaction() {
         }
 
         public Transaction(MerchandiseType type, int quantity, int price) {
