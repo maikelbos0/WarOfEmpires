@@ -17,70 +17,61 @@ namespace WarOfEmpires.Controllers {
             : base(messageService, authenticationService, dataGridViewService) {
         }
 
-        [Route("Sell")]
-        [HttpGet]
+        [HttpGet("Sell")]
         public ViewResult Sell() {
             // Explicitly name view so it works from other actions
             return View("Sell", _messageService.Dispatch(new GetMarketQuery(_authenticationService.Identity)));
         }
 
-        [Route("Sell")]
-        [HttpPost]
+        [HttpPost("Sell")]
         public ViewResult Sell(MarketModel model) {
             return BuildViewResultFor(new SellResourcesCommand(_authenticationService.Identity, model.Merchandise.Select(m => new MerchandiseInfo(m.Type, m.Quantity, m.Price))))
                 .OnSuccess(Sell)
                 .OnFailure("Sell", model);
         }
 
-        [Route("_Caravans")]
+        [HttpGet("_Caravans")]
         public PartialViewResult _Caravans() {
             return PartialView("_Caravans", _messageService.Dispatch(new GetCaravansQuery(_authenticationService.Identity)));
         }
 
-        [Route("WithdrawCaravan")]
-        [HttpPost]
+        [HttpPost("WithdrawCaravan")]
         public ViewResult WithdrawCaravan(int id) {
             return BuildViewResultFor(new WithdrawCaravanCommand(_authenticationService.Identity, id))
                 .OnSuccess(Sell)
                 .ThrowOnFailure();
         }
 
-        [Route("Buy")]
-        [HttpGet]
+        [HttpGet("Buy")]
         public ViewResult Buy() {
             return View(_messageService.Dispatch(new GetMarketQuery(_authenticationService.Identity)));
         }
 
-        [Route("Buy")]
-        [HttpPost]
+        [HttpPost("Buy")]
         public ViewResult Buy(MarketModel model) {
             return BuildViewResultFor(new BuyResourcesCommand(_authenticationService.Identity, model.Merchandise.Select(m => new MerchandiseInfo(m.Type, m.Quantity, m.Price))))
                 .OnSuccess(Buy)
                 .OnFailure("Buy", model);
         }
 
-        [Route("SellTransactions")]
-        [HttpGet]
+        [HttpGet("SellTransactions")]
         public ViewResult SellTransactions() {
             _messageService.Dispatch(new ReadTransactionsCommand(_authenticationService.Identity));
 
             return View();
         }
 
-        [Route("GetSellTransactions")]
-        [HttpPost]
+        [HttpPost("GetSellTransactions")]
         public JsonResult GetSellTransactions(DataGridViewMetaData metaData) {
             return GridJson(new GetSellTransactionsQuery(_authenticationService.Identity), metaData);
         }
 
-        [Route("BuyTransactions")]
-        [HttpGet]
+        [HttpGet("BuyTransactions")]
         public ViewResult BuyTransactions() {
             return View();
         }
 
-        [Route("GetBuyTransactions")]
-        [HttpPost]
+        [HttpPost("GetBuyTransactions")]
         public JsonResult GetBuyTransactions(DataGridViewMetaData metaData) {
             return GridJson(new GetBuyTransactionsQuery(_authenticationService.Identity), metaData);
         }
