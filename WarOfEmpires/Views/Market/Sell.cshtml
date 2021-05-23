@@ -39,28 +39,28 @@
             <div class="col-12 col-md-6 col-lg-3">
                 <h4>@Model.Merchandise[i].Name</h4>
 
-                <div class="form-group">
+                <div class="mb-3">
                     <label>Minimum price</label>
                     <div class="form-control" readonly="readonly">@Model.Merchandise[i].LowestPrice.ToString(StringFormat.Integer)</div>
                 </div>
 
-                <div class="form-group">
+                <div class="mb-3">
                     <label>Available at minimum price</label>
                     <div class="form-control" readonly="readonly">@Model.Merchandise[i].AvailableAtLowestPrice.ToString(StringFormat.Integer)</div>
                 </div>
 
-                <div class="form-group">
+                <div class="mb-3">
                     <label>Total available</label>
                     <div class="form-control" readonly="readonly">@Model.Merchandise[i].TotalAvailable.ToString(StringFormat.Integer)</div>
                 </div>
 
-                <div class="form-group">
+                <div class="mb-3">
                     @Html.LabelFor(m => m.Merchandise[i].Quantity)
                     @Html.TextBoxFor(m => m.Merchandise[i].Quantity, new { @class = "form-control" })
                     @Html.ValidationMessageFor(m => m.Merchandise[i].Quantity, null, new { @class = "small form-text text-danger" })
                 </div>
 
-                <div class="form-group">
+                <div class="mb-3">
                     @Html.LabelFor(m => m.Merchandise[i].Price)
                     @Html.TextBoxFor(m => m.Merchandise[i].Price, new { @class = "form-control" })
                     @Html.ValidationMessageFor(m => m.Merchandise[i].Price, null, new { @class = "small form-text text-danger" })
@@ -73,6 +73,8 @@
         <div class="col-6 offset-6 col-md-3 offset-md-9"><button type="submit" class="btn btn-primary w-100">Sell</button></div>
     </div>
 }
+
+<vc:caravans/>
 
 @{
     // TODO enable
