@@ -30,11 +30,6 @@ namespace WarOfEmpires.Controllers {
                 .OnFailure("Sell", model);
         }
 
-        [HttpGet("_Caravans")]
-        public PartialViewResult _Caravans() {
-            return PartialView("_Caravans", _messageService.Dispatch(new GetCaravansQuery(_authenticationService.Identity)));
-        }
-
         [HttpPost("WithdrawCaravan")]
         public ViewResult WithdrawCaravan(int id) {
             return BuildViewResultFor(new WithdrawCaravanCommand(_authenticationService.Identity, id))
