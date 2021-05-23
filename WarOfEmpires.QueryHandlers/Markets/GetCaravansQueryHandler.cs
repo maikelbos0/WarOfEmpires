@@ -22,7 +22,7 @@ namespace WarOfEmpires.QueryHandlers.Markets {
         [Audit]
         public IEnumerable<CaravanViewModel> Execute(GetCaravansQuery query) {
             var player = _context.Players
-                .Include(p => p.Caravans.Select(c => c.Merchandise))
+                .Include(p => p.Caravans).ThenInclude(c => c.Merchandise)
                 .Single(p => EmailComparisonService.Equals(p.User.Email, query.Email));
 
             return player.Caravans.Select(c => new CaravanViewModel() {
