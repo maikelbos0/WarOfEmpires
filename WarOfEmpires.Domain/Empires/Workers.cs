@@ -3,7 +3,7 @@
         public virtual WorkerType Type { get; private set; }
         public virtual int Count { get; set; }
         
-        private Workers() { }
+        protected Workers() { }
 
         public Workers(WorkerType type, int count) {
             Type = type;

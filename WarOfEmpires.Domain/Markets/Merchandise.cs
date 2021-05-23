@@ -10,7 +10,7 @@ namespace WarOfEmpires.Domain.Markets {
         public virtual int Quantity { get; private set; }
         public virtual int Price { get; private set; }
 
-        private Merchandise() {
+        protected Merchandise() {
         }
 
         public Merchandise(MerchandiseType type, int quantity, int price) {
