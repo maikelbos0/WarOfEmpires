@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using VDT.Core.DependencyInjection;
+using WarOfEmpires.Extensions;
 
 namespace WarOfEmpires.Services {
     [ScopedServiceImplementation(typeof(IDataGridViewService))]
@@ -12,7 +13,7 @@ namespace WarOfEmpires.Services {
             Func<TEntityViewModel, object> orderBy = null;
 
             if (!string.IsNullOrEmpty(metaData.sortColumn)) {
-                var property = typeof(TEntityViewModel).GetProperty(metaData.sortColumn);
+                var property = typeof(TEntityViewModel).GetProperty(metaData.sortColumn.ToPascalCase());
 
                 if (property != null) {
                     orderBy = i => property.GetValue(i);

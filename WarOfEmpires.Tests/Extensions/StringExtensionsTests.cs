@@ -17,5 +17,18 @@ namespace WarOfEmpires.Tests.Extensions {
 
             output.Should().Be(expectedOutput);
         }
+
+        [DataTestMethod]
+        [DataRow(null, null, DisplayName = "Null")]
+        [DataRow("", "", DisplayName = "Empty string")]
+        [DataRow("a", "A", DisplayName = "A")]
+        [DataRow("testCase", "TestCase", DisplayName = "Property")]
+        [DataRow("test Case", "Test Case", DisplayName = "With space")]
+        [DataRow("TestCase", "TestCase", DisplayName = "Already correct")]
+        public void ToPascalCase_Succeeds(string input, string expectedOutput) {
+            var output = input.ToPascalCase();
+
+            output.Should().Be(expectedOutput);
+        }
     }
 }

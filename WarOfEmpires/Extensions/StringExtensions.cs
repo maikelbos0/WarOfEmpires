@@ -7,5 +7,13 @@
 
             return value;
         }
+
+        public static string ToPascalCase(this string value) {
+            if (!string.IsNullOrEmpty(value) && value.Length > 0) {
+                return char.ToUpperInvariant(value[0]) + value.Substring(1);
+            }
+
+            return value;
+        }
     }
 }

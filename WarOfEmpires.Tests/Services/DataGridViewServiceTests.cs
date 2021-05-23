@@ -45,11 +45,13 @@ namespace WarOfEmpires.Tests.Services {
             result.Should().HaveCount(12);
         }
 
-        [TestMethod]
-        public void DataGridViewService_Sorts_Correctly() {
+        [DataTestMethod]
+        [DataRow("name", DisplayName = "Camel case")]
+        [DataRow("Name", DisplayName = "Pascal case")]
+        public void DataGridViewService_Sorts_Correctly(string column) {
             var service = new DataGridViewService();
             var metaData = new DataGridViewMetaData() {
-                sortColumn = "Name",
+                sortColumn = column,
                 rowsPerPage = 25
             };
 
@@ -58,11 +60,13 @@ namespace WarOfEmpires.Tests.Services {
             result.Select(i => i.Name).Should().BeInAscendingOrder();
         }
 
-        [TestMethod]
-        public void DataGridViewService_Sorts_Descending_Correctly() {
+        [DataTestMethod]
+        [DataRow("name", DisplayName = "Camel case")]
+        [DataRow("Name", DisplayName = "Pascal case")]
+        public void DataGridViewService_Sorts_Descending_Correctly(string column) {
             var service = new DataGridViewService();
             var metaData = new DataGridViewMetaData() {
-                sortColumn = "Name",
+                sortColumn = column,
                 sortDescending = true,
                 rowsPerPage = 25
             };
