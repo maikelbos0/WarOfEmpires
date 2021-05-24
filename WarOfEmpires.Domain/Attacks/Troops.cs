@@ -3,10 +3,10 @@
 namespace WarOfEmpires.Domain.Attacks {
     public class Troops : Entity {
         public virtual TroopType Type { get; private set; }
-        public virtual  int Soldiers { get; private set; }
+        public virtual int Soldiers { get; private set; }
         public virtual int Mercenaries { get; private set; }
 
-        private Troops() { }
+        protected Troops() { }
 
         public Troops(TroopType type, int soldiers, int mercenaries) {
             Type = type;

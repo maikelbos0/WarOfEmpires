@@ -4,7 +4,7 @@
         public virtual int Soldiers { get; private set; }
         public virtual int Mercenaries { get; private set; }
 
-        private Casualties() { }
+        protected Casualties() { }
 
         public Casualties(TroopType troopType, int soldiers, int mercenaries) {
             TroopType = troopType;
