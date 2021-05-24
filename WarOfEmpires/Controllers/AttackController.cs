@@ -16,32 +16,28 @@ namespace WarOfEmpires.Controllers {
             : base(messageService, authenticationService, dataGridViewService) {
         }
 
-        [Route("Index")]
-        [HttpGet]
+        [HttpGet("")]
+        [HttpGet("Index")]
         public ViewResult Index() {
             return View();
         }
 
-        [Route("GetReceivedAttacks")]
-        [HttpPost]
+        [HttpPost("GetReceivedAttacks")]
         public JsonResult GetReceivedAttacks(DataGridViewMetaData metaData) {
             return GridJson(new GetReceivedAttacksQuery(_authenticationService.Identity), metaData);
         }
 
-        [Route("ExecutedIndex")]
-        [HttpGet]
+        [HttpGet("ExecutedIndex")]
         public ViewResult ExecutedIndex() {
             return View();
         }
         
-        [Route("GetExecutedAttacks")]
-        [HttpPost]
+        [HttpPost("GetExecutedAttacks")]
         public JsonResult GetExecutedAttacks(DataGridViewMetaData metaData) {
             return GridJson(new GetExecutedAttacksQuery(_authenticationService.Identity), metaData);
         }
 
-        [Route("Details")]
-        [HttpGet]
+        [HttpGet("Details")]
         public ViewResult Details(int id) {
             var model = _messageService.Dispatch(new GetAttackDetailsQuery(_authenticationService.Identity, id));
 
@@ -53,22 +49,19 @@ namespace WarOfEmpires.Controllers {
             return View("Details", model);
         }
 
-        [Route("LastExecutedAttackDetails")]
-        [HttpGet]
+        [HttpGet("LastExecutedAttackDetails")]
         public ViewResult LastExecutedAttackDetails() {
             var id = _messageService.Dispatch(new GetLastExecutedAttackQuery(_authenticationService.Identity));
 
             return Details(id);
         }
 
-        [Route("Execute")]
-        [HttpGet]
+        [HttpGet("Execute")]
         public ViewResult Execute(int defenderId) {
             return View(_messageService.Dispatch(new GetDefenderQuery(defenderId)));
         }
 
-        [Route("Execute")]
-        [HttpPost]
+        [HttpPost("Execute")]
         public ViewResult Execute(ExecuteAttackModel model) {
             return BuildViewResultFor(new AttackCommand(model.AttackType, _authenticationService.Identity, model.DefenderId, model.Turns))
                 .OnSuccess(LastExecutedAttackDetails)
