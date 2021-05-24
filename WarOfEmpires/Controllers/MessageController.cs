@@ -36,7 +36,6 @@ namespace WarOfEmpires.Controllers {
             return View("Send", _messageService.Dispatch(new GetReplyToMessageQuery(_authenticationService.Identity, messageId)));
         }
 
-        [HttpPost("Reply")]
         [HttpPost("Send")]
         public ViewResult Send(MessageModel model) {
             return BuildViewResultFor(new SendMessageCommand(_authenticationService.Identity, model.RecipientId, model.Subject, model.Body))
