@@ -16,41 +16,35 @@ namespace WarOfEmpires.Controllers {
             : base(messageService, authenticationService, dataGridViewService) {
         }
 
-        [Route("Index")]
-        [HttpGet]
+        [HttpGet("Index")]
         public ViewResult Index() {
             return View();
         }
 
-        [Route("GetReceivedMessages")]
-        [HttpPost]
+        [HttpPost("GetReceivedMessages")]
         public JsonResult GetReceivedMessages(DataGridViewMetaData metaData) {
             return GridJson(new GetReceivedMessagesQuery(_authenticationService.Identity), metaData);
         }
 
-        [Route("Send")]
-        [HttpGet]
+        [HttpGet("Send")]
         public ViewResult Send(int recipientId) {
             return View(_messageService.Dispatch(new GetMessageRecipientQuery(recipientId)));
         }
 
-        [Route("Reply")]
-        [HttpGet]
+        [HttpGet("Reply")]
         public ViewResult Reply(int messageId) {
             return View("Send", _messageService.Dispatch(new GetReplyToMessageQuery(_authenticationService.Identity, messageId)));
         }
 
-        [Route("Reply")]
-        [Route("Send")]
-        [HttpPost]
+        [HttpPost("Reply")]
+        [HttpPost("Send")]
         public ViewResult Send(MessageModel model) {
             return BuildViewResultFor(new SendMessageCommand(_authenticationService.Identity, model.RecipientId, model.Subject, model.Body))
                 .OnSuccess(SentIndex)
                 .OnFailure("Send", model);
         }
 
-        [Route("ReceivedDetails")]
-        [HttpGet]
+        [HttpGet("ReceivedDetails")]
         public ViewResult ReceivedDetails(int id) {
             var model = _messageService.Dispatch(new GetReceivedMessageQuery(_authenticationService.Identity, id));
 
@@ -61,21 +55,18 @@ namespace WarOfEmpires.Controllers {
             return View(model);
         }
 
-        [Route("SentIndex")]
-        [HttpGet]
+        [HttpGet("SentIndex")]
         public ViewResult SentIndex() {
             // Explicitly name view so it works from other actions
             return View("SentIndex");
         }
 
-        [Route("GetSentMessages")]
-        [HttpPost]
+        [HttpPost("GetSentMessages")]
         public JsonResult GetSentMessages(DataGridViewMetaData metaData) {
             return GridJson(new GetSentMessagesQuery(_authenticationService.Identity), metaData);
         }
 
-        [Route("SentDetails")]
-        [HttpGet]
+        [HttpGet("SentDetails")]
         public ViewResult SentDetails(int id) {
             return View(_messageService.Dispatch(new GetSentMessageQuery(_authenticationService.Identity, id)));
         }
