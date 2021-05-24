@@ -31,10 +31,11 @@ namespace WarOfEmpires.QueryHandlers.Attacks {
                     a.Type,
                     Defender = a.Defender.DisplayName,
                     DefenderAlliance = a.Defender.Alliance == null ? null : a.Defender.Alliance.Code,
-                    DefenderSoldierCasualties = (int?)a.Rounds.Where(r => r.IsAggressor).Sum(r => r.Casualties.Sum(c => c.Soldiers)),
-                    DefenderMercenaryCasualties = (int?)a.Rounds.Where(r => r.IsAggressor).Sum(r => r.Casualties.Sum(c => c.Mercenaries)),
-                    AttackerSoldierCasualties = (int?)a.Rounds.Where(r => !r.IsAggressor).Sum(r => r.Casualties.Sum(c => c.Soldiers)),
-                    AttackerMercenaryCasualties = (int?)a.Rounds.Where(r => !r.IsAggressor).Sum(r => r.Casualties.Sum(c => c.Mercenaries)),
+                    Casualties = a.Rounds.SelectMany(r => r.Casualties.Select(c => new {
+                        r.IsAggressor,
+                        c.Soldiers,
+                        c.Mercenaries
+                    })),
                     a.Result
                 })
                 .ToList()
@@ -45,10 +46,10 @@ namespace WarOfEmpires.QueryHandlers.Attacks {
                     Type = _formatter.ToString(a.Type),
                     Defender = a.Defender,
                     DefenderAlliance = a.DefenderAlliance,
-                    DefenderSoldierCasualties = a.DefenderSoldierCasualties ?? 0,
-                    DefenderMercenaryCasualties = a.DefenderMercenaryCasualties ?? 0,
-                    AttackerSoldierCasualties = a.AttackerSoldierCasualties ?? 0,
-                    AttackerMercenaryCasualties = a.AttackerMercenaryCasualties ?? 0,
+                    DefenderSoldierCasualties = a.Casualties.Where(c => c.IsAggressor).Sum(c => c.Soldiers),
+                    DefenderMercenaryCasualties = a.Casualties.Where(c => c.IsAggressor).Sum(c => c.Mercenaries),
+                    AttackerSoldierCasualties = a.Casualties.Where(c => !c.IsAggressor).Sum(c => c.Soldiers),
+                    AttackerMercenaryCasualties = a.Casualties.Where(c => !c.IsAggressor).Sum(c => c.Mercenaries),
                     Result = _formatter.ToString(a.Result)
                 })
                 .ToList();
