@@ -4,4 +4,4 @@
 
 <h2>Received messages</h2>
 
-@(Html.Grid<WarOfEmpires.Models.Messages.ReceivedMessageViewModel>("messagesGrid", Url.Action("GetReceivedMessages"), Url.Action("ReceivedDetails")))
+@(await Html.Grid<WarOfEmpires.Models.Messages.ReceivedMessageViewModel>("messagesGrid", Url.Action("GetReceivedMessages"), Url.Action("ReceivedDetails")))
