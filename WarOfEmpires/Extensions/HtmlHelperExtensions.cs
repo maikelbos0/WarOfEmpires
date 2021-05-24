@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Html;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using System;
 using System.Linq;
 using System.Linq.Expressions;
@@ -13,23 +11,29 @@ using WarOfEmpires.Models.Grids;
 
 namespace WarOfEmpires.Extensions {
     public static class HtmlHelperExtensions {
-        private static readonly ModelExpressionProvider modelExpressionProvider = new ModelExpressionProvider(new EmptyModelMetadataProvider());
+        private static readonly PropertyInfo[] resourceViewModelProperties = new[] {
+            typeof(ResourcesViewModel).GetProperty(nameof(ResourcesViewModel.Gold)),
+            typeof(ResourcesViewModel).GetProperty(nameof(ResourcesViewModel.Food)),
+            typeof(ResourcesViewModel).GetProperty(nameof(ResourcesViewModel.Wood)),
+            typeof(ResourcesViewModel).GetProperty(nameof(ResourcesViewModel.Stone)),
+            typeof(ResourcesViewModel).GetProperty(nameof(ResourcesViewModel.Ore))
+        };
 
-        // TODO fix warnings by switching to async
-        public static IHtmlContent HiddenFor<TModel>(this HtmlHelper<TModel> html, Expression<Func<TModel, ResourcesViewModel>> expression) {
-            var model = expression.Compile().Invoke(html.ViewData.Model);
-            var name = modelExpressionProvider.GetExpressionText(expression);
-            var viewData = new ViewDataDictionary(html.ViewData) {
-                TemplateInfo = {
-                    HtmlFieldPrefix = name
-                }
-            };
+        public static IHtmlContent HiddenFor<TModel>(this IHtmlHelper<TModel> html, Expression<Func<TModel, ResourcesViewModel>> expression) {
+            var builder = new HtmlContentBuilder();
 
-            return html.Partial("_HiddenResources", model, viewData);
+            foreach (var resourceViewNodelProperty in resourceViewModelProperties) {
+                var fieldExpression = Expression.Property(expression.Body, resourceViewNodelProperty);
+                var fieldLambda = Expression.Lambda<Func<TModel, long>>(fieldExpression, expression.Parameters);
+
+                builder.AppendHtml(html.HiddenFor(fieldLambda));
+            }
+
+            return builder;
         }
 
         public static async Task<IHtmlContent> Icon(this IHtmlHelper html, IconType type) {
-            if (!Enum.IsDefined<IconType>(type)) {
+            if (!Enum.IsDefined(type)) {
                 throw new ArgumentException($"Invalid icon type found: '{type}'");
             }
 
