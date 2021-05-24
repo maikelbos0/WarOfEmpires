@@ -25,7 +25,7 @@ namespace WarOfEmpires.QueryHandlers.Attacks {
         [Audit]
         public AttackDetailsViewModel Execute(GetAttackDetailsQuery query) {
             var attack = _context.Players
-                .Include(p => p.ReceivedAttacks.Select(a => a.Rounds.Select(r => r.Casualties)))
+                .Include(p => p.ReceivedAttacks).ThenInclude(a => a.Rounds).ThenInclude(r => r.Casualties)
                 .Where(p => EmailComparisonService.Equals(p.User.Email, query.Email))
                 .SelectMany(p => p.ReceivedAttacks)
                 .SingleOrDefault(a => a.Id == query.AttackId);
@@ -33,7 +33,7 @@ namespace WarOfEmpires.QueryHandlers.Attacks {
 
             if (attack == null) {
                 attack = _context.Players
-                    .Include(p => p.ExecutedAttacks.Select(a => a.Rounds.Select(r => r.Casualties)))
+                    .Include(p => p.ExecutedAttacks).ThenInclude(a => a.Rounds).ThenInclude(r => r.Casualties)
                     .Where(p => EmailComparisonService.Equals(p.User.Email, query.Email))
                     .SelectMany(p => p.ExecutedAttacks)
                     .Single(a => a.Id == query.AttackId);
