@@ -8,33 +8,21 @@
     Here you can upgrade your defences as well as your housing for peasants and troops.
 </p>
 
-<div id="empire-building-totals" class="partial-content">
+<div id="empire-building-totals">
 </div>
 
-<div id="empire-housing-totals" class="partial-content">
+<div id="empire-housing-totals">
 </div>
 
 <p>Defence upgrades do not count towards the totals spent on buildings but instead add 1 recruit for each level.</p>
 
 <div class="row">
-    <div class="col-12 col-md-6 col-lg-4 partial-content">
-        @{
-// TODO enable
-// Html.RenderAction("_Building", "Empire", new { BuildingType = "Defences" });
-        }
+    <div class="col-12 col-md-6 col-lg-4 partial-content" data-partial-url="@Url.Action("_Building", "Empire", new { BuildingType = "Defences" })">
     </div>
 
-    <div class="col-12 col-md-6 col-lg-4 partial-content">
-        @{
-// TODO enable
-// Html.RenderAction("_Building", "Empire", new { BuildingType = "Barracks" });
-        }
+    <div class="col-12 col-md-6 col-lg-4 partial-content" data-partial-url="@Url.Action("_Building", "Empire", new { BuildingType = "Barracks" })">
     </div>
 
-    <div class="col-12 col-md-6 col-lg-4 partial-content">
-        @{
-// TODO enable
-// Html.RenderAction("_Building", "Empire", new { BuildingType = "Huts" });
-        }
+    <div class="col-12 col-md-6 col-lg-4 partial-content" data-partial-url="@Url.Action("_Building", "Empire", new { BuildingType = "Huts" })">
     </div>
 </div>
