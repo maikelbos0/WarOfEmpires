@@ -8,42 +8,22 @@
     Here you can upgrade your armoury, forge and other troop buildings.
 </p>
 
-<div id="empire-building-totals" class="partial-content">
+<div id="empire-building-totals">
 </div>
 
 <div class="row">
-    <div class="col-12 col-md-6 col-lg-4 partial-content">
-        @{
-// TODO enable
-// Html.RenderAction("_Building", "Empire", new { BuildingType = "ArcheryRange" });
-        }
+    <div class="col-12 col-md-6 col-lg-4 partial-content" data-partial-url="@Url.Action("_Building", "Empire", new { BuildingType = "ArcheryRange" })">
     </div>
 
-    <div class="col-12 col-md-6 col-lg-4 partial-content">
-        @{
-// TODO enable
-// Html.RenderAction("_Building", "Empire", new { BuildingType = "CavalryRange" });
-        }
+    <div class="col-12 col-md-6 col-lg-4 partial-content" data-partial-url="@Url.Action("_Building", "Empire", new { BuildingType = "CavalryRange" })">
     </div>
 
-    <div class="col-12 col-md-6 col-lg-4 partial-content">
-        @{
-// TODO enable
-// Html.RenderAction("_Building", "Empire", new { BuildingType = "FootmanRange" });
-        }
+    <div class="col-12 col-md-6 col-lg-4 partial-content" data-partial-url="@Url.Action("_Building", "Empire", new { BuildingType = "FootmanRange" })">
     </div>
 
-    <div class="col-12 col-md-6 col-lg-4 partial-content">
-        @{
-// TODO enable
-// Html.RenderAction("_Building", "Empire", new { BuildingType = "Forge" });
-        }
+    <div class="col-12 col-md-6 col-lg-4 partial-content" data-partial-url="@Url.Action("_Building", "Empire", new { BuildingType = "Forge" })">
     </div>
 
-    <div class="col-12 col-md-6 col-lg-4 partial-content">
-        @{
-// TODO enable
-// Html.RenderAction("_Building", "Empire", new { BuildingType = "Armoury" });
-        }
+    <div class="col-12 col-md-6 col-lg-4 partial-content" data-partial-url="@Url.Action("_Building", "Empire", new { BuildingType = "Armoury" })">
     </div>
 </div>
