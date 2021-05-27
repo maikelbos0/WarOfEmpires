@@ -17,14 +17,12 @@ namespace WarOfEmpires.Controllers {
             : base(messageService, authenticationService, dataGridViewService) {
         }
 
-        [Route("Workers")]
-        [HttpGet]
+        [HttpGet("Workers")]
         public ViewResult Workers() {
             return View(_messageService.Dispatch(new GetWorkersQuery(_authenticationService.Identity)));
         }
 
-        [Route("Workers")]
-        [HttpPost]
+        [HttpPost("Workers")]
         public ViewResult Workers(WorkersModel model) {
             switch (model.Command) {
                 case "train":
@@ -40,14 +38,12 @@ namespace WarOfEmpires.Controllers {
             }
         }
 
-        [Route("Troops")]
-        [HttpGet]
+        [HttpGet("Troops")]
         public ViewResult Troops() {
             return View(_messageService.Dispatch(new GetTroopsQuery(_authenticationService.Identity)));
         }
 
-        [Route("Troops")]
-        [HttpPost]
+        [HttpPost("Troops")]
         public ViewResult Troops(TroopsModel model) {
             switch (model.Command) {
                 case "train":
@@ -67,107 +63,93 @@ namespace WarOfEmpires.Controllers {
             }
         }
 
-        [Route("Tax")]
+        [HttpGet("Tax")]
         public ViewResult Tax() {
             return View(_messageService.Dispatch(new GetTaxQuery(_authenticationService.Identity)));
         }
 
-        [Route("Tax")]
-        [HttpPost]
+        [HttpPost("Tax")]
         public ViewResult Tax(TaxModel model) {
             return BuildViewResultFor(new SetTaxCommand(_authenticationService.Identity, model.Tax))
                 .OnSuccess(Tax)
                 .OnFailure("Tax", model);
         }
 
-        [Route("_ResourceHeader")]
-        [HttpGet]
+        [HttpGet("_ResourceHeader")]
         public PartialViewResult _ResourceHeader() {
             return PartialView(_messageService.Dispatch(new GetResourceHeaderQuery(_authenticationService.Identity)));
         }
 
-        [Route("ResourceBuildings")]
-        [HttpGet]
+        [HttpGet("ResourceBuildings")]
         public ViewResult ResourceBuildings() {
             return View();
         }
 
-        [Route("TroopBuildings")]
-        [HttpGet]
+        [HttpGet("TroopBuildings")]
         public ViewResult TroopBuildings() {
             return View();
         }
 
-        [Route("EmpireBuildings")]
-        [HttpGet]
+        [HttpGet("EmpireBuildings")]
         public ViewResult EmpireBuildings() {
             return View();
         }
 
-        [Route("BankBuildings")]
-        [HttpGet]
+        [HttpGet("BankBuildings")]
         public ViewResult BankBuildings() {
             return View();
         }
 
-        [Route("SpecialtyBuildings")]
-        [HttpGet]
+        [HttpGet("SpecialtyBuildings")]
         public ViewResult SpecialtyBuildings() {
             return View();
         }
 
-        [Route("_Building")]
-        [HttpGet]
+        [HttpGet("_Building")]
         public PartialViewResult _Building(string buildingType) {
             return PartialView(_messageService.Dispatch(new GetBuildingQuery(_authenticationService.Identity, buildingType)));
         }
 
-        [Route("_Building")]
-        [HttpPost]
+        [HttpPost("_Building")]
         public PartialViewResult _Building(BuildingModel model) {
             return BuildPartialViewResultFor(new UpgradeBuildingCommand(_authenticationService.Identity, model.BuildingType))
                 .OnSuccess(() => _Building(model.BuildingType))
                 .OnFailure("_Building", model);
         }
 
-        [Route("_BuildingTotals")]
+        [HttpGet("_BuildingTotals")]
         public PartialViewResult _BuildingTotals() {
             return PartialView(_messageService.Dispatch(new GetBuildingTotalsQuery(_authenticationService.Identity)));
         }
 
-        [Route("_HousingTotals")]
+        [HttpGet("_HousingTotals")]
         public PartialViewResult _HousingTotals() {
             return PartialView(_messageService.Dispatch(new GetHousingTotalsQuery(_authenticationService.Identity)));
         }
 
-        [Route("BuildingUpgrades")]
-        [HttpGet]
+        [HttpGet("BuildingUpgrades")]
         public ViewResult BuildingUpgrades(string buildingType) {
             return View(_messageService.Dispatch(new GetBuildingUpgradesQuery(_authenticationService.Identity, buildingType)));
         }
 
-        [Route("Banking")]
-        [HttpGet]
+        [HttpGet("Banking")]
         public ViewResult Banking() {
             return View(_messageService.Dispatch(new GetBankedResourcesQuery(_authenticationService.Identity)));
         }
 
-        [Route("Banking")]
-        [HttpPost]
+        [HttpPost("Banking")]
         public ViewResult Banking(BankedResourcesViewModel model) {
             return BuildViewResultFor(new BankCommand(_authenticationService.Identity))
                 .OnSuccess(Banking)
                 .OnFailure("Banking", model);
         }
 
-        [Route("Siege")]
-        [HttpGet]
+        [HttpGet("Siege")]
         public ViewResult Siege() {
             return View(_messageService.Dispatch(new GetSiegeQuery(_authenticationService.Identity)));
         }
 
-        [Route("Siege")]
-        [HttpPost]
+        [HttpPost("Siege")]
         public ViewResult Siege(SiegeModel model) {
             switch (model.Command) {
                 case "build":
