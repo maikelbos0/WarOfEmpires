@@ -34,7 +34,7 @@
     }
 </ul>
 
-<div id="empire-housing-totals" class="partial-content">
+<div id="empire-housing-totals">
 </div>
 
 @using (Html.BeginForm(null, null, FormMethod.Post, new {
@@ -72,12 +72,12 @@
                     </ul>
                 }
 
-                <div class="form-group">
+                <div class="mb-3">
                     <label>Workers</label>
                     <div class="form-control" readonly="readonly">@Model.Workers[i].CurrentWorkers.ToString(StringFormat.Integer)</div>
                 </div>
 
-                <div class="form-group">
+                <div class="mb-3">
                     @if (Model.Workers[i].IsProducer) {
                         <label>Production per worker</label> }
                     else {
@@ -89,7 +89,7 @@
                     </div>
                 </div>
 
-                <div class="form-group">
+                <div class="mb-3">
                     @if (Model.Workers[i].IsProducer) {
                         <label>Total production</label> }
                     else {
@@ -101,7 +101,7 @@
                     </div>
                 </div>
 
-                <div class="form-group">
+                <div class="mb-3">
                     @Html.LabelFor(m => m.Workers[i].Count)
                     @Html.TextBoxFor(m => m.Workers[i].Count, new { @class = "form-control" })
                     @Html.ValidationMessageFor(m => m.Workers[i].Count, null, new { @class = "small form-text text-danger" })
