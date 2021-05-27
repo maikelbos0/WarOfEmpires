@@ -18,7 +18,7 @@ namespace WarOfEmpires.Controllers {
         }
 
         [UserOnline]
-        [HttpGet("")]
+        [HttpGet]
         [HttpGet("Index")]
         public ViewResult Index() {
             // Explicitly name view so it works from other actions

@@ -16,6 +16,7 @@ namespace WarOfEmpires.Controllers {
             : base(messageService, authenticationService, dataGridViewService) {
         }
 
+        [HttpGet]
         [HttpGet("Index")]
         public ViewResult Index() {
             return View();
