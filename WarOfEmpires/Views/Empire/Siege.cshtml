@@ -48,27 +48,27 @@
                     <li>Build cost: @Html.DisplayFor(m => m.SiegeWeapons[i].Cost)</li>
                 </ul>
 
-                <div class="form-group">
+                <div class="mb-3">
                     <label>Maintenance per weapon</label>
                     <div class="form-control" readonly="readonly">@Model.SiegeWeapons[i].Maintenance.ToString(StringFormat.Integer) @await Html.Icon(IconType.Siege)</div>
                 </div>
 
-                <div class="form-group">
+                <div class="mb-3">
                     <label>Troops per weapon</label>
                     <div class="form-control" readonly="readonly">@Model.SiegeWeapons[i].TroopCount.ToString(StringFormat.Integer) @await Html.Icon(IconType.Siege)</div>
                 </div>
 
-                <div class="form-group">
+                <div class="mb-3">
                     <label>Current weapons</label>
                     <div class="form-control" readonly="readonly">@Model.SiegeWeapons[i].CurrentCount.ToString(StringFormat.Integer) @await Html.Icon(IconType.Siege)</div>
                 </div>
 
-                <div class="form-group">
+                <div class="mb-3">
                     <label>Troops equipped</label>
                     <div class="form-control" readonly="readonly">@Model.SiegeWeapons[i].CurrentTroopCount.ToString(StringFormat.Integer) @await Html.Icon(IconType.Siege)</div>
                 </div>
 
-                <div class="form-group">
+                <div class="mb-3">
                     @Html.LabelFor(m => m.SiegeWeapons[i].Count)
                     @Html.TextBoxFor(m => m.SiegeWeapons[i].Count, new { @class = "form-control" })
                     @Html.ValidationMessageFor(m => m.SiegeWeapons[i].Count, null, new { @class = "small form-text text-danger" })
