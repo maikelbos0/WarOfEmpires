@@ -3,7 +3,7 @@
         public virtual SiegeWeaponType Type { get; private set; }
         public virtual int Count { get; set; }
 
-        private SiegeWeapon() {
+        protected SiegeWeapon() {
         }
 
         public SiegeWeapon(SiegeWeaponType type, int count) {
