@@ -5,11 +5,6 @@ using WarOfEmpires.Queries.Security;
 namespace WarOfEmpires.Services {
     [ScopedServiceImplementation(typeof(IAuthorizationService))]
     public class AuthorizationService : IAuthorizationService {
-        // TODO resolve authorization on views
-        public static bool IsAuthorized(object request) {
-            return true;
-        }
-
         private readonly IAuthenticationService _authenticationService;
         private readonly IMessageService _messageService;
 

@@ -1,4 +1,5 @@
 ﻿@model WarOfEmpires.Models.Alliances.AllianceHomeViewModel
+@inject AuthorizationService AuthorizationService
 
 @{
     var canKickMembers = AuthorizationService.IsAuthorized(new AllianceAuthorizationRequest() { CanKickMembers = true });
