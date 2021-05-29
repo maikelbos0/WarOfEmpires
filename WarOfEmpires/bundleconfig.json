@@ -15,7 +15,6 @@
       "wwwroot/js/grid.js",
       "wwwroot/js/ajax-form.js",
       "wwwroot/js/command.js",
-      "wwwroot/js/housing-totals-manager.js",
       "wwwroot/js/html-form.js",
       "wwwroot/js/notification-manager.js",
       "wwwroot/js/password-strength.js",

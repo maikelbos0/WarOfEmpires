@@ -22,7 +22,7 @@
 <ul class="text-muted">
     <li>Peasants available for training: @Model.CurrentPeasants.ToString(StringFormat.Integer)</li>
     <li>Worker training cost: @Html.DisplayFor(m => m.WorkerCost)</li>
-    <li>Gold production per turn: @Model.CurrentGoldPerTurn.ToString(StringFormat.Integer) <icon type="Gold"/></li>
+    <li>Gold production per turn: @Model.CurrentGoldPerTurn.ToString(StringFormat.Integer) <icon type="Gold" /></li>
     <li>Upkeep per turn: @Html.DisplayFor(m => m.UpkeepPerTurn)</li>
     <li>Recruits per day: @Model.RecruitsPerDay.ToString(StringFormat.Integer)</li>
 
@@ -34,8 +34,7 @@
     }
 </ul>
 
-<div id="empire-housing-totals">
-</div>
+<housing-totals />
 
 @using (Html.BeginForm(null, null, FormMethod.Post, new {
     data_success_message_train = "Your peasants were trained.",
@@ -85,7 +84,7 @@
                     }
                     <div class="form-control" readonly="readonly">
                         @Model.Workers[i].CurrentProductionPerWorkerPerTurn.ToString(StringFormat.Integer)
-                        <icon type="@iconTypes[Model.Workers[i].Type]"/>
+                        <icon type="@iconTypes[Model.Workers[i].Type]" />
                     </div>
                 </div>
 
@@ -97,7 +96,7 @@
                     }
                     <div class="form-control" readonly="readonly">
                         @Model.Workers[i].CurrentProductionPerTurn.ToString(StringFormat.Integer)
-                        <icon type="@iconTypes[Model.Workers[i].Type]"/>
+                        <icon type="@iconTypes[Model.Workers[i].Type]" />
                     </div>
                 </div>
 
