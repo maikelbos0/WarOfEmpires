@@ -4,8 +4,9 @@ using Microsoft.AspNetCore.Mvc.Routing;
 
 namespace WarOfEmpires.TagHelpers {
     public class HousingTotalsTagHelper : PartialTagHelper {
-        public HousingTotalsTagHelper(IUrlHelperFactory urlHelperFactory, IActionContextAccessor actionContextAccessor)
-            : base(urlHelperFactory.GetUrlHelper(actionContextAccessor.ActionContext).Action("_HousingTotals", "Empire")) {
+        public HousingTotalsTagHelper(IUrlHelperFactory urlHelperFactory, IActionContextAccessor actionContextAccessor) {
+            Url = urlHelperFactory.GetUrlHelper(actionContextAccessor.ActionContext).Action("_HousingTotals", "Empire");
+            AjaxRefresh = true;
         }
     }
 }
