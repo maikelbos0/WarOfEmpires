@@ -18,7 +18,6 @@
       "wwwroot/js/html-form.js",
       "wwwroot/js/notification-manager.js",
       "wwwroot/js/password-strength.js",
-      "wwwroot/js/resource-manager.js",
       "wwwroot/js/partial-manager.js"
     ],
     "outputFileName": "wwwroot/js/_bundle.js"
