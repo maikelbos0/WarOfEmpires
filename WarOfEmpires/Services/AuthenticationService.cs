@@ -8,21 +8,21 @@ using VDT.Core.DependencyInjection;
 namespace WarOfEmpires.Services {
     [ScopedServiceImplementation(typeof(IAuthenticationService))]
     public sealed class AuthenticationService : IAuthenticationService {
-        private readonly IHttpContextAccessor httpContextAccessor;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
         public AuthenticationService(IHttpContextAccessor httpContextAccessor) {
-            this.httpContextAccessor = httpContextAccessor;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public bool IsAuthenticated {
             get {
-                return httpContextAccessor.HttpContext.User.Identity.IsAuthenticated;
+                return _httpContextAccessor.HttpContext.User.Identity.IsAuthenticated;
             }
         }
 
         public string Identity {
             get {
-                return httpContextAccessor.HttpContext.User.Identity.Name;
+                return _httpContextAccessor.HttpContext.User.Identity.Name;
             }
         }
 
@@ -30,11 +30,11 @@ namespace WarOfEmpires.Services {
             var claims = new[] { new Claim(ClaimTypes.Name, name) };
             var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
-            await httpContextAccessor.HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
+            await _httpContextAccessor.HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
         }
 
         public async Task SignOut() {
-            await httpContextAccessor.HttpContext.SignOutAsync();
+            await _httpContextAccessor.HttpContext.SignOutAsync();
         }
     }
 }
