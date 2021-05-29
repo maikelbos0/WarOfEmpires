@@ -32,14 +32,6 @@ namespace WarOfEmpires.Extensions {
             return builder;
         }
 
-        public static async Task<IHtmlContent> Icon(this IHtmlHelper html, IconType type) {
-            if (!Enum.IsDefined(type)) {
-                throw new ArgumentException($"Invalid icon type found: '{type}'");
-            }
-
-            return await html.PartialAsync("_Icon", type);
-        }
-
         public static async Task<IHtmlContent> Grid<TGridItem>(this IHtmlHelper html, string id, string dataUrl, string detailUrl = null, string searchFormId = null) where TGridItem : EntityViewModel {
             var gridSorting = typeof(TGridItem).GetCustomAttribute<GridSortingAttribute>();
             var gridColumns = typeof(TGridItem).GetProperties()

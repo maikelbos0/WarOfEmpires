@@ -13,8 +13,8 @@
 
 <ul class="text-muted">
     <li>Siege engineers: @Model.Engineers.ToString(StringFormat.Integer)</li>
-    <li>Total siege maintenance provided: @Model.TotalMaintenance.ToString(StringFormat.Integer) @await Html.Icon(IconType.Siege)</li>
-    <li>Available siege maintenance: @Model.AvailableMaintenance.ToString(StringFormat.Integer) @await Html.Icon(IconType.Siege)</li>
+    <li>Total siege maintenance provided: @Model.TotalMaintenance.ToString(StringFormat.Integer) <icon type="Siege"/></li>
+    <li>Available siege maintenance: @Model.AvailableMaintenance.ToString(StringFormat.Integer) <icon type="Siege"/></li>
 </ul>
 
 @using (Html.BeginForm(null, null, FormMethod.Post, new {
@@ -50,22 +50,22 @@
 
                 <div class="mb-3">
                     <label>Maintenance per weapon</label>
-                    <div class="form-control" readonly="readonly">@Model.SiegeWeapons[i].Maintenance.ToString(StringFormat.Integer) @await Html.Icon(IconType.Siege)</div>
+                    <div class="form-control" readonly="readonly">@Model.SiegeWeapons[i].Maintenance.ToString(StringFormat.Integer) <icon type="Siege"/></div>
                 </div>
 
                 <div class="mb-3">
                     <label>Troops per weapon</label>
-                    <div class="form-control" readonly="readonly">@Model.SiegeWeapons[i].TroopCount.ToString(StringFormat.Integer) @await Html.Icon(IconType.Siege)</div>
+                    <div class="form-control" readonly="readonly">@Model.SiegeWeapons[i].TroopCount.ToString(StringFormat.Integer) <icon type="Siege"/></div>
                 </div>
 
                 <div class="mb-3">
                     <label>Current weapons</label>
-                    <div class="form-control" readonly="readonly">@Model.SiegeWeapons[i].CurrentCount.ToString(StringFormat.Integer) @await Html.Icon(IconType.Siege)</div>
+                    <div class="form-control" readonly="readonly">@Model.SiegeWeapons[i].CurrentCount.ToString(StringFormat.Integer) <icon type="Siege"/></div>
                 </div>
 
                 <div class="mb-3">
                     <label>Troops equipped</label>
-                    <div class="form-control" readonly="readonly">@Model.SiegeWeapons[i].CurrentTroopCount.ToString(StringFormat.Integer) @await Html.Icon(IconType.Siege)</div>
+                    <div class="form-control" readonly="readonly">@Model.SiegeWeapons[i].CurrentTroopCount.ToString(StringFormat.Integer) <icon type="Siege"/></div>
                 </div>
 
                 <div class="mb-3">

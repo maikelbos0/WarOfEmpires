@@ -1,4 +1,4 @@
-﻿namespace WarOfEmpires.Extensions {
+﻿namespace WarOfEmpires.TagHelpers {
     public enum IconType {
         Food,
         Wood,
