@@ -191,31 +191,6 @@ $(function () {
         return false;
     });
 });
-let BuildingTotalsManager = {
-    url: null,
-
-    refresh: function () {
-        let totalsPanel = $('#empire-building-totals');
-
-        if (totalsPanel.length > 0) {
-            $.ajax({
-                url: BuildingTotalsManager.url,
-                cache: false,
-                success: function (result) {
-                    totalsPanel.html(result);
-                },
-                error: function () {
-                    toastr.error("An error occurred loading building totals; please refresh the page for accurate values.");
-                }
-            });
-        }
-    }
-}
-
-$(function () {
-    BuildingTotalsManager.refresh();
-    AjaxManager.onSuccess.push(BuildingTotalsManager.refresh);
-});
 $(function () {
     $('body').on('click', 'button[type="submit"]', function () {
         let commandField = $(this).closest('form').find('input#Command');
@@ -431,21 +406,29 @@ $(function () {
 });
 $(function () {
     $('.partial-content').each(function () {
-        var panel = $(this);
-        var url = panel.data('partial-url');
+        let panel = $(this);
+        let url = panel.data('partial-url');
 
         if (url) {
-            $.ajax({
-                url: url,
-                method: "GET",
-                cache: false,
-                success: function (result) {
-                    panel.html(result);
-                },
-                error: function () {
-                    toastr.error("An error occurred loading partial content; please refresh the page for accurate values.");
-                }
-            });
+            let load = function () {
+                $.ajax({
+                    url: url,
+                    method: "GET",
+                    cache: false,
+                    success: function (result) {
+                        panel.html(result);
+                    },
+                    error: function () {
+                        toastr.error("An error occurred loading partial content; please refresh the page for accurate values.");
+                    }
+                });
+            };
+
+            load();
+            
+            if (panel.data('partial-ajax-refresh')) {
+                AjaxManager.onSuccess.push(load);
+            }
         }
         else {
             toastr.error("An error occurred determining content url; please contact support to resolve this issue.");

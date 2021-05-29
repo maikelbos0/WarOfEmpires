@@ -5,6 +5,7 @@ namespace WarOfEmpires.TagHelpers {
         public IconType Type { get; set; }
 
         public override void Process(TagHelperContext context, TagHelperOutput output) {
+            output.TagMode = TagMode.StartTagAndEndTag;
             output.TagName = "span";
             output.Attributes.SetAttribute("class", $"si si-{Type.ToString().ToLower()}");
         }
