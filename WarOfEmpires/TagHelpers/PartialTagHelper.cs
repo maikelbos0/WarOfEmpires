@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Razor.TagHelpers;
 
 namespace WarOfEmpires.TagHelpers {
-    public abstract class PartialTagHelper : TagHelper {
+    public class PartialTagHelper : TagHelper {
         public string Url { get; set; }
         public bool AjaxRefresh { get; set; }
 
