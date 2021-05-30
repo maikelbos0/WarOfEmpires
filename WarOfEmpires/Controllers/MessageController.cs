@@ -1,11 +1,11 @@
-﻿using WarOfEmpires.Attributes;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using WarOfEmpires.Commands.Messages;
+using WarOfEmpires.Filters;
 using WarOfEmpires.Models.Grids;
 using WarOfEmpires.Models.Messages;
 using WarOfEmpires.Queries.Messages;
 using WarOfEmpires.Services;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
 
 namespace WarOfEmpires.Controllers {
     [Authorize]

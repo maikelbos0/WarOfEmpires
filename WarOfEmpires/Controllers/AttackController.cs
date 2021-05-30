@@ -1,11 +1,11 @@
-﻿using WarOfEmpires.Commands.Attacks;
-using WarOfEmpires.Models.Grids;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using WarOfEmpires.Commands.Attacks;
+using WarOfEmpires.Filters;
 using WarOfEmpires.Models.Attacks;
+using WarOfEmpires.Models.Grids;
 using WarOfEmpires.Queries.Attacks;
 using WarOfEmpires.Services;
-using WarOfEmpires.Attributes;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
 
 namespace WarOfEmpires.Controllers {
     [Authorize]

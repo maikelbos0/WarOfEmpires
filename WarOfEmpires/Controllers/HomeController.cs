@@ -1,10 +1,10 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using WarOfEmpires.Attributes;
 using WarOfEmpires.Commands.Players;
 using WarOfEmpires.Commands.Security;
 using WarOfEmpires.Extensions;
+using WarOfEmpires.Filters;
 using WarOfEmpires.Models.Security;
 using WarOfEmpires.Queries.Security;
 using WarOfEmpires.Services;

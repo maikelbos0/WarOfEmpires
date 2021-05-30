@@ -1,9 +1,10 @@
-﻿using WarOfEmpires.Attributes;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using WarOfEmpires.Attributes;
 using WarOfEmpires.Commands.Events;
+using WarOfEmpires.Filters;
 using WarOfEmpires.Queries.Events;
 using WarOfEmpires.Services;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
 
 namespace WarOfEmpires.Controllers {
     [Authorize]

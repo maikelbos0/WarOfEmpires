@@ -1,12 +1,12 @@
-﻿using System.Linq;
-using WarOfEmpires.Attributes;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 using WarOfEmpires.Commands.Markets;
+using WarOfEmpires.Filters;
 using WarOfEmpires.Models.Grids;
 using WarOfEmpires.Models.Markets;
 using WarOfEmpires.Queries.Markets;
 using WarOfEmpires.Services;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
 
 namespace WarOfEmpires.Controllers {
     [Authorize]
