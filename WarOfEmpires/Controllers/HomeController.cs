@@ -132,7 +132,7 @@ namespace WarOfEmpires.Controllers {
 
         [HttpPost("ResetPassword")]
         public ViewResult ResetPassword(string email, string token, ResetUserPasswordModel model) {
-            return  BuildViewResultFor(new ResetUserPasswordCommand(email, token, model.NewPassword))
+            return BuildViewResultFor(new ResetUserPasswordCommand(email, token, model.NewPassword))
                 .OnSuccess("PasswordReset")
                 .OnFailure("ResetPassword", model);
         }
