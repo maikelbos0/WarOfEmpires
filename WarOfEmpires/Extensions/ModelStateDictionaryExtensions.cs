@@ -13,7 +13,7 @@ namespace WarOfEmpires.Extensions {
                     propertyName = commandError.Expression.GetExpressionText();
                 }
                 
-                if (propertyName != null && modelState.ContainsKey(propertyName)) {
+                if (propertyName != null) {
                     modelState.AddModelError(propertyName, commandError.Message);
                 }
                 else {
