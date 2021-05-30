@@ -3,14 +3,6 @@ let AjaxManager = {
 }
 
 $(function () {
-    function redirectUnauthenticatedRequest(jqXHR) {
-        if (jqXHR.getResponseHeader("X-Unauthenticated")) {
-            // Don't reload in case the current request is a POST
-            window.location.assign(window.location.href);
-            return true;
-        }
-    }
-
     function displaySuccessMessage(form, jqXHR) {
         let successMessage = form.data("success-message");
         let command = form.find("#Command").val();
@@ -64,17 +56,21 @@ $(function () {
                 url: this.action,
                 method: this.method,
                 data: form.serialize(),
-                success: function (result, status, jqXHR) {
-                    if (!redirectUnauthenticatedRequest(jqXHR)) {
-                        displaySuccessMessage(form, jqXHR);
-                        displayWarningMessages(jqXHR);
-                        displayResult(panel, result);
-                        callAjaxCallbacks();
-                    }
+                success: function (result, _, jqXHR) {
+                    displaySuccessMessage(form, jqXHR);
+                    displayWarningMessages(jqXHR);
+                    displayResult(panel, result);
+                    callAjaxCallbacks();
                 },
-                error: function () {
-                    toastr.error("An error occurred processing data; please try again.");
-                    submitButtons.prop('disabled', false);
+                error: function (jqXHR) {
+                    if (jqXHR.status == 401) {
+                        // Don't reload in case the current request is a POST
+                        window.location.assign(window.location.href);
+                    }
+                    else {
+                        toastr.error("An error occurred processing data; please try again.");
+                        submitButtons.prop('disabled', false);
+                    }
                 }
             });
         }
