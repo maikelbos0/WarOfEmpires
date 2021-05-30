@@ -5,6 +5,7 @@ using System;
 using System.Linq;
 using System.Linq.Expressions;
 using WarOfEmpires.Commands;
+using WarOfEmpires.Utilities.Extensions;
 
 namespace WarOfEmpires.CommandHandlers.Tests {
     public class CommandResultAssertions<TCommand> : ReferenceTypeAssertions<CommandResult<TCommand>, CommandResultAssertions<TCommand>> where TCommand : ICommand {
@@ -14,7 +15,7 @@ namespace WarOfEmpires.CommandHandlers.Tests {
             Subject = subject;
         }
 
-        public AndConstraint<CommandResultAssertions<TCommand>> HaveError(Expression<Func<TCommand, object>> expression, string message) {
+        public AndConstraint<CommandResultAssertions<TCommand>> HaveError<TProperty>(Expression<Func<TCommand, TProperty>> expression, string message) {
             Execute.Assertion
                 .ForCondition(Subject.Errors.Count == 1)
                 .FailWith("Expected {context:CommandResult} to contain an error, but found {0} errors.", Subject.Errors.Count)
@@ -40,7 +41,17 @@ namespace WarOfEmpires.CommandHandlers.Tests {
         }
 
         public AndConstraint<CommandResultAssertions<TCommand>> HaveError(string message) {
-            return HaveError(null, message);
+            Execute.Assertion
+                .ForCondition(Subject.Errors.Count == 1)
+                .FailWith("Expected {context:CommandResult} to contain an error, but found {0} errors.", Subject.Errors.Count)
+                .Then
+                .ForCondition(Subject.Errors.Single().Expression == null)
+                .FailWith("Expected {context:CommandResult} to contain an error without an expression, but found expression {0}.", Subject.Errors.Single().Expression)
+                .Then
+                .ForCondition(Subject.Errors.Single().Message == message)
+                .FailWith("Expected {context:CommandResult} to contain an error with message {0}, but found message {1}.", message, Subject.Errors.Single().Message);
+
+            return new AndConstraint<CommandResultAssertions<TCommand>>(this);
         }
     }
 }

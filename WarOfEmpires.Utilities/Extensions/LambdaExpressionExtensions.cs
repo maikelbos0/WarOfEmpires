@@ -5,7 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace WarOfEmpires.CommandHandlers.Tests {
+namespace WarOfEmpires.Utilities.Extensions {
     public static class LambdaExpressionExtensions {
         public static string GetExpressionText(this LambdaExpression expression) {
             var nameParts = new Stack<string>();
@@ -57,7 +57,6 @@ namespace WarOfEmpires.CommandHandlers.Tests {
 
             return string.Empty;
         }
-
 
         private static string GetIndexerInvocation(Expression expression) {
             var converted = Expression.Convert(expression, typeof(object));

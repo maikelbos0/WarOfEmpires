@@ -1,19 +1,16 @@
 using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using WarOfEmpires.CommandHandlers;
 using WarOfEmpires.Commands;
+using WarOfEmpires.Utilities.Extensions;
 
 namespace WarOfEmpires.Extensions {
     public static class ModelStateDictionaryExtensions {
-        private static readonly ModelExpressionProvider modelExpressionProvider = new ModelExpressionProvider(new EmptyModelMetadataProvider());
-
         public static void Merge<TCommand>(this ModelStateDictionary modelState, CommandResult<TCommand> commandResult) where TCommand : ICommand {
             foreach (var commandError in commandResult.Errors) {
                 string propertyName = null;
 
                 if (commandError.Expression != null) {
-                    // TODO test this
-                    propertyName = modelExpressionProvider.GetExpressionText(commandError.Expression);
+                    propertyName = commandError.Expression.GetExpressionText();
                 }
                 
                 if (propertyName != null && modelState.ContainsKey(propertyName)) {
