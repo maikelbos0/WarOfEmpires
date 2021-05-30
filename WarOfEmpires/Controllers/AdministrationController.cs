@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using WarOfEmpires.Attributes;
 using WarOfEmpires.Commands.Events;
 using WarOfEmpires.Filters;
 using WarOfEmpires.Queries.Events;
