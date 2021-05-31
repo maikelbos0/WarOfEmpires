@@ -16,7 +16,7 @@ using Security = WarOfEmpires.Domain.Security;
 using Siege = WarOfEmpires.Domain.Siege;
 
 namespace WarOfEmpires.Database {
-    [ScopedServiceImplementationAttribute(typeof(IWarContext))]
+    [ScopedServiceImplementation(typeof(IWarContext))]
     public class WarContext : DbContext, IWarContext {
         public DbSet<Security.User> Users { get; set; }
         public DbSet<Auditing.CommandExecution> CommandExecutions { get; set; }

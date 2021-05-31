@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using WarOfEmpires.Services;
 using WarOfEmpires.Utilities.Configuration;
 using WarOfEmpires.Utilities.DependencyInjection;
 
@@ -31,6 +32,7 @@ namespace WarOfEmpires {
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options => options.LoginPath = "/Home/LogIn");
             services.AddServices(typeof(Startup).Assembly);
             services.AddSingleton(Configuration.GetSection(AppSettings.Key).Get<AppSettings>());
+            services.AddHostedService<ScheduledTaskRunnerService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
