@@ -36,8 +36,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WarOfEmpires.Repositories.T
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WarOfEmpires.QueryHandlers.Tests", "WarOfEmpires.QueryHandlers.Tests\WarOfEmpires.QueryHandlers.Tests.csproj", "{4647FD52-8B1A-4249-AC96-4E04543E0A79}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WarOfEmpires.Console", "WarOfEmpires.Console\WarOfEmpires.Console.csproj", "{FD1DFB4C-EC9F-479D-B2D9-BFFFB25609C1}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -112,10 +110,6 @@ Global
 		{4647FD52-8B1A-4249-AC96-4E04543E0A79}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4647FD52-8B1A-4249-AC96-4E04543E0A79}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4647FD52-8B1A-4249-AC96-4E04543E0A79}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FD1DFB4C-EC9F-479D-B2D9-BFFFB25609C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FD1DFB4C-EC9F-479D-B2D9-BFFFB25609C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FD1DFB4C-EC9F-479D-B2D9-BFFFB25609C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FD1DFB4C-EC9F-479D-B2D9-BFFFB25609C1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
