@@ -4,7 +4,7 @@ using System.Net;
 using WarOfEmpires.Services;
 
 namespace WarOfEmpires.Filters {
-    public class AllianceAuthorizeFilter : IAuthorizationFilter {
+    public sealed class AllianceAuthorizeFilter : IAuthorizationFilter {
         private readonly IAllianceAuthorizationRequest _allianceAuthorizationRequest;
         private readonly IAuthorizationService _authorizationService;
 

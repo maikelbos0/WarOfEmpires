@@ -3,7 +3,7 @@ using WarOfEmpires.Commands.Security;
 using WarOfEmpires.Services;
 
 namespace WarOfEmpires.Filters {
-    public class UserOnlineFilter : IActionFilter {
+    public sealed class UserOnlineFilter : IActionFilter {
         private readonly IAuthenticationService _authenticationService;
         private readonly IMessageService _messageService;
 
