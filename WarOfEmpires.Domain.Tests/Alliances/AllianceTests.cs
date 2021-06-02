@@ -207,5 +207,18 @@ namespace WarOfEmpires.Domain.Tests.Alliances {
             senderAlliance.SentNonAggressionPactRequests.Single().Sender.Should().Be(senderAlliance);
             senderAlliance.SentNonAggressionPactRequests.Single().Recipient.Should().Be(recipientAlliance);
         }
+
+        [TestMethod]
+        public void Alliance_DeclareWar_Succeeds() {
+            var declaringAlliance = new Alliance(new Player(1, "Sender"), "SEND", "The Senders");
+            var targetAlliance = new Alliance(new Player(2, "Target"), "TRGT", "The Targets");
+
+            declaringAlliance.DeclareWar(targetAlliance);
+
+            declaringAlliance.Wars.Should().HaveCount(1);
+            targetAlliance.Wars.Should().HaveCount(1);
+            declaringAlliance.Wars.Single().Should().Be(targetAlliance.Wars.Single());
+            declaringAlliance.Wars.Single().Alliances.Should().BeEquivalentTo(declaringAlliance, targetAlliance);
+        }
     }
 }

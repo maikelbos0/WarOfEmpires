@@ -14,6 +14,7 @@ namespace WarOfEmpires.Domain.Alliances {
         public virtual ICollection<NonAggressionPactRequest> SentNonAggressionPactRequests { get; protected set; } = new List<NonAggressionPactRequest>();
         public virtual ICollection<NonAggressionPactRequest> ReceivedNonAggressionPactRequests { get; protected set; } = new List<NonAggressionPactRequest>();
         public virtual ICollection<NonAggressionPact> NonAggressionPacts { get; protected set; } = new List<NonAggressionPact>();
+        public virtual ICollection<War> Wars { get; protected set; } = new List<War>();
 
         protected Alliance() {
         }
@@ -85,6 +86,15 @@ namespace WarOfEmpires.Domain.Alliances {
 
             SentNonAggressionPactRequests.Add(request);
             recipient.ReceivedNonAggressionPactRequests.Add(request);
+        }
+
+        public virtual void DeclareWar(Alliance target) {
+            var war = new War();
+
+            war.Alliances.Add(this);
+            war.Alliances.Add(target);
+            Wars.Add(war);
+            target.Wars.Add(war);
         }
     }
 }
