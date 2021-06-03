@@ -10,7 +10,7 @@ using WarOfEmpires.Database;
 namespace WarOfEmpires.Database.Migrations
 {
     [DbContext(typeof(WarContext))]
-    [Migration("20210602175625_Alliances-Wars")]
+    [Migration("20210603175258_Alliances-Wars")]
     partial class AlliancesWars
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -48,7 +48,22 @@ namespace WarOfEmpires.Database.Migrations
 
                     b.HasIndex("WarId");
 
-                    b.ToTable("Wars", "Alliances");
+                    b.ToTable("AllianceWars", "Alliances");
+                });
+
+            modelBuilder.Entity("PeaceDeclarations", b =>
+                {
+                    b.Property<int>("AllianceId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("WarId")
+                        .HasColumnType("int");
+
+                    b.HasKey("AllianceId", "WarId");
+
+                    b.HasIndex("WarId");
+
+                    b.ToTable("PeaceDeclarations", "Alliances");
                 });
 
             modelBuilder.Entity("WarOfEmpires.Database.ReferenceEntities.AttackResultEntity", b =>
@@ -807,7 +822,7 @@ namespace WarOfEmpires.Database.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("War");
+                    b.ToTable("Wars", "Alliances");
                 });
 
             modelBuilder.Entity("WarOfEmpires.Domain.Attacks.Attack", b =>
@@ -1410,6 +1425,21 @@ namespace WarOfEmpires.Database.Migrations
                 });
 
             modelBuilder.Entity("AllianceWars", b =>
+                {
+                    b.HasOne("WarOfEmpires.Domain.Alliances.Alliance", null)
+                        .WithMany()
+                        .HasForeignKey("AllianceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WarOfEmpires.Domain.Alliances.War", null)
+                        .WithMany()
+                        .HasForeignKey("WarId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("PeaceDeclarations", b =>
                 {
                     b.HasOne("WarOfEmpires.Domain.Alliances.Alliance", null)
                         .WithMany()

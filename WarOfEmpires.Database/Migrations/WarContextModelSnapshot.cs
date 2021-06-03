@@ -46,7 +46,7 @@ namespace WarOfEmpires.Database.Migrations
 
                     b.HasIndex("WarId");
 
-                    b.ToTable("Wars", "Alliances");
+                    b.ToTable("AllianceWars", "Alliances");
                 });
 
             modelBuilder.Entity("PeaceDeclarations", b =>
@@ -61,7 +61,7 @@ namespace WarOfEmpires.Database.Migrations
 
                     b.HasIndex("WarId");
 
-                    b.ToTable("PeaceDeclarations");
+                    b.ToTable("PeaceDeclarations", "Alliances");
                 });
 
             modelBuilder.Entity("WarOfEmpires.Database.ReferenceEntities.AttackResultEntity", b =>
@@ -820,7 +820,7 @@ namespace WarOfEmpires.Database.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("War");
+                    b.ToTable("Wars", "Alliances");
                 });
 
             modelBuilder.Entity("WarOfEmpires.Domain.Attacks.Attack", b =>
