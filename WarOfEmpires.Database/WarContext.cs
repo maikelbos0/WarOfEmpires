@@ -239,6 +239,11 @@ namespace WarOfEmpires.Database {
                 n => n.HasOne<Alliances.War>().WithMany().HasForeignKey("WarId"),
                 n => n.HasOne<Alliances.Alliance>().WithMany().HasForeignKey("AllianceId")
             ).ToTable("Wars", "Alliances");
+            alliances.HasMany(a => a.PeaceDeclarations).WithMany(w => w.PeaceDeclarations).UsingEntity<Dictionary<string, object>>(
+                 "PeaceDeclarations",
+                 n => n.HasOne<Alliances.War>().WithMany().HasForeignKey("WarId"),
+                 n => n.HasOne<Alliances.Alliance>().WithMany().HasForeignKey("AllianceId")
+             );
             alliances.HasMany(a => a.SentNonAggressionPactRequests).WithOne(r => r.Sender).IsRequired().OnDelete(DeleteBehavior.NoAction);
             alliances.HasMany(a => a.ReceivedNonAggressionPactRequests).WithOne(r => r.Recipient).IsRequired();
             alliances.HasMany(a => a.ChatMessages).WithOne().IsRequired();
