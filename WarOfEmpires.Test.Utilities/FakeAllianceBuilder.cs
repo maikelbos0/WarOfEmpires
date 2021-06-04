@@ -170,19 +170,24 @@ namespace WarOfEmpires.Test.Utilities {
             return WithNonAggressionPactRequestFrom(id, out _, sender);
         }
 
-        public FakeAllianceBuilder WithWar(int id, out War war, Alliance alliance) {
+        public FakeAllianceBuilder WithWar(int id, out War war, Alliance alliance, bool peaceDeclared = false) {
             war = Substitute.For<War>();
 
             war.Id.Returns(id);
             war.Alliances.Returns(new List<Alliance>() { Alliance, alliance });
+            war.PeaceDeclarations.Returns(new List<Alliance>());
             Alliance.Wars.Add(war);
             alliance.Wars.Add(war);
+
+            if (peaceDeclared) {
+                war.PeaceDeclarations.Add(Alliance);
+            }
 
             return this;
         }
 
-        public FakeAllianceBuilder WithWar(int id, Alliance alliance) {
-            return WithWar(id, out _, alliance);
+        public FakeAllianceBuilder WithWar(int id, Alliance alliance, bool peaceDeclared = false) {
+            return WithWar(id, out _, alliance, peaceDeclared);
         }
     }
 }
