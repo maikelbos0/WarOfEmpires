@@ -21,6 +21,7 @@ namespace WarOfEmpires.Test.Utilities {
             Alliance.NonAggressionPacts.Returns(new List<NonAggressionPact>());
             Alliance.SentNonAggressionPactRequests.Returns(new List<NonAggressionPactRequest>());
             Alliance.ReceivedNonAggressionPactRequests.Returns(new List<NonAggressionPactRequest>());
+            Alliance.Wars.Returns(new List<War>());
             Context.Alliances.Add(Alliance);
         }
 
@@ -167,6 +168,21 @@ namespace WarOfEmpires.Test.Utilities {
 
         public FakeAllianceBuilder WithNonAggressionPactRequestFrom(int id, Alliance sender) {
             return WithNonAggressionPactRequestFrom(id, out _, sender);
+        }
+
+        public FakeAllianceBuilder WithWar(int id, out War war, Alliance alliance) {
+            war = Substitute.For<War>();
+
+            war.Id.Returns(id);
+            war.Alliances.Returns(new List<Alliance>() { Alliance, alliance });
+            Alliance.Wars.Add(war);
+            alliance.Wars.Add(war);
+
+            return this;
+        }
+
+        public FakeAllianceBuilder WithWar(int id, Alliance alliance) {
+            return WithWar(id, out _, alliance);
         }
     }
 }
