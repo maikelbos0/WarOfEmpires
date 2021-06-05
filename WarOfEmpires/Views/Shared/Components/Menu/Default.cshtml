@@ -77,8 +77,9 @@
                                     @Html.ActionLink("Non-aggression pacts", "NonAggressionPacts", "Alliance", null, new { @class = "dropdown-item" })
                                 }
 
-                                // TODO war auth
-                                @Html.ActionLink("Wars", "Wars", "Alliance", null, new { @class = "dropdown-item" })
+                                if (Model.CanManageWars) {
+                                    @Html.ActionLink("Wars", "Wars", "Alliance", null, new { @class = "dropdown-item" })
+                                }
 
                                 if (Model.CanTransferLeadership) {
                                     @Html.ActionLink("Transfer leadership", "TransferLeadership", "Alliance", null, new { @class = "dropdown-item" })
