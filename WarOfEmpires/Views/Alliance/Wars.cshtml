@@ -1,0 +1,63 @@
+﻿@model System.Collections.Generic.IEnumerable<WarOfEmpires.Models.Alliances.WarViewModel>
+
+@{
+    ViewBag.Title = "Wars";
+}
+
+<h2>Wars</h2>
+
+<p>
+    Below you can find the currently active wars your alliance is in.
+    A war between two alliances causes attacks between members of those alliances to result in additional casualties.
+</p>
+
+<p>
+    To end a war, both sides have to declare peace.
+</p>
+
+<table class="table table-borderless table-striped">
+    <thead>
+        <tr>
+            <th>Alliance code</th>
+            <th>Alliance name</th>
+            <th>Peace declared</th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var war in Model) {
+            <tr>
+                <td class="table-form-label">@war.Code</td>
+                <td class="table-form-label">@war.Name</td>
+                <td class="table-form-label">@(war.PeaceDeclared ? "Yes" : "No")</td>
+                <td>
+                    @if (war.PeaceDeclared) {
+                        @using (Html.BeginForm("CancelPeaceDeclaration", null, FormMethod.Post, new {
+                            data_success_message = "You have cancelled your peace declaration."
+                        })) {
+                            @Html.Hidden("id", war.Id)
+
+                            <button type="submit" class="btn btn-secondary w-100">
+                                <span class="d-none d-lg-inline">Cancel peace</span>
+                                <span class="d-lg-none">X</span>
+                            </button>
+                        }
+                    }
+                    else {
+                        @using (Html.BeginForm("DeclarePeace", null, FormMethod.Post, new {
+                            data_success_message = "You have declared peace."
+                        })) {
+                            @Html.Hidden("id", war.Id)
+
+                            <button type="submit" class="btn btn-secondary w-100">
+                                <span class="d-none d-lg-inline">Declare peace</span>
+                                <span class="d-lg-none">V</span>
+                            </button>
+                        }
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

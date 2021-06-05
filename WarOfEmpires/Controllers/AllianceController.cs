@@ -313,5 +313,12 @@ namespace WarOfEmpires.Controllers {
                 .OnSuccess(NonAggressionPacts)
                 .ThrowOnFailure();
         }
+
+        [AllianceAuthorize] // TODO war auth
+        [HttpGet("Wars")]
+        public ViewResult Wars() {
+            // Explicitly name view so it works from other actions
+            return View("Wars", _messageService.Dispatch(new GetWarsQuery(_authenticationService.Identity)));
+        }
     }
 }
