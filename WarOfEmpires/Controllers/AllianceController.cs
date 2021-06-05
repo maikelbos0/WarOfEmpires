@@ -314,7 +314,7 @@ namespace WarOfEmpires.Controllers {
                 .ThrowOnFailure();
         }
 
-        [AllianceAuthorize] // TODO war auth
+        [AllianceAuthorize(CanManageWars = true)]
         [HttpGet("Wars")]
         public ViewResult Wars() {
             // Explicitly name view so it works from other actions
