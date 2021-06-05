@@ -39,6 +39,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
             result.Members.First().Title.Should().Be("Sub chieftain");
             result.Members.First().Population.Should().Be(49);
             result.CanReceiveNonAggressionPactRequest.Should().BeTrue();
+            result.CanReceiveWarDeclaration.Should().BeTrue();
         }
 
         public void GetAllianceDetailsQueryHandler_CanReceiveNonAggressionPactRequest_Returns_False_For_Allianceless() {
@@ -95,6 +96,47 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
             var result = handler.Execute(query);
 
             result.CanReceiveNonAggressionPactRequest.Should().BeFalse();
+        }
+
+        public void GetAllianceDetailsQueryHandler_CanReceiveWarDeclaration_Returns_False_For_Allianceless() {
+            var builder = new FakeBuilder()
+                .WithPlayer(1)
+                .BuildAlliance(1);
+
+            var handler = new GetAllianceDetailsQueryHandler(builder.Context, new EnumFormatter());
+            var query = new GetAllianceDetailsQuery("test1@test.com", 1);
+
+            var result = handler.Execute(query);
+
+            result.CanReceiveWarDeclaration.Should().BeFalse();
+        }
+
+        public void GetAllianceDetailsQueryHandler_CanReceiveWarDeclaration_Returns_False_For_Self() {
+            var builder = new FakeBuilder()
+                .BuildAlliance(1)
+                .WithMember(1);
+
+            var handler = new GetAllianceDetailsQueryHandler(builder.Context, new EnumFormatter());
+            var query = new GetAllianceDetailsQuery("test1@test.com", 1);
+
+            var result = handler.Execute(query);
+
+            result.CanReceiveWarDeclaration.Should().BeFalse();
+        }
+
+        public void GetAllianceDetailsQueryHandler_CanReceiveWarDeclaration_Returns_False_For_Existing_War() {
+            var builder = new FakeBuilder()
+                .WithAlliance(1, out var alliance)
+                .BuildAlliance(2)
+                .WithLeader(1)
+                .WithWar(1, alliance);
+
+            var handler = new GetAllianceDetailsQueryHandler(builder.Context, new EnumFormatter());
+            var query = new GetAllianceDetailsQuery("test1@test.com", 1);
+
+            var result = handler.Execute(query);
+
+            result.CanReceiveWarDeclaration.Should().BeFalse();
         }
 
         [TestMethod]

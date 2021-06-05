@@ -9,5 +9,6 @@ namespace WarOfEmpires.Models.Alliances {
         public string Leader { get; set; }
         public List<AllianceMemberViewModel> Members { get; set; }
         public bool CanReceiveNonAggressionPactRequest { get; set; }
+        public bool CanReceiveWarDeclaration { get; set; }
     }
 }

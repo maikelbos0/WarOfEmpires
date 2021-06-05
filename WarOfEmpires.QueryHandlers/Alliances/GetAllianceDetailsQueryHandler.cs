@@ -25,10 +25,12 @@ namespace WarOfEmpires.QueryHandlers.Alliances {
         [Audit]
         public AllianceDetailsViewModel Execute(GetAllianceDetailsQuery query) {
             var nonAggressionPactAlliances = new List<Alliance>();
+            var warAlliances = new List<Alliance>();
             var currentAlliance = _context.Players
                 .Include(p => p.Alliance)
                 .Include(p => p.Alliance.SentNonAggressionPactRequests).ThenInclude(r => r.Recipient)
                 .Include(p => p.Alliance.NonAggressionPacts).ThenInclude(n => n.Alliances)
+                .Include(p => p.Alliance.Wars).ThenInclude(w => w.Alliances)
                 .Single(p => EmailComparisonService.Equals(p.User.Email, query.Email))
                 .Alliance;
 
@@ -36,6 +38,8 @@ namespace WarOfEmpires.QueryHandlers.Alliances {
                 nonAggressionPactAlliances.Add(currentAlliance);
                 nonAggressionPactAlliances.AddRange(currentAlliance.SentNonAggressionPactRequests.Select(r => r.Recipient));
                 nonAggressionPactAlliances.AddRange(currentAlliance.NonAggressionPacts.SelectMany(p => p.Alliances));
+                warAlliances.Add(currentAlliance);
+                warAlliances.AddRange(currentAlliance.Wars.SelectMany(p => p.Alliances));
             }
 
             var alliance = _context.Alliances
@@ -62,7 +66,8 @@ namespace WarOfEmpires.QueryHandlers.Alliances {
                     Title = _formatter.ToString(p.Title),
                     Population = p.Peasants + p.Workers.Sum(w => w.Count) + p.Troops.Sum(t => t.GetTotals())
                 }).ToList(),
-                CanReceiveNonAggressionPactRequest = !nonAggressionPactAlliances.Contains(alliance)
+                CanReceiveNonAggressionPactRequest = !nonAggressionPactAlliances.Contains(alliance),
+                CanReceiveWarDeclaration = !warAlliances.Contains(alliance)
             };
         }
     }

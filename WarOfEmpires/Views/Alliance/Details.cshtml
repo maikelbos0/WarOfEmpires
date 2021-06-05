@@ -13,6 +13,11 @@
             <div class="btn-group">
                 @if (Model.CanReceiveNonAggressionPactRequest && AuthorizationService.IsAuthorized(new AllianceAuthorizationRequest() { CanManageNonAggressionPacts = true })) {
                     @Html.ActionLink("Send non-aggression pact request", "SendNonAggressionPactRequest", "Alliance", new { id = Model.Id }, new { @class = "btn btn-secondary" })
+                })
+
+                @if (Model.CanReceiveWarDeclaration && AuthorizationService.IsAuthorized(new AllianceAuthorizationRequest() { CanManageWars = true })) {
+                    //TODO action link
+                    @:Declare war
                 }
             </div>
         </div>
