@@ -11,11 +11,12 @@ namespace WarOfEmpires.Domain.Alliances {
         public virtual bool CanDeleteChatMessages { get; protected set; }
         public virtual bool CanKickMembers { get; protected set; }
         public virtual bool CanManageNonAggressionPacts { get; protected set; }
+        public virtual bool CanManageWars { get; protected set; }
 
         protected Role() {
         }
 
-        public Role(Alliance alliance, string name, bool canInvite, bool canManageRoles, bool canDeleteChatMessages, bool canKickMembers, bool canManageNonAggressionPacts) {
+        public Role(Alliance alliance, string name, bool canInvite, bool canManageRoles, bool canDeleteChatMessages, bool canKickMembers, bool canManageNonAggressionPacts, bool canManageWars) {
             Alliance = alliance;
             Name = name;
             CanInvite = canInvite;
@@ -23,6 +24,7 @@ namespace WarOfEmpires.Domain.Alliances {
             CanDeleteChatMessages = canDeleteChatMessages;
             CanKickMembers = canKickMembers;
             CanManageNonAggressionPacts = canManageNonAggressionPacts;
+            CanManageWars = canManageWars;
         }
     }
 }

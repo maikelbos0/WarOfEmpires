@@ -16,5 +16,7 @@ namespace WarOfEmpires.Models.Alliances {
         public bool CanKickMembers { get; set; }
         [DisplayName("Can manage non-aggression pacts")]
         public bool CanManageNonAggressionPacts { get; set; }
+        [DisplayName("Can manage wars")]
+        public bool CanManageWars { get; set; }
     }
 }

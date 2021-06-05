@@ -45,6 +45,11 @@
                 @Html.CheckBoxFor(m => m.CanManageNonAggressionPacts, new { @class = "form-check-input" })
                 @Html.LabelFor(m => m.CanManageNonAggressionPacts, new { @class = "form-check-label" })
             </div>
+
+            <div class="form-check">
+                @Html.CheckBoxFor(m => m.CanManageWars, new { @class = "form-check-input" })
+                @Html.LabelFor(m => m.CanManageWars, new { @class = "form-check-label" })
+            </div>
         </div>
     </div>
 

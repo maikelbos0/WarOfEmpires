@@ -52,8 +52,8 @@ namespace WarOfEmpires.Domain.Alliances {
             ChatMessages.Remove(chatMessage);
         }
 
-        public virtual void CreateRole(string name, bool canInvite, bool canManageRoles, bool canDeleteChatMessages, bool canKickMembers, bool canManageNonAggressionPacts) {
-            Roles.Add(new Role(this, name, canInvite, canManageRoles, canDeleteChatMessages, canKickMembers, canManageNonAggressionPacts));
+        public virtual void CreateRole(string name, bool canInvite, bool canManageRoles, bool canDeleteChatMessages, bool canKickMembers, bool canManageNonAggressionPacts, bool canManageWars) {
+            Roles.Add(new Role(this, name, canInvite, canManageRoles, canDeleteChatMessages, canKickMembers, canManageNonAggressionPacts, canManageWars));
         }
 
         public virtual void DeleteRole(Role role) {

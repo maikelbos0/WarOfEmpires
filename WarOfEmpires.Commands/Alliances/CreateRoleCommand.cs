@@ -7,8 +7,9 @@
         public bool CanDeleteChatMessages { get; }
         public bool CanKickMembers { get; }
         public bool CanManageNonAggressionPacts { get; }
+        public bool CanManageWars { get; }
 
-        public CreateRoleCommand(string email, string name, bool canInvite, bool canManageRoles, bool canDeleteChatMessages, bool canKickMembers, bool canManageNonAggressionPacts) {
+        public CreateRoleCommand(string email, string name, bool canInvite, bool canManageRoles, bool canDeleteChatMessages, bool canKickMembers, bool canManageNonAggressionPacts, bool canManageWars) {
             Email = email;
             Name = name;
             CanInvite = canInvite;
@@ -16,6 +17,7 @@
             CanDeleteChatMessages = canDeleteChatMessages;
             CanKickMembers = canKickMembers;
             CanManageNonAggressionPacts = canManageNonAggressionPacts;
+            CanManageWars = canManageWars;
         }
     }
 }
