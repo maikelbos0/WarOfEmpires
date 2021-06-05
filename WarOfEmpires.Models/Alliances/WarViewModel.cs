@@ -3,6 +3,7 @@
         public int AllianceId { get; set; }
         public string Code { get; set; }
         public string Name { get; set; }
+        public bool PeaceOffered { get; set; }
         public bool PeaceDeclared { get; set; }
     }
 }

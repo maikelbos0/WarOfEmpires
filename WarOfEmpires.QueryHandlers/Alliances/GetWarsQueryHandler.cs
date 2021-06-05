@@ -33,10 +33,10 @@ namespace WarOfEmpires.QueryHandlers.Alliances {
                     AllianceId = a.Id,
                     Code = a.Code,
                     Name = a.Name,
+                    PeaceOffered = w.PeaceDeclarations.Any(d => d == a),
                     PeaceDeclared = w.PeaceDeclarations.Any(d => d == alliance)
                 }))
                 .Where(p => p.AllianceId != alliance.Id);
-            throw new System.NotImplementedException();
         }
     }
 }

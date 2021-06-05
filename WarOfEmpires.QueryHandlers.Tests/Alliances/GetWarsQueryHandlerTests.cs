@@ -34,7 +34,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
                 .BuildAlliance(1)
                 .WithLeader(1)
                 .WithWar(2, secondAlliance)
-                .WithWar(1, firstAlliance, true);
+                .WithWar(1, firstAlliance, peaceDeclared: true, peaceOffered: true);
 
             var handler = new GetWarsQueryHandler(builder.Context);
             var query = new GetWarsQuery("test1@test.com");
@@ -46,6 +46,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
             result.First().Code.Should().Be("TEST");
             result.First().Name.Should().Be("Pact test");
             result.First().PeaceDeclared.Should().BeTrue();
+            result.First().PeaceOffered.Should().BeTrue();
         }
     }
 }

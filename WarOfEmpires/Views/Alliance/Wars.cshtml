@@ -20,6 +20,7 @@
         <tr>
             <th>Alliance code</th>
             <th>Alliance name</th>
+            <th>Peace offered</th>
             <th>Peace declared</th>
             <th></th>
         </tr>
@@ -30,6 +31,7 @@
             <tr>
                 <td class="table-form-label">@war.Code</td>
                 <td class="table-form-label">@war.Name</td>
+                <td class="table-form-label">@(war.PeaceOffered ? "Yes" : "No")</td>
                 <td class="table-form-label">@(war.PeaceDeclared ? "Yes" : "No")</td>
                 <td>
                     @if (war.PeaceDeclared) {
