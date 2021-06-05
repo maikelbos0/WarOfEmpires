@@ -56,6 +56,10 @@ namespace WarOfEmpires.Services {
                 return false;
             }
 
+            if (request.CanManageWars && !allianceRights.CanManageWars) {
+                return false;
+            }
+
             return true;
         }
     }
