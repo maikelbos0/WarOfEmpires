@@ -24,7 +24,7 @@ namespace WarOfEmpires.Services {
                     scope.ServiceProvider.GetRequiredService<IMessageService>().Dispatch(new RunScheduledTasksCommand());
                 }
 
-                await Task.Delay(5);
+                await Task.Delay(15 * 1000);
             }
         }
     }
