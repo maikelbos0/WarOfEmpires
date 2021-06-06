@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@inject AuthenticationService AuthenticationService
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -53,9 +55,14 @@
 
     @RenderSection("Scripts", required: false)
 
-    @* Global server-side variables needed before running manager scripts  *@
-    <script type="text/javascript">
-        NotificationManager.url = "@Url.Action("GetNotifications", "Player")";
-    </script>
+    @if (AuthenticationService.IsAuthenticated) {
+        <script type="text/javascript">
+            $(function () {
+                NotificationManager.url = "@Url.Action("GetNotifications", "Player")";
+                NotificationManager.refresh();
+                AjaxManager.onSuccess.push(NotificationManager.refresh);
+            });
+        </script>
+    }
 </body>
 </html>

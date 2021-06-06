@@ -212,10 +212,6 @@ let NotificationManager = {
     url: null,
 
     refresh: function () {
-        if (!$("#empire-resources").length) {
-            return;
-        }
-        
         $.ajax({
             url: NotificationManager.url,
             method: "POST",
@@ -239,11 +235,6 @@ let NotificationManager = {
         });
     }
 }
-
-$(function () {
-    NotificationManager.refresh();
-    AjaxManager.onSuccess.push(NotificationManager.refresh);
-});
 let PasswordStrength = {
     get: function (password) {
         if (password === null || password === undefined || password.toString().trim() === '') {

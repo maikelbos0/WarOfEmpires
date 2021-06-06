@@ -3,10 +3,6 @@
     url: null,
 
     refresh: function () {
-        if (!$("#empire-resources").length) {
-            return;
-        }
-        
         $.ajax({
             url: NotificationManager.url,
             method: "POST",
@@ -30,8 +26,3 @@
         });
     }
 }
-
-$(function () {
-    NotificationManager.refresh();
-    AjaxManager.onSuccess.push(NotificationManager.refresh);
-});
