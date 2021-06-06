@@ -6,7 +6,7 @@
 
 <h2>Alliance invite</h2>
 
-@using (Html.BeginForm("AcceptInvite", null, FormMethod.Post, new { data_success_message = "The invite has been accepted." })) {
+@using (Html.BeginForm("AcceptInvite", null, FormMethod.Post, new { @class = "html-only" })) {
     @Html.HiddenFor(m => m.Id)
     @Html.HiddenFor(m => m.AllianceCode)
     @Html.HiddenFor(m => m.AllianceName)
