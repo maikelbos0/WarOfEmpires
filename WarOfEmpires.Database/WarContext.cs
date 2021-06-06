@@ -33,7 +33,6 @@ namespace WarOfEmpires.Database {
 
         public override int SaveChanges() {
             DeleteOrphanedCaravans();
-            DeleteOrphanedChatMessages();
             DeleteOrphanedInvites();
             DeleteOrphanedMerchandise();
 
@@ -58,17 +57,8 @@ namespace WarOfEmpires.Database {
         }
 
         // TODO move to repository
-        private void DeleteOrphanedChatMessages() {
-            var orphans = GetChangeTrackerEntities<Alliances.ChatMessage>()
-                .Except(GetChangeTrackerEntities<Alliances.Alliance>().SelectMany(a => a.ChatMessages));
-
-            Set<Alliances.ChatMessage>().RemoveRange(orphans);
-        }
-
-        // TODO move to repository
         private void DeleteOrphanedInvites() {
             var orphans = GetChangeTrackerEntities<Alliances.Invite>()
-                .Except(GetChangeTrackerEntities<Alliances.Alliance>().SelectMany(a => a.Invites))
                 .Except(GetChangeTrackerEntities<Players.Player>().SelectMany(p => p.Invites));
 
             Set<Alliances.Invite>().RemoveRange(orphans);
