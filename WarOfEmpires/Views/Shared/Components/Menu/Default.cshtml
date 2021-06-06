@@ -89,12 +89,8 @@
                                     @Html.ActionLink("Leave alliance", "LeaveAlliance", "Alliance", null, new { @class = "dropdown-item" })
                                 }
 
-                                // TODO build confirmation page
                                 if (Model.CanDisbandAlliance) {
-                                    using (Html.BeginForm("Disband", "Alliance", FormMethod.Post, new { @class = "html-only d-inline" })) {
-                                        <div class="dropdown-divider"></div>
-                                        <button type="submit" class="btn btn-link dropdown-item">Disband</button>
-                                    }
+                                    @Html.ActionLink("Disband alliance", "DisbandAlliance", "Alliance", null, new { @class = "dropdown-item" })
                                 }
                             }
                             else {
