@@ -1,0 +1,38 @@
+﻿@model WarOfEmpires.Models.Alliances.DeclareWarModel
+
+@{
+    ViewBag.Title = "Declare war";
+}
+
+<h2>Declare war</h2>
+
+<p>
+    Declare war on another alliance below.
+    A war between two alliances causes attacks between members of those alliances to result in additional casualties.
+</p>
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { data_success_message = "War has been declared." })) {
+    @Html.HiddenFor(m => m.AllianceId)
+    @*@Html.HiddenFor(m => m.AllianceCode)
+    @Html.HiddenFor(m => m.AllianceName)*@
+
+    <div class="row">
+        <div class="col-12 col-md-6 offset-md-3">
+            @Html.ValidationSummary(true, null, new { @class = "site-validation-summary text-danger" })
+
+            <div class="mb-3">
+                <label>Alliance code</label>
+                @*<div class="form-control" readonly="readonly">@Model.AllianceCode</div>*@
+            </div>
+
+            <div class="mb-3">
+                <label>Alliance name</label>
+                @*<div class="form-control" readonly="readonly">@Model.AllianceName</div>*@
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-6 offset-6 col-md-3"><button type="submit" class="btn btn-primary w-100">Declare war</button></div>
+    </div>
+}

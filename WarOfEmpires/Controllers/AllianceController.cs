@@ -320,5 +320,21 @@ namespace WarOfEmpires.Controllers {
             // Explicitly name view so it works from other actions
             return View("Wars", _messageService.Dispatch(new GetWarsQuery(_authenticationService.Identity)));
         }
+
+        [AllianceAuthorize(CanManageWars = true)]
+        [HttpGet("DeclareWar")]
+        public ViewResult DeclareWar(int id) {
+            return View(new DeclareWarModel() {
+                AllianceId = id
+            });
+        }
+
+        [AllianceAuthorize(CanManageWars = true)]
+        [HttpPost("DeclareWar")]
+        public ViewResult DeclareWar(DeclareWarModel model) {
+            return BuildViewResultFor(new DeclareWarCommand(_authenticationService.Identity, model.AllianceId))
+                .OnSuccess(Wars)
+                .OnFailure("SendNonAggressionPactRequest", model);
+        }
     }
 }
