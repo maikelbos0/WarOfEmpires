@@ -31,46 +31,6 @@ namespace WarOfEmpires.Database {
                   .UseLazyLoadingProxies()
                   .Options) { }
 
-        public override int SaveChanges() {
-            DeleteOrphanedCaravans();
-            DeleteOrphanedInvites();
-            DeleteOrphanedMerchandise();
-
-            return base.SaveChanges();
-        }
-
-        // TODO cut
-        private IEnumerable<TEntity> GetChangeTrackerEntities<TEntity>() {
-            return ChangeTracker.Entries()
-                .Where(e => e.State != EntityState.Deleted)
-                .Select(e => e.Entity)
-                .OfType<TEntity>()
-                .ToList();
-        }
-
-        // TODO move to repository
-        private void DeleteOrphanedCaravans() {
-            var orphans = GetChangeTrackerEntities<Markets.Caravan>()
-                .Except(GetChangeTrackerEntities<Players.Player>().SelectMany(p => p.Caravans));
-
-            Set<Markets.Caravan>().RemoveRange(orphans);
-        }
-
-        // TODO move to repository
-        private void DeleteOrphanedInvites() {
-            var orphans = GetChangeTrackerEntities<Alliances.Invite>()
-                .Except(GetChangeTrackerEntities<Players.Player>().SelectMany(p => p.Invites));
-
-            Set<Alliances.Invite>().RemoveRange(orphans);
-        }
-
-        // TODO move to repository
-        private void DeleteOrphanedMerchandise() {
-            var orphans = GetChangeTrackerEntities<Markets.Merchandise>()
-                .Except(GetChangeTrackerEntities<Markets.Caravan>().SelectMany(c => c.Merchandise));
-
-            Set<Markets.Merchandise>().RemoveRange(orphans);
-        }
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
             base.OnModelCreating(modelBuilder);
 
