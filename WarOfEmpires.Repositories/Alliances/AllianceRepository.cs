@@ -24,6 +24,14 @@ namespace WarOfEmpires.Repositories.Alliances {
         }
 
         public void Remove(Alliance alliance) {
+            // Clean up children
+            _context.Set<Invite>().RemoveRange(alliance.Invites);
+            _context.Set<NonAggressionPact>().RemoveRange(alliance.NonAggressionPacts);
+            _context.Set<NonAggressionPactRequest>().RemoveRange(alliance.SentNonAggressionPactRequests);
+            _context.Set<NonAggressionPactRequest>().RemoveRange(alliance.ReceivedNonAggressionPactRequests);
+            _context.Set<Role>().RemoveRange(alliance.Roles);
+            _context.Set<War>().RemoveRange(alliance.Wars);
+
             _context.Alliances.Remove(alliance);
             _context.SaveChanges();
         }

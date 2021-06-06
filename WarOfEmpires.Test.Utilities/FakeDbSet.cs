@@ -20,6 +20,12 @@ namespace WarOfEmpires.Test.Utilities {
             return null;
         }
 
+        public override void RemoveRange(IEnumerable<TEntity> entities) {
+            foreach (var entity in entities) {
+                Remove(entity);
+            }
+        }
+
         IEnumerator<TEntity> IEnumerable<TEntity>.GetEnumerator() {
             return data.GetEnumerator();
         }

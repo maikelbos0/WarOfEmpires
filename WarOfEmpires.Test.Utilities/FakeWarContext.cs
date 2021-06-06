@@ -26,5 +26,9 @@ namespace WarOfEmpires.Test.Utilities {
 
         public void Dispose() {
         }
+
+        public DbSet<TEntity> Set<TEntity>() where TEntity : class {
+            return new FakeDbSet<TEntity>();
+        }
     }
 }

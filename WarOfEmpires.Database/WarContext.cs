@@ -36,12 +36,11 @@ namespace WarOfEmpires.Database {
             DeleteOrphanedChatMessages();
             DeleteOrphanedInvites();
             DeleteOrphanedMerchandise();
-            DeleteOrphanedNonAggressionPactRequests();
-            DeleteOrphanedRoles();
 
             return base.SaveChanges();
         }
 
+        // TODO cut
         private IEnumerable<TEntity> GetChangeTrackerEntities<TEntity>() {
             return ChangeTracker.Entries()
                 .Where(e => e.State != EntityState.Deleted)
@@ -50,6 +49,7 @@ namespace WarOfEmpires.Database {
                 .ToList();
         }
 
+        // TODO move to repository
         private void DeleteOrphanedCaravans() {
             var orphans = GetChangeTrackerEntities<Markets.Caravan>()
                 .Except(GetChangeTrackerEntities<Players.Player>().SelectMany(p => p.Caravans));
@@ -57,6 +57,7 @@ namespace WarOfEmpires.Database {
             Set<Markets.Caravan>().RemoveRange(orphans);
         }
 
+        // TODO move to repository
         private void DeleteOrphanedChatMessages() {
             var orphans = GetChangeTrackerEntities<Alliances.ChatMessage>()
                 .Except(GetChangeTrackerEntities<Alliances.Alliance>().SelectMany(a => a.ChatMessages));
@@ -64,6 +65,7 @@ namespace WarOfEmpires.Database {
             Set<Alliances.ChatMessage>().RemoveRange(orphans);
         }
 
+        // TODO move to repository
         private void DeleteOrphanedInvites() {
             var orphans = GetChangeTrackerEntities<Alliances.Invite>()
                 .Except(GetChangeTrackerEntities<Alliances.Alliance>().SelectMany(a => a.Invites))
@@ -72,29 +74,13 @@ namespace WarOfEmpires.Database {
             Set<Alliances.Invite>().RemoveRange(orphans);
         }
 
+        // TODO move to repository
         private void DeleteOrphanedMerchandise() {
             var orphans = GetChangeTrackerEntities<Markets.Merchandise>()
                 .Except(GetChangeTrackerEntities<Markets.Caravan>().SelectMany(c => c.Merchandise));
 
             Set<Markets.Merchandise>().RemoveRange(orphans);
         }
-
-        private void DeleteOrphanedNonAggressionPactRequests() {
-            var orphans = GetChangeTrackerEntities<Alliances.NonAggressionPactRequest>()
-                .Except(GetChangeTrackerEntities<Alliances.Alliance>().SelectMany(a => a.SentNonAggressionPactRequests))
-                .Except(GetChangeTrackerEntities<Alliances.Alliance>().SelectMany(a => a.ReceivedNonAggressionPactRequests));
-
-            Set<Alliances.NonAggressionPactRequest>().RemoveRange(orphans);
-        }
-
-        private void DeleteOrphanedRoles() {
-            var orphans = GetChangeTrackerEntities<Alliances.Role>()
-                .Except(GetChangeTrackerEntities<Alliances.Alliance>().SelectMany(a => a.Roles))
-                .Except(GetChangeTrackerEntities<Players.Player>().Select(p => p.AllianceRole));
-
-            Set<Alliances.Role>().RemoveRange(orphans);
-        }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
             base.OnModelCreating(modelBuilder);
 

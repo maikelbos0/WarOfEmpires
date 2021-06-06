@@ -15,5 +15,6 @@ namespace WarOfEmpires.Database {
         DbSet<Players.Player> Players { get; set; }
         DbSet<Events.ScheduledTask> ScheduledTasks { get; set; }
         int SaveChanges();
+        DbSet<TEntity> Set<TEntity>() where TEntity : class;
     }
 }
