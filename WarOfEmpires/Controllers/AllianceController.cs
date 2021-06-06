@@ -210,8 +210,14 @@ namespace WarOfEmpires.Controllers {
         }
 
         [AllianceAuthorize]
-        [HttpPost("LeaveAlliance")]
+        [HttpGet("LeaveAlliance")]
         public ViewResult LeaveAlliance() {
+            return View();
+        }
+
+        [AllianceAuthorize]
+        [HttpPost("LeaveAlliance")]
+        public ViewResult LeaveAlliancePost() {
             return BuildViewResultFor(new LeaveAllianceCommand(_authenticationService.Identity))
                 .OnSuccess(Index)
                 .ThrowOnFailure();
