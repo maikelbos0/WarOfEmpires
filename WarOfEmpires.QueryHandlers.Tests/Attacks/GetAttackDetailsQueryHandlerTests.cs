@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using WarOfEmpires.Domain.Attacks;
 using WarOfEmpires.Domain.Common;
+using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Queries.Attacks;
 using WarOfEmpires.QueryHandlers.Attacks;
 using WarOfEmpires.QueryHandlers.Common;
@@ -61,6 +62,38 @@ namespace WarOfEmpires.QueryHandlers.Tests.Attacks {
             result.Rounds[2].Damage.Should().Be(15000);
             result.Rounds[2].SoldierCasualties.Should().Be(6);
             result.Rounds[2].MercenaryCasualties.Should().Be(24);
+        }
+
+        [TestMethod]
+        public void GetAttackDetails_Handles_Inactive_Defender() {
+            var builder = new FakeBuilder()
+                .WithPlayer(1, out var defender, email: "defender@test.com", displayName: "Defender", status: UserStatus.Inactive)
+                .BuildPlayer(2, email: "attacker@test.com")
+                .WithAttackOn(1, defender, AttackType.Raid, AttackResult.Won);
+
+            var handler = new GetAttackDetailsQueryHandler(builder.Context, new ResourcesMap(), new EnumFormatter());
+            var query = new GetAttackDetailsQuery("attacker@test.com", 1);
+
+            var result = handler.Execute(query);
+
+            result.DefenderId.Should().BeNull();
+            result.Defender.Should().Be("Defender");
+        }
+
+        [TestMethod]
+        public void GetAttackDetails_Handles_Inactive_Attacker() {
+            var builder = new FakeBuilder()
+                .WithPlayer(1, out var defender, email: "defender@test.com")
+                .BuildPlayer(2, email: "attacker@test.com", displayName: "Attacker", status: UserStatus.Inactive)
+                .WithAttackOn(1, defender, AttackType.Raid, AttackResult.Won);
+
+            var handler = new GetAttackDetailsQueryHandler(builder.Context, new ResourcesMap(), new EnumFormatter());
+            var query = new GetAttackDetailsQuery("defender@test.com", 1);
+
+            var result = handler.Execute(query);
+
+            result.AttackerId.Should().BeNull();
+            result.Attacker.Should().Be("Attacker");
         }
 
         [TestMethod]

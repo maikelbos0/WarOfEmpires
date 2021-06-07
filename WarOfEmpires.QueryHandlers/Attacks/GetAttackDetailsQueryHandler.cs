@@ -2,6 +2,7 @@
 using System.Linq;
 using VDT.Core.DependencyInjection;
 using WarOfEmpires.Database;
+using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Models.Attacks;
 using WarOfEmpires.Queries.Attacks;
 using WarOfEmpires.QueryHandlers.Common;
@@ -44,12 +45,12 @@ namespace WarOfEmpires.QueryHandlers.Attacks {
                 Date = attack.Date,
                 Type = _formatter.ToString(attack.Type),
                 IsRead = isRead,
-                AttackerId = attack.Attacker.Id,
+                AttackerId = attack.Attacker.User.Status == UserStatus.Active ? attack.Attacker.Id : default(int?),
                 Attacker = attack.Attacker.DisplayName,
                 AttackerAllianceId = attack.Attacker.Alliance?.Id,
                 AttackerAllianceCode = attack.Attacker.Alliance?.Code,
                 AttackerAllianceName = attack.Attacker.Alliance?.Name,
-                DefenderId = attack.Defender.Id,
+                DefenderId = attack.Defender.User.Status == UserStatus.Active ? attack.Defender.Id : default(int?),
                 Defender = attack.Defender.DisplayName,
                 DefenderAllianceId = attack.Defender.Alliance?.Id,
                 DefenderAllianceCode = attack.Defender.Alliance?.Code,
