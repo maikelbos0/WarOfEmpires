@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 using System;
+using WarOfEmpires.Domain.Alliances;
 using WarOfEmpires.Queries.Players;
 using WarOfEmpires.QueryHandlers.Players;
 using WarOfEmpires.Test.Utilities;
@@ -38,8 +39,9 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
         public void GetCurrentPlayerQueryHandler_Returns_Correct_Information_IsAdmin_IsInAlliance() {
             var builder = new FakeBuilder()
                 .BuildAlliance(1)
-                .BuildMember(1); 
-            
+                .BuildMember(1);
+
+            builder.Player.AllianceRole.Returns((Role)null);
             builder.User.IsAdmin.Returns(true);
 
             var handler = new GetCurrentPlayerQueryHandler(builder.Context);
