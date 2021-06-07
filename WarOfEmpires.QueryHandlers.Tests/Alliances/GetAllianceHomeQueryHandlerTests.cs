@@ -38,6 +38,22 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
         }
 
         [TestMethod]
+        public void GetAllianceHomeQueryHandler_Handles_Inactive_Leader() {
+            var builder = new FakeBuilder()
+                .BuildAlliance(1)
+                .WithMember(1)
+                .WithLeader(3, status: UserStatus.Inactive);
+
+            var handler = new GetAllianceHomeQueryHandler(builder.Context);
+            var query = new GetAllianceHomeQuery("test1@test.com");
+
+            var result = handler.Execute(query);
+
+            result.LeaderId.Should().BeNull();
+            result.Leader.Should().Be("Test display name 3");
+        }
+
+        [TestMethod]
         public void GetAllianceHomeQueryHandler_Returns_Only_Recent_ChatMessages() {
             var builder = new FakeBuilder()
                 .BuildAlliance(1)

@@ -42,6 +42,22 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
             result.CanReceiveWarDeclaration.Should().BeTrue();
         }
 
+        [TestMethod]
+        public void GetAllianceDetailsQueryHandler_Handles_Inactive_Leader() {
+            var builder = new FakeBuilder()
+                .BuildAlliance(1)
+                .WithMember(1)
+                .WithLeader(3, status: UserStatus.Inactive);
+
+            var handler = new GetAllianceDetailsQueryHandler(builder.Context, new EnumFormatter());
+            var query = new GetAllianceDetailsQuery("test1@test.com", 1);
+
+            var result = handler.Execute(query);
+
+            result.LeaderId.Should().BeNull();
+            result.Leader.Should().Be("Test display name 3");
+        }
+
         public void GetAllianceDetailsQueryHandler_CanReceiveNonAggressionPactRequest_Returns_False_For_Allianceless() {
             var builder = new FakeBuilder()
                 .WithPlayer(1)

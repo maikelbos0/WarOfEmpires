@@ -44,7 +44,12 @@
 
         <div class="mb-3">
             <label>Leader</label>
-            @Html.ActionLink(Model.Leader, "Details", "Player", new { id = Model.LeaderId }, new { @class = "w-100 btn btn-secondary text-start" })
+            @if (Model.LeaderId == null) {
+                <div class="form-control" readonly="readonly">@Model.Leader</div>
+            }
+            else {
+                @Html.ActionLink(Model.Leader, "Details", "Player", new { id = Model.LeaderId }, new { @class = "w-100 btn btn-secondary text-start" })
+            }
         </div>
     </div>
 

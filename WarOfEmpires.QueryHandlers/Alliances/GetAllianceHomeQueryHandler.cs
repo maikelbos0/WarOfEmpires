@@ -45,7 +45,7 @@ namespace WarOfEmpires.QueryHandlers.Alliances {
                 Id = alliance.Id,
                 Code = alliance.Code,
                 Name = alliance.Name,
-                LeaderId = alliance.Leader.Id,
+                LeaderId = alliance.Leader.User.Status == UserStatus.Active ? alliance.Leader.Id : default(int?),
                 Leader = alliance.Leader.DisplayName,
                 Members = members.Select(p => new AllianceHomeMemberViewModel() {
                     Id = p.Id,

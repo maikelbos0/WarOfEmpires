@@ -57,7 +57,7 @@ namespace WarOfEmpires.QueryHandlers.Alliances {
                 Status = currentAlliance == null ? null : alliance.Id == currentAlliance.Id ? "Mine" : currentAlliance.NonAggressionPacts.Any(p => p.Alliances.Contains(alliance)) ? "Pact" : null,
                 Code = alliance.Code,
                 Name = alliance.Name,
-                LeaderId = alliance.Leader.Id,
+                LeaderId = alliance.Leader.User.Status == UserStatus.Active ? alliance.Leader.Id : default(int?),
                 Leader = alliance.Leader.DisplayName,
                 Members = members.Select(p => new AllianceMemberViewModel() {
                     Id = p.Id,
