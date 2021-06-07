@@ -16,7 +16,12 @@
 
         <div class="mb-3">
             <label>Sender</label>
-            <div class="form-control" readonly="readonly">@Model.Sender</div>
+            @if (Model.SenderId == null) {
+                <div class="form-control" readonly="readonly">@Model.Sender</div>
+            }
+            else {
+                @Html.ActionLink(Model.Sender, "Details", "Player", new { id = Model.SenderId }, new { @class = "w-100 btn btn-secondary text-start" })
+            }
         </div>
 
         <div class="mb-3">

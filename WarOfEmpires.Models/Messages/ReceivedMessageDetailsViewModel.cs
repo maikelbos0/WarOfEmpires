@@ -2,6 +2,7 @@
 
 namespace WarOfEmpires.Models.Messages {
     public sealed class ReceivedMessageDetailsViewModel : EntityViewModel {
+        public int? SenderId { get; set; }
         public string Sender { get; set; }
         public DateTime Date { get; set; }
         public string Subject { get; set; }
