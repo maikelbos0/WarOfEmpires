@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using VDT.Core.DependencyInjection;
 using WarOfEmpires.Database;
+using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Models.Messages;
 using WarOfEmpires.Queries.Messages;
 using WarOfEmpires.QueryHandlers.Decorators;
@@ -21,6 +22,7 @@ namespace WarOfEmpires.QueryHandlers.Messages {
                 .Where(p => EmailComparisonService.Equals(p.User.Email, query.Email))
                 .SelectMany(p => p.SentMessages.Select(m => new SentMessageDetailsViewModel() {
                     Id = m.Id,
+                    RecipientId = m.Recipient.User.Status == UserStatus.Active ? m.Recipient.Id : default(int?),
                     Recipient = m.Recipient.DisplayName,
                     Date = m.Date,
                     Subject = m.Subject,

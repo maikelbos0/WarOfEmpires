@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Queries.Messages;
 using WarOfEmpires.QueryHandlers.Messages;
 using WarOfEmpires.Test.Utilities;
@@ -22,9 +23,26 @@ namespace WarOfEmpires.QueryHandlers.Tests.Messages {
 
             result.Subject.Should().Be("Message subject");
             result.Body.Should().Be("Message body");
+            result.RecipientId.Should().Be(2);
             result.Recipient.Should().Be("Recipient test");
             result.Date.Should().Be(new DateTime(2019, 1, 1));
             result.IsRead.Should().BeFalse();
+        }
+
+        [TestMethod]
+        public void GetSentMessageQueryHandler_Handles_Inactive_Recipient() {
+            var builder = new FakeBuilder()
+                .WithPlayer(2, out var recipient, email: "recipient@test.com", displayName: "Recipient test", status: UserStatus.Inactive)
+                .BuildPlayer(1)
+                .WithMessageTo(1, recipient, new DateTime(2019, 1, 1));
+
+            var handler = new GetSentMessageQueryHandler(builder.Context);
+            var query = new GetSentMessageQuery("test1@test.com", 1);
+
+            var result = handler.Execute(query);
+
+            result.RecipientId.Should().BeNull();
+            result.Recipient.Should().Be("Recipient test");
         }
 
         [TestMethod]
