@@ -130,8 +130,13 @@ namespace WarOfEmpires.Domain.Players {
             );
         }
 
-        public virtual ICollection<Casualties> ProcessAttackDamage(long damage) {
-            var troops = Troops.Select(t => new { Troops = t, Info = GetTroopInfo(t.Type) });
+        public virtual ICollection<Casualties> ProcessAttackDamage(long damage) {            
+            var troops = Troops.Where(t => t.GetTotals() > 0).Select(t => new { Troops = t, Info = GetTroopInfo(t.Type) });
+
+            if (!troops.Any()) {
+                return new List<Casualties>();
+            }
+
             var totalDefence = troops.Sum(t => t.Info.GetTotalDefense());
             var casualties = troops.Select(t => t.Troops.ProcessCasualties((int)(t.Info.GetTotalDefense() * damage / totalDefence / AttackDamageModifier / t.Info.GetDefensePerSoldier())));
 

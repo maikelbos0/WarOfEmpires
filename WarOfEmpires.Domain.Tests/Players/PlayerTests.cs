@@ -680,6 +680,18 @@ namespace WarOfEmpires.Domain.Tests.Players {
         }
 
         [TestMethod]
+        public void Player_ProcessAttackDamage_Succeeds_Without_Troops() {
+            var player = new Player(0, "Test");
+
+            player.Troops.Add(new Troops(TroopType.Archers, 0, 0));
+
+            var casualties = player.ProcessAttackDamage(1);
+
+            casualties.Should().HaveCount(0);
+            player.Stamina.Should().Be(100);
+        }
+
+        [TestMethod]
         public void Player_ExecuteAttack_Succeeds() {
             var attacker = new Player(0, "Test 1");
             var defender = new Player(1, "Test 2");
