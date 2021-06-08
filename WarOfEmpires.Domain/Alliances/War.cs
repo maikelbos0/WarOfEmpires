@@ -15,5 +15,9 @@ namespace WarOfEmpires.Domain.Alliances {
                 }
             }
         }
+
+        public void CancelPeaceDeclaration(Alliance alliance) {
+            PeaceDeclarations.Remove(alliance);
+        }
     }
 }
