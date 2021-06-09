@@ -48,7 +48,6 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
         [TestMethod]
         public void DeleteRoleCommandHandler_Throws_Exception_For_Role_Of_Different_Alliance() {
             var builder = new FakeBuilder()
-                .WithPlayer(2, email: "wrong@test.com")
                 .BuildAlliance(1)
                 .WithMember(1)
                 .BuildAlliance(2)
