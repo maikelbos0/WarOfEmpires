@@ -6,7 +6,7 @@ namespace WarOfEmpires.Domain.Alliances {
         public virtual ICollection<Alliance> Alliances { get; set; } = new List<Alliance>();
         public virtual ICollection<Alliance> PeaceDeclarations { get; set; } = new List<Alliance>();
 
-        public void DeclarePeace(Alliance alliance) {
+        public virtual void DeclarePeace(Alliance alliance) {
             PeaceDeclarations.Add(alliance);
 
             if (!Alliances.Except(PeaceDeclarations).Any()) {
@@ -16,7 +16,7 @@ namespace WarOfEmpires.Domain.Alliances {
             }
         }
 
-        public void CancelPeaceDeclaration(Alliance alliance) {
+        public virtual void CancelPeaceDeclaration(Alliance alliance) {
             PeaceDeclarations.Remove(alliance);
         }
     }

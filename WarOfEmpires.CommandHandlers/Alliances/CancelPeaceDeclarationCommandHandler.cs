@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using VDT.Core.DependencyInjection;
 using WarOfEmpires.CommandHandlers.Decorators;
 using WarOfEmpires.Commands.Alliances;
@@ -15,7 +16,20 @@ namespace WarOfEmpires.CommandHandlers.Alliances {
 
         [Audit]
         public CommandResult<CancelPeaceDeclarationCommand> Execute(CancelPeaceDeclarationCommand command) {
-            throw new NotImplementedException();
+            var result = new CommandResult<CancelPeaceDeclarationCommand>();
+            var alliance = _repository.Get(command.Email);
+            var war = alliance.Wars.Single(w => w.Id == command.WarId);
+
+            if (!war.PeaceDeclarations.Contains(alliance)) {
+                throw new InvalidOperationException("You can't cancel a peace declaration because peace has not been declared");
+            }
+
+            if (result.Success) {
+                war.CancelPeaceDeclaration(alliance);
+                _repository.SaveChanges();
+            }
+
+            return result;
         }
     }
 }

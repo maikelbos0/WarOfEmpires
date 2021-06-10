@@ -45,7 +45,6 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
             action.Should().Throw<NullReferenceException>();
             war.DidNotReceiveWithAnyArgs().CancelPeaceDeclaration(default);
             builder.Context.CallsToSaveChanges.Should().Be(0);
-            throw new System.NotImplementedException();
         }
 
         [TestMethod]
