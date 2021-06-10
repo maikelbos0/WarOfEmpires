@@ -36,7 +36,7 @@ namespace WarOfEmpires.QueryHandlers.Alliances {
             return alliances.
                 Select(a => new AllianceViewModel() {
                     Id = a.Id,
-                    Status = a.Id == currentAllianceId ? "Mine" : a.NonAggressionPacts.Any(p => p.Alliances.Any(pa => pa.Id == currentAllianceId)) ? "Pact" : null,
+                    Status = a.Id == currentAllianceId ? "Mine" : a.NonAggressionPacts.Any(p => p.Alliances.Any(pa => pa.Id == currentAllianceId)) ? "Pact" : a.Wars.Any(w => w.Alliances.Any(wa => wa.Id == currentAllianceId)) ? "War" : null,
                     Code = a.Code,
                     Name = a.Name,
                     Members = a.Members.Count,

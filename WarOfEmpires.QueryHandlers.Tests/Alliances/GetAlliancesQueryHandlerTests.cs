@@ -86,6 +86,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
 
             builder.BuildAlliance(1)
                 .WithLeader(1)
+                .WithWar(1, builder.Alliance)
                 .WithNonAggressionPact(1, builder.Alliance);
 
             var handler = new GetAlliancesQueryHandler(builder.Context);
@@ -95,6 +96,25 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
 
             result.Should().HaveCount(1);
             result.Single().Status.Should().Be("Pact");
+        }
+
+        [TestMethod]
+        public void GetAlliancesQueryHandler_Returns_Correct_Status_For_War() {
+            var builder = new FakeBuilder()
+                .BuildAlliance(2, code: "TEST")
+                .WithLeader(2);
+
+            builder.BuildAlliance(1)
+                .WithLeader(1)
+                .WithWar(1, builder.Alliance);
+
+            var handler = new GetAlliancesQueryHandler(builder.Context);
+            var query = new GetAlliancesQuery("test1@test.com", "TEST", null);
+
+            var result = handler.Execute(query);
+
+            result.Should().HaveCount(1);
+            result.Single().Status.Should().Be("War");
         }
 
         [TestMethod]
