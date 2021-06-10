@@ -11,6 +11,10 @@
     A war between two alliances causes attacks between members of those alliances to result in additional casualties.
 </p>
 
+<p>
+    If you are already in a non-aggression pact with this alliance, you will not be able to attack its members until you've dissolved the pact.
+</p>
+
 @using (Html.BeginForm(null, null, FormMethod.Post, new { data_success_message = "War has been declared." })) {
     @Html.HiddenFor(m => m.AllianceId)
     @Html.HiddenFor(m => m.AllianceCode)
