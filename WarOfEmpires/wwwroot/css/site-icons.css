@@ -9,45 +9,45 @@
 }
 
 .si.si-gold::after {
-    background: url('icons/two-coins.svg');
+    background-image: url('icons/two-coins.svg');
 }
 
 .si.si-food::after {
-    background: url('icons/shiny-apple.svg');
+    background-image: url('icons/shiny-apple.svg');
 }
 
 .si.si-wood::after {
-    background: url('icons/pine-tree.svg');
+    background-image: url('icons/pine-tree.svg');
 }
 
 .si.si-stone::after {
-    background: url('icons/stone-block.svg');
+    background-image: url('icons/stone-block.svg');
 }
 
 .si.si-ore::after {
-    background: url('icons/ore.svg');
+    background-image: url('icons/ore.svg');
 }
 
 .si.si-attack::after {
-    background: url('icons/high-shot.svg');
+    background-image: url('icons/high-shot.svg');
 }
 
 .si.si-bank::after {
-    background: url('icons/locked-chest.svg');
+    background-image: url('icons/locked-chest.svg');
 }
 
 .si.si-maintenance::after {
-    background: url('icons/claw-hammer.svg');
+    background-image: url('icons/claw-hammer.svg');
 }
 
 .si.si-market::after {
-    background: url('icons/old-wagon.svg');
+    background-image: url('icons/old-wagon.svg');
 }
 
 .si.si-menu::after {
-    background: url('icons/open-book.svg');
+    background-image: url('icons/open-book.svg');
 }
 
 .si.si-search::after {
-    background: url('icons/magnifying-glass.svg');
+    background-image: url('icons/magnifying-glass.svg');
 }
