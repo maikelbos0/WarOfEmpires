@@ -346,5 +346,21 @@ namespace WarOfEmpires.Controllers {
                 .OnSuccess(Wars)
                 .OnFailure("DeclareWar", model);
         }
+
+        [AllianceAuthorize(CanManageWars = true)]
+        [HttpPost("CancelPeaceDeclaration")]
+        public ViewResult CancelPeaceDeclaration(int id) {
+            return BuildViewResultFor(new CancelPeaceDeclarationCommand(_authenticationService.Identity, id))
+                .OnSuccess(Wars)
+                .ThrowOnFailure();
+        }
+
+        [AllianceAuthorize(CanManageWars = true)]
+        [HttpPost("DeclarePeace")]
+        public ViewResult DeclarePeace(int id) {
+            return BuildViewResultFor(new DeclarePeaceCommand(_authenticationService.Identity, id))
+                .OnSuccess(Wars)
+                .ThrowOnFailure();
+        }
     }
 }
