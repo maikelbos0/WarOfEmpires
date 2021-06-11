@@ -28,7 +28,7 @@
         @if (!string.IsNullOrEmpty(Model.Status)) {
             <div class="mb-3">
                 <label>Status</label>
-                <div class="form-control" readonly="readonly">@Model.Status</div>
+                <div class="form-control site-form-control-status-@Model.Status.ToLower()" readonly="readonly">@Model.Status</div>
             </div>
         }
 

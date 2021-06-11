@@ -56,7 +56,7 @@
         }
 
         if (dataRow.status) {
-            cell.addClass("datagridview-cell-status-" + dataRow.status.toLowerCase());
+            cell.addClass("site-datagridview-cell-status-" + dataRow.status.toLowerCase());
         }
     }
 
