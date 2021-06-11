@@ -22,6 +22,7 @@ namespace WarOfEmpires.Domain.Attacks {
         public virtual Resources Resources { get; protected set; } = new Resources();
         public virtual AttackType Type { get; protected set; }
         public virtual ICollection<AttackRound> Rounds { get; protected set; } = new List<AttackRound>();
+        public virtual bool IsAtWar { get; protected set; }
 
         protected Attack() { }
 
