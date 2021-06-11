@@ -2,6 +2,8 @@
 using System.Linq;
 using VDT.Core.DependencyInjection;
 using WarOfEmpires.Database;
+using WarOfEmpires.Domain.Alliances;
+using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Models.Players;
 using WarOfEmpires.Queries.Players;
@@ -23,7 +25,8 @@ namespace WarOfEmpires.QueryHandlers.Players {
         [Audit]
         public PlayerDetailsViewModel Execute(GetPlayerDetailsQuery query) {
             var currentPlayer = _context.Players
-                .Include(p => p.Alliance)
+                .Include(p => p.Alliance).ThenInclude(a => a.Wars).ThenInclude(w => w.Alliances)
+                .Include(p => p.Alliance).ThenInclude(a => a.NonAggressionPacts).ThenInclude(p => p.Alliances)
                 .Single(p => EmailComparisonService.Equals(p.User.Email, query.Email));
             var currentAllianceId = currentPlayer.Alliance?.Id;
             
@@ -32,7 +35,6 @@ namespace WarOfEmpires.QueryHandlers.Players {
                 .Where(p => p.User.Status == UserStatus.Active && p.Id == query.Id)
                 .Select( p => new {
                     p.Id,
-                    Status = p.Id == currentPlayer.Id ? "Mine" : p.Alliance != null ? (p.Alliance.Id == currentAllianceId ? "Ally" : p.Alliance.NonAggressionPacts.Any(pact => pact.Alliances.Any(pa => pa.Id == currentAllianceId)) ? "Pact" : null) : null,
                     p.Rank,
                     p.Title,
                     p.DisplayName,
@@ -47,7 +49,7 @@ namespace WarOfEmpires.QueryHandlers.Players {
 
             return new PlayerDetailsViewModel() {
                 Id = player.Id,
-                Status = player.Status,
+                Status = GetStatus(currentPlayer, player.Id, player.Alliance),
                 Rank = player.Rank,
                 Title = _formatter.ToString(player.Title),
                 DisplayName = player.DisplayName,
@@ -57,6 +59,25 @@ namespace WarOfEmpires.QueryHandlers.Players {
                 AllianceName = player.Alliance?.Name,
                 CanBeAttacked = player.CanBeAttacked
             };
+        }
+
+        public string GetStatus(Player currentPlayer, int id, Alliance alliance) {
+            if (currentPlayer.Id == id) {
+                return "Mine";
+            }
+            else if (currentPlayer.Alliance != null && alliance != null) {
+                if (currentPlayer.Alliance == alliance) {
+                    return "Ally";
+                }
+                else if (currentPlayer.Alliance.NonAggressionPacts.Any(p => p.Alliances.Any(a => a == alliance))) {
+                    return "Pact";
+                }
+                else if (currentPlayer.Alliance.Wars.Any(w => w.Alliances.Any(a => a == alliance))) {
+                    return "War";
+                }
+            }
+
+            return null;
         }
     }
 }
