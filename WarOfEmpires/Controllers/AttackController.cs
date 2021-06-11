@@ -58,7 +58,7 @@ namespace WarOfEmpires.Controllers {
 
         [HttpGet("Execute")]
         public ViewResult Execute(int defenderId) {
-            return View(_messageService.Dispatch(new GetDefenderQuery(defenderId)));
+            return View(_messageService.Dispatch(new GetDefenderQuery(_authenticationService.Identity, defenderId)));
         }
 
         [HttpPost("Execute")]

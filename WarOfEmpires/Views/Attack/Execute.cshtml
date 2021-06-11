@@ -6,6 +6,12 @@
 
 <h2>Attack @Model.DisplayName</h2>
 
+@if (Model.IsAtWar) {
+    <ul class="text-muted">
+        <li class="text-danger">You are at war with this empire; attacks against them will cause more casualties than usual but the rewards will be greater if you win</li>
+    </ul>
+}
+
 @using (Html.BeginForm()) {
     @Html.HiddenFor(m => m.DefenderId)
 

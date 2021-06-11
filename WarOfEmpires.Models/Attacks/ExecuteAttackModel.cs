@@ -6,6 +6,7 @@ namespace WarOfEmpires.Models.Attacks {
         public int DefenderId { get; set; }
         public string DisplayName { get; set; }
         public int Population { get; set; }
+        public bool IsAtWar { get; set; }
 
         [DisplayName("Attack type")]
         [Required(ErrorMessage = "Attack type is required")]

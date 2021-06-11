@@ -2,9 +2,11 @@
 
 namespace WarOfEmpires.Queries.Attacks {
     public class GetDefenderQuery : IQuery<ExecuteAttackModel> {
+        public string Email { get; }
         public int Id { get; }
 
-        public GetDefenderQuery(int id) {
+        public GetDefenderQuery(string email, int id) {
+            Email = email;
             Id = id;
         }
     }
