@@ -65,6 +65,10 @@ function Grid(id, dataUrl) {
         if (dataRow.isRead === false) {
             cell.addClass("fw-bold");
         }
+
+        if (dataRow.status) {
+            cell.addClass("datagridview-cell-status-" + dataRow.status.toLowerCase());
+        }
     }
 
     this.addColumn = function (width, data, header, sortData, responsiveDisplayBehaviour) {

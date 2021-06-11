@@ -57,6 +57,22 @@
     color: var(--grid-body-txt-hover-color);
 }
 
+.datagridview-cell-status-mine:first-child {
+    background: linear-gradient(90deg, rgba(128, 255, 96, 1) 0%, rgba(255, 255, 255, 0) 100%);
+}
+
+.datagridview-cell-status-ally:first-child {
+    background: linear-gradient(90deg, rgba(128, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
+}
+
+.datagridview-cell-status-pact:first-child {
+    background: linear-gradient(90deg, rgba(224, 255, 128, 1) 0%, rgba(255, 255, 255, 0) 100%);
+}
+
+.datagridview-cell-status-war:first-child {
+    background: linear-gradient(90deg, rgba(255, 128, 96, 1) 0%, rgba(255, 255, 255, 0) 100%);
+}
+
 .datagridview-footer {
     padding: 0.2rem;
     color: var(--grid-footer-txt-color);
