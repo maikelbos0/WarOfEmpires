@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Linq;
+using WarOfEmpires.Domain.Alliances;
 using WarOfEmpires.Domain.Attacks;
 using WarOfEmpires.Domain.Common;
 using WarOfEmpires.Domain.Players;
@@ -10,6 +11,51 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
     [TestClass]
     public sealed class AttackTests {
         // All tests here apply to all attack types
+
+        [TestMethod]
+        public void Assault_IsAtWar_Is_Correct_For_No_Alliance() {
+            var attacker = new Player(1, "Attacker");
+            var defender = new Player(2, "Defender");
+
+            attacker.Troops.Add(new Troops(TroopType.Archers, 600, 200));
+
+            var attack = new Assault(attacker, defender, 10);
+
+            attack.IsAtWar.Should().BeFalse();
+        }
+
+        [TestMethod]
+        public void Assault_IsAtWar_Is_Correct_For_Alliance_Without_War() {            
+            var attacker = new Player(1, "Attacker");            
+            var defender = new Player(2, "Defender");
+            var attackerAlliance = new Alliance(attacker, "ATK", "The Attackers");
+            var defenderAlliance = new Alliance(defender, "DEF", "The Defenders");
+
+            typeof(Player).GetProperty(nameof(Player.Alliance)).SetValue(attacker, attackerAlliance);
+            typeof(Player).GetProperty(nameof(Player.Alliance)).SetValue(defender, defenderAlliance);
+            attacker.Troops.Add(new Troops(TroopType.Archers, 600, 200));
+
+            var attack = new Assault(attacker, defender, 10);
+
+            attack.IsAtWar.Should().BeFalse();
+        }
+
+        [TestMethod]
+        public void Assault_IsAtWar_Is_Correct_For_Alliance_With_War() {
+            var attacker = new Player(1, "Attacker");
+            var defender = new Player(2, "Defender");
+            var attackerAlliance = new Alliance(attacker, "ATK", "The Attackers");
+            var defenderAlliance = new Alliance(defender, "DEF", "The Defenders");
+
+            typeof(Player).GetProperty(nameof(Player.Alliance)).SetValue(attacker, attackerAlliance);
+            typeof(Player).GetProperty(nameof(Player.Alliance)).SetValue(defender, defenderAlliance);
+            attackerAlliance.DeclareWar(defenderAlliance);
+            attacker.Troops.Add(new Troops(TroopType.Archers, 600, 200));
+
+            var attack = new Assault(attacker, defender, 10);
+
+            attack.IsAtWar.Should().BeTrue();
+        }
 
         [TestMethod]
         public void Assault_Result_Is_Fatigued_for_Attacker_Without_Troops() {

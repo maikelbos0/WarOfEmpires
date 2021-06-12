@@ -34,13 +34,17 @@ namespace WarOfEmpires.Domain.Attacks {
             Attacker = attacker;
             Defender = defender;
             Turns = turns;
+
+            if (attacker.Alliance != null && defender.Alliance != null) {
+                IsAtWar = attacker.Alliance.Wars.Any(w => w.Alliances.Contains(defender.Alliance));
+            }
         }
 
         public void Execute() {
             if (Result != AttackResult.Undefined) throw new InvalidOperationException("An attack can't be executed more than once");
 
             var attackerStamina = Attacker.Stamina;
-            var defenderStamina = Defender.Stamina;            
+            var defenderStamina = Defender.Stamina;
 
             if (attackerStamina < AttackerMinimumStamina || Attacker.Troops.Sum(t => t.GetTotals()) == 0) {
                 Result = AttackResult.Fatigued;
@@ -81,7 +85,7 @@ namespace WarOfEmpires.Domain.Attacks {
             if (damage == 0) {
                 return;
             }
-            
+
             Rounds.Add(new AttackRound(
                 troopType,
                 isAggressor,
