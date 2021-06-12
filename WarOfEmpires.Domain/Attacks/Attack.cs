@@ -47,7 +47,7 @@ namespace WarOfEmpires.Domain.Attacks {
             }
             else if (IsSurrender()) {
                 Result = AttackResult.Surrendered;
-                Resources = GetBaseResources() * Turns * SurrenderResourcesPerTurn * GetArmyStrengthModifier(MinimumResourceArmyModifier);
+                Resources = GetResources(SurrenderResourcesPerTurn * GetArmyStrengthModifier(MinimumResourceArmyModifier));
             }
             else {
                 // Measure army strength before the fighting happens
@@ -63,12 +63,16 @@ namespace WarOfEmpires.Domain.Attacks {
 
                 if (Attacker.Stamina - attackerStamina > Defender.Stamina - defenderStamina) {
                     Result = AttackResult.Won;
-                    Resources = GetBaseResources() * Turns * WonResourcesPerTurn * armyStrengthModifier;
+                    Resources = GetResources(WonResourcesPerTurn * armyStrengthModifier);
                 }
                 else {
                     Result = AttackResult.Defended;
                 }
             }
+        }
+
+        private Resources GetResources(decimal modifier) {
+            return GetBaseResources() * Turns * modifier;
         }
 
         public void AddRound(int stamina, TroopType troopType, bool isAggressor, TroopInfo attackerTroopInfo, Player defender) {
