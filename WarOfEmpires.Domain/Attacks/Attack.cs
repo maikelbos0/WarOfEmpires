@@ -98,7 +98,7 @@ namespace WarOfEmpires.Domain.Attacks {
                 isAggressor,
                 attackerTroopInfo.Troops.GetTotals(),
                 damage,
-                defender.ProcessAttackDamage(damage)
+                defender.ProcessAttackDamage(damage, IsAtWar)
             ));
         }
 

@@ -15,6 +15,7 @@ namespace WarOfEmpires.Domain.Players {
         public const int BaseResourceProduction = 20;
         public static long[] BuildingRecruitingLevels = { 50000, 100000, 200000, 300000, 500000, 800000, 1200000, 2000000, 3000000, 5000000, 8000000, 12000000, 20000000, 30000000, 40000000, 50000000, 60000000, 70000000, 80000000, 90000000, 100000000, 110000000, 120000000, 130000000, 140000000, 150000000 };
         public const int AttackDamageModifier = 200;
+        public const decimal AttackWarCasualtiesModifier = 2.0m;
         public const int AttackStaminaDrainModifier = 2;
         public const int UpkeepWarningTurns = 48;
 
@@ -130,15 +131,16 @@ namespace WarOfEmpires.Domain.Players {
             );
         }
 
-        public virtual ICollection<Casualties> ProcessAttackDamage(long damage) {            
+        public virtual ICollection<Casualties> ProcessAttackDamage(long damage, bool isAtWar) {
             var troops = Troops.Where(t => t.GetTotals() > 0).Select(t => new { Troops = t, Info = GetTroopInfo(t.Type) });
 
             if (!troops.Any()) {
                 return new List<Casualties>();
             }
 
+            var warCasualtiesModifier = isAtWar ? AttackWarCasualtiesModifier : 1.0m;
             var totalDefence = troops.Sum(t => t.Info.GetTotalDefense());
-            var casualties = troops.Select(t => t.Troops.ProcessCasualties((int)(t.Info.GetTotalDefense() * damage / totalDefence / AttackDamageModifier / t.Info.GetDefensePerSoldier())));
+            var casualties = troops.Select(t => t.Troops.ProcessCasualties((int)(t.Info.GetTotalDefense() * damage * warCasualtiesModifier / totalDefence / AttackDamageModifier / t.Info.GetDefensePerSoldier())));
 
             Stamina = Math.Max(0, (int)(Stamina - damage * AttackStaminaDrainModifier / totalDefence));
 

@@ -636,7 +636,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
             var damage = player.Troops.Sum(t => player.GetTroopInfo(t.Type).GetTotalDefense());
 
-            player.ProcessAttackDamage(damage * 10);
+            player.ProcessAttackDamage(damage * 10, true);
 
             player.Stamina.Should().Be(80);
         }
@@ -651,11 +651,29 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
             var damage = player.Troops.Sum(t => player.GetTroopInfo(t.Type).GetTotalDefense());
 
-            player.ProcessAttackDamage(damage * 10);
+            player.ProcessAttackDamage(damage * 10, false);
 
             foreach (var troops in player.Troops) {
                 troops.Soldiers.Should().Be(150);
                 troops.Mercenaries.Should().Be(40);
+            }
+        }
+
+        [TestMethod]
+        public void Player_ProcessAttackDamage_Doubles_Casualties_At_War() {
+            var player = new Player(0, "Test");
+
+            player.Troops.Add(new Troops(TroopType.Archers, 150, 50));
+            player.Troops.Add(new Troops(TroopType.Cavalry, 150, 50));
+            player.Troops.Add(new Troops(TroopType.Footmen, 150, 50));
+
+            var damage = player.Troops.Sum(t => player.GetTroopInfo(t.Type).GetTotalDefense());
+
+            player.ProcessAttackDamage(damage * 10, true);
+
+            foreach (var troops in player.Troops) {
+                troops.Soldiers.Should().Be(150);
+                troops.Mercenaries.Should().Be(30);
             }
         }
 
@@ -669,7 +687,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
             var damage = player.Troops.Sum(t => player.GetTroopInfo(t.Type).GetTotalDefense());
 
-            var casualties = player.ProcessAttackDamage(damage * 10);
+            var casualties = player.ProcessAttackDamage(damage * 10, false);
 
             casualties.Should().HaveCount(3);
 
@@ -685,7 +703,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
             player.Troops.Add(new Troops(TroopType.Archers, 0, 0));
 
-            var casualties = player.ProcessAttackDamage(1);
+            var casualties = player.ProcessAttackDamage(1, true);
 
             casualties.Should().HaveCount(0);
             player.Stamina.Should().Be(100);
