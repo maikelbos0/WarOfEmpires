@@ -81,7 +81,9 @@ namespace WarOfEmpires.Domain.Attacks {
                 modifier *= WarResourcesModifier;
             }
 
-            return GetBaseResources() * Turns * modifier;
+            var resources = GetBaseResources() * Turns * modifier;
+
+            return resources - resources.SubtractSafe(Defender.Resources);
         }
 
         public void AddRound(int stamina, TroopType troopType, bool isAggressor, TroopInfo attackerTroopInfo, Player defender) {
