@@ -13,7 +13,7 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
         // All tests here apply to all attack types
 
         [TestMethod]
-        public void Assault_IsAtWar_Is_Correct_For_No_Alliance() {
+        public void Attack_IsAtWar_Is_Correct_For_No_Alliance() {
             var attacker = new Player(1, "Attacker");
             var defender = new Player(2, "Defender");
 
@@ -25,7 +25,7 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
         }
 
         [TestMethod]
-        public void Assault_IsAtWar_Is_Correct_For_Alliance_Without_War() {            
+        public void Attack_IsAtWar_Is_Correct_For_Alliance_Without_War() {            
             var attacker = new Player(1, "Attacker");            
             var defender = new Player(2, "Defender");
             var attackerAlliance = new Alliance(attacker, "ATK", "The Attackers");
@@ -41,7 +41,7 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
         }
 
         [TestMethod]
-        public void Assault_IsAtWar_Is_Correct_For_Alliance_With_War() {
+        public void Attack_IsAtWar_Is_Correct_For_Alliance_With_War() {
             var attacker = new Player(1, "Attacker");
             var defender = new Player(2, "Defender");
             var attackerAlliance = new Alliance(attacker, "ATK", "The Attackers");
@@ -58,7 +58,7 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
         }
 
         [TestMethod]
-        public void Assault_Result_Is_Fatigued_for_Attacker_Without_Troops() {
+        public void Attack_Result_Is_Fatigued_for_Attacker_Without_Troops() {
             var attacker = new Player(1, "Attacker");
             var defender = new Player(2, "Defender");
 
@@ -151,7 +151,7 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
         }
 
         [TestMethod]
-        public void Assault_Surrendered_At_War_Calculates_Correct_Resources() {
+        public void Attack_Surrendered_At_War_Calculates_Correct_Resources() {
             var attacker = new Player(1, "Attacker");
             var defender = new Player(2, "Defender");
 
@@ -174,7 +174,7 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
         }
 
         [TestMethod]
-        public void Assault_Won_At_War_Calculates_Correct_Resources() {
+        public void Attack_Won_At_War_Calculates_Correct_Resources() {
             var attacker = new Player(1, "Attacker");
             var defender = new Player(2, "Defender");
 
@@ -195,7 +195,7 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
         }
 
         [TestMethod]
-        public void Assault_Resources_Are_Never_More_Than_Defender_Resources() {
+        public void Attack_Resources_Are_Never_More_Than_Defender_Resources() {
             var attacker = new Player(1, "Attacker");
             var defender = new Player(2, "Defender");
 
