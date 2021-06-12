@@ -151,6 +151,73 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
         }
 
         [TestMethod]
+        public void Assault_Surrendered_At_War_Calculates_Correct_Resources() {
+            var attacker = new Player(1, "Attacker");
+            var defender = new Player(2, "Defender");
+
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(attacker, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(defender, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
+
+            attacker.Troops.Add(new Troops(TroopType.Archers, 600, 200));
+            defender.Troops.Add(new Troops(TroopType.Archers, 600, 200));
+
+            typeof(Player).GetProperty(nameof(Player.Stamina)).SetValue(defender, 29);
+
+            var expectedResources = new Resources(defender.Resources.Gold) * 0.25m * 2m;
+
+            var attack = new Assault(attacker, defender, 10);
+            typeof(Assault).GetProperty(nameof(Assault.IsAtWar)).SetValue(attack, true);
+
+            attack.Execute();
+
+            attack.Resources.Should().Be(expectedResources);
+        }
+
+        [TestMethod]
+        public void Assault_Won_At_War_Calculates_Correct_Resources() {
+            var attacker = new Player(1, "Attacker");
+            var defender = new Player(2, "Defender");
+
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(attacker, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(defender, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
+
+            attacker.Troops.Add(new Troops(TroopType.Archers, 600, 200));
+            defender.Troops.Add(new Troops(TroopType.Archers, 400, 100));
+
+            var expectedResources = new Resources(defender.Resources.Gold) * 0.5m * (500m / 800m) * 2m;
+
+            var attack = new Assault(attacker, defender, 10);
+            typeof(Assault).GetProperty(nameof(Assault.IsAtWar)).SetValue(attack, true);
+
+            attack.Execute();
+
+            attack.Resources.Should().Be(expectedResources);
+        }
+
+        [TestMethod]
+        public void Assault_Resources_Are_Never_More_Than_Defender_Resources() {
+            var attacker = new Player(1, "Attacker");
+            var defender = new Player(2, "Defender");
+
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(attacker, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(defender, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
+
+            attacker.Troops.Add(new Troops(TroopType.Archers, 600, 200));
+            defender.Troops.Add(new Troops(TroopType.Archers, 700, 220));
+
+            typeof(Player).GetProperty(nameof(Player.Stamina)).SetValue(defender, 50);
+
+            var expectedResources = new Resources(gold: 10000000);
+
+            var attack = new Assault(attacker, defender, 10);
+            typeof(Assault).GetProperty(nameof(Assault.IsAtWar)).SetValue(attack, true);
+
+            attack.Execute();
+
+            attack.Resources.Should().Be(expectedResources);
+        }
+
+        [TestMethod]
         public void Attack_Fatigued_Results_In_No_Resources() {
             var attacker = new Player(1, "Attacker");
             var defender = new Player(2, "Defender");

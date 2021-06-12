@@ -11,6 +11,7 @@ namespace WarOfEmpires.Domain.Attacks {
         public const int StaminaRandomModifier = 10;
         public const decimal SurrenderResourcesPerTurn = 0.025m;
         public const decimal WonResourcesPerTurn = 0.05m;
+        public const decimal WarResourcesModifier = 2.0m;
         public const decimal MinimumResourceArmyModifier = 0.5m;
 
         public virtual DateTime Date { get; protected set; }
@@ -76,6 +77,10 @@ namespace WarOfEmpires.Domain.Attacks {
         }
 
         private Resources GetResources(decimal modifier) {
+            if (IsAtWar) {
+                modifier *= WarResourcesModifier;
+            }
+
             return GetBaseResources() * Turns * modifier;
         }
 
