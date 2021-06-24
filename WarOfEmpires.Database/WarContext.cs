@@ -119,6 +119,10 @@ namespace WarOfEmpires.Database {
                 pr.Property(r => r.Ore).HasColumnName("BankedOre");
             });
             players.Navigation(a => a.BankedResources).IsRequired();
+            players.Property(p => p.GrandOverlordTime).HasConversion(
+                t => t.Ticks,
+                t => TimeSpan.FromTicks(t)
+            );
 
             var titleTypes = modelBuilder.Entity<TitleTypeEntity>().ToTable("TitleTypes", "Players");
             titleTypes.HasKey(t => t.Id);
