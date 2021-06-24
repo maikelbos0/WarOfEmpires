@@ -41,6 +41,7 @@ namespace WarOfEmpires.Domain.Players {
         public virtual bool HasUpkeepRunOut { get; protected set; } = false;
         public virtual bool HasNewMarketSales { get; set; } = false;
         public virtual int Rank { get; protected set; } = int.MaxValue;
+        public virtual TimeSpan GrandOverlordTime { get; protected set; } = TimeSpan.Zero;
         public virtual TitleType Title { get; protected set; } = TitleType.PeasantLeader;
         public virtual Alliance Alliance { get; protected set; }
         public virtual Role AllianceRole { get; protected set; }
@@ -500,9 +501,14 @@ namespace WarOfEmpires.Domain.Players {
             }
         }
 
-        public virtual void UpdateRank(int rank, TitleType title) {
+        // TODO make required
+        public virtual void UpdateRank(int rank, TitleType title, TimeSpan? timeSinceLastUpdate = null) {
             Rank = rank;
             Title = title;
+
+            if (title == TitleType.GrandOverlord) {
+                GrandOverlordTime += timeSinceLastUpdate ?? TimeSpan.Zero;
+            }
         }
 
         public virtual void SendMessage(Player recipient, string subject, string body) {
