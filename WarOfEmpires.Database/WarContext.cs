@@ -70,7 +70,7 @@ namespace WarOfEmpires.Database {
                 Events.ScheduledTask.Create<Empires.RecruitTaskTriggeredEvent>(1, new TimeSpan(1, 0, 0), Events.TaskExecutionMode.ExecuteAllIntervals),
                 Events.ScheduledTask.Create<Empires.TurnTaskTriggeredEvent>(2, new TimeSpan(0, 10, 0), Events.TaskExecutionMode.ExecuteAllIntervals),
                 Events.ScheduledTask.Create<Empires.BankTurnTaskTriggeredEvent>(3, new TimeSpan(4, 0, 0), Events.TaskExecutionMode.ExecuteAllIntervals),
-                Events.ScheduledTask.Create<Empires.UpdateRankTaskTriggeredEvent>(4, new TimeSpan(0, 2, 0), Events.TaskExecutionMode.ExecuteOnce)
+                Events.ScheduledTask.Create<Empires.UpdateRankTaskTriggeredEvent>(4, new TimeSpan(0, 1, 0), Events.TaskExecutionMode.ExecuteOnce)
             );
         }
 
