@@ -501,13 +501,12 @@ namespace WarOfEmpires.Domain.Players {
             }
         }
 
-        // TODO make required
-        public virtual void UpdateRank(int rank, TitleType title, TimeSpan? timeSinceLastUpdate = null) {
+        public virtual void UpdateRank(int rank, TitleType title) {
             Rank = rank;
             Title = title;
 
             if (title == TitleType.GrandOverlord) {
-                GrandOverlordTime += timeSinceLastUpdate ?? TimeSpan.Zero;
+                GrandOverlordTime += TimeSpan.FromMinutes(1);
             }
         }
 

@@ -1210,7 +1210,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
         public void Player_UpdateRank_Succeeds() {
             var player = new Player(0, "Test");
 
-            player.UpdateRank(5, TitleType.SubChieftain, TimeSpan.FromSeconds(65));
+            player.UpdateRank(5, TitleType.SubChieftain);
 
             player.Rank.Should().Be(5);
             player.Title.Should().Be(TitleType.SubChieftain);
@@ -1221,8 +1221,8 @@ namespace WarOfEmpires.Domain.Tests.Players {
         public void Player_UpdateRank_Updates_GrandOverlordTime() {
             var player = new Player(0, "Test");
 
-            player.UpdateRank(5, TitleType.GrandOverlord, TimeSpan.FromSeconds(65));
-            player.GrandOverlordTime.Should().Be(TimeSpan.FromSeconds(65));
+            player.UpdateRank(5, TitleType.GrandOverlord);
+            player.GrandOverlordTime.Should().Be(TimeSpan.FromMinutes(1));
         }
 
         [TestMethod]
