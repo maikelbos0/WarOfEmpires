@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NSubstitute;
 using System;
 using WarOfEmpires.Queries.Players;
 using WarOfEmpires.QueryHandlers.Players;
@@ -31,6 +32,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
             result.AllianceCode.Should().Be("FS");
             result.AllianceName.Should().Be("Føroyskir Samgonga");
             result.CanBeAttacked.Should().BeTrue();
+            result.GrandOverlordTime.Should().BeNull();
         }
 
         [TestMethod]
@@ -171,6 +173,19 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
             var result = handler.Execute(query);
 
             result.Status.Should().Be("War");
+        }
+
+        [TestMethod]
+        public void GetPlayerDetailsQueryHandler_Returns_GrandOverlordTime_If_Not_Zero() {
+            var builder = new FakeBuilder()
+                .BuildPlayer(1, grandOverlordTime: TimeSpan.FromMinutes(1234));
+
+            var handler = new GetPlayerDetailsQueryHandler(builder.Context, new EnumFormatter());
+            var query = new GetPlayerDetailsQuery("test1@test.com", 2);
+
+            var result = handler.Execute(query);
+
+            result.GrandOverlordTime.Should().Be(TimeSpan.FromMinutes(1234));
         }
 
         [TestMethod]

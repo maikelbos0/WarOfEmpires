@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Linq;
 using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Queries.Players;
@@ -31,7 +32,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
         public void GetPlayersQueryHandler_Returns_Correct_Information() {
             var builder = new FakeBuilder()
                 .BuildAlliance(1)
-                .BuildMember(1, rank: 5)
+                .BuildMember(1, rank: 5, grandOverlordTime: TimeSpan.FromMinutes(1234))
                 .WithPopulation();
 
             var handler = new GetPlayersQueryHandler(builder.Context, new EnumFormatter());
@@ -46,6 +47,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
             result.Single().DisplayName.Should().Be("Test display name 1");
             result.Single().Alliance.Should().Be("FS");
             result.Single().Population.Should().Be(49);
+            result.Single().GrandOverlordTime.Should().Be(TimeSpan.FromMinutes(1234));
         }
 
         [TestMethod]

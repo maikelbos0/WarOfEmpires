@@ -1,4 +1,5 @@
-﻿using WarOfEmpires.Models.Grids;
+﻿using System;
+using WarOfEmpires.Models.Grids;
 using WarOfEmpires.Utilities.Formatting;
 
 namespace WarOfEmpires.Models.Players {
@@ -18,5 +19,8 @@ namespace WarOfEmpires.Models.Players {
         public int Population { get; set; }
         [GridColumn(5, 10, "Population", SortData = nameof(Population), ResponsiveDisplayBehaviour = ResponsiveDisplayBehaviour.HiddenFromSmall)]
         public string PopulationString { get { return Population.ToString(StringFormat.Integer); } }
+        public TimeSpan GrandOverlordTime { get; set; }
+        [GridColumn(6, 10, "GO Time", SortData = nameof(GrandOverlordTime))]
+        public string GrandOverlordTimeString { get { return GrandOverlordTime > TimeSpan.Zero ? $"{(int)GrandOverlordTime.TotalHours}:{GrandOverlordTime.Minutes}" : null; } }
     }
 }

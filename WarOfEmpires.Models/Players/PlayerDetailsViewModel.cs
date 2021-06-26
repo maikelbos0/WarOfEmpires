@@ -1,4 +1,6 @@
-﻿namespace WarOfEmpires.Models.Players {
+﻿using System;
+
+namespace WarOfEmpires.Models.Players {
     public sealed class PlayerDetailsViewModel : EntityViewModel {
         public string Status { get; set; }
         public int Rank { get; set; }
@@ -9,5 +11,6 @@
         public int Population { get; set; }
         public string Title { get; set; }
         public bool CanBeAttacked { get; set; }
+        public TimeSpan? GrandOverlordTime { get; set; }
     }
 }
