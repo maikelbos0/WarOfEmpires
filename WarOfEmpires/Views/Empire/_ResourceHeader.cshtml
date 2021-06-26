@@ -1,46 +1,48 @@
 ﻿@model WarOfEmpires.Models.Empires.ResourceHeaderViewModel
 
-<div class="navbar-expand-lg d-flex flex-row-reverse justify-content-between align-items-start">
-    <button class="navbar-toggler btn shadow-none" type="button" data-bs-toggle="collapse" data-target="#empire-resources-collapse" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <div class="px-2 py-1"><icon type="Menu" /></div>
-    </button>
-    <div id="empire-resources-collapse" class="collapse d-lg-flex justify-content-end align-items-center">
-        <div class="p-1 d-flex flex-row align-items-center">
-            <div class="p-1">
-                <div class="text-warning">@Model.Resources.Gold.ToString(StringFormat.Integer)</div>
-                <div class="text-muted">@Model.BankedResources.Gold.ToString(StringFormat.Integer)</div>
+<div class="bg-light px-2 py-0">
+    <div class="navbar-expand-lg d-flex flex-row-reverse justify-content-between align-items-start">
+        <button class="navbar-toggler btn shadow-none" type="button" data-bs-toggle="collapse" data-target="#empire-resources-collapse" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <div class="px-2 py-1"><icon type="Menu" /></div>
+        </button>
+        <div id="empire-resources-collapse" class="collapse d-lg-flex justify-content-end align-items-center">
+            <div class="p-1 d-flex flex-row align-items-center">
+                <div class="p-1">
+                    <div class="text-warning">@Model.Resources.Gold.ToString(StringFormat.Integer)</div>
+                    <div class="text-muted">@Model.BankedResources.Gold.ToString(StringFormat.Integer)</div>
+                </div>
+                <div class="p-1"><icon type="Gold" /></div>
             </div>
-            <div class="p-1"><icon type="Gold" /></div>
-        </div>
-        <div class="p-1 d-flex flex-row align-items-center">
-            <div class="p-1">
-                <div class="text-warning">@Model.Resources.Food.ToString(StringFormat.Integer)</div>
-                <div class="text-muted">@Model.BankedResources.Food.ToString(StringFormat.Integer)</div>
+            <div class="p-1 d-flex flex-row align-items-center">
+                <div class="p-1">
+                    <div class="text-warning">@Model.Resources.Food.ToString(StringFormat.Integer)</div>
+                    <div class="text-muted">@Model.BankedResources.Food.ToString(StringFormat.Integer)</div>
+                </div>
+                <div class="p-1"><icon type="Food" /></div>
             </div>
-            <div class="p-1"><icon type="Food" /></div>
-        </div>
-        <div class="p-1 d-flex flex-row align-items-center">
-            <div class="p-1">
-                <div class="text-warning">@Model.Resources.Wood.ToString(StringFormat.Integer)</div>
-                <div class="text-muted">@Model.BankedResources.Wood.ToString(StringFormat.Integer)</div>
+            <div class="p-1 d-flex flex-row align-items-center">
+                <div class="p-1">
+                    <div class="text-warning">@Model.Resources.Wood.ToString(StringFormat.Integer)</div>
+                    <div class="text-muted">@Model.BankedResources.Wood.ToString(StringFormat.Integer)</div>
+                </div>
+                <div class="p-1"><icon type="Wood" /></div>
             </div>
-            <div class="p-1"><icon type="Wood" /></div>
-        </div>
-        <div class="p-1 d-flex flex-row align-items-center">
-            <div class="p-1">
-                <div class="text-warning">@Model.Resources.Stone.ToString(StringFormat.Integer)</div>
-                <div class="text-muted">@Model.BankedResources.Stone.ToString(StringFormat.Integer)</div>
+            <div class="p-1 d-flex flex-row align-items-center">
+                <div class="p-1">
+                    <div class="text-warning">@Model.Resources.Stone.ToString(StringFormat.Integer)</div>
+                    <div class="text-muted">@Model.BankedResources.Stone.ToString(StringFormat.Integer)</div>
+                </div>
+                <div class="p-1"><icon type="Stone" /></div>
             </div>
-            <div class="p-1"><icon type="Stone" /></div>
-        </div>
-        <div class="p-1 d-flex flex-row align-items-center">
-            <div class="p-1">
-                <div class="text-warning">@Model.Resources.Ore.ToString(StringFormat.Integer)</div>
-                <div class="text-muted">@Model.BankedResources.Ore.ToString(StringFormat.Integer)</div>
+            <div class="p-1 d-flex flex-row align-items-center">
+                <div class="p-1">
+                    <div class="text-warning">@Model.Resources.Ore.ToString(StringFormat.Integer)</div>
+                    <div class="text-muted">@Model.BankedResources.Ore.ToString(StringFormat.Integer)</div>
+                </div>
+                <div class="p-1"><icon type="Ore" /></div>
             </div>
-            <div class="p-1"><icon type="Ore" /></div>
+            <div class="p-2">@Model.AttackTurns.ToString(StringFormat.Integer) <icon type="Attack" /></div>
+            <div class="p-2">@Model.BankTurns.ToString(StringFormat.Integer) <icon type="Bank" /></div>
         </div>
-        <div class="p-2">@Model.AttackTurns.ToString(StringFormat.Integer) <icon type="Attack" /></div>
-        <div class="p-2">@Model.BankTurns.ToString(StringFormat.Integer) <icon type="Bank" /></div>
     </div>
 </div>
