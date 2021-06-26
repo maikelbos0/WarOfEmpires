@@ -1,5 +1,8 @@
-﻿using VDT.Core.DependencyInjection;
+﻿using System.Linq;
+using VDT.Core.DependencyInjection;
 using WarOfEmpires.Database;
+using WarOfEmpires.Domain.Players;
+using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Models.Players;
 using WarOfEmpires.Queries.Players;
 using WarOfEmpires.QueryHandlers.Decorators;
@@ -15,7 +18,13 @@ namespace WarOfEmpires.QueryHandlers.Players {
 
         [Audit]
         public VictoryStatusViewModel Execute(GetVictoryStatusQuery query) {
-            throw new System.NotImplementedException();
+            var grandOverlord = _context.Players.SingleOrDefault(p => p.Title == TitleType.GrandOverlord && p.User.Status == UserStatus.Active);
+
+            return new VictoryStatusViewModel() {
+                CurrentGrandOverlordId = grandOverlord?.Id,
+                CurrentGrandOverlord = grandOverlord?.DisplayName,
+                GrandOverlordTime = grandOverlord?.GrandOverlordTime
+            };
         }
     }
 }
