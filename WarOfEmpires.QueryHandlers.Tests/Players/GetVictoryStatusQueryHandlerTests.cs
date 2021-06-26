@@ -1,6 +1,5 @@
 ﻿using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NSubstitute;
 using System;
 using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Domain.Security;
@@ -29,9 +28,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
         [TestMethod]
         public void GetVictoryStatusQueryHandler_Returns_GrandOverlord_If_Available() {
             var builder = new FakeBuilder()
-                .BuildPlayer(1, displayName: "Winner", title: TitleType.GrandOverlord);
-
-            builder.Player.GrandOverlordTime.Returns(TimeSpan.FromMinutes(1234));
+                .BuildPlayer(1, displayName: "Winner", title: TitleType.GrandOverlord, grandOverlordTime: TimeSpan.FromMinutes(1234));
 
             var handler = new GetVictoryStatusQueryHandler(builder.Context);
             var query = new GetVictoryStatusQuery();
