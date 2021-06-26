@@ -181,7 +181,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
                 .BuildPlayer(1, grandOverlordTime: TimeSpan.FromMinutes(1234));
 
             var handler = new GetPlayerDetailsQueryHandler(builder.Context, new EnumFormatter());
-            var query = new GetPlayerDetailsQuery("test1@test.com", 2);
+            var query = new GetPlayerDetailsQuery("test1@test.com", 1);
 
             var result = handler.Execute(query);
 

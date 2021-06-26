@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 using VDT.Core.DependencyInjection;
 using WarOfEmpires.Database;
@@ -43,6 +44,7 @@ namespace WarOfEmpires.QueryHandlers.Players {
                         + (p.Troops.Sum(t => (int?)t.Soldiers) ?? 0)
                         + (p.Troops.Sum(t => (int?)t.Mercenaries) ?? 0),
                     p.Alliance,
+                    p.GrandOverlordTime,
                     CanBeAttacked = p.Id != currentPlayer.Id && (p.Alliance == null || (p.Alliance.Id != currentAllianceId && !p.Alliance.NonAggressionPacts.Any(pact => pact.Alliances.Any(pa => pa.Id == currentAllianceId))))
                 })
                 .Single();
@@ -57,7 +59,8 @@ namespace WarOfEmpires.QueryHandlers.Players {
                 AllianceId = player.Alliance?.Id,
                 AllianceCode = player.Alliance?.Code,
                 AllianceName = player.Alliance?.Name,
-                CanBeAttacked = player.CanBeAttacked
+                CanBeAttacked = player.CanBeAttacked,
+                GrandOverlordTime = player.GrandOverlordTime == TimeSpan.Zero ? null : player.GrandOverlordTime
             };
         }
 
