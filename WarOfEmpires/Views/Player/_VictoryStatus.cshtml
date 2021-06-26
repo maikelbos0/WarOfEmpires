@@ -1,0 +1,8 @@
+﻿@model WarOfEmpires.Models.Players.VictoryStatusViewModel
+
+@if (Model.CurrentGrandOverlordId.HasValue && Model.GrandOverlordTime.HasValue) {
+    <div class="bg-warning p-2 text-center fw-bold">
+        @Html.ActionLink(Model.CurrentGrandOverlord, "Details", "Player", new { id = Model.CurrentGrandOverlordId }) has been Grand Overlord 
+        for @((int)Model.GrandOverlordTime.Value.TotalHours) hours and @Model.GrandOverlordTime.Value.Minutes minutes. When they reach 36 hours they will win!
+    </div>
+}
