@@ -3,6 +3,7 @@ using System;
 using System.Linq;
 using WarOfEmpires.Domain.Alliances;
 using WarOfEmpires.Domain.Events;
+using WarOfEmpires.Domain.Game;
 using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Domain.Security;
 
@@ -72,6 +73,20 @@ namespace WarOfEmpires.Test.Utilities {
 
         public FakeBuilder WithScheduledTask(int id, bool isPaused, Type eventType = null, int successCalls = 0) {
             return WithScheduledTask(id, out _, isPaused, eventType, successCalls);
+        }
+
+        public FakeBuilder WithGameStatus(int id, out GameStatus gameStatus) {
+            gameStatus = Substitute.For<GameStatus>();
+
+            gameStatus.Id.Returns(id);
+
+            Context.GameStatus.Add(gameStatus);
+
+            return this;
+        }
+
+        public FakeBuilder WithGameStatus(int id) {
+            return WithGameStatus(id, out _);
         }
     }
 }
