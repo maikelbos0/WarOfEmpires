@@ -75,18 +75,20 @@ namespace WarOfEmpires.Test.Utilities {
             return WithScheduledTask(id, out _, isPaused, eventType, successCalls);
         }
 
-        public FakeBuilder WithGameStatus(int id, out GameStatus gameStatus) {
+        public FakeBuilder WithGameStatus(int id, out GameStatus gameStatus, Player grandOverlord = null, GamePhase phase = GamePhase.Active) {
             gameStatus = Substitute.For<GameStatus>();
 
             gameStatus.Id.Returns(id);
+            gameStatus.CurrentGrandOverlord.Returns(grandOverlord);
+            gameStatus.Phase.Returns(phase);
 
             Context.GameStatus.Add(gameStatus);
 
             return this;
         }
 
-        public FakeBuilder WithGameStatus(int id) {
-            return WithGameStatus(id, out _);
+        public FakeBuilder WithGameStatus(int id, Player grandOverlord = null, GamePhase phase = GamePhase.Active) {
+            return WithGameStatus(id, out _, grandOverlord, phase);
         }
     }
 }
