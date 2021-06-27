@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using VDT.Core.DependencyInjection;
 using WarOfEmpires.Database.ReferenceEntities;
 using WarOfEmpires.Utilities.Configuration;
@@ -10,6 +9,7 @@ using Attacks = WarOfEmpires.Domain.Attacks;
 using Auditing = WarOfEmpires.Domain.Auditing;
 using Empires = WarOfEmpires.Domain.Empires;
 using Events = WarOfEmpires.Domain.Events;
+using Game = WarOfEmpires.Domain.Game;
 using Markets = WarOfEmpires.Domain.Markets;
 using Players = WarOfEmpires.Domain.Players;
 using Security = WarOfEmpires.Domain.Security;
@@ -18,6 +18,7 @@ using Siege = WarOfEmpires.Domain.Siege;
 namespace WarOfEmpires.Database {
     [ScopedServiceImplementation(typeof(IWarContext))]
     public class WarContext : DbContext, IWarContext {
+        public DbSet<Game.GameStatus> GameStatus { get; set; }
         public DbSet<Security.User> Users { get; set; }
         public DbSet<Auditing.CommandExecution> CommandExecutions { get; set; }
         public DbSet<Auditing.QueryExecution> QueryExecutions { get; set; }
@@ -34,12 +35,27 @@ namespace WarOfEmpires.Database {
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
             base.OnModelCreating(modelBuilder);
 
+            OnGameModelCreating(modelBuilder);
             OnAuditingModelCreating(modelBuilder);
             OnEventsModelCreating(modelBuilder);
             OnPlayersModelCreating(modelBuilder);
             OnAllianceModelCreating(modelBuilder);
             OnAttacksModelCreating(modelBuilder);
             OnSecurityModelCreating(modelBuilder);
+        }
+
+        private void OnGameModelCreating(ModelBuilder modelBuilder) {
+            var gamePhase = modelBuilder.Entity<GamePhaseEntity>().ToTable("GamePhases", "Game");
+            gamePhase.HasKey(p => p.Id);
+            gamePhase.HasMany(p => p.GameStatus).WithOne().IsRequired().HasForeignKey(s => s.Phase);
+            gamePhase.Property(p => p.Name).IsRequired();
+            gamePhase.HasData(ReferenceEntityExtensions.GetValues<Game.GamePhase, GamePhaseEntity>());
+
+            var gameStatus = modelBuilder.Entity<Game.GameStatus>().ToTable("GameStatus", "Game");
+            gameStatus.HasKey(s => s.Id);
+            gameStatus.Property(s => s.Id).ValueGeneratedNever();
+            gameStatus.HasOne(s => s.CurrentGrandOverlord).WithMany();
+            gameStatus.HasData(new Game.GameStatus() { Id = 1, Phase = Game.GamePhase.Truce });
         }
 
         private void OnAuditingModelCreating(ModelBuilder modelBuilder) {

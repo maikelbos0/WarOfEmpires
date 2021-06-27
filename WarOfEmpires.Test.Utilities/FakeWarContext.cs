@@ -3,12 +3,14 @@ using Microsoft.EntityFrameworkCore;
 using Alliances = WarOfEmpires.Domain.Alliances;
 using Auditing = WarOfEmpires.Domain.Auditing;
 using Events = WarOfEmpires.Domain.Events;
+using Game = WarOfEmpires.Domain.Game;
 using Players = WarOfEmpires.Domain.Players;
 using Security = WarOfEmpires.Domain.Security;
 
 namespace WarOfEmpires.Test.Utilities {
 
     public sealed class FakeWarContext : IWarContext {
+        public DbSet<Game.GameStatus> GameStatus { get; set; } = new FakeDbSet<Game.GameStatus>();
         public DbSet<Security.User> Users { get; set; } = new FakeDbSet<Security.User>();
         public DbSet<Auditing.CommandExecution> CommandExecutions { get; set; } = new FakeDbSet<Auditing.CommandExecution>();
         public DbSet<Auditing.QueryExecution> QueryExecutions { get; set; } = new FakeDbSet<Auditing.QueryExecution>();

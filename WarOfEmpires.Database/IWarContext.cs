@@ -3,11 +3,13 @@ using System;
 using Alliances = WarOfEmpires.Domain.Alliances;
 using Auditing = WarOfEmpires.Domain.Auditing;
 using Events = WarOfEmpires.Domain.Events;
+using Game = WarOfEmpires.Domain.Game;
 using Players = WarOfEmpires.Domain.Players;
 using Security = WarOfEmpires.Domain.Security;
 
 namespace WarOfEmpires.Database {
     public interface IWarContext : IDisposable {
+        DbSet<Game.GameStatus> GameStatus { get; set; }
         DbSet<Security.User> Users { get; set; }
         DbSet<Auditing.CommandExecution> CommandExecutions { get; set; }
         DbSet<Auditing.QueryExecution> QueryExecutions { get; set; }
