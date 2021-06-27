@@ -35,10 +35,5 @@ namespace WarOfEmpires.Controllers {
         public JsonResult GetNotifications() {
             return Json(_messageService.Dispatch(new GetNotificationsQuery(_authenticationService.Identity)));
         }
-
-        [HttpGet("_VictoryStatus")]
-        public PartialViewResult _VictoryStatus() {
-            return PartialView(_messageService.Dispatch(new GetVictoryStatusQuery()));
-        }
     }
 }
