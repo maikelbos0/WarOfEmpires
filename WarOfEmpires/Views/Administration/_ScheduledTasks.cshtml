@@ -7,7 +7,7 @@
 
     @if (Model != true) {
         <div class="col-6 col-md-3">
-            @using (Html.BeginForm("PauseScheduledTasks", "Administration", FormMethod.Post, new { data_success_message = "All scheduled tasks have been paused." })) {
+            @using (Html.BeginForm("_PauseScheduledTasks", "Administration", FormMethod.Post, new { data_success_message = "All scheduled tasks have been paused." })) {
                 <button type="submit" class="btn btn-primary w-100">Pause</button>
             }
         </div>
@@ -15,7 +15,7 @@
 
     @if (Model != false) {
         <div class="col-6 col-md-3">
-            @using (Html.BeginForm("UnpauseScheduledTasks", "Administration", FormMethod.Post, new { data_success_message = "All scheduled tasks have been unpaused." })) {
+            @using (Html.BeginForm("_UnpauseScheduledTasks", "Administration", FormMethod.Post, new { data_success_message = "All scheduled tasks have been unpaused." })) {
                 <button type="submit" class="btn btn-primary w-100">Unpause</button>
             }
         </div>

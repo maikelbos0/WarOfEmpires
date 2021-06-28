@@ -21,23 +21,23 @@ namespace WarOfEmpires.Controllers {
             return View();
         }
 
-        [HttpGet("ScheduledTasks")]
-        public PartialViewResult ScheduledTasks() {
+        [HttpGet("_ScheduledTasks")]
+        public PartialViewResult _ScheduledTasks() {
             // Explicitly name view so it works from other actions
-            return PartialView("ScheduledTasks", _messageService.Dispatch(new GetScheduledTasksPausedQuery()));
+            return PartialView("_ScheduledTasks", _messageService.Dispatch(new GetScheduledTasksPausedQuery()));
         }
 
-        [HttpPost("UnpauseScheduledTasks")]
-        public PartialViewResult UnpauseScheduledTasks() {
+        [HttpPost("_UnpauseScheduledTasks")]
+        public PartialViewResult _UnpauseScheduledTasks() {
             return BuildPartialViewResultFor(new UnpauseScheduledTasksCommand())
-                .OnSuccess(ScheduledTasks)
+                .OnSuccess(_ScheduledTasks)
                 .ThrowOnFailure();
         }
 
-        [HttpPost("PauseScheduledTasks")]
-        public PartialViewResult PauseScheduledTasks() {
+        [HttpPost("_PauseScheduledTasks")]
+        public PartialViewResult _PauseScheduledTasks() {
             return BuildPartialViewResultFor(new PauseScheduledTasksCommand())
-                .OnSuccess(ScheduledTasks)
+                .OnSuccess(_ScheduledTasks)
                 .ThrowOnFailure();
         }
     }
