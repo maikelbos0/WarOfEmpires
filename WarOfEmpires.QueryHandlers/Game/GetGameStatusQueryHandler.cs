@@ -19,7 +19,8 @@ namespace WarOfEmpires.QueryHandlers.Players {
             return _context.GameStatus.Select(s => new GameStatusViewModel() {
                 CurrentGrandOverlordId = s.CurrentGrandOverlord.Id,
                 CurrentGrandOverlord = s.CurrentGrandOverlord.DisplayName,
-                CurrentGrandOverlordTime = s.CurrentGrandOverlord.GrandOverlordTime
+                CurrentGrandOverlordTime = s.CurrentGrandOverlord.GrandOverlordTime,
+                Phase = s.Phase.ToString()
             }).Single();
         }
     }

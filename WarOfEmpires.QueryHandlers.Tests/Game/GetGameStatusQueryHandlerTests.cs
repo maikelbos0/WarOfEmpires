@@ -23,6 +23,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Game {
             result.CurrentGrandOverlordId.Should().Be(1);
             result.CurrentGrandOverlord.Should().Be("The OG");
             result.CurrentGrandOverlordTime.Should().Be(TimeSpan.FromMinutes(1234));
+            result.Phase.Should().Be("Finished");
         }
     }
 }
