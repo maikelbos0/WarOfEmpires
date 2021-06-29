@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using VDT.Core.DependencyInjection;
 using WarOfEmpires.Database;
+using WarOfEmpires.Domain.Game;
 using WarOfEmpires.Models.Game;
 using WarOfEmpires.Queries.Game;
 using WarOfEmpires.QueryHandlers.Decorators;
@@ -20,7 +21,8 @@ namespace WarOfEmpires.QueryHandlers.Players {
                 CurrentGrandOverlordId = s.CurrentGrandOverlord.Id,
                 CurrentGrandOverlord = s.CurrentGrandOverlord.DisplayName,
                 CurrentGrandOverlordTime = s.CurrentGrandOverlord.GrandOverlordTime,
-                Phase = s.Phase.ToString()
+                Phase = s.Phase.ToString(),
+                GrandOverlordHoursToWin = GameStatus.GrandOverlordHoursToWin
             }).Single();
         }
     }
