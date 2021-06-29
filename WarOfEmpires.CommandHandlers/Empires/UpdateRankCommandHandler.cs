@@ -1,7 +1,9 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using VDT.Core.DependencyInjection;
 using WarOfEmpires.CommandHandlers.Decorators;
 using WarOfEmpires.Commands.Empires;
+using WarOfEmpires.Domain.Game;
 using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Repositories.Game;
 using WarOfEmpires.Repositories.Players;
@@ -15,8 +17,8 @@ namespace WarOfEmpires.CommandHandlers.Empires {
 
         public UpdateRankCommandHandler(IPlayerRepository repository, IGameStatusRepository gameStatusRepository, IRankService rankService) {
             _repository = repository;
-            _rankService = rankService;
             _gameStatusRepository = gameStatusRepository;
+            _rankService = rankService;
         }
 
         [Audit]
@@ -26,10 +28,16 @@ namespace WarOfEmpires.CommandHandlers.Empires {
             var gameStatus = _gameStatusRepository.Get();
 
             _rankService.Update(players);
-            gameStatus.CurrentGrandOverlord = players.SingleOrDefault(p => p.Title == TitleType.GrandOverlord);
+
+            if (gameStatus.Phase != GamePhase.Finished) {
+                gameStatus.CurrentGrandOverlord = players.SingleOrDefault(p => p.Title == TitleType.GrandOverlord);
+
+                if (gameStatus.CurrentGrandOverlord?.GrandOverlordTime >= TimeSpan.FromHours(GameStatus.GrandOverlordHoursToWin)) {
+                    gameStatus.Phase = GamePhase.Finished;
+                }
+            }
+
             _repository.SaveChanges();
-                        
-            // TODO set truce here if game won
 
             return result;
         }
