@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using WarOfEmpires.Domain.Game;
 using WarOfEmpires.Queries.Attacks;
 using WarOfEmpires.QueryHandlers.Attacks;
 using WarOfEmpires.Test.Utilities;
@@ -11,6 +12,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Attacks {
         [TestMethod]
         public void GetDefenderQueryHandler_Returns_Correct_Information() {
             var builder = new FakeBuilder()
+                .WithGameStatus(1)
                 .WithPlayer(1)
                 .BuildPlayer(2)
                 .WithPopulation();
@@ -29,6 +31,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Attacks {
         [TestMethod]
         public void GetDefenderQueryHandler_Returns_IsAtWar_For_War() {
             var builder = new FakeBuilder()
+                .WithGameStatus(1)
                 .BuildAlliance(1)
                 .WithMember(1);
 
@@ -44,9 +47,28 @@ namespace WarOfEmpires.QueryHandlers.Tests.Attacks {
             result.IsAtWar.Should().BeTrue();
         }
 
+        [DataTestMethod]
+        [DataRow(GamePhase.Truce, true)]
+        [DataRow(GamePhase.Active, false)]
+        [DataRow(GamePhase.Finished, false)]
+        public void GetDefenderQueryHandler_Returns_Correct_IsTruce(GamePhase phase, bool expectedIsTruce) {
+            var builder = new FakeBuilder()
+                .WithGameStatus(1, phase: phase)
+                .WithPlayer(1)
+                .WithPlayer(2);
+
+            var handler = new GetDefenderQueryHandler(builder.Context);
+            var query = new GetDefenderQuery("test1@test.com", 2);
+
+            var result = handler.Execute(query);
+
+            result.IsTruce.Should().Be(expectedIsTruce);
+        }
+
         [TestMethod]
         public void GetDefenderQueryHandler_Throws_Exception_For_Nonexistent_Id() {
             var builder = new FakeBuilder()
+                .WithGameStatus(1)
                 .WithPlayer(1)
                 .WithPlayer(2);
 

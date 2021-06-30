@@ -16,5 +16,6 @@ namespace WarOfEmpires.Models.Attacks {
         [Required(ErrorMessage = "Number of turns is required")]
         [RegularExpression("^([1-9]|10)$", ErrorMessage = "Number of turns must be a valid number between 1 and 10")]
         public int Turns { get; set; }
+        public bool IsTruce { get; set; }
     }
 }

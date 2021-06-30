@@ -6,13 +6,22 @@
 
 <h2>Attack @Model.DisplayName</h2>
 
-@if (Model.IsAtWar) {
+@if (Model.IsTruce) {
+    <ul class="text-muted">
+        <li class="text-danger">The game is currently in truce, it is not possible to attack another empire</li>
+    </ul>
+}
+else if (Model.IsAtWar) {
     <ul class="text-muted">
         <li class="text-danger">You are at war with this empire; attacks against them will cause more casualties than usual but the rewards will be greater if you win</li>
     </ul>
 }
 
 @using (Html.BeginForm()) {
+    if (Model.IsTruce) {
+        @Html.Raw("<fieldset disabled=\"disabled\">")
+    }
+
     @Html.HiddenFor(m => m.DefenderId)
 
     <div class="row">
@@ -51,6 +60,12 @@
     </div>
 
     <div class="row">
-        <div class="col-6 offset-6 col-md-3"><button type="submit" class="btn btn-primary w-100">Attack</button></div>
+        <div class="col-6 offset-6 col-md-3">
+            <button type="submit" class="btn btn-primary w-100">Attack</button>
+        </div>
     </div>
+
+    if (Model.IsTruce) {
+        @Html.Raw("</fieldset>")
+    }
 }

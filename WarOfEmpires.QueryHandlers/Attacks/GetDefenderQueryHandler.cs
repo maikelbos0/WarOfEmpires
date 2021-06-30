@@ -2,6 +2,7 @@
 using System.Linq;
 using VDT.Core.DependencyInjection;
 using WarOfEmpires.Database;
+using WarOfEmpires.Domain.Game;
 using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Models.Attacks;
 using WarOfEmpires.Queries.Attacks;
@@ -32,7 +33,8 @@ namespace WarOfEmpires.QueryHandlers.Attacks {
                 Population = player.Peasants + player.Workers.Sum(w => w.Count) + player.Troops.Sum(t => t.GetTotals()),
                 Turns = 10,
                 // TODO for revenges, war damage will apply for a certain period after getting attacked while at war
-                IsAtWar = currentPlayer.Alliance != null && player.Alliance != null && currentPlayer.Alliance.Wars.Any(w => w.Alliances.Contains(player.Alliance))
+                IsAtWar = currentPlayer.Alliance != null && player.Alliance != null && currentPlayer.Alliance.Wars.Any(w => w.Alliances.Contains(player.Alliance)),
+                IsTruce = _context.GameStatus.Single().Phase == GamePhase.Truce
             };
         }
     }
