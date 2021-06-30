@@ -4,15 +4,19 @@ using VDT.Core.DependencyInjection;
 using WarOfEmpires.CommandHandlers.Decorators;
 using WarOfEmpires.Commands.Attacks;
 using WarOfEmpires.Domain.Attacks;
+using WarOfEmpires.Domain.Game;
+using WarOfEmpires.Repositories.Game;
 using WarOfEmpires.Repositories.Players;
 
 namespace WarOfEmpires.CommandHandlers.Attacks {
     [TransientServiceImplementation(typeof(ICommandHandler<AttackCommand>))]
     public sealed class AttackCommandHandler : ICommandHandler<AttackCommand> {
         private readonly IPlayerRepository _repository;
+        private readonly IGameStatusRepository _gameStatusRepository;
 
-        public AttackCommandHandler(IPlayerRepository repository) {
+        public AttackCommandHandler(IPlayerRepository repository, IGameStatusRepository gameStatusRepository) {
             _repository = repository;
+            _gameStatusRepository = gameStatusRepository;
         }
 
         [Audit]
@@ -21,6 +25,10 @@ namespace WarOfEmpires.CommandHandlers.Attacks {
             var type = (AttackType)Enum.Parse(typeof(AttackType), command.AttackType);
             var attacker = _repository.Get(command.AttackerEmail);
             var defender = _repository.Get(command.DefenderId);
+
+            if (_gameStatusRepository.Get().Phase == GamePhase.Truce) {
+                throw new InvalidOperationException("You can't attack during a truce");
+            }
 
             if (attacker == defender) {
                 throw new InvalidOperationException("You can't attack yourself");
