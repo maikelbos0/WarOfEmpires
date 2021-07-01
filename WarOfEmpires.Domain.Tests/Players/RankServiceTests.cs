@@ -33,27 +33,23 @@ namespace WarOfEmpires.Domain.Tests.Players {
         }
 
         [DataTestMethod]
-        [DataRow(0, 60, null, TitleType.PeasantLeader, DisplayName = "Peasant Leader")]
-        [DataRow(1, 60, null, TitleType.BanditLeader, DisplayName = "Bandit Leader")]
-        [DataRow(2, 60, null, TitleType.WarbandLeader, DisplayName = "Warband Leader")]
-        [DataRow(3, 60, null, TitleType.SubChieftain, DisplayName = "Sub Chieftain")]
-        [DataRow(4, 60, null, TitleType.SubChieftain, DisplayName = "Sub Chieftain (not enough troops)")]
-        [DataRow(5, 60, null, TitleType.SubChieftain, DisplayName = "Sub Chieftain (not enough troops)")]
-        [DataRow(15, 1200, 2, TitleType.Overlord, DisplayName = "Overlord")]
+        [DataRow(0, 60, 9999, TitleType.PeasantLeader, DisplayName = "Peasant Leader")]
+        [DataRow(1, 60, 9999, TitleType.BanditLeader, DisplayName = "Bandit Leader")]
+        [DataRow(2, 60, 9999, TitleType.WarbandLeader, DisplayName = "Warband Leader")]
+        [DataRow(3, 60, 9999, TitleType.SubChieftain, DisplayName = "Sub Chieftain")]
+        [DataRow(4, 60, 9999, TitleType.SubChieftain, DisplayName = "Sub Chieftain (not enough troops)")]
+        [DataRow(5, 60, 9999, TitleType.SubChieftain, DisplayName = "Sub Chieftain (not enough troops)")]
+        [DataRow(15, 1200, 2, TitleType.Overlord, DisplayName = "Overlord (too low rank)")]
         [DataRow(15, 1200, 1, TitleType.GrandOverlord, DisplayName = "Grand Overlord")]
-        public void RankService_GetTitle_Succeeds(int defenceLevel, int soldiers, int? rank, TitleType expectedTitle) {
+        public void RankService_GetTitle_Succeeds(int defenceLevel, int soldiers, int newRank, TitleType expectedTitle) {
             var player = new Player(0, "test@test.com");
 
             player.Troops.Add(new Troops(TroopType.Archers, soldiers, 250));
             player.Buildings.Add(new Building(BuildingType.Defences, defenceLevel));
 
-            if (rank.HasValue) {
-                player.UpdateRank(rank.Value, TitleType.PeasantLeader);
-            }
-
             var service = new RankService();
 
-            service.GetTitle(player).Should().Be(expectedTitle);
+            service.GetTitle(player, newRank).Should().Be(expectedTitle);
         }
 
         public Player CreatePlayer(int soldierCount, int defenceLevel) {
@@ -70,21 +66,23 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void RankService_Update_Succeeds() {
-            var players = new List<Player>() {
+            var players = new List<Player>() {                
                 CreatePlayer(20, 1),
                 CreatePlayer(300, 0),
                 CreatePlayer(10, 0),
-                CreatePlayer(30, 2)
+                CreatePlayer(30, 2),
+                CreatePlayer(1200, 15)
             };
 
             var service = new RankService();
 
             service.Update(players);
 
-            players[0].Received().UpdateRank(3, TitleType.BanditLeader);
-            players[1].Received().UpdateRank(1, TitleType.PeasantLeader);
-            players[2].Received().UpdateRank(4, TitleType.PeasantLeader);
-            players[3].Received().UpdateRank(2, TitleType.WarbandLeader);
+            players[0].Received().UpdateRank(4, TitleType.BanditLeader);
+            players[1].Received().UpdateRank(2, TitleType.PeasantLeader);
+            players[2].Received().UpdateRank(5, TitleType.PeasantLeader);
+            players[3].Received().UpdateRank(3, TitleType.WarbandLeader);
+            players[4].Received().UpdateRank(1, TitleType.GrandOverlord);
         }
     }
 }

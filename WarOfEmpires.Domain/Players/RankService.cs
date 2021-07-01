@@ -22,11 +22,10 @@ namespace WarOfEmpires.Domain.Players {
                 + defences * DefenceModifier;
         }
 
-        // TODO fix bug where player that USED TO be #1 gets to keep title Grand Overlord
-        public virtual TitleType GetTitle(Player player) {
+        public virtual TitleType GetTitle(Player player, int newRank) {
             return _titles.First(title => title.RequiredDefenceLevel <= player.GetBuildingBonus(BuildingType.Defences)
                 && title.RequiredSoldiers <= player.Troops.Sum(t => t.Soldiers)
-                && title.MeetsAdditionalRequirements(player)).Type;
+                && title.RequiredRank >= newRank).Type;
         }
 
         public virtual void Update(IEnumerable<Player> players) {
@@ -37,7 +36,7 @@ namespace WarOfEmpires.Domain.Players {
                 .OrderByDescending(p => p.RankPoints)
                 .Select(p => p.Player)) {
 
-                player.UpdateRank(rank++, GetTitle(player));
+                player.UpdateRank(rank, GetTitle(player, rank++));
             }
         }
     }

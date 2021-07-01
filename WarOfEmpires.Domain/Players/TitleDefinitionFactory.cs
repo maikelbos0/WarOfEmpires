@@ -78,7 +78,7 @@ namespace WarOfEmpires.Domain.Players {
         }
 
         private static TitleDefinition GenerateGrandOverlord() {
-            return new TitleDefinition(TitleType.GrandOverlord, 15, 1200, player => player.Rank == 1);
+            return new TitleDefinition(TitleType.GrandOverlord, 15, 1200, 1);
         }
 
         public static TitleDefinition Get(TitleType type) {
