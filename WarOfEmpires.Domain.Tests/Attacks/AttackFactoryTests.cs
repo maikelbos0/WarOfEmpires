@@ -31,5 +31,13 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
             attack.Type.Should().Be(AttackType.Assault);
             attack.Should().BeOfType<Assault>();
         }
+
+        [TestMethod]
+        public void AttackFactory_Returns_GrandOverlordAttack_Correctly() {
+            var attack = AttackFactory.Get(AttackType.GrandOverlordAttack, new Player(1, "Attacker"), new Player(2, "Defender"), 10);
+
+            attack.Type.Should().Be(AttackType.GrandOverlordAttack);
+            attack.Should().BeOfType<GrandOverlordAttack>();
+        }
     }
 }

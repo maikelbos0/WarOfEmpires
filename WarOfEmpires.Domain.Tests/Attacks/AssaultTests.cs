@@ -31,6 +31,7 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
             var defender = new Player(2, "Defender");
 
             attacker.Troops.Add(new Troops(TroopType.Archers, 600, 200));
+            defender.Troops.Add(new Troops(TroopType.Archers, 0, 0));
 
             var attack = new Assault(attacker, defender, 10);
             attack.Execute();

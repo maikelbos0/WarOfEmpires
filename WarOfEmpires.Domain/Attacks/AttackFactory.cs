@@ -9,6 +9,8 @@ namespace WarOfEmpires.Domain.Attacks {
                     return new Raid(attacker, defender, turns);
                 case AttackType.Assault:
                     return new Assault(attacker, defender, turns);
+                case AttackType.GrandOverlordAttack:
+                    return new GrandOverlordAttack(attacker, defender, turns);
                 default:
                     throw new NotImplementedException();
             }
