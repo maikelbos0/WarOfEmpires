@@ -22,6 +22,7 @@ namespace WarOfEmpires.Domain.Players {
                 + defences * DefenceModifier;
         }
 
+        // TODO fix bug where player that USED TO be #1 gets to keep title Grand Overlord
         public virtual TitleType GetTitle(Player player) {
             return _titles.First(title => title.RequiredDefenceLevel <= player.GetBuildingBonus(BuildingType.Defences)
                 && title.RequiredSoldiers <= player.Troops.Sum(t => t.Soldiers)

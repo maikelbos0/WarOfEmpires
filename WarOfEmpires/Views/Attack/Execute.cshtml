@@ -48,6 +48,10 @@ else if (Model.IsAtWar) {
                     @Html.RadioButtonFor(m => m.AttackType, "Assault", new { id = "AttackType-Assault", @class = "form-check-input" })
                     <label class="form-check-label" for="AttackType-Assault">Assault <span class="text-muted">- charge your opponent's defences and try to take their gold</span></label>
                 </div>
+                <div class="form-check">
+                    @Html.RadioButtonFor(m => m.AttackType, "GrandOverlordAttack", new { id = "AttackType-GrandOverlordAttack", @class = "form-check-input" })
+                    <label class="form-check-label" for="AttackType-GrandOverlordAttack">Grand Overlord Attack <span class="text-muted">- charge your opponent's defences and try to stop them being Grand Overlord</span></label>
+                </div>
                 @Html.ValidationMessageFor(m => m.AttackType, null, new { @class = "small form-text text-danger" })
             </div>
 

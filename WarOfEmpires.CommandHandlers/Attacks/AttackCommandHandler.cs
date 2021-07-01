@@ -5,6 +5,7 @@ using WarOfEmpires.CommandHandlers.Decorators;
 using WarOfEmpires.Commands.Attacks;
 using WarOfEmpires.Domain.Attacks;
 using WarOfEmpires.Domain.Game;
+using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Repositories.Game;
 using WarOfEmpires.Repositories.Players;
 
@@ -41,6 +42,16 @@ namespace WarOfEmpires.CommandHandlers.Attacks {
             if (attacker.Alliance != null && attacker.Alliance.NonAggressionPacts.Any(p => p.Alliances.Contains(defender.Alliance))) {
                 throw new InvalidOperationException("You can't attack an alliance member from an alliance you're in a non-aggression pact with");
             }
+
+            if (type == AttackType.GrandOverlordAttack && defender.Title != TitleType.GrandOverlord) {
+                result.AddError("Your opponent is not the Grand Overlord");
+            }
+
+            // TODO limit players that can execute GO attack to overlords or?
+
+            // TODO filter revenge
+
+            //TODO add hidden fields for defender on execute attack view
 
             if (attacker.AttackTurns < command.Turns) {
                 result.AddError(c => c.Turns, "You don't have enough attack turns");
