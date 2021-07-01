@@ -48,9 +48,9 @@ namespace WarOfEmpires.QueryHandlers.Tests.Attacks {
         }
 
         [DataTestMethod]
-        [DataRow(GamePhase.Truce, true)]
-        [DataRow(GamePhase.Active, false)]
-        [DataRow(GamePhase.Finished, false)]
+        [DataRow(GamePhase.Truce, true, DisplayName = "Truce")]
+        [DataRow(GamePhase.Active, false, DisplayName = "Active")]
+        [DataRow(GamePhase.Finished, false, DisplayName = "Finished")]
         public void GetDefenderQueryHandler_Returns_Correct_IsTruce(GamePhase phase, bool expectedIsTruce) {
             var builder = new FakeBuilder()
                 .WithGameStatus(1, phase: phase)

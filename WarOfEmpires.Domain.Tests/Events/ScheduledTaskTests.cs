@@ -75,8 +75,8 @@ namespace WarOfEmpires.Domain.Tests.Events {
         }
 
         [DataTestMethod]
-        [DataRow(TaskExecutionMode.ExecuteAllIntervals, 3)]
-        [DataRow(TaskExecutionMode.ExecuteOnce, 1)]
+        [DataRow(TaskExecutionMode.ExecuteAllIntervals, 3, DisplayName = "All intervals")]
+        [DataRow(TaskExecutionMode.ExecuteOnce, 1, DisplayName = "Once")]
         public void ScheduledTask_Execute_Succeeds_When_Behind(TaskExecutionMode executionMode, int expectedExecutions) {
             var task = ScheduledTask.Create<TestEvent>(1, new TimeSpan(0, 5, 0), executionMode);
 

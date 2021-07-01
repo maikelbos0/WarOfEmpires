@@ -33,14 +33,14 @@ namespace WarOfEmpires.Domain.Tests.Players {
         }
 
         [DataTestMethod]
-        [DataRow(0, 60, null, TitleType.PeasantLeader)]
-        [DataRow(1, 60, null, TitleType.BanditLeader)]
-        [DataRow(2, 60, null, TitleType.WarbandLeader)]
-        [DataRow(3, 60, null, TitleType.SubChieftain)]
-        [DataRow(4, 60, null, TitleType.SubChieftain)]
-        [DataRow(5, 60, null, TitleType.SubChieftain)]
-        [DataRow(15, 1200, 2, TitleType.Overlord)]
-        [DataRow(15, 1200, 1, TitleType.GrandOverlord)]
+        [DataRow(0, 60, null, TitleType.PeasantLeader, DisplayName = "Peasant Leader")]
+        [DataRow(1, 60, null, TitleType.BanditLeader, DisplayName = "Bandit Leader")]
+        [DataRow(2, 60, null, TitleType.WarbandLeader, DisplayName = "Warband Leader")]
+        [DataRow(3, 60, null, TitleType.SubChieftain, DisplayName = "Sub Chieftain")]
+        [DataRow(4, 60, null, TitleType.SubChieftain, DisplayName = "Sub Chieftain (not enough troops)")]
+        [DataRow(5, 60, null, TitleType.SubChieftain, DisplayName = "Sub Chieftain (not enough troops)")]
+        [DataRow(15, 1200, 2, TitleType.Overlord, DisplayName = "Overlord")]
+        [DataRow(15, 1200, 1, TitleType.GrandOverlord, DisplayName = "Grand Overlord")]
         public void RankService_GetTitle_Succeeds(int defenceLevel, int soldiers, int? rank, TitleType expectedTitle) {
             var player = new Player(0, "test@test.com");
 

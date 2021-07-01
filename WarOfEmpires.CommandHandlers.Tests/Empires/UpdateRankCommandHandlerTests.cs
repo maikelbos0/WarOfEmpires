@@ -53,9 +53,9 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
         }
 
         [DataTestMethod]
-        [DataRow(71, GamePhase.Active)]
-        [DataRow(72, GamePhase.Finished)]
-        [DataRow(73, GamePhase.Finished)]
+        [DataRow(71, GamePhase.Active, DisplayName = "71 hours (active)")]
+        [DataRow(72, GamePhase.Finished, DisplayName = "72 hours (finished)")]
+        [DataRow(73, GamePhase.Finished, DisplayName = "73 hours (finished)")]
         public void UpdateRankCommandHandler_Ends_Game_If_Needed(int grandOverlordHours, GamePhase expectedPhase) {
             var rankService = Substitute.For<IRankService>();
             var builder = new FakeBuilder()
