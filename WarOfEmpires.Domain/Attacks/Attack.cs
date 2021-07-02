@@ -9,10 +9,13 @@ namespace WarOfEmpires.Domain.Attacks {
         public const int AttackerMinimumStamina = 70;
         public const int DefenderMinimumStamina = 30;
         public const int StaminaRandomModifier = 10;
+        public const int MinimumCalculatedStamina = 20;
         public const decimal SurrenderResourcesPerTurn = 0.025m;
         public const decimal WonResourcesPerTurn = 0.05m;
         public const decimal WarResourcesModifier = 2.0m;
         public const decimal MinimumResourceArmyModifier = 0.5m;
+
+        private Random random = new Random();
 
         public virtual DateTime Date { get; protected set; }
         public virtual bool IsRead { get; set; }
@@ -57,9 +60,8 @@ namespace WarOfEmpires.Domain.Attacks {
             else {
                 // Measure army strength before the fighting happens
                 var armyStrengthModifier = GetArmyStrengthModifier(MinimumResourceArmyModifier);
-                var random = new Random();
-                var calculatedAttackerStamina = random.Next(attackerStamina - StaminaRandomModifier, attackerStamina + StaminaRandomModifier);
-                var calculatedDefenderStamina = random.Next(defenderStamina - StaminaRandomModifier, defenderStamina + StaminaRandomModifier);
+                var calculatedAttackerStamina = GetCalculatedStamina(attackerStamina);
+                var calculatedDefenderStamina = GetCalculatedStamina(defenderStamina);
 
                 foreach (TroopType troopType in Enum.GetValues(typeof(TroopType))) {
                     AddRound(calculatedAttackerStamina, troopType, true, Attacker.GetTroopInfo(troopType), Defender);
@@ -76,6 +78,10 @@ namespace WarOfEmpires.Domain.Attacks {
             }
         }
 
+        private int GetCalculatedStamina(int stamina) {
+            return Math.Max(MinimumCalculatedStamina, random.Next(stamina - StaminaRandomModifier, stamina + StaminaRandomModifier));
+        }
+
         private Resources GetResources(decimal modifier) {
             if (IsAtWar) {
                 modifier *= WarResourcesModifier;
@@ -86,7 +92,7 @@ namespace WarOfEmpires.Domain.Attacks {
             return resources - resources.SubtractSafe(Defender.Resources);
         }
 
-        public void AddRound(int stamina, TroopType troopType, bool isAggressor, TroopInfo attackerTroopInfo, Player defender) {
+        private void AddRound(int stamina, TroopType troopType, bool isAggressor, TroopInfo attackerTroopInfo, Player defender) {
             var damage = CalculateDamage(stamina, isAggressor, attackerTroopInfo, defender);
 
             if (damage == 0) {

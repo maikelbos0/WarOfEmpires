@@ -427,5 +427,22 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
 
             attack.GetArmyStrengthModifier().Should().Be(1.2m);
         }
+
+        [TestMethod]
+        public void Attack_Defender_Always_Has_Minimum_Stamina() {
+            var attacker = new Player(1, "Attacker");
+            var defender = new Player(2, "Defender");
+
+            attacker.Troops.Add(new Troops(TroopType.Archers, 600, 200));
+            defender.Troops.Add(new Troops(TroopType.Archers, 600, 200));
+
+            typeof(Player).GetProperty(nameof(Player.Stamina)).SetValue(defender, 0);
+
+            var attack = new GrandOverlordAttack(attacker, defender, 10);
+
+            attack.Execute();
+
+            attack.Rounds.Single(a => !a.IsAggressor).Damage.Should().Be(defender.Troops.Sum(t => t.GetTotals()) * 100);
+        }
     }
 }
