@@ -139,7 +139,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Attacks {
         public void AttackCommandHandler_Resolves_Type_Parameter_To_Correct_Type(string typeParameter, AttackType expectedAttackType) {
             var builder = new FakeBuilder()
                 .WithGameStatus(1)
-                .WithPlayer(1, out var attacker)
+                .WithPlayer(1, out var attacker, title: TitleType.Overlord)
                 .WithPlayer(2, out var defender, title: TitleType.GrandOverlord);
 
             var handler = new AttackCommandHandler(new PlayerRepository(builder.Context), new GameStatusRepository(builder.Context));
@@ -171,8 +171,8 @@ namespace WarOfEmpires.CommandHandlers.Tests.Attacks {
         public void AttackCommandHandler_Fails_For_GrandOverlordAttack_On_Not_GrandOverlord() {
             var builder = new FakeBuilder()
                 .WithGameStatus(1)
-                .WithPlayer(1, out var attacker)
-                .WithPlayer(2);
+                .WithPlayer(1, out var attacker, title: TitleType.Overlord)
+                .WithPlayer(2, title: TitleType.Overlord);
 
             var handler = new AttackCommandHandler(new PlayerRepository(builder.Context), new GameStatusRepository(builder.Context));
             var command = new AttackCommand("GrandOverlordAttack", "test1@test.com", 2, 10);
@@ -180,6 +180,23 @@ namespace WarOfEmpires.CommandHandlers.Tests.Attacks {
             var result = handler.Execute(command);
 
             result.Should().HaveError("Your opponent is not the Grand Overlord");
+            attacker.DidNotReceiveWithAnyArgs().ExecuteAttack(default, default, default);
+            builder.Context.CallsToSaveChanges.Should().Be(0);
+        }
+
+        [TestMethod]
+        public void AttackCommandHandler_Fails_For_GrandOverlordAttack_From_Not_Overlord() {
+            var builder = new FakeBuilder()
+                .WithGameStatus(1)
+                .WithPlayer(1, out var attacker)
+                .WithPlayer(2, title: TitleType.GrandOverlord);
+
+            var handler = new AttackCommandHandler(new PlayerRepository(builder.Context), new GameStatusRepository(builder.Context));
+            var command = new AttackCommand("GrandOverlordAttack", "test1@test.com", 2, 10);
+
+            var result = handler.Execute(command);
+
+            result.Should().HaveError("You need to be an Overlord to attack the Grand Overlord");
             attacker.DidNotReceiveWithAnyArgs().ExecuteAttack(default, default, default);
             builder.Context.CallsToSaveChanges.Should().Be(0);
         }

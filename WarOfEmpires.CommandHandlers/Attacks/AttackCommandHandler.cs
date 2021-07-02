@@ -47,7 +47,9 @@ namespace WarOfEmpires.CommandHandlers.Attacks {
                 result.AddError("Your opponent is not the Grand Overlord");
             }
 
-            // TODO limit players that can execute GO attack to overlords or?
+            if (type == AttackType.GrandOverlordAttack && attacker.Title != TitleType.Overlord) {
+                result.AddError("You need to be an Overlord to attack the Grand Overlord");
+            }
 
             // TODO filter revenge
 
