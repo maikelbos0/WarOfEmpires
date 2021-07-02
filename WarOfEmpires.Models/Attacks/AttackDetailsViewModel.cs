@@ -18,7 +18,7 @@ namespace WarOfEmpires.Models.Attacks {
         public string DefenderAllianceCode { get; set; }
         public string DefenderAllianceName { get; set; }
         public int Turns { get; set; }
-        public List<AttackRoundDetailsViewModel> Rounds { get; set; } = new List<AttackRoundDetailsViewModel>();
+        public List<AttackRoundDetailsViewModel> Rounds { get; set; }
         public string Result { get; set; }
         public ResourcesViewModel Resources { get; set; }
     }

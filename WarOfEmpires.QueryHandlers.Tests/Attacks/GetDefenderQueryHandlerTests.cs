@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using WarOfEmpires.Domain.Game;
+using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Queries.Attacks;
 using WarOfEmpires.QueryHandlers.Attacks;
 using WarOfEmpires.Test.Utilities;
@@ -26,6 +27,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Attacks {
             result.DisplayName.Should().Be("Test display name 2");
             result.Population.Should().Be(49);
             result.IsAtWar.Should().BeFalse();
+            result.ValidAttackTypes.Should().BeEquivalentTo("Raid", "Assault");
         }
 
         [TestMethod]
@@ -78,6 +80,30 @@ namespace WarOfEmpires.QueryHandlers.Tests.Attacks {
             Action action = () => handler.Execute(query);
 
             action.Should().Throw<InvalidOperationException>();
+        }
+
+        [DataTestMethod]
+        [DataRow(TitleType.Overlord, TitleType.Overlord, false, DisplayName = "Overlord against Overlord")]
+        [DataRow(TitleType.Emperor, TitleType.GrandOverlord, false, DisplayName = "Emperor against Grand Overlord")]
+        [DataRow(TitleType.Overlord, TitleType.GrandOverlord, true, DisplayName = "Overlord against Grand Overlord")]
+        [DataRow(TitleType.GrandOverlord, TitleType.Overlord, false, DisplayName = "Grand Overlord against Overlord")]
+        public void GetDefenderQueryHandler_Adds_ValidaAttackType_GrandOverlordAttack_Correctly(TitleType attackerTitle, TitleType defenderTitle, bool expectedGrandOverlordAttack) {
+            var builder = new FakeBuilder()
+                .WithGameStatus(1)
+                .WithPlayer(1, title: attackerTitle)
+                .WithPlayer(2, title: defenderTitle);
+
+            var handler = new GetDefenderQueryHandler(builder.Context);
+            var query = new GetDefenderQuery("test1@test.com", 5);
+
+            var result = handler.Execute(query);
+
+            if (expectedGrandOverlordAttack) {
+                result.ValidAttackTypes.Should().Contain("GrandOverlordAttack");
+            }
+            else {
+                result.ValidAttackTypes.Should().NotContain("GrandOverlordAttack");
+            }
         }
     }
 }
