@@ -728,6 +728,10 @@ namespace WarOfEmpires.Domain.Tests.Players {
             attacker.Resources.Gold.Should().Be(10000 + attack.Resources.Gold);
             defender.Resources.Gold.Should().Be(10000 - attack.Resources.Gold);
             attacker.AttackTurns.Should().Be(40);
+
+            defender.RevengeOpportunities.Should().HaveCount(1);
+            defender.RevengeOpportunities.Single().ExpirationDate.Should().BeCloseTo(DateTime.UtcNow.AddHours(72), 1000);
+            defender.RevengeOpportunities.Single().Target.Should().Be(attacker);
         }
 
         [TestMethod]
