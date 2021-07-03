@@ -87,14 +87,14 @@ namespace WarOfEmpires.QueryHandlers.Tests.Attacks {
         [DataRow(TitleType.Emperor, TitleType.GrandOverlord, false, DisplayName = "Emperor against Grand Overlord")]
         [DataRow(TitleType.Overlord, TitleType.GrandOverlord, true, DisplayName = "Overlord against Grand Overlord")]
         [DataRow(TitleType.GrandOverlord, TitleType.Overlord, false, DisplayName = "Grand Overlord against Overlord")]
-        public void GetDefenderQueryHandler_Adds_ValidaAttackType_GrandOverlordAttack_Correctly(TitleType attackerTitle, TitleType defenderTitle, bool expectedGrandOverlordAttack) {
+        public void GetDefenderQueryHandler_Adds_ValidAttackType_GrandOverlordAttack_Correctly(TitleType attackerTitle, TitleType defenderTitle, bool expectedGrandOverlordAttack) {
             var builder = new FakeBuilder()
                 .WithGameStatus(1)
                 .WithPlayer(1, title: attackerTitle)
                 .WithPlayer(2, title: defenderTitle);
 
             var handler = new GetDefenderQueryHandler(builder.Context);
-            var query = new GetDefenderQuery("test1@test.com", 5);
+            var query = new GetDefenderQuery("test1@test.com", 2);
 
             var result = handler.Execute(query);
 

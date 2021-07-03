@@ -1,8 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Linq;
 using VDT.Core.DependencyInjection;
 using WarOfEmpires.Database;
+using WarOfEmpires.Domain.Attacks;
 using WarOfEmpires.Domain.Game;
+using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Models.Attacks;
 using WarOfEmpires.Queries.Attacks;
@@ -26,6 +29,11 @@ namespace WarOfEmpires.QueryHandlers.Attacks {
             var player = _context.Players
                 .Include(p => p.Alliance)
                 .Single(p => p.User.Status == UserStatus.Active && p.Id == query.Id);
+            var validAttackTypes = new List<string>() { AttackType.Assault.ToString(), AttackType.Raid.ToString() };
+
+            if (player.Title == TitleType.GrandOverlord && currentPlayer.Title == TitleType.Overlord) {
+                validAttackTypes.Add(AttackType.GrandOverlordAttack.ToString());
+            }
 
             return new ExecuteAttackModel() {
                 DefenderId = player.Id,
@@ -34,7 +42,8 @@ namespace WarOfEmpires.QueryHandlers.Attacks {
                 Turns = 10,
                 // TODO for revenges, war damage will apply for a certain period after getting attacked while at war
                 IsAtWar = currentPlayer.Alliance != null && player.Alliance != null && currentPlayer.Alliance.Wars.Any(w => w.Alliances.Contains(player.Alliance)),
-                IsTruce = _context.GameStatus.Single().Phase == GamePhase.Truce
+                IsTruce = _context.GameStatus.Single().Phase == GamePhase.Truce,
+                ValidAttackTypes = validAttackTypes
             };
         }
     }
