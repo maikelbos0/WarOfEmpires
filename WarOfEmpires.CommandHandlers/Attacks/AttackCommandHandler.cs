@@ -53,8 +53,6 @@ namespace WarOfEmpires.CommandHandlers.Attacks {
 
             // TODO filter revenge
 
-            //TODO add hidden fields for defender on execute attack view
-
             if (attacker.AttackTurns < command.Turns) {
                 result.AddError(c => c.Turns, "You don't have enough attack turns");
             }
