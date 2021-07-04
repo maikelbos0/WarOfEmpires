@@ -11,6 +11,8 @@ namespace WarOfEmpires.Domain.Attacks {
                     return new Assault(attacker, defender, turns);
                 case AttackType.GrandOverlordAttack:
                     return new GrandOverlordAttack(attacker, defender, turns);
+                case AttackType.Revenge:
+                    return new Revenge(attacker, defender, turns);
                 default:
                     throw new NotImplementedException();
             }

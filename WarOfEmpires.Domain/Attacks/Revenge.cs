@@ -10,7 +10,7 @@ namespace WarOfEmpires.Domain.Attacks {
         protected Revenge() { }
 
         public Revenge(Player attacker, Player defender, int turns) : base(attacker, defender, turns) {
-            Type = AttackType.GrandOverlordAttack;
+            Type = AttackType.Revenge;
         }
 
         public override long CalculateDamage(int stamina, bool isAggressor, TroopInfo attackerTroopInfo, Player defender) {
