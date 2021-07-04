@@ -57,7 +57,6 @@ namespace WarOfEmpires.Domain.Players {
         public virtual ICollection<Caravan> Caravans { get; protected set; } = new List<Caravan>();
         public virtual ICollection<Transaction> BuyTransactions { get; protected set; } = new List<Transaction>();
         public virtual ICollection<Transaction> SellTransactions { get; protected set; } = new List<Transaction>();
-        public virtual ICollection<RevengeOpportunity> RevengeOpportunities { get; protected set; } = new List<RevengeOpportunity>();
 
         protected Player() {
         }
@@ -437,7 +436,6 @@ namespace WarOfEmpires.Domain.Players {
             AddResources(attack.Resources);
             defender.Resources -= attack.Resources;
             AttackTurns -= attackTurns;
-            defender.RevengeOpportunities.Add(new RevengeOpportunity(this));
         }
 
         public virtual void AddResources(Resources resources) {

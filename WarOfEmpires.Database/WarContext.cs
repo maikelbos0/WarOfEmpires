@@ -118,7 +118,6 @@ namespace WarOfEmpires.Database {
             players.HasMany(p => p.BuyTransactions).WithOne().IsRequired().HasForeignKey("BuyerId");
             players.HasMany(p => p.Caravans).WithOne(c => c.Player).IsRequired();
             players.HasMany(p => p.Invites).WithOne(i => i.Player).IsRequired().OnDelete(DeleteBehavior.NoAction);
-            players.HasMany(p => p.RevengeOpportunities).WithOne().IsRequired();
             players.Property(p => p.DisplayName).IsRequired().HasMaxLength(25);
             players.OwnsOne(p => p.Resources, pr => {
                 pr.Property(r => r.Gold).HasColumnName("Gold");
@@ -270,10 +269,6 @@ namespace WarOfEmpires.Database {
             attackRounds.HasMany(r => r.Casualties).WithOne().IsRequired();
 
             modelBuilder.Entity<Attacks.Casualties>().ToTable("Casualties", "Attacks").HasKey(c => c.Id);
-
-            var revengeOpportunities = modelBuilder.Entity<Attacks.RevengeOpportunity>().ToTable("RevengeOpportunities", "Attacks");
-            revengeOpportunities.HasKey(o => o.Id);
-            revengeOpportunities.HasOne(o => o.Target).WithMany().IsRequired().OnDelete(DeleteBehavior.NoAction);
         }
 
         private void OnSecurityModelCreating(ModelBuilder modelBuilder) {

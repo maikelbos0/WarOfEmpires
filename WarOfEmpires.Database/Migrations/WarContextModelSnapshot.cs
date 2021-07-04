@@ -971,31 +971,6 @@ namespace WarOfEmpires.Database.Migrations
                     b.ToTable("Casualties", "Attacks");
                 });
 
-            modelBuilder.Entity("WarOfEmpires.Domain.Attacks.RevengeOpportunity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("ExpirationDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("PlayerId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TargetId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PlayerId");
-
-                    b.HasIndex("TargetId");
-
-                    b.ToTable("RevengeOpportunities", "Attacks");
-                });
-
             modelBuilder.Entity("WarOfEmpires.Domain.Attacks.Troops", b =>
                 {
                     b.Property<int>("Id")
@@ -1497,6 +1472,13 @@ namespace WarOfEmpires.Database.Migrations
                     b.HasDiscriminator().HasValue("Assault");
                 });
 
+            modelBuilder.Entity("WarOfEmpires.Domain.Attacks.GrandOverlordAttack", b =>
+                {
+                    b.HasBaseType("WarOfEmpires.Domain.Attacks.Attack");
+
+                    b.HasDiscriminator().HasValue("GrandOverlordAttack");
+                });
+
             modelBuilder.Entity("WarOfEmpires.Domain.Attacks.Raid", b =>
                 {
                     b.HasBaseType("WarOfEmpires.Domain.Attacks.Attack");
@@ -1723,23 +1705,6 @@ namespace WarOfEmpires.Database.Migrations
                         .HasForeignKey("TroopType")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("WarOfEmpires.Domain.Attacks.RevengeOpportunity", b =>
-                {
-                    b.HasOne("WarOfEmpires.Domain.Players.Player", null)
-                        .WithMany("RevengeOpportunities")
-                        .HasForeignKey("PlayerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WarOfEmpires.Domain.Players.Player", "Target")
-                        .WithMany()
-                        .HasForeignKey("TargetId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("Target");
                 });
 
             modelBuilder.Entity("WarOfEmpires.Domain.Attacks.Troops", b =>
@@ -2209,8 +2174,6 @@ namespace WarOfEmpires.Database.Migrations
                     b.Navigation("ReceivedAttacks");
 
                     b.Navigation("ReceivedMessages");
-
-                    b.Navigation("RevengeOpportunities");
 
                     b.Navigation("SellTransactions");
 
