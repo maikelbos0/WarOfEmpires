@@ -58,6 +58,85 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
         }
 
         [TestMethod]
+        public void Attack_HasWarDamage_Is_Correct_For_No_Alliance() {
+            var attacker = new Player(1, "Attacker");
+            var defender = new Player(2, "Defender");
+
+            attacker.Troops.Add(new Troops(TroopType.Archers, 600, 200));
+
+            var attack = new Assault(attacker, defender, 10);
+
+            attack.HasWarDamage.Should().BeFalse();
+        }
+
+        [TestMethod]
+        public void Attack_HasWarDamage_Is_Correct_For_Alliance_Without_War() {            
+            var attacker = new Player(1, "Attacker");            
+            var defender = new Player(2, "Defender");
+            var attackerAlliance = new Alliance(attacker, "ATK", "The Attackers");
+            var defenderAlliance = new Alliance(defender, "DEF", "The Defenders");
+
+            typeof(Player).GetProperty(nameof(Player.Alliance)).SetValue(attacker, attackerAlliance);
+            typeof(Player).GetProperty(nameof(Player.Alliance)).SetValue(defender, defenderAlliance);
+            attacker.Troops.Add(new Troops(TroopType.Archers, 600, 200));
+
+            var attack = new Assault(attacker, defender, 10);
+
+            attack.HasWarDamage.Should().BeFalse();
+        }
+
+        [TestMethod]
+        public void Attack_HasWarDamage_Is_Correct_For_Alliance_With_War() {
+            var attacker = new Player(1, "Attacker");
+            var defender = new Player(2, "Defender");
+            var attackerAlliance = new Alliance(attacker, "ATK", "The Attackers");
+            var defenderAlliance = new Alliance(defender, "DEF", "The Defenders");
+
+            typeof(Player).GetProperty(nameof(Player.Alliance)).SetValue(attacker, attackerAlliance);
+            typeof(Player).GetProperty(nameof(Player.Alliance)).SetValue(defender, defenderAlliance);
+            attackerAlliance.DeclareWar(defenderAlliance);
+            attacker.Troops.Add(new Troops(TroopType.Archers, 600, 200));
+
+            var attack = new Assault(attacker, defender, 10);
+
+            attack.HasWarDamage.Should().BeTrue();
+        }
+         
+        [TestMethod]
+        public void Attack_HasWarDamage_Is_Correct_When_Received_War_Attack_Recently() {
+            var attacker = new Player(1, "Attacker");
+            var defender = new Player(2, "Defender");
+            var receivedAttack = new Assault(defender, attacker, 10);
+
+            typeof(Assault).GetProperty(nameof(Assault.IsAtWar)).SetValue(receivedAttack, true);
+            typeof(Assault).GetProperty(nameof(Assault.Date)).SetValue(receivedAttack, DateTime.UtcNow.AddHours(-15).AddMinutes(-59));
+
+            attacker.ReceivedAttacks.Add(receivedAttack);
+            attacker.Troops.Add(new Troops(TroopType.Archers, 600, 200));
+
+            var attack = new Assault(attacker, defender, 10);
+
+            attack.HasWarDamage.Should().BeTrue();
+        }
+         
+        [TestMethod]
+        public void Attack_HasWarDamage_Is_Correct_When_Received_War_Attack_Expired() {
+            var attacker = new Player(1, "Attacker");
+            var defender = new Player(2, "Defender");
+            var receivedAttack = new Assault(defender, attacker, 10);
+
+            typeof(Assault).GetProperty(nameof(Assault.IsAtWar)).SetValue(receivedAttack, true);
+            typeof(Assault).GetProperty(nameof(Assault.Date)).SetValue(receivedAttack, DateTime.UtcNow.AddHours(-16).AddMinutes(-1));
+
+            defender.ReceivedAttacks.Add(receivedAttack);
+            attacker.Troops.Add(new Troops(TroopType.Archers, 600, 200));
+
+            var attack = new Assault(attacker, defender, 10);
+
+            attack.HasWarDamage.Should().BeFalse();
+        }
+
+        [TestMethod]
         public void Attack_Result_Is_Fatigued_for_Attacker_Without_Troops() {
             var attacker = new Player(1, "Attacker");
             var defender = new Player(2, "Defender");
@@ -151,7 +230,7 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
         }
 
         [TestMethod]
-        public void Attack_Surrendered_At_War_Calculates_Correct_Resources() {
+        public void Attack_Surrendered_With_War_Damage_Calculates_Correct_Resources() {
             var attacker = new Player(1, "Attacker");
             var defender = new Player(2, "Defender");
 
@@ -166,7 +245,7 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
             var expectedResources = new Resources(defender.Resources.Gold) * 0.25m * 2m;
 
             var attack = new Assault(attacker, defender, 10);
-            typeof(Assault).GetProperty(nameof(Assault.IsAtWar)).SetValue(attack, true);
+            typeof(Assault).GetProperty(nameof(Assault.HasWarDamage)).SetValue(attack, true);
 
             attack.Execute();
 
@@ -174,7 +253,7 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
         }
 
         [TestMethod]
-        public void Attack_Won_At_War_Calculates_Correct_Resources() {
+        public void Attack_Won_With_War_Damage_Calculates_Correct_Resources() {
             var attacker = new Player(1, "Attacker");
             var defender = new Player(2, "Defender");
 
@@ -187,7 +266,7 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
             var expectedResources = new Resources(defender.Resources.Gold) * 0.5m * (500m / 800m) * 2m;
 
             var attack = new Assault(attacker, defender, 10);
-            typeof(Assault).GetProperty(nameof(Assault.IsAtWar)).SetValue(attack, true);
+            typeof(Assault).GetProperty(nameof(Assault.HasWarDamage)).SetValue(attack, true);
 
             attack.Execute();
 
@@ -210,7 +289,7 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
             var expectedResources = new Resources(gold: 10000000);
 
             var attack = new Assault(attacker, defender, 10);
-            typeof(Assault).GetProperty(nameof(Assault.IsAtWar)).SetValue(attack, true);
+            typeof(Assault).GetProperty(nameof(Assault.HasWarDamage)).SetValue(attack, true);
 
             attack.Execute();
 

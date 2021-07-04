@@ -660,7 +660,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
         }
 
         [TestMethod]
-        public void Player_ProcessAttackDamage_Doubles_Casualties_At_War() {
+        public void Player_ProcessAttackDamage_Doubles_Casualties_With_War_Damage() {
             var player = new Player(0, "Test");
 
             player.Troops.Add(new Troops(TroopType.Archers, 150, 50));

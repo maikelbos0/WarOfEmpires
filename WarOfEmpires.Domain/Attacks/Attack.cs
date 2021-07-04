@@ -14,6 +14,7 @@ namespace WarOfEmpires.Domain.Attacks {
         public const decimal WonResourcesPerTurn = 0.05m;
         public const decimal WarResourcesModifier = 2.0m;
         public const decimal MinimumResourceArmyModifier = 0.5m;
+        public const int RevengeExpirationHours = 16;
 
         private Random random = new Random();
 
@@ -27,6 +28,7 @@ namespace WarOfEmpires.Domain.Attacks {
         public virtual AttackType Type { get; protected set; }
         public virtual ICollection<AttackRound> Rounds { get; protected set; } = new List<AttackRound>();
         public virtual bool IsAtWar { get; protected set; }
+        public virtual bool HasWarDamage { get; protected set; }
 
         protected Attack() { }
 
@@ -41,6 +43,11 @@ namespace WarOfEmpires.Domain.Attacks {
 
             if (attacker.Alliance != null && defender.Alliance != null) {
                 IsAtWar = attacker.Alliance.Wars.Any(w => w.Alliances.Contains(defender.Alliance));
+                HasWarDamage = IsAtWar;
+            }
+
+            if (attacker.ReceivedAttacks.Any(a => a.IsAtWar && a.Attacker == defender && a.Date >= DateTime.UtcNow.AddHours(-RevengeExpirationHours))) {
+                HasWarDamage = true;
             }
         }
 
@@ -83,7 +90,7 @@ namespace WarOfEmpires.Domain.Attacks {
         }
 
         private Resources GetResources(decimal modifier) {
-            if (IsAtWar) {
+            if (HasWarDamage) {
                 modifier *= WarResourcesModifier;
             }
 
@@ -104,7 +111,7 @@ namespace WarOfEmpires.Domain.Attacks {
                 isAggressor,
                 attackerTroopInfo.Troops.GetTotals(),
                 damage,
-                defender.ProcessAttackDamage(damage, IsAtWar)
+                defender.ProcessAttackDamage(damage, HasWarDamage)
             ));
         }
 
