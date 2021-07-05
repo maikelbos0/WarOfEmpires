@@ -111,8 +111,8 @@ namespace WarOfEmpires.QueryHandlers.Tests.Attacks {
         [DataRow(null, null, false, DisplayName = "No received attacks, no executed revenge")]
         [DataRow(16 * 60 + 1, null, false, DisplayName = "Received attack too long ago, no executed revenge")]
         [DataRow(16 * 60 - 1, null, true, DisplayName = "Valid received attack, no executed revenge")]
-        [DataRow(12 * 60, 11 * 60, false, DisplayName = "Valid received attack, executed revenge earlier")]
-        [DataRow(12 * 60, 13 * 60, true, DisplayName = "Valid received attack, executed revenge later")]
+        [DataRow(12 * 60, 11 * 60, false, DisplayName = "Valid received attack, executed revenge later")]
+        [DataRow(12 * 60, 13 * 60, true, DisplayName = "Valid received attack, executed revenge earlier")]
         public void GetDefenderQueryHandler_Adds_ValidAttackType_Revenge_Correctly(int? minutesSinceLastReceivedAttack, int? minutesSinceLastExecutedRevenge, bool expectedRevenge) {
             var attackerBuilder = new FakeBuilder()
                 .WithGameStatus(1)
