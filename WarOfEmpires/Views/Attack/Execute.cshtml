@@ -25,6 +25,9 @@ else if (Model.IsAtWar) {
     @Html.HiddenFor(m => m.DefenderId)
     @Html.HiddenFor(m => m.DisplayName)
     @Html.HiddenFor(m => m.Population)
+    @for (int i = 0; i < Model.ValidAttackTypes.Count; i++) {
+        @Html.HiddenFor(model => Model.ValidAttackTypes[i])
+    }
 
     <div class="row">
         <div class="col-12 col-md-6 offset-md-3">
