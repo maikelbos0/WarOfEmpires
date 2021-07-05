@@ -58,7 +58,13 @@ else if (Model.IsAtWar) {
                 @if (Model.ValidAttackTypes.Contains("GrandOverlordAttack")) {
                     <div class="form-check">
                         @Html.RadioButtonFor(m => m.AttackType, "GrandOverlordAttack", new { id = "AttackType-GrandOverlordAttack", @class = "form-check-input" })
-                        <label class="form-check-label" for="AttackType-GrandOverlordAttack">Grand Overlord Attack <span class="text-muted">- charge your opponent's defences and try to stop them being Grand Overlord</span></label>
+                        <label class="form-check-label" for="AttackType-GrandOverlordAttack">Grand Overlord Attack <span class="text-muted">- charge your opponent's defences and try to stop them being Grand Overlord; your opponent will not surrender</span></label>
+                    </div>
+                }
+                @if (Model.ValidAttackTypes.Contains("Revenge")) {
+                    <div class="form-check">
+                        @Html.RadioButtonFor(m => m.AttackType, "Revenge", new { id = "AttackType-Revenge", @class = "form-check-input" })
+                        <label class="form-check-label" for="AttackType-Revenge">Revenge <span class="text-muted">- charge your opponent's defences to take revenge for earlier transgressions; your opponent will not surrender</span></label>
                     </div>
                 }
                 @Html.ValidationMessageFor(m => m.AttackType, null, new { @class = "small form-text text-danger" })
