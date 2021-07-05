@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using WarOfEmpires.Domain.Attacks;
 using WarOfEmpires.Domain.Game;
 using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Queries.Attacks;
@@ -103,6 +104,45 @@ namespace WarOfEmpires.QueryHandlers.Tests.Attacks {
             }
             else {
                 result.ValidAttackTypes.Should().NotContain("GrandOverlordAttack");
+            }
+        }
+
+        [DataTestMethod]
+        [DataRow(null, null, false, DisplayName = "No received attacks, no executed revenge")]
+        [DataRow(16 * 60 + 1, null, false, DisplayName = "Received attack too long ago, no executed revenge")]
+        [DataRow(16 * 60 - 1, null, true, DisplayName = "Valid received attack, no executed revenge")]
+        [DataRow(12 * 60, 11 * 60, false, DisplayName = "Valid received attack, executed revenge earlier")]
+        [DataRow(12 * 60, 13 * 60, true, DisplayName = "Valid received attack, executed revenge later")]
+        public void GetDefenderQueryHandler_Adds_ValidAttackType_Revenge_Correctly(int? minutesSinceLastReceivedAttack, int? minutesSinceLastExecutedRevenge, bool expectedRevenge) {
+            var attackerBuilder = new FakeBuilder()
+                .WithGameStatus(1)
+                .BuildPlayer(1);
+            var defenderBuilder = attackerBuilder
+                .BuildPlayer(2);
+
+            if (minutesSinceLastReceivedAttack.HasValue) {
+                defenderBuilder
+                    .WithAttackOn(2, attackerBuilder.Player, AttackType.Raid, AttackResult.Won, date: DateTime.UtcNow.AddMinutes(-minutesSinceLastReceivedAttack.Value));
+            }
+
+            attackerBuilder
+                .WithAttackOn(1, attackerBuilder.Player, AttackType.Raid, AttackResult.Won, date: DateTime.UtcNow.AddMinutes(-1));
+
+            if (minutesSinceLastExecutedRevenge.HasValue) {
+                attackerBuilder
+                    .WithAttackOn(3, defenderBuilder.Player, AttackType.Revenge, AttackResult.Won, date: DateTime.UtcNow.AddMinutes(-minutesSinceLastExecutedRevenge.Value));
+            }
+
+            var handler = new GetDefenderQueryHandler(attackerBuilder.Context);
+            var query = new GetDefenderQuery("test1@test.com", 2);
+
+            var result = handler.Execute(query);
+
+            if (expectedRevenge) {
+                result.ValidAttackTypes.Should().Contain("Revenge");
+            }
+            else {
+                result.ValidAttackTypes.Should().NotContain("Revenge");
             }
         }
     }

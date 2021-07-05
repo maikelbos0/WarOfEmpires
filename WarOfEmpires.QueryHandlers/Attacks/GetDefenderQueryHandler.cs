@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using VDT.Core.DependencyInjection;
@@ -30,6 +31,19 @@ namespace WarOfEmpires.QueryHandlers.Attacks {
                 .Include(p => p.Alliance)
                 .Single(p => p.User.Status == UserStatus.Active && p.Id == query.Id);
             var validAttackTypes = new List<string>() { AttackType.Assault.ToString(), AttackType.Raid.ToString() };
+            var revengeExpirationCutoff = DateTime.UtcNow.AddHours(-Attack.RevengeExpirationHours);
+            var lastExecutedRevengeDate = currentPlayer.ExecutedAttacks
+                .Where(a => a.Defender == player && a.Type == AttackType.Revenge)
+                .DefaultIfEmpty(null)
+                .Max(a => a?.Date);
+
+            if (lastExecutedRevengeDate.HasValue && lastExecutedRevengeDate.Value > revengeExpirationCutoff) {
+                revengeExpirationCutoff = lastExecutedRevengeDate.Value;
+            }
+
+            if (currentPlayer.ReceivedAttacks.Any(a => a.Attacker == player && a.Date >= revengeExpirationCutoff)) {
+                validAttackTypes.Add(AttackType.Revenge.ToString());
+            }
 
             if (player.Title == TitleType.GrandOverlord && currentPlayer.Title == TitleType.Overlord) {
                 validAttackTypes.Add(AttackType.GrandOverlordAttack.ToString());
@@ -40,7 +54,7 @@ namespace WarOfEmpires.QueryHandlers.Attacks {
                 DisplayName = player.DisplayName,
                 Population = player.Peasants + player.Workers.Sum(w => w.Count) + player.Troops.Sum(t => t.GetTotals()),
                 Turns = 10,
-                // TODO for revenges, war damage will apply for a certain period after getting attacked while at war
+                // TODO rename to has war damage / war damage will apply for a certain period after getting attacked while at war
                 IsAtWar = currentPlayer.Alliance != null && player.Alliance != null && currentPlayer.Alliance.Wars.Any(w => w.Alliances.Contains(player.Alliance)),
                 IsTruce = _context.GameStatus.Single().Phase == GamePhase.Truce,
                 ValidAttackTypes = validAttackTypes

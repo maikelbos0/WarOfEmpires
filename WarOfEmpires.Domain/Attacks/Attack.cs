@@ -15,6 +15,7 @@ namespace WarOfEmpires.Domain.Attacks {
         public const decimal WarResourcesModifier = 2.0m;
         public const decimal MinimumResourceArmyModifier = 0.5m;
         public const int RevengeExpirationHours = 16;
+        public const int WarAttackExpirationHours = 16;
 
         private Random random = new Random();
 
@@ -46,7 +47,7 @@ namespace WarOfEmpires.Domain.Attacks {
                 HasWarDamage = IsAtWar;
             }
 
-            if (attacker.ReceivedAttacks.Any(a => a.IsAtWar && a.Attacker == defender && a.Date >= DateTime.UtcNow.AddHours(-RevengeExpirationHours))) {
+            if (attacker.ReceivedAttacks.Any(a => a.IsAtWar && a.Attacker == defender && a.Date >= DateTime.UtcNow.AddHours(-WarAttackExpirationHours))) {
                 HasWarDamage = true;
             }
         }
