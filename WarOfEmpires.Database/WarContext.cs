@@ -254,7 +254,8 @@ namespace WarOfEmpires.Database {
             attacks.HasDiscriminator<string>("AttackType")
                 .HasValue<Attacks.Assault>(nameof(Attacks.Assault))
                 .HasValue<Attacks.Raid>(nameof(Attacks.Raid))
-                .HasValue<Attacks.GrandOverlordAttack>(nameof(Attacks.GrandOverlordAttack));
+                .HasValue<Attacks.GrandOverlordAttack>(nameof(Attacks.GrandOverlordAttack))
+                .HasValue<Attacks.Revenge>(nameof(Attacks.Revenge));
 
             var troopTypes = modelBuilder.Entity<TroopTypeEntity>().ToTable("TroopTypes", "Attacks");
             troopTypes.HasKey(t => t.Id);
