@@ -135,19 +135,21 @@ namespace WarOfEmpires.CommandHandlers.Tests.Attacks {
         [DataTestMethod]
         [DataRow("Raid", AttackType.Raid, DisplayName = "Raid")]
         [DataRow("Assault", AttackType.Assault, DisplayName = "Assault")]
-        [DataRow("GrandOverlordAttack", AttackType.GrandOverlordAttack, DisplayName = "GrandOverlordAttack")]
+        [DataRow("GrandOverlordAttack", AttackType.GrandOverlordAttack, DisplayName = "Grand overlord attack")]
+        [DataRow("Revenge", AttackType.Revenge, DisplayName = "Revenge")]
         public void AttackCommandHandler_Resolves_Type_Parameter_To_Correct_Type(string typeParameter, AttackType expectedAttackType) {
             var builder = new FakeBuilder()
                 .WithGameStatus(1)
                 .WithPlayer(1, out var attacker, title: TitleType.Overlord)
-                .WithPlayer(2, out var defender, title: TitleType.GrandOverlord);
+                .BuildPlayer(2, title: TitleType.GrandOverlord)
+                .WithAttackOn(3, attacker, AttackType.Raid, AttackResult.Won, date: DateTime.UtcNow);
 
             var handler = new AttackCommandHandler(new PlayerRepository(builder.Context), new GameStatusRepository(builder.Context));
             var command = new AttackCommand(typeParameter, "test1@test.com", 2, 10);
 
             handler.Execute(command);
 
-            attacker.Received().ExecuteAttack(expectedAttackType, defender, 10);
+            attacker.Received().ExecuteAttack(expectedAttackType, builder.Player, 10);
         }
 
         [TestMethod]
@@ -199,6 +201,40 @@ namespace WarOfEmpires.CommandHandlers.Tests.Attacks {
             result.Should().HaveError("You need to be an Overlord to attack the Grand Overlord");
             attacker.DidNotReceiveWithAnyArgs().ExecuteAttack(default, default, default);
             builder.Context.CallsToSaveChanges.Should().Be(0);
+        }
+
+        [DataTestMethod]
+        [DataRow(null, null, DisplayName = "No received attacks, no executed revenge")]
+        [DataRow(16 * 60 + 1, null, DisplayName = "Received attack too long ago, no executed revenge")]
+        [DataRow(12 * 60, 11 * 60, DisplayName = "Valid received attack, executed revenge earlier")]
+        public void AttackCommandHandler_Fails_For_Revenge_Not_Outstanding(int? minutesSinceLastReceivedAttack, int? minutesSinceLastExecutedRevenge) {
+            var attackerBuilder = new FakeBuilder()
+                .WithGameStatus(1)
+                .BuildPlayer(1);
+            var defenderBuilder = attackerBuilder
+                .BuildPlayer(2);
+
+            if (minutesSinceLastReceivedAttack.HasValue) {
+                defenderBuilder
+                    .WithAttackOn(2, attackerBuilder.Player, AttackType.Raid, AttackResult.Won, date: DateTime.UtcNow.AddMinutes(-minutesSinceLastReceivedAttack.Value));
+            }
+
+            attackerBuilder
+                .WithAttackOn(1, attackerBuilder.Player, AttackType.Raid, AttackResult.Won, date: DateTime.UtcNow.AddMinutes(-1));
+
+            if (minutesSinceLastExecutedRevenge.HasValue) {
+                attackerBuilder
+                    .WithAttackOn(3, defenderBuilder.Player, AttackType.Revenge, AttackResult.Won, date: DateTime.UtcNow.AddMinutes(-minutesSinceLastExecutedRevenge.Value));
+            }
+
+            var handler = new AttackCommandHandler(new PlayerRepository(attackerBuilder.Context), new GameStatusRepository(attackerBuilder.Context));
+            var query = new AttackCommand("Revenge", "test1@test.com", 2, 10);
+
+            var result = handler.Execute(query);
+
+            result.Should().HaveError("You don't have an outstanding revenge against your opponent");
+            attackerBuilder.Player.DidNotReceiveWithAnyArgs().ExecuteAttack(default, default, default);
+            attackerBuilder.Context.CallsToSaveChanges.Should().Be(0);
         }
     }
 }

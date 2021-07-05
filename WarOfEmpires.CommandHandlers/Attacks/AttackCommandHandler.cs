@@ -51,7 +51,21 @@ namespace WarOfEmpires.CommandHandlers.Attacks {
                 result.AddError("You need to be an Overlord to attack the Grand Overlord");
             }
 
-            // TODO filter revenge
+            if (type == AttackType.Revenge) {
+                var revengeExpirationCutoff = DateTime.UtcNow.AddHours(-Attack.RevengeExpirationHours);
+                var lastExecutedRevengeDate = attacker.ExecutedAttacks
+                    .Where(a => a.Defender == defender && a.Type == AttackType.Revenge)
+                    .DefaultIfEmpty(null)
+                    .Max(a => a?.Date);
+
+                if (lastExecutedRevengeDate.HasValue && lastExecutedRevengeDate.Value > revengeExpirationCutoff) {
+                    revengeExpirationCutoff = lastExecutedRevengeDate.Value;
+                }
+
+                if (!attacker.ReceivedAttacks.Any(a => a.Attacker == defender && a.Date >= revengeExpirationCutoff)) {
+                    result.AddError("You don't have an outstanding revenge against your opponent");
+                }
+            }
 
             if (attacker.AttackTurns < command.Turns) {
                 result.AddError(c => c.Turns, "You don't have enough attack turns");

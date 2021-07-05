@@ -6,7 +6,7 @@ using WarOfEmpires.Domain.Players;
 namespace WarOfEmpires.Domain.Attacks {
     public class Revenge : Attack {
         public const int DefenceDamageModifier = 5;
-
+        
         protected Revenge() { }
 
         public Revenge(Player attacker, Player defender, int turns) : base(attacker, defender, turns) {
