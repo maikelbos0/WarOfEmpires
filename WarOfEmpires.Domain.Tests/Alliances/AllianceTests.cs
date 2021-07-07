@@ -195,8 +195,8 @@ namespace WarOfEmpires.Domain.Tests.Alliances {
 
         [TestMethod]
         public void Alliance_Disband_Succeeds() {
-            var leader = new Player(1, "Leader");
-            var member = new Player(2, "Member");
+            var leader = new Player(1, "Leader") { HasNewChatMessages = true };
+            var member = new Player(2, "Member") { HasNewChatMessages = true };
             var alliance = new Alliance(leader, "TEST", "The Test");
             var role = new Role(alliance, "Testrole", false, false, false, false, false, false);
 
@@ -212,6 +212,8 @@ namespace WarOfEmpires.Domain.Tests.Alliances {
             alliance.Leader.Should().BeNull();
             alliance.Members.Should().BeEmpty();
             role.Players.Should().BeEmpty();
+            leader.HasNewChatMessages.Should().BeFalse();
+            member.HasNewChatMessages.Should().BeFalse();
         }
 
         [TestMethod]

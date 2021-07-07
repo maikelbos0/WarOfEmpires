@@ -79,6 +79,10 @@ namespace WarOfEmpires.Domain.Alliances {
         }
 
         public virtual void Disband() {
+            foreach (var member in Members) {
+                member.HasNewChatMessages = false;
+            }
+
             foreach (var role in Roles) {
                 role.Players.Clear();
             }
