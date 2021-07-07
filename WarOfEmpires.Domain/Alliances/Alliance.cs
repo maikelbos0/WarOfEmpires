@@ -29,6 +29,7 @@ namespace WarOfEmpires.Domain.Alliances {
 
         public virtual void RemoveMember(Player member) {
             Members.Remove(member);
+            member.HasNewChatMessages = false;
         }
 
         public virtual void SendInvite(Player player, string subject, string body) {

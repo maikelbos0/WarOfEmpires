@@ -23,10 +23,12 @@ namespace WarOfEmpires.Domain.Tests.Alliances {
             var alliance = new Alliance(leader, "TEST", "The Test");
 
             alliance.Members.Add(member);
+            member.HasNewChatMessages = true;
 
             alliance.RemoveMember(member);
 
             alliance.Members.Should().BeEquivalentTo(new[] { leader });
+            member.HasNewChatMessages.Should().BeFalse();
         }
 
         [TestMethod]
