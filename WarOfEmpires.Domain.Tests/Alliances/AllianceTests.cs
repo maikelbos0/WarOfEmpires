@@ -89,6 +89,23 @@ namespace WarOfEmpires.Domain.Tests.Alliances {
         }
 
         [TestMethod]
+        public void Alliance_PostChatMessage_Sets_HasNewChatMessages() {
+            var leader = new Player(1, "Leader");
+            var member1 = new Player(2, "Member 1");
+            var member2 = new Player(3, "Member 2");
+            var alliance = new Alliance(leader, "TEST", "The Test");
+
+            alliance.Members.Add(member1);
+            alliance.Members.Add(member2);
+
+            alliance.PostChatMessage(leader, "Test message");
+
+            leader.HasNewChatMessages.Should().BeFalse();
+            member1.HasNewChatMessages.Should().BeTrue();
+            member2.HasNewChatMessages.Should().BeTrue();
+        }
+
+        [TestMethod]
         public void Alliance_DeleteChatMessage_Succeeds() {
             var leader = new Player(1, "Leader");
             var alliance = new Alliance(leader, "TEST", "The Test");

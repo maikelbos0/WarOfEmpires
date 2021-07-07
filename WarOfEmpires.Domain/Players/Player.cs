@@ -40,6 +40,7 @@ namespace WarOfEmpires.Domain.Players {
         public virtual int Stamina { get; protected set; } = 100;
         public virtual bool HasUpkeepRunOut { get; protected set; } = false;
         public virtual bool HasNewMarketSales { get; set; } = false;
+        public virtual bool HasNewChatMessages { get; set; } = false;
         public virtual int Rank { get; protected set; } = int.MaxValue;
         public virtual TimeSpan GrandOverlordTime { get; protected set; } = TimeSpan.Zero;
         public virtual TitleType Title { get; protected set; } = TitleType.PeasantLeader;

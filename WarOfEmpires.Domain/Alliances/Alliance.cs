@@ -44,8 +44,12 @@ namespace WarOfEmpires.Domain.Alliances {
             Invites.Remove(invite);
         }
 
-        public virtual void PostChatMessage(Player member, string message) {
-            ChatMessages.Add(new ChatMessage(member, message));
+        public virtual void PostChatMessage(Player poster, string message) {
+            ChatMessages.Add(new ChatMessage(poster, message));
+
+            foreach (var member in Members.Where(m => m != poster)) {
+                member.HasNewChatMessages = true;
+            }
         }
 
         public virtual void DeleteChatMessage(ChatMessage chatMessage) {
