@@ -31,6 +31,7 @@ namespace WarOfEmpires.QueryHandlers.Players {
                 HasNewMessages = player.ReceivedMessages.Any(m => !m.IsRead),
                 HasNewAttacks = player.ReceivedAttacks.Any(a => !a.IsRead),
                 HasNewMarketSales = player.HasNewMarketSales,
+                HasNewChatMessages = player.HasNewChatMessages,
                 HasHousingShortage = player.GetTheoreticalRecruitsPerDay() > player.GetAvailableHousingCapacity(),
                 HasUpkeepShortage = player.HasUpkeepRunOut || player.WillUpkeepRunOut(),
                 HasSoldierShortage = player.GetSoldierRecruitsPenalty() > 0,

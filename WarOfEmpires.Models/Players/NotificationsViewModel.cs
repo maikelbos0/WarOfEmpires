@@ -3,6 +3,7 @@
         public bool HasNewMessages { get; set; }
         public bool HasNewAttacks { get; set; }
         public bool HasNewMarketSales { get; set; }
+        public bool HasNewChatMessages { get; set; }
         public bool HasHousingShortage { get; set; }
         public bool HasUpkeepShortage { get; set; }
         public bool HasSoldierShortage { get; set; }

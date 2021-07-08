@@ -227,6 +227,8 @@ let NotificationManager = {
                 $('#navbar-attack-dropdown, #attack-link').toggleClass("notify", result.hasNewAttacks);
 
                 $('#navbar-market-dropdown, #market-link').toggleClass("notify", result.hasNewMarketSales);
+                
+                $('#navbar-alliance-dropdown, #alliance-link').toggleClass("notify", result.hasNewChatMessages);
 
                 $('#navbar-empire-dropdown').toggleClass("notify", result.hasHousingShortage || result.hasUpkeepShortage || result.hasSoldierShortage);
                 $('#empire-buildings-link').toggleClass("notify", result.hasHousingShortage);

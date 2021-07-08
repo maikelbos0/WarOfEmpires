@@ -23,6 +23,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
             player.HasUpkeepRunOut.Returns(false);
             player.WillUpkeepRunOut().Returns(false);
             player.HasNewMarketSales.Returns(false);
+            player.HasNewChatMessages.Returns(false);
             player.GetAvailableHousingCapacity().Returns(5);
             player.GetTheoreticalRecruitsPerDay().Returns(5);
             player.GetSoldierRecruitsPenalty().Returns(0);
@@ -36,6 +37,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
             result.HasNewMessages.Should().BeFalse();
             result.HasNewAttacks.Should().BeFalse();
             result.HasNewMarketSales.Should().BeFalse();
+            result.HasNewChatMessages.Should().BeFalse();
             result.HasHousingShortage.Should().BeFalse();
             result.HasUpkeepShortage.Should().BeFalse();
             result.HasSoldierShortage.Should().BeFalse();
@@ -54,6 +56,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
             player.HasUpkeepRunOut.Returns(true);
             player.WillUpkeepRunOut().Returns(false);
             player.HasNewMarketSales.Returns(true);
+            player.HasNewChatMessages.Returns(true);
             player.GetAvailableHousingCapacity().Returns(4);
             player.GetTheoreticalRecruitsPerDay().Returns(5);
             player.GetSoldierRecruitsPenalty().Returns(1);
@@ -67,6 +70,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
             result.HasNewMessages.Should().BeTrue();
             result.HasNewAttacks.Should().BeTrue();
             result.HasNewMarketSales.Should().BeTrue();
+            result.HasNewChatMessages.Should().BeTrue();
             result.HasHousingShortage.Should().BeTrue();
             result.HasUpkeepShortage.Should().BeTrue();
             result.HasSoldierShortage.Should().BeTrue();
