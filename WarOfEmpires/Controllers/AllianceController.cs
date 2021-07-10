@@ -48,6 +48,8 @@ namespace WarOfEmpires.Controllers {
         [AllianceAuthorize]
         [HttpGet("Home")]
         public ViewResult Home() {
+            _messageService.Dispatch(new ReadNewChatMessagesCommand(_authenticationService.Identity));
+
             // Explicitly name view so it works from other actions
             return View("Home", _messageService.Dispatch(new GetAllianceHomeQuery(_authenticationService.Identity)));
         }
