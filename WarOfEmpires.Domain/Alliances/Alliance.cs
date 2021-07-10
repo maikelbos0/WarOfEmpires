@@ -109,6 +109,8 @@ namespace WarOfEmpires.Domain.Alliances {
             war.Alliances.Add(target);
             Wars.Add(war);
             target.Wars.Add(war);
+            PostChatMessage($"You have declared war on {target.Name}.");
+            target.PostChatMessage($"{Name} have declared war on you.");
         }
     }
 }

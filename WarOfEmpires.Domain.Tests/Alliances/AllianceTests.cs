@@ -255,6 +255,12 @@ namespace WarOfEmpires.Domain.Tests.Alliances {
             targetAlliance.Wars.Should().HaveCount(1);
             declaringAlliance.Wars.Single().Should().Be(targetAlliance.Wars.Single());
             declaringAlliance.Wars.Single().Alliances.Should().BeEquivalentTo(declaringAlliance, targetAlliance);
+            targetAlliance.ChatMessages.Should().HaveCount(1);
+            targetAlliance.ChatMessages.Single().Player.Should().BeNull();
+            targetAlliance.ChatMessages.Single().Message.Should().Be("The Senders have declared war on you.");
+            declaringAlliance.ChatMessages.Should().HaveCount(1);
+            declaringAlliance.ChatMessages.Single().Player.Should().BeNull();
+            declaringAlliance.ChatMessages.Single().Message.Should().Be("You have declared war on The Targets.");
         }
     }
 }
