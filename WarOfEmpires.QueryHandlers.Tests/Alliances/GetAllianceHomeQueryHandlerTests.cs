@@ -61,20 +61,24 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
                 .WithChatMessage(1, leader, new DateTime(2020, 2, 2), "Hidden")
                 .WithChatMessage(2, leader, DateTime.UtcNow.Date, "Displayed")
                 .WithMember(2, out var member, status: UserStatus.Inactive)
-                .WithChatMessage(3, member, DateTime.UtcNow.Date.AddDays(-1), "Visible");
+                .WithChatMessage(3, member, DateTime.UtcNow.Date.AddDays(-1), "Visible")
+                .WithChatMessage(4, null, DateTime.UtcNow.Date.AddDays(-2), "Visible too");
 
             var handler = new GetAllianceHomeQueryHandler(builder.Context);
             var query = new GetAllianceHomeQuery("test1@test.com");
 
             var result = handler.Execute(query);
 
-            result.ChatMessages.Should().HaveCount(2);
-            result.ChatMessages.First().PlayerId.Should().Be(1);
-            result.ChatMessages.First().Player.Should().Be("Test display name 1");
-            result.ChatMessages.First().Message.Should().Be("Displayed");
-            result.ChatMessages.Last().PlayerId.Should().Be(null);
-            result.ChatMessages.Last().Player.Should().Be("Test display name 2");
-            result.ChatMessages.Last().Message.Should().Be("Visible");
+            result.ChatMessages.Should().HaveCount(3);
+            result.ChatMessages[0].PlayerId.Should().Be(1);
+            result.ChatMessages[0].Player.Should().Be("Test display name 1");
+            result.ChatMessages[0].Message.Should().Be("Displayed");
+            result.ChatMessages[1].PlayerId.Should().BeNull();
+            result.ChatMessages[1].Player.Should().Be("Test display name 2");
+            result.ChatMessages[1].Message.Should().Be("Visible");
+            result.ChatMessages[2].PlayerId.Should().BeNull();
+            result.ChatMessages[2].Player.Should().BeNull();
+            result.ChatMessages[2].Message.Should().Be("Visible too");
         }
     }
 }

@@ -105,14 +105,19 @@
         @foreach (var chatMessage in Model.ChatMessages) {
             <div class="mb-3">
                 <label>
-                    @if (chatMessage.PlayerId == null) {
+                    @if (chatMessage.Player == null) {
+                        @:Alliance news from
+                    }
+                    else if (chatMessage.PlayerId == null) {
                         @chatMessage.Player
+                        @: posted on
                     }
                     else {
                         @Html.ActionLink(chatMessage.Player, "Details", "Player", new { id = chatMessage.PlayerId }, null)
+                        @: posted on
                     }
 
-                    posted on @chatMessage.Date.ToString(StringFormat.Date)
+                    @chatMessage.Date.ToString(StringFormat.Date)
                 </label>
 
                 @if (canDeleteChatMessages) {

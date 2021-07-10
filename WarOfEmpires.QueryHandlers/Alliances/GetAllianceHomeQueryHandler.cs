@@ -57,8 +57,8 @@ namespace WarOfEmpires.QueryHandlers.Alliances {
                 ChatMessages = chatMessages
                     .Select(m => new ChatMessageViewModel() {
                         Id = m.Id,
-                        PlayerId = m.Player.User.Status == UserStatus.Active ? m.Player.Id : default(int?),
-                        Player = m.Player.DisplayName,
+                        PlayerId = m.Player?.User?.Status == UserStatus.Active ? m.Player.Id : default(int?),
+                        Player = m.Player?.DisplayName,
                         Date = m.Date,
                         Message = m.Message
                     })
