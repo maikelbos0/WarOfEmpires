@@ -30,11 +30,13 @@ namespace WarOfEmpires.Domain.Alliances {
         public virtual void Leave(Player member) {
             Members.Remove(member);
             member.HasNewChatMessages = false;
+            PostChatMessage($"{member.DisplayName} has left our alliance.");
         }
 
         public virtual void Kick(Player member) {
             Members.Remove(member);
             member.HasNewChatMessages = false;
+            PostChatMessage($"{member.DisplayName} has been kicked from our alliance.");
         }
 
         public virtual void SendInvite(Player player, string subject, string body) {

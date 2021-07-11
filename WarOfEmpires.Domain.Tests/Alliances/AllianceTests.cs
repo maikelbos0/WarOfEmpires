@@ -29,6 +29,9 @@ namespace WarOfEmpires.Domain.Tests.Alliances {
 
             alliance.Members.Should().BeEquivalentTo(new[] { leader });
             member.HasNewChatMessages.Should().BeFalse();
+            alliance.ChatMessages.Should().HaveCount(1);
+            alliance.ChatMessages.Single().Player.Should().BeNull();
+            alliance.ChatMessages.Single().Message.Should().Be("Member has left our alliance.");
         }
 
         [TestMethod]
@@ -44,6 +47,9 @@ namespace WarOfEmpires.Domain.Tests.Alliances {
 
             alliance.Members.Should().BeEquivalentTo(new[] { leader });
             member.HasNewChatMessages.Should().BeFalse();
+            alliance.ChatMessages.Should().HaveCount(1);
+            alliance.ChatMessages.Single().Player.Should().BeNull();
+            alliance.ChatMessages.Single().Message.Should().Be("Member has been kicked from our alliance.");
         }
 
         [TestMethod]
