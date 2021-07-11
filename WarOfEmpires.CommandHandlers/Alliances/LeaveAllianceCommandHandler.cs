@@ -26,7 +26,7 @@ namespace WarOfEmpires.CommandHandlers.Alliances {
                 throw new InvalidOperationException("The alliance leader can't leave the alliance");
             }
 
-            player.Alliance.RemoveMember(player);
+            player.Alliance.Leave(player);
             _repository.SaveChanges();
 
             return result;

@@ -27,7 +27,12 @@ namespace WarOfEmpires.Domain.Alliances {
             Members.Add(leader);
         }
 
-        public virtual void RemoveMember(Player member) {
+        public virtual void Leave(Player member) {
+            Members.Remove(member);
+            member.HasNewChatMessages = false;
+        }
+
+        public virtual void Kick(Player member) {
             Members.Remove(member);
             member.HasNewChatMessages = false;
         }

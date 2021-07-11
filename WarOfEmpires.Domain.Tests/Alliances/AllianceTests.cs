@@ -17,7 +17,7 @@ namespace WarOfEmpires.Domain.Tests.Alliances {
         }
 
         [TestMethod]
-        public void Alliance_RemoveMember_Succeeds() {
+        public void Alliance_Leave_Succeeds() {
             var leader = new Player(1, "Leader");
             var member = new Player(2, "Member");
             var alliance = new Alliance(leader, "TEST", "The Test");
@@ -25,7 +25,22 @@ namespace WarOfEmpires.Domain.Tests.Alliances {
             alliance.Members.Add(member);
             member.HasNewChatMessages = true;
 
-            alliance.RemoveMember(member);
+            alliance.Leave(member);
+
+            alliance.Members.Should().BeEquivalentTo(new[] { leader });
+            member.HasNewChatMessages.Should().BeFalse();
+        }
+
+        [TestMethod]
+        public void Alliance_Kick_Succeeds() {
+            var leader = new Player(1, "Leader");
+            var member = new Player(2, "Member");
+            var alliance = new Alliance(leader, "TEST", "The Test");
+
+            alliance.Members.Add(member);
+            member.HasNewChatMessages = true;
+
+            alliance.Kick(member);
 
             alliance.Members.Should().BeEquivalentTo(new[] { leader });
             member.HasNewChatMessages.Should().BeFalse();

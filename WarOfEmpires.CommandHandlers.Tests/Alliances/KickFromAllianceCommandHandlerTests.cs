@@ -23,7 +23,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
             var result = handler.Execute(command);
 
             result.Success.Should().BeTrue();
-            builder.Alliance.Received().RemoveMember(member);
+            builder.Alliance.Received().Kick(member);
             builder.Context.CallsToSaveChanges.Should().Be(1);
         }
 
@@ -39,7 +39,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
             Action action = () => handler.Execute(command);
 
             action.Should().Throw<InvalidOperationException>();
-            builder.Alliance.DidNotReceiveWithAnyArgs().RemoveMember(default);
+            builder.Alliance.DidNotReceiveWithAnyArgs().Kick(default);
             builder.Context.CallsToSaveChanges.Should().Be(0);
         }
 
@@ -56,7 +56,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
             Action action = () => handler.Execute(command);
 
             action.Should().Throw<NullReferenceException>();
-            builder.Alliance.DidNotReceiveWithAnyArgs().RemoveMember(default);
+            builder.Alliance.DidNotReceiveWithAnyArgs().Kick(default);
             builder.Context.CallsToSaveChanges.Should().Be(0);
         }
 
@@ -73,7 +73,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
             Action action = () => handler.Execute(command);
 
             action.Should().Throw<InvalidOperationException>();
-            builder.Alliance.DidNotReceiveWithAnyArgs().RemoveMember(default);
+            builder.Alliance.DidNotReceiveWithAnyArgs().Kick(default);
             builder.Context.CallsToSaveChanges.Should().Be(0);
         }
     }
