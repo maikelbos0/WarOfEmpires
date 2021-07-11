@@ -7488,6 +7488,7 @@ textarea.form-control-lg {
 /* colours */
 :root {
     --msg-bg-color: #66CC66; /* darker green */
+    --system-msg-bg-color: #FFBB88; /* light orange */
     --nav-notify-color: #9CEC5B; /* garish green */
     --nav-notify-hover-color: #66CC66; /* darker green */
     --pw-meter-border-color: #CED4DA; /* light grey */
@@ -7566,13 +7567,20 @@ textarea.form-control-lg {
     background-color: var(--pw-meter-3-color);
 }
 
-.site-user-text, .site-user-text-inline {
+.site-user-text, .site-user-text-inline, .site-system-text, .site-system-text-inline {
     white-space: pre-wrap;
-    background-color: var(--msg-bg-color);
     border-radius: 0.25em;
 }
 
-.site-user-text {
+.site-user-text, .site-user-text-inline {
+    background-color: var(--msg-bg-color);
+}
+
+.site-system-text, .site-system-text-inline {
+    background-color: var(--system-msg-bg-color);
+}
+
+.site-user-text, .site-system-text {
     padding: 0.375rem 0.75rem;
 }
 
@@ -7600,7 +7608,7 @@ textarea.form-control-lg {
     background: linear-gradient(0deg, var(--toggler-spacing-color) 9%, var(--toggler-color) 10%, var(--toggler-color) 24%, var(--toggler-spacing-color) 25%, var(--toggler-spacing-color) 42%, var(--toggler-color) 43%, var(--toggler-color) 57%, var(--toggler-spacing-color) 58%, var(--toggler-spacing-color) 75%, var(--toggler-color) 76%, var(--toggler-color) 90%, var(--toggler-spacing-color) 91% ) !important;
 }
 
-.site-toggler-icon:hover  {
+.site-toggler-icon:hover {
     background: linear-gradient(0deg, var(--toggler-spacing-color) 9%, var(--toggler-hover-color) 10%, var(--toggler-hover-color) 24%, var(--toggler-spacing-color) 25%, var(--toggler-spacing-color) 42%, var(--toggler-hover-color) 43%, var(--toggler-hover-color) 57%, var(--toggler-spacing-color) 58%, var(--toggler-spacing-color) 75%, var(--toggler-hover-color) 76%, var(--toggler-hover-color) 90%, var(--toggler-spacing-color) 91% ) !important;
 }
 
@@ -7609,7 +7617,7 @@ textarea.form-control-lg {
 }
 
 .bg-highlight {
-    background-color: var(--background-highlighted-color);
+    background-color: var(--background-highlighted-color) !important;
 }
 
 .table td.table-form-label {
