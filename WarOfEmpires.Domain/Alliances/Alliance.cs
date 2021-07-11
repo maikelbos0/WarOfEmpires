@@ -79,6 +79,7 @@ namespace WarOfEmpires.Domain.Alliances {
         }
 
         public virtual void TransferLeadership(Player member) {
+            PostChatMessage($"{Leader.DisplayName} has transferred leadership to {member.DisplayName}.");
             Leader = member;
         }
 

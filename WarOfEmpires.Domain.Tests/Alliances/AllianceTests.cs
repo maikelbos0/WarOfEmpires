@@ -204,7 +204,11 @@ namespace WarOfEmpires.Domain.Tests.Alliances {
             alliance.Members.Add(newLeader);
 
             alliance.TransferLeadership(newLeader);
+
             alliance.Leader.Should().Be(newLeader);
+            alliance.ChatMessages.Should().HaveCount(1);
+            alliance.ChatMessages.Single().Player.Should().BeNull();
+            alliance.ChatMessages.Single().Message.Should().Be("Old leader has transferred leadership to New leader.");
         }
 
         [TestMethod]
