@@ -39,6 +39,7 @@ namespace WarOfEmpires.Domain.Alliances {
         public virtual void AcceptInvite(Invite invite) {
             Members.Add(invite.Player);
             Invites.Remove(invite);
+            PostChatMessage($"{invite.Player.DisplayName} has joined our alliance.");
         }
 
         public virtual void RemoveInvite(Invite invite) {

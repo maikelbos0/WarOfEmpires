@@ -51,7 +51,7 @@ namespace WarOfEmpires.Domain.Tests.Alliances {
         [TestMethod]
         public void Alliance_AcceptInvite_Succeeds() {
             var leader = new Player(1, "Leader");
-            var player = new Player(2, "Player");
+            var player = new Player(2, "New Guy");
             var alliance = new Alliance(leader, "TEST", "The Test");
             var invite = new Invite(alliance, player, null, null);
 
@@ -61,6 +61,9 @@ namespace WarOfEmpires.Domain.Tests.Alliances {
 
             alliance.Members.Should().BeEquivalentTo(new[] { leader, player });
             alliance.Invites.Should().BeEmpty();
+            alliance.ChatMessages.Should().HaveCount(1);
+            alliance.ChatMessages.Single().Player.Should().BeNull();
+            alliance.ChatMessages.Single().Message.Should().Be("New Guy has joined our alliance.");
         }
 
         [TestMethod]
