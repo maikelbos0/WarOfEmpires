@@ -10,7 +10,10 @@ namespace WarOfEmpires.Domain.Alliances {
             PeaceDeclarations.Add(alliance);
 
             if (!Alliances.Except(PeaceDeclarations).Any()) {
+                var message = $"The war between {string.Join(" and ", Alliances.Select(a => a.Name))} has ended.";
+
                 foreach (var peaceAlliance in Alliances.ToList()) {
+                    peaceAlliance.PostChatMessage(message);
                     peaceAlliance.Wars.Remove(this);
                 }
             }
