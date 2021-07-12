@@ -7,6 +7,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 using System;
 using WarOfEmpires.Repositories.Security;
+using WarOfEmpires.Repositories.Players;
 
 namespace WarOfEmpires.CommandHandlers.Tests.Security {
     [TestClass]
@@ -14,9 +15,9 @@ namespace WarOfEmpires.CommandHandlers.Tests.Security {
         [TestMethod]
         public void DeactivateUserCommandHandler_Succeeds() {
             var builder = new FakeBuilder()
-                .BuildUser(1);
+                .BuildPlayer(1);
 
-            var handler = new DeactivateUserCommandHandler(new UserRepository(builder.Context));
+            var handler = new DeactivateUserCommandHandler(new UserRepository(builder.Context), new PlayerRepository(builder.Context));
             var command = new DeactivateUserCommand("test1@test.com", "test");
 
             var result = handler.Execute(command);
@@ -30,9 +31,9 @@ namespace WarOfEmpires.CommandHandlers.Tests.Security {
         [TestMethod]
         public void DeactivateUserCommandHandler_Fails_For_Wrong_Password() {
             var builder = new FakeBuilder()
-                .BuildUser(1);
+                .BuildPlayer(1);
 
-            var handler = new DeactivateUserCommandHandler(new UserRepository(builder.Context));
+            var handler = new DeactivateUserCommandHandler(new UserRepository(builder.Context), new PlayerRepository(builder.Context));
             var command = new DeactivateUserCommand("test1@test.com", "wrong");
 
             var result = handler.Execute(command);
@@ -44,11 +45,28 @@ namespace WarOfEmpires.CommandHandlers.Tests.Security {
         }
 
         [TestMethod]
+        public void DeactivateUserCommandHandler_Fails_For_Alliance_Leader() {
+            var builder = new FakeBuilder()
+                .BuildAlliance(1)
+                .BuildLeader(1);
+
+            var handler = new DeactivateUserCommandHandler(new UserRepository(builder.Context), new PlayerRepository(builder.Context));
+            var command = new DeactivateUserCommand("test1@test.com", "test");
+
+            var result = handler.Execute(command);
+
+            result.Should().HaveError("You can't deactivate your account while you are leading your alliance. Transfer leadership or dissolve your alliance.");
+            builder.User.DidNotReceiveWithAnyArgs().Deactivate();
+            builder.User.Received().DeactivationFailed();
+            builder.Context.CallsToSaveChanges.Should().Be(1);
+        }
+
+        [TestMethod]
         public void DeactivateUserCommandHandler_Throws_Exception_For_Invalid_User() {
             var builder = new FakeBuilder()
-                .BuildUser(1, status: UserStatus.Inactive);
+                .BuildPlayer(1, status: UserStatus.Inactive);
 
-            var handler = new DeactivateUserCommandHandler(new UserRepository(builder.Context));
+            var handler = new DeactivateUserCommandHandler(new UserRepository(builder.Context), new PlayerRepository(builder.Context));
             var command = new DeactivateUserCommand("test1@test.com", "test");
 
             Action commandAction = () => handler.Execute(command);

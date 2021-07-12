@@ -9,6 +9,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using WarOfEmpires.Controllers;
 using WarOfEmpires.Database;
+using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Models.Security;
 using WarOfEmpires.Services;
@@ -143,6 +144,10 @@ namespace WarOfEmpires.Tests.Integration {
             var user = new User("test@test.com", "test");
             user.Activate();
             _context.Users.Add(user);
+            
+            var player = new Player(0, "Test");
+            typeof(Player).GetProperty(nameof(Player.User)).SetValue(player, user);
+            _context.Players.Add(player);
 
             // Failed log in
             var failedLogInResult = await GetController().LogIn(new LogInUserModel() {
