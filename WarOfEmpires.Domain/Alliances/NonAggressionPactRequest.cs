@@ -19,12 +19,12 @@
             Sender.NonAggressionPacts.Add(pact);
             Recipient.NonAggressionPacts.Add(pact);
 
-            Sender.SentNonAggressionPactRequests.Remove(this);
-            Recipient.ReceivedNonAggressionPactRequests.Remove(this);
-
             var message = $"{Sender.Name} and {Recipient.Name} have entered a non-aggression pact.";
             Sender.PostChatMessage(message);
             Recipient.PostChatMessage(message);
+
+            Sender.SentNonAggressionPactRequests.Remove(this);
+            Recipient.ReceivedNonAggressionPactRequests.Remove(this);
         }
 
         public virtual void Reject() {
