@@ -147,6 +147,7 @@ namespace WarOfEmpires.Controllers {
                 return RedirectToAction("Index");
             }
             else {
+                ModelState.Merge(result);
                 return View(model);
             }
         }
