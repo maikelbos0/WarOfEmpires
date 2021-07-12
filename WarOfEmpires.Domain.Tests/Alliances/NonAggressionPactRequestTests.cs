@@ -23,6 +23,12 @@ namespace WarOfEmpires.Domain.Tests.Alliances {
             senderAlliance.NonAggressionPacts.Should().HaveCount(1);
             recipientAlliance.NonAggressionPacts.Should().HaveCount(1);
             recipientAlliance.NonAggressionPacts.Single().Alliances.Should().BeEquivalentTo(senderAlliance, recipientAlliance);
+            senderAlliance.ChatMessages.Should().HaveCount(1);
+            senderAlliance.ChatMessages.Single().Player.Should().BeNull();
+            senderAlliance.ChatMessages.Single().Message.Should().Be("The Senders and The Recipients have entered a non-aggression pact.");
+            recipientAlliance.ChatMessages.Should().HaveCount(1);
+            recipientAlliance.ChatMessages.Single().Player.Should().BeNull();
+            recipientAlliance.ChatMessages.Single().Message.Should().Be("The Senders and The Recipients have entered a non-aggression pact.");            
         }
 
         [TestMethod]

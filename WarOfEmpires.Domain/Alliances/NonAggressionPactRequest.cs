@@ -21,6 +21,10 @@
 
             Sender.SentNonAggressionPactRequests.Remove(this);
             Recipient.ReceivedNonAggressionPactRequests.Remove(this);
+
+            var message = $"{Sender.Name} and {Recipient.Name} have entered a non-aggression pact.";
+            Sender.PostChatMessage(message);
+            Recipient.PostChatMessage(message);
         }
 
         public virtual void Reject() {
@@ -29,7 +33,7 @@
         }
 
         public virtual void Withdraw() {
-            Recipient.ReceivedNonAggressionPactRequests.Remove(this);
+            Recipient.ReceivedNonAggressionPactRequests.Remove(this);            
         }
     }
 }
