@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Linq;
 using WarOfEmpires.Domain.Alliances;
 using WarOfEmpires.Domain.Players;
 
@@ -21,6 +22,12 @@ namespace WarOfEmpires.Domain.Tests.Alliances {
 
             firstAlliance.NonAggressionPacts.Should().BeEmpty();
             secondAlliance.NonAggressionPacts.Should().BeEmpty();
+            firstAlliance.ChatMessages.Should().HaveCount(1);
+            firstAlliance.ChatMessages.Single().Player.Should().BeNull();
+            firstAlliance.ChatMessages.Single().Message.Should().Be("The non-aggression pact between The First and The Others has been dissolved.");
+            secondAlliance.ChatMessages.Should().HaveCount(1);
+            secondAlliance.ChatMessages.Single().Player.Should().BeNull();
+            secondAlliance.ChatMessages.Single().Message.Should().Be("The non-aggression pact between The First and The Others has been dissolved.");
         }
     }
 }
