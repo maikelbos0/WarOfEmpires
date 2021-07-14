@@ -20,7 +20,7 @@
 
             <div class="mb-3">
                 <label>Recipient</label>
-                <div class="form-control" readonly="readonly">@Model.Recipient</div>
+                @Html.ActionLink(Model.Recipient, "Details", "Player", new { id = Model.RecipientId }, new { @class = "w-100 btn btn-secondary text-start" })
             </div>
 
             <div class="mb-3">
