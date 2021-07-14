@@ -57,6 +57,11 @@
             <div class="form-control" readonly="readonly">@Model.Population.ToString(StringFormat.Integer)</div>
         </div>
 
+        <div class="mb-3">
+            <label>Defences</label>
+            <div class="form-control" readonly="readonly">@Model.Defences</div>
+        </div>
+
         @if (Model.GrandOverlordTime.HasValue) {
             <div class="mb-3">
                 <label>Grand overlord time</label>

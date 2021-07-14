@@ -10,6 +10,7 @@ namespace WarOfEmpires.Models.Players {
         public string AllianceName { get; set; }
         public int Population { get; set; }
         public string Title { get; set; }
+        public string Defences { get; set; }
         public bool CanBeAttacked { get; set; }
         public TimeSpan? GrandOverlordTime { get; set; }
     }

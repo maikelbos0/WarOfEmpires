@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NSubstitute;
 using System;
+using WarOfEmpires.Domain.Empires;
 using WarOfEmpires.Queries.Players;
 using WarOfEmpires.QueryHandlers.Players;
 using WarOfEmpires.Test.Utilities;
@@ -16,6 +16,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
                 .WithPlayer(1)
                 .BuildAlliance(14)
                 .BuildMember(2, rank: 1)
+                .WithBuilding(BuildingType.Defences, 4)
                 .WithPopulation();
 
             var handler = new GetPlayerDetailsQueryHandler(builder.Context, new EnumFormatter());
@@ -28,6 +29,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
             result.Title.Should().Be("Sub chieftain");
             result.DisplayName.Should().Be("Test display name 2");
             result.Population.Should().Be(49);
+            result.Defences.Should().Be("Walled fort");
             result.AllianceId.Should().Be(14);
             result.AllianceCode.Should().Be("FS");
             result.AllianceName.Should().Be("Føroyskir Samgonga");

@@ -4,6 +4,7 @@ using System.Linq;
 using VDT.Core.DependencyInjection;
 using WarOfEmpires.Database;
 using WarOfEmpires.Domain.Alliances;
+using WarOfEmpires.Domain.Empires;
 using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Models.Players;
@@ -43,6 +44,7 @@ namespace WarOfEmpires.QueryHandlers.Players {
                         + (p.Workers.Sum(w => (int?)w.Count) ?? 0)
                         + (p.Troops.Sum(t => (int?)t.Soldiers) ?? 0)
                         + (p.Troops.Sum(t => (int?)t.Mercenaries) ?? 0),
+                    Defences = p.Buildings.SingleOrDefault(b => b.Type == BuildingType.Defences),
                     p.Alliance,
                     p.GrandOverlordTime,
                     CanBeAttacked = p.Id != currentPlayer.Id && (p.Alliance == null || (p.Alliance.Id != currentAllianceId && !p.Alliance.NonAggressionPacts.Any(pact => pact.Alliances.Any(pa => pa.Id == currentAllianceId))))
@@ -56,6 +58,7 @@ namespace WarOfEmpires.QueryHandlers.Players {
                 Title = _formatter.ToString(player.Title),
                 DisplayName = player.DisplayName,
                 Population = player.Population,
+                Defences = BuildingDefinitionFactory.Get(BuildingType.Defences).GetName(player.Defences?.Level ?? 0),
                 AllianceId = player.Alliance?.Id,
                 AllianceCode = player.Alliance?.Code,
                 AllianceName = player.Alliance?.Name,
