@@ -112,6 +112,7 @@ namespace WarOfEmpires.Database {
             players.HasMany(p => p.Buildings).WithOne().IsRequired();
             players.HasMany(p => p.SentMessages).WithOne(m => m.Sender).IsRequired().OnDelete(DeleteBehavior.NoAction);
             players.HasMany(p => p.ReceivedMessages).WithOne(m => m.Recipient).IsRequired();
+            players.HasMany(p => p.PlayerBlocks).WithOne().IsRequired();
             players.HasMany(p => p.ExecutedAttacks).WithOne(a => a.Attacker).IsRequired().OnDelete(DeleteBehavior.NoAction);
             players.HasMany(p => p.ReceivedAttacks).WithOne(a => a.Defender).IsRequired();
             players.HasMany(p => p.SellTransactions).WithOne().IsRequired().OnDelete(DeleteBehavior.NoAction).HasForeignKey("SellerId");
@@ -163,6 +164,10 @@ namespace WarOfEmpires.Database {
             var messages = modelBuilder.Entity<Players.Message>().ToTable("Messages", "Players");
             messages.HasKey(m => m.Id);
             messages.Property(m => m.Subject).IsRequired().HasMaxLength(100);
+
+            var playerBlocks = modelBuilder.Entity<Players.PlayerBlock>().ToTable("PlayerBlocks", "Players");
+            playerBlocks.HasKey(b => b.Id);
+            playerBlocks.HasOne(b => b.BlockedPlayer).WithMany().IsRequired().OnDelete(DeleteBehavior.NoAction);
 
             var caravans = modelBuilder.Entity<Markets.Caravan>().ToTable("Caravans", "Markets");
             caravans.HasMany(c => c.Merchandise).WithOne().IsRequired();
