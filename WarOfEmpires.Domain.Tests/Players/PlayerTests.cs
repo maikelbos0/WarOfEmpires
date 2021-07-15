@@ -1243,5 +1243,39 @@ namespace WarOfEmpires.Domain.Tests.Players {
             message.IsRead.Should().Be(false);
             message.Date.Should().BeCloseTo(DateTime.UtcNow, 1000);
         }
+
+        [TestMethod]
+        public void Player_Block_Succeeds() {
+            var player = new Player(0, "Test");
+            var blocked = new Player(1, "Blocked");
+
+            player.Block(blocked);
+
+            player.BlockedPlayers.Should().BeEquivalentTo(blocked);
+        }
+
+        [TestMethod]
+        public void Player_Block_Does_Not_Add_Doubles() {
+            var player = new Player(0, "Test");
+            var blocked = new Player(1, "Blocked");
+
+            player.BlockedPlayers.Add(blocked);
+
+            player.Block(blocked);
+
+            player.BlockedPlayers.Should().BeEquivalentTo(blocked);
+        }
+
+        [TestMethod]
+        public void Player_Unblock_Succeeds() {
+            var player = new Player(0, "Test");
+            var blocked = new Player(1, "Blocked");
+
+            player.BlockedPlayers.Add(blocked);
+
+            player.Unblock(blocked);
+
+            player.BlockedPlayers.Should().BeEmpty();
+        }
     }
 }

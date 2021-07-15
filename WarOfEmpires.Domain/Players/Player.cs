@@ -58,6 +58,7 @@ namespace WarOfEmpires.Domain.Players {
         public virtual ICollection<Caravan> Caravans { get; protected set; } = new List<Caravan>();
         public virtual ICollection<Transaction> BuyTransactions { get; protected set; } = new List<Transaction>();
         public virtual ICollection<Transaction> SellTransactions { get; protected set; } = new List<Transaction>();
+        public virtual ICollection<Player> BlockedPlayers { get; protected set; } = new List<Player>();
 
         protected Player() {
         }
@@ -516,6 +517,16 @@ namespace WarOfEmpires.Domain.Players {
 
             SentMessages.Add(message);
             recipient.ReceivedMessages.Add(message);
+        }
+
+        public virtual void Block(Player player) {
+            if (!BlockedPlayers.Contains(player)) {
+                BlockedPlayers.Add(player);
+            }
+        }
+
+        public virtual void Unblock(Player player) {
+            BlockedPlayers.Remove(player);
         }
     }
 }
