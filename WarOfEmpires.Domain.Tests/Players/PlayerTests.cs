@@ -1251,7 +1251,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
             player.Block(blocked);
 
-            player.BlockedPlayers.Should().BeEquivalentTo(blocked);
+            player.PlayerBlocks.Should().ContainSingle().Which.BlockedPlayer.Should().Be(blocked);
         }
 
         [TestMethod]
@@ -1259,11 +1259,11 @@ namespace WarOfEmpires.Domain.Tests.Players {
             var player = new Player(0, "Test");
             var blocked = new Player(1, "Blocked");
 
-            player.BlockedPlayers.Add(blocked);
+            player.PlayerBlocks.Add(new PlayerBlock(blocked));
 
             player.Block(blocked);
 
-            player.BlockedPlayers.Should().BeEquivalentTo(blocked);
+            player.PlayerBlocks.Should().ContainSingle().Which.BlockedPlayer.Should().Be(blocked);
         }
 
         [TestMethod]
@@ -1271,11 +1271,11 @@ namespace WarOfEmpires.Domain.Tests.Players {
             var player = new Player(0, "Test");
             var blocked = new Player(1, "Blocked");
 
-            player.BlockedPlayers.Add(blocked);
+            player.PlayerBlocks.Add(new PlayerBlock(blocked));
 
             player.Unblock(blocked);
 
-            player.BlockedPlayers.Should().BeEmpty();
+            player.PlayerBlocks.Should().BeEmpty();
         }
     }
 }
