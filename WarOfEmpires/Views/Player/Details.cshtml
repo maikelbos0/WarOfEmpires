@@ -20,6 +20,12 @@
                 @if (AuthorizationService.IsAuthorized(new AllianceAuthorizationRequest() { CanInvite = true })) {
                     @Html.ActionLink("Invite into alliance", "Invite", "Alliance", new { PlayerId = Model.Id }, new { @class = "btn btn-secondary" });
                 }
+
+                @using (Html.BeginForm("Block", "Player", FormMethod.Post)) {
+                    @Html.HiddenFor(m => m.Id)
+
+                    <button type="submit" class="btn btn-secondary site-unrounded-start">Block</button>
+                }
             </div>
         </div>
 

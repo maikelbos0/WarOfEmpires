@@ -7656,6 +7656,11 @@ textarea.form-control-lg {
     background-color: var(--status-war-color-subtle);
 }
 
+.site-unrounded-start {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
 .si:after {
     display: inline-block;
     vertical-align: top;

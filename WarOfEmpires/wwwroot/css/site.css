@@ -168,3 +168,8 @@
 .form-control.site-form-control-status-war {
     background-color: var(--status-war-color-subtle);
 }
+
+.site-unrounded-start {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}

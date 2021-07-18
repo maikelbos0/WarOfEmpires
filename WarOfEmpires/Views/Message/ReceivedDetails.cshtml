@@ -12,6 +12,12 @@
             <div class="text-end">
                 <div class="btn-group">
                     @Html.ActionLink("Reply", "Reply", new { messageId = Model.Id }, new { @class = "btn btn-primary" })
+
+                    @using (Html.BeginForm("Block", "Player", FormMethod.Post)) {
+                        <input type="hidden" name="id" value="@Model.SenderId" />
+
+                        <button type="submit" class="btn btn-secondary site-unrounded-start">Block</button>
+                    }
                 </div>
             </div>
         }

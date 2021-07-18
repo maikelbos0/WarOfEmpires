@@ -11,7 +11,7 @@ namespace WarOfEmpires.Controllers {
     [UserOnline]
     [Route("Player")]
     public sealed class PlayerController : BaseController {
-        public PlayerController(IAuthenticationService authenticationService, IMessageService messageService, IDataGridViewService dataGridViewService) 
+        public PlayerController(IAuthenticationService authenticationService, IMessageService messageService, IDataGridViewService dataGridViewService)
             : base(messageService, authenticationService, dataGridViewService) {
         }
 
@@ -40,6 +40,16 @@ namespace WarOfEmpires.Controllers {
         public ViewResult Blocked() {
             // Explicitly name view so it works from other actions
             return View("Blocked", _messageService.Dispatch(new GetBlockedPlayersQuery(_authenticationService.Identity)));
+        }
+
+        [HttpPost("Block")]
+        public ViewResult Block(int id) {
+            throw new System.NotImplementedException();
+        }
+
+        [HttpPost("Unblock")]
+        public ViewResult Unblock(int id) {
+            throw new System.NotImplementedException();
         }
     }
 }
