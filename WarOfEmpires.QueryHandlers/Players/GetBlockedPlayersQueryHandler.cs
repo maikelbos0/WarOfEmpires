@@ -1,9 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using VDT.Core.DependencyInjection;
 using WarOfEmpires.Database;
+using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Models.Players;
 using WarOfEmpires.Queries.Players;
 using WarOfEmpires.QueryHandlers.Decorators;
+using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Players {
     [TransientServiceImplementation(typeof(IQueryHandler<GetBlockedPlayersQuery, IEnumerable<BlockedPlayerViewModel>>))]
@@ -16,7 +19,15 @@ namespace WarOfEmpires.QueryHandlers.Players {
 
         [Audit]
         public IEnumerable<BlockedPlayerViewModel> Execute(GetBlockedPlayersQuery query) {
-            throw new System.NotImplementedException();
+            return _context.Players
+                .Where(p => EmailComparisonService.Equals(p.User.Email, query.Email))
+                .SelectMany(p => p.PlayerBlocks)
+                .Select(b => b.BlockedPlayer)
+                .Where(p => p.User.Status == UserStatus.Active)
+                .Select(p => new BlockedPlayerViewModel() {
+                    Id = p.Id,
+                    DisplayName = p.DisplayName
+                });
         }
     }
 }

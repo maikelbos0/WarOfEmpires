@@ -163,6 +163,7 @@ namespace WarOfEmpires.Test.Utilities {
 
             playerBlock.Id.Returns(id);
             playerBlock.BlockedPlayer.Returns(blockedPlayer);
+            Player.PlayerBlocks.Add(playerBlock);
 
             return this;
         }
