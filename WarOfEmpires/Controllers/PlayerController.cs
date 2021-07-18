@@ -35,5 +35,11 @@ namespace WarOfEmpires.Controllers {
         public JsonResult GetNotifications() {
             return Json(_messageService.Dispatch(new GetNotificationsQuery(_authenticationService.Identity)));
         }
+
+        [HttpGet("Blocked")]
+        public ViewResult Blocked() {
+            // Explicitly name view so it works from other actions
+            return View("Blocked", _messageService.Dispatch(new GetBlockedPlayersQuery(_authenticationService.Identity)));
+        }
     }
 }

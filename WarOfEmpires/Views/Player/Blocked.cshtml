@@ -1,0 +1,41 @@
+﻿@model System.Collections.Generic.IEnumerable<WarOfEmpires.Models.Players.BlockedPlayerViewModel>
+
+@{
+    ViewBag.Title = "Blocked players";
+}
+
+<h2>Blocked players</h2>
+
+<p>
+    Below you can find the players you have blocked.
+    Blocked players are unable to send you messages.
+</p>
+
+<table class="table table-borderless table-striped">
+    <thead>
+        <tr>
+            <th>Player</th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var player in Model) {
+            <tr>
+                <td class="table-form-label">@player.DisplayName</td>
+                <td>
+                    @using (Html.BeginForm("Unblock", null, FormMethod.Post, new {
+                        data_success_message = "The player has been unblocked."
+                    })) {
+                        @Html.Hidden("id", player.Id)
+
+                        <button type="submit" class="btn btn-secondary w-100">
+                            <span class="d-none d-md-inline">Unblock</span>
+                            <span class="d-md-none">X</span>
+                        </button>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
