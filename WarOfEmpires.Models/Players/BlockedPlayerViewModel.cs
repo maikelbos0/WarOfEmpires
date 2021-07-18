@@ -1,6 +1,5 @@
 ﻿namespace WarOfEmpires.Models.Players {
-    public sealed class BlockedPlayerViewModel {
-        public int PlayerId { get; set; }
-        public string PlayerName { get; set; }
+    public sealed class BlockedPlayerViewModel : EntityViewModel {
+        public string DisplayName { get; set; }
     }
 }

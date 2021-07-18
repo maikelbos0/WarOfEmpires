@@ -39,6 +39,7 @@ namespace WarOfEmpires.Test.Utilities {
             Player.Caravans.Returns(new List<Caravan>());
             Player.SentMessages.Returns(new List<Message>());
             Player.ReceivedMessages.Returns(new List<Message>());
+            Player.PlayerBlocks.Returns(new List<PlayerBlock>());
             Player.CanAfford(Arg.Any<Resources>()).Returns(canAffordAnything);
             Player.Stamina.Returns(stamina);
             Player.GrandOverlordTime.Returns(grandOverlordTime ?? TimeSpan.Zero);
@@ -155,6 +156,19 @@ namespace WarOfEmpires.Test.Utilities {
 
         public FakePlayerBuilder WithMessageTo(int id, Player recipient, DateTime date, bool isRead = false, string subject = "Message subject", string body = "Message body") {
             return WithMessageTo(id, out _, recipient, date, isRead, subject, body);
+        }
+
+        public FakePlayerBuilder WithPlayerBlock(int id, out PlayerBlock playerBlock, Player blockedPlayer) {
+            playerBlock = Substitute.For<PlayerBlock>();
+
+            playerBlock.Id.Returns(id);
+            playerBlock.BlockedPlayer.Returns(blockedPlayer);
+
+            return this;
+        }
+
+        public FakePlayerBuilder WithPlayerBlock(int id, Player blockedPlayer) {
+            return WithPlayerBlock(id, out _, blockedPlayer);
         }
     }
 }
