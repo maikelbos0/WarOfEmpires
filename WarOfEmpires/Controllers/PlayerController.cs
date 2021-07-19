@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using WarOfEmpires.Commands.Players;
 using WarOfEmpires.Filters;
 using WarOfEmpires.Models.Grids;
 using WarOfEmpires.Models.Players;
@@ -44,12 +45,16 @@ namespace WarOfEmpires.Controllers {
 
         [HttpPost("Block")]
         public ViewResult Block(int id) {
-            throw new System.NotImplementedException();
+            return BuildViewResultFor(new BlockPlayerCommand(_authenticationService.Identity, id))
+                .OnSuccess(Blocked)
+                .ThrowOnFailure();
         }
 
         [HttpPost("Unblock")]
         public ViewResult Unblock(int id) {
-            throw new System.NotImplementedException();
+            return BuildViewResultFor(new UnblockPlayerCommand(_authenticationService.Identity, id))
+                .OnSuccess(Blocked)
+                .ThrowOnFailure();
         }
     }
 }

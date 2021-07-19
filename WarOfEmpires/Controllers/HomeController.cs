@@ -113,8 +113,8 @@ namespace WarOfEmpires.Controllers {
         [HttpPost("ForgotPassword")]
         public ViewResult ForgotPassword(ForgotUserPasswordModel model) {
             return BuildViewResultFor(new ForgotUserPasswordCommand(model.Email))
-            .OnSuccess(Index)
-            .ThrowOnFailure();
+                .OnSuccess(Index)
+                .ThrowOnFailure();
         }
 
         [HttpGet("ResetPassword")]
