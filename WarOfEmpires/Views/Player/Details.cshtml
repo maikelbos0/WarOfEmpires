@@ -21,7 +21,9 @@
                     @Html.ActionLink("Invite into alliance", "Invite", "Alliance", new { PlayerId = Model.Id }, new { @class = "btn btn-secondary" });
                 }
 
-                @using (Html.BeginForm("Block", "Player", FormMethod.Post)) {
+                @using (Html.BeginForm("Block", "Player", FormMethod.Post, new {
+                    data_success_message = "The player has been blocked."
+                })) {
                     @Html.HiddenFor(m => m.Id)
 
                     <button type="submit" class="btn btn-secondary site-unrounded-start">Block</button>
