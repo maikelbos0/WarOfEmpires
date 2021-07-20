@@ -55,7 +55,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Security {
 
             var result = handler.Execute(command);
 
-            result.Should().HaveError("You can't deactivate your account while you are leading your alliance. Transfer leadership or dissolve your alliance.");
+            result.Should().HaveError("You can't deactivate your account while you are leading your alliance; transfer leadership or dissolve your alliance");
             builder.User.DidNotReceiveWithAnyArgs().Deactivate();
             builder.User.Received().DeactivationFailed();
             builder.Context.CallsToSaveChanges.Should().Be(1);

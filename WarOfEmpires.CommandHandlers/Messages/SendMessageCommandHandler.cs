@@ -1,4 +1,5 @@
-﻿using VDT.Core.DependencyInjection;
+﻿using System.Linq;
+using VDT.Core.DependencyInjection;
 using WarOfEmpires.CommandHandlers.Decorators;
 using WarOfEmpires.Commands.Messages;
 using WarOfEmpires.Repositories.Players;
@@ -18,8 +19,14 @@ namespace WarOfEmpires.CommandHandlers.Messages {
             var sender = _repository.Get(command.SenderEmail);
             var recipient = _repository.Get(command.RecipientId);
 
-            sender.SendMessage(recipient, command.Subject, command.Body);
-            _repository.SaveChanges();
+            if (recipient.PlayerBlocks.Any(b => b.BlockedPlayer == sender)) {
+                result.AddError("You have been blocked from sending this player messages");
+            }
+
+            if (result.Success) {
+                sender.SendMessage(recipient, command.Subject, command.Body);
+                _repository.SaveChanges();
+            }
 
             return result;
         }

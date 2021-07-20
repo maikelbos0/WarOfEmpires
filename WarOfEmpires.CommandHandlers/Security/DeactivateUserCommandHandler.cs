@@ -24,7 +24,7 @@ namespace WarOfEmpires.CommandHandlers.Security {
             }
 
             if (player.Alliance?.Leader == player) {
-                result.AddError("You can't deactivate your account while you are leading your alliance. Transfer leadership or dissolve your alliance.");
+                result.AddError("You can't deactivate your account while you are leading your alliance; transfer leadership or dissolve your alliance");
             }
             
             if (result.Success) {

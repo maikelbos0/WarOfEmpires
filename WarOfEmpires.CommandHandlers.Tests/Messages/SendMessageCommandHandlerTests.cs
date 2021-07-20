@@ -27,6 +27,23 @@ namespace WarOfEmpires.CommandHandlers.Tests.Messages {
         }
 
         [TestMethod]
+        public void SendMessageCommandHandler_Fails_For_Blocked_Player() {
+            var builder = new FakeBuilder()
+                .WithPlayer(1, out var sender)
+                .BuildPlayer(2)
+                .WithPlayerBlock(1, sender);
+
+            var handler = new SendMessageCommandHandler(new PlayerRepository(builder.Context));
+            var command = new SendMessageCommand("test1@test.com", 2, "Subject", "Body");
+
+            var result = handler.Execute(command);
+
+            result.Should().HaveError("You have been blocked from sending this player messages");
+            sender.DidNotReceiveWithAnyArgs().SendMessage(default, default, default);
+            builder.Context.CallsToSaveChanges.Should().Be(0);
+        }
+
+        [TestMethod]
         public void SendMessageCommandHandler_Throws_Exception_For_Nonexistent_Recipient() {
             var builder = new FakeBuilder()
                 .BuildPlayer(1);
