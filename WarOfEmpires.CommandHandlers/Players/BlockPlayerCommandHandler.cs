@@ -1,5 +1,4 @@
-﻿using System;
-using VDT.Core.DependencyInjection;
+﻿using VDT.Core.DependencyInjection;
 using WarOfEmpires.CommandHandlers.Decorators;
 using WarOfEmpires.Commands.Players;
 using WarOfEmpires.Repositories.Players;
@@ -15,7 +14,15 @@ namespace WarOfEmpires.CommandHandlers.Players {
 
         [Audit]
         public CommandResult<BlockPlayerCommand> Execute(BlockPlayerCommand command) {
-            throw new NotImplementedException();
+            var result = new CommandResult<BlockPlayerCommand>();
+            var currentPlayer = _repository.Get(command.Email);
+            var player = _repository.Get(command.PlayerId);
+
+            currentPlayer.Block(player);
+
+            _repository.SaveChanges();
+
+            return result;
         }
     }
 }

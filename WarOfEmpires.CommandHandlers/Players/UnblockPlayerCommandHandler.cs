@@ -14,7 +14,15 @@ namespace WarOfEmpires.CommandHandlers.Players {
 
         [Audit]
         public CommandResult<UnblockPlayerCommand> Execute(UnblockPlayerCommand command) {
-            throw new System.NotImplementedException();
+            var result = new CommandResult<UnblockPlayerCommand>();
+            var currentPlayer = _repository.Get(command.Email);
+            var player = _repository.Get(command.PlayerId);
+
+            currentPlayer.Unblock(player);
+
+            _repository.SaveChanges();
+
+            return result;
         }
     }
 }
