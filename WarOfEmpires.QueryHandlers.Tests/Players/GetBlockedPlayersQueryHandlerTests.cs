@@ -33,7 +33,8 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
         [TestMethod]
         public void GetBlockedPlayersQueryHandler_Returns_Correct_Information() {
             var builder = new FakeBuilder()
-                .WithPlayer(2, out var player, displayName: "Blocked")
+                .BuildAlliance(2, code: "BLOK")
+                .WithMember(2, out var player, displayName: "Blocked")
                 .BuildPlayer(1)
                 .WithPlayerBlock(1, player);
 
@@ -45,6 +46,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
             result.Should().HaveCount(1);
             result.Single().Id.Should().Be(2);
             result.Single().DisplayName.Should().Be("Blocked");
+            result.Single().Alliance.Should().Be("BLOK");
         }
     }
 }

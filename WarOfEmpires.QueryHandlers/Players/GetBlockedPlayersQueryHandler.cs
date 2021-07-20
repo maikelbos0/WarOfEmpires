@@ -26,7 +26,8 @@ namespace WarOfEmpires.QueryHandlers.Players {
                 .Where(p => p.User.Status == UserStatus.Active)
                 .Select(p => new BlockedPlayerViewModel() {
                     Id = p.Id,
-                    DisplayName = p.DisplayName
+                    DisplayName = p.DisplayName,
+                    Alliance = p.Alliance == null ? null : p.Alliance.Code
                 });
         }
     }

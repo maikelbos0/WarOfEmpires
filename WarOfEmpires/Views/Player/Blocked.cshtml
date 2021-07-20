@@ -15,6 +15,7 @@
     <thead>
         <tr>
             <th>Player</th>
+            <th>Alliance</th>
             <th></th>
         </tr>
     </thead>
@@ -23,6 +24,7 @@
         @foreach (var player in Model) {
             <tr>
                 <td class="table-form-label">@player.DisplayName</td>
+                <td class="table-form-label">@player.Alliance</td>
                 <td>
                     @using (Html.BeginForm("Unblock", null, FormMethod.Post, new {
                         data_success_message = "The player has been unblocked."
