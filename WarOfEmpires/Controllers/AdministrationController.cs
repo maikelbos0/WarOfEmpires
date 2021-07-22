@@ -4,8 +4,11 @@ using WarOfEmpires.Commands.Events;
 using WarOfEmpires.Commands.Game;
 using WarOfEmpires.Filters;
 using WarOfEmpires.Models.Game;
+using WarOfEmpires.Models.Grids;
+using WarOfEmpires.Models.Security;
 using WarOfEmpires.Queries.Events;
 using WarOfEmpires.Queries.Game;
+using WarOfEmpires.Queries.Security;
 using WarOfEmpires.Services;
 
 namespace WarOfEmpires.Controllers {
@@ -54,6 +57,17 @@ namespace WarOfEmpires.Controllers {
             return BuildPartialViewResultFor(new SetGamePhaseCommand(model.Phase))
                 .OnSuccess(_GamePhase)
                 .ThrowOnFailure();
+        }
+
+        [HttpGet("_Users")]
+        public PartialViewResult _Users() {
+            return PartialView(new UserSearchModel());
+        }
+
+
+        [HttpPost("GetUsers")]
+        public JsonResult GetUsers(DataGridViewMetaData metaData, UserSearchModel search) {
+            return GridJson(new GetUsersQuery(search.DisplayName), metaData);
         }
     }
 }
