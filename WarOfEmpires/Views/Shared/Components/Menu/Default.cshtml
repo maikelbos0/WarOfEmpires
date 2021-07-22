@@ -129,6 +129,7 @@
                             <div class="dropdown-divider"></div>
                             @if (Model.IsAdmin) {
                                 @Html.ActionLink("Administration tools", "Index", "Administration", null, new { @class = "dropdown-item" })
+                                @Html.ActionLink("Users", "Users", "Administration", null, new { @class = "dropdown-item" })
                                 <div class="dropdown-divider"></div>
                             }
                             @Html.ActionLink("Deactivate account", "Deactivate", "Home", null, new { @class = "dropdown-item" })

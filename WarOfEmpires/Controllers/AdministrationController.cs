@@ -59,9 +59,9 @@ namespace WarOfEmpires.Controllers {
                 .ThrowOnFailure();
         }
 
-        [HttpGet("_Users")]
-        public PartialViewResult _Users() {
-            return PartialView(new UserSearchModel());
+        [HttpGet("Users")]
+        public ViewResult Users() {
+            return View(new UserSearchModel());
         }
 
 
