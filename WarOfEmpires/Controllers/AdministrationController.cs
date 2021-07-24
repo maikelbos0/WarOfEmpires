@@ -69,5 +69,10 @@ namespace WarOfEmpires.Controllers {
         public JsonResult GetUsers(DataGridViewMetaData metaData, UserSearchModel search) {
             return GridJson(new GetUsersQuery(search.DisplayName), metaData);
         }
+
+        [HttpGet("UserDetails")]
+        public ViewResult UserDetails(int id) {
+            return View(_messageService.Dispatch(new GetUserDetailsQuery(id)));
+        }
     }
 }
