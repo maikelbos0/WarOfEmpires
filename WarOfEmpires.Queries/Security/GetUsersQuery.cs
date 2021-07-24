@@ -8,6 +8,5 @@ namespace WarOfEmpires.Queries.Security {
         public GetUsersQuery(string displayName) {
             DisplayName = displayName;
         }
-
     }
 }
