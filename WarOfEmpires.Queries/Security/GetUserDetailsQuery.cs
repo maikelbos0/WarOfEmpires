@@ -2,12 +2,10 @@
 
 namespace WarOfEmpires.Queries.Security {
     public sealed class GetUserDetailsQuery : IQuery<UserDetailsModel> {
-        public string DisplayName { get; }
-        public int UserId { get; }
+        public int Id { get; }
 
-        public GetUserDetailsQuery(string displayName, int userId) {
-            DisplayName = displayName;
-            UserId = userId;
+        public GetUserDetailsQuery(int id) {
+            Id = id;
         }
     }
 }

@@ -13,14 +13,13 @@ namespace WarOfEmpires.QueryHandlers.Tests.Security {
         [TestMethod]
         public void GetUserDetailsQueryHandler_Returns_Correct_Information() {
             var builder = new FakeBuilder()
-                .WithPlayer(1)
                 .BuildAlliance(14)
                 .BuildMember(2, lastOnline: new DateTime(2021, 4, 5));
 
             builder.Player.User.IsAdmin.Returns(true);
 
             var handler = new GetUserDetailsQueryHandler(builder.Context, new EnumFormatter());
-            var query = new GetUserDetailsQuery("test1@test.com", 2);
+            var query = new GetUserDetailsQuery(2);
 
             var result = handler.Execute(query);
 
@@ -40,7 +39,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Security {
                 .BuildPlayer(1);
 
             var handler = new GetUserDetailsQueryHandler(builder.Context, new EnumFormatter());
-            var query = new GetUserDetailsQuery("test1@test.com", 5);
+            var query = new GetUserDetailsQuery( 5);
 
             Action action = () => handler.Execute(query);
 

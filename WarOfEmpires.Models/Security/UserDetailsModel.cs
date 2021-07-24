@@ -4,6 +4,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace WarOfEmpires.Models.Security {
     public sealed class UserDetailsModel : EntityViewModel {
+        [DisplayName("Email address")]
+        [Required(ErrorMessage = "Email address is required")]
+        [EmailAddress(ErrorMessage = "This email address is invalid")]
         public string Email { get; set; }
 
         [DisplayName("Display name")]
