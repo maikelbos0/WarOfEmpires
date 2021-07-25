@@ -18,7 +18,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Security {
 
             builder.Player.User.IsAdmin.Returns(true);
 
-            var handler = new GetUserDetailsQueryHandler(builder.Context, new EnumFormatter());
+            var handler = new GetUserDetailsQueryHandler(builder.Context);
             var query = new GetUserDetailsQuery(2);
 
             var result = handler.Execute(query);
@@ -38,7 +38,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Security {
             var builder = new FakeBuilder()
                 .BuildPlayer(1);
 
-            var handler = new GetUserDetailsQueryHandler(builder.Context, new EnumFormatter());
+            var handler = new GetUserDetailsQueryHandler(builder.Context);
             var query = new GetUserDetailsQuery( 5);
 
             Action action = () => handler.Execute(query);

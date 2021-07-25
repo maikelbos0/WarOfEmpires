@@ -5,16 +5,13 @@ using WarOfEmpires.Database;
 using WarOfEmpires.Models.Security;
 using WarOfEmpires.Queries.Security;
 using WarOfEmpires.QueryHandlers.Decorators;
-using WarOfEmpires.Utilities.Formatting;
 
 namespace WarOfEmpires.QueryHandlers.Security {
     [TransientServiceImplementation(typeof(IQueryHandler<GetUserDetailsQuery, UserDetailsModel>))]
     public sealed class GetUserDetailsQueryHandler : IQueryHandler<GetUserDetailsQuery, UserDetailsModel> {
         private readonly IWarContext _context;
-        private readonly IEnumFormatter _formatter;
 
-        public GetUserDetailsQueryHandler(IWarContext context, IEnumFormatter formatter) {
-            _formatter = formatter;
+        public GetUserDetailsQueryHandler(IWarContext context) {
             _context = context;
         }
 
@@ -32,7 +29,7 @@ namespace WarOfEmpires.QueryHandlers.Security {
                 DisplayName = player.DisplayName,
                 AllianceCode = player.Alliance?.Code,
                 AllianceName = player.Alliance?.Name,
-                Status = _formatter.ToString(player.User.Status),
+                Status = player.User.Status.ToString(),
                 IsAdmin = player.User.IsAdmin,
                 LastOnline = player.User.LastOnline
             };
