@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using WarOfEmpires.Commands.Events;
 using WarOfEmpires.Commands.Game;
+using WarOfEmpires.Commands.Security;
 using WarOfEmpires.Filters;
 using WarOfEmpires.Models.Game;
 using WarOfEmpires.Models.Grids;
@@ -73,6 +74,13 @@ namespace WarOfEmpires.Controllers {
         [HttpGet("UserDetails")]
         public ViewResult UserDetails(int id) {
             return View(_messageService.Dispatch(new GetUserDetailsQuery(id)));
+        }
+
+        [HttpPost("UserDetails")]
+        public ViewResult UserDetails(UserDetailsModel model) {
+            return BuildViewResultFor(new UpdateUserDetailsCommand(model.Email, model.DisplayName, model.AllianceCode, model.AllianceName, model.Status, model.IsAdmin))
+                .OnSuccess(() => UserDetails(model.Id))
+                .OnFailure("UserDetails", model);
         }
     }
 }
