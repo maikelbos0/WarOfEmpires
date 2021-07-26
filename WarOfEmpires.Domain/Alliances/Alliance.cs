@@ -121,5 +121,10 @@ namespace WarOfEmpires.Domain.Alliances {
             PostChatMessage($"You have declared war on {target.Name}.");
             target.PostChatMessage($"{Name} have declared war on you.");
         }
+
+        public virtual void Update(string code, string name) {
+            Code = code;
+            Name = name;
+        }
     }
 }

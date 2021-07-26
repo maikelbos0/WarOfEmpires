@@ -240,5 +240,16 @@ namespace WarOfEmpires.Domain.Tests.Security {
 
             user.LastOnline.Should().BeCloseTo(DateTime.UtcNow, 1000);
         }
+
+        [TestMethod]
+        public void User_Update_Succeeds() {
+            var user = new User("test@test.com", "test");
+
+            user.Update("new@test.com", UserStatus.Active, true);
+
+            user.Email.Should().Be("new@test.com");
+            user.Status.Should().Be(UserStatus.Active);
+            user.IsAdmin.Should().BeTrue();
+        }
     }
 }

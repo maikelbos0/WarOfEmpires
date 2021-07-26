@@ -530,5 +530,9 @@ namespace WarOfEmpires.Domain.Players {
                 PlayerBlocks.Remove(playerBlock);
             }
         }
+
+        public virtual void Update(string displayName) {
+            DisplayName = displayName;
+        }
     }
 }

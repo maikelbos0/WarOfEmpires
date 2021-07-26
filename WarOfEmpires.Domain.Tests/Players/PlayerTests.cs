@@ -1277,5 +1277,14 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
             player.PlayerBlocks.Should().BeEmpty();
         }
+
+        [TestMethod]
+        public void Player_Update_Succeeds() {
+            var player = new Player(0, "Test");
+
+            player.Update("New");
+
+            player.DisplayName.Should().Be("New");
+        }
     }
 }

@@ -162,5 +162,11 @@ namespace WarOfEmpires.Domain.Security {
         public virtual void WasOnline() {
             LastOnline = DateTime.UtcNow;
         }
+
+        public void Update(string email, UserStatus status, bool isAdmin) {
+            Email = email;
+            Status = status;
+            IsAdmin = isAdmin;
+        }
     }
 }

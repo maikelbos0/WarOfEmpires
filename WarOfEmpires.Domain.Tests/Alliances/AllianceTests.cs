@@ -290,5 +290,15 @@ namespace WarOfEmpires.Domain.Tests.Alliances {
             declaringAlliance.ChatMessages.Single().Player.Should().BeNull();
             declaringAlliance.ChatMessages.Single().Message.Should().Be("You have declared war on The Targets.");
         }
+
+        [TestMethod]
+        public void Alliance_Update_Succeeds() {
+            var alliance = new Alliance(new Player(1, "Leader"), "ALLY", "The Alliance");
+
+            alliance.Update("NEW", "The Reborn");
+
+            alliance.Code.Should().Be("NEW");
+            alliance.Name.Should().Be("The Reborn");
+        }
     }
 }
