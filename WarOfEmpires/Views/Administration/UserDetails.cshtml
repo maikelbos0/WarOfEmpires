@@ -7,6 +7,8 @@
 <h2>@Model.DisplayName</h2>
 
 @using (Html.BeginForm(null, null, FormMethod.Post, new { data_success_message = "The user details have been updated successfully." })) {
+    @Html.HiddenFor(m => m.Id)
+
     <div class="row">
         <div class="col-12 col-md-6 offset-md-3">
             @Html.ValidationSummary(true, null, new { @class = "site-validation-summary text-danger" })

@@ -78,7 +78,7 @@ namespace WarOfEmpires.Controllers {
 
         [HttpPost("UserDetails")]
         public ViewResult UserDetails(UserDetailsModel model) {
-            return BuildViewResultFor(new UpdateUserDetailsCommand(model.Email, model.DisplayName, model.AllianceCode, model.AllianceName, model.Status, model.IsAdmin))
+            return BuildViewResultFor(new UpdateUserDetailsCommand(model.Id, model.Email, model.DisplayName, model.AllianceCode, model.AllianceName, model.Status, model.IsAdmin))
                 .OnSuccess(() => UserDetails(model.Id))
                 .OnFailure("UserDetails", model);
         }
