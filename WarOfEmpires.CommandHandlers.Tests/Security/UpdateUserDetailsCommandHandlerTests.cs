@@ -15,7 +15,6 @@ namespace WarOfEmpires.CommandHandlers.Tests.Security {
         [TestMethod]
         public void UpdateUserDetailsCommandHandler_Succeeds() {
             var builder = new FakeBuilder()
-                .WithPlayer(2, email: "new@test.com")
                 .BuildAlliance(1)
                 .BuildLeader(1);
 
@@ -31,13 +30,28 @@ namespace WarOfEmpires.CommandHandlers.Tests.Security {
             builder.Context.CallsToSaveChanges.Should().Be(1);
         }
 
+        [TestMethod]
+        public void UpdateUserDetailsCommandHandler_Succeeds_For_Allianceless() {
+            var builder = new FakeBuilder()
+                .BuildPlayer(1);
+
+            var handler = new UpdateUserDetailsCommandHandler(new UserRepository(builder.Context), new PlayerRepository(builder.Context));
+            var command = new UpdateUserDetailsCommand(1, "new@test.com", "display", null, null, "Active", true);
+
+            var result = handler.Execute(command);
+
+            result.Success.Should().BeTrue();
+            builder.Player.Received().Update("display");
+            builder.User.Received().Update("new@test.com", UserStatus.Active, true);
+            builder.Context.CallsToSaveChanges.Should().Be(1);
+        }
+
         [DataTestMethod]
         [DataRow("New", UserStatus.New, DisplayName = "New")]
         [DataRow("Active", UserStatus.Active, DisplayName = "Active")]
         [DataRow("Inactive", UserStatus.Inactive, DisplayName = "Inactive")]
         public void UpdateUserDetailsCommandHandler_Resolves_Status_To_Correct_Status(string status, UserStatus expectedStatus) {
             var builder = new FakeBuilder()
-                .WithPlayer(2, email: "new@test.com")
                 .BuildAlliance(1)
                 .BuildLeader(1);
 
@@ -75,7 +89,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Security {
                 .BuildLeader(1);
 
             var handler = new UpdateUserDetailsCommandHandler(new UserRepository(builder.Context), new PlayerRepository(builder.Context));
-            var command = new UpdateUserDetailsCommand(2, "new@test.com", "display", "code", "name", "Wrong", false);
+            var command = new UpdateUserDetailsCommand(2, "new@test.com", "display", "code", "name", "Active", false);
 
             Action action = () => handler.Execute(command);
 
