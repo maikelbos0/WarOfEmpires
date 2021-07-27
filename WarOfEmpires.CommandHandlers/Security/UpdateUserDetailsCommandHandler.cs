@@ -24,7 +24,7 @@ namespace WarOfEmpires.CommandHandlers.Security {
             var player = _playerRepository.GetIgnoringStatus(command.Id);
             var existingUser = _repository.TryGetByEmail(command.Email);
 
-            if (existingUser != null) {
+            if (existingUser != null && existingUser != player.User) {
                 result.AddError(c => c.Email, "Email address already exists");
             }
 
