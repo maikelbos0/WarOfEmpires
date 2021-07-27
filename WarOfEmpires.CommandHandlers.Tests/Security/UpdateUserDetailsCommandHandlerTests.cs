@@ -16,7 +16,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Security {
         public void UpdateUserDetailsCommandHandler_Succeeds() {
             var builder = new FakeBuilder()
                 .BuildAlliance(1)
-                .BuildLeader(1);
+                .BuildLeader(1, status: UserStatus.Inactive);
 
             var handler = new UpdateUserDetailsCommandHandler(new UserRepository(builder.Context), new PlayerRepository(builder.Context));
             var command = new UpdateUserDetailsCommand(1, "new@test.com", "display", "code", "name", "Active", true);
@@ -27,6 +27,24 @@ namespace WarOfEmpires.CommandHandlers.Tests.Security {
             builder.Alliance.Received().Update("code", "name");
             builder.Player.Received().Update("display");
             builder.User.Received().Update("new@test.com", UserStatus.Active, true);
+            builder.Context.CallsToSaveChanges.Should().Be(1);
+        }
+
+        [TestMethod]
+        public void UpdateUserDetailsCommandHandler_Succeeds_For_Unchanged_Email() {
+            var builder = new FakeBuilder()
+                .BuildAlliance(1)
+                .BuildLeader(1);
+
+            var handler = new UpdateUserDetailsCommandHandler(new UserRepository(builder.Context), new PlayerRepository(builder.Context));
+            var command = new UpdateUserDetailsCommand(1, "test1@test.com", "display", "code", "name", "Active", true);
+
+            var result = handler.Execute(command);
+
+            result.Success.Should().BeTrue();
+            builder.Alliance.Received().Update("code", "name");
+            builder.Player.Received().Update("display");
+            builder.User.Received().Update("test1@test.com", UserStatus.Active, true);
             builder.Context.CallsToSaveChanges.Should().Be(1);
         }
 
