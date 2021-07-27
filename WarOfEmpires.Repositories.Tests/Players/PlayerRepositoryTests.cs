@@ -48,6 +48,34 @@ namespace WarOfEmpires.Repositories.Tests.Players {
             action.Should().Throw<InvalidOperationException>();
         }
 
+        [DataTestMethod]
+        [DataRow(UserStatus.New, DisplayName = "New")]
+        [DataRow(UserStatus.Active, DisplayName = "Active")]
+        [DataRow(UserStatus.Inactive, DisplayName = "Inactive")]
+        public void PlayerRepository_GetIgnoringStatus_Succeeds(UserStatus status) {
+            var builder = new FakeBuilder()
+                .WithPlayer(1, status: status);
+
+            var repository = new PlayerRepository(builder.Context);
+
+            var player = repository.GetIgnoringStatus(1);
+
+            player.Should().NotBeNull();
+            player.Id.Should().Be(1);
+        }
+
+        [TestMethod]
+        public void PlayerRepository_GetIgnoringStatus_Throws_Exception_For_Nonexistent_Id() {
+            var builder = new FakeBuilder()
+                .WithPlayer(1);
+
+            var repository = new PlayerRepository(builder.Context);
+
+            Action action = () => repository.GetIgnoringStatus(-1);
+
+            action.Should().Throw<InvalidOperationException>();
+        }
+
         [TestMethod]
         public void PlayerRepository_Get_Succeeds() {
             var builder = new FakeBuilder()

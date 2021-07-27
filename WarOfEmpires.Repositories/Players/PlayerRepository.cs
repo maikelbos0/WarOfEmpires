@@ -21,6 +21,10 @@ namespace WarOfEmpires.Repositories.Players {
             return _context.Players.Single(p => p.User.Status == UserStatus.Active && p.Id == id);
         }
 
+        public Player GetIgnoringStatus(int id) {
+            return _context.Players.Single(p => p.Id == id);
+        }
+
         public IEnumerable<Player> GetAll() {
             return _context.Players.Where(p => p.User.Status == UserStatus.Active).ToList();
         }

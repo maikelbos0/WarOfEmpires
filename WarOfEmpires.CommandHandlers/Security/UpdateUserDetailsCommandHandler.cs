@@ -21,7 +21,7 @@ namespace WarOfEmpires.CommandHandlers.Security {
         public CommandResult<UpdateUserDetailsCommand> Execute(UpdateUserDetailsCommand command) {
             var result = new CommandResult<UpdateUserDetailsCommand>();
             var status = (UserStatus)Enum.Parse(typeof(UserStatus), command.Status);
-            var player = _playerRepository.Get(command.Id);             // TODO make sure this works for inactive/new players
+            var player = _playerRepository.GetIgnoringStatus(command.Id);
             var existingUser = _repository.TryGetByEmail(command.Email);
 
             if (existingUser != null) {
