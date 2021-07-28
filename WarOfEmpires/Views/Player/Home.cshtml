@@ -5,3 +5,18 @@
 }
 
 <h2>Player Home</h2>
+
+<p>Welcome, [player]. Here's the state of your empire.</p>
+
+<ul>
+    <li class="text-danger">You have been [link:attacked] [x] times and lost [x] mercenaries and [x] soldiers</li>
+    <li class="text-danger">You aren't able to afford the upkeep costs; your workers have stopped working and your mercenaries have left your empire</li>
+    <li class="text-danger">You will run out of the food and gold required for upkeep in the next 8 hours; if you run out, your workers will stop working and your mercenaries will leave your empire</li>
+    <li class="text-danger">You don't have enough soldiers to protect your empire; train more of your peasants to be [link:soldiers] to stop scaring off new recruits</li>
+    <li class="text-danger">You currently have [link:housing room] for Model.TotalCapacity.ToString(StringFormat.Integer) occupants and are currently housing Model.TotalOccupancy.ToString(StringFormat.Integer) people</li>
+    <li>You have new [link:messages]</li>
+    <li>You have new [link:alliance invites]</li>
+    <li>You have new [link:alliance news]</li>
+    <li>You have new [link:market sales]</li>
+    <li>Peasants available for training: Model.CurrentPeasants.ToString(StringFormat.Integer)</li>
+</ul>
