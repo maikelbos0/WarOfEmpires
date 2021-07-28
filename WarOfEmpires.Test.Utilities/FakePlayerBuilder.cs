@@ -47,18 +47,18 @@ namespace WarOfEmpires.Test.Utilities {
             Context.Players.Add(Player);
         }
 
-        public FakeAttackBuilder BuildAttackOn(int id, Player defender, AttackType type, AttackResult result, int turns = 10, bool isRead = false, DateTime? date = null, Resources resources = null) {
-            return new FakeAttackBuilder(Context, id, Player, defender, type, result, turns, isRead, date, resources);
+        public FakeAttackBuilder BuildAttackOn(int id, Player defender, AttackType type, AttackResult result, int turns = 10, bool isRead = false, DateTime? date = null, Resources resources = null, bool isAtWar = false) {
+            return new FakeAttackBuilder(Context, id, Player, defender, type, result, turns, isRead, date, resources, isAtWar);
         }
 
-        public FakePlayerBuilder WithAttackOn(int id, out Attack attack, Player defender, AttackType type, AttackResult result, int turns = 10, bool isRead = false, DateTime? date = null, Resources resources = null) {
-            attack = BuildAttackOn(id, defender, type, result, turns, isRead, date, resources).Attack;
+        public FakePlayerBuilder WithAttackOn(int id, out Attack attack, Player defender, AttackType type, AttackResult result, int turns = 10, bool isRead = false, DateTime? date = null, Resources resources = null, bool isAtWar = false) {
+            attack = BuildAttackOn(id, defender, type, result, turns, isRead, date, resources, isAtWar).Attack;
 
             return this;
         }
 
-        public FakePlayerBuilder WithAttackOn(int id, Player defender, AttackType type, AttackResult result, int turns = 10, bool isRead = false, DateTime? date = null, Resources resources = null) {
-            BuildAttackOn(id, defender, type, result, turns, isRead, date, resources);
+        public FakePlayerBuilder WithAttackOn(int id, Player defender, AttackType type, AttackResult result, int turns = 10, bool isRead = false, DateTime? date = null, Resources resources = null, bool isAtWar = false) {
+            BuildAttackOn(id, defender, type, result, turns, isRead, date, resources, isAtWar);
 
             return this;
         }

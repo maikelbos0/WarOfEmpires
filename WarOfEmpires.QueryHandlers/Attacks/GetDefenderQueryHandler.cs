@@ -54,8 +54,8 @@ namespace WarOfEmpires.QueryHandlers.Attacks {
                 DisplayName = player.DisplayName,
                 Population = player.Peasants + player.Workers.Sum(w => w.Count) + player.Troops.Sum(t => t.GetTotals()),
                 Turns = 10,
-                // TODO rename to has war damage / war damage will apply for a certain period after getting attacked while at war
-                IsAtWar = currentPlayer.Alliance != null && player.Alliance != null && currentPlayer.Alliance.Wars.Any(w => w.Alliances.Contains(player.Alliance)),
+                HasWarDamage = (currentPlayer.Alliance != null && player.Alliance != null && currentPlayer.Alliance.Wars.Any(w => w.Alliances.Contains(player.Alliance)))
+                    || currentPlayer.ReceivedAttacks.Any(a => a.IsAtWar && a.Attacker == player && a.Date >= DateTime.UtcNow.AddHours(-Attack.WarAttackExpirationHours)),
                 IsTruce = _context.GameStatus.Single().Phase == GamePhase.Truce,
                 ValidAttackTypes = validAttackTypes
             };

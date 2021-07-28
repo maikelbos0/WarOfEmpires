@@ -9,7 +9,7 @@ namespace WarOfEmpires.Test.Utilities {
     public class FakeAttackBuilder : FakeBuilder {
         public Attack Attack { get; }
 
-        internal FakeAttackBuilder(FakeWarContext context, int id, Player attacker, Player defender, AttackType type, AttackResult result, int turns, bool isRead, DateTime? date, Resources resources) : base(context) {
+        internal FakeAttackBuilder(FakeWarContext context, int id, Player attacker, Player defender, AttackType type, AttackResult result, int turns, bool isRead, DateTime? date, Resources resources, bool isAtWar) : base(context) {
             Attack = Substitute.For<Attack>();
 
             Attack.Id.Returns(id);
@@ -22,6 +22,7 @@ namespace WarOfEmpires.Test.Utilities {
             Attack.Date.Returns(date ?? new DateTime(2019, 1, 1));
             Attack.Resources.Returns(resources ?? new Resources());
             Attack.Rounds.Returns(new List<AttackRound>());
+            Attack.IsAtWar.Returns(isAtWar);
 
             attacker.ExecutedAttacks.Add(Attack);
             defender.ReceivedAttacks.Add(Attack);

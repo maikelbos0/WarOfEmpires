@@ -27,12 +27,12 @@ namespace WarOfEmpires.QueryHandlers.Tests.Attacks {
             result.DefenderId.Should().Be(2);
             result.DisplayName.Should().Be("Test display name 2");
             result.Population.Should().Be(49);
-            result.IsAtWar.Should().BeFalse();
+            result.HasWarDamage.Should().BeFalse();
             result.ValidAttackTypes.Should().BeEquivalentTo("Raid", "Assault");
         }
 
         [TestMethod]
-        public void GetDefenderQueryHandler_Returns_IsAtWar_For_War() {
+        public void GetDefenderQueryHandler_Returns_HasWarDamage_For_War() {
             var builder = new FakeBuilder()
                 .WithGameStatus(1)
                 .BuildAlliance(1)
@@ -47,7 +47,39 @@ namespace WarOfEmpires.QueryHandlers.Tests.Attacks {
 
             var result = handler.Execute(query);
 
-            result.IsAtWar.Should().BeTrue();
+            result.HasWarDamage.Should().BeTrue();
+        }
+
+        [TestMethod]
+        public void GetDefenderQueryHandler_Returns_HasWarDamage_When_Received_War_Attack_Recently() {
+            var builder = new FakeBuilder()
+                .WithGameStatus(1)
+                .WithPlayer(1, out var player)
+                .BuildPlayer(2)
+                .WithAttackOn(1, player, AttackType.Assault, AttackResult.Defended, date: DateTime.UtcNow.AddHours(-15).AddMinutes(-59), isAtWar: true);
+
+            var handler = new GetDefenderQueryHandler(builder.Context);
+            var query = new GetDefenderQuery("test1@test.com", 2);
+
+            var result = handler.Execute(query);
+
+            result.HasWarDamage.Should().BeTrue();
+        }
+
+        [TestMethod]
+        public void GetDefenderQueryHandler_Returns_HasWarDamage_When_Received_War_Attack_Expired() {
+            var builder = new FakeBuilder()
+                .WithGameStatus(1)
+                .WithPlayer(1, out var player)
+                .BuildPlayer(2)
+                .WithAttackOn(1, player, AttackType.Assault, AttackResult.Defended, date: DateTime.UtcNow.AddHours(-16).AddMinutes(-1));
+
+            var handler = new GetDefenderQueryHandler(builder.Context);
+            var query = new GetDefenderQuery("test1@test.com", 2);
+
+            var result = handler.Execute(query);
+
+            result.HasWarDamage.Should().BeFalse();
         }
 
         [DataTestMethod]
