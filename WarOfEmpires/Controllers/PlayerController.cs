@@ -56,5 +56,10 @@ namespace WarOfEmpires.Controllers {
                 .OnSuccess(Blocked)
                 .ThrowOnFailure();
         }
+
+        [HttpGet("Home")]
+        public ViewResult Home() {
+            return View();
+        }
     }
 }

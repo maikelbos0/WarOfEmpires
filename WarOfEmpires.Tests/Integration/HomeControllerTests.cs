@@ -68,7 +68,7 @@ namespace WarOfEmpires.Tests.Integration {
                 Password = "test"
             });
 
-            logInResult.Should().BeOfType<RedirectResult>();
+            logInResult.Should().BeOfType<RedirectToActionResult>();
             _authenticationService.Identity.Should().Be("test@test.com");
         }
 
@@ -102,7 +102,7 @@ namespace WarOfEmpires.Tests.Integration {
                 Password = "test"
             });
 
-            logInResult.Should().BeOfType<RedirectResult>();
+            logInResult.Should().BeOfType<RedirectToActionResult>();
             _authenticationService.Identity.Should().Be("test@test.com");
         }
 
@@ -134,7 +134,7 @@ namespace WarOfEmpires.Tests.Integration {
                 Password = "hunter2"
             });
 
-            logInResult.Should().BeOfType<RedirectResult>();
+            logInResult.Should().BeOfType<RedirectToActionResult>();
             _authenticationService.Identity.Should().Be("test@test.com");
         }
 
@@ -164,7 +164,7 @@ namespace WarOfEmpires.Tests.Integration {
                 Password = "test"
             });
 
-            logInResult.Should().BeOfType<RedirectResult>();
+            logInResult.Should().BeOfType<RedirectToActionResult>();
             _authenticationService.Identity.Should().Be("test@test.com");
 
             // Deactivate
@@ -212,7 +212,7 @@ namespace WarOfEmpires.Tests.Integration {
                 Password = "test"
             });
 
-            logInResult.Should().BeOfType<RedirectResult>();
+            logInResult.Should().BeOfType<RedirectToActionResult>();
             _authenticationService.Identity.Should().Be("new@test.com");
         }
 

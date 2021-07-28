@@ -72,7 +72,13 @@ namespace WarOfEmpires.Controllers {
 
             if (result.Success) {
                 await _authenticationService.SignIn(model.Email);
-                return Redirect(model.ReturnUrl ?? "Index");
+
+                if (!string.IsNullOrEmpty(model.ReturnUrl)) {
+                    return Redirect(model.ReturnUrl);
+                }
+                else {
+                    return RedirectToAction("Home", "Player");
+                }
             }
             else {
                 ModelState.Merge(result);
