@@ -28,7 +28,7 @@
                 <div class="form-control" readonly="readonly">@Model.Leader</div>
             }
             else {
-                @Html.ActionLink(Model.Leader, "Details", "Player", new { id = Model.LeaderId }, new { @class = "w-100 btn btn-secondary text-start" })
+                <a asp-controller="Player" asp-action="Details" asp-route-id="@Model.LeaderId" class="w-100 btn btn-secondary text-start">@Model.Leader</a>
             }
         </div>
     </div>
@@ -52,27 +52,27 @@
                 @foreach (var member in Model.Members) {
                     <tr>
                         <td class="@(member.LastOnline > DateTime.UtcNow.AddMinutes(-30) ? "bg-highlight" : "")">
-                            @Html.ActionLink(member.Rank.ToString(StringFormat.Integer), "Details", "Player", new { id = member.Id }, null)
+                            <a asp-controller="Player" asp-action="Details" asp-route-id="@member.Id">@member.Rank.ToString(StringFormat.Integer)</a>
                         </td>
                         <td class="@(member.LastOnline > DateTime.UtcNow.AddMinutes(-30) ? "bg-highlight" : "")">
-                            @Html.ActionLink(member.DisplayName, "Details", "Player", new { id = member.Id }, null)
+                            <a asp-controller="Player" asp-action="Details" asp-route-id="@member.Id">@member.DisplayName</a>
                         </td>
                         <td class="@(member.LastOnline > DateTime.UtcNow.AddMinutes(-30) ? "bg-highlight" : "")">
-                            @Html.ActionLink(member.Role ?? "Member", "Details", "Player", new { id = member.Id }, null)
+                            <a asp-controller="Player" asp-action="Details" asp-route-id="@member.Id">@member.Role</a>
                         </td>
                         <td class="@(member.LastOnline > DateTime.UtcNow.AddMinutes(-30) ? "bg-highlight" : "")">
                             @if (member.LastOnline.HasValue) {
-                                @Html.ActionLink(member.LastOnline.Value.ToString(StringFormat.Date), "Details", "Player", new { id = member.Id }, null)
+                                <a asp-controller="Player" asp-action="Details" asp-route-id="@member.Id">@member.LastOnline.Value.ToString(StringFormat.Date))</a>
                             }
                         </td>
 
                         @if (canKickMembers) {
                             <td class="@(member.LastOnline > DateTime.UtcNow.AddMinutes(-30) ? "bg-highlight" : "")">
                                 @if (member.Id != Model.LeaderId) {
-                                    using (Html.BeginForm("KickFromAlliance", null, FormMethod.Post, new { data_success_message = "The player has been kicked out." })) {
-                                        @Html.Hidden("id", member.Id)
+                                using (Html.BeginForm("KickFromAlliance", null, FormMethod.Post, new { data_success_message = "The player has been kicked out." })) {
+                                    @Html.Hidden("id", member.Id)
 
-                                        <button type="submit" class="btn btn-secondary py-0">X</button>
+                                    <button type="submit" class="btn btn-secondary py-0">X</button>
                                     }
                                 }
                             </td>
