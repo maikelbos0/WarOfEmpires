@@ -50,24 +50,24 @@
 
             <tbody>
                 @foreach (var member in Model.Members) {
-                    <tr>
-                        <td class="@(member.LastOnline > DateTime.UtcNow.AddMinutes(-30) ? "bg-highlight" : "")">
+                    <tr condition="member.LastOnline > DateTime.UtcNow.AddMinutes(-30)" class-name="bg-highlight">
+                        <td>
                             <a asp-controller="Player" asp-action="Details" asp-route-id="@member.Id">@member.Rank.ToString(StringFormat.Integer)</a>
                         </td>
-                        <td class="@(member.LastOnline > DateTime.UtcNow.AddMinutes(-30) ? "bg-highlight" : "")">
+                        <td>
                             <a asp-controller="Player" asp-action="Details" asp-route-id="@member.Id">@member.DisplayName</a>
                         </td>
-                        <td class="@(member.LastOnline > DateTime.UtcNow.AddMinutes(-30) ? "bg-highlight" : "")">
+                        <td>
                             <a asp-controller="Player" asp-action="Details" asp-route-id="@member.Id">@member.Role</a>
                         </td>
-                        <td class="@(member.LastOnline > DateTime.UtcNow.AddMinutes(-30) ? "bg-highlight" : "")">
+                        <td>
                             @if (member.LastOnline.HasValue) {
-                                <a asp-controller="Player" asp-action="Details" asp-route-id="@member.Id">@member.LastOnline.Value.ToString(StringFormat.Date))</a>
+                                <a asp-controller="Player" asp-action="Details" asp-route-id="@member.Id">@member.LastOnline.Value.ToString(StringFormat.Date)</a>
                             }
                         </td>
 
                         @if (canKickMembers) {
-                            <td class="@(member.LastOnline > DateTime.UtcNow.AddMinutes(-30) ? "bg-highlight" : "")">
+                            <td>
                                 @if (member.Id != Model.LeaderId) {
                                 <form asp-action="KickFromAlliance" method="post" data-success-message="The player has been kicked out.">
                                     <input type="hidden" name="id" value="@member.Id" />
@@ -124,7 +124,7 @@
                     </form>
                 }
                 else {
-                    <div class="site-@(chatMessage.Player == null ? "system" : "user")-text">@chatMessage.Message</div>
+                    <div condition="chatMessage.Player == null" class-name="site-system-text" negative-class-name="site-user-text">@chatMessage.Message</div>
                 }
             </div>
         }
