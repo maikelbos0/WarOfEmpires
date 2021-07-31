@@ -2,24 +2,24 @@
 
 <h3 class="mt-3">Game phase</h3>
 
-@using (Html.BeginForm(null, null, FormMethod.Post, new { data_success_message = $"Game phase was saved." })) {
+<form method="post" asp-action="_GamePhase" data-success-message="Game phase was saved.">
     <div class="row">
         <div class="col-12 col-md-6 offset-md-3">
             <div class="mb-3">
-                @Html.LabelFor(m => m.Phase, new { @class = "site-required" })
+                <label asp-for="Phase" class="site-required"></label>
                 <div class="form-check">
-                    @Html.RadioButtonFor(m => m.Phase, "Truce", new { id = "Phase-Truce", @class = "form-check-input", @checked = Model.Phase == "Truce" })
+                    <input type="radio" asp-for="Phase" id="Phase-Truce" value="Truce" class="form-check-inline" checked="@(Model.Phase == "Truce")" />
                     <label class="form-check-label" for="Phase-Truce">Truce <span class="text-muted">- Attacks are impossible during truce</span></label>
                 </div>
                 <div class="form-check">
-                    @Html.RadioButtonFor(m => m.Phase, "Active", new { id = "Phase-Active", @class = "form-check-input", @checked = Model.Phase == "Active" })
+                    <input type="radio" asp-for="Phase" id="Phase-Active" value="Active" class="form-check-inline" checked="@(Model.Phase == "Active")" />
                     <label class="form-check-label" for="Phase-Active">Active <span class="text-muted">- The game is running and attacks are possible</span></label>
                 </div>
                 <div class="form-check">
-                    @Html.RadioButtonFor(m => m.Phase, "Finished", new { id = "Phase-Finished", @class = "form-check-input", @checked = Model.Phase == "Finished" })
+                    <input type="radio" asp-for="Phase" id="Phase-Finished" value="Finished" class="form-check-inline" checked="@(Model.Phase == "Finished")" />
                     <label class="form-check-label" for="Phase-Finished">Finished <span class="text-muted">- The game is over, a winner is declared and attacks are impossible</span></label>
                 </div>
-                @Html.ValidationMessageFor(m => m.Phase, null, new { @class = "small form-text text-danger" })
+                <span asp-validation-for="Phase" class="small form-text text-danger"></span>
             </div>
         </div>
     </div>
@@ -27,4 +27,4 @@
     <div class="row">
         <div class="col-6 offset-6 col-md-3"><button type="submit" class="btn btn-primary w-100">Save</button></div>
     </div>
-}
+</form>
