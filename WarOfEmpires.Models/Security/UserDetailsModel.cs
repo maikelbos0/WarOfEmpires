@@ -15,12 +15,10 @@ namespace WarOfEmpires.Models.Security {
         public string DisplayName { get; set; }
         
         [DisplayName("Alliance code")]
-        [Required(ErrorMessage = "Alliance code is required")]
         [MaxLength(4, ErrorMessage = "Code must be 4 characters or less")]
         public string AllianceCode { get; set; }
         
         [DisplayName("Alliance name")]
-        [Required(ErrorMessage = "Alliance name is required")]
         public string AllianceName { get; set; }
         
         [DisplayName("Status")]

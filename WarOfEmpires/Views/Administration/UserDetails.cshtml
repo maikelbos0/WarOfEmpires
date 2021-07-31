@@ -6,57 +6,62 @@
 
 <h2>@Model.DisplayName</h2>
 
-@using (Html.BeginForm(null, null, FormMethod.Post, new { data_success_message = "The user details have been updated successfully." })) {
-    @Html.HiddenFor(m => m.Id)
+<form method="post" data-success-message="The user details have been updated successfully.">
+    <input type="hidden" asp-for="Id" />
 
     <div class="row">
         <div class="col-12 col-md-6 offset-md-3">
-            @Html.ValidationSummary(true, null, new { @class = "site-validation-summary text-danger" })
+            <div asp-validation-summary="ModelOnly" class="site-validation-summary text-danger"></div>
 
             <div class="mb-3">
-                @Html.LabelFor(m => m.Email, new { @class = "site-required" })
-                @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
-                @Html.ValidationMessageFor(m => m.Email, null, new { @class = "small form-text text-danger" })
+                <label asp-for="Email" class="site-required"></label>
+                <input type="text" asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="small form-text text-danger"></span>
             </div>
 
             <div class="mb-3">
-                @Html.LabelFor(m => m.DisplayName, new { @class = "site-required" })
-                @Html.TextBoxFor(m => m.DisplayName, new { @class = "form-control" })
-                @Html.ValidationMessageFor(m => m.DisplayName, null, new { @class = "small form-text text-danger" })
+                <label asp-for="DisplayName" class="site-required"></label>
+                <input type="text" asp-for="DisplayName" class="form-control" />
+                <span asp-validation-for="DisplayName" class="small form-text text-danger"></span>
             </div>
 
-            <div class="mb-3">
-                @Html.LabelFor(m => m.AllianceCode, new { @class = "site-required" })
-                @Html.TextBoxFor(m => m.AllianceCode, new { @class = "form-control" })
-                @Html.ValidationMessageFor(m => m.AllianceCode, null, new { @class = "small form-text text-danger" })
-            </div>
+            @if (Model.AllianceCode != null) {
+                <div class="mb-3">
+                    <label asp-for="AllianceCode" class="site-required"></label>
+                    <input type="text" asp-for="AllianceCode" class="form-control" />
+                    <span asp-validation-for="AllianceCode" class="small form-text text-danger"></span>
+                </div>
+            }
+
+            @if (Model.AllianceName != null) {
+                <div class="mb-3">
+                    <label asp-for="AllianceName" class="site-required"></label>
+                    <input type="text" asp-for="AllianceName" class="form-control" />
+                    <span asp-validation-for="AllianceName" class="small form-text text-danger"></span>
+                </div>
+            }
 
             <div class="mb-3">
-                @Html.LabelFor(m => m.AllianceName, new { @class = "site-required" })
-                @Html.TextBoxFor(m => m.AllianceName, new { @class = "form-control" })
-                @Html.ValidationMessageFor(m => m.AllianceName, null, new { @class = "small form-text text-danger" })
-            </div>
-
-            <div class="mb-3">
-                @Html.LabelFor(m => m.Status, new { @class = "site-required" })
+                <label asp-for="Status" class="site-required"></label>
                 <div class="form-check">
-                    @Html.RadioButtonFor(m => m.Status, "New", new { id = "Status-New", @class = "form-check-input", @checked = Model.Status == "New" })
+                    <input type="radio" asp-for="Status" id="Status-New" value="New" class="form-check-input" checked="@(Model.Status == "New")" />
                     <label class="form-check-label" for="Status-New">New</label>
                 </div>
                 <div class="form-check">
-                    @Html.RadioButtonFor(m => m.Status, "Active", new { id = "Status-Active", @class = "form-check-input", @checked = Model.Status == "Active" })
+                    <input type="radio" asp-for="Status" id="Status-Active" value="Active" class="form-check-input" checked="@(Model.Status == "Active")" />
                     <label class="form-check-label" for="Status-Active">Active</label>
                 </div>
                 <div class="form-check">
-                    @Html.RadioButtonFor(m => m.Status, "Inactive", new { id = "Status-Inactive", @class = "form-check-input", @checked = Model.Status == "Inactive" })
+                    <input type="radio" asp-for="Status" id="Status-Inactive" value="Inactive" class="form-check-input" checked="@(Model.Status == "Inactive")" />
                     <label class="form-check-label" for="Status-Inactive">Inactive</label>
                 </div>
-                @Html.ValidationMessageFor(m => m.Status, null, new { @class = "small form-text text-danger" })
+                <span asp-validation-for="Status" class="small form-text text-danger"></span>
+
             </div>
 
             <div class="form-check mb-3">
-                @Html.CheckBoxFor(m => m.IsAdmin, new { @class = "form-check-input" })
-                @Html.LabelFor(m => m.IsAdmin, new { @class = "form-check-label" })
+                <input type="checkbox" asp-for="IsAdmin" class="form-check-input" />
+                <label asp-for="IsAdmin" class="site-required"></label>
             </div>
         </div>
     </div>
@@ -64,4 +69,4 @@
     <div class="row">
         <div class="col-6 offset-6 col-md-3"><button type="submit" class="btn btn-primary w-100">Submit</button></div>
     </div>
-}
+</form>

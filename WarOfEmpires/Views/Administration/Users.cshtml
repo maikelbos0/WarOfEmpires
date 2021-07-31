@@ -9,8 +9,8 @@
 <form id="usersSearch" class="search-form">
     <div class="row align-items-end">
         <div class="col-12 col-md-6 mb-3">
-            @Html.LabelFor(m => m.DisplayName)
-            @Html.TextBoxFor(m => m.DisplayName, new { @class = "form-control" })
+            <label asp-for="DisplayName"></label>
+            <input type="text" asp-for="DisplayName" class="form-control" />
         </div>
 
         <div class="col-12 col-md-6 text-end mb-3">
