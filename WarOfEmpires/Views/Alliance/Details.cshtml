@@ -12,11 +12,11 @@
         <div class="text-end">
             <div class="btn-group">
                 @if (Model.CanReceiveNonAggressionPactRequest && AuthorizationService.IsAuthorized(new AllianceAuthorizationRequest() { CanManageNonAggressionPacts = true })) {
-                    @Html.ActionLink("Send non-aggression pact request", "SendNonAggressionPactRequest", "Alliance", new { id = Model.Id }, new { @class = "btn btn-secondary" })
+                    <a asp-action="SendNonAggressionPactRequest" asp-route-id="@Model.Id" class="btn btn-secondary">Send non-aggression pact request</a>
                 }
 
                 @if (Model.CanReceiveWarDeclaration && AuthorizationService.IsAuthorized(new AllianceAuthorizationRequest() { CanManageWars = true })) {
-                    @Html.ActionLink("Declare war", "DeclareWar", "Alliance", new { id = Model.Id }, new { @class = "btn btn-secondary" })
+                    <a asp-action="DeclareWar" asp-route-id="@Model.Id" class="btn btn-secondary">Declare war</a>
                 }
             </div>
         </div>
@@ -48,7 +48,7 @@
                 <div class="form-control" readonly="readonly">@Model.Leader</div>
             }
             else {
-                @Html.ActionLink(Model.Leader, "Details", "Player", new { id = Model.LeaderId }, new { @class = "w-100 btn btn-secondary text-start" })
+                <a asp-controller="Player" asp-action="Details" asp-route-id="@Model.LeaderId" class="w-100 btn btn-secondary text-start">@Model.Leader</a>
             }
         </div>
     </div>
@@ -68,16 +68,16 @@
                 @foreach (var member in Model.Members) {
                     <tr>
                         <td>
-                            @Html.ActionLink(member.Rank.ToString(StringFormat.Integer), "Details", "Player", new { id = member.Id }, null)
+                            <a asp-controller="Player" asp-action="Details" asp-route-id="@member.Id">@member.Rank.ToString(StringFormat.Integer)</a>
                         </td>
                         <td>
-                            @Html.ActionLink(member.DisplayName, "Details", "Player", new { id = member.Id }, null)
+                            <a asp-controller="Player" asp-action="Details" asp-route-id="@member.Id">@member.DisplayName</a>
                         </td>
                         <td>
-                            @Html.ActionLink(member.Title, "Details", "Player", new { id = member.Id }, null)
+                            <a asp-controller="Player" asp-action="Details" asp-route-id="@member.Id">@member.Title</a>
                         </td>
                         <td>
-                            @Html.ActionLink(member.Population.ToString(StringFormat.Integer), "Details", "Player", new { id = member.Id }, null)
+                            <a asp-controller="Player" asp-action="Details" asp-route-id="@member.Id">@member.Population.ToString(StringFormat.Integer)</a>
                         </td>
                     </tr>
                 }
