@@ -211,12 +211,14 @@ namespace WarOfEmpires.Controllers {
                 .ThrowOnFailure();
         }
 
+        // todo rename
         [AllianceAuthorize]
         [HttpGet("LeaveAlliance")]
         public ViewResult LeaveAlliance() {
             return View();
         }
 
+        // todo rename
         [AllianceAuthorize]
         [HttpPost("LeaveAlliance")]
         public ViewResult LeaveAlliancePost() {
@@ -225,6 +227,7 @@ namespace WarOfEmpires.Controllers {
                 .ThrowOnFailure();
         }
 
+        // todo rename
         [AllianceAuthorize(CanKickMembers = true)]
         [HttpPost("KickFromAlliance")]
         public ViewResult KickFromAlliance(string id) {
@@ -248,14 +251,14 @@ namespace WarOfEmpires.Controllers {
         }
 
         [AllianceAuthorize(CanDisbandAlliance = true)]
-        [HttpGet("DisbandAlliance")]
-        public ViewResult DisbandAlliance() {
+        [HttpGet("Disband")]
+        public ViewResult Disband() {
             return View();
         }
 
         [AllianceAuthorize(CanDisbandAlliance = true)]
-        [HttpPost("DisbandAlliance")]
-        public ViewResult DisbandAlliancePost() {
+        [HttpPost("Disband")]
+        public ViewResult DisbandPost() {
             return BuildViewResultFor(new DisbandAllianceCommand(_authenticationService.Identity))
                 .OnSuccess(Index)
                 .ThrowOnFailure();

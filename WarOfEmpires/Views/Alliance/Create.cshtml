@@ -10,21 +10,21 @@
     In an alliance, a group of players can share information, resources and work together towards a common goal.
 </p>
 
-@using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "html-only" })) {
+<form method="post" class="html-only">
     <div class="row">
         <div class="col-12 col-md-6 offset-md-3">
-            @Html.ValidationSummary(true, null, new { @class = "site-validation-summary text-danger" })
+            <div asp-validation-summary="ModelOnly" class="site-validation-summary text-danger"></div>
 
             <div class="mb-3">
-                @Html.LabelFor(a => a.Code, new { @class = "site-required" })
-                @Html.TextBoxFor(a => a.Code, new { @class = "form-control" })
-                @Html.ValidationMessageFor(a => a.Code, null, new { @class = "small form-text text-danger" })
+                <label asp-for="Code" class="site-required"></label>
+                <input type="text" asp-for="Code" class="form-control" />
+                <span asp-validation-for="Code" class="small form-text text-danger"></span>
             </div>
 
             <div class="mb-3">
-                @Html.LabelFor(a => a.Name, new { @class = "site-required" })
-                @Html.TextBoxFor(a => a.Name, new { @class = "form-control" })
-                @Html.ValidationMessageFor(a => a.Name, null, new { @class = "small form-text text-danger" })
+                <label asp-for="Name" class="site-required"></label>
+                <input type="text" asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="small form-text text-danger"></span>
             </div>
         </div>
     </div>
@@ -32,4 +32,4 @@
     <div class="row">
         <div class="col-6 offset-6 col-md-3"><button type="submit" class="btn btn-primary w-100">Create</button></div>
     </div>
-}
+</form>
