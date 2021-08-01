@@ -10,18 +10,15 @@
     In an alliance, you can assign a role to players to give them an in-alliance title and to give them rights to various alliance actions.
 </p>
 
-@using (Html.BeginForm(null, null, FormMethod.Post, new { data_success_message = "The player's role has been set." })) {
-    @Html.HiddenFor(m => m.Id)
+<form method="post" data-success-message="The player's role has been set.">
+    <input type="hidden" asp-for="Id" />
 
     <div class="row">
         <div class="col-12 col-md-6 offset-md-3">
             <div class="mb-3">
-                @Html.LabelFor(m => m.PlayerId, new { @class = "site-required" })
-                @Html.DropDownListFor(m => m.PlayerId, Model.Players.Select(p => new SelectListItem() {
-                    Value = p.Id.ToString(),
-                    Text = p.DisplayName
-                }), new { @class = "form-select" })
-                @Html.ValidationMessageFor(m => m.PlayerId, null, new { @class = "small form-text text-danger" })
+                <label asp-for="PlayerId" class="site-required"></label>
+                <select asp-for="PlayerId" asp-items="Model.Players.Select(p => new SelectListItem() { Value = p.Id.ToString(), Text = p.DisplayName })" class="form-select"></select>
+                <span asp-validation-for="PlayerId" class="small form-text text-danger"></span>
             </div>
         </div>
     </div>
@@ -29,4 +26,4 @@
     <div class="row">
         <div class="col-6 offset-6 col-md-3"><button type="submit" class="btn btn-primary w-100">Set role</button></div>
     </div>
-}
+</form>

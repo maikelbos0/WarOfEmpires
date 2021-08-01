@@ -10,45 +10,45 @@
     In an alliance, you can assign a role to players to give them an in-alliance title and to give them rights to various alliance actions.
 </p>
 
-@using (Html.BeginForm(null, null, FormMethod.Post, new { data_success_message = "The role has been created." })) {
+<form method="post" data-success-message="The role has been created.">
     <div class="row">
         <div class="col-12 col-md-6 offset-md-3 mb-3">
-            @Html.ValidationSummary(true, null, new { @class = "site-validation-summary text-danger" })
+            <div asp-validation-summary="ModelOnly" class="site-validation-summary text-danger"></div>
 
             <div class="mb-3">
-                @Html.LabelFor(m => m.Name, new { @class = "site-required" })
-                @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
-                @Html.ValidationMessageFor(m => m.Name, null, new { @class = "small form-text text-danger" })
+                <label asp-for="Name" class="site-required"></label>
+                <input type="text" asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="small form-text text-danger"></span>
             </div>
 
             <div class="form-check">
-                @Html.CheckBoxFor(m => m.CanInvite, new { @class = "form-check-input" })
-                @Html.LabelFor(m => m.CanInvite, new { @class = "form-check-label" })
+                <input type="checkbox" asp-for="CanInvite" class="form-check-input" />
+                <label asp-for="CanInvite" class="form-check-label"></label>
             </div>
 
             <div class="form-check">
-                @Html.CheckBoxFor(m => m.CanManageRoles, new { @class = "form-check-input" })
-                @Html.LabelFor(m => m.CanManageRoles, new { @class = "form-check-label" })
+                <input type="checkbox" asp-for="CanManageRoles" class="form-check-input" />
+                <label asp-for="CanManageRoles" class="form-check-label"></label>
             </div>
 
             <div class="form-check">
-                @Html.CheckBoxFor(m => m.CanDeleteChatMessages, new { @class = "form-check-input" })
-                @Html.LabelFor(m => m.CanDeleteChatMessages, new { @class = "form-check-label" })
+                <input type="checkbox" asp-for="CanDeleteChatMessages" class="form-check-input" />
+                <label asp-for="CanDeleteChatMessages" class="form-check-label"></label>
             </div>
 
             <div class="form-check">
-                @Html.CheckBoxFor(m => m.CanKickMembers, new { @class = "form-check-input" })
-                @Html.LabelFor(m => m.CanKickMembers, new { @class = "form-check-label" })
+                <input type="checkbox" asp-for="CanKickMembers" class="form-check-input" />
+                <label asp-for="CanKickMembers" class="form-check-label"></label>
             </div>
 
             <div class="form-check">
-                @Html.CheckBoxFor(m => m.CanManageNonAggressionPacts, new { @class = "form-check-input" })
-                @Html.LabelFor(m => m.CanManageNonAggressionPacts, new { @class = "form-check-label" })
+                <input type="checkbox" asp-for="CanManageNonAggressionPacts" class="form-check-input" />
+                <label asp-for="CanManageNonAggressionPacts" class="form-check-label"></label>
             </div>
 
             <div class="form-check">
-                @Html.CheckBoxFor(m => m.CanManageWars, new { @class = "form-check-input" })
-                @Html.LabelFor(m => m.CanManageWars, new { @class = "form-check-label" })
+                <input type="checkbox" asp-for="CanManageWars" class="form-check-input" />
+                <label asp-for="CanManageWars" class="form-check-label"></label>
             </div>
         </div>
     </div>
@@ -56,4 +56,4 @@
     <div class="row">
         <div class="col-6 offset-6 col-md-3"><button type="submit" class="btn btn-primary w-100">Create</button></div>
     </div>
-}
+</form>

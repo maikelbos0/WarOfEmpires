@@ -11,15 +11,15 @@
 </p>
 
 <div class="text-end mb-3">
-    @using (Html.BeginForm("DeleteRole", null, FormMethod.Post, new { data_success_message = "The role has been deleted." })) {
-        @Html.Hidden("id", Model.Id)
+    <form asp-action="DeleteRole" method="post" data-success-message="The role has been deleted.">
+        <input type="hidden" asp-for="Id" />
 
         <div class="btn-group">
-            @Html.ActionLink("Set player role", "SetRole", "Alliance", new { id = Model.Id }, new { @class = "btn btn-primary" })
+            <a asp-action="SetRole" asp-route-id="@Model.Id" class="btn btn-primary">Set player role</a>
 
             <button type="submit" class="btn btn-secondary">Delete role</button>
         </div>
-    }
+    </form>
 </div>
 
 <div class="row">
@@ -38,18 +38,18 @@
                     @foreach (var player in Model.Players) {
                         <tr>
                             <td class="table-form-label">
-                                @Html.ActionLink(player.Rank.ToString(StringFormat.Integer), "Details", "Player", new { id = player.Id }, null)
+                                <a asp-controller="Player" asp-action="Details" asp-route-id="@player.Id">@player.Rank.ToString(StringFormat.Integer)</a>
                             </td>
                             <td class="table-form-label">
-                                @Html.ActionLink(player.DisplayName, "Details", "Player", new { id = player.Id }, null)
+                                <a asp-controller="Player" asp-action="Details" asp-route-id="@player.Id">@player.DisplayName</a>
                             </td>
                             <td>
-                                @using (Html.BeginForm("ClearRole", null, FormMethod.Post, new { data_success_message = "The player's role has been cleared." })) {
-                                    @Html.Hidden("playerId", player.Id)
-                                    @Html.Hidden("id", Model.Id)
+                                <form asp-action="ClearRole" method="post" data-success-message="The player's role has been cleared.">
+                                    <input type="hidden" name="playerId" value="@player.Id" />
+                                    <input type="hidden" asp-for="Id" />
 
                                     <button type="submit" class="btn btn-secondary w-100">Clear</button>
-                                }
+                                </form>
                             </td>
                         </tr>
                     }
