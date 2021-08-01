@@ -9,13 +9,13 @@
 <form id="alliancesSearch" class="search-form">
     <div class="row">
         <div class="col-12 col-md-6 mb-3">
-            @Html.LabelFor(m => m.Code)
-            @Html.TextBoxFor(m => m.Code, new { @class = "form-control" })
+            <label asp-for="Code" class="site-required"></label>
+            <input type="text" asp-for="Code" class="form-control" />
         </div>
 
         <div class="col-12 col-md-6 mb-3">
-            @Html.LabelFor(m => m.Name)
-            @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+            <label asp-for="Name" class="site-required"></label>
+            <input type="text" asp-for="Name" class="form-control" />
         </div>
     </div>
 
