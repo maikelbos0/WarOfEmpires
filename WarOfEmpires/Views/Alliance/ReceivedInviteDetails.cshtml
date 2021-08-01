@@ -6,22 +6,22 @@
 
 <h2>Alliance invite</h2>
 
-@using (Html.BeginForm("AcceptInvite", null, FormMethod.Post, new { @class = "html-only" })) {
-    @Html.HiddenFor(m => m.Id)
-    @Html.HiddenFor(m => m.AllianceCode)
-    @Html.HiddenFor(m => m.AllianceName)
-    @Html.HiddenFor(m => m.AllianceId)
-    @Html.HiddenFor(m => m.Date)
-    @Html.HiddenFor(m => m.Subject)
-    @Html.HiddenFor(m => m.Body)
+<form asp-action="AcceptInvite" method="post" class="html-only">
+    <input type="hidden" asp-for="Id" />
+    <input type="hidden" asp-for="AllianceCode" />
+    <input type="hidden" asp-for="AllianceName" />
+    <input type="hidden" asp-for="AllianceId" />
+    <input type="hidden" asp-for="Date" />
+    <input type="hidden" asp-for="Subject" />
+    <input type="hidden" asp-for="Body" />
 
     <div class="row">
         <div class="col-12 col-md-6 offset-md-3">
-            @Html.ValidationSummary(true, null, new { @class = "site-validation-summary text-danger" })
+            <div asp-validation-summary="ModelOnly" class="site-validation-summary text-danger"></div>
 
             <div class="mb-3">
                 <label>Alliance</label>
-                @Html.ActionLink($"{Model.AllianceCode} - {Model.AllianceName}", "Details", "Alliance", new { id = Model.AllianceId }, new { @class = "w-100 btn btn-secondary text-start" })
+                <a asp-action="Details" asp-route-id="@Model.AllianceId" class="w-100 btn btn-secondary text-start">@Model.AllianceCode - @Model.AllianceName</a>
             </div>
 
             <div class="mb-3">
@@ -41,12 +41,12 @@
     <div class="row mt-3">
         <div class="col-6 offset-6 col-md-3"><button type="submit" class="btn btn-primary w-100">Accept</button></div>
     </div>
-}
+</form>
 
-@using (Html.BeginForm("RejectInvite", null, FormMethod.Post, new { data_success_message = "The invite has been rejected." })) {
-    @Html.HiddenFor(m => m.Id)
+<form asp-action="RejectInvite" method="post" data-success-message="The invite has been rejected.">
+    <input type="hidden" asp-for="Id" />
 
     <div class="row mt-3">
         <div class="col-6 offset-6 col-md-3"><button type="submit" class="btn btn-secondary w-100">Reject</button></div>
     </div>
-}
+</form>
