@@ -17,21 +17,22 @@ else if (Model.HasWarDamage) {
     </ul>
 }
 
-@using (Html.BeginForm()) {
-    if (Model.IsTruce) {
+<form method="post">
+    @if (Model.IsTruce) {
         @Html.Raw("<fieldset disabled=\"disabled\">")
     }
 
-    @Html.HiddenFor(m => m.DefenderId)
-    @Html.HiddenFor(m => m.DisplayName)
-    @Html.HiddenFor(m => m.Population)
+    <input type="hidden" asp-for="DefenderId" />
+    <input type="hidden" asp-for="DisplayName" />
+    <input type="hidden" asp-for="Population" />
+
     @for (int i = 0; i < Model.ValidAttackTypes.Count; i++) {
-        @Html.HiddenFor(model => Model.ValidAttackTypes[i])
+        <input type="hidden" asp-for="ValidAttackTypes[i]" />
     }
 
     <div class="row">
         <div class="col-12 col-md-6 offset-md-3">
-            @Html.ValidationSummary(true, null, new { @class = "site-validation-summary text-danger" })
+            <div asp-validation-summary="ModelOnly" class="site-validation-summary text-danger"></div>
 
             <div class="mb-3">
                 <label>Display name</label>
@@ -44,39 +45,40 @@ else if (Model.HasWarDamage) {
             </div>
 
             <div class="mb-3">
-                @Html.LabelFor(m => m.AttackType, new { @class = "site-required" })
+                <label asp-for="AttackType" class="site-required"></label>
 
                 @if (Model.ValidAttackTypes.Contains("Raid")) {
                     <div class="form-check">
-                        @Html.RadioButtonFor(m => m.AttackType, "Raid", new { id = "AttackType-Raid", @class = "form-check-input", @checked = "checked" })
+                        <input type="radio" asp-for="AttackType" id="AttackType-Raid" value="Raid" class="form-check-input" checked="@(Model.AttackType == "Raid")" />
                         <label class="form-check-label" for="AttackType-Raid">Raid <span class="text-muted">- charge your opponent's workers and try to take their resources</span></label>
                     </div>
                 }
                 @if (Model.ValidAttackTypes.Contains("Assault")) {
                     <div class="form-check">
-                        @Html.RadioButtonFor(m => m.AttackType, "Assault", new { id = "AttackType-Assault", @class = "form-check-input" })
+                        <input type="radio" asp-for="AttackType" id="AttackType-Assault" value="Assault" class="form-check-input" checked="@(Model.AttackType == "Assault")" />
                         <label class="form-check-label" for="AttackType-Assault">Assault <span class="text-muted">- charge your opponent's defences and try to take their gold</span></label>
                     </div>
                 }
                 @if (Model.ValidAttackTypes.Contains("GrandOverlordAttack")) {
                     <div class="form-check">
-                        @Html.RadioButtonFor(m => m.AttackType, "GrandOverlordAttack", new { id = "AttackType-GrandOverlordAttack", @class = "form-check-input" })
+                        <input type="radio" asp-for="AttackType" id="AttackType-GrandOverlordAttack" value="GrandOverlordAttack" class="form-check-input" checked="@(Model.AttackType == "GrandOverlordAttack")" />
                         <label class="form-check-label" for="AttackType-GrandOverlordAttack">Grand Overlord Attack <span class="text-muted">- charge your opponent's defences and try to stop them being Grand Overlord; your opponent will not surrender</span></label>
                     </div>
                 }
                 @if (Model.ValidAttackTypes.Contains("Revenge")) {
                     <div class="form-check">
-                        @Html.RadioButtonFor(m => m.AttackType, "Revenge", new { id = "AttackType-Revenge", @class = "form-check-input" })
+                        <input type="radio" asp-for="AttackType" id="AttackType-Revenge" value="Revenge" class="form-check-input" checked="@(Model.AttackType == "Revenge")" />
                         <label class="form-check-label" for="AttackType-Revenge">Revenge <span class="text-muted">- charge your opponent's defences to take revenge for earlier transgressions; your opponent will not surrender</span></label>
                     </div>
                 }
-                @Html.ValidationMessageFor(m => m.AttackType, null, new { @class = "small form-text text-danger" })
+
+                <span asp-validation-for="AttackType" class="small form-text text-danger"></span>
             </div>
 
             <div class="mb-3">
-                @Html.LabelFor(m => m.Turns, new { @class = "site-required" })
-                @Html.TextBoxFor(m => m.Turns, new { @class = "form-control" })
-                @Html.ValidationMessageFor(m => m.Turns, null, new { @class = "small form-text text-danger" })
+                <label asp-for="Turns" class="site-required"></label>
+                <input type="text" asp-for="Turns" class="form-control" />
+                <span asp-validation-for="Turns" class="small form-text text-danger"></span>
             </div>
         </div>
     </div>
@@ -87,7 +89,7 @@ else if (Model.HasWarDamage) {
         </div>
     </div>
 
-    if (Model.IsTruce) {
+    @if (Model.IsTruce) {
         @Html.Raw("</fieldset>")
     }
-}
+</form>
