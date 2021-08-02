@@ -26,16 +26,14 @@
                 <td class="table-form-label">@request.Code</td>
                 <td class="table-form-label">@request.Name</td>
                 <td>
-                    @using (Html.BeginForm("WithdrawNonAggressionPactRequest", null, FormMethod.Post, new {
-                        data_success_message = "Your non-aggression pact request has been withdrawn."
-                    })) {
-                        @Html.Hidden("id", request.Id)
+                    <form asp-action="WithdrawNonAggressionPactRequest" method="post" data-success-message="Your non-aggression pact request has been withdrawn.">
+                        <input type="hidden" name="id" value="@request.Id" />
 
                         <button type="submit" class="btn btn-secondary w-100">
                             <span class="d-none d-lg-inline">Withdraw</span>
                             <span class="d-lg-none">X</span>
                         </button>
-                    }
+                    </form>
                 </td>
             </tr>
         }
