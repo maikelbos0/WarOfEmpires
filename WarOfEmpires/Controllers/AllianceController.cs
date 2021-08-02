@@ -211,26 +211,23 @@ namespace WarOfEmpires.Controllers {
                 .ThrowOnFailure();
         }
 
-        // todo rename
         [AllianceAuthorize]
-        [HttpGet("LeaveAlliance")]
-        public ViewResult LeaveAlliance() {
+        [HttpGet("Leave")]
+        public ViewResult Leave() {
             return View();
         }
 
-        // todo rename
         [AllianceAuthorize]
-        [HttpPost("LeaveAlliance")]
-        public ViewResult LeaveAlliancePost() {
+        [HttpPost("Leave")]
+        public ViewResult LeavePost() {
             return BuildViewResultFor(new LeaveAllianceCommand(_authenticationService.Identity))
                 .OnSuccess(Index)
                 .ThrowOnFailure();
         }
 
-        // todo rename
         [AllianceAuthorize(CanKickMembers = true)]
-        [HttpPost("KickFromAlliance")]
-        public ViewResult KickFromAlliance(string id) {
+        [HttpPost("Kick")]
+        public ViewResult Kick(string id) {
             return BuildViewResultFor(new KickFromAllianceCommand(_authenticationService.Identity, id))
                 .OnSuccess(Home)
                 .ThrowOnFailure();

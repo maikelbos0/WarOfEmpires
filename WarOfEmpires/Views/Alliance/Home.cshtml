@@ -69,7 +69,7 @@
                         @if (canKickMembers) {
                             <td>
                                 @if (member.Id != Model.LeaderId) {
-                                <form asp-action="KickFromAlliance" method="post" data-success-message="The player has been kicked out.">
+                                <form asp-action="Kick" method="post" data-success-message="The player has been kicked out.">
                                     <input type="hidden" name="id" value="@member.Id" />
                                     <button type="submit" class="btn btn-secondary py-0">X</button>
                                 </form>
