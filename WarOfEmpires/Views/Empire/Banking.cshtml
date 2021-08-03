@@ -13,10 +13,26 @@
 <form method="post" data-success-message="Your resources were stored in their banks.">
     <div asp-validation-summary="ModelOnly" class="site-validation-summary text-danger"></div>
 
-    @Html.HiddenFor(m => m.Capacity)
-    @Html.HiddenFor(m => m.BankedResources)
-    @Html.HiddenFor(m => m.AvailableCapacity)
-    @Html.HiddenFor(m => m.BankableResources)
+    <input type="hidden" asp-for="Capacity.Gold" />
+    <input type="hidden" asp-for="Capacity.Food" />
+    <input type="hidden" asp-for="Capacity.Wood" />
+    <input type="hidden" asp-for="Capacity.Stone" />
+    <input type="hidden" asp-for="Capacity.Ore" />
+    <input type="hidden" asp-for="BankedResources.Gold" />
+    <input type="hidden" asp-for="BankedResources.Food" />
+    <input type="hidden" asp-for="BankedResources.Wood" />
+    <input type="hidden" asp-for="BankedResources.Stone" />
+    <input type="hidden" asp-for="BankedResources.Ore" />
+    <input type="hidden" asp-for="AvailableCapacity.Gold" />
+    <input type="hidden" asp-for="AvailableCapacity.Food" />
+    <input type="hidden" asp-for="AvailableCapacity.Wood" />
+    <input type="hidden" asp-for="AvailableCapacity.Stone" />
+    <input type="hidden" asp-for="AvailableCapacity.Ore" />
+    <input type="hidden" asp-for="BankableResources.Gold" />
+    <input type="hidden" asp-for="BankableResources.Food" />
+    <input type="hidden" asp-for="BankableResources.Wood" />
+    <input type="hidden" asp-for="BankableResources.Stone" />
+    <input type="hidden" asp-for="BankableResources.Ore" />
 
     <table class="table table-borderless table-striped">
         <thead>

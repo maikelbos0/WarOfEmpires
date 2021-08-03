@@ -14,7 +14,11 @@
     <input type="hidden" asp-for="Description" />
     <input type="hidden" asp-for="BuildingType" />
     <input type="hidden" asp-for="Level" />
-    @Html.HiddenFor(m => m.UpdateCost)
+    <input type="hidden" asp-for="UpdateCost.Gold" />
+    <input type="hidden" asp-for="UpdateCost.Food" />
+    <input type="hidden" asp-for="UpdateCost.Wood" />
+    <input type="hidden" asp-for="UpdateCost.Stone" />
+    <input type="hidden" asp-for="UpdateCost.Ore" />
 
     <div asp-validation-summary="ModelOnly" class="site-validation-summary text-danger"></div>
 
