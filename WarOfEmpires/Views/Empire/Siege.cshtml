@@ -17,27 +17,28 @@
     <li>Available siege maintenance: @Model.AvailableMaintenance.ToString(StringFormat.Integer) <icon type="Siege" /></li>
 </ul>
 
-@using (Html.BeginForm(null, null, FormMethod.Post, new {
-    data_success_message_build = "Your new siege weapons have been built.",
-    data_success_message_discard = "Your siege weapons have been discarded."
-})) {
-    @Html.ValidationSummary(true, null, new { @class = "site-validation-summary text-danger" })
+<form method="post" data-success-message-build="Your new siege weapons have been built." data-success-message-discard="Your siege weapons have been discarded.">
+    <div asp-validation-summary="ModelOnly" class="site-validation-summary text-danger"></div>
 
-    @Html.HiddenFor(m => m.Engineers)
-    @Html.HiddenFor(m => m.TotalMaintenance)
-    @Html.HiddenFor(m => m.AvailableMaintenance)
-    @Html.HiddenFor(m => m.Command)
+    <input type="hidden" asp-for="Engineers" />
+    <input type="hidden" asp-for="TotalMaintenance" />
+    <input type="hidden" asp-for="AvailableMaintenance" />
+    <input type="hidden" asp-for="Command" />
 
     <div class="row">
         @for (var i = 0; i < Model.SiegeWeapons.Count; i++) {
-            @Html.HiddenFor(m => m.SiegeWeapons[i].Type)
-            @Html.HiddenFor(m => m.SiegeWeapons[i].Cost)
-            @Html.HiddenFor(m => m.SiegeWeapons[i].CurrentCount)
-            @Html.HiddenFor(m => m.SiegeWeapons[i].CurrentTroopCount)
-            @Html.HiddenFor(m => m.SiegeWeapons[i].Description)
-            @Html.HiddenFor(m => m.SiegeWeapons[i].Maintenance)
-            @Html.HiddenFor(m => m.SiegeWeapons[i].Name)
-            @Html.HiddenFor(m => m.SiegeWeapons[i].TroopCount)
+            <input type="hidden" asp-for="SiegeWeapons[i].Type" />
+            <input type="hidden" asp-for="SiegeWeapons[i].Cost.Gold" />
+            <input type="hidden" asp-for="SiegeWeapons[i].Cost.Food" />
+            <input type="hidden" asp-for="SiegeWeapons[i].Cost.Wood" />
+            <input type="hidden" asp-for="SiegeWeapons[i].Cost.Stone" />
+            <input type="hidden" asp-for="SiegeWeapons[i].Cost.Ore" />
+            <input type="hidden" asp-for="SiegeWeapons[i].CurrentCount" />
+            <input type="hidden" asp-for="SiegeWeapons[i].CurrentTroopCount" />
+            <input type="hidden" asp-for="SiegeWeapons[i].Description" />
+            <input type="hidden" asp-for="SiegeWeapons[i].Maintenance" />
+            <input type="hidden" asp-for="SiegeWeapons[i].Name" />
+            <input type="hidden" asp-for="SiegeWeapons[i].TroopCount" />
 
             <div class="col-12 col-md-6 col-xl-4">
                 <h4 class="mt-3">@Model.SiegeWeapons[i].Name</h4>
@@ -45,7 +46,7 @@
                 <p>@Model.SiegeWeapons[i].Description</p>
 
                 <ul class="text-muted">
-                    <li>Build cost: @Html.DisplayFor(m => m.SiegeWeapons[i].Cost)</li>
+                    <li>Build cost: <vc:resources model="Model.SiegeWeapons[i].Cost" /></li>
                 </ul>
 
                 <div class="mb-3">
@@ -69,9 +70,9 @@
                 </div>
 
                 <div class="mb-3">
-                    @Html.LabelFor(m => m.SiegeWeapons[i].Count)
-                    @Html.TextBoxFor(m => m.SiegeWeapons[i].Count, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(m => m.SiegeWeapons[i].Count, null, new { @class = "small form-text text-danger" })
+                    <label asp-for="SiegeWeapons[i].Count" class="site-required"></label>
+                    <input type="text" asp-for="SiegeWeapons[i].Count" class="form-control" />
+                    <span asp-validation-for="SiegeWeapons[i].Count" class="small form-text text-danger"></span>
                 </div>
             </div>
         }
@@ -84,4 +85,4 @@
     <div class="row mt-1">
         <div class="col-6 offset-6 col-md-3 offset-md-9"><button type="submit" class="btn btn-secondary w-100" value="discard">Discard</button></div>
     </div>
-}
+</form>
