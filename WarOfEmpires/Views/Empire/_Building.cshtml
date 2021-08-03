@@ -5,7 +5,7 @@
 <p>@Model.Description</p>
 
 <ul class="text-muted">
-    <li>Upgrade cost: @Html.DisplayFor(m => m.UpdateCost)</li>
+    <li>Upgrade cost: <vc:resources model="Model.UpdateCost" /></li>
     <li><a asp-action="BuildingUpgrades" asp-route-buildingType="@Model.BuildingType">More information</a></li>
 </ul>
 
