@@ -1,6 +1,6 @@
 ﻿@model WarOfEmpires.Models.Empires.HousingTotalsViewModel
 
-<ul class="@(Model.HasHousingShortage ? "text-danger" : "text-muted")">
+<ul condition="Model.HasHousingShortage" class-name="text-danger" negative-class-name="text-muted">
     <li>Your barracks have room for @Model.BarracksCapacity.ToString(StringFormat.Integer) occupants and are currently housing @Model.BarracksOccupancy.ToString(StringFormat.Integer) troops</li>
     <li>Your peasant huts have room for @Model.HutCapacity.ToString(StringFormat.Integer) occupants and are currently housing @Model.HutOccupancy.ToString(StringFormat.Integer) workers</li>
     <li>You currently have room for @Model.TotalCapacity.ToString(StringFormat.Integer) occupants and are currently housing @Model.TotalOccupancy.ToString(StringFormat.Integer) people</li>

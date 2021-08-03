@@ -6,17 +6,17 @@
 
 <ul class="text-muted">
     <li>Upgrade cost: @Html.DisplayFor(m => m.UpdateCost)</li>
-    <li>@Html.ActionLink("More information", "BuildingUpgrades", "Empire", new { BuildingType = Model.BuildingType }, null)</li>
+    <li><a asp-action="BuildingUpgrades" asp-route-buildingType="@Model.BuildingType">More information</a></li>
 </ul>
 
-@using (Html.BeginForm(null, null, FormMethod.Post, new { data_success_message = $"Your {Model.Name} was upgraded." })) {
-    @Html.HiddenFor(m => m.Name)
-    @Html.HiddenFor(m => m.Description)
-    @Html.HiddenFor(m => m.BuildingType)
-    @Html.HiddenFor(m => m.Level)
+<form asp-action="_Building" method="post" data-success-message="Your @Model.Name was upgraded.">
+    <input type="hidden" asp-for="Name" />
+    <input type="hidden" asp-for="Description" />
+    <input type="hidden" asp-for="BuildingType" />
+    <input type="hidden" asp-for="Level" />
     @Html.HiddenFor(m => m.UpdateCost)
 
-    @Html.ValidationSummary(true, null, new { @class = "site-validation-summary text-danger" })
+    <div asp-validation-summary="ModelOnly" class="site-validation-summary text-danger"></div>
 
     <button type="submit" class="btn btn-primary w-100">Upgrade</button>
-}
+</form>
