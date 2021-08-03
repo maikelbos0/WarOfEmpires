@@ -10,32 +10,13 @@
     Here you can bank your gold and resources to hide them from your enemies.
 </p>
 
-@using (Html.BeginForm(null, null, FormMethod.Post, new { data_success_message = "Your resources were stored in their banks." })) {
-    @Html.ValidationSummary(true, null, new { @class = "site-validation-summary text-danger" })
+<form method="post" data-success-message="Your resources were stored in their banks.">
+    <div asp-validation-summary="ModelOnly" class="site-validation-summary text-danger"></div>
 
-    @Html.HiddenFor(m => m.Capacity.Gold)
-    @Html.HiddenFor(m => m.Capacity.Food)
-    @Html.HiddenFor(m => m.Capacity.Wood)
-    @Html.HiddenFor(m => m.Capacity.Stone)
-    @Html.HiddenFor(m => m.Capacity.Ore)
-
-    @Html.HiddenFor(m => m.BankedResources.Gold)
-    @Html.HiddenFor(m => m.BankedResources.Food)
-    @Html.HiddenFor(m => m.BankedResources.Wood)
-    @Html.HiddenFor(m => m.BankedResources.Stone)
-    @Html.HiddenFor(m => m.BankedResources.Ore)
-
-    @Html.HiddenFor(m => m.AvailableCapacity.Gold)
-    @Html.HiddenFor(m => m.AvailableCapacity.Food)
-    @Html.HiddenFor(m => m.AvailableCapacity.Wood)
-    @Html.HiddenFor(m => m.AvailableCapacity.Stone)
-    @Html.HiddenFor(m => m.AvailableCapacity.Ore)
-
-    @Html.HiddenFor(m => m.BankableResources.Gold)
-    @Html.HiddenFor(m => m.BankableResources.Food)
-    @Html.HiddenFor(m => m.BankableResources.Wood)
-    @Html.HiddenFor(m => m.BankableResources.Stone)
-    @Html.HiddenFor(m => m.BankableResources.Ore)
+    @Html.HiddenFor(m => m.Capacity)
+    @Html.HiddenFor(m => m.BankedResources)
+    @Html.HiddenFor(m => m.AvailableCapacity)
+    @Html.HiddenFor(m => m.BankableResources)
 
     <table class="table table-borderless table-striped">
         <thead>
@@ -94,4 +75,4 @@
     <div class="row">
         <div class="col-6 offset-6 col-md-3 offset-md-9"><button type="submit" class="btn btn-primary w-100">Bank</button></div>
     </div>
-}
+</form>
