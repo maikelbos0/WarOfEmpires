@@ -78,7 +78,7 @@
         @if (@Model.Result == "Won" || @Model.Result == "Surrendered") {
             <p>
                 <strong>
-                    @Model.Attacker's troops are victorious and take as tribute: @Html.DisplayFor(m => m.Resources)
+                    @Model.Attacker's troops are victorious and take as tribute: <vc:resources model="Model.Resources" />
                 </strong>
             </p>
         }
