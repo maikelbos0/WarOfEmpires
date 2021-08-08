@@ -58,6 +58,12 @@ namespace WarOfEmpires.TagHelpers {
                 ");
             }
 
+            if (!string.IsNullOrEmpty(SearchFormId)) {
+                output.Content.AppendHtml($@"
+                        grid.searchFormId = '{SearchFormId}';
+                ");
+            }
+
             if (sortOrder != null) {
                 output.Content.AppendHtml($@"
                         grid.sortColumn = '{sortOrder.Column}';
