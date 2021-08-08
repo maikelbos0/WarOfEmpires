@@ -4,4 +4,4 @@
 
 <h2>Executed attacks</h2>
 
-@(await Html.Grid<WarOfEmpires.Models.Attacks.ExecutedAttackViewModel>("attacksGrid", Url.Action("GetExecutedAttacks"), Url.Action("Details")))
+<grid id="attacksGrid" item-type="typeof(WarOfEmpires.Models.Attacks.ExecutedAttackViewModel)" item-action="GetExecutedAttacks" detail-action="Details" />
