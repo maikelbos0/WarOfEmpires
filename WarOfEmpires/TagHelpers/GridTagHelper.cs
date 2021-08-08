@@ -66,7 +66,7 @@ namespace WarOfEmpires.TagHelpers {
 
             if (sortOrder != null) {
                 output.Content.AppendHtml($@"
-                        grid.sortColumn = '{sortOrder.Column}';
+                        grid.sortColumn = '{sortOrder.Column.ToCamelCase()}';
                         grid.sortDescending = {sortOrder.Descending.ToString().ToLower()};
                 ");
             }
