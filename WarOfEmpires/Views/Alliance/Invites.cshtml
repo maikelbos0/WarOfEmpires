@@ -8,4 +8,4 @@
 
 <p>Below are the invites your alliance has sent out to players.</p>
 
-@(await Html.Grid<WarOfEmpires.Models.Alliances.InviteViewModel>("invitesGrid", Url.Action("GetInvites"), Url.Action("InviteDetails")))
+<grid id="invitesGrid" item-type="typeof(WarOfEmpires.Models.Alliances.InviteViewModel)" item-action="GetInvites" detail-action="InviteDetails" />

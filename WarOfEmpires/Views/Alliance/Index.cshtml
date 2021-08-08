@@ -26,4 +26,4 @@
     </div>
 </form>
 
-@(await Html.Grid<WarOfEmpires.Models.Alliances.AllianceViewModel>("alliancesGrid", Url.Action("GetAlliances"), Url.Action("Details"), "alliancesSearch"))
+<grid id="alliancesGrid" item-type="typeof(WarOfEmpires.Models.Alliances.AllianceViewModel)" item-action="GetAlliances" detail-action="Details" search-form-id="alliancesSearch" />
