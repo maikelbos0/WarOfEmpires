@@ -23,7 +23,7 @@
     <li>Peasants available for training: @Model.CurrentPeasants.ToString(StringFormat.Integer)</li>
     <li>Worker training cost: <vc:resources model="Model.WorkerCost" /></li>
     <li>Gold production per turn: @Model.CurrentGoldPerTurn.ToString(StringFormat.Integer) <icon type="Gold" /></li>
-    <li>Upkeep per turn: @Html.DisplayFor(m => m.UpkeepPerTurn)</li>
+    <li>Upkeep per turn: <vc:resources model="Model.UpkeepPerTurn" /></li>
     <li>Recruits per day: @Model.RecruitsPerDay.ToString(StringFormat.Integer)</li>
 
     @if (Model.HasUpkeepRunOut) {
