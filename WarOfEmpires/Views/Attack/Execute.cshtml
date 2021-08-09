@@ -18,78 +18,72 @@ else if (Model.HasWarDamage) {
 }
 
 <form method="post">
-    @if (Model.IsTruce) {
-        @Html.Raw("<fieldset disabled=\"disabled\">")
-    }
+    <fieldset disabled="@Model.IsTruce">
+        <input type="hidden" asp-for="DefenderId" />
+        <input type="hidden" asp-for="DisplayName" />
+        <input type="hidden" asp-for="Population" />
 
-    <input type="hidden" asp-for="DefenderId" />
-    <input type="hidden" asp-for="DisplayName" />
-    <input type="hidden" asp-for="Population" />
+        @for (int i = 0; i < Model.ValidAttackTypes.Count; i++) {
+            <input type="hidden" asp-for="ValidAttackTypes[i]" />
+        }
 
-    @for (int i = 0; i < Model.ValidAttackTypes.Count; i++) {
-        <input type="hidden" asp-for="ValidAttackTypes[i]" />
-    }
+        <div class="row">
+            <div class="col-12 col-md-6 offset-md-3">
+                <div asp-validation-summary="ModelOnly" class="site-validation-summary text-danger"></div>
 
-    <div class="row">
-        <div class="col-12 col-md-6 offset-md-3">
-            <div asp-validation-summary="ModelOnly" class="site-validation-summary text-danger"></div>
+                <div class="mb-3">
+                    <label>Display name</label>
+                    <div class="form-control" readonly="readonly">@Model.DisplayName</div>
+                </div>
 
-            <div class="mb-3">
-                <label>Display name</label>
-                <div class="form-control" readonly="readonly">@Model.DisplayName</div>
-            </div>
+                <div class="mb-3">
+                    <label>Population</label>
+                    <div class="form-control" readonly="readonly">@Model.Population.ToString(StringFormat.Integer)</div>
+                </div>
 
-            <div class="mb-3">
-                <label>Population</label>
-                <div class="form-control" readonly="readonly">@Model.Population.ToString(StringFormat.Integer)</div>
-            </div>
+                <div class="mb-3">
+                    <label asp-for="AttackType" class="site-required"></label>
 
-            <div class="mb-3">
-                <label asp-for="AttackType" class="site-required"></label>
+                    @if (Model.ValidAttackTypes.Contains("Raid")) {
+                        <div class="form-check">
+                            <input type="radio" asp-for="AttackType" id="AttackType-Raid" value="Raid" class="form-check-input" checked="@(Model.AttackType == "Raid")" />
+                            <label class="form-check-label" for="AttackType-Raid">Raid <span class="text-muted">- charge your opponent's workers and try to take their resources</span></label>
+                        </div>
+                    }
+                    @if (Model.ValidAttackTypes.Contains("Assault")) {
+                        <div class="form-check">
+                            <input type="radio" asp-for="AttackType" id="AttackType-Assault" value="Assault" class="form-check-input" checked="@(Model.AttackType == "Assault")" />
+                            <label class="form-check-label" for="AttackType-Assault">Assault <span class="text-muted">- charge your opponent's defences and try to take their gold</span></label>
+                        </div>
+                    }
+                    @if (Model.ValidAttackTypes.Contains("GrandOverlordAttack")) {
+                        <div class="form-check">
+                            <input type="radio" asp-for="AttackType" id="AttackType-GrandOverlordAttack" value="GrandOverlordAttack" class="form-check-input" checked="@(Model.AttackType == "GrandOverlordAttack")" />
+                            <label class="form-check-label" for="AttackType-GrandOverlordAttack">Grand Overlord Attack <span class="text-muted">- charge your opponent's defences and try to stop them being Grand Overlord; your opponent will not surrender</span></label>
+                        </div>
+                    }
+                    @if (Model.ValidAttackTypes.Contains("Revenge")) {
+                        <div class="form-check">
+                            <input type="radio" asp-for="AttackType" id="AttackType-Revenge" value="Revenge" class="form-check-input" checked="@(Model.AttackType == "Revenge")" />
+                            <label class="form-check-label" for="AttackType-Revenge">Revenge <span class="text-muted">- charge your opponent's defences to take revenge for earlier transgressions; your opponent will not surrender</span></label>
+                        </div>
+                    }
 
-                @if (Model.ValidAttackTypes.Contains("Raid")) {
-                    <div class="form-check">
-                        <input type="radio" asp-for="AttackType" id="AttackType-Raid" value="Raid" class="form-check-input" checked="@(Model.AttackType == "Raid")" />
-                        <label class="form-check-label" for="AttackType-Raid">Raid <span class="text-muted">- charge your opponent's workers and try to take their resources</span></label>
-                    </div>
-                }
-                @if (Model.ValidAttackTypes.Contains("Assault")) {
-                    <div class="form-check">
-                        <input type="radio" asp-for="AttackType" id="AttackType-Assault" value="Assault" class="form-check-input" checked="@(Model.AttackType == "Assault")" />
-                        <label class="form-check-label" for="AttackType-Assault">Assault <span class="text-muted">- charge your opponent's defences and try to take their gold</span></label>
-                    </div>
-                }
-                @if (Model.ValidAttackTypes.Contains("GrandOverlordAttack")) {
-                    <div class="form-check">
-                        <input type="radio" asp-for="AttackType" id="AttackType-GrandOverlordAttack" value="GrandOverlordAttack" class="form-check-input" checked="@(Model.AttackType == "GrandOverlordAttack")" />
-                        <label class="form-check-label" for="AttackType-GrandOverlordAttack">Grand Overlord Attack <span class="text-muted">- charge your opponent's defences and try to stop them being Grand Overlord; your opponent will not surrender</span></label>
-                    </div>
-                }
-                @if (Model.ValidAttackTypes.Contains("Revenge")) {
-                    <div class="form-check">
-                        <input type="radio" asp-for="AttackType" id="AttackType-Revenge" value="Revenge" class="form-check-input" checked="@(Model.AttackType == "Revenge")" />
-                        <label class="form-check-label" for="AttackType-Revenge">Revenge <span class="text-muted">- charge your opponent's defences to take revenge for earlier transgressions; your opponent will not surrender</span></label>
-                    </div>
-                }
+                    <span asp-validation-for="AttackType" class="small form-text text-danger"></span>
+                </div>
 
-                <span asp-validation-for="AttackType" class="small form-text text-danger"></span>
-            </div>
-
-            <div class="mb-3">
-                <label asp-for="Turns" class="site-required"></label>
-                <input type="text" asp-for="Turns" class="form-control" />
-                <span asp-validation-for="Turns" class="small form-text text-danger"></span>
+                <div class="mb-3">
+                    <label asp-for="Turns" class="site-required"></label>
+                    <input type="text" asp-for="Turns" class="form-control" />
+                    <span asp-validation-for="Turns" class="small form-text text-danger"></span>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="row">
-        <div class="col-6 offset-6 col-md-3">
-            <button type="submit" class="btn btn-primary w-100">Attack</button>
+        <div class="row">
+            <div class="col-6 offset-6 col-md-3">
+                <button type="submit" class="btn btn-primary w-100">Attack</button>
+            </div>
         </div>
-    </div>
-
-    @if (Model.IsTruce) {
-        @Html.Raw("</fieldset>")
-    }
+    </fieldset>
 </form>
