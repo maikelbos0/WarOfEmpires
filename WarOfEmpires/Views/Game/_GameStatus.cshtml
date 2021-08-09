@@ -12,7 +12,7 @@
             The game is finished.
 
             @if (Model.CurrentGrandOverlordId.HasValue) {
-                @:All hail @Html.ActionLink(Model.CurrentGrandOverlord, "Details", "Player", new { id = Model.CurrentGrandOverlordId }), the Grand Overlord!
+                <span>All hail <a asp-controller="Player" asp-action="Details" asp-route-id="@Model.CurrentGrandOverlordId">@Model.CurrentGrandOverlord</a>, the Grand Overlord!</span>
             }
         </div>
         break;
@@ -20,8 +20,9 @@
     default:
         if (Model.CurrentGrandOverlordId.HasValue && Model.CurrentGrandOverlordTime.HasValue) {
             <div class="bg-warning p-2 text-center fw-bold">
-                @Html.ActionLink(Model.CurrentGrandOverlord, "Details", "Player", new { id = Model.CurrentGrandOverlordId }) has been Grand Overlord
-                for @Html.DisplayFor(m => m.CurrentGrandOverlordTime.Value). When they reach @Model.GrandOverlordHoursToWin.ToString(StringFormat.Integer) hours they will win!
+                <a asp-controller="Player" asp-action="Details" asp-route-id="@Model.CurrentGrandOverlordId">@Model.CurrentGrandOverlord</a> has been 
+                Grand Overlord for @((int)Model.CurrentGrandOverlordTime.Value.TotalHours) hours and @Model.CurrentGrandOverlordTime.Value.Minutes minutes. 
+                When they reach @Model.GrandOverlordHoursToWin.ToString(StringFormat.Integer) hours they will win!
             </div>
         }
         break;
