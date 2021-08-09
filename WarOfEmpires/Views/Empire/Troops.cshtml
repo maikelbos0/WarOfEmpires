@@ -12,7 +12,7 @@
 
 <ul class="text-muted">
     <li>Peasants available for training: @Model.CurrentPeasants.ToString(StringFormat.Integer)</li>
-    <li>Mercenary training cost: @Html.DisplayFor(m => m.MercenaryTrainingCost)</li>
+    <li>Mercenary training cost: <vc:resources model="Model.MercenaryTrainingCost" /></li>
 
     @if (Model.HasUpkeepRunOut) {
         <li class="text-danger">You aren't able to afford the upkeep costs; your workers have stopped working and your mercenaries have left your empire</li>
@@ -28,17 +28,17 @@
 
 <housing-totals />
 
-@using (Html.BeginForm(null, null, FormMethod.Post, new {
-    data_success_message_train = "Your troops were trained.",
-    data_success_message_untrain = "Your troops were untrained.",
-    data_success_message_heal = "Your troops were healed.",
-})) {
-    @Html.ValidationSummary(true, null, new { @class = "site-validation-summary text-danger" })
+<form method="post" data-success-message-train="Your troops were trained." data-success-message-untrain="Your troops were untrained." data-success-message-heal="Your troops were healed.">
+    <div asp-validation-summary="ModelOnly" class="site-validation-summary text-danger"></div>
 
-    @Html.HiddenFor(m => m.Command)
-    @Html.HiddenFor(m => m.CurrentPeasants)
-    @Html.HiddenFor(m => m.MercenaryTrainingCost)
-    @Html.HiddenFor(m => m.CurrentStamina)
+    <input type="hidden" asp-for="Command" />
+    <input type="hidden" asp-for="CurrentPeasants" />
+    <input type="hidden" asp-for="CurrentStamina" />
+    <input type="hidden" asp-for="MercenaryTrainingCost.Gold" />
+    <input type="hidden" asp-for="MercenaryTrainingCost.Food" />
+    <input type="hidden" asp-for="MercenaryTrainingCost.Wood" />
+    <input type="hidden" asp-for="MercenaryTrainingCost.Stone" />
+    <input type="hidden" asp-for="MercenaryTrainingCost.Ore" />
 
     <div class="row">
         <div class="col-12 col-md-6 col-xl-3">
@@ -50,9 +50,9 @@
             </div>
 
             <div class="mb-3">
-                @Html.LabelFor(m => m.StaminaToHeal)
-                @Html.TextBoxFor(m => m.StaminaToHeal, new { @class = "form-control" })
-                @Html.ValidationMessageFor(m => m.StaminaToHeal, null, new { @class = "small form-text text-danger" })
+                <label asp-for="StaminaToHeal"></label>
+                <input type="text" asp-for="StaminaToHeal" class="form-control" />
+                <span asp-validation-for="StaminaToHeal" class="small form-text text-danger"></span>
             </div>
 
             <div class="row">
@@ -61,17 +61,21 @@
         </div>
 
         @for (var i = 0; i < Model.Troops.Count; i++) {
-            @Html.HiddenFor(m => m.Troops[i].Type)
-            @Html.HiddenFor(m => m.Troops[i].Name)
-            @Html.HiddenFor(m => m.Troops[i].Cost)
-            @Html.HiddenFor(m => m.Troops[i].CurrentSoldiers)
-            @Html.HiddenFor(m => m.Troops[i].CurrentMercenaries)
+            <input type="hidden" asp-for="Troops[i].Type" />
+            <input type="hidden" asp-for="Troops[i].Name" />
+            <input type="hidden" asp-for="Troops[i].Cost.Gold" />
+            <input type="hidden" asp-for="Troops[i].Cost.Food" />
+            <input type="hidden" asp-for="Troops[i].Cost.Wood" />
+            <input type="hidden" asp-for="Troops[i].Cost.Stone" />
+            <input type="hidden" asp-for="Troops[i].Cost.Ore" />
+            <input type="hidden" asp-for="Troops[i].CurrentSoldiers" />
+            <input type="hidden" asp-for="Troops[i].CurrentMercenaries" />
 
             <div class="col-12 col-md-6 col-xl-3">
                 <h4 class="mt-3">@Model.Troops[i].Name</h4>
 
                 <ul class="text-muted">
-                    <li>Training cost: @Html.DisplayFor(m => m.Troops[i].Cost)</li>
+                    <li>Training cost: <vc:resources model="Model.Troops[i].Cost" /></li>
                 </ul>
 
                 <div class="mb-3">
@@ -85,15 +89,15 @@
                 </div>
 
                 <div class="mb-3">
-                    @Html.Label("Soldiers")
-                    @Html.TextBoxFor(m => m.Troops[i].Soldiers, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(m => m.Troops[i].Soldiers, null, new { @class = "small form-text text-danger" })
+                    <label>Soldiers</label>
+                    <input type="text" asp-for="Troops[i].Soldiers" class="form-control" />
+                    <span asp-validation-for="Troops[i].Soldiers" class="small form-text text-danger"></span>
                 </div>
 
                 <div class="mb-3">
-                    @Html.Label("Mercenaries")
-                    @Html.TextBoxFor(m => m.Troops[i].Mercenaries, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(m => m.Troops[i].Mercenaries, null, new { @class = "small form-text text-danger" })
+                    <label>Mercenaries</label>
+                    <input type="text" asp-for="Troops[i].Mercenaries" class="form-control" />
+                    <span asp-validation-for="Troops[i].Mercenaries" class="small form-text text-danger"></span>
                 </div>
             </div>
         }
@@ -106,4 +110,4 @@
     <div class="row mt-1">
         <div class="col-6 offset-6 col-md-3 offset-md-9"><button type="submit" class="btn btn-secondary w-100" value="untrain">Untrain troops</button></div>
     </div>
-}
+</form>
