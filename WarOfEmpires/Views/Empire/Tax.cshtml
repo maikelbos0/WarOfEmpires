@@ -10,22 +10,22 @@
     Here you can set the tax rate for your workers. The higher the tax rate, the more gold you get per turn, but the less resources you get per turn.
 </p>
 
-@using (Html.BeginForm(null, null, FormMethod.Post, new { data_success_message = "Your tax rate was changed." })) {
-    @Html.HiddenFor(m => m.BaseGoldPerTurn)
-    @Html.HiddenFor(m => m.BaseFoodPerTurn)
-    @Html.HiddenFor(m => m.BaseWoodPerTurn)
-    @Html.HiddenFor(m => m.BaseStonePerTurn)
-    @Html.HiddenFor(m => m.BaseOrePerTurn)
+<form method="post" data-success-message="Your tax rate was changed.">
+    <input type="hidden" asp-for="BaseGoldPerTurn" />
+    <input type="hidden" asp-for="BaseFoodPerTurn" />
+    <input type="hidden" asp-for="BaseWoodPerTurn" />
+    <input type="hidden" asp-for="BaseStonePerTurn" />
+    <input type="hidden" asp-for="BaseOrePerTurn" />
 
     <div class="row">
         <div class="col-12 col-md-6 offset-md-3">
-            @Html.ValidationSummary(true, null, new { @class = "site-validation-summary text-danger" })
+            <div asp-validation-summary="ModelOnly" class="site-validation-summary text-danger"></div>
 
             <div class="mb-3">
-                @Html.LabelFor(m => m.Tax)
-                @Html.TextBoxFor(m => m.Tax, new { @class = "form-control", @readonly = "readonly" })
+                <label asp-for="Tax"></label>
+                <input type="text" asp-for="Tax" class="form-control" readonly tabindex="-1" />
                 <div id="tax-rangeslider" data-range-start="0" data-step-size="5" data-step-count="20" data-value="@Model.Tax"></div>
-                @Html.ValidationMessageFor(m => m.Tax, null, new { @class = "small form-text text-danger" })
+                <span asp-validation-for="Tax" class="small form-text text-danger"></span>
             </div>
         </div>
     </div>
@@ -38,39 +38,39 @@
         <div class="col-6 col-md-3 col-xl-2 offset-xl-1">
             <div class="mb-3">
                 <label>Gold production</label>
-                @Html.TextBoxFor(m => m.CurrentGoldPerWorkerPerTurn, new { @class = "form-control", @readonly = "readonly", tabindex = -1 })
+                <input type="text" asp-for="CurrentGoldPerWorkerPerTurn" class="form-control" readonly tabindex="-1" />
             </div>
         </div>
 
         <div class="col-6 col-md-3 col-xl-2">
             <div class="mb-3">
                 <label>Food production</label>
-                @Html.TextBoxFor(m => m.CurrentFoodPerWorkerPerTurn, new { @class = "form-control", @readonly = "readonly", tabindex = -1 })
+                <input type="text" asp-for="CurrentFoodPerWorkerPerTurn" class="form-control" readonly tabindex="-1" />
             </div>
         </div>
 
         <div class="col-6 col-md-3 col-xl-2">
             <div class="mb-3">
                 <label>Wood production</label>
-                @Html.TextBoxFor(m => m.CurrentWoodPerWorkerPerTurn, new { @class = "form-control", @readonly = "readonly", tabindex = -1 })
+                <input type="text" asp-for="CurrentWoodPerWorkerPerTurn" class="form-control" readonly tabindex="-1" />
             </div>
         </div>
 
         <div class="col-6 col-md-3 col-xl-2">
             <div class="mb-3">
                 <label>Stone production</label>
-                @Html.TextBoxFor(m => m.CurrentStonePerWorkerPerTurn, new { @class = "form-control", @readonly = "readonly", tabindex = -1 })
+                <input type="text" asp-for="CurrentStonePerWorkerPerTurn" class="form-control" readonly tabindex="-1" />
             </div>
         </div>
 
         <div class="col-6 col-md-3 col-xl-2">
             <div class="mb-3">
                 <label>Ore production</label>
-                @Html.TextBoxFor(m => m.CurrentOrePerWorkerPerTurn, new { @class = "form-control", @readonly = "readonly", tabindex = -1 })
+                <input type="text" asp-for="CurrentOrePerWorkerPerTurn" class="form-control" readonly tabindex="-1" />
             </div>
         </div>
     </div>
-}
+</form>
 
 <script type="text/javascript">
     $(function () {
