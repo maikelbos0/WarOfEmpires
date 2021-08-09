@@ -21,7 +21,7 @@
 
 <ul class="text-muted">
     <li>Peasants available for training: @Model.CurrentPeasants.ToString(StringFormat.Integer)</li>
-    <li>Worker training cost: @Html.DisplayFor(m => m.WorkerCost)</li>
+    <li>Worker training cost: <vc:resources model="Model.WorkerCost" /></li>
     <li>Gold production per turn: @Model.CurrentGoldPerTurn.ToString(StringFormat.Integer) <icon type="Gold" /></li>
     <li>Upkeep per turn: @Html.DisplayFor(m => m.UpkeepPerTurn)</li>
     <li>Recruits per day: @Model.RecruitsPerDay.ToString(StringFormat.Integer)</li>
@@ -36,38 +36,47 @@
 
 <housing-totals />
 
-@using (Html.BeginForm(null, null, FormMethod.Post, new {
-    data_success_message_train = "Your peasants were trained.",
-    data_success_message_untrain = "Your workers were untrained."
-})) {
-    @Html.ValidationSummary(true, null, new { @class = "site-validation-summary text-danger" })
+<form method="post" data-success-message-train="Your peasants were trained." data-success-message-untrain="Your workers were untrained.">
+    <div asp-validation-summary="ModelOnly" class="site-validation-summary text-danger"></div>
 
-    @Html.HiddenFor(m => m.Command)
-    @Html.HiddenFor(m => m.CurrentGoldPerTurn)
-    @Html.HiddenFor(m => m.CurrentGoldPerWorkerPerTurn)
-    @Html.HiddenFor(m => m.CurrentPeasants)
-    @Html.HiddenFor(m => m.WorkerCost)
-    @Html.HiddenFor(m => m.UpkeepPerTurn)
-    @Html.HiddenFor(m => m.RecruitsPerDay)
-    @Html.HiddenFor(m => m.WillUpkeepRunOut)
-    @Html.HiddenFor(m => m.HasUpkeepRunOut)
+    <input type="hidden" asp-for="Command" />
+    <input type="hidden" asp-for="CurrentGoldPerTurn" />
+    <input type="hidden" asp-for="CurrentGoldPerWorkerPerTurn" />
+    <input type="hidden" asp-for="CurrentPeasants" />
+    <input type="hidden" asp-for="WorkerCost.Gold" />
+    <input type="hidden" asp-for="WorkerCost.Food" />
+    <input type="hidden" asp-for="WorkerCost.Wood" />
+    <input type="hidden" asp-for="WorkerCost.Stone" />
+    <input type="hidden" asp-for="WorkerCost.Ore" />
+    <input type="hidden" asp-for="UpkeepPerTurn.Gold" />
+    <input type="hidden" asp-for="UpkeepPerTurn.Food" />
+    <input type="hidden" asp-for="UpkeepPerTurn.Wood" />
+    <input type="hidden" asp-for="UpkeepPerTurn.Stone" />
+    <input type="hidden" asp-for="UpkeepPerTurn.Ore" />
+    <input type="hidden" asp-for="RecruitsPerDay" />
+    <input type="hidden" asp-for="WillUpkeepRunOut" />
+    <input type="hidden" asp-for="HasUpkeepRunOut" />
 
     <div class="row">
         @for (var i = 0; i < Model.Workers.Count; i++) {
-            @Html.HiddenFor(m => m.Workers[i].Type)
-            @Html.HiddenFor(m => m.Workers[i].IsProducer)
-            @Html.HiddenFor(m => m.Workers[i].Name)
-            @Html.HiddenFor(m => m.Workers[i].Cost)
-            @Html.HiddenFor(m => m.Workers[i].CurrentProductionPerWorkerPerTurn)
-            @Html.HiddenFor(m => m.Workers[i].CurrentProductionPerTurn)
-            @Html.HiddenFor(m => m.Workers[i].CurrentWorkers)
+            <input type="hidden" asp-for="Workers[i].Type" />
+            <input type="hidden" asp-for="Workers[i].IsProducer" />
+            <input type="hidden" asp-for="Workers[i].Name" />
+            <input type="hidden" asp-for="Workers[i].Cost.Gold" />
+            <input type="hidden" asp-for="Workers[i].Cost.Food" />
+            <input type="hidden" asp-for="Workers[i].Cost.Wood" />
+            <input type="hidden" asp-for="Workers[i].Cost.Stone" />
+            <input type="hidden" asp-for="Workers[i].Cost.Ore" />
+            <input type="hidden" asp-for="Workers[i].CurrentProductionPerWorkerPerTurn" />
+            <input type="hidden" asp-for="Workers[i].CurrentProductionPerTurn" />
+            <input type="hidden" asp-for="Workers[i].CurrentWorkers" />
 
             <div class="col-12 col-md-6 col-xl-3">
                 <h4 class="mt-3">@Model.Workers[i].Name</h4>
 
                 @if (!Model.Workers[i].IsProducer) {
                     <ul class="text-muted">
-                        <li>Training cost: @Html.DisplayFor(m => m.Workers[i].Cost)</li>
+                        <li>Training cost: <vc:resources model="Model.Workers[i].Cost" /></li>
                     </ul>
                 }
 
@@ -101,9 +110,9 @@
                 </div>
 
                 <div class="mb-3">
-                    @Html.LabelFor(m => m.Workers[i].Count)
-                    @Html.TextBoxFor(m => m.Workers[i].Count, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(m => m.Workers[i].Count, null, new { @class = "small form-text text-danger" })
+                    <label asp-for="Workers[i].Count"></label>
+                    <input type="text" asp-for="Workers[i].Count" class="form-control" />
+                    <span asp-validation-for="Workers[i].Count" class="small form-text text-danger"></span>
                 </div>
             </div>
         }
@@ -116,4 +125,4 @@
     <div class="row mt-1">
         <div class="col-6 offset-6 col-md-3 offset-md-9"><button type="submit" class="btn btn-secondary w-100" value="untrain">Untrain</button></div>
     </div>
-}
+</form>

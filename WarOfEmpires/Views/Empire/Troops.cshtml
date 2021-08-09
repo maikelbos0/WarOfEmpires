@@ -89,13 +89,13 @@
                 </div>
 
                 <div class="mb-3">
-                    <label>Soldiers</label>
+                    <label asp-for="Troops[i].Soldiers"></label>
                     <input type="text" asp-for="Troops[i].Soldiers" class="form-control" />
                     <span asp-validation-for="Troops[i].Soldiers" class="small form-text text-danger"></span>
                 </div>
 
                 <div class="mb-3">
-                    <label>Mercenaries</label>
+                    <label asp-for="Troops[i].Mercenaries"></label>
                     <input type="text" asp-for="Troops[i].Mercenaries" class="form-control" />
                     <span asp-validation-for="Troops[i].Mercenaries" class="small form-text text-danger"></span>
                 </div>
