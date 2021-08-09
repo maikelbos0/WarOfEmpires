@@ -36,7 +36,7 @@
     background-image: url('icons/locked-chest.svg');
 }
 
-.si.si-maintenance::after {
+.si.si-siege::after {
     background-image: url('icons/claw-hammer.svg');
 }
 
