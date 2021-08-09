@@ -6,27 +6,27 @@
 
 <h2>Change email address</h2>
 
-@using (Html.BeginForm(null, null, FormMethod.Post, new { data_success_message = "An email has been sent to the new email address with a validation link. Follow the link in the email to confirm your new email address." })) {
+<form method="post" data-success-message="An email has been sent to the new email address with a validation link. Follow the link in the email to confirm your new email address.">
     <div class="row">
         <div class="col-12 col-md-6 offset-md-3">
-            @Html.ValidationSummary(true, null, new { @class = "site-validation-summary text-danger" })
+            <div asp-validation-summary="ModelOnly" class="site-validation-summary text-danger"></div>
 
             <div class="mb-3">
-                @Html.LabelFor(m => m.Password, new { @class = "site-required" })
-                @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-                @Html.ValidationMessageFor(m => m.Password, null, new { @class = "small form-text text-danger" })
+                <label asp-for="Password" class="site-required"></label>
+                <input type="text" asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password" class="small form-text text-danger"></span>
             </div>
 
             <div class="mb-3">
-                @Html.LabelFor(m => m.NewEmail, new { @class = "site-required" })
-                @Html.TextBoxFor(m => m.NewEmail, new { @class = "form-control" })
-                @Html.ValidationMessageFor(m => m.NewEmail, null, new { @class = "small form-text text-danger" })
+                <label asp-for="NewEmail" class="site-required"></label>
+                <input type="text" asp-for="NewEmail" class="form-control" />
+                <span asp-validation-for="NewEmail" class="small form-text text-danger"></span>
             </div>
 
             <div class="mb-3">
-                @Html.LabelFor(m => m.ConfirmNewEmail, new { @class = "site-required" })
-                @Html.TextBoxFor(m => m.ConfirmNewEmail, new { @class = "form-control" })
-                @Html.ValidationMessageFor(m => m.ConfirmNewEmail, null, new { @class = "small form-text text-danger" })
+                <label asp-for="ConfirmNewEmail" class="site-required"></label>
+                <input type="text" asp-for="ConfirmNewEmail" class="form-control" />
+                <span asp-validation-for="ConfirmNewEmail" class="small form-text text-danger"></span>
             </div>
         </div>
     </div>
@@ -34,4 +34,4 @@
     <div class="row">
         <div class="col-6 offset-6 col-md-3"><button type="submit" class="btn btn-primary w-100">Submit</button></div>
     </div>
-}
+</form>
