@@ -94,7 +94,7 @@ namespace WarOfEmpires.Tests.Integration {
                 ConfirmNewPassword = "test"
             });
 
-            resetResult.ViewName.Should().Be("PasswordReset");
+            resetResult.ViewName.Should().Be("LogIn");
 
             // Log in
             var logInResult = await GetController().LogIn(new LogInUserModel() {

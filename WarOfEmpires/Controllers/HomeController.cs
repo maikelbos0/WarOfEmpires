@@ -60,8 +60,9 @@ namespace WarOfEmpires.Controllers {
         }
 
         [HttpGet("LogIn")]
-        public ActionResult LogIn(string returnUrl = null) {
-            return View(new LogInUserModel() {
+        public ViewResult LogIn(string returnUrl = null) {
+            // Explicitly name view so it works from other actions
+            return View("LogIn", new LogInUserModel() {
                 ReturnUrl = returnUrl
             });
         }
@@ -131,7 +132,7 @@ namespace WarOfEmpires.Controllers {
         [HttpPost("ResetPassword")]
         public ViewResult ResetPassword(string email, string token, ResetUserPasswordModel model) {
             return BuildViewResultFor(new ResetUserPasswordCommand(email, token, model.NewPassword))
-                .OnSuccess("PasswordReset")
+                .OnSuccess(() => LogIn())
                 .OnFailure("ResetPassword", model);
         }
 
