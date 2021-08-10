@@ -6,23 +6,23 @@
 
 <h2>Log in</h2>
 
-@using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "html-only" })) {
-    @Html.HiddenFor(m => m.ReturnUrl)
+<form method="post" class="html-only">
+    <input type="hidden" asp-for="ReturnUrl" />
 
     <div class="row">
         <div class="col-12 col-md-6 offset-md-3">
-            @Html.ValidationSummary(true, null, new { @class = "site-validation-summary text-danger" })
+            <div asp-validation-summary="ModelOnly" class="site-validation-summary text-danger"></div>
 
             <div class="mb-3">
-                @Html.LabelFor(m => m.Email, new { @class = "site-required" })
-                @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
-                @Html.ValidationMessageFor(m => m.Email, null, new { @class = "small form-text text-danger" })
+                <label asp-for="Email" class="site-required"></label>
+                <input type="text" asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="small form-text text-danger"></span>
             </div>
 
             <div class="mb-3">
-                @Html.LabelFor(m => m.Password, new { @class = "site-required" })
-                @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-                @Html.ValidationMessageFor(m => m.Password, null, new { @class = "small form-text text-danger" })
+                <label asp-for="Password" class="site-required"></label>
+                <input type="password" asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password" class="small form-text text-danger"></span>
             </div>
         </div>
     </div>
@@ -30,4 +30,4 @@
     <div class="row">
         <div class="col-6 offset-6 col-md-3"><button type="submit" class="btn btn-primary w-100">Submit</button></div>
     </div>
-}
+</form>
