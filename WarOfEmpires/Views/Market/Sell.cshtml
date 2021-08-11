@@ -18,23 +18,21 @@
     <li>Total available capacity: @Model.AvailableCapacity.ToString(StringFormat.Integer) <icon type="Market" /></li>
 </ul>
 
-@using (Html.BeginForm("Sell", null, FormMethod.Post, new {
-    data_success_message = "Your resources have been sent to the market."
-})) {
-    @Html.ValidationSummary(true, null, new { @class = "site-validation-summary text-danger" })
+<form method="post" data-success-message="Your resources have been sent to the market.">
+    <div asp-validation-summary="ModelOnly" class="site-validation-summary text-danger"></div>
 
-    @Html.HiddenFor(m => m.TotalMerchants)
-    @Html.HiddenFor(m => m.AvailableMerchants)
-    @Html.HiddenFor(m => m.CaravanCapacity)
-    @Html.HiddenFor(m => m.AvailableCapacity)
+    <input type="hidden" asp-for="TotalMerchants" />
+    <input type="hidden" asp-for="AvailableMerchants" />
+    <input type="hidden" asp-for="CaravanCapacity" />
+    <input type="hidden" asp-for="AvailableCapacity" />
 
     <div class="row">
         @for (var i = 0; i < Model.Merchandise.Count; i++) {
-            @Html.HiddenFor(m => m.Merchandise[i].Type)
-            @Html.HiddenFor(m => m.Merchandise[i].Name)
-            @Html.HiddenFor(m => m.Merchandise[i].AvailableAtLowestPrice)
-            @Html.HiddenFor(m => m.Merchandise[i].LowestPrice)
-            @Html.HiddenFor(m => m.Merchandise[i].TotalAvailable)
+            <input type="hidden" asp-for="Merchandise[i].Type" />
+            <input type="hidden" asp-for="Merchandise[i].Name" />
+            <input type="hidden" asp-for="Merchandise[i].AvailableAtLowestPrice" />
+            <input type="hidden" asp-for="Merchandise[i].LowestPrice" />
+            <input type="hidden" asp-for="Merchandise[i].TotalAvailable" />
 
             <div class="col-12 col-md-6 col-lg-3">
                 <h4>@Model.Merchandise[i].Name</h4>
@@ -55,15 +53,15 @@
                 </div>
 
                 <div class="mb-3">
-                    @Html.LabelFor(m => m.Merchandise[i].Quantity)
-                    @Html.TextBoxFor(m => m.Merchandise[i].Quantity, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(m => m.Merchandise[i].Quantity, null, new { @class = "small form-text text-danger" })
+                    <label asp-for="Merchandise[i].Quantity"></label>
+                    <input type="text" asp-for="Merchandise[i].Quantity" class="form-control" />
+                    <span asp-validation-for="Merchandise[i].Quantity" class="small form-text text-danger"></span>
                 </div>
 
                 <div class="mb-3">
-                    @Html.LabelFor(m => m.Merchandise[i].Price)
-                    @Html.TextBoxFor(m => m.Merchandise[i].Price, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(m => m.Merchandise[i].Price, null, new { @class = "small form-text text-danger" })
+                    <label asp-for="Merchandise[i].Price"></label>
+                    <input type="text" asp-for="Merchandise[i].Price" class="form-control" />
+                    <span asp-validation-for="Merchandise[i].Price" class="small form-text text-danger"></span>
                 </div>
             </div>
         }
@@ -72,6 +70,6 @@
     <div class="row">
         <div class="col-6 offset-6 col-md-3 offset-md-9"><button type="submit" class="btn btn-primary w-100">Sell</button></div>
     </div>
-}
+</form>
 
 <vc:caravans />
