@@ -4,4 +4,4 @@
 
 <h2>Sell transactions</h2>
 
-@(await Html.Grid<WarOfEmpires.Models.Markets.TransactionViewModel>("transactionsGrid", Url.Action("GetSellTransactions")))
+<grid id="transactionsGrid" item-type="typeof(WarOfEmpires.Models.Markets.TransactionViewModel)" item-action="GetSellTransactions" />
