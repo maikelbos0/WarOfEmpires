@@ -14,7 +14,7 @@
                 <div class="form-control" readonly="readonly">@Model.Recipient</div>
             }
             else {
-                @Html.ActionLink(Model.Recipient, "Details", "Player", new { id = Model.RecipientId }, new { @class = "w-100 btn btn-secondary text-start" })
+                <a asp-controller="Player" asp-action="Details" asp-route-id="@Model.RecipientId" class="w-100 btn btn-secondary text-start">@Model.Recipient</a>
             }
         </div>
 

@@ -10,28 +10,28 @@
     Send a message to another player below.
 </p>
 
-@using (Html.BeginForm("Send", null, FormMethod.Post, new { data_success_message = "Your message has been sent." } )) {
-    @Html.HiddenFor(m => m.RecipientId)
-    @Html.HiddenFor(m => m.Recipient)
+<form method="post" asp-action="Send" data-success-message="Your message has been sent.">
+    <input type="hidden" asp-for="RecipientId" />
+    <input type="hidden" asp-for="Recipient" />
 
     <div class="row">
         <div class="col-12 col-md-6 offset-md-3">
-            @Html.ValidationSummary(true, null, new { @class = "site-validation-summary text-danger" })
+            <div asp-validation-summary="ModelOnly" class="site-validation-summary text-danger"></div>
 
             <div class="mb-3">
                 <label>Recipient</label>
-                @Html.ActionLink(Model.Recipient, "Details", "Player", new { id = Model.RecipientId }, new { @class = "w-100 btn btn-secondary text-start" })
+                <a asp-controller="Player" asp-action="Details" asp-route-id="@Model.RecipientId" class="w-100 btn btn-secondary text-start">@Model.Recipient</a>
             </div>
 
             <div class="mb-3">
-                @Html.LabelFor(m => m.Subject, new { @class = "site-required" })
-                @Html.TextBoxFor(m => m.Subject, new { @class = "form-control" })
-                @Html.ValidationMessageFor(m => m.Subject, null, new { @class = "small form-text text-danger" })
+                <label asp-for="Subject" class="site-required"></label>
+                <input type="text" asp-for="Subject" class="form-control" />
+                <span asp-validation-for="Subject" class="small form-text text-danger"></span>
             </div>
 
             <div class="mb-3">
-                @Html.LabelFor(m => m.Body)
-                @Html.TextAreaFor(m => m.Body, new { @class = "form-control", rows = 8 })
+                <label asp-for="Body"></label>
+                <textarea asp-for="Body" class="form-control" rows="8"></textarea>
             </div>
         </div>
     </div>
@@ -39,4 +39,4 @@
     <div class="row">
         <div class="col-6 offset-6 col-md-3"><button type="submit" class="btn btn-primary w-100">Send</button></div>
     </div>
-}
+</form>
