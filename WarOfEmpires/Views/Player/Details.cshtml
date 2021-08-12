@@ -12,22 +12,20 @@
         <div class="text-end">
             <div class="btn-group">
                 @if (Model.CanBeAttacked) {
-                    @Html.ActionLink("Attack", "Execute", "Attack", new { DefenderId = Model.Id }, new { @class = "btn btn-primary" })
+                    <a asp-controller="Attack" asp-action="Execute" asp-route-defenderId="@Model.Id" class="btn btn-primary">Attack</a>
                 }
 
-                @Html.ActionLink("Send message", "Send", "Message", new { RecipientId = Model.Id }, new { @class = "btn btn-secondary" })
+                <a asp-controller="Message" asp-action="Send" asp-route-recipientId="@Model.Id" class="btn btn-secondary">Send message</a>
 
                 @if (AuthorizationService.IsAuthorized(new AllianceAuthorizationRequest() { CanInvite = true })) {
-                    @Html.ActionLink("Invite into alliance", "Invite", "Alliance", new { PlayerId = Model.Id }, new { @class = "btn btn-secondary" });
+                    <a asp-controller="Alliance" asp-action="Invite" asp-route-playerId="@Model.Id" class="btn btn-secondary">Invite into alliance</a>
                 }
 
-                @using (Html.BeginForm("Block", "Player", FormMethod.Post, new {
-                    data_success_message = "The player has been blocked."
-                })) {
-                    @Html.HiddenFor(m => m.Id)
+                <form method="post" asp-action="Block" data-success-message="The player has been blocked.">
+                    <input type="hidden" asp-for="Id" />
 
                     <button type="submit" class="btn btn-secondary site-unrounded-start">Block</button>
-                }
+                </form>
             </div>
         </div>
 
@@ -51,7 +49,7 @@
         @if (Model.AllianceId.HasValue) {
             <div class="mb-3">
                 <label>Alliance</label>
-                @Html.ActionLink($"{Model.AllianceCode} - {Model.AllianceName}", "Details", "Alliance", new { id = Model.AllianceId }, new { @class = "w-100 btn btn-secondary text-start " })
+                <a asp-controller="Alliance" asp-action="Details" asp-route-id="@Model.AllianceId" class="w-100 btn btn-secondary text-start">@Model.AllianceCode - @Model.AllianceName</a>
             </div>
         }
 
@@ -73,7 +71,7 @@
         @if (Model.GrandOverlordTime.HasValue) {
             <div class="mb-3">
                 <label>Grand overlord time</label>
-                <div class="form-control" readonly="readonly">@Html.DisplayFor(m => m.GrandOverlordTime.Value)</div>
+                <div class="form-control" readonly="readonly">@((int)Model.GrandOverlordTime.Value.TotalHours) hours and @Model.GrandOverlordTime.Value.Minutes minutes</div>
             </div>
         }
     </div>

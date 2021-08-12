@@ -26,16 +26,14 @@
                 <td class="table-form-label">@player.DisplayName</td>
                 <td class="table-form-label">@player.Alliance</td>
                 <td>
-                    @using (Html.BeginForm("Unblock", null, FormMethod.Post, new {
-                        data_success_message = "The player has been unblocked."
-                    })) {
-                        @Html.Hidden("id", player.Id)
+                    <form method="post" asp-action="Unblock" data-success-message="The player has been unblocked.">
+                        <input type="hidden" name="id" value="@player.Id" />
 
                         <button type="submit" class="btn btn-secondary w-100">
                             <span class="d-none d-md-inline">Unblock</span>
                             <span class="d-md-none">X</span>
                         </button>
-                    }
+                    </form>
                 </td>
             </tr>
         }
