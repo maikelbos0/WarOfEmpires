@@ -2,7 +2,7 @@
 
 <nav class="navbar navbar-expand-lg navbar-toggleable-lg navbar-light bg-info">
     <div class="container">
-        @Html.ActionLink("War of Empires", "Index", "Home", null, new { @class = "navbar-brand" })
+        <a asp-controller="Home" asp-action="Index" class="navbar-brand">War of Empires</a>
 
         <button class="navbar-toggler btn shadow-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon site-toggler-icon"></span>
@@ -16,11 +16,11 @@
                             Players
                         </a>
                         <div class="dropdown-menu bg-info" aria-labelledby="navbar-player-dropdown">
-                            @Html.ActionLink("Home", "Home", "Player", null, new { @class = "dropdown-item" })
+                            <a asp-controller="Player" asp-action="Home" class="dropdown-item">Home</a>
                             <div class="dropdown-divider"></div>
-                            @Html.ActionLink("Players", "Index", "Player", null, new { @class = "dropdown-item" })
-                            @Html.ActionLink("Alliances", "Index", "Alliance", null, new { @class = "dropdown-item" })
-                            @Html.ActionLink("Blocked players", "Blocked", "Player", null, new { @class = "dropdown-item" })
+                            <a asp-controller="Player" asp-action="Index" class="dropdown-item">Players</a>
+                            <a asp-controller="Alliance" asp-action="Index" class="dropdown-item">Alliances</a>
+                            <a asp-controller="Player" asp-action="Blocked" class="dropdown-item">Blocked players</a>
                         </div>
                     </li>
 
@@ -29,8 +29,8 @@
                             Attacks
                         </a>
                         <div class="dropdown-menu bg-info" aria-labelledby="navbar-attack-dropdown">
-                            @Html.ActionLink("Received", "Index", "Attack", null, new { id = "attack-link", @class = "dropdown-item" })
-                            @Html.ActionLink("Executed", "ExecutedIndex", "Attack", null, new { @class = "dropdown-item" })
+                            <a id="attack-link" asp-controller="Attack" asp-action="Index" class="dropdown-item">Received</a>
+                            <a asp-controller="Attack" asp-action="ExecutedIndex" class="dropdown-item">Executed</a>
                         </div>
                     </li>
 
@@ -39,9 +39,9 @@
                             Messages
                         </a>
                         <div class="dropdown-menu bg-info" aria-labelledby="navbar-message-dropdown">
-                            @Html.ActionLink("Received", "Index", "Message", null, new { id = "message-link", @class = "dropdown-item" })
-                            @Html.ActionLink("Alliance invites", "ReceivedInvites", "Alliance", null, new { id = "invite-link", @class = "dropdown-item" })
-                            @Html.ActionLink("Sent", "SentIndex", "Message", null, new { @class = "dropdown-item" })
+                            <a id="message-link" asp-controller="Message" asp-action="Index" class="dropdown-item">Received</a>
+                            <a id="invite-link" asp-controller="Alliance" asp-action="ReceivedInvites" class="dropdown-item">Alliance invites</a>
+                            <a asp-controller="Message" asp-action="SentIndex" class="dropdown-item">Sent</a>
                         </div>
                     </li>
 
@@ -50,11 +50,11 @@
                             Market
                         </a>
                         <div class="dropdown-menu bg-info" aria-labelledby="navbar-markets-dropdown">
-                            @Html.ActionLink("Sell resources", "Sell", "Market", null, new { @class = "dropdown-item" })
-                            @Html.ActionLink("Transactions", "SellTransactions", "Market", null, new { id = "market-link", @class = "dropdown-item" })
+                            <a asp-controller="Market" asp-action="Sell" class="dropdown-item">Sell resources</a>
+                            <a id="market-link" asp-controller="Market" asp-action="SellTransactions" class="dropdown-item">Transactions</a>
                             <div class="dropdown-divider"></div>
-                            @Html.ActionLink("Buy resources", "Buy", "Market", null, new { @class = "dropdown-item" })
-                            @Html.ActionLink("Transactions", "BuyTransactions", "Market", null, new { @class = "dropdown-item" })
+                            <a asp-controller="Market" asp-action="Buy" class="dropdown-item">Buy resources</a>
+                            <a asp-controller="Market" asp-action="BuyTransactions" class="dropdown-item">Transactions</a>
                         </div>
                     </li>
 
