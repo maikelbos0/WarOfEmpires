@@ -9,8 +9,8 @@
 <form id="playersSearch" class="search-form">
     <div class="row align-items-end">
         <div class="col-12 col-md-6 mb-3">
-            @Html.LabelFor(m => m.DisplayName)
-            @Html.TextBoxFor(m => m.DisplayName, new { @class = "form-control" })
+            <label asp-for="DisplayName"></label>
+            <input type="text" asp-for="DisplayName" class="form-control" />
         </div>
 
         <div class="col-12 col-md-6 text-end mb-3">
@@ -19,4 +19,4 @@
     </div>
 </form>
 
-@(await Html.Grid<WarOfEmpires.Models.Players.PlayerViewModel>("playersGrid", Url.Action("GetPlayers"), @Url.Action("Details"), "playersSearch"))
+<grid id="playersGrid" item-type="typeof(WarOfEmpires.Models.Players.PlayerViewModel)" item-action="GetPlayers" detail-action="Details" search-form-id="playersSearch" />
