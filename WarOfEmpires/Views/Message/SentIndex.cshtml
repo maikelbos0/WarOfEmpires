@@ -4,4 +4,4 @@
 
 <h2>Sent messages</h2>
 
-@(await Html.Grid<WarOfEmpires.Models.Messages.SentMessageViewModel>("messagesGrid", Url.Action("GetSentMessages"), Url.Action("SentDetails")))
+<grid id="messagesGrid" item-type="typeof(WarOfEmpires.Models.Messages.SentMessageViewModel)" item-action="GetSentMessages" detail-action="SentDetails" />
