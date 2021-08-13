@@ -64,40 +64,40 @@
                         </a>
                         <div class="dropdown-menu bg-info" aria-labelledby="navbar-alliance-dropdown">
                             @if (Model.IsInAlliance) {
-                                @Html.ActionLink("Home", "Home", "Alliance", null, new { id = "alliance-link", @class = "dropdown-item" })
+                                <a id="alliance-link" asp-controller="Alliance" asp-action="Home" class="dropdown-item">Home</a>
 
                                 if (Model.CanInvite) {
-                                    @Html.ActionLink("Invites", "Invites", "Alliance", null, new { @class = "dropdown-item" })
+                                    <a asp-controller="Alliance" asp-action="Invites" class="dropdown-item">Invites</a>
                                 }
 
                                 if (Model.CanManageRoles) {
-                                    @Html.ActionLink("Roles", "Roles", "Alliance", null, new { @class = "dropdown-item" })
+                                    <a asp-controller="Alliance" asp-action="Roles" class="dropdown-item">Roles</a>
                                 }
 
                                 if (Model.CanManageNonAggressionPacts) {
-                                    @Html.ActionLink("Sent pact requests", "SentNonAggressionPactRequests", "Alliance", null, new { @class = "dropdown-item" })
-                                    @Html.ActionLink("Received pact requests", "ReceivedNonAggressionPactRequests", "Alliance", null, new { @class = "dropdown-item" })
-                                    @Html.ActionLink("Non-aggression pacts", "NonAggressionPacts", "Alliance", null, new { @class = "dropdown-item" })
+                                    <a asp-controller="Alliance" asp-action="SentNonAggressionPactRequests" class="dropdown-item">Sent pact requests</a>
+                                    <a asp-controller="Alliance" asp-action="ReceivedNonAggressionPactRequests" class="dropdown-item">Received pact requests</a>
+                                    <a asp-controller="Alliance" asp-action="NonAggressionPacts" class="dropdown-item">Non-aggression pacts</a>
                                 }
 
                                 if (Model.CanManageWars) {
-                                    @Html.ActionLink("Wars", "Wars", "Alliance", null, new { @class = "dropdown-item" })
+                                    <a asp-controller="Alliance" asp-action="Wars" class="dropdown-item">Wars</a>
                                 }
 
                                 if (Model.CanTransferLeadership) {
-                                    @Html.ActionLink("Transfer leadership", "TransferLeadership", "Alliance", null, new { @class = "dropdown-item" })
+                                    <a asp-controller="Alliance" asp-action="TransferLeadership" class="dropdown-item">Transfer leadership</a>
                                 }
 
                                 if (Model.CanLeaveAlliance) {
-                                    @Html.ActionLink("Leave alliance", "Leave", "Alliance", null, new { @class = "dropdown-item" })
+                                    <a asp-controller="Alliance" asp-action="Leave" class="dropdown-item">Leave alliance</a>
                                 }
 
                                 if (Model.CanDisbandAlliance) {
-                                    @Html.ActionLink("Disband alliance", "Disband", "Alliance", null, new { @class = "dropdown-item" })
+                                    <a asp-controller="Alliance" asp-action="Disband" class="dropdown-item">Disband alliance</a>
                                 }
                             }
                             else {
-                                @Html.ActionLink("Create", "Create", "Alliance", null, new { @class = "dropdown-item" })
+                                <a asp-controller="Alliance" asp-action="Create" class="dropdown-item">Create</a>
                             }
                         </div>
                     </li>
