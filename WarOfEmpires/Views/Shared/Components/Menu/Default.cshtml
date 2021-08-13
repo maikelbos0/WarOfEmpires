@@ -107,17 +107,17 @@
                             Empire
                         </a>
                         <div class="dropdown-menu bg-info" aria-labelledby="navbar-empire-dropdown">
-                            @Html.ActionLink("Workers", "Workers", "Empire", null, new { id = "worker-link", @class = "dropdown-item" })
-                            @Html.ActionLink("Tax rate", "Tax", "Empire", null, new { @class = "dropdown-item" })
-                            @Html.ActionLink("Troops", "Troops", "Empire", null, new { id = "troops-link", @class = "dropdown-item" })
-                            @Html.ActionLink("Siege", "Siege", "Empire", null, new { @class = "dropdown-item" })
-                            @Html.ActionLink("Banking", "Banking", "Empire", null, new { @class = "dropdown-item" })
+                            <a id="worker-link" asp-controller="Empire" asp-action="Workers" class="dropdown-item">Workers</a>
+                            <a asp-controller="Empire" asp-action="Tax" class="dropdown-item">Tax rate</a>
+                            <a id="troops-link" asp-controller="Empire" asp-action="Troops" class="dropdown-item">Troops</a>
+                            <a asp-controller="Empire" asp-action="Siege" class="dropdown-item">Siege</a>
+                            <a asp-controller="Empire" asp-action="Banking" class="dropdown-item">Banking</a>
                             <div class="dropdown-divider"></div>
-                            @Html.ActionLink("Empire buildings", "EmpireBuildings", "Empire", null, new { id = "empire-buildings-link", @class = "dropdown-item" })
-                            @Html.ActionLink("Resource buildings", "ResourceBuildings", "Empire", null, new { @class = "dropdown-item" })
-                            @Html.ActionLink("Troop buildings", "TroopBuildings", "Empire", null, new { @class = "dropdown-item" })
-                            @Html.ActionLink("Bank buildings", "BankBuildings", "Empire", null, new { @class = "dropdown-item" })
-                            @Html.ActionLink("Specialty buildings", "SpecialtyBuildings", "Empire", null, new { @class = "dropdown-item" })
+                            <a id="empire-buildings-link" asp-controller="Empire" asp-action="EmpireBuildings" class="dropdown-item">Empire buildings</a>
+                            <a asp-controller="Empire" asp-action="ResourceBuildings" class="dropdown-item">Resource buildings</a>
+                            <a asp-controller="Empire" asp-action="TroopBuildings" class="dropdown-item">Troop buildings</a>
+                            <a asp-controller="Empire" asp-action="BankBuildings" class="dropdown-item">Bank buildings</a>
+                            <a asp-controller="Empire" asp-action="SpecialtyBuildings" class="dropdown-item">Specialty buildings</a>
                         </div>
                     </li>
 
