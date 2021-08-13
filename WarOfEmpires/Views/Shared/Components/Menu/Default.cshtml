@@ -126,33 +126,33 @@
                             @Model.DisplayName
                         </a>
                         <div class="dropdown-menu bg-info" aria-labelledby="navbar-login-dropdown">
-                            @Html.ActionLink("Change email address", "ChangeEmail", "Home", null, new { @class = "dropdown-item" })
-                            @Html.ActionLink("Change password", "ChangePassword", "Home", null, new { @class = "dropdown-item" })
+                            <a asp-controller="Home" asp-action="ChangeEmail" class="dropdown-item">Change email address</a>
+                            <a asp-controller="Home" asp-action="ChangePassword" class="dropdown-item">Change password</a>
                             <div class="dropdown-divider"></div>
                             @if (Model.IsAdmin) {
-                                @Html.ActionLink("Administration tools", "Index", "Administration", null, new { @class = "dropdown-item" })
-                                @Html.ActionLink("Users", "Users", "Administration", null, new { @class = "dropdown-item" })
+                                <a asp-controller="Administration" asp-action="Index" class="dropdown-item">Administration tools</a>
+                                <a asp-controller="Administration" asp-action="Users" class="dropdown-item">Users</a>
                                 <div class="dropdown-divider"></div>
                             }
-                            @Html.ActionLink("Deactivate account", "Deactivate", "Home", null, new { @class = "dropdown-item" })
+                            <a asp-controller="Home" asp-action="Deactivate" class="dropdown-item">Deactivate account</a>
                             <div class="dropdown-divider"></div>
-                            @using (Html.BeginForm("LogOut", "Home", FormMethod.Post, new { @class = "html-only d-inline" })) {
+                            <form method="post" asp-controller="Home" asp-action="LogOut" class="html-only d-inline">
                                 <button type="submit" class="btn btn-link dropdown-item">Log out</button>
-                            }
+                            </form>
                         </div>
                     </li>
                 }
                 else {
-                    @Html.ActionLink("Log in", "LogIn", "Home", null, new { @class = "nav-link" })
-                    @Html.ActionLink("Register", "Register", "Home", null, new { @class = "nav-link" })
+                    <a asp-controller="Home" asp-action="LogIn" class="nav-link">Log in</a>
+                    <a asp-controller="Home" asp-action="Register" class="nav-link">Register</a>
 
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbar-authentication-dropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Options
                         </a>
                         <div class="dropdown-menu bg-info" aria-labelledby="navbar-authentication-dropdown">
-                            @Html.ActionLink("Resend activation", "SendActivation", "Home", null, new { @class = "dropdown-item" })
-                            @Html.ActionLink("Forgot password", "ForgotPassword", "Home", null, new { @class = "dropdown-item" })
+                            <a asp-controller="Home" asp-action="SendActivation" class="dropdown-item">Resend activation</a>
+                            <a asp-controller="Home" asp-action="ForgotPassword" class="dropdown-item">Forgot password</a>
                         </div>
                     </li>
                 }
