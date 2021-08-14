@@ -23,64 +23,64 @@ namespace WarOfEmpires.Controllers {
         }
 
         [HttpGet]
-        [HttpGet("Index")]
+        [HttpGet(nameof(Index))]
         public ViewResult Index() {
             return View();
         }
 
-        [HttpGet("_ScheduledTasks")]
+        [HttpGet(nameof(_ScheduledTasks))]
         public PartialViewResult _ScheduledTasks() {
             // Explicitly name view so it works from other actions
-            return PartialView("_ScheduledTasks", _messageService.Dispatch(new GetScheduledTasksPausedQuery()));
+            return PartialView(nameof(_ScheduledTasks), _messageService.Dispatch(new GetScheduledTasksPausedQuery()));
         }
 
-        [HttpPost("_UnpauseScheduledTasks")]
+        [HttpPost(nameof(_UnpauseScheduledTasks))]
         public PartialViewResult _UnpauseScheduledTasks() {
             return BuildPartialViewResultFor(new UnpauseScheduledTasksCommand())
                 .OnSuccess(_ScheduledTasks)
                 .ThrowOnFailure();
         }
 
-        [HttpPost("_PauseScheduledTasks")]
+        [HttpPost(nameof(_PauseScheduledTasks))]
         public PartialViewResult _PauseScheduledTasks() {
             return BuildPartialViewResultFor(new PauseScheduledTasksCommand())
                 .OnSuccess(_ScheduledTasks)
                 .ThrowOnFailure();
         }
 
-        [HttpGet("_GamePhase")]
+        [HttpGet(nameof(_GamePhase))]
         public PartialViewResult _GamePhase() {
             return PartialView(_messageService.Dispatch(new GetGamePhaseQuery()));
         }
 
-        [HttpPost("_GamePhase")]
+        [HttpPost(nameof(_GamePhase))]
         public PartialViewResult _GamePhase(GamePhaseModel model) {
             return BuildPartialViewResultFor(new SetGamePhaseCommand(model.Phase))
                 .OnSuccess(_GamePhase)
                 .ThrowOnFailure();
         }
 
-        [HttpGet("Users")]
+        [HttpGet(nameof(Users))]
         public ViewResult Users() {
             return View(new UserSearchModel());
         }
 
 
-        [HttpPost("GetUsers")]
+        [HttpPost(nameof(GetUsers))]
         public JsonResult GetUsers(DataGridViewMetaData metaData, UserSearchModel search) {
             return GridJson(new GetUsersQuery(search.DisplayName), metaData);
         }
 
-        [HttpGet("UserDetails")]
+        [HttpGet(nameof(UserDetails))]
         public ViewResult UserDetails(int id) {
             return View(_messageService.Dispatch(new GetUserDetailsQuery(id)));
         }
 
-        [HttpPost("UserDetails")]
+        [HttpPost(nameof(UserDetails))]
         public ViewResult UserDetails(UserDetailsModel model) {
             return BuildViewResultFor(new UpdateUserDetailsCommand(model.Id, model.Email, model.DisplayName, model.AllianceCode, model.AllianceName, model.Status, model.IsAdmin))
                 .OnSuccess(() => UserDetails(model.Id))
-                .OnFailure("UserDetails", model);
+                .OnFailure(nameof(UserDetails), model);
         }
     }
 }
