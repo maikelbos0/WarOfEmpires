@@ -13,7 +13,7 @@ namespace WarOfEmpires.Controllers {
             : base(messageService, authenticationService, dataGridViewService) {
         }
 
-        [HttpGet("_GameStatus")]
+        [HttpGet(nameof(_GameStatus))]
         public PartialViewResult _GameStatus() {
             return PartialView(_messageService.Dispatch(new GetGameStatusQuery()));
         }
