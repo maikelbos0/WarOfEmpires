@@ -17,34 +17,34 @@ namespace WarOfEmpires.Controllers {
         }
 
         [HttpGet]
-        [HttpGet("Index")]
+        [HttpGet(nameof(Index))]
         public ViewResult Index() {
             return View();
         }
 
-        [HttpPost("GetReceivedMessages")]
+        [HttpPost(nameof(GetReceivedMessages))]
         public JsonResult GetReceivedMessages(DataGridViewMetaData metaData) {
             return GridJson(new GetReceivedMessagesQuery(_authenticationService.Identity), metaData);
         }
 
-        [HttpGet("Send")]
+        [HttpGet(nameof(Send))]
         public ViewResult Send(int recipientId) {
             return View(_messageService.Dispatch(new GetMessageRecipientQuery(recipientId)));
         }
 
-        [HttpGet("Reply")]
+        [HttpGet(nameof(Reply))]
         public ViewResult Reply(int messageId) {
-            return View("Send", _messageService.Dispatch(new GetReplyToMessageQuery(_authenticationService.Identity, messageId)));
+            return View(nameof(Send), _messageService.Dispatch(new GetReplyToMessageQuery(_authenticationService.Identity, messageId)));
         }
 
-        [HttpPost("Send")]
+        [HttpPost(nameof(Send))]
         public ViewResult Send(MessageModel model) {
             return BuildViewResultFor(new SendMessageCommand(_authenticationService.Identity, model.RecipientId, model.Subject, model.Body))
                 .OnSuccess(SentIndex)
-                .OnFailure("Send", model);
+                .OnFailure(nameof(Send), model);
         }
 
-        [HttpGet("ReceivedDetails")]
+        [HttpGet(nameof(ReceivedDetails))]
         public ViewResult ReceivedDetails(int id) {
             var model = _messageService.Dispatch(new GetReceivedMessageQuery(_authenticationService.Identity, id));
 
@@ -55,18 +55,18 @@ namespace WarOfEmpires.Controllers {
             return View(model);
         }
 
-        [HttpGet("SentIndex")]
+        [HttpGet(nameof(SentIndex))]
         public ViewResult SentIndex() {
             // Explicitly name view so it works from other actions
-            return View("SentIndex");
+            return View(nameof(SentIndex));
         }
 
-        [HttpPost("GetSentMessages")]
+        [HttpPost(nameof(GetSentMessages))]
         public JsonResult GetSentMessages(DataGridViewMetaData metaData) {
             return GridJson(new GetSentMessagesQuery(_authenticationService.Identity), metaData);
         }
 
-        [HttpGet("SentDetails")]
+        [HttpGet(nameof(SentDetails))]
         public ViewResult SentDetails(int id) {
             return View(_messageService.Dispatch(new GetSentMessageQuery(_authenticationService.Identity, id)));
         }
