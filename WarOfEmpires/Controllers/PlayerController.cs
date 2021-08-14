@@ -17,47 +17,47 @@ namespace WarOfEmpires.Controllers {
         }
 
         [HttpGet]
-        [HttpGet("Index")]
+        [HttpGet(nameof(Index))]
         public ViewResult Index() {
             return View(new PlayerSearchModel());
         }
 
-        [HttpPost("GetPlayers")]
+        [HttpPost(nameof(GetPlayers))]
         public JsonResult GetPlayers(DataGridViewMetaData metaData, PlayerSearchModel search) {
             return GridJson(new GetPlayersQuery(_authenticationService.Identity, search.DisplayName), metaData);
         }
 
-        [HttpGet("Details")]
+        [HttpGet(nameof(Details))]
         public ViewResult Details(int id) {
             return View(_messageService.Dispatch(new GetPlayerDetailsQuery(_authenticationService.Identity, id)));
         }
 
-        [HttpPost("GetNotifications")]
+        [HttpPost(nameof(GetNotifications))]
         public JsonResult GetNotifications() {
             return Json(_messageService.Dispatch(new GetNotificationsQuery(_authenticationService.Identity)));
         }
 
-        [HttpGet("Blocked")]
+        [HttpGet(nameof(Blocked))]
         public ViewResult Blocked() {
             // Explicitly name view so it works from other actions
-            return View("Blocked", _messageService.Dispatch(new GetBlockedPlayersQuery(_authenticationService.Identity)));
+            return View(nameof(Blocked), _messageService.Dispatch(new GetBlockedPlayersQuery(_authenticationService.Identity)));
         }
 
-        [HttpPost("Block")]
+        [HttpPost(nameof(Block))]
         public ViewResult Block(int id) {
             return BuildViewResultFor(new BlockPlayerCommand(_authenticationService.Identity, id))
                 .OnSuccess(Blocked)
                 .ThrowOnFailure();
         }
 
-        [HttpPost("Unblock")]
+        [HttpPost(nameof(Unblock))]
         public ViewResult Unblock(int id) {
             return BuildViewResultFor(new UnblockPlayerCommand(_authenticationService.Identity, id))
                 .OnSuccess(Blocked)
                 .ThrowOnFailure();
         }
 
-        [HttpGet("Home")]
+        [HttpGet(nameof(Home))]
         public ViewResult Home() {
             return View();
         }
