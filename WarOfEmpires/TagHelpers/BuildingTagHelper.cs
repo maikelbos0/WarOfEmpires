@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Razor.TagHelpers;
+using WarOfEmpires.Controllers;
 
 namespace WarOfEmpires.TagHelpers {
     public class BuildingTagHelper : PartialTagHelper {
@@ -14,7 +15,7 @@ namespace WarOfEmpires.TagHelpers {
         }
 
         public override void Process(TagHelperContext context, TagHelperOutput output) {
-            Url = _urlHelper.Action("_Building", "Empire", new { BuildingType = Type });
+            Url = _urlHelper.Action(nameof(EmpireController._Building), EmpireController.Route, new { BuildingType = Type });
 
             base.Process(context, output);
         }
