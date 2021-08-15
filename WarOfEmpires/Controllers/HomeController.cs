@@ -10,7 +10,6 @@ using WarOfEmpires.Queries.Security;
 using WarOfEmpires.Services;
 
 namespace WarOfEmpires.Controllers {
-    [Route("")] // TODO remove this and make the only route "" and remove "Home" as a concept
     [Route(Route)]
     public sealed class HomeController : BaseController {
         public const string Route = "Home";
@@ -20,7 +19,8 @@ namespace WarOfEmpires.Controllers {
         }
 
         [UserOnline]
-        [HttpGet]
+        [HttpGet("~/", Order = -2)]
+        [HttpGet("", Order = -1)]
         [HttpGet(nameof(Index))]
         public ViewResult Index() {
             // Explicitly name view so it works from other actions
