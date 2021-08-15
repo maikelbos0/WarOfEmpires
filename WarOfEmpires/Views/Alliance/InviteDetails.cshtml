@@ -10,7 +10,7 @@
     <div class="col-12 col-md-6 offset-md-3">
         <div class="mb-3">
             <label>Player</label>
-            <a asp-controller="Player" asp-action="Details" asp-route-id="@Model.PlayerId" class="w-100 btn btn-secondary text-start">@Model.PlayerName</a>
+            <a asp-controller="@Player.Route" asp-action="@nameof(Player.Details)" asp-route-id="@Model.PlayerId" class="w-100 btn btn-secondary text-start">@Model.PlayerName</a>
         </div>
 
         <div class="mb-3">
@@ -32,7 +32,7 @@
     </div>
 </div>
 
-<form asp-action="WithdrawInvite" method="post" data-success-message="The invite has been withdrawn.">
+<form asp-action="@nameof(Alliance.WithdrawInvite)" method="post" data-success-message="The invite has been withdrawn.">
     <input type="hidden" asp-for="Id" />
 
     <div class="row mt-3">
