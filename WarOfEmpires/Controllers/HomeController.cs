@@ -43,8 +43,18 @@ namespace WarOfEmpires.Controllers {
         [HttpGet(nameof(Activate))]
         public ViewResult Activate(string activationCode, string email) {
             return BuildViewResultFor(new ActivateUserCommand(email, activationCode))
-                .OnSuccess("Activated")
-                .OnFailure("ActivationFailed");
+                .OnSuccess(nameof(Activated))
+                .OnFailure(nameof(ActivationFailed));
+        }
+
+        [HttpGet(nameof(Activated))]
+        public ViewResult Activated() {
+            return View();
+        }
+
+        [HttpGet(nameof(ActivationFailed))]
+        public ViewResult ActivationFailed() {
+            return View();
         }
 
         [HttpGet(nameof(SendActivation))]
@@ -78,7 +88,7 @@ namespace WarOfEmpires.Controllers {
                     return Redirect(model.ReturnUrl);
                 }
                 else {
-                    return RedirectToAction("Home", "Player");
+                    return RedirectToAction(nameof(PlayerController.Home), "Player");
                 }
             }
             else {
@@ -188,12 +198,16 @@ namespace WarOfEmpires.Controllers {
                 return RedirectToAction(nameof(EmailChangeConfirmed));
             }
             else {
-                return View("EmailChangeFailed");
+                return RedirectToAction(nameof(EmailChangeFailed));
             }
         }
 
+        [HttpGet(nameof(EmailChangeFailed))]
+        public ViewResult EmailChangeFailed() {
+            return View();
+        }
+
         [HttpGet(nameof(EmailChangeConfirmed))]
-        [Authorize]
         public ViewResult EmailChangeConfirmed() {
             return View();
         }
