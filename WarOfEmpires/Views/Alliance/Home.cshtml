@@ -28,7 +28,7 @@
                 <div class="form-control" readonly="readonly">@Model.Leader</div>
             }
             else {
-                <a asp-controller="Player" asp-action="Details" asp-route-id="@Model.LeaderId" class="w-100 btn btn-secondary text-start">@Model.Leader</a>
+                <a asp-controller="@Player.Route" asp-action="@nameof(Player.Details)" asp-route-id="@Model.LeaderId" class="w-100 btn btn-secondary text-start">@Model.Leader</a>
             }
         </div>
     </div>
@@ -52,24 +52,24 @@
                 @foreach (var member in Model.Members) {
                     <tr condition="member.LastOnline > DateTime.UtcNow.AddMinutes(-30)" class-name="bg-highlight">
                         <td>
-                            <a asp-controller="Player" asp-action="Details" asp-route-id="@member.Id">@member.Rank.ToString(StringFormat.Integer)</a>
+                            <a asp-controller="@Player.Route" asp-action="@nameof(Player.Details)" asp-route-id="@member.Id">@member.Rank.ToString(StringFormat.Integer)</a>
                         </td>
                         <td>
-                            <a asp-controller="Player" asp-action="Details" asp-route-id="@member.Id">@member.DisplayName</a>
+                            <a asp-controller="@Player.Route" asp-action="@nameof(Player.Details)" asp-route-id="@member.Id">@member.DisplayName</a>
                         </td>
                         <td>
-                            <a asp-controller="Player" asp-action="Details" asp-route-id="@member.Id">@member.Role</a>
+                            <a asp-controller="@Player.Route" asp-action="@nameof(Player.Details)" asp-route-id="@member.Id">@member.Role</a>
                         </td>
                         <td>
                             @if (member.LastOnline.HasValue) {
-                                <a asp-controller="Player" asp-action="Details" asp-route-id="@member.Id">@member.LastOnline.Value.ToString(StringFormat.Date)</a>
+                                <a asp-controller="@Player.Route" asp-action="@nameof(Player.Details)" asp-route-id="@member.Id">@member.LastOnline.Value.ToString(StringFormat.Date)</a>
                             }
                         </td>
 
                         @if (canKickMembers) {
                             <td>
                                 @if (member.Id != Model.LeaderId) {
-                                <form asp-action="Kick" method="post" data-success-message="The player has been kicked out.">
+                                <form asp-action="@nameof(Alliance.Kick)" method="post" data-success-message="The player has been kicked out.">
                                     <input type="hidden" name="id" value="@member.Id" />
                                     <button type="submit" class="btn btn-secondary py-0">X</button>
                                 </form>
@@ -87,7 +87,7 @@
 
 <div class="row">
     <div class="col-12 col-lg-6 mb-3 mg-lg-0">
-        <form asp-action="PostChatMessage" method="post" data-success-message="Your message has been posted.">
+        <form asp-action="@nameof(Alliance.PostChatMessage)" method="post" data-success-message="Your message has been posted.">
             <div class="mb-3">
                 <label asp-for="ChatMessage" class="site-required"></label>
                 <textarea asp-for="ChatMessage" class="form-control" rows="8"></textarea>
@@ -111,14 +111,14 @@
                         @chatMessage.Player @: posted on
                     }
                     else {
-                        <a asp-controller="Player" asp-action="Details" asp-route-id="ChatMessages[i].Id">@chatMessage.Player</a> @: posted on
+                        <a asp-controller="@Player.Route" asp-action="@nameof(Player.Details)" asp-route-id="@chatMessage.PlayerId">@chatMessage.Player</a> @: posted on
                     }
 
                     @chatMessage.Date.ToString(StringFormat.Date)
                 </label>
 
                 @if (canDeleteChatMessages) {
-                    <form asp-action="DeleteChatMessage" method="post" data-success-message="The message has been deleted.">
+                    <form asp-action="@nameof(Alliance.DeleteChatMessage)" method="post" data-success-message="The message has been deleted.">
                         <input type="hidden" name="id" value="@chatMessage.Id" />
                         <div class="site-@(chatMessage.Player == null ? "system" : "user")-text"><button type="submit" class="btn float-end p-0">X</button>@chatMessage.Message</div>
                     </form>

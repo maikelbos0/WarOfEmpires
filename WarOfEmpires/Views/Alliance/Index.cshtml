@@ -26,4 +26,4 @@
     </div>
 </form>
 
-<grid id="alliancesGrid" item-type="typeof(WarOfEmpires.Models.Alliances.AllianceViewModel)" item-action="GetAlliances" detail-action="Details" search-form-id="alliancesSearch" />
+<grid id="alliancesGrid" item-type="typeof(WarOfEmpires.Models.Alliances.AllianceViewModel)" item-action="@nameof(Alliance.GetAlliances)" detail-action="@nameof(Alliance.Details)" search-form-id="alliancesSearch" />

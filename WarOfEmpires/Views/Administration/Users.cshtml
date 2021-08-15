@@ -19,4 +19,4 @@
     </div>
 </form>
 
-<grid id="usersGrid" item-type="@typeof(WarOfEmpires.Models.Security.UserViewModel)" item-action="GetUsers" detail-action="UserDetails" search-form-id="usersSearch" />
+<grid id="usersGrid" item-type="@typeof(WarOfEmpires.Models.Security.UserViewModel)" item-action="@nameof(Administration.GetUsers)" detail-action="@nameof(Administration.UserDetails)" search-form-id="usersSearch" />
