@@ -90,7 +90,7 @@ namespace WarOfEmpires.Controllers {
                     return Redirect(model.ReturnUrl);
                 }
                 else {
-                    return RedirectToAction(nameof(PlayerController.Home), "Player");
+                    return RedirectToAction(nameof(PlayerController.Home), PlayerController.Route);
                 }
             }
             else {

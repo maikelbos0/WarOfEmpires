@@ -12,11 +12,11 @@
         <div class="text-end">
             <div class="btn-group">
                 @if (Model.CanReceiveNonAggressionPactRequest && AuthorizationService.IsAuthorized(new AllianceAuthorizationRequest() { CanManageNonAggressionPacts = true })) {
-                    <a asp-action="SendNonAggressionPactRequest" asp-route-id="@Model.Id" class="btn btn-secondary">Send non-aggression pact request</a>
+                    <a asp-action="@nameof(Alliance.SendNonAggressionPactRequest)" asp-route-id="@Model.Id" class="btn btn-secondary">Send non-aggression pact request</a>
                 }
 
                 @if (Model.CanReceiveWarDeclaration && AuthorizationService.IsAuthorized(new AllianceAuthorizationRequest() { CanManageWars = true })) {
-                    <a asp-action="DeclareWar" asp-route-id="@Model.Id" class="btn btn-secondary">Declare war</a>
+                    <a asp-action="@nameof(Alliance.DeclareWar)" asp-route-id="@Model.Id" class="btn btn-secondary">Declare war</a>
                 }
             </div>
         </div>
@@ -48,7 +48,7 @@
                 <div class="form-control" readonly="readonly">@Model.Leader</div>
             }
             else {
-                <a asp-controller="Player" asp-action="Details" asp-route-id="@Model.LeaderId" class="w-100 btn btn-secondary text-start">@Model.Leader</a>
+                <a asp-controller="@Player.Route" asp-action="@nameof(Player.Details)" asp-route-id="@Model.LeaderId" class="w-100 btn btn-secondary text-start">@Model.Leader</a>
             }
         </div>
     </div>
@@ -68,16 +68,16 @@
                 @foreach (var member in Model.Members) {
                     <tr>
                         <td>
-                            <a asp-controller="Player" asp-action="Details" asp-route-id="@member.Id">@member.Rank.ToString(StringFormat.Integer)</a>
+                            <a asp-controller="@Player.Route" asp-action="@nameof(Player.Details)" asp-route-id="@member.Id">@member.Rank.ToString(StringFormat.Integer)</a>
                         </td>
                         <td>
-                            <a asp-controller="Player" asp-action="Details" asp-route-id="@member.Id">@member.DisplayName</a>
+                            <a asp-controller="@Player.Route" asp-action="@nameof(Player.Details)" asp-route-id="@member.Id">@member.DisplayName</a>
                         </td>
                         <td>
-                            <a asp-controller="Player" asp-action="Details" asp-route-id="@member.Id">@member.Title</a>
+                            <a asp-controller="@Player.Route" asp-action="@nameof(Player.Details)" asp-route-id="@member.Id">@member.Title</a>
                         </td>
                         <td>
-                            <a asp-controller="Player" asp-action="Details" asp-route-id="@member.Id">@member.Population.ToString(StringFormat.Integer)</a>
+                            <a asp-controller="@Player.Route" asp-action="@nameof(Player.Details)" asp-route-id="@member.Id">@member.Population.ToString(StringFormat.Integer)</a>
                         </td>
                     </tr>
                 }
