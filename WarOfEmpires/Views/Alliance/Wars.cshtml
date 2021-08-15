@@ -35,7 +35,7 @@
                 <td class="table-form-label">@(war.PeaceDeclared ? "Yes" : "No")</td>
                 <td>
                     @if (war.PeaceDeclared) {
-                        <form asp-action="CancelPeaceDeclaration" method="post" data-success-message="You have cancelled your peace declaration.">
+                        <form asp-action="@nameof(Alliance.CancelPeaceDeclaration)" method="post" data-success-message="You have cancelled your peace declaration.">
                             <input type="hidden" name="id" value="@war.Id" />
 
                             <button type="submit" class="btn btn-primary w-100">
@@ -44,7 +44,7 @@
                             </button>
                         </form>
                     }
-                    else {<form asp-action="DeclarePeace" method="post" data-success-message="You have declared peace">
+                    else {<form asp-action="@nameof(Alliance.DeclarePeace)" method="post" data-success-message="You have declared peace">
                             <input type="hidden" name="id" value="@war.Id" />
 
                             <button type="submit" class="btn btn-primary w-100">

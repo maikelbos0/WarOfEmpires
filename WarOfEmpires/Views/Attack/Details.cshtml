@@ -14,14 +14,14 @@
                 <div class="form-control" readonly="readonly">@Model.Attacker</div>
             }
             else {
-                <a asp-controller="Player" asp-action="Details" asp-route-id="@Model.AttackerId" class="w-100 btn btn-secondary text-start">@Model.Attacker</a>
+                <a asp-controller="@Player.Route" asp-action="@nameof(Player.Details)" asp-route-id="@Model.AttackerId" class="w-100 btn btn-secondary text-start">@Model.Attacker</a>
             }
         </div>
 
         @if (Model.AttackerAllianceId.HasValue) {
             <div class="mb-3">
                 <label>Attacker alliance</label>
-                <a asp-controller="Alliance" asp-action="Details" asp-route-id="@Model.AttackerAllianceId" class="w-100 btn btn-secondary text-start">@Model.AttackerAllianceCode - @Model.AttackerAllianceName</a>
+                <a asp-controller="@Alliance.Route" asp-action="@nameof(Alliance.Details)" asp-route-id="@Model.AttackerAllianceId" class="w-100 btn btn-secondary text-start">@Model.AttackerAllianceCode - @Model.AttackerAllianceName</a>
             </div>
         }
     </div>
@@ -33,14 +33,14 @@
                 <div class="form-control" readonly="readonly">@Model.Defender</div>
             }
             else {
-                <a asp-controller="Player" asp-action="Details" asp-route-id="@Model.DefenderId" class="w-100 btn btn-secondary text-start">@Model.Defender</a>
+                <a asp-controller="@Player.Route" asp-action="@nameof(Player.Details)" asp-route-id="@Model.DefenderId" class="w-100 btn btn-secondary text-start">@Model.Defender</a>
             }
         </div>
 
         @if (Model.DefenderAllianceId.HasValue) {
             <div class="mb-3">
                 <label>Defender alliance</label>
-                <a asp-controller="Alliance" asp-action="Details" asp-route-id="@Model.DefenderAllianceId" class="w-100 btn btn-secondary text-start">@Model.DefenderAllianceCode - @Model.DefenderAllianceName</a>
+                <a asp-controller="@Alliance.Route" asp-action="@nameof(Alliance.Details)" asp-route-id="@Model.DefenderAllianceId" class="w-100 btn btn-secondary text-start">@Model.DefenderAllianceCode - @Model.DefenderAllianceName</a>
             </div>
         }
     </div>
