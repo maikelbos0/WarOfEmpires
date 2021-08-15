@@ -2,7 +2,7 @@
 
 <nav class="navbar navbar-expand-lg navbar-toggleable-lg navbar-light bg-info">
     <div class="container">
-        <a asp-controller="Home" asp-action="Index" class="navbar-brand">War of Empires</a>
+        <a asp-controller="@Home.Route" asp-action="@nameof(Home.Index)" class="navbar-brand">War of Empires</a>
 
         <button class="navbar-toggler btn shadow-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon site-toggler-icon"></span>
@@ -126,33 +126,33 @@
                             @Model.DisplayName
                         </a>
                         <div class="dropdown-menu bg-info" aria-labelledby="navbar-login-dropdown">
-                            <a asp-controller="Home" asp-action="ChangeEmail" class="dropdown-item">Change email address</a>
-                            <a asp-controller="Home" asp-action="ChangePassword" class="dropdown-item">Change password</a>
+                            <a asp-controller="@Home.Route" asp-action="@nameof(Home.ChangeEmail)" class="dropdown-item">Change email address</a>
+                            <a asp-controller="@Home.Route" asp-action="@nameof(Home.ChangePassword)" class="dropdown-item">Change password</a>
                             <div class="dropdown-divider"></div>
                             @if (Model.IsAdmin) {
                                 <a asp-controller="Administration" asp-action="Index" class="dropdown-item">Administration tools</a>
                                 <a asp-controller="Administration" asp-action="Users" class="dropdown-item">Users</a>
                                 <div class="dropdown-divider"></div>
                             }
-                            <a asp-controller="Home" asp-action="Deactivate" class="dropdown-item">Deactivate account</a>
+                            <a asp-controller="@Home.Route" asp-action="@nameof(Home.Deactivate)" class="dropdown-item">Deactivate account</a>
                             <div class="dropdown-divider"></div>
-                            <form method="post" asp-controller="Home" asp-action="LogOut" class="html-only d-inline">
+                            <form method="post" asp-controller="@Home.Route" asp-action="@nameof(Home.LogOut)" class="html-only d-inline">
                                 <button type="submit" class="btn btn-link dropdown-item">Log out</button>
                             </form>
                         </div>
                     </li>
                 }
                 else {
-                    <a asp-controller="Home" asp-action="LogIn" class="nav-link">Log in</a>
-                    <a asp-controller="Home" asp-action="Register" class="nav-link">Register</a>
+                    <a asp-controller="@Home.Route" asp-action="@nameof(Home.LogIn)" class="nav-link">Log in</a>
+                    <a asp-controller="@Home.Route" asp-action="@nameof(Home.Register)" class="nav-link">Register</a>
 
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbar-authentication-dropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Options
                         </a>
                         <div class="dropdown-menu bg-info" aria-labelledby="navbar-authentication-dropdown">
-                            <a asp-controller="Home" asp-action="SendActivation" class="dropdown-item">Resend activation</a>
-                            <a asp-controller="Home" asp-action="ForgotPassword" class="dropdown-item">Forgot password</a>
+                            <a asp-controller="@Home.Route" asp-action="@nameof(Home.SendActivation)" class="dropdown-item">Resend activation</a>
+                            <a asp-controller="@Home.Route" asp-action="@nameof(Home.ForgotPassword)" class="dropdown-item">Forgot password</a>
                         </div>
                     </li>
                 }
