@@ -16,8 +16,10 @@ namespace WarOfEmpires.Controllers {
     [Authorize]
     [AdminAuthorize]
     [UserOnline]
-    [Route("Administration")]
+    [Route(Route)]
     public class AdministrationController : BaseController {
+        public const string Route = "Administration";
+
         public AdministrationController(IAuthenticationService authenticationService, IMessageService messageService, IDataGridViewService dataGridViewService)
             : base(messageService, authenticationService, dataGridViewService) {
         }

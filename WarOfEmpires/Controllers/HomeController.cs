@@ -10,9 +10,11 @@ using WarOfEmpires.Queries.Security;
 using WarOfEmpires.Services;
 
 namespace WarOfEmpires.Controllers {
-    [Route("")]
-    [Route("Home")]
+    [Route("")] // TODO remove this and make the only route "" and remove "Home" as a concept
+    [Route(Route)]
     public sealed class HomeController : BaseController {
+        public const string Route = "Home";
+
         public HomeController(IAuthenticationService authenticationService, IMessageService messageService, IDataGridViewService dataGridViewService)
             : base(messageService, authenticationService, dataGridViewService) {
         }

@@ -7,8 +7,10 @@ using WarOfEmpires.Services;
 namespace WarOfEmpires.Controllers {
     [Authorize]
     [UserOnline]
-    [Route("Game")]
+    [Route(Route)]
     public class GameController : BaseController {
+        public const string Route = "Game";
+
         public GameController(IAuthenticationService authenticationService, IMessageService messageService, IDataGridViewService dataGridViewService)
             : base(messageService, authenticationService, dataGridViewService) {
         }

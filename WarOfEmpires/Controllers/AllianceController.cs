@@ -10,8 +10,10 @@ using WarOfEmpires.Services;
 namespace WarOfEmpires.Controllers {
     [Authorize]
     [UserOnline]
-    [Route("Alliance")]
+    [Route(Route)]
     public class AllianceController : BaseController {
+        public const string Route = "Alliance";
+
         public AllianceController(IAuthenticationService authenticationService, IMessageService messageService, IDataGridViewService dataGridViewService)
             : base(messageService, authenticationService, dataGridViewService) {
         }
