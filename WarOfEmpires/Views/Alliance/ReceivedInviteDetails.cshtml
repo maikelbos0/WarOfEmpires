@@ -6,7 +6,7 @@
 
 <h2>Alliance invite</h2>
 
-<form asp-action="AcceptInvite" method="post" class="html-only">
+<form asp-action="@nameof(Alliance.AcceptInvite)" method="post" class="html-only">
     <input type="hidden" asp-for="Id" />
     <input type="hidden" asp-for="AllianceCode" />
     <input type="hidden" asp-for="AllianceName" />
@@ -21,7 +21,7 @@
 
             <div class="mb-3">
                 <label>Alliance</label>
-                <a asp-action="Details" asp-route-id="@Model.AllianceId" class="w-100 btn btn-secondary text-start">@Model.AllianceCode - @Model.AllianceName</a>
+                <a asp-action="@nameof(Alliance.Details)" asp-route-id="@Model.AllianceId" class="w-100 btn btn-secondary text-start">@Model.AllianceCode - @Model.AllianceName</a>
             </div>
 
             <div class="mb-3">
@@ -43,7 +43,7 @@
     </div>
 </form>
 
-<form asp-action="RejectInvite" method="post" data-success-message="The invite has been rejected.">
+<form asp-action="@nameof(Alliance.RejectInvite)" method="post" data-success-message="The invite has been rejected.">
     <input type="hidden" asp-for="Id" />
 
     <div class="row mt-3">
