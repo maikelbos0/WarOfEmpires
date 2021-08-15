@@ -11,11 +11,11 @@
 </p>
 
 <div class="text-end mb-3">
-    <form asp-action="DeleteRole" method="post" data-success-message="The role has been deleted.">
+    <form asp-action="@nameof(Alliance.DeleteRole)" method="post" data-success-message="The role has been deleted.">
         <input type="hidden" asp-for="Id" />
 
         <div class="btn-group">
-            <a asp-action="SetRole" asp-route-id="@Model.Id" class="btn btn-primary">Set player role</a>
+            <a asp-action="@nameof(Alliance.SetRole)" asp-route-id="@Model.Id" class="btn btn-primary">Set player role</a>
 
             <button type="submit" class="btn btn-secondary">Delete role</button>
         </div>
@@ -38,13 +38,13 @@
                     @foreach (var player in Model.Players) {
                         <tr>
                             <td class="table-form-label">
-                                <a asp-controller="Player" asp-action="Details" asp-route-id="@player.Id">@player.Rank.ToString(StringFormat.Integer)</a>
+                                <a asp-controller="@Player.Route" asp-action="@nameof(Player.Details)" asp-route-id="@player.Id">@player.Rank.ToString(StringFormat.Integer)</a>
                             </td>
                             <td class="table-form-label">
-                                <a asp-controller="Player" asp-action="Details" asp-route-id="@player.Id">@player.DisplayName</a>
+                                <a asp-controller="@Player.Route" asp-action="@nameof(Player.Details)" asp-route-id="@player.Id">@player.DisplayName</a>
                             </td>
                             <td>
-                                <form asp-action="ClearRole" method="post" data-success-message="The player's role has been cleared.">
+                                <form asp-action="@nameof(Alliance.ClearRole)" method="post" data-success-message="The player's role has been cleared.">
                                     <input type="hidden" name="playerId" value="@player.Id" />
                                     <input type="hidden" asp-for="Id" />
 

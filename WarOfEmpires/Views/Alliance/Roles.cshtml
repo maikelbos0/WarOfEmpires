@@ -12,8 +12,8 @@
 
 <div class="text-end mb-3">
     <div class="btn-group">
-        <a asp-action="CreateRole" class="btn btn-primary">Create role</a>
+        <a asp-action="@nameof(Alliance.CreateRole)" class="btn btn-primary">Create role</a>
     </div>
 </div>
 
-<grid id="rolesGrid" item-type="typeof(WarOfEmpires.Models.Alliances.RoleViewModel)" item-action="GetRoles" detail-action="RoleDetails" />
+<grid id="rolesGrid" item-type="typeof(WarOfEmpires.Models.Alliances.RoleViewModel)" item-action="@nameof(Alliance.GetRoles)" detail-action="@nameof(Alliance.RoleDetails)" />
