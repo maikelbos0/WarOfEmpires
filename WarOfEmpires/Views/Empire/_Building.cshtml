@@ -6,10 +6,10 @@
 
 <ul class="text-muted">
     <li>Upgrade cost: <vc:resources model="Model.UpdateCost" /></li>
-    <li><a asp-action="BuildingUpgrades" asp-route-buildingType="@Model.BuildingType">More information</a></li>
+    <li><a asp-action="@nameof(Empire.BuildingUpgrades)" asp-route-buildingType="@Model.BuildingType">More information</a></li>
 </ul>
 
-<form asp-action="_Building" method="post" data-success-message="Your @Model.Name was upgraded.">
+<form asp-action="@nameof(Empire._Building)" method="post" data-success-message="Your @Model.Name was upgraded.">
     <input type="hidden" asp-for="Name" />
     <input type="hidden" asp-for="Description" />
     <input type="hidden" asp-for="BuildingType" />

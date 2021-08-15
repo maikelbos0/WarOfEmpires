@@ -4,4 +4,4 @@
 
 <h2>Executed attacks</h2>
 
-<grid id="attacksGrid" item-type="typeof(WarOfEmpires.Models.Attacks.ExecutedAttackViewModel)" item-action="GetExecutedAttacks" detail-action="Details" />
+<grid id="attacksGrid" item-type="typeof(WarOfEmpires.Models.Attacks.ExecutedAttackViewModel)" item-action="@nameof(Attack.GetExecutedAttacks)" detail-action="@nameof(Attack.Details)" />
