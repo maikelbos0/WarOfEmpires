@@ -26,7 +26,7 @@
                 <td class="table-form-label">@request.Code</td>
                 <td class="table-form-label">@request.Name</td>
                 <td>
-                    <form asp-action="DissolveNonAggressionPact" method="post" data-success-message="Your non-aggression pact has been dissolved.">
+                    <form asp-action="@nameof(Alliance.DissolveNonAggressionPact)" method="post" data-success-message="Your non-aggression pact has been dissolved.">
                         <input type="hidden" name="id" value="@request.Id" />
 
                         <button type="submit" class="btn btn-secondary w-100">

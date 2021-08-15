@@ -27,7 +27,7 @@
                 <td class="table-form-label">@request.Code</td>
                 <td class="table-form-label">@request.Name</td>
                 <td>
-                    <form asp-action="AcceptNonAggressionPactRequest" method="post" data-success-message="The non-aggression pact request has been accepted.">
+                    <form asp-action="@nameof(Alliance.AcceptNonAggressionPactRequest)" method="post" data-success-message="The non-aggression pact request has been accepted.">
                         <input type="hidden" name="id" value="@request.Id" />
 
                         <button type="submit" class="btn btn-primary w-100">
@@ -37,7 +37,7 @@
                     </form>
                 </td>
                 <td>
-                    <form asp-action="RejectNonAggressionPactRequest" method="post" data-success-message="The non-aggression pact request has been rejected.">
+                    <form asp-action="@nameof(Alliance.RejectNonAggressionPactRequest)" method="post" data-success-message="The non-aggression pact request has been rejected.">
                         <input type="hidden" name="id" value="@request.Id" />
 
                         <button type="submit" class="btn btn-secondary w-100">
