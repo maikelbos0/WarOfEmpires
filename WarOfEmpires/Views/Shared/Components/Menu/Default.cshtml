@@ -16,11 +16,11 @@
                             Players
                         </a>
                         <div class="dropdown-menu bg-info" aria-labelledby="navbar-player-dropdown">
-                            <a asp-controller="Player" asp-action="Home" class="dropdown-item">Home</a>
+                            <a asp-controller="@Player.Route" asp-action="@nameof(Player.Home)" class="dropdown-item">Home</a>
                             <div class="dropdown-divider"></div>
-                            <a asp-controller="Player" asp-action="Index" class="dropdown-item">Players</a>
-                            <a asp-controller="Alliance" asp-action="Index" class="dropdown-item">Alliances</a>
-                            <a asp-controller="Player" asp-action="Blocked" class="dropdown-item">Blocked players</a>
+                            <a asp-controller="@Player.Route" asp-action="@nameof(Player.Index)" class="dropdown-item">Players</a>
+                            <a asp-controller="@Alliance.Route" asp-action="@nameof(Alliance.Index)" class="dropdown-item">Alliances</a>
+                            <a asp-controller="@Player.Route" asp-action="@nameof(Player.Blocked)" class="dropdown-item">Blocked players</a>
                         </div>
                     </li>
 
@@ -29,8 +29,8 @@
                             Attacks
                         </a>
                         <div class="dropdown-menu bg-info" aria-labelledby="navbar-attack-dropdown">
-                            <a id="attack-link" asp-controller="Attack" asp-action="Index" class="dropdown-item">Received</a>
-                            <a asp-controller="Attack" asp-action="ExecutedIndex" class="dropdown-item">Executed</a>
+                            <a id="attack-link" asp-controller="@Attack.Route" asp-action="@nameof(Attack.Index)" class="dropdown-item">Received</a>
+                            <a asp-controller="@Attack.Route" asp-action="@nameof(Attack.ExecutedIndex)" class="dropdown-item">Executed</a>
                         </div>
                     </li>
 
@@ -39,9 +39,9 @@
                             Messages
                         </a>
                         <div class="dropdown-menu bg-info" aria-labelledby="navbar-message-dropdown">
-                            <a id="message-link" asp-controller="Message" asp-action="Index" class="dropdown-item">Received</a>
-                            <a id="invite-link" asp-controller="Alliance" asp-action="ReceivedInvites" class="dropdown-item">Alliance invites</a>
-                            <a asp-controller="Message" asp-action="SentIndex" class="dropdown-item">Sent</a>
+                            <a id="message-link" asp-controller="@Message.Route" asp-action="@nameof(Message.Index)" class="dropdown-item">Received</a>
+                            <a id="invite-link" asp-controller="@Alliance.Route" asp-action="@nameof(Alliance.ReceivedInvites)" class="dropdown-item">Alliance invites</a>
+                            <a asp-controller="@Message.Route" asp-action="@nameof(Message.SentIndex)" class="dropdown-item">Sent</a>
                         </div>
                     </li>
 
@@ -50,11 +50,11 @@
                             Market
                         </a>
                         <div class="dropdown-menu bg-info" aria-labelledby="navbar-markets-dropdown">
-                            <a asp-controller="Market" asp-action="Sell" class="dropdown-item">Sell resources</a>
-                            <a id="market-link" asp-controller="Market" asp-action="SellTransactions" class="dropdown-item">Transactions</a>
+                            <a asp-controller="@Market.Route" asp-action="@nameof(Market.Sell)" class="dropdown-item">Sell resources</a>
+                            <a id="market-link" asp-controller="@Market.Route" asp-action="@nameof(Market.SellTransactions)" class="dropdown-item">Transactions</a>
                             <div class="dropdown-divider"></div>
-                            <a asp-controller="Market" asp-action="Buy" class="dropdown-item">Buy resources</a>
-                            <a asp-controller="Market" asp-action="BuyTransactions" class="dropdown-item">Transactions</a>
+                            <a asp-controller="@Market.Route" asp-action="@nameof(Market.Buy)" class="dropdown-item">Buy resources</a>
+                            <a asp-controller="@Market.Route" asp-action="@nameof(Market.BuyTransactions)" class="dropdown-item">Transactions</a>
                         </div>
                     </li>
 
