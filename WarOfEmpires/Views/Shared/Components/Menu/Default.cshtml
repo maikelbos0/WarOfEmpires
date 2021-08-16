@@ -64,40 +64,40 @@
                         </a>
                         <div class="dropdown-menu bg-info" aria-labelledby="navbar-alliance-dropdown">
                             @if (Model.IsInAlliance) {
-                                <a id="alliance-link" asp-controller="Alliance" asp-action="Home" class="dropdown-item">Home</a>
+                                <a id="alliance-link" asp-controller="@Alliance.Route" asp-action="@nameof(Alliance.Home)" class="dropdown-item">Home</a>
 
                                 if (Model.CanInvite) {
-                                    <a asp-controller="Alliance" asp-action="Invites" class="dropdown-item">Invites</a>
+                                    <a asp-controller="@Alliance.Route" asp-action="@nameof(Alliance.Invites)" class="dropdown-item">Invites</a>
                                 }
 
                                 if (Model.CanManageRoles) {
-                                    <a asp-controller="Alliance" asp-action="Roles" class="dropdown-item">Roles</a>
+                                    <a asp-controller="@Alliance.Route" asp-action="@nameof(Alliance.Roles)" class="dropdown-item">Roles</a>
                                 }
 
                                 if (Model.CanManageNonAggressionPacts) {
-                                    <a asp-controller="Alliance" asp-action="SentNonAggressionPactRequests" class="dropdown-item">Sent pact requests</a>
-                                    <a asp-controller="Alliance" asp-action="ReceivedNonAggressionPactRequests" class="dropdown-item">Received pact requests</a>
-                                    <a asp-controller="Alliance" asp-action="NonAggressionPacts" class="dropdown-item">Non-aggression pacts</a>
+                                    <a asp-controller="@Alliance.Route" asp-action="@nameof(Alliance.SentNonAggressionPactRequests)" class="dropdown-item">Sent pact requests</a>
+                                    <a asp-controller="@Alliance.Route" asp-action="@nameof(Alliance.ReceivedNonAggressionPactRequests)" class="dropdown-item">Received pact requests</a>
+                                    <a asp-controller="@Alliance.Route" asp-action="@nameof(Alliance.NonAggressionPacts)" class="dropdown-item">Non-aggression pacts</a>
                                 }
 
                                 if (Model.CanManageWars) {
-                                    <a asp-controller="Alliance" asp-action="Wars" class="dropdown-item">Wars</a>
+                                    <a asp-controller="@Alliance.Route" asp-action="@nameof(Alliance.Wars)" class="dropdown-item">Wars</a>
                                 }
 
                                 if (Model.CanTransferLeadership) {
-                                    <a asp-controller="Alliance" asp-action="TransferLeadership" class="dropdown-item">Transfer leadership</a>
+                                    <a asp-controller="@Alliance.Route" asp-action="@nameof(Alliance.TransferLeadership)" class="dropdown-item">Transfer leadership</a>
                                 }
 
                                 if (Model.CanLeaveAlliance) {
-                                    <a asp-controller="Alliance" asp-action="Leave" class="dropdown-item">Leave alliance</a>
+                                    <a asp-controller="@Alliance.Route" asp-action="@nameof(Alliance.Leave)" class="dropdown-item">Leave alliance</a>
                                 }
 
                                 if (Model.CanDisbandAlliance) {
-                                    <a asp-controller="Alliance" asp-action="Disband" class="dropdown-item">Disband alliance</a>
+                                    <a asp-controller="@Alliance.Route" asp-action="@nameof(Alliance.Disband)" class="dropdown-item">Disband alliance</a>
                                 }
                             }
                             else {
-                                <a asp-controller="Alliance" asp-action="Create" class="dropdown-item">Create</a>
+                                <a asp-controller="@Alliance.Route" asp-action="@nameof(Alliance.Create)" class="dropdown-item">Create</a>
                             }
                         </div>
                     </li>
@@ -107,17 +107,17 @@
                             Empire
                         </a>
                         <div class="dropdown-menu bg-info" aria-labelledby="navbar-empire-dropdown">
-                            <a id="worker-link" asp-controller="Empire" asp-action="Workers" class="dropdown-item">Workers</a>
-                            <a asp-controller="Empire" asp-action="Tax" class="dropdown-item">Tax rate</a>
-                            <a id="troops-link" asp-controller="Empire" asp-action="Troops" class="dropdown-item">Troops</a>
-                            <a asp-controller="Empire" asp-action="Siege" class="dropdown-item">Siege</a>
-                            <a asp-controller="Empire" asp-action="Banking" class="dropdown-item">Banking</a>
+                            <a id="worker-link" asp-controller="@Empire.Route" asp-action="@nameof(Empire.Workers)" class="dropdown-item">Workers</a>
+                            <a asp-controller="@Empire.Route" asp-action="@nameof(Empire.Tax)" class="dropdown-item">Tax rate</a>
+                            <a id="troops-link" asp-controller="@Empire.Route" asp-action="@nameof(Empire.Troops)" class="dropdown-item">Troops</a>
+                            <a asp-controller="@Empire.Route" asp-action="@nameof(Empire.Siege)" class="dropdown-item">Siege</a>
+                            <a asp-controller="@Empire.Route" asp-action="@nameof(Empire.Banking)" class="dropdown-item">Banking</a>
                             <div class="dropdown-divider"></div>
-                            <a id="empire-buildings-link" asp-controller="Empire" asp-action="EmpireBuildings" class="dropdown-item">Empire buildings</a>
-                            <a asp-controller="Empire" asp-action="ResourceBuildings" class="dropdown-item">Resource buildings</a>
-                            <a asp-controller="Empire" asp-action="TroopBuildings" class="dropdown-item">Troop buildings</a>
-                            <a asp-controller="Empire" asp-action="BankBuildings" class="dropdown-item">Bank buildings</a>
-                            <a asp-controller="Empire" asp-action="SpecialtyBuildings" class="dropdown-item">Specialty buildings</a>
+                            <a id="empire-buildings-link" asp-controller="@Empire.Route" asp-action="@nameof(Empire.EmpireBuildings)" class="dropdown-item">Empire buildings</a>
+                            <a asp-controller="@Empire.Route" asp-action="@nameof(Empire.ResourceBuildings)" class="dropdown-item">Resource buildings</a>
+                            <a asp-controller="@Empire.Route" asp-action="@nameof(Empire.TroopBuildings)" class="dropdown-item">Troop buildings</a>
+                            <a asp-controller="@Empire.Route" asp-action="@nameof(Empire.BankBuildings)" class="dropdown-item">Bank buildings</a>
+                            <a asp-controller="@Empire.Route" asp-action="@nameof(Empire.SpecialtyBuildings)" class="dropdown-item">Specialty buildings</a>
                         </div>
                     </li>
 
@@ -130,8 +130,8 @@
                             <a asp-controller="@Home.Route" asp-action="@nameof(Home.ChangePassword)" class="dropdown-item">Change password</a>
                             <div class="dropdown-divider"></div>
                             @if (Model.IsAdmin) {
-                                <a asp-controller="Administration" asp-action="Index" class="dropdown-item">Administration tools</a>
-                                <a asp-controller="Administration" asp-action="Users" class="dropdown-item">Users</a>
+                                <a asp-controller="@Administration.Route" asp-action="@nameof(Administration.Index)" class="dropdown-item">Administration tools</a>
+                                <a asp-controller="@Administration.Route" asp-action="@nameof(Administration.Users)" class="dropdown-item">Users</a>
                                 <div class="dropdown-divider"></div>
                             }
                             <a asp-controller="@Home.Route" asp-action="@nameof(Home.Deactivate)" class="dropdown-item">Deactivate account</a>
