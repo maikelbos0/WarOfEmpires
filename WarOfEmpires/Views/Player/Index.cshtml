@@ -19,4 +19,4 @@
     </div>
 </form>
 
-<grid id="playersGrid" item-type="typeof(WarOfEmpires.Models.Players.PlayerViewModel)" item-action="GetPlayers" detail-action="Details" search-form-id="playersSearch" />
+<grid id="playersGrid" item-type="typeof(WarOfEmpires.Models.Players.PlayerViewModel)" item-action="@nameof(Player.GetPlayers)" detail-action="@nameof(Player.Details)" search-form-id="playersSearch" />

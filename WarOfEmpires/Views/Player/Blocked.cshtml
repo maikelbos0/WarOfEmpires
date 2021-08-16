@@ -26,7 +26,7 @@
                 <td class="table-form-label">@player.DisplayName</td>
                 <td class="table-form-label">@player.Alliance</td>
                 <td>
-                    <form method="post" asp-action="Unblock" data-success-message="The player has been unblocked.">
+                    <form method="post" asp-action="@nameof(Player.Unblock)" data-success-message="The player has been unblocked.">
                         <input type="hidden" name="id" value="@player.Id" />
 
                         <button type="submit" class="btn btn-secondary w-100">

@@ -12,16 +12,16 @@
         <div class="text-end">
             <div class="btn-group">
                 @if (Model.CanBeAttacked) {
-                    <a asp-controller="Attack" asp-action="Execute" asp-route-defenderId="@Model.Id" class="btn btn-primary">Attack</a>
+                    <a asp-controller="@Attack.Route" asp-action="@nameof(Attack.Execute)" asp-route-defenderId="@Model.Id" class="btn btn-primary">Attack</a>
                 }
 
-                <a asp-controller="Message" asp-action="Send" asp-route-recipientId="@Model.Id" class="btn btn-secondary">Send message</a>
+                <a asp-controller="@Message.Route" asp-action="@nameof(Message.Send)" asp-route-recipientId="@Model.Id" class="btn btn-secondary">Send message</a>
 
                 @if (AuthorizationService.IsAuthorized(new AllianceAuthorizationRequest() { CanInvite = true })) {
-                    <a asp-controller="Alliance" asp-action="Invite" asp-route-playerId="@Model.Id" class="btn btn-secondary">Invite into alliance</a>
+                    <a asp-controller="@Alliance.Route" asp-action="@nameof(Alliance.Invite)" asp-route-playerId="@Model.Id" class="btn btn-secondary">Invite into alliance</a>
                 }
 
-                <form method="post" asp-action="Block" data-success-message="The player has been blocked.">
+                <form method="post" asp-action="@nameof(Player.Block)" data-success-message="The player has been blocked.">
                     <input type="hidden" asp-for="Id" />
 
                     <button type="submit" class="btn btn-secondary site-unrounded-start">Block</button>
@@ -49,7 +49,7 @@
         @if (Model.AllianceId.HasValue) {
             <div class="mb-3">
                 <label>Alliance</label>
-                <a asp-controller="Alliance" asp-action="Details" asp-route-id="@Model.AllianceId" class="w-100 btn btn-secondary text-start">@Model.AllianceCode - @Model.AllianceName</a>
+                <a asp-controller="@Alliance.Route" asp-action="@nameof(Alliance.Details)" asp-route-id="@Model.AllianceId" class="w-100 btn btn-secondary text-start">@Model.AllianceCode - @Model.AllianceName</a>
             </div>
         }
 
