@@ -4,4 +4,4 @@
 
 <h2>Sent messages</h2>
 
-<grid id="messagesGrid" item-type="typeof(WarOfEmpires.Models.Messages.SentMessageViewModel)" item-action="GetSentMessages" detail-action="SentDetails" />
+<grid id="messagesGrid" item-type="typeof(WarOfEmpires.Models.Messages.SentMessageViewModel)" item-action="@nameof(Message.GetSentMessages)" detail-action="@nameof(Message.SentDetails)" />

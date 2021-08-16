@@ -4,4 +4,4 @@
 
 <h2>Received messages</h2>
 
-<grid id="messagesGrid" item-type="typeof(WarOfEmpires.Models.Messages.ReceivedMessageViewModel)" item-action="GetReceivedMessages" detail-action="ReceivedDetails" />
+<grid id="messagesGrid" item-type="typeof(WarOfEmpires.Models.Messages.ReceivedMessageViewModel)" item-action="@nameof(Message.GetReceivedMessages)" detail-action="@nameof(Message.ReceivedDetails)" />

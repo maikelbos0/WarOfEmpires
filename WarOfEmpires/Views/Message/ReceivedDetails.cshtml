@@ -11,9 +11,9 @@
         @if (Model.SenderId != null) {
             <div class="text-end">
                 <div class="btn-group">
-                    <a asp-action="Reply" asp-route-messageId="@Model.Id" class="btn btn-primary">Reply</a>
+                    <a asp-action="@nameof(Message.Reply)" asp-route-messageId="@Model.Id" class="btn btn-primary">Reply</a>
 
-                    <form method="post" asp-controller="Player" asp-action="Block" data-success-message="The player has been blocked.">
+                    <form method="post" asp-controller="@Player.Route" asp-action="@nameof(Player.Block)" data-success-message="The player has been blocked.">
                         <input type="hidden" name="id" value="@Model.SenderId" />
 
                         <button type="submit" class="btn btn-secondary site-unrounded-start">Block</button>
@@ -28,7 +28,7 @@
                 <div class="form-control" readonly="readonly">@Model.Sender</div>
             }
             else {
-                <a asp-controller="Player" asp-action="Details" asp-route-id="@Model.SenderId" class="w-100 btn btn-secondary text-start">@Model.Sender</a>
+                <a asp-controller="@Player.Route" asp-action="@nameof(Player.Details)" asp-route-id="@Model.SenderId" class="w-100 btn btn-secondary text-start">@Model.Sender</a>
             }
         </div>
 

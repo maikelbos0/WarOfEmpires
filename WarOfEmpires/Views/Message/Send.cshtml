@@ -10,7 +10,7 @@
     Send a message to another player below.
 </p>
 
-<form method="post" asp-action="Send" data-success-message="Your message has been sent.">
+<form method="post" asp-action="@nameof(Message.Send)" data-success-message="Your message has been sent.">
     <input type="hidden" asp-for="RecipientId" />
     <input type="hidden" asp-for="Recipient" />
 
@@ -20,7 +20,7 @@
 
             <div class="mb-3">
                 <label>Recipient</label>
-                <a asp-controller="Player" asp-action="Details" asp-route-id="@Model.RecipientId" class="w-100 btn btn-secondary text-start">@Model.Recipient</a>
+                <a asp-controller="@Player.Route" asp-action="@nameof(Player.Details)" asp-route-id="@Model.RecipientId" class="w-100 btn btn-secondary text-start">@Model.Recipient</a>
             </div>
 
             <div class="mb-3">
