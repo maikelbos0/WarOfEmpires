@@ -154,7 +154,7 @@ $(function () {
         });
     }
 
-    $('body').on('submit', 'form:not(.html-only):not(.search-form)', function () {        
+    $('body').on('submit', 'form:not(.html-only):not(.search-form)', function () {
         let form = $(this);
         let panel = form.closest('#main-content, .partial-content');
         let submitButtons = form.find('button[type="submit"]');
@@ -170,9 +170,52 @@ $(function () {
                 method: this.method,
                 data: form.serialize(),
                 success: function (result, _, jqXHR) {
-                    displaySuccessMessage(form, jqXHR);
-                    displayWarningMessages(jqXHR);
-                    displayResult(panel, result);
+
+                    // Temporary inline solution while transitioning
+                    if (result.success) {
+                        if (result.warnings.length > 0) {
+                            $.each(result.warnings, function () {
+                                toastr.warning(this);
+                            });
+                        }
+                        else {
+                            let successMessage = form.data("success-message");
+                            let command = form.find("#Command").val();
+
+                            if (command && form.data("success-message-" + command)) {
+                                successMessage = form.data("success-message-" + command);
+                            }
+
+                            if (successMessage) {
+                                toastr.success(successMessage);
+                            }
+                        }
+
+                        $.ajax({
+                            url: result.redirectUrl,
+                            method: "GET",
+                            cache: false,
+                            success: function (result) {
+                                displayResult(panel, result);
+                            },
+                            error: function (jqXHR) {
+                                if (jqXHR.status == 401) {
+                                    // Don't reload in case the current request is a POST
+                                    window.location.assign(window.location.href);
+                                }
+                                else {
+                                    toastr.error("An error occurred processing data; please try again.");
+                                    submitButtons.prop('disabled', false);
+                                }
+                            }
+                        });
+                    }
+                    else {
+                        displaySuccessMessage(form, jqXHR);
+                        displayWarningMessages(jqXHR);
+                        displayResult(panel, result);
+                    }
+
                     callAjaxCallbacks();
                 },
                 error: function (jqXHR) {

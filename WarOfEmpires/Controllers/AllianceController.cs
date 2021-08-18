@@ -41,10 +41,10 @@ namespace WarOfEmpires.Controllers {
         }
 
         [HttpPost(nameof(Create))]
-        public ViewResult Create(CreateAllianceModel model) {
-            return BuildViewResultFor(new CreateAllianceCommand(_authenticationService.Identity, model.Code, model.Name))
-                .OnSuccess(Home)
-                .OnFailure(nameof(Create), model);
+        public ActionResult Create(CreateAllianceModel model) {
+            return BuildViewResultFor2(new CreateAllianceCommand(_authenticationService.Identity, model.Code, model.Name))
+                .OnSuccess(nameof(Home), Route, null)
+                .OnFailure(model);
         }
 
         [AllianceAuthorize]
@@ -135,9 +135,9 @@ namespace WarOfEmpires.Controllers {
 
         [AllianceAuthorize]
         [HttpPost(nameof(PostChatMessage))]
-        public ViewResult PostChatMessage(AllianceHomeViewModel model) {
-            return BuildViewResultFor(new PostChatMessageCommand(_authenticationService.Identity, model.ChatMessage))
-                .OnSuccess(Home)
+        public ActionResult PostChatMessage(AllianceHomeViewModel model) {
+            return BuildViewResultFor2(new PostChatMessageCommand(_authenticationService.Identity, model.ChatMessage))
+                .OnSuccess(nameof(Home), Route, null)
                 .ThrowOnFailure();
         }
 
