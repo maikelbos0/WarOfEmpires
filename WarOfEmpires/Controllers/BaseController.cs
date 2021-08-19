@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using WarOfEmpires.ActionResults;
 using WarOfEmpires.Commands;
@@ -27,10 +28,12 @@ namespace WarOfEmpires.Controllers {
             return new CommandResultBuilder2<TCommand, PartialViewResult>(_messageService, PartialView, ModelState, Url, Request.Headers["X-Requested-With"] == "XMLHttpRequest", command);
         }
 
+        [Obsolete]
         protected CommandResultBuilder<TCommand, ViewResult> BuildViewResultFor<TCommand>(TCommand command) where TCommand : ICommand {
             return new CommandResultBuilder<TCommand, ViewResult>(_messageService, this, View, ModelState, command);
         }
 
+        [Obsolete]
         protected CommandResultBuilder<TCommand, PartialViewResult> BuildPartialViewResultFor<TCommand>(TCommand command) where TCommand : ICommand {
             return new CommandResultBuilder<TCommand, PartialViewResult>(_messageService, this, PartialView, ModelState, command);
         }

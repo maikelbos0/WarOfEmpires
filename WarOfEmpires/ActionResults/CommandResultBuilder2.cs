@@ -10,7 +10,7 @@ using WarOfEmpires.Services;
 namespace WarOfEmpires.ActionResults {
     public class CommandResultBuilder2<TCommand, TActionResult> where TCommand : ICommand where TActionResult : ActionResult, new() {
         private readonly IMessageService _messageService;
-        private readonly Func<object, TActionResult> _createView;
+        private readonly Func<string, object, TActionResult> _createView;
         private readonly ModelStateDictionary _modelState;
         private readonly IUrlHelper _urlHelper;
         private readonly bool _isAjaxRequest;
@@ -18,7 +18,7 @@ namespace WarOfEmpires.ActionResults {
         private Func<ActionResult> _onFailure;
         private string _onSuccess;
 
-        public CommandResultBuilder2(IMessageService messageService, Func<object, TActionResult> createView, ModelStateDictionary modelState, IUrlHelper urlHelper, bool isAjaxRequest, TCommand command) {
+        public CommandResultBuilder2(IMessageService messageService, Func<string, object, TActionResult> createView, ModelStateDictionary modelState, IUrlHelper urlHelper, bool isAjaxRequest, TCommand command) {
             _messageService = messageService;
             _createView = createView;
             _modelState = modelState;
@@ -26,7 +26,19 @@ namespace WarOfEmpires.ActionResults {
             _isAjaxRequest = isAjaxRequest;
             _command = command;
         }
-        
+
+        public CommandResultBuilder2<TCommand, TActionResult> OnSuccess(string actionName) {
+            return OnSuccess(actionName, null, null);
+        }
+
+        public CommandResultBuilder2<TCommand, TActionResult> OnSuccess(string actionName, string controllerName) {
+            return OnSuccess(actionName, controllerName, null);
+        }
+
+        public CommandResultBuilder2<TCommand, TActionResult> OnSuccess(string actionName, object routeValues) {
+            return OnSuccess(actionName, null, routeValues);
+        }
+
         public CommandResultBuilder2<TCommand, TActionResult> OnSuccess(string actionName, string controllerName, object routeValues) {
             _onSuccess = _urlHelper.Action(actionName, controllerName, routeValues);
 
@@ -34,7 +46,11 @@ namespace WarOfEmpires.ActionResults {
         }
 
         public CommandResultBuilder2<TCommand, TActionResult> OnFailure(object model) {
-            _onFailure = () => _createView(model);
+            return OnFailure(null, model);
+        }
+
+        public CommandResultBuilder2<TCommand, TActionResult> OnFailure(string viewName, object model) {
+            _onFailure = () => _createView(viewName, model);
 
             return this;
         }
