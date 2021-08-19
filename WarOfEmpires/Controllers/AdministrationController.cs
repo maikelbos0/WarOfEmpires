@@ -32,21 +32,20 @@ namespace WarOfEmpires.Controllers {
 
         [HttpGet(nameof(_ScheduledTasks))]
         public PartialViewResult _ScheduledTasks() {
-            // Explicitly name view so it works from other actions
-            return PartialView(nameof(_ScheduledTasks), _messageService.Dispatch(new GetScheduledTasksPausedQuery()));
+            return PartialView(_messageService.Dispatch(new GetScheduledTasksPausedQuery()));
         }
 
         [HttpPost(nameof(_UnpauseScheduledTasks))]
-        public PartialViewResult _UnpauseScheduledTasks() {
-            return BuildPartialViewResultFor(new UnpauseScheduledTasksCommand())
-                .OnSuccess(_ScheduledTasks)
+        public ActionResult _UnpauseScheduledTasks() {
+            return BuildPartialViewResultFor2(new UnpauseScheduledTasksCommand())
+                .OnSuccess(nameof(_ScheduledTasks))
                 .ThrowOnFailure();
         }
 
         [HttpPost(nameof(_PauseScheduledTasks))]
-        public PartialViewResult _PauseScheduledTasks() {
-            return BuildPartialViewResultFor(new PauseScheduledTasksCommand())
-                .OnSuccess(_ScheduledTasks)
+        public ActionResult _PauseScheduledTasks() {
+            return BuildPartialViewResultFor2(new PauseScheduledTasksCommand())
+                .OnSuccess(nameof(_ScheduledTasks))
                 .ThrowOnFailure();
         }
 
@@ -56,9 +55,9 @@ namespace WarOfEmpires.Controllers {
         }
 
         [HttpPost(nameof(_GamePhase))]
-        public PartialViewResult _GamePhase(GamePhaseModel model) {
-            return BuildPartialViewResultFor(new SetGamePhaseCommand(model.Phase))
-                .OnSuccess(_GamePhase)
+        public ActionResult _GamePhase(GamePhaseModel model) {
+            return BuildPartialViewResultFor2(new SetGamePhaseCommand(model.Phase))
+                .OnSuccess(nameof(_GamePhase))
                 .ThrowOnFailure();
         }
 
@@ -79,10 +78,10 @@ namespace WarOfEmpires.Controllers {
         }
 
         [HttpPost(nameof(UserDetails))]
-        public ViewResult UserDetails(UserDetailsModel model) {
-            return BuildViewResultFor(new UpdateUserDetailsCommand(model.Id, model.Email, model.DisplayName, model.AllianceCode, model.AllianceName, model.Status, model.IsAdmin))
-                .OnSuccess(() => UserDetails(model.Id))
-                .OnFailure(nameof(UserDetails), model);
+        public ActionResult UserDetails(UserDetailsModel model) {
+            return BuildViewResultFor2(new UpdateUserDetailsCommand(model.Id, model.Email, model.DisplayName, model.AllianceCode, model.AllianceName, model.Status, model.IsAdmin))
+                .OnSuccess(nameof(Users))
+                .OnFailure(model);
         }
     }
 }
