@@ -64,10 +64,10 @@ namespace WarOfEmpires.Controllers {
         }
 
         [HttpPost(nameof(Execute))]
-        public ViewResult Execute(ExecuteAttackModel model) {
-            return BuildViewResultFor(new AttackCommand(model.AttackType, _authenticationService.Identity, model.DefenderId, model.Turns))
-                .OnSuccess(LastExecutedAttackDetails)
-                .OnFailure(nameof(Execute), model);
+        public ActionResult Execute(ExecuteAttackModel model) {
+            return BuildViewResultFor2(new AttackCommand(model.AttackType, _authenticationService.Identity, model.DefenderId, model.Turns))
+                .OnSuccess(nameof(LastExecutedAttackDetails))
+                .OnFailure(model);
         }
     }
 }
