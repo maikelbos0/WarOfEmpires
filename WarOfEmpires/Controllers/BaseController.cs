@@ -21,11 +21,11 @@ namespace WarOfEmpires.Controllers {
         }
 
         protected CommandResultBuilder2<TCommand, ViewResult> BuildViewResultFor2<TCommand>(TCommand command) where TCommand : ICommand {
-            return new CommandResultBuilder2<TCommand, ViewResult>(_messageService, View, ModelState, Url, Request.Headers["X-Requested-With"] == "XMLHttpRequest", command);
+            return new CommandResultBuilder2<TCommand, ViewResult>(_messageService, View, ModelState, Url, Request?.Headers["X-Requested-With"].ToString() == "XMLHttpRequest", command);
         }
 
         protected CommandResultBuilder2<TCommand, PartialViewResult> BuildPartialViewResultFor2<TCommand>(TCommand command) where TCommand : ICommand {
-            return new CommandResultBuilder2<TCommand, PartialViewResult>(_messageService, PartialView, ModelState, Url, Request.Headers["X-Requested-With"] == "XMLHttpRequest", command);
+            return new CommandResultBuilder2<TCommand, PartialViewResult>(_messageService, PartialView, ModelState, Url, Request?.Headers["X-Requested-With"].ToString() == "XMLHttpRequest", command);
         }
 
         [Obsolete]

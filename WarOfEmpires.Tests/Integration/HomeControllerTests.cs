@@ -1,8 +1,10 @@
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NSubstitute;
 using System;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -34,13 +36,18 @@ namespace WarOfEmpires.Tests.Integration {
             services.Replace(ServiceDescriptor.Transient<IWarContext>(serviceProvider => _context));
             services.Replace(ServiceDescriptor.Scoped<IMailClient>(serviceProvider => _mailClient));
             services.AddSingleton<AppSettings>();
-            services.AddScoped<HomeController>();
+            services.AddTransient<HomeController>();
 
             serviceProvider = services.BuildServiceProvider();
         }
 
         private HomeController GetController() {
-            return serviceProvider.GetRequiredService<HomeController>();
+            var controller = serviceProvider.GetRequiredService<HomeController>();
+
+            controller.Url = Substitute.For<IUrlHelper>();
+            controller.Url.Action(Arg.Any<UrlActionContext>()).Returns("Test");
+
+            return controller;
         }
 
         [TestMethod]
@@ -53,14 +60,14 @@ namespace WarOfEmpires.Tests.Integration {
                 DisplayName = "Test display"
             });
 
-            registrationResult.ViewName.Should().Be("Index");
+            registrationResult.Should().BeOfType<JsonResult>();
             _mailClient.SentMessages.Should().NotBeEmpty();
 
             // Activation
             var activationCode = Regex.Match(_mailClient.SentMessages.Last().Body, "\\d+").Value;
             var activationResult = GetController().Activate(activationCode, "test@test.com");
 
-            activationResult.ViewName.Should().Be("Activated");
+            activationResult.Should().BeOfType<RedirectResult>();
 
             // Log in
             var logInResult = await GetController().LogIn(new LogInUserModel() {
@@ -84,7 +91,7 @@ namespace WarOfEmpires.Tests.Integration {
                 Email = "test@test.com"
             });
 
-            forgotPasswordResult.ViewName.Should().Be("Index");
+            forgotPasswordResult.Should().BeOfType<RedirectResult>();
             _mailClient.SentMessages.Should().NotBeEmpty();
 
             // Reset password
@@ -94,7 +101,7 @@ namespace WarOfEmpires.Tests.Integration {
                 ConfirmNewPassword = "test"
             });
 
-            resetResult.ViewName.Should().Be("LogIn");
+            resetResult.Should().BeOfType<RedirectResult>();
 
             // Log in
             var logInResult = await GetController().LogIn(new LogInUserModel() {
@@ -120,7 +127,7 @@ namespace WarOfEmpires.Tests.Integration {
                 NewPassword = "hunter2",
                 ConfirmNewPassword = "hunter2"
             });
-            changePasswordResult.ViewName.Should().Be("Index");
+            changePasswordResult.Should().BeOfType<RedirectResult>();
 
             // Log out
             var logOutResult = await GetController().LogOut();
@@ -191,7 +198,7 @@ namespace WarOfEmpires.Tests.Integration {
                 NewEmail = "new@test.com",
                 ConfirmNewEmail = "new@test.com"
             });
-            changeEmailResult.ViewName.Should().Be("Index");
+            changeEmailResult.Should().BeOfType<RedirectResult>();
 
             // Log out
             var logOutResult = await GetController().LogOut();
@@ -230,7 +237,7 @@ namespace WarOfEmpires.Tests.Integration {
                 NewEmail = "new@test.com",
                 ConfirmNewEmail = "new@test.com"
             });
-            changeEmailResult.ViewName.Should().Be("Index");
+            changeEmailResult.Should().BeOfType<RedirectResult>();
 
             // Confirm email change
             var confirmationCode = Regex.Match(_mailClient.SentMessages.Last().Body, "\\d+").Value;
