@@ -24,8 +24,7 @@ namespace WarOfEmpires.Controllers {
         [HttpGet("", Order = -1)]
         [HttpGet(nameof(Index))]
         public ViewResult Index() {
-            // Explicitly name view so it works from other actions
-            return View(nameof(Index));
+            return View();
         }
 
         [HttpGet(nameof(Register))]
