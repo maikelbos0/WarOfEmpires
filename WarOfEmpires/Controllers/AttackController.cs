@@ -47,15 +47,14 @@ namespace WarOfEmpires.Controllers {
                 _messageService.Dispatch(new ReadAttackCommand(_authenticationService.Identity, id));
             }
 
-            // Explicitly name view so it works from other actions
-            return View(nameof(Details), model);
+            return View(model);
         }
 
         [HttpGet(nameof(LastExecutedAttackDetails))]
-        public ViewResult LastExecutedAttackDetails() {
+        public ActionResult LastExecutedAttackDetails() {
             var id = _messageService.Dispatch(new GetLastExecutedAttackQuery(_authenticationService.Identity));
 
-            return Details(id);
+            return RedirectToAction(nameof(Details), new { id });
         }
 
         [HttpGet(nameof(Execute))]
