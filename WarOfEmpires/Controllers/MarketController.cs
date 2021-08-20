@@ -21,21 +21,20 @@ namespace WarOfEmpires.Controllers {
 
         [HttpGet(nameof(Sell))]
         public ViewResult Sell() {
-            // Explicitly name view so it works from other actions
-            return View(nameof(Sell), _messageService.Dispatch(new GetMarketQuery(_authenticationService.Identity)));
+            return View(_messageService.Dispatch(new GetMarketQuery(_authenticationService.Identity)));
         }
 
         [HttpPost(nameof(Sell))]
-        public ViewResult Sell(MarketModel model) {
-            return BuildViewResultFor(new SellResourcesCommand(_authenticationService.Identity, model.Merchandise.Select(m => new MerchandiseInfo(m.Type, m.Quantity, m.Price))))
-                .OnSuccess(Sell)
-                .OnFailure(nameof(Sell), model);
+        public ActionResult Sell(MarketModel model) {
+            return BuildViewResultFor2(new SellResourcesCommand(_authenticationService.Identity, model.Merchandise.Select(m => new MerchandiseInfo(m.Type, m.Quantity, m.Price))))
+                .OnSuccess(nameof(Sell))
+                .OnFailure(model);
         }
 
         [HttpPost(nameof(WithdrawCaravan))]
-        public ViewResult WithdrawCaravan(int id) {
-            return BuildViewResultFor(new WithdrawCaravanCommand(_authenticationService.Identity, id))
-                .OnSuccess(Sell)
+        public ActionResult WithdrawCaravan(int id) {
+            return BuildViewResultFor2(new WithdrawCaravanCommand(_authenticationService.Identity, id))
+                .OnSuccess(nameof(Sell))
                 .ThrowOnFailure();
         }
 
@@ -45,9 +44,9 @@ namespace WarOfEmpires.Controllers {
         }
 
         [HttpPost(nameof(Buy))]
-        public ViewResult Buy(MarketModel model) {
-            return BuildViewResultFor(new BuyResourcesCommand(_authenticationService.Identity, model.Merchandise.Select(m => new MerchandiseInfo(m.Type, m.Quantity, m.Price))))
-                .OnSuccess(Buy)
+        public ActionResult Buy(MarketModel model) {
+            return BuildViewResultFor2(new BuyResourcesCommand(_authenticationService.Identity, model.Merchandise.Select(m => new MerchandiseInfo(m.Type, m.Quantity, m.Price))))
+                .OnSuccess(nameof(Buy))
                 .OnFailure(nameof(Buy), model);
         }
 

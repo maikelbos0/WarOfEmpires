@@ -40,10 +40,10 @@ namespace WarOfEmpires.Controllers {
         }
 
         [HttpPost(nameof(Send))]
-        public ViewResult Send(MessageModel model) {
-            return BuildViewResultFor(new SendMessageCommand(_authenticationService.Identity, model.RecipientId, model.Subject, model.Body))
-                .OnSuccess(SentIndex)
-                .OnFailure(nameof(Send), model);
+        public ActionResult Send(MessageModel model) {
+            return BuildViewResultFor2(new SendMessageCommand(_authenticationService.Identity, model.RecipientId, model.Subject, model.Body))
+                .OnSuccess(nameof(SentIndex))
+                .OnFailure(model);
         }
 
         [HttpGet(nameof(ReceivedDetails))]
@@ -59,8 +59,7 @@ namespace WarOfEmpires.Controllers {
 
         [HttpGet(nameof(SentIndex))]
         public ViewResult SentIndex() {
-            // Explicitly name view so it works from other actions
-            return View(nameof(SentIndex));
+            return View();
         }
 
         [HttpPost(nameof(GetSentMessages))]

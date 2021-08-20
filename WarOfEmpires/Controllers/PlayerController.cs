@@ -41,21 +41,20 @@ namespace WarOfEmpires.Controllers {
 
         [HttpGet(nameof(Blocked))]
         public ViewResult Blocked() {
-            // Explicitly name view so it works from other actions
-            return View(nameof(Blocked), _messageService.Dispatch(new GetBlockedPlayersQuery(_authenticationService.Identity)));
+            return View(_messageService.Dispatch(new GetBlockedPlayersQuery(_authenticationService.Identity)));
         }
 
         [HttpPost(nameof(Block))]
-        public ViewResult Block(int id) {
-            return BuildViewResultFor(new BlockPlayerCommand(_authenticationService.Identity, id))
-                .OnSuccess(Blocked)
+        public ActionResult Block(int id) {
+            return BuildViewResultFor2(new BlockPlayerCommand(_authenticationService.Identity, id))
+                .OnSuccess(nameof(Blocked))
                 .ThrowOnFailure();
         }
 
         [HttpPost(nameof(Unblock))]
-        public ViewResult Unblock(int id) {
-            return BuildViewResultFor(new UnblockPlayerCommand(_authenticationService.Identity, id))
-                .OnSuccess(Blocked)
+        public ActionResult Unblock(int id) {
+            return BuildViewResultFor2(new UnblockPlayerCommand(_authenticationService.Identity, id))
+                .OnSuccess(nameof(Blocked))
                 .ThrowOnFailure();
         }
 
