@@ -45,6 +45,10 @@ namespace WarOfEmpires.ActionResults {
             return this;
         }
 
+        public CommandResultBuilder2<TCommand, TActionResult> OnFailure(string viewName) {
+            return OnFailure(viewName, null);
+        }
+
         public CommandResultBuilder2<TCommand, TActionResult> OnFailure(object model) {
             return OnFailure(null, model);
         }
