@@ -37,14 +37,14 @@ namespace WarOfEmpires.Controllers {
 
         [HttpPost(nameof(_UnpauseScheduledTasks))]
         public ActionResult _UnpauseScheduledTasks() {
-            return BuildPartialViewResultFor2(new UnpauseScheduledTasksCommand())
+            return BuildPartialViewResultFor(new UnpauseScheduledTasksCommand())
                 .OnSuccess(nameof(_ScheduledTasks))
                 .ThrowOnFailure();
         }
 
         [HttpPost(nameof(_PauseScheduledTasks))]
         public ActionResult _PauseScheduledTasks() {
-            return BuildPartialViewResultFor2(new PauseScheduledTasksCommand())
+            return BuildPartialViewResultFor(new PauseScheduledTasksCommand())
                 .OnSuccess(nameof(_ScheduledTasks))
                 .ThrowOnFailure();
         }
@@ -56,7 +56,7 @@ namespace WarOfEmpires.Controllers {
 
         [HttpPost(nameof(_GamePhase))]
         public ActionResult _GamePhase(GamePhaseModel model) {
-            return BuildPartialViewResultFor2(new SetGamePhaseCommand(model.Phase))
+            return BuildPartialViewResultFor(new SetGamePhaseCommand(model.Phase))
                 .OnSuccess(nameof(_GamePhase))
                 .ThrowOnFailure();
         }
@@ -79,7 +79,7 @@ namespace WarOfEmpires.Controllers {
 
         [HttpPost(nameof(UserDetails))]
         public ActionResult UserDetails(UserDetailsModel model) {
-            return BuildViewResultFor2(new UpdateUserDetailsCommand(model.Id, model.Email, model.DisplayName, model.AllianceCode, model.AllianceName, model.Status, model.IsAdmin))
+            return BuildViewResultFor(new UpdateUserDetailsCommand(model.Id, model.Email, model.DisplayName, model.AllianceCode, model.AllianceName, model.Status, model.IsAdmin))
                 .OnSuccess(nameof(Users))
                 .OnFailure(model);
         }

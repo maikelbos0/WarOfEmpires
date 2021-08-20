@@ -4,40 +4,53 @@ using Newtonsoft.Json;
 using System;
 using WarOfEmpires.CommandHandlers;
 using WarOfEmpires.Commands;
-using WarOfEmpires.Controllers;
 using WarOfEmpires.Extensions;
 using WarOfEmpires.Services;
 
 namespace WarOfEmpires.ActionResults {
-    public class CommandResultBuilder<TCommand, TActionResult> where TCommand : ICommand where TActionResult : IActionResult, new() {
+    public class CommandResultBuilder<TCommand, TActionResult> where TCommand : ICommand where TActionResult : ActionResult, new() {
         private readonly IMessageService _messageService;
-        private readonly IBaseController _controller;
         private readonly Func<string, object, TActionResult> _createView;
         private readonly ModelStateDictionary _modelState;
+        private readonly IUrlHelper _urlHelper;
+        private readonly bool _isAjaxRequest;
         private readonly TCommand _command;
-        private Func<TActionResult> _onFailure;
-        private Func<TActionResult> _onSuccess;
+        private Func<ActionResult> _onFailure;
+        private string _onSuccess;
 
-        public CommandResultBuilder(IMessageService messageService, IBaseController controller, Func<string, object, TActionResult> createView, ModelStateDictionary modelState, TCommand command) {
+        public CommandResultBuilder(IMessageService messageService, Func<string, object, TActionResult> createView, ModelStateDictionary modelState, IUrlHelper urlHelper, bool isAjaxRequest, TCommand command) {
             _messageService = messageService;
-            _controller = controller;
             _createView = createView;
             _modelState = modelState;
+            _urlHelper = urlHelper;
+            _isAjaxRequest = isAjaxRequest;
             _command = command;
         }
 
-        public CommandResultBuilder<TCommand, TActionResult> OnSuccess(string viewName) {
-            return OnSuccess(() => _createView(viewName, null));
+        public CommandResultBuilder<TCommand, TActionResult> OnSuccess(string actionName) {
+            return OnSuccess(actionName, null, null);
         }
 
-        public CommandResultBuilder<TCommand, TActionResult> OnSuccess(Func<TActionResult> onSuccess) {
-            _onSuccess = onSuccess;
+        public CommandResultBuilder<TCommand, TActionResult> OnSuccess(string actionName, string controllerName) {
+            return OnSuccess(actionName, controllerName, null);
+        }
+
+        public CommandResultBuilder<TCommand, TActionResult> OnSuccess(string actionName, object routeValues) {
+            return OnSuccess(actionName, null, routeValues);
+        }
+
+        public CommandResultBuilder<TCommand, TActionResult> OnSuccess(string actionName, string controllerName, object routeValues) {
+            _onSuccess = _urlHelper.Action(actionName, controllerName, routeValues);
 
             return this;
         }
 
         public CommandResultBuilder<TCommand, TActionResult> OnFailure(string viewName) {
             return OnFailure(viewName, null);
+        }
+
+        public CommandResultBuilder<TCommand, TActionResult> OnFailure(object model) {
+            return OnFailure(null, model);
         }
 
         public CommandResultBuilder<TCommand, TActionResult> OnFailure(string viewName, object model) {
@@ -52,7 +65,7 @@ namespace WarOfEmpires.ActionResults {
             return this;
         }
 
-        public TActionResult Execute() {
+        public ActionResult Execute() {
             if (_onFailure == null) {
                 throw new InvalidOperationException("Missing on failure result handler");
             }
@@ -69,25 +82,23 @@ namespace WarOfEmpires.ActionResults {
             }
 
             if (_modelState.IsValid) {
-                // We're done so the current model is no longer relevant
-                _modelState.Clear();
-
-                if (result.HasWarnings) {
-                    _controller.AddResponseHeader("X-Warnings", string.Join("|", result.Warnings));
+                if (_isAjaxRequest) {
+                    return new JsonResult(new {
+                        Success = true,
+                        result.Warnings,
+                        RedirectUrl = _onSuccess
+                    });
                 }
                 else {
-                    // Let the client know explicitly that everything was valid
-                    _controller.AddResponseHeader("X-IsValid", "true");
+                    return new RedirectResult(_onSuccess);
                 }
-
-                return _onSuccess();
             }
             else {
                 return _onFailure();
             }
         }
 
-        public static implicit operator TActionResult (CommandResultBuilder<TCommand, TActionResult> builder) {
+        public static implicit operator ActionResult(CommandResultBuilder<TCommand, TActionResult> builder) {
             return builder.Execute();
         }
     }

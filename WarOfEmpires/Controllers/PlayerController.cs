@@ -46,14 +46,14 @@ namespace WarOfEmpires.Controllers {
 
         [HttpPost(nameof(Block))]
         public ActionResult Block(int id) {
-            return BuildViewResultFor2(new BlockPlayerCommand(_authenticationService.Identity, id))
+            return BuildViewResultFor(new BlockPlayerCommand(_authenticationService.Identity, id))
                 .OnSuccess(nameof(Blocked))
                 .ThrowOnFailure();
         }
 
         [HttpPost(nameof(Unblock))]
         public ActionResult Unblock(int id) {
-            return BuildViewResultFor2(new UnblockPlayerCommand(_authenticationService.Identity, id))
+            return BuildViewResultFor(new UnblockPlayerCommand(_authenticationService.Identity, id))
                 .OnSuccess(nameof(Blocked))
                 .ThrowOnFailure();
         }

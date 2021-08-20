@@ -26,14 +26,14 @@ namespace WarOfEmpires.Controllers {
 
         [HttpPost(nameof(Sell))]
         public ActionResult Sell(MarketModel model) {
-            return BuildViewResultFor2(new SellResourcesCommand(_authenticationService.Identity, model.Merchandise.Select(m => new MerchandiseInfo(m.Type, m.Quantity, m.Price))))
+            return BuildViewResultFor(new SellResourcesCommand(_authenticationService.Identity, model.Merchandise.Select(m => new MerchandiseInfo(m.Type, m.Quantity, m.Price))))
                 .OnSuccess(nameof(Sell))
                 .OnFailure(model);
         }
 
         [HttpPost(nameof(WithdrawCaravan))]
         public ActionResult WithdrawCaravan(int id) {
-            return BuildViewResultFor2(new WithdrawCaravanCommand(_authenticationService.Identity, id))
+            return BuildViewResultFor(new WithdrawCaravanCommand(_authenticationService.Identity, id))
                 .OnSuccess(nameof(Sell))
                 .ThrowOnFailure();
         }
@@ -45,7 +45,7 @@ namespace WarOfEmpires.Controllers {
 
         [HttpPost(nameof(Buy))]
         public ActionResult Buy(MarketModel model) {
-            return BuildViewResultFor2(new BuyResourcesCommand(_authenticationService.Identity, model.Merchandise.Select(m => new MerchandiseInfo(m.Type, m.Quantity, m.Price))))
+            return BuildViewResultFor(new BuyResourcesCommand(_authenticationService.Identity, model.Merchandise.Select(m => new MerchandiseInfo(m.Type, m.Quantity, m.Price))))
                 .OnSuccess(nameof(Buy))
                 .OnFailure(nameof(Buy), model);
         }

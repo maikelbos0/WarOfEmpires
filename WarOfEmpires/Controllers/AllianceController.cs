@@ -41,7 +41,7 @@ namespace WarOfEmpires.Controllers {
 
         [HttpPost(nameof(Create))]
         public ActionResult Create(CreateAllianceModel model) {
-            return BuildViewResultFor2(new CreateAllianceCommand(_authenticationService.Identity, model.Code, model.Name))
+            return BuildViewResultFor(new CreateAllianceCommand(_authenticationService.Identity, model.Code, model.Name))
                 .OnSuccess(nameof(Home))
                 .OnFailure(model);
         }
@@ -63,7 +63,7 @@ namespace WarOfEmpires.Controllers {
         [AllianceAuthorize(CanInvite = true)]
         [HttpPost(nameof(Invite))]
         public ActionResult Invite(SendInviteModel model) {
-            return BuildViewResultFor2(new SendInviteCommand(_authenticationService.Identity, model.PlayerId, model.Subject, model.Body))
+            return BuildViewResultFor(new SendInviteCommand(_authenticationService.Identity, model.PlayerId, model.Subject, model.Body))
                 .OnSuccess(nameof(Invites))
                 .OnFailure(model);
         }
@@ -89,7 +89,7 @@ namespace WarOfEmpires.Controllers {
         [AllianceAuthorize(CanInvite = true)]
         [HttpPost(nameof(WithdrawInvite))]
         public ActionResult WithdrawInvite(int id) {
-            return BuildViewResultFor2(new WithdrawInviteCommand(_authenticationService.Identity, id))
+            return BuildViewResultFor(new WithdrawInviteCommand(_authenticationService.Identity, id))
                 .OnSuccess(nameof(Invites))
                 .ThrowOnFailure();
         }
@@ -117,14 +117,14 @@ namespace WarOfEmpires.Controllers {
 
         [HttpPost(nameof(AcceptInvite))]
         public ActionResult AcceptInvite(ReceivedInviteDetailsViewModel model) {
-            return BuildViewResultFor2(new AcceptInviteCommand(_authenticationService.Identity, model.Id))
+            return BuildViewResultFor(new AcceptInviteCommand(_authenticationService.Identity, model.Id))
                 .OnSuccess(nameof(Home))
                 .OnFailure(nameof(ReceivedInviteDetails), model);
         }
 
         [HttpPost(nameof(RejectInvite))]
         public ActionResult RejectInvite(int id) {
-            return BuildViewResultFor2(new RejectInviteCommand(_authenticationService.Identity, id))
+            return BuildViewResultFor(new RejectInviteCommand(_authenticationService.Identity, id))
                 .OnSuccess(nameof(ReceivedInvites))
                 .ThrowOnFailure();
         }
@@ -132,7 +132,7 @@ namespace WarOfEmpires.Controllers {
         [AllianceAuthorize]
         [HttpPost(nameof(PostChatMessage))]
         public ActionResult PostChatMessage(AllianceHomeViewModel model) {
-            return BuildViewResultFor2(new PostChatMessageCommand(_authenticationService.Identity, model.ChatMessage))
+            return BuildViewResultFor(new PostChatMessageCommand(_authenticationService.Identity, model.ChatMessage))
                 .OnSuccess(nameof(Home))
                 .ThrowOnFailure();
         }
@@ -140,7 +140,7 @@ namespace WarOfEmpires.Controllers {
         [AllianceAuthorize(CanDeleteChatMessages = true)]
         [HttpPost(nameof(DeleteChatMessage))]
         public ActionResult DeleteChatMessage(int id) {
-            return BuildViewResultFor2(new DeleteChatMessageCommand(_authenticationService.Identity, id))
+            return BuildViewResultFor(new DeleteChatMessageCommand(_authenticationService.Identity, id))
                 .OnSuccess(nameof(Home))
                 .ThrowOnFailure();
         }
@@ -166,7 +166,7 @@ namespace WarOfEmpires.Controllers {
         [AllianceAuthorize(CanManageRoles = true)]
         [HttpPost(nameof(CreateRole))]
         public ActionResult CreateRole(CreateRoleModel model) {
-            return BuildViewResultFor2(new CreateRoleCommand(_authenticationService.Identity, model.Name, model.CanInvite, model.CanManageRoles, model.CanDeleteChatMessages, model.CanKickMembers, model.CanManageNonAggressionPacts, model.CanManageWars))
+            return BuildViewResultFor(new CreateRoleCommand(_authenticationService.Identity, model.Name, model.CanInvite, model.CanManageRoles, model.CanDeleteChatMessages, model.CanKickMembers, model.CanManageNonAggressionPacts, model.CanManageWars))
                 .OnSuccess(nameof(Roles))
                 .OnFailure(model);
         }
@@ -180,7 +180,7 @@ namespace WarOfEmpires.Controllers {
         [AllianceAuthorize(CanManageRoles = true)]
         [HttpPost(nameof(ClearRole))]
         public ActionResult ClearRole(int id, int playerId) {
-            return BuildViewResultFor2(new ClearRoleCommand(_authenticationService.Identity, playerId))
+            return BuildViewResultFor(new ClearRoleCommand(_authenticationService.Identity, playerId))
                 .OnSuccess(nameof(RoleDetails), new { id })
                 .ThrowOnFailure();
         }
@@ -188,7 +188,7 @@ namespace WarOfEmpires.Controllers {
         [AllianceAuthorize(CanManageRoles = true)]
         [HttpPost(nameof(DeleteRole))]
         public ActionResult DeleteRole(int id) {
-            return BuildViewResultFor2(new DeleteRoleCommand(_authenticationService.Identity, id))
+            return BuildViewResultFor(new DeleteRoleCommand(_authenticationService.Identity, id))
                 .OnSuccess(nameof(Roles))
                 .ThrowOnFailure();
         }
@@ -202,7 +202,7 @@ namespace WarOfEmpires.Controllers {
         [AllianceAuthorize(CanManageRoles = true)]
         [HttpPost(nameof(SetRole))]
         public ActionResult SetRole(int id, int playerId) {
-            return BuildViewResultFor2(new SetRoleCommand(_authenticationService.Identity, playerId, id))
+            return BuildViewResultFor(new SetRoleCommand(_authenticationService.Identity, playerId, id))
                 .OnSuccess(nameof(RoleDetails), new { id })
                 .ThrowOnFailure();
         }
@@ -216,7 +216,7 @@ namespace WarOfEmpires.Controllers {
         [AllianceAuthorize]
         [HttpPost(nameof(Leave))]
         public ActionResult LeavePost() {
-            return BuildViewResultFor2(new LeaveAllianceCommand(_authenticationService.Identity))
+            return BuildViewResultFor(new LeaveAllianceCommand(_authenticationService.Identity))
                 .OnSuccess(nameof(Index))
                 .ThrowOnFailure();
         }
@@ -224,7 +224,7 @@ namespace WarOfEmpires.Controllers {
         [AllianceAuthorize(CanKickMembers = true)]
         [HttpPost(nameof(Kick))]
         public ActionResult Kick(string id) {
-            return BuildViewResultFor2(new KickFromAllianceCommand(_authenticationService.Identity, id))
+            return BuildViewResultFor(new KickFromAllianceCommand(_authenticationService.Identity, id))
                 .OnSuccess(nameof(Home))
                 .ThrowOnFailure();
         }
@@ -238,7 +238,7 @@ namespace WarOfEmpires.Controllers {
         [AllianceAuthorize(CanTransferLeadership = true)]
         [HttpPost(nameof(TransferLeadership))]
         public ActionResult TransferLeadership(int memberId) {
-            return BuildViewResultFor2(new TransferLeadershipCommand(_authenticationService.Identity, memberId))
+            return BuildViewResultFor(new TransferLeadershipCommand(_authenticationService.Identity, memberId))
                 .OnSuccess(nameof(Home))
                 .ThrowOnFailure();
         }
@@ -252,7 +252,7 @@ namespace WarOfEmpires.Controllers {
         [AllianceAuthorize(CanDisbandAlliance = true)]
         [HttpPost(nameof(Disband))]
         public ActionResult DisbandPost() {
-            return BuildViewResultFor2(new DisbandAllianceCommand(_authenticationService.Identity))
+            return BuildViewResultFor(new DisbandAllianceCommand(_authenticationService.Identity))
                 .OnSuccess(nameof(Index))
                 .ThrowOnFailure();
         }
@@ -266,7 +266,7 @@ namespace WarOfEmpires.Controllers {
         [AllianceAuthorize(CanManageNonAggressionPacts = true)]
         [HttpPost(nameof(SendNonAggressionPactRequest))]
         public ActionResult SendNonAggressionPactRequest(CreateNonAggressionPactRequestModel model) {
-            return BuildViewResultFor2(new SendNonAggressionPactRequestCommand(_authenticationService.Identity, model.AllianceId))
+            return BuildViewResultFor(new SendNonAggressionPactRequestCommand(_authenticationService.Identity, model.AllianceId))
                 .OnSuccess(nameof(SentNonAggressionPactRequests))
                 .OnFailure(model);
         }
@@ -280,7 +280,7 @@ namespace WarOfEmpires.Controllers {
         [AllianceAuthorize(CanManageNonAggressionPacts = true)]
         [HttpPost(nameof(WithdrawNonAggressionPactRequest))]
         public ActionResult WithdrawNonAggressionPactRequest(int id) {
-            return BuildViewResultFor2(new WithdrawNonAggressionPactRequestCommand(_authenticationService.Identity, id))
+            return BuildViewResultFor(new WithdrawNonAggressionPactRequestCommand(_authenticationService.Identity, id))
                 .OnSuccess(nameof(SentNonAggressionPactRequests))
                 .ThrowOnFailure();
         }
@@ -294,7 +294,7 @@ namespace WarOfEmpires.Controllers {
         [AllianceAuthorize(CanManageNonAggressionPacts = true)]
         [HttpPost(nameof(AcceptNonAggressionPactRequest))]
         public ActionResult AcceptNonAggressionPactRequest(int id) {
-            return BuildViewResultFor2(new AcceptNonAggressionPactRequestCommand(_authenticationService.Identity, id))
+            return BuildViewResultFor(new AcceptNonAggressionPactRequestCommand(_authenticationService.Identity, id))
                 .OnSuccess(nameof(NonAggressionPacts))
                 .ThrowOnFailure();
         }
@@ -302,7 +302,7 @@ namespace WarOfEmpires.Controllers {
         [AllianceAuthorize(CanManageNonAggressionPacts = true)]
         [HttpPost(nameof(RejectNonAggressionPactRequest))]
         public ActionResult RejectNonAggressionPactRequest(int id) {
-            return BuildViewResultFor2(new RejectNonAggressionPactRequestCommand(_authenticationService.Identity, id))
+            return BuildViewResultFor(new RejectNonAggressionPactRequestCommand(_authenticationService.Identity, id))
                 .OnSuccess(nameof(ReceivedNonAggressionPactRequests))
                 .ThrowOnFailure();
         }
@@ -316,7 +316,7 @@ namespace WarOfEmpires.Controllers {
         [AllianceAuthorize(CanManageNonAggressionPacts = true)]
         [HttpPost(nameof(DissolveNonAggressionPact))]
         public ActionResult DissolveNonAggressionPact(int id) {
-            return BuildViewResultFor2(new DissolveNonAggressionPactCommand(_authenticationService.Identity, id))
+            return BuildViewResultFor(new DissolveNonAggressionPactCommand(_authenticationService.Identity, id))
                 .OnSuccess(nameof(NonAggressionPacts))
                 .ThrowOnFailure();
         }
@@ -336,7 +336,7 @@ namespace WarOfEmpires.Controllers {
         [AllianceAuthorize(CanManageWars = true)]
         [HttpPost(nameof(DeclareWar))]
         public ActionResult DeclareWar(DeclareWarModel model) {
-            return BuildViewResultFor2(new DeclareWarCommand(_authenticationService.Identity, model.AllianceId))
+            return BuildViewResultFor(new DeclareWarCommand(_authenticationService.Identity, model.AllianceId))
                 .OnSuccess(nameof(Wars))
                 .OnFailure(model);
         }
@@ -344,7 +344,7 @@ namespace WarOfEmpires.Controllers {
         [AllianceAuthorize(CanManageWars = true)]
         [HttpPost(nameof(CancelPeaceDeclaration))]
         public ActionResult CancelPeaceDeclaration(int id) {
-            return BuildViewResultFor2(new CancelPeaceDeclarationCommand(_authenticationService.Identity, id))
+            return BuildViewResultFor(new CancelPeaceDeclarationCommand(_authenticationService.Identity, id))
                 .OnSuccess(nameof(Wars))
                 .ThrowOnFailure();
         }
@@ -352,7 +352,7 @@ namespace WarOfEmpires.Controllers {
         [AllianceAuthorize(CanManageWars = true)]
         [HttpPost(nameof(DeclarePeace))]
         public ActionResult DeclarePeace(int id) {
-            return BuildViewResultFor2(new DeclarePeaceCommand(_authenticationService.Identity, id))
+            return BuildViewResultFor(new DeclarePeaceCommand(_authenticationService.Identity, id))
                 .OnSuccess(nameof(Wars))
                 .ThrowOnFailure();
         }

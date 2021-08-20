@@ -20,22 +20,12 @@ namespace WarOfEmpires.Controllers {
             _dataGridViewService = dataGridViewService;
         }
 
-        protected CommandResultBuilder2<TCommand, ViewResult> BuildViewResultFor2<TCommand>(TCommand command) where TCommand : ICommand {
-            return new CommandResultBuilder2<TCommand, ViewResult>(_messageService, View, ModelState, Url, Request?.Headers["X-Requested-With"].ToString() == "XMLHttpRequest", command);
-        }
-
-        protected CommandResultBuilder2<TCommand, PartialViewResult> BuildPartialViewResultFor2<TCommand>(TCommand command) where TCommand : ICommand {
-            return new CommandResultBuilder2<TCommand, PartialViewResult>(_messageService, PartialView, ModelState, Url, Request?.Headers["X-Requested-With"].ToString() == "XMLHttpRequest", command);
-        }
-
-        [Obsolete]
         protected CommandResultBuilder<TCommand, ViewResult> BuildViewResultFor<TCommand>(TCommand command) where TCommand : ICommand {
-            return new CommandResultBuilder<TCommand, ViewResult>(_messageService, this, View, ModelState, command);
+            return new CommandResultBuilder<TCommand, ViewResult>(_messageService, View, ModelState, Url, Request?.Headers["X-Requested-With"].ToString() == "XMLHttpRequest", command);
         }
 
-        [Obsolete]
         protected CommandResultBuilder<TCommand, PartialViewResult> BuildPartialViewResultFor<TCommand>(TCommand command) where TCommand : ICommand {
-            return new CommandResultBuilder<TCommand, PartialViewResult>(_messageService, this, PartialView, ModelState, command);
+            return new CommandResultBuilder<TCommand, PartialViewResult>(_messageService, PartialView, ModelState, Url, Request?.Headers["X-Requested-With"].ToString() == "XMLHttpRequest", command);
         }
 
         protected JsonResult GridJson<TReturnValue>(IQuery<IEnumerable<TReturnValue>> query, DataGridViewMetaData metaData) where TReturnValue : EntityViewModel {

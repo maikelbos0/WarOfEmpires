@@ -28,11 +28,11 @@ namespace WarOfEmpires.Controllers {
         public ActionResult Workers(WorkersModel model) {
             switch (model.Command) {
                 case "train":
-                    return BuildViewResultFor2(new TrainWorkersCommand(_authenticationService.Identity, model.Workers.Select(w => new WorkerInfo(w.Type, w.Count))))
+                    return BuildViewResultFor(new TrainWorkersCommand(_authenticationService.Identity, model.Workers.Select(w => new WorkerInfo(w.Type, w.Count))))
                         .OnSuccess(nameof(Workers))
                         .OnFailure(model);
                 case "untrain":
-                    return BuildViewResultFor2(new UntrainWorkersCommand(_authenticationService.Identity, model.Workers.Select(w => new WorkerInfo(w.Type, w.Count))))
+                    return BuildViewResultFor(new UntrainWorkersCommand(_authenticationService.Identity, model.Workers.Select(w => new WorkerInfo(w.Type, w.Count))))
                         .OnSuccess(nameof(Workers))
                         .OnFailure(model);
                 default:
@@ -49,15 +49,15 @@ namespace WarOfEmpires.Controllers {
         public ActionResult Troops(TroopsModel model) {
             switch (model.Command) {
                 case "train":
-                    return BuildViewResultFor2(new TrainTroopsCommand(_authenticationService.Identity, model.Troops.Select(t => new TroopInfo(t.Type, t.Soldiers, t.Mercenaries))))
+                    return BuildViewResultFor(new TrainTroopsCommand(_authenticationService.Identity, model.Troops.Select(t => new TroopInfo(t.Type, t.Soldiers, t.Mercenaries))))
                         .OnSuccess(nameof(Troops))
                         .OnFailure(model);
                 case "untrain":
-                    return BuildViewResultFor2(new UntrainTroopsCommand(_authenticationService.Identity, model.Troops.Select(t => new TroopInfo(t.Type, t.Soldiers, t.Mercenaries))))
+                    return BuildViewResultFor(new UntrainTroopsCommand(_authenticationService.Identity, model.Troops.Select(t => new TroopInfo(t.Type, t.Soldiers, t.Mercenaries))))
                         .OnSuccess(nameof(Troops))
                         .OnFailure(model);
                 case "heal":
-                    return BuildViewResultFor2(new HealTroopsCommand(_authenticationService.Identity, model.StaminaToHeal))
+                    return BuildViewResultFor(new HealTroopsCommand(_authenticationService.Identity, model.StaminaToHeal))
                         .OnSuccess(nameof(Troops))
                         .OnFailure(model);
                 default:
@@ -72,7 +72,7 @@ namespace WarOfEmpires.Controllers {
 
         [HttpPost(nameof(Tax))]
         public ActionResult Tax(TaxModel model) {
-            return BuildViewResultFor2(new SetTaxCommand(_authenticationService.Identity, model.Tax))
+            return BuildViewResultFor(new SetTaxCommand(_authenticationService.Identity, model.Tax))
                 .OnSuccess(nameof(Tax))
                 .OnFailure(model);
         }
@@ -114,7 +114,7 @@ namespace WarOfEmpires.Controllers {
 
         [HttpPost(nameof(_Building))]
         public ActionResult _Building(BuildingModel model) {
-            return BuildPartialViewResultFor2(new UpgradeBuildingCommand(_authenticationService.Identity, model.BuildingType))
+            return BuildPartialViewResultFor(new UpgradeBuildingCommand(_authenticationService.Identity, model.BuildingType))
                 .OnSuccess(nameof(_Building), new { model.BuildingType })
                 .OnFailure(nameof(_Building), model);
         }
@@ -141,7 +141,7 @@ namespace WarOfEmpires.Controllers {
 
         [HttpPost(nameof(Banking))]
         public ActionResult Banking(BankedResourcesViewModel model) {
-            return BuildViewResultFor2(new BankCommand(_authenticationService.Identity))
+            return BuildViewResultFor(new BankCommand(_authenticationService.Identity))
                 .OnSuccess(nameof(Banking))
                 .OnFailure(model);
         }
@@ -155,11 +155,11 @@ namespace WarOfEmpires.Controllers {
         public ActionResult Siege(SiegeModel model) {
             switch (model.Command) {
                 case "build":
-                    return BuildViewResultFor2(new BuildSiegeCommand(_authenticationService.Identity, model.SiegeWeapons.Select(d => new SiegeWeaponInfo(d.Type, d.Count))))
+                    return BuildViewResultFor(new BuildSiegeCommand(_authenticationService.Identity, model.SiegeWeapons.Select(d => new SiegeWeaponInfo(d.Type, d.Count))))
                         .OnSuccess(nameof(Siege))
                         .OnFailure(model);
                 case "discard":
-                    return BuildViewResultFor2(new DiscardSiegeCommand(_authenticationService.Identity, model.SiegeWeapons.Select(d => new SiegeWeaponInfo(d.Type, d.Count))))
+                    return BuildViewResultFor(new DiscardSiegeCommand(_authenticationService.Identity, model.SiegeWeapons.Select(d => new SiegeWeaponInfo(d.Type, d.Count))))
                         .OnSuccess(nameof(Siege))
                         .OnFailure(model);
                 default:
