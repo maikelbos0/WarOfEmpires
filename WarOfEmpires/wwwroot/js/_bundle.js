@@ -197,6 +197,8 @@ $(function () {
                             cache: false,
                             success: function (result) {
                                 displayResult(panel, result);
+
+                                callAjaxCallbacks();
                             },
                             error: function (jqXHR) {
                                 if (jqXHR.status == 401) {
@@ -214,9 +216,9 @@ $(function () {
                         displaySuccessMessage(form, jqXHR);
                         displayWarningMessages(jqXHR);
                         displayResult(panel, result);
-                    }
 
-                    callAjaxCallbacks();
+                        callAjaxCallbacks();
+                    }
                 },
                 error: function (jqXHR) {
                     if (jqXHR.status == 401) {
