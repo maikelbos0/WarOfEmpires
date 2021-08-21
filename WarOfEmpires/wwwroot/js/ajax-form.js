@@ -3,24 +3,23 @@ let AjaxManager = {
 }
 
 $(function () {
-    function displaySuccessMessage(form, jqXHR) {
-        let successMessage = form.data("success-message");
-        let command = form.find("#Command").val();
-
-        if (command && form.data("success-message-" + command)) {
-            successMessage = form.data("success-message-" + command);
-        }
-
-        if (jqXHR.getResponseHeader("X-IsValid") === "true" && successMessage) {
-            toastr.success(successMessage);
-        }
-    }
-
-    function displayWarningMessages(jqXHR) {
-        if (jqXHR.getResponseHeader("X-Warnings")) {
-            $.each(decodeURIComponent(jqXHR.getResponseHeader("X-Warnings")).split("|"), function () {
+    function displayMessages(result, form) {
+        if (result.warnings.length > 0) {
+            $.each(result.warnings, function () {
                 toastr.warning(this);
             });
+        }
+        else {
+            let successMessage = form.data("success-message");
+            let command = form.find("#Command").val();
+
+            if (command && form.data("success-message-" + command)) {
+                successMessage = form.data("success-message-" + command);
+            }
+
+            if (successMessage) {
+                toastr.success(successMessage);
+            }
         }
     }
 
@@ -32,6 +31,16 @@ $(function () {
 
         if (title) {
             document.title = title + ' - War of Empires';
+        }
+    }
+
+    function handleErrors(jqXHR) {
+        if (jqXHR.status == 401) {
+            window.location.assign(window.location.href);
+        }
+        else {
+            toastr.error("An error occurred processing data; please try again.");
+            submitButtons.prop('disabled', false);
         }
     }
 
@@ -54,29 +63,11 @@ $(function () {
 
             $.ajax({
                 url: this.action,
-                method: this.method,
+                method: "POST",
                 data: form.serialize(),
-                success: function (result, _, jqXHR) {
-
-                    // Temporary inline solution while transitioning
+                success: function (result) {
                     if (result.success) {
-                        if (result.warnings.length > 0) {
-                            $.each(result.warnings, function () {
-                                toastr.warning(this);
-                            });
-                        }
-                        else {
-                            let successMessage = form.data("success-message");
-                            let command = form.find("#Command").val();
-
-                            if (command && form.data("success-message-" + command)) {
-                                successMessage = form.data("success-message-" + command);
-                            }
-
-                            if (successMessage) {
-                                toastr.success(successMessage);
-                            }
-                        }
+                        displayMessages(result, form);
 
                         $.ajax({
                             url: result.redirectUrl,
@@ -87,36 +78,16 @@ $(function () {
 
                                 callAjaxCallbacks();
                             },
-                            error: function (jqXHR) {
-                                if (jqXHR.status == 401) {
-                                    // Don't reload in case the current request is a POST
-                                    window.location.assign(window.location.href);
-                                }
-                                else {
-                                    toastr.error("An error occurred processing data; please try again.");
-                                    submitButtons.prop('disabled', false);
-                                }
-                            }
+                            error: handleErrors
                         });
                     }
                     else {
-                        displaySuccessMessage(form, jqXHR);
-                        displayWarningMessages(jqXHR);
                         displayResult(panel, result);
 
                         callAjaxCallbacks();
                     }
                 },
-                error: function (jqXHR) {
-                    if (jqXHR.status == 401) {
-                        // Don't reload in case the current request is a POST
-                        window.location.assign(window.location.href);
-                    }
-                    else {
-                        toastr.error("An error occurred processing data; please try again.");
-                        submitButtons.prop('disabled', false);
-                    }
-                }
+                error: handleErrors
             });
         }
 
