@@ -50,13 +50,6 @@ namespace WarOfEmpires.Controllers {
             return View(model);
         }
 
-        [HttpGet(nameof(LastExecutedAttackDetails))]
-        public ActionResult LastExecutedAttackDetails() {
-            var id = _messageService.Dispatch(new GetLastExecutedAttackQuery(_authenticationService.Identity));
-
-            return RedirectToAction(nameof(Details), new { id });
-        }
-
         [HttpGet(nameof(Execute))]
         public ViewResult Execute(int defenderId) {
             return View(_messageService.Dispatch(new GetDefenderQuery(_authenticationService.Identity, defenderId)));
@@ -65,7 +58,7 @@ namespace WarOfEmpires.Controllers {
         [HttpPost(nameof(Execute))]
         public ActionResult Execute(ExecuteAttackModel model) {
             return BuildViewResultFor(new AttackCommand(model.AttackType, _authenticationService.Identity, model.DefenderId, model.Turns))
-                .OnSuccess(nameof(LastExecutedAttackDetails))
+                .OnSuccess(nameof(Details), new { id = _messageService.Dispatch(new GetLastExecutedAttackQuery(_authenticationService.Identity)) })
                 .OnFailure(model);
         }
     }
