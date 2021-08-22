@@ -37,12 +37,12 @@ $(function () {
         // Since the page won't be refreshed we try to find the title in the new content
         let title = panel.find('h2').text();
 
-        if (title) {
-            document.title = title + ' - War of Empires';
+        if (updateHistory) {
+            history.pushState(result, title, redirectUrl);
         }
 
-        if (updateHistory) {
-            history.pushState(result, document.title, redirectUrl);
+        if (title) {
+            document.title = title + ' - War of Empires';
         }
     }
 
