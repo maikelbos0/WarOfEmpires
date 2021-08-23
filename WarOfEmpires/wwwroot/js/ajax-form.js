@@ -46,7 +46,7 @@ $(function () {
         }
     }
 
-    function handleErrors(jqXHR) {
+    function handleErrors(jqXHR, submitButtons) {
         if (jqXHR.status == 401) {
             window.location.assign(window.location.href);
         }
@@ -90,7 +90,9 @@ $(function () {
                                 displayResult(panel, pageResult, updateHistory, formResult.redirectUrl);
                                 callAjaxCallbacks();
                             },
-                            error: handleErrors
+                            error: function (jqXHR) {
+                                handleErrors(jqXHR, submitButtons)
+                            }
                         });
                     }
                     else {
@@ -98,7 +100,9 @@ $(function () {
                         callAjaxCallbacks();
                     }
                 },
-                error: handleErrors
+                error: function (jqXHR) {
+                    handleErrors(jqXHR, submitButtons)
+                }
             });
         }
 
