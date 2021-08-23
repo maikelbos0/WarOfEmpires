@@ -58,7 +58,7 @@ namespace WarOfEmpires.Controllers {
         [HttpPost(nameof(Execute))]
         public ActionResult Execute(ExecuteAttackModel model) {
             return BuildViewResultFor(new AttackCommand(model.AttackType, _authenticationService.Identity, model.DefenderId, model.Turns))
-                .OnSuccess(nameof(Details), new { id = _messageService.Dispatch(new GetLastExecutedAttackQuery(_authenticationService.Identity)) })
+                .OnSuccess(nameof(Details), () => new { id = _messageService.Dispatch(new GetLastExecutedAttackQuery(_authenticationService.Identity)) })
                 .OnFailure(model);
         }
     }

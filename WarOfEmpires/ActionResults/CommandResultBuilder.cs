@@ -17,7 +17,7 @@ namespace WarOfEmpires.ActionResults {
         private readonly bool _isAjaxRequest;
         private readonly TCommand _command;
         private Func<ActionResult> _onFailure;
-        private string _onSuccess;
+        private Func<string> _onSuccess;
 
         public CommandResultBuilder(IMessageService messageService, Func<string, object, TActionResult> createView, ModelStateDictionary modelState, IUrlHelper urlHelper, bool isAjaxRequest, TCommand command) {
             _messageService = messageService;
@@ -29,25 +29,32 @@ namespace WarOfEmpires.ActionResults {
         }
 
         public CommandResultBuilder<TCommand, TActionResult> OnSuccess(string actionName) {
-            return OnSuccess(actionName, null);
+            return OnSuccess(actionName, () => null);
         }
 
         public CommandResultBuilder<TCommand, TActionResult> OnSuccess(string actionName, object routeValues) {
-            _onSuccess = _urlHelper.Action(actionName, null, routeValues);
+            return OnSuccess(actionName, () => routeValues);
+        }
+        public CommandResultBuilder<TCommand, TActionResult> OnSuccess(string actionName, Func<object> routeValuesFunc) {
+            _onSuccess = () => _urlHelper.Action(actionName, null, routeValuesFunc());
 
             return this;
         }
 
         public CommandResultBuilder<TCommand, TActionResult> OnFailure(string viewName) {
-            return OnFailure(viewName, null);
+            return OnFailure(viewName, () => null);
         }
 
         public CommandResultBuilder<TCommand, TActionResult> OnFailure(object model) {
-            return OnFailure(null, model);
+            return OnFailure(null, () => model);
         }
 
         public CommandResultBuilder<TCommand, TActionResult> OnFailure(string viewName, object model) {
-            _onFailure = () => _createView(viewName, model);
+            return OnFailure(viewName, () => model);
+        }
+
+        public CommandResultBuilder<TCommand, TActionResult> OnFailure(string viewName, Func<object> modelFunc) {
+            _onFailure = () => _createView(viewName, modelFunc());
 
             return this;
         }
@@ -79,11 +86,11 @@ namespace WarOfEmpires.ActionResults {
                     return new JsonResult(new {
                         Success = true,
                         result.Warnings,
-                        RedirectUrl = _onSuccess
+                        RedirectUrl = _onSuccess()
                     });
                 }
                 else {
-                    return new RedirectResult(_onSuccess);
+                    return new RedirectResult(_onSuccess());
                 }
             }
             else {
