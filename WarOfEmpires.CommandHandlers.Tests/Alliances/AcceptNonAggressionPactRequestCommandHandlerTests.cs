@@ -29,6 +29,25 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
         }
 
         [TestMethod]
+        public void AcceptNonAggressionPactRequestCommandHandler_Fails_For_Existing_Pact() {
+            var builder = new FakeBuilder()
+                .WithAlliance(1, out var sender)
+                .BuildAlliance(2)
+                .WithLeader(1)
+                .WithNonAggressionPact(3, sender)
+                .WithNonAggressionPactRequestFrom(1, out var request, sender);
+
+            var handler = new AcceptNonAggressionPactRequestCommandHandler(new AllianceRepository(builder.Context));
+            var command = new AcceptNonAggressionPactRequestCommand("test1@test.com", 1);
+
+            var result = handler.Execute(command);
+
+            result.Should().HaveError("You are already in a non-aggression pact with this alliance.");
+            request.DidNotReceiveWithAnyArgs().Accept();
+            builder.Context.CallsToSaveChanges.Should().Be(0);
+        }
+
+        [TestMethod]
         public void AcceptNonAggressionPactRequestCommandHandler_Throws_Exception_For_Wrong_Alliance() {
             var builder = new FakeBuilder()
                 .WithAlliance(1, out var recipient)

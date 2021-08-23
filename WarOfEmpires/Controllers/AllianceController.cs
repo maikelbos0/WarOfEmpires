@@ -296,7 +296,7 @@ namespace WarOfEmpires.Controllers {
         public ActionResult AcceptNonAggressionPactRequest(int id) {
             return BuildViewResultFor(new AcceptNonAggressionPactRequestCommand(_authenticationService.Identity, id))
                 .OnSuccess(nameof(NonAggressionPacts))
-                .ThrowOnFailure();
+                .OnFailure(nameof(ReceivedNonAggressionPactRequests), _messageService.Dispatch(new GetReceivedNonAggressionPactRequestsQuery(_authenticationService.Identity)));
         }
 
         [AllianceAuthorize(CanManageNonAggressionPacts = true)]

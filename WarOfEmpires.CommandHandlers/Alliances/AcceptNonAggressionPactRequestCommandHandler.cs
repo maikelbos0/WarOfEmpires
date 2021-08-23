@@ -19,8 +19,14 @@ namespace WarOfEmpires.CommandHandlers.Alliances {
             var alliance = _repository.Get(command.Email);
             var request = alliance.ReceivedNonAggressionPactRequests.Single(r => r.Id == command.NonAggressionPactRequestId);
 
-            request.Accept();
-            _repository.SaveChanges();
+            if (alliance.NonAggressionPacts.Any(p => p.Alliances.Contains(request.Sender))) {
+                result.AddError("You are already in a non-aggression pact with this alliance.");
+            }
+
+            if (result.Success) {
+                request.Accept();
+                _repository.SaveChanges();
+            }
 
             return result;
         }
