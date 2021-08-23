@@ -5,6 +5,7 @@ using System;
 using WarOfEmpires.CommandHandlers;
 using WarOfEmpires.Commands;
 using WarOfEmpires.Extensions;
+using WarOfEmpires.Queries;
 using WarOfEmpires.Services;
 
 namespace WarOfEmpires.ActionResults {
@@ -28,19 +29,11 @@ namespace WarOfEmpires.ActionResults {
         }
 
         public CommandResultBuilder<TCommand, TActionResult> OnSuccess(string actionName) {
-            return OnSuccess(actionName, null, null);
-        }
-
-        public CommandResultBuilder<TCommand, TActionResult> OnSuccess(string actionName, string controllerName) {
-            return OnSuccess(actionName, controllerName, null);
+            return OnSuccess(actionName, null);
         }
 
         public CommandResultBuilder<TCommand, TActionResult> OnSuccess(string actionName, object routeValues) {
-            return OnSuccess(actionName, null, routeValues);
-        }
-
-        public CommandResultBuilder<TCommand, TActionResult> OnSuccess(string actionName, string controllerName, object routeValues) {
-            _onSuccess = _urlHelper.Action(actionName, controllerName, routeValues);
+            _onSuccess = _urlHelper.Action(actionName, null, routeValues);
 
             return this;
         }
