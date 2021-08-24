@@ -33,6 +33,7 @@ namespace WarOfEmpires {
             services.AddServices(typeof(Startup).Assembly);
             services.AddSingleton(Configuration.GetSection(AppSettings.Key).Get<AppSettings>());
             services.AddHostedService<ScheduledTaskRunnerService>();
+            services.AddApplicationInsightsTelemetry();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
