@@ -15,7 +15,7 @@ steps:
   inputs:
     command: custom
     custom: 'tool'
-    arguments: 'install dotnet-ef'
+    arguments: 'install dotnet-ef --global'
 
 - task: DotNetCoreCLI@2
   displayName: 'Restore NuGet packages'
