@@ -41,7 +41,7 @@ steps:
   inputs:
     command: custom
     custom: 'ef'
-    arguments: migrations script --output $(Build.SourcesDirectory)/migrations.sql --idempotent --startup-project $(Build.SourcesDirectory)WarOfEmpires/WarOfEmpires.csproj --project $(Build.SourcesDirectory)WarOfEmpires.Database/WarOfEmpires.Database.csproj
+    arguments: migrations script --output $(Build.SourcesDirectory)/migrations.sql --idempotent --startup-project $(Build.SourcesDirectory)/WarOfEmpires/WarOfEmpires.csproj --project $(Build.SourcesDirectory)/WarOfEmpires.Database/WarOfEmpires.Database.csproj
 
 - task: DotNetCoreCLI@2
   displayName: 'Publish'
