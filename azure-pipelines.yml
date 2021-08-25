@@ -30,6 +30,13 @@ steps:
     arguments: '--configuration $(buildConfiguration)'
 
 - task: DotNetCoreCLI@2
+  displayName: 'Create migration script'
+  inputs:
+    command: custom
+    custom: 'ef'
+    arguments: migrations script --output $(Build.SourcesDirectory)/migrations.sql --idempotent --startup-project WarOfEmpires/WarOfEmpires.csproj --project WarOfEmpires.Database\WarOfEmpires.Database.csproj
+-
+- task: DotNetCoreCLI@2
   displayName: 'Publish'
   inputs:
     command: publish
