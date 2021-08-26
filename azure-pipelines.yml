@@ -55,6 +55,6 @@ steps:
   displayName: 'Publish migration script'
   inputs:
     PathtoPublish: $(Build.SourcesDirectory)/migrations.sql
-    ArtifactName: Migrations
+    ArtifactName: database
 
 - task: PublishBuildArtifacts@1
