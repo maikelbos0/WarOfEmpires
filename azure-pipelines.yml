@@ -52,3 +52,9 @@ steps:
     zipAfterPublish: True
 
 - task: PublishBuildArtifacts@1
+  displayName: 'Publish migration script'
+  inputs:
+    PathtoPublish: $(Build.SourcesDirectory)/migrations.sql
+    ArtifactName: Migrations
+
+- task: PublishBuildArtifacts@1
