@@ -1,4 +1,4 @@
-﻿@model object
+﻿@model WarOfEmpires.Models.Players.PlayerHomeViewModel
 
 @{
     ViewBag.Title = "Player Home";
@@ -9,14 +9,46 @@
 <p>Welcome, [player]. Here's the state of your empire.</p>
 
 <ul>
-    <li class="text-danger">You have been <a asp-controller="@Attack.Route" asp-action="@nameof(Attack.Index)">attacked</a> [x] times and lost [x] mercenaries and [x] soldiers</li>
-    <li class="text-danger">You aren't able to afford the upkeep costs; your workers have stopped working and your mercenaries have left your empire</li>
-    <li class="text-danger">You will run out of the food and gold required for upkeep in the next 8 hours; if you run out, your workers will stop working and your mercenaries will leave your empire</li>
-    <li class="text-danger">You don't have enough soldiers to protect your empire; train more of your peasants to be <a asp-controller="@Empire.Route" asp-action="@nameof(Empire.Troops)">soldiers</a> to stop scaring off new recruits</li>
-    <li class="text-danger">You are running out of <a asp-controller="@Empire.Route" asp-action="@nameof(Empire.EmpireBuildings)">housing room</a></li>
-    <li>You have new <a asp-controller="@Message.Route" asp-action="@nameof(Message.Index)">messages</a></li>
-    <li>You have new <a asp-controller="@Alliance.Route" asp-action="@nameof(Alliance.ReceivedInvites)">alliance invites</a></li>
-    <li>You have new <a asp-controller="@Alliance.Route" asp-action="@nameof(Alliance.Home)">alliance news</a></li>
-    <li>You have new <a asp-controller="@Market.Route" asp-action="@nameof(Market.SellTransactions)">market sales</a></li>
-    <li>Peasants available for training: Model.CurrentPeasants.ToString(StringFormat.Integer)</li>
+    @if (Model.NewAttackCount > 0) {
+        <li class="text-danger">
+            You have been <a asp-controller="@Attack.Route" asp-action="@nameof(Attack.Index)">attacked</a> @Model.NewAttackCount.ToString(StringFormat.Integer)
+            times and lost @Model.TotalMercenaryCasualties.ToString(StringFormat.Integer) mercenaries and @Model.TotalSoldierCasualties.ToString(StringFormat.Integer) soldiers
+        </li>
+    }
+
+    @if (Model.HasUpkeepRunOut) {
+        <li class="text-danger">You aren't able to afford the upkeep costs; your workers have stopped working and your mercenaries have left your empire</li>
+    }
+
+    @if (Model.WillUpkeepRunOut) {
+        <li class="text-danger">You will run out of the food and gold required for upkeep in the next 8 hours; if you run out, your workers will stop working and your mercenaries will leave your empire</li>
+    }
+
+    @if (Model.HasSoldierShortage) {
+        <li class="text-danger">You don't have enough soldiers to protect your empire; train more of your peasants to be <a asp-controller="@Empire.Route" asp-action="@nameof(Empire.Troops)">soldiers</a> to stop scaring off new recruits</li>
+    }
+
+    @if (Model.HasHousingShortage) {
+        <li class="text-danger">You are running out of <a asp-controller="@Empire.Route" asp-action="@nameof(Empire.EmpireBuildings)">housing room</a></li>
+    }
+
+    @if (Model.HasNewMessages) {
+        <li>You have new <a asp-controller="@Message.Route" asp-action="@nameof(Message.Index)">messages</a></li>
+    }
+
+    @if (Model.HasNewInvites) {
+        <li>You have new <a asp-controller="@Alliance.Route" asp-action="@nameof(Alliance.ReceivedInvites)">alliance invites</a></li>
+    }
+
+    @if (Model.HasNewChatMessages) {
+        <li>You have new <a asp-controller="@Alliance.Route" asp-action="@nameof(Alliance.Home)">alliance news</a></li>
+    }
+
+    @if (Model.HasNewMarketSales) {
+        <li>You have new <a asp-controller="@Market.Route" asp-action="@nameof(Market.SellTransactions)">market sales</a></li>
+    }
+
+    @if (Model.CurrentPeasants > 0) {
+        <li>Peasants available for training: @Model.CurrentPeasants.ToString(StringFormat.Integer)</li>
+    }
 </ul>

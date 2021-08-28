@@ -60,7 +60,7 @@ namespace WarOfEmpires.Controllers {
 
         [HttpGet(nameof(Home))]
         public ViewResult Home() {
-            return View();
+            return View(_messageService.Dispatch(new GetPlayerHomeQuery(_authenticationService.Identity)));
         }
     }
 }
