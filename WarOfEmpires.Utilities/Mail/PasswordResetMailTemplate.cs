@@ -15,7 +15,7 @@ namespace WarOfEmpires.Utilities.Mail {
             return new MailMessage() {
                 To = to,
                 Subject = "Your password reset request",
-                Body = $"<p>Please <a href=\"{_appSettings.ApplicationBaseUrl}Home/ResetPassword/?email={WebUtility.UrlEncode(parameters.Email)}&token={WebUtility.UrlEncode(parameters.Token)}\">click here to reset your password</a>.</p>"
+                Body = $"<p>Please <a href=\"{_appSettings.ApplicationBaseUrl?.TrimEnd('/')}/Home/ResetPassword/?email={WebUtility.UrlEncode(parameters.Email)}&token={WebUtility.UrlEncode(parameters.Token)}\">click here to reset your password</a>.</p>"
             };
         }
     }

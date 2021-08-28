@@ -7,7 +7,7 @@ namespace WarOfEmpires.Utilities.Tests.Mail {
     [TestClass]
     public sealed class ActivationMailTemplateTests {
         private readonly AppSettings _appSettings = new AppSettings() {
-            ApplicationBaseUrl = "http://localhost/"
+            ApplicationBaseUrl = "http://localhost"
         };
 
         [TestMethod]

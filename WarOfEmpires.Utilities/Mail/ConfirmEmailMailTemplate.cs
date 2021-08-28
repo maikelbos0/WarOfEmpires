@@ -15,7 +15,7 @@ namespace WarOfEmpires.Utilities.Mail {
             return new MailMessage() {
                 To = to,
                 Subject = "Please confirm your email address",
-                Body = $"<p>Please <a href=\"{_appSettings.ApplicationBaseUrl}Home/ConfirmEmail/?confirmationCode={parameters.ActivationCode}&email={WebUtility.UrlEncode(parameters.Email)}\">click here to confirm your new email address</a>.</p>"
+                Body = $"<p>Please <a href=\"{_appSettings.ApplicationBaseUrl?.TrimEnd('/')}/Home/ConfirmEmail/?confirmationCode={parameters.ActivationCode}&email={WebUtility.UrlEncode(parameters.Email)}\">click here to confirm your new email address</a>.</p>"
             };
         }
     }

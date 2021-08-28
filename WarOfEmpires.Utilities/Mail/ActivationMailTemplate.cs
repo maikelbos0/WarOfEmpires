@@ -15,7 +15,7 @@ namespace WarOfEmpires.Utilities.Mail {
             return new MailMessage() {
                 To = to,
                 Subject = "Please activate your account",
-                Body = $"<p>Please <a href=\"{_appSettings.ApplicationBaseUrl}Home/Activate/?activationCode={parameters.ActivationCode}&email={WebUtility.UrlEncode(parameters.Email)}\">click here to activate your account</a>.</p>"
+                Body = $"<p>Please <a href=\"{_appSettings.ApplicationBaseUrl?.TrimEnd('/')}/Home/Activate/?activationCode={parameters.ActivationCode}&email={WebUtility.UrlEncode(parameters.Email)}\">click here to activate your account</a>.</p>"
             };
         }
     }
