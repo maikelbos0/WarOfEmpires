@@ -1,7 +1,6 @@
 ﻿namespace WarOfEmpires.Models.Players {
     public sealed class PlayerHomeViewModel {
         public bool HasNewMessages { get; set; }
-        public bool HasNewAttacks { get; set; }
         public int NewAttackCount { get; set; }
         public int TotalSoldierCasualties { get; set; }
         public int TotalMercenaryCasualties { get; set; }

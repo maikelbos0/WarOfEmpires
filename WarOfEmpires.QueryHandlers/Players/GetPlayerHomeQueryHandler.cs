@@ -29,7 +29,6 @@ namespace WarOfEmpires.QueryHandlers.Players {
 
             return new PlayerHomeViewModel() {
                 HasNewMessages = player.ReceivedMessages.Any(m => !m.IsRead),
-                HasNewAttacks = player.ReceivedAttacks.Any(a => !a.IsRead),
                 NewAttackCount = player.ReceivedAttacks.Count(a => !a.IsRead),
                 TotalSoldierCasualties = player.ReceivedAttacks.Where(a => !a.IsRead).SelectMany(a => a.Rounds).Where(r => r.IsAggressor).Sum(r => r.Casualties.Sum(c => c.Soldiers)),
                 TotalMercenaryCasualties = player.ReceivedAttacks.Where(a => !a.IsRead).SelectMany(a => a.Rounds).Where(r => r.IsAggressor).Sum(r => r.Casualties.Sum(c => c.Mercenaries)),

@@ -35,7 +35,6 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
 
             result.HasNewInvites.Should().BeFalse();
             result.HasNewMessages.Should().BeFalse();
-            result.HasNewAttacks.Should().BeFalse();
             result.HasNewMarketSales.Should().BeFalse();
             result.HasNewChatMessages.Should().BeFalse();
             result.HasHousingShortage.Should().BeFalse();
@@ -69,7 +68,6 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
 
             result.HasNewInvites.Should().BeTrue();
             result.HasNewMessages.Should().BeTrue();
-            result.HasNewAttacks.Should().BeTrue();
             result.HasNewMarketSales.Should().BeTrue();
             result.HasNewChatMessages.Should().BeTrue();
             result.HasHousingShortage.Should().BeTrue();
