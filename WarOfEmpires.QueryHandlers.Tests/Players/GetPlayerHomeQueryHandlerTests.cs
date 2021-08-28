@@ -99,6 +99,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
 
             var result = handler.Execute(query);
 
+            result.DisplayName.Should().Be("Test display name 1");
             result.NewAttackCount.Should().Be(2);
             result.TotalSoldierCasualties.Should().Be(18);
             result.TotalMercenaryCasualties.Should().Be(24);
