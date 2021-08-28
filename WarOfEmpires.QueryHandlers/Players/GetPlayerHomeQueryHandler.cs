@@ -1,8 +1,11 @@
-﻿using VDT.Core.DependencyInjection;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using VDT.Core.DependencyInjection;
 using WarOfEmpires.Database;
 using WarOfEmpires.Models.Players;
 using WarOfEmpires.Queries.Players;
 using WarOfEmpires.QueryHandlers.Decorators;
+using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Players {
     [TransientServiceImplementation(typeof(IQueryHandler<GetPlayerHomeQuery, PlayerHomeViewModel>))]
@@ -15,7 +18,30 @@ namespace WarOfEmpires.QueryHandlers.Players {
 
         [Audit]
         public PlayerHomeViewModel Execute(GetPlayerHomeQuery query) {
-            throw new System.NotImplementedException();
+            var player = _context.Players
+                .Include(p => p.ReceivedMessages)
+                .Include(p => p.ReceivedAttacks)
+                .Include(p => p.Workers)
+                .Include(p => p.Troops)
+                .Include(p => p.Buildings)
+                .Include(p => p.Invites)
+                .Single(p => EmailComparisonService.Equals(p.User.Email, query.Email));
+
+            return new PlayerHomeViewModel() {
+                HasNewMessages = player.ReceivedMessages.Any(m => !m.IsRead),
+                HasNewAttacks = player.ReceivedAttacks.Any(a => !a.IsRead),
+                NewAttackCount = player.ReceivedAttacks.Count(a => !a.IsRead),
+                TotalSoldierCasualties = player.ReceivedAttacks.Where(a => !a.IsRead).SelectMany(a => a.Rounds).Where(r => r.IsAggressor).Sum(r => r.Casualties.Sum(c => c.Soldiers)),
+                TotalMercenaryCasualties = player.ReceivedAttacks.Where(a => !a.IsRead).SelectMany(a => a.Rounds).Where(r => r.IsAggressor).Sum(r => r.Casualties.Sum(c => c.Mercenaries)),
+                HasNewMarketSales = player.HasNewMarketSales,
+                HasNewChatMessages = player.HasNewChatMessages,
+                HasHousingShortage = player.GetTheoreticalRecruitsPerDay() > player.GetAvailableHousingCapacity(),
+                HasUpkeepRunOut = player.HasUpkeepRunOut,
+                WillUpkeepRunOut = player.WillUpkeepRunOut(),
+                HasSoldierShortage = player.GetSoldierRecruitsPenalty() > 0,
+                HasNewInvites = player.Invites.Any(i => !i.IsRead),
+                CurrentPeasants = player.Peasants
+            };
         }
     }
 }
