@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.Linq;
+﻿using System.Linq;
 using VDT.Core.DependencyInjection;
 using WarOfEmpires.Database;
 using WarOfEmpires.Models.Players;
@@ -19,12 +18,6 @@ namespace WarOfEmpires.QueryHandlers.Players {
         [Audit]
         public NotificationsViewModel Execute(GetNotificationsQuery query) {
             var player = _context.Players
-                .Include(p => p.ReceivedMessages)
-                .Include(p => p.ReceivedAttacks)
-                .Include(p => p.Workers)
-                .Include(p => p.Troops)
-                .Include(p => p.Buildings)
-                .Include(p => p.Invites)
                 .Single(p => EmailComparisonService.Equals(p.User.Email, query.Email));
 
             return new NotificationsViewModel() {
