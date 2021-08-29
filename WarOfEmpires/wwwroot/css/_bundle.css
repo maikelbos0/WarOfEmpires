@@ -7510,6 +7510,8 @@ textarea.form-control-lg {
     --status-pact-color-subtle: #FDF89A; /* light yellow-green */
     --status-war-color: #FF8866; /* light red */
     --status-war-color-subtle: #FDA582; /* light red */
+    --status-new-color: #AAAAFF;
+    --status-new-color-subtle: #C1BDED;
     --transparent-color: rgba(0, 0, 0, 0); /* transparent */
 }
 
@@ -7640,6 +7642,10 @@ textarea.form-control-lg {
     background: linear-gradient(90deg, var(--status-war-color) 0%, var(--transparent-color) 100%);
 }
 
+.site-datagridview-cell-status-new:first-child {
+    background: linear-gradient(90deg, var(--status-new-color) 0%, var(--transparent-color) 100%);
+}
+
 .form-control.site-form-control-status-mine {
     background-color: var(--status-mine-color-subtle);
 }
@@ -7654,6 +7660,10 @@ textarea.form-control-lg {
 
 .form-control.site-form-control-status-war {
     background-color: var(--status-war-color-subtle);
+}
+
+.form-control.site-form-control-status-new {
+    background-color: var(--status-new-color-subtle);
 }
 
 .site-unrounded-start {

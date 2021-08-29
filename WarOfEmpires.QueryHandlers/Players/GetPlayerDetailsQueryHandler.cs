@@ -47,13 +47,14 @@ namespace WarOfEmpires.QueryHandlers.Players {
                     Defences = p.Buildings.SingleOrDefault(b => b.Type == BuildingType.Defences),
                     p.Alliance,
                     p.GrandOverlordTime,
-                    CanBeAttacked = p.Id != currentPlayer.Id && p.User.CreationDate <= DateTime.UtcNow.AddHours(-Player.NewPlayerTruceHours) && (p.Alliance == null || (p.Alliance.Id != currentAllianceId && !p.Alliance.NonAggressionPacts.Any(pact => pact.Alliances.Any(pa => pa.Id == currentAllianceId))))
+                    CanBeAttacked = p.Id != currentPlayer.Id && p.User.CreationDate <= DateTime.UtcNow.AddHours(-Player.NewPlayerTruceHours) && (p.Alliance == null || (p.Alliance.Id != currentAllianceId && !p.Alliance.NonAggressionPacts.Any(pact => pact.Alliances.Any(pa => pa.Id == currentAllianceId)))),
+                    p.User.CreationDate
                 })
                 .Single();
 
             return new PlayerDetailsViewModel() {
                 Id = player.Id,
-                Status = GetStatus(currentPlayer, player.Id, player.Alliance),
+                Status = GetStatus(currentPlayer, player.Id, player.Alliance, player.CreationDate),
                 Rank = player.Rank,
                 Title = _formatter.ToString(player.Title),
                 DisplayName = player.DisplayName,
@@ -67,9 +68,12 @@ namespace WarOfEmpires.QueryHandlers.Players {
             };
         }
 
-        private string GetStatus(Player currentPlayer, int id, Alliance alliance) {
+        private string GetStatus(Player currentPlayer, int id, Alliance alliance, DateTime creationDate) {
             if (currentPlayer.Id == id) {
                 return "Mine";
+            }
+            else if (creationDate > DateTime.UtcNow.AddHours(-Player.NewPlayerTruceHours)) {
+                return "New";
             }
             else if (currentPlayer.Alliance != null && alliance != null) {
                 if (currentPlayer.Alliance == alliance) {

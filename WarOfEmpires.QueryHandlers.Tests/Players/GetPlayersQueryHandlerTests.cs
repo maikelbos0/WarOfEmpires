@@ -53,7 +53,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
         [TestMethod]
         public void GetPlayersQueryHandler_Returns_Empty_Status_By_Default() {
             var builder = new FakeBuilder()
-                .WithPlayer(2, displayName: "Player")
+                .WithPlayer(2, displayName: "Player", creationDate: DateTime.UtcNow.AddHours(-24).AddMinutes(-1))
                 .WithPlayer(1);
 
             var handler = new GetPlayersQueryHandler(builder.Context, new EnumFormatter());
@@ -78,6 +78,21 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
 
             result.Should().HaveCount(1);
             result.Single().Status.Should().Be("Mine");
+        }
+
+        [TestMethod]
+        public void GetPlayersQueryHandler_Returns_Correct_Status_For_New() {
+            var builder = new FakeBuilder()
+                .WithPlayer(1)
+                .WithPlayer(2, displayName: "New", creationDate: DateTime.UtcNow.AddHours(-23).AddMinutes(-59));
+
+            var handler = new GetPlayersQueryHandler(builder.Context, new EnumFormatter());
+            var query = new GetPlayersQuery("test1@test.com", "New");
+
+            var result = handler.Execute(query);
+
+            result.Should().HaveCount(1);
+            result.Single().Status.Should().Be("New");
         }
 
         [TestMethod]

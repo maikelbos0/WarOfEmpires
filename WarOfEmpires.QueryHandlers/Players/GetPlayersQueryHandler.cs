@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using VDT.Core.DependencyInjection;
@@ -49,12 +50,13 @@ namespace WarOfEmpires.QueryHandlers.Players {
                         + (p.Troops.Sum(t => (int?)t.Soldiers) ?? 0)
                         + (p.Troops.Sum(t => (int?)t.Mercenaries) ?? 0),
                     p.Alliance,
-                    p.GrandOverlordTime
+                    p.GrandOverlordTime,
+                    p.User.CreationDate
                 })
                 .ToList()
                 .Select(p => new PlayerViewModel() {
                     Id = p.Id,
-                    Status = GetStatus(currentPlayer, p.Id, p.Alliance),
+                    Status = GetStatus(currentPlayer, p.Id, p.Alliance, p.CreationDate),
                     Rank = p.Rank,
                     Title = _formatter.ToString(p.Title),
                     DisplayName = p.DisplayName,
@@ -64,9 +66,12 @@ namespace WarOfEmpires.QueryHandlers.Players {
                 });
         }
 
-        private string GetStatus(Player currentPlayer, int id, Alliance alliance) {
+        private string GetStatus(Player currentPlayer, int id, Alliance alliance, DateTime creationDate) {
             if (currentPlayer.Id == id) {
                 return "Mine";
+            }
+            else if (creationDate > DateTime.UtcNow.AddHours(-Player.NewPlayerTruceHours)) {
+                return "New";
             }
             else if (currentPlayer.Alliance != null && alliance != null) {
                 if (currentPlayer.Alliance == alliance) {
