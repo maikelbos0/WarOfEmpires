@@ -64,7 +64,7 @@ namespace WarOfEmpires.QueryHandlers.Players {
                 });
         }
 
-        public string GetStatus(Player currentPlayer, int id, Alliance alliance) {
+        private string GetStatus(Player currentPlayer, int id, Alliance alliance) {
             if (currentPlayer.Id == id) {
                 return "Mine";
             }

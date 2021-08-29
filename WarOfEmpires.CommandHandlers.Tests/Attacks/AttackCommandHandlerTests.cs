@@ -19,7 +19,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Attacks {
             var builder = new FakeBuilder()
                 .WithGameStatus(1)
                 .WithPlayer(1, out var attacker)
-                .WithPlayer(2, out var defender);
+                .WithPlayer(2, out var defender, creationDate: DateTime.UtcNow.AddHours(-24).AddMinutes(-1));
 
             var handler = new AttackCommandHandler(new PlayerRepository(builder.Context), new GameStatusRepository(builder.Context));
             var command = new AttackCommand("Raid", "test1@test.com", 2, 10);
@@ -32,18 +32,35 @@ namespace WarOfEmpires.CommandHandlers.Tests.Attacks {
         }
 
         [TestMethod]
-        public void AttackCommandHandler_Throws_Exception_For_Truce() {
+        public void AttackCommandHandler_Throws_Exception_For_New_Player() {
             var builder = new FakeBuilder()
-                .WithGameStatus(1, phase: GamePhase.Truce)
-                .WithPlayer(1, out var player);
+                .WithGameStatus(1)
+                .WithPlayer(1, out var attacker)
+                .WithPlayer(2, out var defender, creationDate: DateTime.UtcNow.AddHours(-23).AddMinutes(-59));
 
             var handler = new AttackCommandHandler(new PlayerRepository(builder.Context), new GameStatusRepository(builder.Context));
-            var command = new AttackCommand("Raid", "test1@test.com", 1, 10);
+            var command = new AttackCommand("Raid", "test1@test.com", 2, 10);
 
             Action action = () => handler.Execute(command);
 
             action.Should().Throw<InvalidOperationException>();
-            player.DidNotReceiveWithAnyArgs().ExecuteAttack(default, default, default);
+            defender.DidNotReceiveWithAnyArgs().ExecuteAttack(default, default, default);
+        }
+
+        [TestMethod]
+        public void AttackCommandHandler_Throws_Exception_For_Truce() {
+            var builder = new FakeBuilder()
+                .WithGameStatus(1, phase: GamePhase.Truce)
+                .WithPlayer(1, out var attacker)
+                .WithPlayer(2, out var defender);
+
+            var handler = new AttackCommandHandler(new PlayerRepository(builder.Context), new GameStatusRepository(builder.Context));
+            var command = new AttackCommand("Raid", "test1@test.com", 2, 10);
+
+            Action action = () => handler.Execute(command);
+
+            action.Should().Throw<InvalidOperationException>();
+            defender.DidNotReceiveWithAnyArgs().ExecuteAttack(default, default, default);
         }
 
         [TestMethod]

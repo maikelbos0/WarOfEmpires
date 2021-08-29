@@ -15,8 +15,8 @@ namespace WarOfEmpires.Test.Utilities {
     public class FakePlayerBuilder : FakeUserBuilder {
         public Player Player { get; }
 
-        internal FakePlayerBuilder(FakeWarContext context, int id, string email, string password, string displayName, int rank, TitleType title, DateTime? lastOnline, UserStatus status, int attackTurns, int bankTurns, bool canAffordAnything, int stamina, TimeSpan? grandOverlordTime) 
-            : base(context, id, email, password, lastOnline, status) {
+        internal FakePlayerBuilder(FakeWarContext context, int id, string email, string password, string displayName, int rank, TitleType title, DateTime? lastOnline, UserStatus status, int attackTurns, int bankTurns, bool canAffordAnything, int stamina, TimeSpan? grandOverlordTime, DateTime creationDate) 
+            : base(context, id, email, password, lastOnline, status, creationDate) {
 
             Player = Substitute.For<Player>();
             Player.Alliance.Returns((Alliance)null);
