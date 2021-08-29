@@ -14,6 +14,7 @@ namespace WarOfEmpires.Domain.Security {
         public virtual string NewEmail { get; protected set; }
         public virtual int? NewEmailConfirmationCode { get; protected set; }
         public virtual DateTime? LastOnline { get; protected set; }
+        public virtual DateTime CreationDate { get; protected set; }
         public virtual ICollection<UserEvent> UserEvents { get; protected set; } = new List<UserEvent>();
 
         protected User() {
@@ -24,6 +25,7 @@ namespace WarOfEmpires.Domain.Security {
             Password = new Password(password);
             Status = UserStatus.New;
             ActivationCode = GetNewActivationCode();
+            CreationDate = DateTime.UtcNow;
             AddEvent(UserEventType.Registered);
         }
 

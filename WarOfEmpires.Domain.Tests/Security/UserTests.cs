@@ -13,6 +13,7 @@ namespace WarOfEmpires.Domain.Tests.Security {
 
             user.ActivationCode.Should().NotBeNull();
             user.Status.Should().Be(UserStatus.New);
+            user.CreationDate.Should().BeCloseTo(DateTime.UtcNow, 1000);
             user.UserEvents.Last().Type.Should().Be(UserEventType.Registered);
             user.UserEvents.Last().Date.Should().BeCloseTo(DateTime.UtcNow, 1000);
         }
