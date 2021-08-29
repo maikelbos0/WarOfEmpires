@@ -15,7 +15,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
             var builder = new FakeBuilder()
                 .WithPlayer(1)
                 .BuildAlliance(14)
-                .BuildMember(2, rank: 1)
+                .BuildMember(2, rank: 1, creationDate: DateTime.UtcNow.AddHours(-24).AddMinutes(-1))
                 .WithBuilding(BuildingType.Defences, 4)
                 .WithPopulation();
 
@@ -61,6 +61,20 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
 
             var result = handler.Execute(query);
             
+            result.CanBeAttacked.Should().BeFalse();
+        }
+
+        [TestMethod]
+        public void GetPlayerDetailsQueryHandler_Returns_CanBeAttacked_False_For_New_Player() {
+            var builder = new FakeBuilder()
+                .WithPlayer(1)
+                .WithPlayer(2, creationDate: DateTime.UtcNow.AddHours(-23).AddMinutes(-59));
+
+            var handler = new GetPlayerDetailsQueryHandler(builder.Context, new EnumFormatter());
+            var query = new GetPlayerDetailsQuery("test1@test.com", 1);
+
+            var result = handler.Execute(query);
+
             result.CanBeAttacked.Should().BeFalse();
         }
 

@@ -18,6 +18,7 @@ namespace WarOfEmpires.Domain.Players {
         public const decimal AttackWarCasualtiesModifier = 2.0m;
         public const int AttackStaminaDrainModifier = 2;
         public const int UpkeepWarningTurns = 48;
+        public const int NewPlayerTruceHours = 24;
 
         public static Resources MercenaryTrainingCost = new Resources(gold: 5000);
         public static Resources PeasantUpkeep = new Resources(food: 2);
