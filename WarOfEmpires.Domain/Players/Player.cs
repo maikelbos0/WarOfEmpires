@@ -535,5 +535,9 @@ namespace WarOfEmpires.Domain.Players {
         public virtual void Update(string displayName) {
             DisplayName = displayName;
         }
+
+        public virtual void Reset() {
+
+        }
     }
 }
