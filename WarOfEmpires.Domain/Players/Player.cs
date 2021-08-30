@@ -544,9 +544,7 @@ namespace WarOfEmpires.Domain.Players {
             Workers.Clear();
             Caravans.Clear();
             BuyTransactions.Clear();
-            SellTransactions.Clear();
             ReceivedAttacks.Clear();
-            ExecutedAttacks.Clear();
 
             Resources = new Resources(10000, 2000, 2000, 2000, 2000);
             BankedResources = new Resources();

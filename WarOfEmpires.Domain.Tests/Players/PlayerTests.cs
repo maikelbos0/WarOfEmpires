@@ -1293,8 +1293,6 @@ namespace WarOfEmpires.Domain.Tests.Players {
             var player = new Player(0, "Test");
             var otherPlayer = new Player(1, "Test 2");
 
-            // TODO: attack/bank turns, recruiting effort, stamina, new market sales, upkeep run out, title, creation date
-
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(1000000, 10000, 100000, 100000, 100000));
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(otherPlayer, new Resources(1000000, 10000, 100000, 100000, 100000));
             player.UpgradeBuilding(BuildingType.Barracks);
@@ -1326,9 +1324,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
             player.Troops.Should().BeEmpty();
             player.Workers.Should().BeEmpty();
             player.Caravans.Should().BeEmpty();
-            player.ExecutedAttacks.Should().BeEmpty();
             player.ReceivedAttacks.Should().BeEmpty();
-            player.SellTransactions.Should().BeEmpty();
             player.BankedResources.Should().Be(new Resources());
             player.Resources.Should().Be(new Resources(10000, 2000, 2000, 2000, 2000));
             player.AttackTurns.Should().Be(50);
