@@ -592,7 +592,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
             player.TrainTroops(TroopType.Archers, 2, 5);
 
             player.UntrainTroops(TroopType.Archers, 1, 4);
-            
+
             player.Troops.Single(t => t.Type == TroopType.Archers).Soldiers.Should().Be(1);
             player.Troops.Single(t => t.Type == TroopType.Archers).Mercenaries.Should().Be(1);
         }
@@ -956,7 +956,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_HealTroops_Succeeds() {
-            var player = new Player(0, "Test");            
+            var player = new Player(0, "Test");
             player.Troops.Add(new Troops(TroopType.Archers, 30, 10));
             player.Troops.Add(new Troops(TroopType.Cavalry, 20, 10));
             player.Troops.Add(new Troops(TroopType.Footmen, 20, 10));
@@ -1285,6 +1285,43 @@ namespace WarOfEmpires.Domain.Tests.Players {
             player.Update("New");
 
             player.DisplayName.Should().Be("New");
+        }
+
+        [TestMethod]
+        public void Player_Reset_Succeeds() {
+            var player = new Player(0, "Test");
+            var otherPlayer
+                = new Player(1, "Test 2");
+
+            // TODO: attack/bank turns, recruiting effort, stamina, new market sales, upkeep run out, title, creation date
+
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(1000000, 100000, 100000, 100000, 100000));
+            player.UpgradeBuilding(BuildingType.Barracks);
+            player.UpgradeBuilding(BuildingType.Market);
+            player.UpgradeBuilding(BuildingType.Defences);
+            player.TrainTroops(TroopType.Archers, 4, 4);
+            player.TrainWorkers(WorkerType.Merchants, 1);
+            player.TrainWorkers(WorkerType.SiegeEngineers, 1);
+            player.SellResources(new[] { new MerchandiseTotals(MerchandiseType.Wood, 1000, 10) });
+            player.BuildSiege(SiegeWeaponType.BatteringRams, 1);
+            player.ExecuteAttack(AttackType.Raid, otherPlayer, 1);
+            otherPlayer.ExecuteAttack(AttackType.Raid, player, 1);
+            player.Caravans.First().Buy(otherPlayer, MerchandiseType.Wood, 10);
+
+            player.Reset();
+            player.Buildings.Should().HaveSameCount(player.GetStartingBuildings());
+            foreach (var building in player.GetStartingBuildings()) {
+                player.Buildings.Should().Contain(b => b.Type == building.Type && b.Level == building.Level);
+            }
+            player.Peasants.Should().Be(10);
+            player.Troops.Should().BeEmpty();
+            player.Workers.Should().BeEmpty();
+            player.Caravans.Should().BeEmpty();
+            player.ExecutedAttacks.Should().BeEmpty();
+            player.ReceivedAttacks.Should().BeEmpty();
+            player.SellTransactions.Should().BeEmpty();
+            player.BankedResources.Should().Be(new Resources());
+            player.Resources.Should().Be(new Resources(10000, 2000, 2000, 2000, 2000));
         }
     }
 }

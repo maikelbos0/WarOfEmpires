@@ -537,7 +537,23 @@ namespace WarOfEmpires.Domain.Players {
         }
 
         public virtual void Reset() {
+            // TODO: attack/bank turns, recruiting effort, stamina, new market sales, upkeep run out, title, creation date
 
+            Buildings.Clear();
+            Troops.Clear();
+            Workers.Clear();
+            Caravans.Clear();
+            BuyTransactions.Clear();
+            SellTransactions.Clear();
+            ReceivedAttacks.Clear();
+            ExecutedAttacks.Clear();
+
+            Resources = new Resources(10000, 2000, 2000, 2000, 2000);
+            BankedResources = new Resources();
+            foreach (var building in GetStartingBuildings()) {
+                Buildings.Add(building);
+            }
+            Peasants = 10;
         }
     }
 }
