@@ -51,7 +51,7 @@ namespace WarOfEmpires.QueryHandlers.Players {
                         + (p.Troops.Sum(t => (int?)t.Mercenaries) ?? 0),
                     p.Alliance,
                     p.GrandOverlordTime,
-                    p.User.CreationDate
+                    p.CreationDate
                 })
                 .ToList()
                 .Select(p => new PlayerViewModel() {

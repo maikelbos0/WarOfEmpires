@@ -560,7 +560,7 @@ namespace WarOfEmpires.Domain.Players {
             Stamina = 100;
             HasUpkeepRunOut = false;
             HasNewMarketSales = false;
-            User.CreationDate = DateTime.UtcNow;
+            CreationDate = DateTime.UtcNow;
         }
     }
 }

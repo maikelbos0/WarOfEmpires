@@ -26,7 +26,6 @@ namespace WarOfEmpires.Domain.Security {
             Password = new Password(password);
             Status = UserStatus.New;
             ActivationCode = GetNewActivationCode();
-            CreationDate = DateTime.UtcNow;
             AddEvent(UserEventType.Registered);
         }
 

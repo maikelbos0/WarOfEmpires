@@ -47,8 +47,8 @@ namespace WarOfEmpires.QueryHandlers.Players {
                     Defences = p.Buildings.SingleOrDefault(b => b.Type == BuildingType.Defences),
                     p.Alliance,
                     p.GrandOverlordTime,
-                    CanBeAttacked = p.Id != currentPlayer.Id && p.User.CreationDate <= DateTime.UtcNow.AddHours(-Player.NewPlayerTruceHours) && (p.Alliance == null || (p.Alliance.Id != currentAllianceId && !p.Alliance.NonAggressionPacts.Any(pact => pact.Alliances.Any(pa => pa.Id == currentAllianceId)))),
-                    p.User.CreationDate
+                    CanBeAttacked = p.Id != currentPlayer.Id && p.CreationDate <= DateTime.UtcNow.AddHours(-Player.NewPlayerTruceHours) && (p.Alliance == null || (p.Alliance.Id != currentAllianceId && !p.Alliance.NonAggressionPacts.Any(pact => pact.Alliances.Any(pa => pa.Id == currentAllianceId)))),
+                    p.CreationDate
                 })
                 .Single();
 

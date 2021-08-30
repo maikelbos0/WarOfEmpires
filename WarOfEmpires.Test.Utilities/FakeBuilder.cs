@@ -29,12 +29,12 @@ namespace WarOfEmpires.Test.Utilities {
             return this;
         }
 
-        public FakeUserBuilder BuildUser(int id, string email = null, string password = "test", DateTime? lastOnline = null, UserStatus status = UserStatus.Active, DateTime? creationDate = null) {
-            return new FakeUserBuilder(Context, id, email, password, lastOnline, status, creationDate ?? DateTime.MinValue);
+        public FakeUserBuilder BuildUser(int id, string email = null, string password = "test", DateTime? lastOnline = null, UserStatus status = UserStatus.Active) {
+            return new FakeUserBuilder(Context, id, email, password, lastOnline, status);
         }
 
-        public FakeBuilder WithUser(int id, string email = null, string password = "test", DateTime? lastOnline = null, UserStatus status = UserStatus.Active, DateTime? creationDate = null) {
-            BuildUser(id, email, password, lastOnline, status, creationDate);
+        public FakeBuilder WithUser(int id, string email = null, string password = "test", DateTime? lastOnline = null, UserStatus status = UserStatus.Active) {
+            BuildUser(id, email, password, lastOnline, status);
 
             return this;
         }

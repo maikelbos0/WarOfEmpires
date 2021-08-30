@@ -35,7 +35,7 @@ namespace WarOfEmpires.CommandHandlers.Attacks {
                 throw new InvalidOperationException("You can't attack yourself");
             }
 
-            if (defender.User.CreationDate > DateTime.UtcNow.AddHours(-Player.NewPlayerTruceHours)) {
+            if (defender.CreationDate > DateTime.UtcNow.AddHours(-Player.NewPlayerTruceHours)) {
                 throw new InvalidOperationException("You can't attack a person within 24 hours of them joining the game");
             }
 

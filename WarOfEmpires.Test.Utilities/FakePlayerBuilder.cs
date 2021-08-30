@@ -16,7 +16,7 @@ namespace WarOfEmpires.Test.Utilities {
         public Player Player { get; }
 
         internal FakePlayerBuilder(FakeWarContext context, int id, string email, string password, string displayName, int rank, TitleType title, DateTime? lastOnline, UserStatus status, int attackTurns, int bankTurns, bool canAffordAnything, int stamina, TimeSpan? grandOverlordTime, DateTime creationDate) 
-            : base(context, id, email, password, lastOnline, status, creationDate) {
+            : base(context, id, email, password, lastOnline, status) {
 
             Player = Substitute.For<Player>();
             Player.Alliance.Returns((Alliance)null);
@@ -43,6 +43,7 @@ namespace WarOfEmpires.Test.Utilities {
             Player.CanAfford(Arg.Any<Resources>()).Returns(canAffordAnything);
             Player.Stamina.Returns(stamina);
             Player.GrandOverlordTime.Returns(grandOverlordTime ?? TimeSpan.Zero);
+            Player.CreationDate.Returns(creationDate);
 
             Context.Players.Add(Player);
         }
