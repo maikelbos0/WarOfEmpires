@@ -140,7 +140,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
         }
 
         [TestMethod]
-        public void GetPlayersQueryHandler_Returns_Correct_Status_For_New() {
+        public void GetPlayerDetailsQueryHandler_Returns_Correct_Status_For_New() {
             var builder = new FakeBuilder()
                 .WithPlayer(1)
                 .WithPlayer(2, displayName: "New", creationDate: DateTime.UtcNow.AddHours(-23).AddMinutes(-59));

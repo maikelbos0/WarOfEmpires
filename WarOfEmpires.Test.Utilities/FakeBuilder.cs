@@ -50,7 +50,7 @@ namespace WarOfEmpires.Test.Utilities {
         }
 
         public FakeBuilder WithPlayer(int id, string email = null, string password = "test", string displayName = null, int rank = 0, TitleType title = TitleType.SubChieftain, DateTime? lastOnline = null, UserStatus status = UserStatus.Active, int attackTurns = 20, int bankTurns = 1, bool canAffordAnything = true, int stamina = 100, TimeSpan? grandOverlordTime = null, DateTime? creationDate = null) {
-            BuildPlayer(id, email, password, displayName, rank, title, lastOnline, status, attackTurns, bankTurns, canAffordAnything, stamina, grandOverlordTime);
+            BuildPlayer(id, email, password, displayName, rank, title, lastOnline, status, attackTurns, bankTurns, canAffordAnything, stamina, grandOverlordTime, creationDate);
 
             return this;
         }
