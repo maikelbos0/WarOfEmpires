@@ -8,6 +8,7 @@ using WarOfEmpires.Domain.Common;
 using WarOfEmpires.Domain.Empires;
 using WarOfEmpires.Domain.Markets;
 using WarOfEmpires.Domain.Players;
+using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Domain.Siege;
 
 namespace WarOfEmpires.Domain.Tests.Players {
@@ -1290,23 +1291,32 @@ namespace WarOfEmpires.Domain.Tests.Players {
         [TestMethod]
         public void Player_Reset_Succeeds() {
             var player = new Player(0, "Test");
-            var otherPlayer
-                = new Player(1, "Test 2");
+            var otherPlayer = new Player(1, "Test 2");
 
             // TODO: attack/bank turns, recruiting effort, stamina, new market sales, upkeep run out, title, creation date
 
-            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(1000000, 100000, 100000, 100000, 100000));
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(1000000, 10000, 100000, 100000, 100000));
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(otherPlayer, new Resources(1000000, 10000, 100000, 100000, 100000));
             player.UpgradeBuilding(BuildingType.Barracks);
             player.UpgradeBuilding(BuildingType.Market);
             player.UpgradeBuilding(BuildingType.Defences);
             player.TrainTroops(TroopType.Archers, 4, 4);
+            otherPlayer.TrainTroops(TroopType.Archers, 4, 4);
             player.TrainWorkers(WorkerType.Merchants, 1);
             player.TrainWorkers(WorkerType.SiegeEngineers, 1);
             player.SellResources(new[] { new MerchandiseTotals(MerchandiseType.Wood, 1000, 10) });
             player.BuildSiege(SiegeWeaponType.BatteringRams, 1);
-            player.ExecuteAttack(AttackType.Raid, otherPlayer, 1);
-            otherPlayer.ExecuteAttack(AttackType.Raid, player, 1);
             player.Caravans.First().Buy(otherPlayer, MerchandiseType.Wood, 10);
+            do {
+                player.ProcessTurn();
+            }
+            while (!player.HasUpkeepRunOut);
+            player.ExecuteAttack(AttackType.Raid, otherPlayer, 10);
+            otherPlayer.ExecuteAttack(AttackType.Raid, player, 10);
+            player.Recruit();
+            typeof(Player).GetProperty(nameof(Player.User)).SetValue(player, new User("test1@test.com", "test"));
+            player.User.CreationDate = new DateTime(2020, 1, 1);
+            player.Tax = 25;            
 
             player.Reset();
             player.Buildings.Should().HaveSameCount(player.GetStartingBuildings());
@@ -1322,6 +1332,13 @@ namespace WarOfEmpires.Domain.Tests.Players {
             player.SellTransactions.Should().BeEmpty();
             player.BankedResources.Should().Be(new Resources());
             player.Resources.Should().Be(new Resources(10000, 2000, 2000, 2000, 2000));
+            player.AttackTurns.Should().Be(50);
+            player.BankTurns.Should().Be(6);
+            player.HasUpkeepRunOut.Should().BeFalse();
+            player.Stamina.Should().Be(100);
+            player.HasNewMarketSales.Should().BeFalse();
+            player.User.CreationDate.Should().BeCloseTo(DateTime.UtcNow, 1000);
+            player.Tax.Should().Be(50);
         }
     }
 }

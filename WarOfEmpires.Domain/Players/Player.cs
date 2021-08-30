@@ -537,8 +537,6 @@ namespace WarOfEmpires.Domain.Players {
         }
 
         public virtual void Reset() {
-            // TODO: attack/bank turns, recruiting effort, stamina, new market sales, upkeep run out, title, creation date
-
             Buildings.Clear();
             Troops.Clear();
             Workers.Clear();
@@ -554,6 +552,13 @@ namespace WarOfEmpires.Domain.Players {
                 Buildings.Add(building);
             }
             Peasants = 10;
+            AttackTurns = 50;
+            BankTurns = 6;
+            Tax = 50;
+            Stamina = 100;
+            HasUpkeepRunOut = false;
+            HasNewMarketSales = false;
+            User.CreationDate = DateTime.UtcNow;
         }
     }
 }
