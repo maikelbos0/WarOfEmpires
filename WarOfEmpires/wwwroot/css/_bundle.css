@@ -7510,8 +7510,8 @@ textarea.form-control-lg {
     --status-pact-color-subtle: #FDF89A; /* light yellow-green */
     --status-war-color: #FF8866; /* light red */
     --status-war-color-subtle: #FDA582; /* light red */
-    --status-new-color: #AAAAFF;
-    --status-new-color-subtle: #C1BDED;
+    --status-new-color: #AAAAFF; /* light blue */
+    --status-new-color-subtle: #C1BDED; /* light blue */
     --transparent-color: rgba(0, 0, 0, 0); /* transparent */
 }
 
