@@ -1313,7 +1313,8 @@ namespace WarOfEmpires.Domain.Tests.Players {
             otherPlayer.ExecuteAttack(AttackType.Raid, player, 10);
             player.Recruit();
             typeof(Player).GetProperty(nameof(Player.CreationDate)).SetValue(player, new DateTime(2020, 1, 1));
-            player.Tax = 25;            
+            player.Tax = 25;
+            typeof(Player).GetProperty(nameof(Player.GrandOverlordTime)).SetValue(player, TimeSpan.FromMinutes(1));
 
             player.Reset();
             player.Buildings.Should().HaveSameCount(player.GetStartingBuildings());
@@ -1334,6 +1335,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
             player.HasNewMarketSales.Should().BeFalse();
             player.CreationDate.Should().BeCloseTo(DateTime.UtcNow, 1000);
             player.Tax.Should().Be(50);
+            player.GrandOverlordTime.Should().Be(TimeSpan.Zero);
         }
     }
 }

@@ -559,6 +559,7 @@ namespace WarOfEmpires.Domain.Players {
             HasUpkeepRunOut = false;
             HasNewMarketSales = false;
             CreationDate = DateTime.UtcNow;
+            GrandOverlordTime = TimeSpan.Zero;
         }
     }
 }
