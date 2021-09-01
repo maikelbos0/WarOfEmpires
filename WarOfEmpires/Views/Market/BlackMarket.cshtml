@@ -15,8 +15,10 @@
     <li>Buy price: @Model.BuyPrice.ToString(StringFormat.Integer) <icon type="Gold" /></li>
 </ul>
 
-<form method="post" data-success-message="Your resources have been purchased.">
+<form method="post" data-success-message-buy="Your resources have been purchased." data-success-message-sell="Your resources have been sold.">
     <div asp-validation-summary="ModelOnly" class="site-validation-summary text-danger"></div>
+
+    <input type="hidden" asp-for="Command" />
 
     <div class="row">
         @for (var i = 0; i < Model.Merchandise.Count; i++) {

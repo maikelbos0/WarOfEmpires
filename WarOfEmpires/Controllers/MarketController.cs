@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Linq;
 using WarOfEmpires.Commands.Markets;
 using WarOfEmpires.Filters;
@@ -75,6 +76,22 @@ namespace WarOfEmpires.Controllers {
         [HttpGet(nameof(BlackMarket))]
         public ViewResult BlackMarket() {
             return View(_messageService.Dispatch(new GetBlackMarketQuery()));
+        }
+
+        [HttpPost(nameof(BlackMarket))]
+        public ActionResult BlackMarket(BlackMarketModel model) {
+            switch (model.Command) {
+                case "buy":
+                    return BuildViewResultFor(new BuyBlackMarketResourcesCommand(_authenticationService.Identity, model.Merchandise.Select(m => new BlackMarketMerchandiseInfo(m.Type, m.Quantity))))
+                        .OnSuccess(nameof(BlackMarket))
+                        .OnFailure(model);
+                case "sell":
+                    return BuildViewResultFor(new SellBlackMarketResourcesCommand(_authenticationService.Identity, model.Merchandise.Select(m => new BlackMarketMerchandiseInfo(m.Type, m.Quantity))))
+                        .OnSuccess(nameof(BlackMarket))
+                        .OnFailure(model);
+                default:
+                    throw new InvalidOperationException($"Invalid operation '{model.Command}' found");
+            }
         }
     }
 }
