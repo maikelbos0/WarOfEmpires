@@ -55,6 +55,8 @@
                             <div class="dropdown-divider"></div>
                             <a asp-controller="@Market.Route" asp-action="@nameof(Market.Buy)" class="dropdown-item">Buy resources</a>
                             <a asp-controller="@Market.Route" asp-action="@nameof(Market.BuyTransactions)" class="dropdown-item">Transactions</a>
+                            <div class="dropdown-divider"></div>
+                            <a asp-controller="@Market.Route" asp-action="@nameof(Market.BlackMarket)" class="dropdown-item">Black market</a>
                         </div>
                     </li>
 
@@ -143,8 +145,13 @@
                     </li>
                 }
                 else {
-                    <a asp-controller="@Home.Route" asp-action="@nameof(Home.LogIn)" class="nav-link">Log in</a>
-                    <a asp-controller="@Home.Route" asp-action="@nameof(Home.Register)" class="nav-link">Register</a>
+                    <li class="nav-item">
+                        <a asp-controller="@Home.Route" asp-action="@nameof(Home.LogIn)" class="nav-link">Log in</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a asp-controller="@Home.Route" asp-action="@nameof(Home.Register)" class="nav-link">Register</a>
+                    </li>
 
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbar-authentication-dropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

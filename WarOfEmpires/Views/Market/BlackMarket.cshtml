@@ -1,0 +1,45 @@
+﻿@model WarOfEmpires.Models.Markets.BlackMarketModel
+
+@{
+    ViewBag.Title = "Black market";
+}
+
+<h2>Black market</h2>
+
+<p>
+    On the black market you can and sell resources that you can't on the normal market.
+</p>
+
+<ul class="text-muted">
+    <li>Sell price: @Model.SellPrice.ToString(StringFormat.Integer) <icon type="Gold" /></li>
+    <li>Buy price: @Model.BuyPrice.ToString(StringFormat.Integer) <icon type="Gold" /></li>
+</ul>
+
+<form method="post" data-success-message="Your resources have been purchased.">
+    <div asp-validation-summary="ModelOnly" class="site-validation-summary text-danger"></div>
+
+    <div class="row">
+        @for (var i = 0; i < Model.Merchandise.Count; i++) {
+            <input type="hidden" asp-for="Merchandise[i].Type" />
+            <input type="hidden" asp-for="Merchandise[i].Name" />
+
+            <div class="col-12 col-md-6 col-lg-3">
+                <h4>@Model.Merchandise[i].Name</h4>
+
+                <div class="mb-3">
+                    <label asp-for="Merchandise[i].Quantity"></label>
+                    <input type="text" asp-for="Merchandise[i].Quantity" class="form-control" />
+                    <span asp-validation-for="Merchandise[i].Quantity" class="small form-text text-danger"></span>
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="row">
+        <div class="col-6 offset-6 col-md-3 offset-md-9"><button type="submit" class="btn btn-primary w-100" value="sell">Sell</button></div>
+    </div>
+
+    <div class="row mt-1">
+        <div class="col-6 offset-6 col-md-3 offset-md-9"><button type="submit" class="btn btn-secondary w-100" value="buy">Buy</button></div>
+    </div>
+</form>

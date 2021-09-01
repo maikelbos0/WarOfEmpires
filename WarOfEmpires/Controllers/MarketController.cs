@@ -71,5 +71,10 @@ namespace WarOfEmpires.Controllers {
         public JsonResult GetBuyTransactions(DataGridViewMetaData metaData) {
             return GridJson(new GetBuyTransactionsQuery(_authenticationService.Identity), metaData);
         }
+
+        [HttpGet(nameof(BlackMarket))]
+        public ViewResult BlackMarket() {
+            return View(_messageService.Dispatch(new GetBlackMarketQuery()));
+        }
     }
 }
