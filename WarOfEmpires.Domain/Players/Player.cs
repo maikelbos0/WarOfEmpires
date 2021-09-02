@@ -564,11 +564,9 @@ namespace WarOfEmpires.Domain.Players {
             GrandOverlordTime = TimeSpan.Zero;
         }
 
-        public void BuyResourcesFromBlackMarket(IEnumerable<BlackMarketMerchandiseTotals> merchandiseTotals) {
-            foreach (var totals in merchandiseTotals) {
-                SpendResources(new Resources(totals.Quantity * BlackMarketBuyPrice));
-                AddResources(totals.ToResources());
-            }
+        public virtual void BuyResourcesFromBlackMarket(BlackMarketMerchandiseTotals merchandiseTotals) {
+            SpendResources(new Resources(merchandiseTotals.Quantity * BlackMarketBuyPrice));
+            AddResources(merchandiseTotals.ToResources());
         }
     }
 }

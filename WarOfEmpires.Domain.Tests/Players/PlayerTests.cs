@@ -1342,14 +1342,9 @@ namespace WarOfEmpires.Domain.Tests.Players {
         public void Player_BuyResourcesFromBlackMarket_Succeeds() {
             var player = new Player(0, "Test");
 
-            player.BuyResourcesFromBlackMarket(new[] {
-                new BlackMarketMerchandiseTotals(MerchandiseType.Food, 1),
-                new BlackMarketMerchandiseTotals(MerchandiseType.Wood, 2),
-                new BlackMarketMerchandiseTotals(MerchandiseType.Stone, 3),
-                new BlackMarketMerchandiseTotals(MerchandiseType.Ore, 4),
-            });
+            player.BuyResourcesFromBlackMarket(new BlackMarketMerchandiseTotals(MerchandiseType.Food, 1));
 
-            player.Resources.Should().Be(new Resources(gold: 9800, food: 2001, wood: 2002, stone: 2003, ore: 2004));
+            player.Resources.Should().Be(new Resources(gold: 9980, food: 2001, wood: 2000, stone: 2000, ore: 2000));
         }
     }
 }
