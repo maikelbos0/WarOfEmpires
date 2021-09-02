@@ -19,6 +19,8 @@ namespace WarOfEmpires.Domain.Players {
         public const int AttackStaminaDrainModifier = 2;
         public const int UpkeepWarningTurns = 48;
         public const int NewPlayerTruceHours = 24;
+        public const int BlackMarketSellPrice = 1;
+        public const int BlackMarketBuyPrice = 20;
 
         public static Resources MercenaryTrainingCost = new Resources(gold: 5000);
         public static Resources PeasantUpkeep = new Resources(food: 2);
@@ -560,6 +562,13 @@ namespace WarOfEmpires.Domain.Players {
             HasNewMarketSales = false;
             CreationDate = DateTime.UtcNow;
             GrandOverlordTime = TimeSpan.Zero;
+        }
+
+        public void BuyResourcesFromBlackMarket(IEnumerable<BlackMarketMerchandiseTotals> merchandiseTotals) {
+            foreach (var totals in merchandiseTotals) {
+                SpendResources(new Resources(totals.Quantity * BlackMarketBuyPrice));
+                AddResources(totals.ToResources());
+            }
         }
     }
 }

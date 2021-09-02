@@ -1337,5 +1337,19 @@ namespace WarOfEmpires.Domain.Tests.Players {
             player.Tax.Should().Be(50);
             player.GrandOverlordTime.Should().Be(TimeSpan.Zero);
         }
+
+        [TestMethod]
+        public void Player_BuyResourcesFromBlackMarket_Succeeds() {
+            var player = new Player(0, "Test");
+
+            player.BuyResourcesFromBlackMarket(new[] {
+                new BlackMarketMerchandiseTotals(MerchandiseType.Food, 1),
+                new BlackMarketMerchandiseTotals(MerchandiseType.Wood, 2),
+                new BlackMarketMerchandiseTotals(MerchandiseType.Stone, 3),
+                new BlackMarketMerchandiseTotals(MerchandiseType.Ore, 4),
+            });
+
+            player.Resources.Should().Be(new Resources(gold: 9800, food: 2001, wood: 2002, stone: 2003, ore: 2004));
+        }
     }
 }

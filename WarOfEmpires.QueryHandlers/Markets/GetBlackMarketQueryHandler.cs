@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using VDT.Core.DependencyInjection;
 using WarOfEmpires.Domain.Markets;
+using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Models.Markets;
 using WarOfEmpires.Queries.Markets;
 using WarOfEmpires.QueryHandlers.Decorators;
@@ -18,8 +19,8 @@ namespace WarOfEmpires.QueryHandlers.Markets {
         [Audit]
         public BlackMarketModel Execute(GetBlackMarketQuery query) {
             return new BlackMarketModel() {
-                BuyPrice = BlackMarket.BuyPrice,
-                SellPrice = BlackMarket.SellPrice,
+                BuyPrice = Player.BlackMarketBuyPrice,
+                SellPrice = Player.BlackMarketSellPrice,
                 Merchandise = new List<BlackMarketMerchandiseModel>() { 
                     new BlackMarketMerchandiseModel() { Type = MerchandiseType.Food.ToString(), Name = _formatter.ToString(MerchandiseType.Food) },
                     new BlackMarketMerchandiseModel() { Type = MerchandiseType.Wood.ToString(), Name = _formatter.ToString(MerchandiseType.Wood) },
