@@ -38,8 +38,9 @@ namespace WarOfEmpires.CommandHandlers.Markets {
             }
 
             if (result.Success) {
-                foreach (var totals in merchandiseTotals)
-                player.BuyResourcesFromBlackMarket(totals);
+                foreach (var totals in merchandiseTotals) {
+                    player.BuyResourcesFromBlackMarket(totals);
+                }
 
                 _repository.SaveChanges();
             }

@@ -3,7 +3,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using WarOfEmpires.CommandHandlers.Markets;
 using WarOfEmpires.Commands.Markets;
 using WarOfEmpires.Domain.Markets;
