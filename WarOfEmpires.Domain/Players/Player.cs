@@ -568,5 +568,10 @@ namespace WarOfEmpires.Domain.Players {
             SpendResources(new Resources(merchandiseTotals.Quantity * BlackMarketBuyPrice));
             AddResources(merchandiseTotals.ToResources());
         }
+
+        public virtual void SellResourcesToBlackMarket(BlackMarketMerchandiseTotals merchandiseTotals) {
+            SpendResources(merchandiseTotals.ToResources());
+            AddResources(new Resources(merchandiseTotals.Quantity * BlackMarketSellPrice));
+        }
     }
 }

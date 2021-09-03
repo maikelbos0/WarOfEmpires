@@ -1346,5 +1346,14 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
             player.Resources.Should().Be(new Resources(gold: 9980, food: 2001, wood: 2000, stone: 2000, ore: 2000));
         }
+
+        [TestMethod]
+        public void Player_SellResourcesToBlackMarket_Succeeds() {
+            var player = new Player(0, "Test");
+
+            player.SellResourcesToBlackMarket(new BlackMarketMerchandiseTotals(MerchandiseType.Food, 1));
+
+            player.Resources.Should().Be(new Resources(gold: 10001, food: 1999, wood: 2000, stone: 2000, ore: 2000));
+        }
     }
 }
