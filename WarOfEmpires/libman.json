@@ -74,6 +74,7 @@
       "files": [
         "toastr.js",
         "build/toastr.min.js",
+        "build/toastr.js.map",
         "build/toastr.min.css",
         "build/toastr.css"
       ]
