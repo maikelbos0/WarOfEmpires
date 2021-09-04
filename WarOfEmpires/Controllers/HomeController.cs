@@ -233,5 +233,15 @@ namespace WarOfEmpires.Controllers {
         public ViewResult EmailChangeConfirmed() {
             return View();
         }
+
+        [Route(nameof(Error))]
+        [Route(nameof(Error) + "/{statusCode:int}")]
+        public ActionResult Error(int statusCode = 500) {
+            if (Request.Headers["X-Requested-With"] == "XMLHttpRequest") {
+                return new StatusCodeResult(statusCode);
+            }
+
+            return View(statusCode);
+        }
     }
 }

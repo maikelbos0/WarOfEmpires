@@ -40,6 +40,11 @@ namespace WarOfEmpires {
             if (env.IsDevelopment()) {
                 app.UseDeveloperExceptionPage();
             }
+            else {
+                app.UseStatusCodePagesWithReExecute("/Home/Error/{0}");
+                app.UseExceptionHandler("/Home/Error");
+                app.UseHsts();
+            }
 
             app.UseStaticFiles();
             app.UseRouting();
