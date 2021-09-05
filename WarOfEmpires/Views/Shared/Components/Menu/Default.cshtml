@@ -1,6 +1,6 @@
 ﻿@model WarOfEmpires.Models.Players.CurrentPlayerViewModel
 
-<nav class="navbar navbar-expand-lg navbar-toggleable-lg navbar-light bg-info">
+<nav class="navbar navbar-expand-lg navbar-light bg-info">
     <div class="container">
         <a asp-controller="@Home.Route" asp-action="@nameof(Home.Index)" class="navbar-brand">War of Empires</a>
 
@@ -8,8 +8,8 @@
             <span class="navbar-toggler-icon site-toggler-icon"></span>
         </button>
 
-        <div id="navbar-collapse" class="collapse d-lg-inline-flex flex-lg-row-reverse">
-            <ul class="navbar-nav ml-auto">
+        <div id="navbar-collapse" class="collapse navbar-collapse">
+            <ul class="navbar-nav ms-auto">
                 @if (Model.IsAuthenticated) {
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbar-player-dropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
