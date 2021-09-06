@@ -9,6 +9,7 @@
         Bank,
         Siege,
         Market,
+        University,
         Menu,
         Search
     }

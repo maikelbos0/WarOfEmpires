@@ -44,6 +44,10 @@
     background-image: url('icons/old-wagon.svg');
 }
 
+.si.si-university::after {
+    background-image: url('icons/book-cover.svg');
+}
+
 .si.si-menu::after {
     background-image: url('icons/open-book.svg');
 }

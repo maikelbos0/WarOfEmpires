@@ -44,6 +44,7 @@ namespace WarOfEmpires.QueryHandlers.Empires {
                     MapWorkers(player, WorkerType.OreMiners),
                     MapWorkers(player, WorkerType.SiegeEngineers),
                     MapWorkers(player, WorkerType.Merchants),
+                    MapWorkers(player, WorkerType.Scientists),
                 },
                 WorkerCost = _resourcesMap.ToViewModel(WorkerDefinitionFactory.Get(WorkerType.WoodWorkers).Cost),
                 UpkeepPerTurn = _resourcesMap.ToViewModel(player.GetUpkeepPerTurn()),
