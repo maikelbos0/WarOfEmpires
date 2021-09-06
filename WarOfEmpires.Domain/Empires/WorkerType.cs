@@ -5,6 +5,7 @@
         StoneMasons = 3,
         OreMiners = 4,
         SiegeEngineers = 5,
-        Merchants = 6
+        Merchants = 6,
+        Scientists = 7
     }
 }
