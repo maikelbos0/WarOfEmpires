@@ -11,7 +11,7 @@ namespace WarOfEmpires.Domain.Empires {
                 GenerateForge(),GenerateArmoury(), GenerateArcheryRange(), GenerateCavalryRange(), GenerateFootmanRange(),
                 GenerateDefences(), GenerateHuts(), GenerateBarracks(),
                 GenerateGoldBank(), GenerateFoodBank(), GenerateWoodBank(), GenerateStoneBank(), GenerateOreBank(),
-                GenerateSiegeFactory(), GenerateMarket()
+                GenerateSiegeFactory(), GenerateMarket(), GenerateUniversity()
             }) {
                 _buildings.Add(definition.Type, definition);
             }
@@ -260,6 +260,22 @@ namespace WarOfEmpires.Domain.Empires {
                 new ExpressionGenerator<string>((int level, int levelOffset) => $"Market (level {level})"),
                 descriptions,
                 new ExpressionGenerator<Resources>(SequenceGeneratorFactory.GetGeneratorFunction(new Resources(gold: 10000, wood: 1000, stone: 250, ore: 500))),
+                bonuses
+            );
+        }
+
+        private static BuildingDefinition GenerateUniversity() {
+            var descriptions = new ExpressionGenerator<string>("Your university allows your scientists to research various ways to improve your empire");
+            descriptions.Add(1, SequenceGeneratorFactory.GetGeneratorFunction((value) => $"Your university allows your scientists to research various ways to improve your empire; each scientist can perform {value * 5000} research"));
+
+            var bonuses = new ExpressionGenerator<int>(0);
+            bonuses.Add(1, SequenceGeneratorFactory.GetGeneratorFunction(5000));
+
+            return new BuildingDefinition(
+                BuildingType.University,
+                new ExpressionGenerator<string>((int level, int levelOffset) => $"University (level {level})"),
+                descriptions,
+                new ExpressionGenerator<Resources>(SequenceGeneratorFactory.GetGeneratorFunction(new Resources(gold: 10000, wood: 250, stone: 500, ore: 1000))),
                 bonuses
             );
         }

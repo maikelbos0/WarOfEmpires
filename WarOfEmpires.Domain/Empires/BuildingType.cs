@@ -18,6 +18,7 @@
         StoneBank = 16,
         OreBank = 17,
         SiegeFactory = 18,
-        Market = 19
+        Market = 19,
+        University = 20
     }
 }
