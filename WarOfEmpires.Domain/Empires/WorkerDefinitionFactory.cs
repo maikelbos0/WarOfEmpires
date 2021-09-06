@@ -7,7 +7,8 @@ namespace WarOfEmpires.Domain.Empires {
 
         static WorkerDefinitionFactory() {
             foreach (var definition in new[] {
-                GenerateFarmers(), GenerateWoodWorkers(), GenerateStoneMasons(), GenerateOreMiners(), GenerateSiegeEngineers(), GenerateMerchants()
+                GenerateFarmers(), GenerateWoodWorkers(), GenerateStoneMasons(), GenerateOreMiners(), 
+                GenerateSiegeEngineers(), GenerateMerchants(), GenerateScientists()
             }) {
                 _workers.Add(definition.Type, definition);
             }
@@ -35,6 +36,10 @@ namespace WarOfEmpires.Domain.Empires {
 
         private static WorkerDefinition GenerateMerchants() {
             return new WorkerDefinition(WorkerType.Merchants, BuildingType.Market, new Resources(gold: 2500, wood: 500, ore: 250), false);
+        }
+
+        private static WorkerDefinition GenerateScientists() {
+            return new WorkerDefinition(WorkerType.Scientists, BuildingType.University, new Resources(gold: 2500, wood: 250, stone: 250, ore: 250), false);
         }
 
         public static WorkerDefinition Get(WorkerType type) {
