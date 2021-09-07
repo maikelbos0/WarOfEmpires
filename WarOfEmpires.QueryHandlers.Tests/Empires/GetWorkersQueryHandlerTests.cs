@@ -48,7 +48,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
             result.UpkeepPerTurn.Gold.Should().Be(500);
             result.WorkerCost.Gold.Should().Be(250);
             result.WillUpkeepRunOut.Should().BeTrue();
-            result.Workers.Should().HaveCount(6);
+            result.Workers.Should().HaveCount(7);
 
             var woodWorkers = result.Workers.Single(s => s.Type == "WoodWorkers");
 
