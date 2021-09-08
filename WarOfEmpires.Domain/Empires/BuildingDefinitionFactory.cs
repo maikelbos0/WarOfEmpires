@@ -265,15 +265,12 @@ namespace WarOfEmpires.Domain.Empires {
         }
 
         private static BuildingDefinition GenerateUniversity() {
-            var descriptions = new ExpressionGenerator<string>("Your university allows your scientists to research various ways to improve your empire");
-            descriptions.Add(1, (int level, int levelOffset) => $"Your university allows your scientists to research various ways to improve your empire; each scientist can perform {level * 10} research");
-
             return new BuildingDefinition(
                 BuildingType.University,
                 new ExpressionGenerator<string>((int level, int levelOffset) => $"University (level {level})"),
-                descriptions,
+                new ExpressionGenerator<string>((int level, int levelOffset) => $"Your university allows your scientists to research various ways to improve your empire; each scientist can perform {5 + level} research"),
                 new ExpressionGenerator<Resources>(SequenceGeneratorFactory.GetGeneratorFunction(new Resources(gold: 10000, wood: 250, stone: 500, ore: 1000))),
-                new ExpressionGenerator<int>((int level, int levelOffset) => level * 10)
+                new ExpressionGenerator<int>((int level, int levelOffset) => 5 + level)
             );
         }
 
