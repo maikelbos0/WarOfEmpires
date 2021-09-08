@@ -63,6 +63,7 @@ namespace WarOfEmpires.Domain.Players {
         public virtual ICollection<Transaction> BuyTransactions { get; protected set; } = new List<Transaction>();
         public virtual ICollection<Transaction> SellTransactions { get; protected set; } = new List<Transaction>();
         public virtual ICollection<PlayerBlock> PlayerBlocks { get; protected set; } = new List<PlayerBlock>();
+        public virtual ICollection<QueuedResearch> ResearchQueue { get; protected set; } = new List<QueuedResearch>();
 
         protected Player() {
         }
@@ -572,6 +573,16 @@ namespace WarOfEmpires.Domain.Players {
         public virtual void SellResourcesToBlackMarket(BlackMarketMerchandiseTotals merchandiseTotals) {
             SpendResources(merchandiseTotals.ToResources());
             AddResources(new Resources(merchandiseTotals.Quantity * BlackMarketSellPrice));
+        }
+
+        public virtual void QueueResearch(ResearchType type) {
+            var priority = 1;
+
+            if (ResearchQueue.Any()) {
+                priority = ResearchQueue.Max(r => r.Priority) + 1;
+            }
+
+            ResearchQueue.Add(new QueuedResearch(this, priority, type));
         }
     }
 }
