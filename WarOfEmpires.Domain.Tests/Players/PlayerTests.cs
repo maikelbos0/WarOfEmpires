@@ -1379,5 +1379,29 @@ namespace WarOfEmpires.Domain.Tests.Players {
             player.ResearchQueue.Should().HaveCount(2);
             player.ResearchQueue.Single(r => r.Type == ResearchType.Efficiency).Priority.Should().Be(6);
         }
+
+        [TestMethod]
+        public void Player_PrioritizeResearch_Succeeds_For_Empty_Queue() {
+            var player = new Player(0, "Test");
+
+            player.PrioritizeResearch(ResearchType.Efficiency);
+
+            player.ResearchQueue.Should().HaveCount(1);
+            player.ResearchQueue.Single().Player.Should().Be(player);
+            player.ResearchQueue.Single().Type.Should().Be(ResearchType.Efficiency);
+            player.ResearchQueue.Single().Priority.Should().Be(1);
+        }
+
+        [TestMethod]
+        public void Player_PrioritizeResearch_Succeeds_For_Existing_Queue() {
+            var player = new Player(0, "Test");
+
+            player.ResearchQueue.Add(new QueuedResearch(player, 5, ResearchType.CombatMedicine));
+
+            player.PrioritizeResearch(ResearchType.Efficiency);
+
+            player.ResearchQueue.Should().HaveCount(2);
+            player.ResearchQueue.Single(r => r.Type == ResearchType.Efficiency).Priority.Should().Be(4);
+        }
     }
 }
