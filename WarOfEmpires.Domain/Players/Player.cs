@@ -584,5 +584,15 @@ namespace WarOfEmpires.Domain.Players {
 
             ResearchQueue.Add(new QueuedResearch(this, priority, type));
         }
+
+        public virtual void PrioritizeResearch(ResearchType type) {
+            var priority = 1;
+
+            if (ResearchQueue.Any()) {
+                priority = ResearchQueue.Min(r => r.Priority) - 1;
+            }
+
+            ResearchQueue.Add(new QueuedResearch(this, priority, type));
+        }
     }
 }
