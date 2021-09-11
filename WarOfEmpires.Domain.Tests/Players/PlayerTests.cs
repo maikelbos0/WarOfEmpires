@@ -1403,5 +1403,17 @@ namespace WarOfEmpires.Domain.Tests.Players {
             player.ResearchQueue.Should().HaveCount(2);
             player.ResearchQueue.Single(r => r.Type == ResearchType.Efficiency).Priority.Should().Be(4);
         }
+
+        [TestMethod]
+        public void Player_RemoveQueuedResearch_Succeeds() {
+            var player = new Player(0, "Test");
+            var research = new QueuedResearch(player, 5, ResearchType.CombatMedicine);
+
+            player.ResearchQueue.Add(research);
+
+            player.RemoveQueuedResearch(research);
+
+            player.ResearchQueue.Should().BeEmpty();
+        }
     }
 }

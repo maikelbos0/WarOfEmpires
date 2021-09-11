@@ -594,5 +594,9 @@ namespace WarOfEmpires.Domain.Players {
 
             ResearchQueue.Add(new QueuedResearch(this, priority, type));
         }
+
+        public virtual void RemoveQueuedResearch(QueuedResearch queuedResearch) {
+            ResearchQueue.Remove(queuedResearch);
+        }
     }
 }
