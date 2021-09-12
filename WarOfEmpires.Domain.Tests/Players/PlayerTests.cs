@@ -193,6 +193,22 @@ namespace WarOfEmpires.Domain.Tests.Players {
         }
 
         [TestMethod]
+        public void Player_ProcessTurn_Adds_ResearchTime() {
+            var player = new Player(0, "Test");
+            var priorityResearch = new QueuedResearch(player, 1, ResearchType.CombatMedicine);
+            var queuedResearch = new QueuedResearch(player, 2, ResearchType.Commerce);
+
+            player.Workers.Add(new Workers(WorkerType.Scientists, 10));
+            player.ResearchQueue.Add(queuedResearch);
+            player.ResearchQueue.Add(priorityResearch);
+
+            player.ProcessTurn();
+
+            priorityResearch.CompletedResearchTime.Should().Be(50);
+            queuedResearch.CompletedResearchTime.Should().Be(0);
+        }
+
+        [TestMethod]
         public void Player_ProcessTurn_Adds_AttackTurns() {
             var player = new Player(0, "Test");
 
@@ -232,6 +248,26 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
             player.Resources.Should().Be(previousResources - new Resources(food: previousResources.Food));
             player.HasUpkeepRunOut.Should().BeTrue();
+        }
+
+        [TestMethod]
+        public void Player_ProcessTurn_Does_Not_Add_ResearchTime_When_Out_Of_Food_Or_Gold() {
+            var player = new Player(0, "Test");
+            var research = new QueuedResearch(player, 1, ResearchType.CombatMedicine);
+
+            player.Workers.Add(new Workers(WorkerType.Scientists, 1));
+            player.ResearchQueue.Add(research);
+
+
+            while (player.CanAfford(player.GetUpkeepPerTurn())) {
+                player.ProcessTurn();
+            }
+
+            var previousResearchTime = research.CompletedResearchTime;
+
+            player.ProcessTurn();
+
+            research.CompletedResearchTime.Should().Be(previousResearchTime);
         }
 
         [TestMethod]

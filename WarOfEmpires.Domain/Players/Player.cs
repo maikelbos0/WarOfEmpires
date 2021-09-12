@@ -228,6 +228,10 @@ namespace WarOfEmpires.Domain.Players {
             if (CanAfford(upkeep)) {
                 SpendResources(upkeep);
                 Resources += GetResourcesPerTurn();
+
+                if (ResearchQueue.Any()) {
+                    ResearchQueue.OrderBy(r => r.Priority).First().ProcessTurn(GetWorkerCount(WorkerType.Scientists) * GetBuildingBonus(BuildingType.University));
+                }
             }
             else {
                 Resources = Resources.SubtractSafe(upkeep, out Resources remainder);
