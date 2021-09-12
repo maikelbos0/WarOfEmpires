@@ -1,4 +1,5 @@
-﻿using WarOfEmpires.Domain.Players;
+﻿using System.Linq;
+using WarOfEmpires.Domain.Players;
 
 namespace WarOfEmpires.Domain.Empires {
     public class QueuedResearch : Entity {
@@ -15,10 +16,20 @@ namespace WarOfEmpires.Domain.Empires {
             Type = type;
         }
 
-        public void ProcessTurn() {
-            /*
-             * Logic to add completed research, check if it's enough when comparing to player's current completed research, and add completed research and remove this if it's completed
-             */
+        public void ProcessTurn(long researchTime) {
+            CompletedResearchTime += researchTime;
+
+            var research = Player.Research.SingleOrDefault(r => r.Type == Type);
+
+            if (CompletedResearchTime >= ResearchTimeCalculator.GetResearchTime(Player.Research.Count, research?.Level ?? 0)) {
+                if (research == null) {
+                    research = new Research(Type);
+                    Player.Research.Add(research);
+                }
+
+                research.Level++;
+                Player.RemoveQueuedResearch(this);
+            }
         }
     }
 }
