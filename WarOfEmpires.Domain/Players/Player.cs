@@ -64,6 +64,7 @@ namespace WarOfEmpires.Domain.Players {
         public virtual ICollection<Transaction> SellTransactions { get; protected set; } = new List<Transaction>();
         public virtual ICollection<PlayerBlock> PlayerBlocks { get; protected set; } = new List<PlayerBlock>();
         public virtual ICollection<QueuedResearch> ResearchQueue { get; protected set; } = new List<QueuedResearch>();
+        public virtual ICollection<Research> Research { get; protected set; } = new List<Research>();
 
         protected Player() {
         }
