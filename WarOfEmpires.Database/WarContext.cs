@@ -119,6 +119,8 @@ namespace WarOfEmpires.Database {
             players.HasMany(p => p.BuyTransactions).WithOne().IsRequired().HasForeignKey("BuyerId");
             players.HasMany(p => p.Caravans).WithOne(c => c.Player).IsRequired();
             players.HasMany(p => p.Invites).WithOne(i => i.Player).IsRequired().OnDelete(DeleteBehavior.NoAction);
+            players.HasMany(p => p.QueuedResearch).WithOne(r => r.Player).IsRequired();
+            players.HasMany(p => p.Research).WithOne().IsRequired();
             players.Property(p => p.DisplayName).IsRequired().HasMaxLength(25);
             players.OwnsOne(p => p.Resources, pr => {
                 pr.Property(r => r.Gold).HasColumnName("Gold");
@@ -153,6 +155,13 @@ namespace WarOfEmpires.Database {
             workerTypes.Property(w => w.Name).IsRequired();
             workerTypes.HasData(ReferenceEntityExtensions.GetValues<Empires.WorkerType, WorkerTypeEntity>());
 
+            var researchTypes = modelBuilder.Entity<ResearchTypeEntity>().ToTable("ResearchTypes", "Empires");
+            researchTypes.HasKey(r => r.Id);
+            researchTypes.HasMany(r => r.Research).WithOne().IsRequired().HasForeignKey(r => r.Type);
+            researchTypes.HasMany(r => r.QueuedResearch).WithOne().IsRequired().HasForeignKey(r => r.Type);
+            researchTypes.Property(r => r.Name).IsRequired();
+            researchTypes.HasData(ReferenceEntityExtensions.GetValues<Empires.ResearchType, ResearchTypeEntity>());
+
             modelBuilder.Entity<Empires.Workers>().ToTable("Workers", "Empires").HasKey(t => t.Id);
 
             modelBuilder.Entity<Attacks.Troops>().ToTable("Troops", "Attacks").HasKey(t => t.Id);
@@ -160,6 +169,10 @@ namespace WarOfEmpires.Database {
             modelBuilder.Entity<Empires.Building>().ToTable("Buildings", "Empires").HasKey(b => b.Id);
 
             modelBuilder.Entity<Siege.SiegeWeapon>().ToTable("SiegeWeapons", "Siege").HasKey(w => w.Id);
+
+            modelBuilder.Entity<Empires.QueuedResearch>().ToTable("QueuedResearch", "Empires").HasKey(t => t.Id);
+
+            modelBuilder.Entity<Empires.Research>().ToTable("Research", "Empires").HasKey(t => t.Id);
 
             var messages = modelBuilder.Entity<Players.Message>().ToTable("Messages", "Players");
             messages.HasKey(m => m.Id);
