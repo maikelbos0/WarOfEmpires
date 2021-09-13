@@ -172,5 +172,34 @@ namespace WarOfEmpires.Test.Utilities {
         public FakePlayerBuilder WithPlayerBlock(int id, Player blockedPlayer) {
             return WithPlayerBlock(id, out _, blockedPlayer);
         }
+
+        public FakePlayerBuilder WithResearch(int id, out Research research, ResearchType type, int level) {
+            research = Substitute.For<Research>();
+
+            research.Id.Returns(id);
+            research.Type.Returns(type);
+            research.Level.Returns(level);
+
+            return this;
+        }
+
+        public FakePlayerBuilder WithResearch(int id, ResearchType type, int level) {
+            return WithResearch(id, out _, type, level);
+        }
+
+        public FakePlayerBuilder WithQueuedResearch(int id, out QueuedResearch queuedResearch, ResearchType type, int priority, long completedResearchTime = 0) {
+            queuedResearch = Substitute.For<QueuedResearch>();
+
+            queuedResearch.Id.Returns(id);
+            queuedResearch.Type.Returns(type);
+            queuedResearch.Priority.Returns(priority);
+            queuedResearch.CompletedResearchTime.Returns(completedResearchTime);
+
+            return this;
+        }
+
+        public FakePlayerBuilder WithQueuedResearch(int id, ResearchType type, int priority, long completedResearchTime = 0) {
+            return WithQueuedResearch(id, out _, type, priority, completedResearchTime);
+        }
     }
 }
