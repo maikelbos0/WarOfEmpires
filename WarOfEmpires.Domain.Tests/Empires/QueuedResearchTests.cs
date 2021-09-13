@@ -11,13 +11,13 @@ namespace WarOfEmpires.Domain.Tests.Empires {
             var player = new Player(0, "Test");
             var research = new QueuedResearch(player, 1, ResearchType.CombatMedicine);
 
-            player.ResearchQueue.Add(research);
+            player.QueuedResearch.Add(research);
 
             research.ProcessTurn(10);
 
             research.CompletedResearchTime.Should().Be(10);
             player.Research.Should().BeEmpty();
-            player.ResearchQueue.Should().BeEquivalentTo(research);
+            player.QueuedResearch.Should().BeEquivalentTo(research);
         }
 
         [TestMethod]
@@ -25,13 +25,13 @@ namespace WarOfEmpires.Domain.Tests.Empires {
             var player = new Player(0, "Test");
             var research = new QueuedResearch(player, 1, ResearchType.CombatMedicine);
 
-            player.ResearchQueue.Add(research);
+            player.QueuedResearch.Add(research);
 
             research.ProcessTurn(1000000);
 
             research.CompletedResearchTime.Should().Be(1000000);
             player.Research.Should().ContainSingle(r => r.Type == ResearchType.CombatMedicine && r.Level == 1);
-            player.ResearchQueue.Should().BeEmpty();
+            player.QueuedResearch.Should().BeEmpty();
         }
 
         [TestMethod]
@@ -40,13 +40,13 @@ namespace WarOfEmpires.Domain.Tests.Empires {
             var research = new QueuedResearch(player, 1, ResearchType.CombatMedicine);
 
             player.Research.Add(new Research(ResearchType.CombatMedicine) { Level = 2 });
-            player.ResearchQueue.Add(research);
+            player.QueuedResearch.Add(research);
 
             research.ProcessTurn(1000000);
 
             research.CompletedResearchTime.Should().Be(1000000);
             player.Research.Should().ContainSingle(r => r.Type == ResearchType.CombatMedicine && r.Level == 3);
-            player.ResearchQueue.Should().BeEmpty();
+            player.QueuedResearch.Should().BeEmpty();
         }
     }
 }

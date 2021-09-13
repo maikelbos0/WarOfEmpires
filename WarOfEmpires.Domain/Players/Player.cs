@@ -63,7 +63,7 @@ namespace WarOfEmpires.Domain.Players {
         public virtual ICollection<Transaction> BuyTransactions { get; protected set; } = new List<Transaction>();
         public virtual ICollection<Transaction> SellTransactions { get; protected set; } = new List<Transaction>();
         public virtual ICollection<PlayerBlock> PlayerBlocks { get; protected set; } = new List<PlayerBlock>();
-        public virtual ICollection<QueuedResearch> ResearchQueue { get; protected set; } = new List<QueuedResearch>();
+        public virtual ICollection<QueuedResearch> QueuedResearch { get; protected set; } = new List<QueuedResearch>();
         public virtual ICollection<Research> Research { get; protected set; } = new List<Research>();
 
         protected Player() {
@@ -229,8 +229,8 @@ namespace WarOfEmpires.Domain.Players {
                 SpendResources(upkeep);
                 Resources += GetResourcesPerTurn();
 
-                if (ResearchQueue.Any()) {
-                    ResearchQueue.OrderBy(r => r.Priority).First().ProcessTurn(GetWorkerCount(WorkerType.Scientists) * GetBuildingBonus(BuildingType.University));
+                if (QueuedResearch.Any()) {
+                    QueuedResearch.OrderBy(r => r.Priority).First().ProcessTurn(GetWorkerCount(WorkerType.Scientists) * GetBuildingBonus(BuildingType.University));
                 }
             }
             else {
@@ -583,25 +583,25 @@ namespace WarOfEmpires.Domain.Players {
         public virtual void QueueResearch(ResearchType type) {
             var priority = 1;
 
-            if (ResearchQueue.Any()) {
-                priority = ResearchQueue.Max(r => r.Priority) + 1;
+            if (QueuedResearch.Any()) {
+                priority = QueuedResearch.Max(r => r.Priority) + 1;
             }
 
-            ResearchQueue.Add(new QueuedResearch(this, priority, type));
+            QueuedResearch.Add(new QueuedResearch(this, priority, type));
         }
 
         public virtual void PrioritizeResearch(ResearchType type) {
             var priority = 1;
 
-            if (ResearchQueue.Any()) {
-                priority = ResearchQueue.Min(r => r.Priority) - 1;
+            if (QueuedResearch.Any()) {
+                priority = QueuedResearch.Min(r => r.Priority) - 1;
             }
 
-            ResearchQueue.Add(new QueuedResearch(this, priority, type));
+            QueuedResearch.Add(new QueuedResearch(this, priority, type));
         }
 
         public virtual void RemoveQueuedResearch(QueuedResearch queuedResearch) {
-            ResearchQueue.Remove(queuedResearch);
+            QueuedResearch.Remove(queuedResearch);
         }
     }
 }
