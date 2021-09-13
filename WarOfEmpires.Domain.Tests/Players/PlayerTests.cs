@@ -199,8 +199,8 @@ namespace WarOfEmpires.Domain.Tests.Players {
             var queuedResearch = new QueuedResearch(player, 2, ResearchType.Commerce);
 
             player.Workers.Add(new Workers(WorkerType.Scientists, 10));
-            player.ResearchQueue.Add(queuedResearch);
-            player.ResearchQueue.Add(priorityResearch);
+            player.QueuedResearch.Add(queuedResearch);
+            player.QueuedResearch.Add(priorityResearch);
 
             player.ProcessTurn();
 
@@ -256,7 +256,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
             var research = new QueuedResearch(player, 1, ResearchType.CombatMedicine);
 
             player.Workers.Add(new Workers(WorkerType.Scientists, 1));
-            player.ResearchQueue.Add(research);
+            player.QueuedResearch.Add(research);
 
 
             while (player.CanAfford(player.GetUpkeepPerTurn())) {
@@ -1398,22 +1398,22 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
             player.QueueResearch(ResearchType.Efficiency);
 
-            player.ResearchQueue.Should().HaveCount(1);
-            player.ResearchQueue.Single().Player.Should().Be(player);
-            player.ResearchQueue.Single().Type.Should().Be(ResearchType.Efficiency);
-            player.ResearchQueue.Single().Priority.Should().Be(1);
+            player.QueuedResearch.Should().HaveCount(1);
+            player.QueuedResearch.Single().Player.Should().Be(player);
+            player.QueuedResearch.Single().Type.Should().Be(ResearchType.Efficiency);
+            player.QueuedResearch.Single().Priority.Should().Be(1);
         }
 
         [TestMethod]
         public void Player_QueueResearch_Succeeds_For_Existing_Queue() {
             var player = new Player(0, "Test");
 
-            player.ResearchQueue.Add(new QueuedResearch(player, 5, ResearchType.CombatMedicine));
+            player.QueuedResearch.Add(new QueuedResearch(player, 5, ResearchType.CombatMedicine));
 
             player.QueueResearch(ResearchType.Efficiency);
 
-            player.ResearchQueue.Should().HaveCount(2);
-            player.ResearchQueue.Single(r => r.Type == ResearchType.Efficiency).Priority.Should().Be(6);
+            player.QueuedResearch.Should().HaveCount(2);
+            player.QueuedResearch.Single(r => r.Type == ResearchType.Efficiency).Priority.Should().Be(6);
         }
 
         [TestMethod]
@@ -1422,22 +1422,22 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
             player.PrioritizeResearch(ResearchType.Efficiency);
 
-            player.ResearchQueue.Should().HaveCount(1);
-            player.ResearchQueue.Single().Player.Should().Be(player);
-            player.ResearchQueue.Single().Type.Should().Be(ResearchType.Efficiency);
-            player.ResearchQueue.Single().Priority.Should().Be(1);
+            player.QueuedResearch.Should().HaveCount(1);
+            player.QueuedResearch.Single().Player.Should().Be(player);
+            player.QueuedResearch.Single().Type.Should().Be(ResearchType.Efficiency);
+            player.QueuedResearch.Single().Priority.Should().Be(1);
         }
 
         [TestMethod]
         public void Player_PrioritizeResearch_Succeeds_For_Existing_Queue() {
             var player = new Player(0, "Test");
 
-            player.ResearchQueue.Add(new QueuedResearch(player, 5, ResearchType.CombatMedicine));
+            player.QueuedResearch.Add(new QueuedResearch(player, 5, ResearchType.CombatMedicine));
 
             player.PrioritizeResearch(ResearchType.Efficiency);
 
-            player.ResearchQueue.Should().HaveCount(2);
-            player.ResearchQueue.Single(r => r.Type == ResearchType.Efficiency).Priority.Should().Be(4);
+            player.QueuedResearch.Should().HaveCount(2);
+            player.QueuedResearch.Single(r => r.Type == ResearchType.Efficiency).Priority.Should().Be(4);
         }
 
         [TestMethod]
@@ -1445,11 +1445,11 @@ namespace WarOfEmpires.Domain.Tests.Players {
             var player = new Player(0, "Test");
             var research = new QueuedResearch(player, 5, ResearchType.CombatMedicine);
 
-            player.ResearchQueue.Add(research);
+            player.QueuedResearch.Add(research);
 
             player.RemoveQueuedResearch(research);
 
-            player.ResearchQueue.Should().BeEmpty();
+            player.QueuedResearch.Should().BeEmpty();
         }
     }
 }
