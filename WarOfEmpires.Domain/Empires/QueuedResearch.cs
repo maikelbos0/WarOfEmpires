@@ -21,7 +21,7 @@ namespace WarOfEmpires.Domain.Empires {
 
             var research = Player.Research.SingleOrDefault(r => r.Type == Type);
 
-            if (CompletedResearchTime >= ResearchTimeCalculator.GetResearchTime(Player.Research.Count, research?.Level ?? 0)) {
+            if (CompletedResearchTime >= ResearchTimeCalculator.GetResearchTime(Player.Research.Sum(r => r.Level), research?.Level ?? 0)) {
                 if (research == null) {
                     research = new Research(Type);
                     Player.Research.Add(research);
