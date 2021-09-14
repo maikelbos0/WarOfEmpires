@@ -11,74 +11,53 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
     [TestClass]
     public sealed class GetResearchQueryHandlerTests {
         [TestMethod]
-        public void GetResearchQueryHandler_Returns_Correct_Research() {
+        public void GetResearchQueryHandler_Returns_Correct_Values_For_Existing_Research() {
             var builder = new FakeBuilder()
                 .BuildPlayer(1)
                 .WithResearch(1, ResearchType.CombatMedicine, 2);
 
             var handler = new GetResearchQueryHandler(builder.Context, new EnumFormatter());
-            var query = new GetResearchQuery("test1@test.com");
+            var query = new GetResearchQuery("test1@test.com", "CombatMedicine");
 
             var result = handler.Execute(query);
 
-            result.Research.Should().HaveCount(Enum.GetValues<ResearchType>().Length);
-
-            var tactics = result.Research.Should().ContainSingle(r => r.Type == ResearchType.Tactics.ToString()).Subject;
-
-            tactics.Name.Should().Be("Tactics");
-            tactics.Description.Should().Be("Tactics increases the number of casualties your army inflicts on the battlefield");
-            tactics.Level.Should().Be(0);
-            tactics.LevelBonus.Should().Be(0.05M);
-            tactics.CurrentBonus.Should().Be(0M);
-
-            var combatMedicine = result.Research.Should().ContainSingle(r => r.Type == ResearchType.CombatMedicine.ToString()).Subject;
-
-            combatMedicine.Name.Should().Be("Combat medicine");
-            combatMedicine.Description.Should().Be("Combat medicine lowers the number of casualties your army suffers in battle");
-            combatMedicine.Level.Should().Be(2);
-            combatMedicine.LevelBonus.Should().Be(0.04M);
-            combatMedicine.CurrentBonus.Should().Be(0.08M);
+            result.ResearchType.Should().Be("CombatMedicine");
+            result.Name.Should().Be("Combat medicine");
+            result.Description.Should().Be("Combat medicine lowers the number of casualties your army suffers in battle");
+            result.Level.Should().Be(2);
+            result.LevelBonus.Should().Be(0.04M);
+            result.CurrentBonus.Should().Be(0.08M);
         }
 
         [TestMethod]
-        public void GetResearchQueryHandler_Returns_Correct_QueuedResearch() {
+        public void GetResearchQueryHandler_Returns_Correct_Values_For_New_Research() {
             var builder = new FakeBuilder()
-                .BuildPlayer(1)
-                .WithResearch(1, ResearchType.CombatMedicine, 2)
-                .WithQueuedResearch(2, ResearchType.CombatMedicine, 3, 0)
-                .WithQueuedResearch(4, ResearchType.CombatMedicine, 1, completedResearchTime: 1500)
-                .WithQueuedResearch(3, ResearchType.Commerce, 2, completedResearchTime: 1000);
+                .BuildPlayer(1);
 
             var handler = new GetResearchQueryHandler(builder.Context, new EnumFormatter());
-            var query = new GetResearchQuery("test1@test.com");
+            var query = new GetResearchQuery("test1@test.com", "CombatMedicine");
 
             var result = handler.Execute(query);
 
-            result.QueuedResearch.Should().HaveCount(3);
+            result.ResearchType.Should().Be("CombatMedicine"); 
+            result.Name.Should().Be("Combat medicine");
+            result.Description.Should().Be("Combat medicine lowers the number of casualties your army suffers in battle");
+            result.Level.Should().Be(0);
+            result.LevelBonus.Should().Be(0.04M);
+            result.CurrentBonus.Should().Be(0M);
+        }
 
-            var combatMedicine1 = result.QueuedResearch.Should().ContainSingle(r => r.Id == 4).Subject;
+        [TestMethod]
+        public void GetResearchQueryHandler_Throws_Exception_For_Invalid_BuildingType() {
+            var builder = new FakeBuilder()
+                .BuildPlayer(1);
 
-            combatMedicine1.Type.Should().Be("CombatMedicine");
-            combatMedicine1.Name.Should().Be("Combat medicine");
-            combatMedicine1.Priority.Should().Be(1);
-            combatMedicine1.CompletedResearchTime.Should().Be(1500);
-            combatMedicine1.NeededResearchTime.Should().Be(55000);
+            var handler = new GetResearchQueryHandler(builder.Context, new EnumFormatter());
+            var query = new GetResearchQuery("test1@test.com", "Wrong");
 
-            var commerce = result.QueuedResearch.Should().ContainSingle(r => r.Id == 3).Subject;
+            Action action = () => handler.Execute(query);
 
-            commerce.Type.Should().Be("Commerce");
-            commerce.Name.Should().Be("Commerce");
-            commerce.Priority.Should().Be(2);
-            commerce.CompletedResearchTime.Should().Be(1000);
-            commerce.NeededResearchTime.Should().Be(20000);
-
-            var combatMedicine2 = result.QueuedResearch.Should().ContainSingle(r => r.Id == 2).Subject;
-
-            combatMedicine2.Type.Should().Be("CombatMedicine");
-            combatMedicine2.Name.Should().Be("Combat medicine");
-            combatMedicine2.Priority.Should().Be(3);
-            combatMedicine2.CompletedResearchTime.Should().Be(0);
-            combatMedicine2.NeededResearchTime.Should().Be(155000);
+            action.Should().Throw<ArgumentException>();
         }
     }
 }
