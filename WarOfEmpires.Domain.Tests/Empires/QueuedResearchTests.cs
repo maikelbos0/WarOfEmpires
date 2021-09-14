@@ -11,12 +11,14 @@ namespace WarOfEmpires.Domain.Tests.Empires {
             var player = new Player(0, "Test");
             var research = new QueuedResearch(player, 1, ResearchType.CombatMedicine);
 
+            player.Research.Add(new Research(ResearchType.CombatMedicine) { Level = 2 });
+            player.Research.Add(new Research(ResearchType.Commerce) { Level = 2 });
             player.QueuedResearch.Add(research);
 
-            research.ProcessTurn(10);
+            research.ProcessTurn(64999);
 
-            research.CompletedResearchTime.Should().Be(10);
-            player.Research.Should().BeEmpty();
+            research.CompletedResearchTime.Should().Be(64999);
+            player.Research.Should().ContainSingle(r => r.Type == ResearchType.CombatMedicine && r.Level == 2);
             player.QueuedResearch.Should().BeEquivalentTo(research);
         }
 
@@ -25,11 +27,13 @@ namespace WarOfEmpires.Domain.Tests.Empires {
             var player = new Player(0, "Test");
             var research = new QueuedResearch(player, 1, ResearchType.CombatMedicine);
 
+            player.Research.Add(new Research(ResearchType.Tactics) { Level = 2 });
+            player.Research.Add(new Research(ResearchType.Commerce) { Level = 2 });
             player.QueuedResearch.Add(research);
 
-            research.ProcessTurn(1000000);
+            research.ProcessTurn(25000);
 
-            research.CompletedResearchTime.Should().Be(1000000);
+            research.CompletedResearchTime.Should().Be(25000);
             player.Research.Should().ContainSingle(r => r.Type == ResearchType.CombatMedicine && r.Level == 1);
             player.QueuedResearch.Should().BeEmpty();
         }
@@ -40,11 +44,12 @@ namespace WarOfEmpires.Domain.Tests.Empires {
             var research = new QueuedResearch(player, 1, ResearchType.CombatMedicine);
 
             player.Research.Add(new Research(ResearchType.CombatMedicine) { Level = 2 });
+            player.Research.Add(new Research(ResearchType.Commerce) { Level = 2 });
             player.QueuedResearch.Add(research);
 
-            research.ProcessTurn(1000000);
+            research.ProcessTurn(65000);
 
-            research.CompletedResearchTime.Should().Be(1000000);
+            research.CompletedResearchTime.Should().Be(65000);
             player.Research.Should().ContainSingle(r => r.Type == ResearchType.CombatMedicine && r.Level == 3);
             player.QueuedResearch.Should().BeEmpty();
         }
