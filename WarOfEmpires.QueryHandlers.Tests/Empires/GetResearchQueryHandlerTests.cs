@@ -21,7 +21,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
 
             var result = handler.Execute(query);
 
-            result.Research.Should().HaveCount(Enum.GetValues(typeof(ResearchType)).Length);
+            result.Research.Should().HaveCount(Enum.GetValues<ResearchType>().Length);
 
             var tactics = result.Research.Should().ContainSingle(r => r.Type == ResearchType.Tactics.ToString()).Subject;
 
@@ -35,7 +35,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
 
             combatMedicine.Name.Should().Be("Combat medicine");
             combatMedicine.Description.Should().Be("Combat medicine lowers the number of casualties your army suffers in battle");
-            combatMedicine.Level.Should().Be(0);
+            combatMedicine.Level.Should().Be(2);
             combatMedicine.LevelBonus.Should().Be(0.04M);
             combatMedicine.CurrentBonus.Should().Be(0.08M);
         }
@@ -69,7 +69,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
             commerce.Type.Should().Be("Commerce");
             commerce.Name.Should().Be("Commerce");
             commerce.Priority.Should().Be(2);
-            commerce.CompletedResearchTime.Should().Be(0);
+            commerce.CompletedResearchTime.Should().Be(1000);
             commerce.NeededResearchTime.Should().Be(20000);
 
             var combatMedicine2 = result.QueuedResearch.Should().ContainSingle(r => r.Id == 2).Subject;
