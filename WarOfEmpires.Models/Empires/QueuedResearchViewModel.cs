@@ -3,7 +3,7 @@
         public string Type { get; set; }
         public string Name { get; set; }
         public int Priority { get; set; }
-        public int CompletedResearchTime { get; set; }
-        public int NeededResearchTime { get; set; }
+        public long CompletedResearchTime { get; set; }
+        public long NeededResearchTime { get; set; }
     }
 }
