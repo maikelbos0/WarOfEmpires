@@ -40,6 +40,8 @@ namespace WarOfEmpires.Test.Utilities {
             Player.SentMessages.Returns(new List<Message>());
             Player.ReceivedMessages.Returns(new List<Message>());
             Player.PlayerBlocks.Returns(new List<PlayerBlock>());
+            Player.QueuedResearch.Returns(new List<QueuedResearch>());
+            Player.Research.Returns(new List<Research>());
             Player.CanAfford(Arg.Any<Resources>()).Returns(canAffordAnything);
             Player.Stamina.Returns(stamina);
             Player.GrandOverlordTime.Returns(grandOverlordTime ?? TimeSpan.Zero);
@@ -179,6 +181,7 @@ namespace WarOfEmpires.Test.Utilities {
             research.Id.Returns(id);
             research.Type.Returns(type);
             research.Level.Returns(level);
+            Player.Research.Add(research);
 
             return this;
         }
@@ -194,6 +197,7 @@ namespace WarOfEmpires.Test.Utilities {
             queuedResearch.Type.Returns(type);
             queuedResearch.Priority.Returns(priority);
             queuedResearch.CompletedResearchTime.Returns(completedResearchTime);
+            Player.QueuedResearch.Add(queuedResearch);
 
             return this;
         }
