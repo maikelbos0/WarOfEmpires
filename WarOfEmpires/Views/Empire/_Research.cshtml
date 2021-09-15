@@ -23,7 +23,7 @@
     <button type="submit" class="btn btn-primary w-100 mb-3">Queue research</button>
 </form>
 
-<form asp-action="@nameof(Empire.Research)" method="post" data-success-message="@Model.Name is now being researched.">
+<form asp-action="@nameof(Empire.PrioritizeResearch)" method="post" data-success-message="@Model.Name is now being researched.">
     <input type="hidden" asp-for="Name" />
     <input type="hidden" asp-for="Description" />
     <input type="hidden" asp-for="ResearchType" />
