@@ -1,0 +1,46 @@
+﻿@model System.Collections.Generic.IEnumerable<WarOfEmpires.Models.Empires.QueuedResearchViewModel>
+
+@if (Model.Any()) {
+    int priority = 0;
+
+    <h3 class="mt-3">Queued research</h3>
+
+    <p>
+        When you cancel a research, all progress made on that research will be lost.
+    </p>
+
+    <table class="table table-borderless table-striped">
+        <thead>
+            <tr>
+                <th>Type</th>
+                <th>Priority</th>
+                <th>Research time needed</th>
+                <th>Completed</th>
+                <th></th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var research in Model) {
+                priority++;
+
+                <tr>
+                    <td class="table-form-label">@research.Name</td>
+                    <td class="table-form-label">@priority.ToString(StringFormat.Integer)</td>
+                    <td class="table-form-label">@research.NeededResearchTime.ToString(StringFormat.Integer) <icon type="University" /></td>
+                    <td class="table-form-label">@research.CompletedResearchTime.ToString(StringFormat.Integer) <icon type="University" /></td>
+                    <td>
+                        <form method="post" asp-action="@nameof(Empire.Research)" data-success-message="The research has been removed from your queue.">
+                            <input type="hidden" name="id" value="@research.Id" />
+
+                            <button type="submit" class="btn btn-secondary w-100">
+                                <span class="d-none d-lg-inline">Remove</span>
+                                <span class="d-lg-none">X</span>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
