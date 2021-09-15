@@ -195,5 +195,12 @@ namespace WarOfEmpires.Controllers {
                 .OnSuccess(nameof(_Research), model.ResearchType)
                 .ThrowOnFailure();
         }
+
+        [HttpPost(nameof(RemoveQueuedResearch))]
+        public ActionResult RemoveQueuedResearch(int id) {
+            return BuildViewResultFor(new RemoveQueuedResearchCommand(_authenticationService.Identity, id))
+                .OnSuccess(nameof(_QueuedResearch))
+                .ThrowOnFailure();
+        }
     }
 }
