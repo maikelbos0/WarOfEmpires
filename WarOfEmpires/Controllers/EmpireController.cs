@@ -166,5 +166,15 @@ namespace WarOfEmpires.Controllers {
                     throw new InvalidOperationException($"Invalid operation '{model.Command}' found");
             }
         }
+
+        [HttpGet(nameof(Research))]
+        public ViewResult Research() {
+            return View();
+        }
+
+        [HttpGet(nameof(_Research))]
+        public PartialViewResult _Research(string researchType) {
+            return PartialView(_messageService.Dispatch(new GetResearchQuery(_authenticationService.Identity, researchType)));
+        }
     }
 }

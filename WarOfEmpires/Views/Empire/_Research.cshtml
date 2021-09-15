@@ -1,0 +1,37 @@
+﻿@model WarOfEmpires.Models.Empires.ResearchViewModel
+
+<h4 class="mt-3">@Model.Name</h4>
+
+<p>@Model.Description</p>
+
+<ul class="text-muted">
+    <li>Bonus per level: @Model.LevelBonus.ToString(StringFormat.Percentage)</li>
+    <li>Current level: @Model.Level.ToString(StringFormat.Integer)</li>
+    <li>Current bonus: @Model.CurrentBonus.ToString(StringFormat.Percentage)</li>
+</ul>
+
+<form asp-action="@nameof(Empire.Research)" method="post" data-success-message="@Model.Name has been placed in the research queue.">
+    <input type="hidden" asp-for="Name" />
+    <input type="hidden" asp-for="Description" />
+    <input type="hidden" asp-for="ResearchType" />
+    <input type="hidden" asp-for="LevelBonus" />
+    <input type="hidden" asp-for="Level" />
+    <input type="hidden" asp-for="CurrentBonus" />
+
+    <div asp-validation-summary="ModelOnly" class="site-validation-summary text-danger"></div>
+
+    <button type="submit" class="btn btn-primary w-100 mb-3">Queue research</button>
+</form>
+
+<form asp-action="@nameof(Empire.Research)" method="post" data-success-message="@Model.Name is now being researched.">
+    <input type="hidden" asp-for="Name" />
+    <input type="hidden" asp-for="Description" />
+    <input type="hidden" asp-for="ResearchType" />
+    <input type="hidden" asp-for="LevelBonus" />
+    <input type="hidden" asp-for="Level" />
+    <input type="hidden" asp-for="CurrentBonus" />
+
+    <div asp-validation-summary="ModelOnly" class="site-validation-summary text-danger"></div>
+
+    <button type="submit" class="btn btn-secondary w-100">Research with top priority</button>
+</form>
