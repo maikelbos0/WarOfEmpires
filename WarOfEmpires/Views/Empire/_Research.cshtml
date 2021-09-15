@@ -10,7 +10,7 @@
     <li>Current bonus: @Model.CurrentBonus.ToString(StringFormat.Percentage)</li>
 </ul>
 
-<form asp-action="@nameof(Empire.Research)" method="post" data-success-message="@Model.Name has been placed in the research queue.">
+<form asp-action="@nameof(Empire.QueueResearch)" method="post" data-success-message="@Model.Name has been placed in the research queue.">
     <input type="hidden" asp-for="Name" />
     <input type="hidden" asp-for="Description" />
     <input type="hidden" asp-for="ResearchType" />
