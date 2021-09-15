@@ -176,5 +176,10 @@ namespace WarOfEmpires.Controllers {
         public PartialViewResult _Research(string researchType) {
             return PartialView(_messageService.Dispatch(new GetResearchQuery(_authenticationService.Identity, researchType)));
         }
+
+        [HttpGet(nameof(_QueuedResearch))]
+        public PartialViewResult _QueuedResearch() {
+            return PartialView(_messageService.Dispatch(new GetQueuedResearchQuery(_authenticationService.Identity)));
+        }
     }
 }
