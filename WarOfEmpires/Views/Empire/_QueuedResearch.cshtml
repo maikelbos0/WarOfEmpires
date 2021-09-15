@@ -30,7 +30,7 @@
                     <td class="table-form-label">@research.NeededResearchTime.ToString(StringFormat.Integer) <icon type="University" /></td>
                     <td class="table-form-label">@research.CompletedResearchTime.ToString(StringFormat.Integer) <icon type="University" /></td>
                     <td>
-                        <form method="post" asp-action="@nameof(Empire.Research)" data-success-message="The research has been removed from your queue.">
+                        <form method="post" asp-action="@nameof(Empire.RemoveQueuedResearch)" data-success-message="The research has been removed from your queue.">
                             <input type="hidden" name="id" value="@research.Id" />
 
                             <button type="submit" class="btn btn-secondary w-100">
