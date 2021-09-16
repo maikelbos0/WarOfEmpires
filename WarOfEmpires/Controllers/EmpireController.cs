@@ -185,14 +185,14 @@ namespace WarOfEmpires.Controllers {
         [HttpPost(nameof(QueueResearch))]
         public ActionResult QueueResearch(ResearchViewModel model) {
             return BuildViewResultFor(new QueueResearchCommand(_authenticationService.Identity, model.ResearchType))
-                .OnSuccess(nameof(_Research), model.ResearchType)
+                .OnSuccess(nameof(_Research), new { model.ResearchType })
                 .ThrowOnFailure();
         }
 
         [HttpPost(nameof(PrioritizeResearch))]
         public ActionResult PrioritizeResearch(ResearchViewModel model) {
             return BuildViewResultFor(new PrioritizeResearchCommand(_authenticationService.Identity, model.ResearchType))
-                .OnSuccess(nameof(_Research), model.ResearchType)
+                .OnSuccess(nameof(_Research), new { model.ResearchType })
                 .ThrowOnFailure();
         }
 
