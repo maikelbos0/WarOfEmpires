@@ -14,8 +14,10 @@
             <tr>
                 <th>Type</th>
                 <th>Priority</th>
-                <th>Research time needed</th>
+                <th>Research time</th>
                 <th>Completed</th>
+                <th>Still needed</th>
+                <th>Estimated time</th>
                 <th></th>
             </tr>
         </thead>
@@ -27,8 +29,10 @@
                 <tr>
                     <td class="table-form-label">@research.Name</td>
                     <td class="table-form-label">@priority.ToString(StringFormat.Integer)</td>
-                    <td class="table-form-label">@research.NeededResearchTime.ToString(StringFormat.Integer) <icon type="University" /></td>
+                    <td class="table-form-label">@research.ResearchTime.ToString(StringFormat.Integer) <icon type="University" /></td>
                     <td class="table-form-label">@research.CompletedResearchTime.ToString(StringFormat.Integer) <icon type="University" /></td>
+                    <td class="table-form-label">@research.NeededResearchTime.ToString(StringFormat.Integer) <icon type="University" /></td>
+                    <td class="table-form-label">@(((int)research.NeededTime.TotalHours).ToString(StringFormat.Integer)) hours and @research.NeededTime.Minutes.ToString(StringFormat.Integer) minutes</td>
                     <td>
                         <form method="post" asp-action="@nameof(Empire.RemoveQueuedResearch)" data-success-message="The research has been removed from your queue.">
                             <input type="hidden" name="id" value="@research.Id" />
