@@ -20,8 +20,8 @@
     default:
         if (Model.CurrentGrandOverlordId.HasValue && Model.CurrentGrandOverlordTime.HasValue) {
             <div class="bg-warning p-2 text-center fw-bold">
-                <a asp-controller="@Player.Route" asp-action="@nameof(Player.Details)" asp-route-id="@Model.CurrentGrandOverlordId">@Model.CurrentGrandOverlord</a> has been 
-                Grand Overlord for @((int)Model.CurrentGrandOverlordTime.Value.TotalHours) hours and @Model.CurrentGrandOverlordTime.Value.Minutes minutes. 
+                <a asp-controller="@Player.Route" asp-action="@nameof(Player.Details)" asp-route-id="@Model.CurrentGrandOverlordId">@Model.CurrentGrandOverlord</a> has been
+                Grand Overlord for @(((int)Model.CurrentGrandOverlordTime.Value.TotalHours).ToString(StringFormat.Integer)) hours and @Model.CurrentGrandOverlordTime.Value.Minutes.ToString(StringFormat.Integer) minutes.
                 When they reach @Model.GrandOverlordHoursToWin.ToString(StringFormat.Integer) hours they will win!
             </div>
         }
