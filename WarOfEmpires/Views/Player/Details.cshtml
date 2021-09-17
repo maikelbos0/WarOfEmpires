@@ -71,7 +71,7 @@
         @if (Model.GrandOverlordTime.HasValue) {
             <div class="mb-3">
                 <label>Grand overlord time</label>
-                <div class="form-control" readonly="readonly">@((int)Model.GrandOverlordTime.Value.TotalHours) hours and @Model.GrandOverlordTime.Value.Minutes minutes</div>
+                <div class="form-control" readonly="readonly">@(((int)Model.GrandOverlordTime.Value.TotalHours).ToString(StringFormat.Integer)) hours and @Model.GrandOverlordTime.Value.Minutes.ToString(StringFormat.Integer) minutes</div>
             </div>
         }
     </div>
