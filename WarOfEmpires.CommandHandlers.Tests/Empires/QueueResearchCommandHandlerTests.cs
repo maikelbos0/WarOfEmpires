@@ -37,6 +37,8 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
             Action action = () => handler.Execute(command);
 
             action.Should().Throw<ArgumentException>();
+            builder.Player.DidNotReceiveWithAnyArgs().QueueResearch(default);
+            builder.Context.CallsToSaveChanges.Should().Be(0);
         }
     }
 }

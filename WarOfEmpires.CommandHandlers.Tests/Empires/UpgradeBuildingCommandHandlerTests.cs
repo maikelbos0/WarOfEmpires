@@ -53,6 +53,8 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
             Action action = () => handler.Execute(command);
 
             action.Should().Throw<ArgumentException>();
+            builder.Player.DidNotReceiveWithAnyArgs().UpgradeBuilding(default);
+            builder.Context.CallsToSaveChanges.Should().Be(0);
         }
 
         [TestMethod]
