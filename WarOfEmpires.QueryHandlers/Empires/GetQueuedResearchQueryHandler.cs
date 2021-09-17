@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using VDT.Core.DependencyInjection;
@@ -24,26 +25,38 @@ namespace WarOfEmpires.QueryHandlers.Empires {
         [Audit]
         public IEnumerable<QueuedResearchViewModel> Execute(GetQueuedResearchQuery query) {
             var player = _context.Players
+                .Include(p => p.Buildings)
+                .Include(p => p.Workers)
                 .Include(p => p.Research)
                 .Include(p => p.QueuedResearch)
                 .Single(p => EmailComparisonService.Equals(p.User.Email, query.Email));
             var completedResearch = player.Research.Sum(r => r.Level);
+            var researchPerTurn = player.GetWorkerCount(WorkerType.Scientists) * player.GetBuildingBonus(BuildingType.University);
             var queuedResearch = player.QueuedResearch
                 .OrderBy(r => r.Priority)
-                .Select((r, i) => new { 
+                .Select((r, i) => new {
                     QueuedResearch = r,
+                    Research = player.Research.SingleOrDefault(s => s.Type == r.Type),
                     Index = i
                 })
                 .ToList();
 
-            return queuedResearch.Select(r => new QueuedResearchViewModel() {
-                Id = r.QueuedResearch.Id,
-                Type = r.QueuedResearch.Type.ToString(),
-                Name = _formatter.ToString(r.QueuedResearch.Type),
-                Priority = r.QueuedResearch.Priority,
-                CompletedResearchTime = r.QueuedResearch.CompletedResearchTime,
-                NeededResearchTime = ResearchTimeCalculator.GetResearchTime(completedResearch + r.Index, (player.Research.SingleOrDefault(s => s.Type == r.QueuedResearch.Type)?.Level ?? 0) + queuedResearch.Count(q => q.Index < r.Index && q.QueuedResearch.Type == r.QueuedResearch.Type))
-            }).ToList();
+            return queuedResearch
+                .Select(r => new {
+                    r.QueuedResearch,
+                    ResearchTime = ResearchTimeCalculator.GetResearchTime(completedResearch + r.Index, (r.Research?.Level ?? 0) + queuedResearch.Count(q => q.Index < r.Index && q.QueuedResearch.Type == r.QueuedResearch.Type))
+                })
+                .Select(r => new QueuedResearchViewModel() {
+                    Id = r.QueuedResearch.Id,
+                    Type = r.QueuedResearch.Type.ToString(),
+                    Name = _formatter.ToString(r.QueuedResearch.Type),
+                    Priority = r.QueuedResearch.Priority,
+                    ResearchTime = r.ResearchTime,
+                    CompletedResearchTime = r.QueuedResearch.CompletedResearchTime,
+                    NeededResearchTime = r.ResearchTime - r.QueuedResearch.CompletedResearchTime,
+                    NeededTime = TimeSpan.FromMinutes(Math.Ceiling(1.0 * (r.ResearchTime - r.QueuedResearch.CompletedResearchTime) / researchPerTurn) * 10)
+                })
+                .ToList();
         }
     }
 }
