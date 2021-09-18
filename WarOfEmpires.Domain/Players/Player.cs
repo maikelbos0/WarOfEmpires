@@ -291,6 +291,12 @@ namespace WarOfEmpires.Domain.Players {
             return (100m + GetBuildingBonus(type)) / 100m;
         }
 
+        public virtual decimal GetResearchBonusMultiplier(ResearchType type) {
+            var definition = ResearchDefinitionFactory.Get(type);
+
+            return 1 + definition.LevelBonus * (Research.SingleOrDefault(r => r.Type == type)?.Level ?? 0);
+        }
+
         public int GetSiegeWeaponCount(SiegeWeaponType type) {
             return SiegeWeapons.SingleOrDefault(w => w.Type == type)?.Count ?? 0;
         }
