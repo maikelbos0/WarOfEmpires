@@ -553,6 +553,8 @@ namespace WarOfEmpires.Domain.Players {
             Caravans.Clear();
             BuyTransactions.Clear();
             ReceivedAttacks.Clear();
+            QueuedResearch.Clear();
+            Research.Clear();
 
             Resources = new Resources(10000, 2000, 2000, 2000, 2000);
             BankedResources = new Resources();
