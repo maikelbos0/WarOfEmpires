@@ -369,6 +369,22 @@ namespace WarOfEmpires.Domain.Tests.Players {
         }
 
         [TestMethod]
+        public void Player_GetResearchBonusMultiplier_Succeeds_For_Nonexistent_ResearchType() {
+            var player = new Player(0, "Test");
+
+            player.GetResearchBonusMultiplier(ResearchType.CombatMedicine).Should().Be(1M);
+        }
+
+        [TestMethod]
+        public void Player_GetResearchBonusMultiplier_Succeeds_For_Existing_ResearchType() {
+            var player = new Player(0, "Test");
+
+            player.Research.Add(new Research(ResearchType.CombatMedicine) { Level = 3 });
+
+            player.GetResearchBonusMultiplier(ResearchType.CombatMedicine).Should().Be(1.12M);
+        }
+
+        [TestMethod]
         public void Player_GetSiegeWeaponCount_Succeeds_For_Nonexistent_SiegeWeaponType() {
             var player = new Player(0, "Test");
 
