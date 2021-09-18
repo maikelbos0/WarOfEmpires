@@ -147,7 +147,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
             player.GetGoldPerTurn().Should().Be(900);
         }
 
-        [DataTestMethod]
+        [TestMethod]
         public void Player_GetProduction_Is_Correct() {
             var player = new Player(0, "Test") {
                 Tax = 40
@@ -382,6 +382,20 @@ namespace WarOfEmpires.Domain.Tests.Players {
             player.Research.Add(new Research(ResearchType.CombatMedicine) { Level = 3 });
 
             player.GetResearchBonusMultiplier(ResearchType.CombatMedicine).Should().Be(1.12M);
+        }
+
+        [TestMethod]
+        public void Player_Research_Bonus_Is_Applied_For_Efficiency() {
+            var player = new Player(0, "Test") {
+                Tax = 40
+            };
+
+            player.Research.Add(new Research(ResearchType.Efficiency) { Level = 2 });
+            player.Research.Add(new Research(ResearchType.Commerce) { Level = 4 });
+            player.Buildings.Add(new Building(BuildingType.Lumberyard, 6));
+            player.Workers.Add(new Workers(WorkerType.WoodWorkers, 2));
+
+            player.GetProduction(WorkerType.WoodWorkers).GetTotalProduction().Should().Be(66);
         }
 
         [TestMethod]
