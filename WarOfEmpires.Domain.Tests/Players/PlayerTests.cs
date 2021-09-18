@@ -1351,8 +1351,11 @@ namespace WarOfEmpires.Domain.Tests.Players {
             typeof(Player).GetProperty(nameof(Player.CreationDate)).SetValue(player, new DateTime(2020, 1, 1));
             player.Tax = 25;
             typeof(Player).GetProperty(nameof(Player.GrandOverlordTime)).SetValue(player, TimeSpan.FromMinutes(1));
+            player.QueuedResearch.Add(new QueuedResearch(player, 1, ResearchType.CombatMedicine));
+            player.Research.Add(new Research(ResearchType.Commerce) { Level = 1 });
 
             player.Reset();
+
             player.Buildings.Should().HaveSameCount(player.GetStartingBuildings());
             foreach (var building in player.GetStartingBuildings()) {
                 player.Buildings.Should().Contain(b => b.Type == building.Type && b.Level == building.Level);
@@ -1372,6 +1375,8 @@ namespace WarOfEmpires.Domain.Tests.Players {
             player.CreationDate.Should().BeCloseTo(DateTime.UtcNow, 1000);
             player.Tax.Should().Be(50);
             player.GrandOverlordTime.Should().Be(TimeSpan.Zero);
+            player.QueuedResearch.Should().BeEmpty();
+            player.Research.Should().BeEmpty();
         }
 
         [TestMethod]
