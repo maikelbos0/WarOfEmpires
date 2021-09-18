@@ -103,7 +103,7 @@ namespace WarOfEmpires.Domain.Players {
         public ProductionInfo GetProduction(WorkerType workerType) {
             var buildingType = WorkerDefinitionFactory.Get(workerType).BuildingType;
 
-            return new ProductionInfo(GetWorkerCount(workerType), GetBuildingBonusMultiplier(buildingType), GetTaxRate());
+            return new ProductionInfo(GetWorkerCount(workerType), GetBuildingBonusMultiplier(buildingType) * GetResearchBonusMultiplier(ResearchType.Efficiency), GetTaxRate());
         }
 
         public virtual Resources GetUpkeepPerTurn() {
@@ -291,7 +291,7 @@ namespace WarOfEmpires.Domain.Players {
             return (100m + GetBuildingBonus(type)) / 100m;
         }
 
-        public virtual decimal GetResearchBonusMultiplier(ResearchType type) {
+        public decimal GetResearchBonusMultiplier(ResearchType type) {
             var definition = ResearchDefinitionFactory.Get(type);
 
             return 1 + definition.LevelBonus * (Research.SingleOrDefault(r => r.Type == type)?.Level ?? 0);
