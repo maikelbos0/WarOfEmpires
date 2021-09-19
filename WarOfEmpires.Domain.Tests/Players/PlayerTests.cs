@@ -381,7 +381,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
             player.Research.Add(new Research(ResearchType.CombatMedicine) { Level = 3 });
 
-            player.GetResearchBonusMultiplier(ResearchType.CombatMedicine).Should().Be(1.12M);
+            player.GetResearchBonusMultiplier(ResearchType.CombatMedicine).Should().Be(0.88M);
         }
 
         [TestMethod]
@@ -423,16 +423,11 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
             var damage = player.Troops.Sum(t => player.GetTroopInfo(t.Type).GetTotalDefense());
 
-            player.ProcessAttackDamage(damage * 10, true);
+            player.ProcessAttackDamage(damage * 10, 2M);
 
             player.Stamina.Should().Be(80);
             troops.Mercenaries.Should().Be(102);
         }
-
-        /*
-         * TODO
-         * Tactics
-         */
 
         [TestMethod]
         public void Player_GetSiegeWeaponCount_Succeeds_For_Nonexistent_SiegeWeaponType() {
@@ -739,7 +734,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
             var damage = player.Troops.Sum(t => player.GetTroopInfo(t.Type).GetTotalDefense());
 
-            player.ProcessAttackDamage(damage * 10, true);
+            player.ProcessAttackDamage(damage * 10, 2M);
 
             player.Stamina.Should().Be(80);
         }
@@ -754,7 +749,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
             var damage = player.Troops.Sum(t => player.GetTroopInfo(t.Type).GetTotalDefense());
 
-            player.ProcessAttackDamage(damage * 10, false);
+            player.ProcessAttackDamage(damage * 10, 1M);
 
             foreach (var troops in player.Troops) {
                 troops.Soldiers.Should().Be(150);
@@ -763,7 +758,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
         }
 
         [TestMethod]
-        public void Player_ProcessAttackDamage_Doubles_Casualties_With_War_Damage() {
+        public void Player_ProcessAttackDamage_Uses_CasualtiesModifier() {
             var player = new Player(0, "Test");
 
             player.Troops.Add(new Troops(TroopType.Archers, 150, 50));
@@ -772,7 +767,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
             var damage = player.Troops.Sum(t => player.GetTroopInfo(t.Type).GetTotalDefense());
 
-            player.ProcessAttackDamage(damage * 10, true);
+            player.ProcessAttackDamage(damage * 10, 2M);
 
             foreach (var troops in player.Troops) {
                 troops.Soldiers.Should().Be(150);
@@ -790,7 +785,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
             var damage = player.Troops.Sum(t => player.GetTroopInfo(t.Type).GetTotalDefense());
 
-            var casualties = player.ProcessAttackDamage(damage * 10, false);
+            var casualties = player.ProcessAttackDamage(damage * 10, 1M);
 
             casualties.Should().HaveCount(3);
 
@@ -806,7 +801,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
             player.Troops.Add(new Troops(TroopType.Archers, 0, 0));
 
-            var casualties = player.ProcessAttackDamage(1, true);
+            var casualties = player.ProcessAttackDamage(1, 2M);
 
             casualties.Should().HaveCount(0);
             player.Stamina.Should().Be(100);

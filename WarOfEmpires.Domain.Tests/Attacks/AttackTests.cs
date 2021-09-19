@@ -1,10 +1,12 @@
 ﻿using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NSubstitute;
 using System;
 using System.Linq;
 using WarOfEmpires.Domain.Alliances;
 using WarOfEmpires.Domain.Attacks;
 using WarOfEmpires.Domain.Common;
+using WarOfEmpires.Domain.Empires;
 using WarOfEmpires.Domain.Players;
 
 namespace WarOfEmpires.Domain.Tests.Attacks {
@@ -522,6 +524,23 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
             attack.Execute();
 
             attack.Rounds.Single(a => !a.IsAggressor).Damage.Should().Be(defender.Troops.Sum(t => t.GetTotals()) * 100);
+        }
+
+        [TestMethod]
+        public void Attack_ResearchBonus_Is_Applied_For_Tactics() {
+            var attacker = new Player(1, "Attacker");
+            var defender = Substitute.ForPartsOf<Player>(2, "Defender");
+            
+            attacker.Troops.Add(new Troops(TroopType.Archers, 600, 200));
+            attacker.Research.Add(new Research(ResearchType.Commerce) { Level = 2 });
+            attacker.Research.Add(new Research(ResearchType.Tactics) { Level = 4 });
+            defender.Troops.Add(new Troops(TroopType.Archers, 600, 200));
+
+            var attack = new Raid(attacker, defender, 10);
+
+            attack.Execute();
+
+            defender.Received().ProcessAttackDamage(Arg.Any<long>(), 1.2M);
         }
     }
 }
