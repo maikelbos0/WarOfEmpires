@@ -25,8 +25,8 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
             result.Name.Should().Be("Combat medicine");
             result.Description.Should().Be("Combat medicine lowers the number of casualties your army suffers in battle");
             result.Level.Should().Be(2);
-            result.LevelBonus.Should().Be(0.04M);
-            result.CurrentBonus.Should().Be(0.08M);
+            result.LevelBonus.Should().Be(-0.04M);
+            result.CurrentBonus.Should().Be(-0.08M);
         }
 
         [TestMethod]
@@ -43,7 +43,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
             result.Name.Should().Be("Combat medicine");
             result.Description.Should().Be("Combat medicine lowers the number of casualties your army suffers in battle");
             result.Level.Should().Be(0);
-            result.LevelBonus.Should().Be(0.04M);
+            result.LevelBonus.Should().Be(-0.04M);
             result.CurrentBonus.Should().Be(0M);
         }
 
