@@ -150,7 +150,7 @@ namespace WarOfEmpires.Domain.Players {
 
             var warCasualtiesModifier = hasWarDamage ? AttackWarCasualtiesModifier : 1.0m;
             var totalDefence = troops.Sum(t => t.Info.GetTotalDefense());
-            var casualties = troops.Select(t => t.Troops.ProcessCasualties((int)(t.Info.GetTotalDefense() * damage * warCasualtiesModifier / totalDefence / AttackDamageModifier / t.Info.GetDefensePerSoldier())));
+            var casualties = troops.Select(t => t.Troops.ProcessCasualties((int)(t.Info.GetTotalDefense() * damage * warCasualtiesModifier / totalDefence / AttackDamageModifier / t.Info.GetDefensePerSoldier() * GetResearchBonusMultiplier(ResearchType.CombatMedicine))));
 
             Stamina = Math.Max(0, (int)(Stamina - damage * AttackStaminaDrainModifier / totalDefence));
 
