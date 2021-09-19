@@ -31,7 +31,7 @@ namespace WarOfEmpires.Domain.Empires {
         private static ResearchDefinition GenerateCombatMedicine() {
             return new ResearchDefinition(
                 ResearchType.CombatMedicine,
-                0.04M,
+                -0.04M,
                 "Combat medicine lowers the number of casualties your army suffers in battle"
             );
         }

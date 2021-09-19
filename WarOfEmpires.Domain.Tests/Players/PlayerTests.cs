@@ -412,9 +412,25 @@ namespace WarOfEmpires.Domain.Tests.Players {
             player.GetGoldPerTurn().Should().Be(990);
         }
 
+        [TestMethod]
+        public void Player_ResearchBonus_Is_Applied_For_CombatMedicine() {
+            var player = new Player(0, "Test");
+            var troops = new Troops(TroopType.Archers, 450, 150);
+
+            player.Troops.Add(troops);
+            player.Research.Add(new Research(ResearchType.Commerce) { Level = 2 });
+            player.Research.Add(new Research(ResearchType.CombatMedicine) { Level = 5 });
+
+            var damage = player.Troops.Sum(t => player.GetTroopInfo(t.Type).GetTotalDefense());
+
+            player.ProcessAttackDamage(damage * 10, true);
+
+            player.Stamina.Should().Be(80);
+            troops.Mercenaries.Should().Be(102);
+        }
+
         /*
          * TODO
-         * Combat Medicine
          * Tactics
          */
 
