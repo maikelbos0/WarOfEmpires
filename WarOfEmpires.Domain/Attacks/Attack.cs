@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using WarOfEmpires.Domain.Common;
+using WarOfEmpires.Domain.Empires;
 using WarOfEmpires.Domain.Players;
 
 namespace WarOfEmpires.Domain.Attacks {
@@ -16,6 +17,7 @@ namespace WarOfEmpires.Domain.Attacks {
         public const decimal MinimumResourceArmyModifier = 0.5m;
         public const int RevengeExpirationHours = 16;
         public const int WarAttackExpirationHours = 16;
+        public const decimal WarCasualtiesModifier = 2.0m;
 
         private Random random = new Random();
 
@@ -72,8 +74,8 @@ namespace WarOfEmpires.Domain.Attacks {
                 var calculatedDefenderStamina = GetCalculatedStamina(defenderStamina);
 
                 foreach (TroopType troopType in Enum.GetValues(typeof(TroopType))) {
-                    AddRound(calculatedAttackerStamina, troopType, true, Attacker.GetTroopInfo(troopType), Defender);
-                    AddRound(calculatedDefenderStamina, troopType, false, Defender.GetTroopInfo(troopType), Attacker);
+                    AddRound(calculatedAttackerStamina, troopType, true, Attacker, Defender);
+                    AddRound(calculatedDefenderStamina, troopType, false, Defender, Attacker);
                 }
 
                 if (Attacker.Stamina - attackerStamina > Defender.Stamina - defenderStamina) {
@@ -100,11 +102,17 @@ namespace WarOfEmpires.Domain.Attacks {
             return resources - resources.SubtractSafe(Defender.Resources);
         }
 
-        private void AddRound(int stamina, TroopType troopType, bool isAggressor, TroopInfo attackerTroopInfo, Player defender) {
+        private void AddRound(int stamina, TroopType troopType, bool isAggressor, Player attacker, Player defender) {
+            var attackerTroopInfo = attacker.GetTroopInfo(troopType);
             var damage = CalculateDamage(stamina, isAggressor, attackerTroopInfo, defender);
+            var casualtiesModifier = attacker.GetResearchBonusMultiplier(ResearchType.Tactics);
 
             if (damage == 0) {
                 return;
+            }
+
+            if (HasWarDamage) {
+                casualtiesModifier *= WarCasualtiesModifier;
             }
 
             Rounds.Add(new AttackRound(
@@ -112,7 +120,7 @@ namespace WarOfEmpires.Domain.Attacks {
                 isAggressor,
                 attackerTroopInfo.Troops.GetTotals(),
                 damage,
-                defender.ProcessAttackDamage(damage, HasWarDamage)
+                defender.ProcessAttackDamage(damage, casualtiesModifier)
             ));
         }
 
