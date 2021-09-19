@@ -399,6 +399,26 @@ namespace WarOfEmpires.Domain.Tests.Players {
         }
 
         [TestMethod]
+        public void Player_Research_Bonus_Is_Applied_For_Commerce() {
+            var player = new Player(0, "Test") {
+                Tax = 30
+            };
+
+            player.Research.Add(new Research(ResearchType.Commerce) { Level = 2 });
+            player.Research.Add(new Research(ResearchType.Efficiency) { Level = 4 });
+            player.Workers.Add(new Workers(WorkerType.Farmers, 6));
+            player.Workers.Add(new Workers(WorkerType.SiegeEngineers, 1));
+
+            player.GetGoldPerTurn().Should().Be(990);
+        }
+
+        /*
+         * TODO
+         * Combat Medicine
+         * Tactics
+         */
+
+        [TestMethod]
         public void Player_GetSiegeWeaponCount_Succeeds_For_Nonexistent_SiegeWeaponType() {
             var player = new Player(0, "Test");
 

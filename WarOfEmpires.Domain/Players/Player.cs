@@ -89,7 +89,7 @@ namespace WarOfEmpires.Domain.Players {
         }
 
         public int GetGoldPerWorkerPerTurn() {
-            return (int)(GetTaxRate() * BaseGoldPerTurn);
+            return (int)(GetTaxRate() * BaseGoldPerTurn * GetResearchBonusMultiplier(ResearchType.Commerce));
         }
 
         public int GetGoldPerTurn() {
