@@ -258,7 +258,6 @@ namespace WarOfEmpires.Domain.Tests.Players {
             player.Workers.Add(new Workers(WorkerType.Scientists, 1));
             player.QueuedResearch.Add(research);
 
-
             while (player.CanAfford(player.GetUpkeepPerTurn())) {
                 player.ProcessTurn();
             }
