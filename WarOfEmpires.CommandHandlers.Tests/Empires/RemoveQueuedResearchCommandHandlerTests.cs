@@ -23,7 +23,6 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
             var result = handler.Execute(command);
 
             result.Success.Should().BeTrue();
-
             builder.Player.Received().RemoveQueuedResearch(queuedResearch);
             builder.Context.CallsToSaveChanges.Should().Be(1);
         }
