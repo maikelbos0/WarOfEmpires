@@ -58,3 +58,4 @@ steps:
     ArtifactName: database
 
 - task: PublishBuildArtifacts@1
+  displayName: 'Publish build artifacts'
