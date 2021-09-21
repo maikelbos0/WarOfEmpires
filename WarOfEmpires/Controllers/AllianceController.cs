@@ -356,5 +356,11 @@ namespace WarOfEmpires.Controllers {
                 .OnSuccess(nameof(Wars))
                 .ThrowOnFailure();
         }
+
+        [AllianceAuthorize]
+        [HttpGet(nameof(TransferResources))]
+        public ViewResult TransferResources() {
+            return View(_messageService.Dispatch(new GetTransferResourcesQuery(_authenticationService.Identity)));
+        }
     }
 }

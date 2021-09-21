@@ -67,6 +67,11 @@
                         <div class="dropdown-menu bg-info" aria-labelledby="navbar-alliance-dropdown">
                             @if (Model.IsInAlliance) {
                                 <a id="alliance-link" asp-controller="@Alliance.Route" asp-action="@nameof(Alliance.Home)" class="dropdown-item">Home</a>
+                                <a id="alliance-link" asp-controller="@Alliance.Route" asp-action="@nameof(Alliance.TransferResources)" class="dropdown-item">Transfer resources</a>
+
+                                if (Model.CanInvite || Model.CanManageRoles || Model.CanManageNonAggressionPacts || Model.CanManageWars) {
+                                    <div class="dropdown-divider"></div>
+                                }
 
                                 if (Model.CanInvite) {
                                     <a asp-controller="@Alliance.Route" asp-action="@nameof(Alliance.Invites)" class="dropdown-item">Invites</a>
@@ -84,6 +89,10 @@
 
                                 if (Model.CanManageWars) {
                                     <a asp-controller="@Alliance.Route" asp-action="@nameof(Alliance.Wars)" class="dropdown-item">Wars</a>
+                                }
+
+                                if (Model.CanTransferLeadership || Model.CanLeaveAlliance || Model.CanDisbandAlliance) {
+                                    <div class="dropdown-divider"></div>
                                 }
 
                                 if (Model.CanTransferLeadership) {
