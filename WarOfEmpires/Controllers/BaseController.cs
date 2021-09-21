@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
 using WarOfEmpires.ActionResults;
 using WarOfEmpires.Commands;
@@ -9,7 +8,7 @@ using WarOfEmpires.Queries;
 using WarOfEmpires.Services;
 
 namespace WarOfEmpires.Controllers {
-    public abstract class BaseController : Controller, IBaseController {
+    public abstract class BaseController : Controller {
         protected readonly IMessageService _messageService;
         protected readonly IAuthenticationService _authenticationService;
         protected readonly IDataGridViewService _dataGridViewService;
@@ -37,11 +36,6 @@ namespace WarOfEmpires.Controllers {
                 metaData,
                 data
             });
-        }
-
-        [NonAction]
-        public void AddResponseHeader(string name, string value) {
-            Response?.Headers.Add(name, value);
         }
     }
 }
