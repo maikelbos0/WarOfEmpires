@@ -6,7 +6,7 @@ namespace WarOfEmpires.Models.Alliances {
     public sealed class NewLeadersModel {
         [DisplayName("Member")]
         [Required(ErrorMessage = "Member is required")]
-        public string MemberId { get; set; }
+        public int? MemberId { get; set; }
 
         public List<NewLeaderModel> Members { get; set; }
     }

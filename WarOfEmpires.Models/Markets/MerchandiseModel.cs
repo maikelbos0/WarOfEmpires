@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 namespace WarOfEmpires.Models.Markets {
     public sealed class MerchandiseModel {
         [DisplayName("Quantity")]
-        [RegularExpression("^\\d{0,8}$", ErrorMessage = "Invalid number")]
+        [RegularExpression("^\\d{0,9}$", ErrorMessage = "Invalid number")]
         public int? Quantity { get; set; }
         [DisplayName("Price")]
         [RegularExpression("^\\d{0,6}$", ErrorMessage = "Invalid number")]
