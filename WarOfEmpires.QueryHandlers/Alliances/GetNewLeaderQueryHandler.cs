@@ -24,7 +24,6 @@ namespace WarOfEmpires.QueryHandlers.Alliances {
                 .Single(p => EmailComparisonService.Equals(p.User.Email, query.Email))
                 .Alliance;
 
-
             return new NewLeadersModel() {
                 Members = alliance.Members
                     .Where(p => alliance.Leader != p && p.User.Status == UserStatus.Active)
