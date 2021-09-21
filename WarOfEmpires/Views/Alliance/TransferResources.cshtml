@@ -1,0 +1,69 @@
+﻿@model WarOfEmpires.Models.Alliances.TransferResourcesModel
+
+@{
+    ViewBag.Title = "Transfer resources";
+}
+
+<h2>Transfer resources</h2>
+
+<p>
+    Transfer gold and resources to any member of your alliance. A tax will be applied when transferring resources that starts at 25% and gets steeper when transferring to players that outrank you.
+</p>
+
+<form method="post" class="html-only">
+    <div class="row">
+        <div class="col-12 col-md-6 col-lg-3">
+            <div class="mb-3">
+                <label asp-for="Food"></label>
+                <input type="text" asp-for="Food" class="form-control" />
+                <span asp-validation-for="Food" class="small form-text text-danger"></span>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-6 col-lg-3">
+            <div class="mb-3">
+                <label asp-for="Wood"></label>
+                <input type="text" asp-for="Wood" class="form-control" />
+                <span asp-validation-for="Wood" class="small form-text text-danger"></span>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-6 col-lg-3">
+            <div class="mb-3">
+                <label asp-for="Stone"></label>
+                <input type="text" asp-for="Stone" class="form-control" />
+                <span asp-validation-for="Stone" class="small form-text text-danger"></span>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-6 col-lg-3">
+            <div class="mb-3">
+                <label asp-for="Ore"></label>
+                <input type="text" asp-for="Ore" class="form-control" />
+                <span asp-validation-for="Ore" class="small form-text text-danger"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12 col-md-6 col-lg-3">
+            <div class="mb-3">
+                <label asp-for="Gold"></label>
+                <input type="text" asp-for="Gold" class="form-control" />
+                <span asp-validation-for="Gold" class="small form-text text-danger"></span>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-6 offset-lg-3">
+            <div class="mb-3">
+                <label asp-for="RecipientId" class="site-required"></label>
+                <select asp-for="RecipientId" asp-items="Model.Recipients.Select(p => new SelectListItem() { Value = p.Id.ToString(), Text = p.DisplayName })" class="form-select"></select>
+                <span asp-validation-for="RecipientId" class="small form-text text-danger"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-6 offset-6 col-md-3 offset-md-9"><button type="submit" class="btn btn-primary w-100">Transfer</button></div>
+    </div>
+</form>
