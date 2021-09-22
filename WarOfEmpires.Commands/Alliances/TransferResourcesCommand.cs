@@ -13,7 +13,7 @@
             RecipientId = recipientId;
             Gold = gold;
             Food = food;
-            Wood = Wood;
+            Wood = wood;
             Stone = stone;
             Ore = ore;
         }
