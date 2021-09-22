@@ -609,5 +609,10 @@ namespace WarOfEmpires.Domain.Players {
         public virtual void RemoveQueuedResearch(QueuedResearch queuedResearch) {
             QueuedResearch.Remove(queuedResearch);
         }
+
+        public virtual void TransferResources(Player recipient, Resources resources) {
+            SpendResources(resources);
+            recipient.AddResources(resources);
+        }
     }
 }
