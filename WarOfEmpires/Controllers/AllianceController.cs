@@ -362,5 +362,13 @@ namespace WarOfEmpires.Controllers {
         public ViewResult TransferResources() {
             return View(_messageService.Dispatch(new GetTransferResourcesQuery(_authenticationService.Identity)));
         }
+
+        [AllianceAuthorize]
+        [HttpPost(nameof(TransferResources))]
+        public ActionResult TransferResources(TransferResourcesModel model) {
+            return BuildViewResultFor(new TransferResourcesCommand(_authenticationService.Identity, model.RecipientId.Value, model.Gold, model.Food, model.Wood, model.Stone, model.Ore))
+                .OnSuccess(nameof(TransferResources))
+                .OnFailure(model);
+        }
     }
 }
