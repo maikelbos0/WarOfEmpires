@@ -1516,5 +1516,22 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
             player.QueuedResearch.Should().BeEmpty();
         }
+
+        [TestMethod]
+        public void Player_TransferResources_Succeeds() {
+            var sender = new Player(0, "Sender");
+            var recipient = new Player(0, "Recipient");
+
+            typeof(Player).GetProperty(nameof(Player.BankedResources)).SetValue(sender, new Resources(10000, 10000, 10000, 10000, 10000));
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(sender, new Resources(10000, 10000, 10000, 10000, 10000));
+
+            var previousResources = recipient.Resources;
+
+            sender.TransferResources(recipient, new Resources(11000, 12000, 13000, 14000, 15000));
+
+            sender.BankedResources.Should().Be(new Resources(9000, 8000, 7000, 6000, 5000));
+            sender.Resources.Should().Be(new Resources());
+            recipient.Resources.Should().Be(previousResources + new Resources(11000, 12000, 13000, 14000, 15000));
+        }
     }
 }
