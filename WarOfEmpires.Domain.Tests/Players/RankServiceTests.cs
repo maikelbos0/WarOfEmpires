@@ -33,6 +33,24 @@ namespace WarOfEmpires.Domain.Tests.Players {
         }
 
         [DataTestMethod]
+        [DataRow(100, 100, 1.0)]
+        [DataRow(50, 100, 0.5)]
+        [DataRow(100, 50, 2.0)]
+        [DataRow(100, 0, double.PositiveInfinity)]
+        [DataRow(0, 0, 1)]
+        public void RankService_GetRatio_Succeeds(int divident, int divisor, double expectedRatio) {
+            var dividentPlayer = new Player(0, "divident@test.com");
+            var divisorPlayer = new Player(0, "divisor@test.com");
+
+            dividentPlayer.Workers.Add(new Workers(WorkerType.WoodWorkers, divident));
+            divisorPlayer.Workers.Add(new Workers(WorkerType.WoodWorkers, divisor));
+
+            var service = new RankService();
+
+            service.GetRatio(dividentPlayer, divisorPlayer).Should().Be(expectedRatio);
+        }
+
+        [DataTestMethod]
         [DataRow(0, 60, 9999, TitleType.PeasantLeader, DisplayName = "Peasant Leader")]
         [DataRow(1, 60, 9999, TitleType.BanditLeader, DisplayName = "Bandit Leader")]
         [DataRow(2, 60, 9999, TitleType.WarbandLeader, DisplayName = "Warband Leader")]
