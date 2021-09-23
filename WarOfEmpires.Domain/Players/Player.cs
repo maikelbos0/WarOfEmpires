@@ -20,6 +20,7 @@ namespace WarOfEmpires.Domain.Players {
         public const int NewPlayerTruceHours = 24;
         public const int BlackMarketSellPrice = 1;
         public const int BlackMarketBuyPrice = 20;
+        public const double MinimumTransferTax = 0.25;
 
         public static Resources MercenaryTrainingCost = new Resources(gold: 5000);
         public static Resources PeasantUpkeep = new Resources(food: 2);
@@ -610,9 +611,11 @@ namespace WarOfEmpires.Domain.Players {
             QueuedResearch.Remove(queuedResearch);
         }
 
-        public virtual void TransferResources(Player recipient, Resources resources) {
+        public virtual void TransferResources(double ratio, Player recipient, Resources resources) {
+            decimal tax = (decimal)Math.Max(1 - ratio, MinimumTransferTax);
+
             SpendResources(resources);
-            recipient.AddResources(resources);
+            recipient.AddResources(resources * (1 - tax));
         }
     }
 }
