@@ -4,6 +4,7 @@ using VDT.Core.DependencyInjection;
 using WarOfEmpires.CommandHandlers.Decorators;
 using WarOfEmpires.Commands.Alliances;
 using WarOfEmpires.Domain.Common;
+using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Repositories.Players;
 
 namespace WarOfEmpires.CommandHandlers.Alliances {
@@ -11,9 +12,11 @@ namespace WarOfEmpires.CommandHandlers.Alliances {
     [TransientServiceImplementation(typeof(ICommandHandler<TransferResourcesCommand>))]
     public sealed class TransferResourcesCommandHandler : ICommandHandler<TransferResourcesCommand> {
         private readonly IPlayerRepository _repository;
+        private readonly IRankService _rankService;
 
-        public TransferResourcesCommandHandler(IPlayerRepository repository) {
+        public TransferResourcesCommandHandler(IPlayerRepository repository, IRankService rankService) {
             _repository = repository;
+            _rankService = rankService;
         }
 
         [Audit]
@@ -30,9 +33,9 @@ namespace WarOfEmpires.CommandHandlers.Alliances {
             if (!currentPlayer.CanAfford(resources)) {
                 result.AddError("You don't have enough resources available to transfer that much");
             }
-            
+
             if (result.Success) {
-                currentPlayer.TransferResources(recipient, resources);
+                currentPlayer.TransferResources(_rankService.GetRatio(currentPlayer, recipient), recipient, resources);
                 _repository.SaveChanges();
             }
 
