@@ -30,6 +30,7 @@ namespace WarOfEmpires.Domain.Players {
 
         public virtual string DisplayName { get; set; }
         public virtual Security.User User { get; protected set; }
+        public virtual Profile Profile { get; protected set; } = new Profile();
         /// <summary>
         /// Current number of expected recruits / 24
         /// </summary>
