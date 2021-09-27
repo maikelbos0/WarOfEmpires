@@ -5,6 +5,7 @@ using WarOfEmpires.Domain.Empires;
 using WarOfEmpires.Queries.Players;
 using WarOfEmpires.QueryHandlers.Players;
 using WarOfEmpires.Test.Utilities;
+using WarOfEmpires.Utilities.Configuration;
 using WarOfEmpires.Utilities.Formatting;
 
 namespace WarOfEmpires.QueryHandlers.Tests.Players {
@@ -19,8 +20,11 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
                 .WithBuilding(BuildingType.Defences, 4)
                 .WithPopulation()
                 .WithProfile(1, "A name", "Description", "1.jpeg");
+            var appSettings = new AppSettings() {
+                UserImageBaseUrl = "https://localhost/user"
+            };
 
-            var handler = new GetPlayerDetailsQueryHandler(builder.Context, new EnumFormatter());
+            var handler = new GetPlayerDetailsQueryHandler(builder.Context, new EnumFormatter(), appSettings);
             var query = new GetPlayerDetailsQuery("test1@test.com", 2);
 
             var result = handler.Execute(query);
@@ -38,7 +42,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
             result.GrandOverlordTime.Should().BeNull();
             result.FullName.Should().Be("A name");
             result.Description.Should().Be("Description");
-            result.AvatarLocation.Should().Be("1.jpeg");
+            result.AvatarLocation.Should().Be("https://localhost/user/1.jpeg");
         }
 
         [TestMethod]
@@ -47,7 +51,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
                 .WithPlayer(1)
                 .WithPlayer(2);
 
-            var handler = new GetPlayerDetailsQueryHandler(builder.Context, new EnumFormatter());
+            var handler = new GetPlayerDetailsQueryHandler(builder.Context, new EnumFormatter(), new AppSettings());
             var query = new GetPlayerDetailsQuery("test1@test.com", 2);
 
             var result = handler.Execute(query);
@@ -60,7 +64,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
             var builder = new FakeBuilder()
                 .WithPlayer(1);
 
-            var handler = new GetPlayerDetailsQueryHandler(builder.Context, new EnumFormatter());
+            var handler = new GetPlayerDetailsQueryHandler(builder.Context, new EnumFormatter(), new AppSettings());
             var query = new GetPlayerDetailsQuery("test1@test.com", 1);
 
             var result = handler.Execute(query);
@@ -74,7 +78,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
                 .WithPlayer(1)
                 .WithPlayer(2, creationDate: DateTime.UtcNow.AddHours(-23).AddMinutes(-59));
 
-            var handler = new GetPlayerDetailsQueryHandler(builder.Context, new EnumFormatter());
+            var handler = new GetPlayerDetailsQueryHandler(builder.Context, new EnumFormatter(), new AppSettings());
             var query = new GetPlayerDetailsQuery("test1@test.com", 1);
 
             var result = handler.Execute(query);
@@ -89,7 +93,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
                 .WithLeader(1)
                 .WithMember(2);
 
-            var handler = new GetPlayerDetailsQueryHandler(builder.Context, new EnumFormatter());
+            var handler = new GetPlayerDetailsQueryHandler(builder.Context, new EnumFormatter(), new AppSettings());
             var query = new GetPlayerDetailsQuery("test1@test.com", 2);
 
             var result = handler.Execute(query);
@@ -107,7 +111,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
                 .WithMember(2)
                 .WithNonAggressionPact(1, builder.Alliance);
 
-            var handler = new GetPlayerDetailsQueryHandler(builder.Context, new EnumFormatter());
+            var handler = new GetPlayerDetailsQueryHandler(builder.Context, new EnumFormatter(), new AppSettings());
             var query = new GetPlayerDetailsQuery("test1@test.com", 2);
 
             var result = handler.Execute(query);
@@ -121,7 +125,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
                 .WithPlayer(2, creationDate: DateTime.UtcNow.AddHours(-24).AddMinutes(-1))
                 .WithPlayer(1);
 
-            var handler = new GetPlayerDetailsQueryHandler(builder.Context, new EnumFormatter());
+            var handler = new GetPlayerDetailsQueryHandler(builder.Context, new EnumFormatter(), new AppSettings());
             var query = new GetPlayerDetailsQuery("test1@test.com", 2);
 
             var result = handler.Execute(query);
@@ -135,7 +139,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
                 .BuildAlliance(1)
                 .WithMember(1);
 
-            var handler = new GetPlayerDetailsQueryHandler(builder.Context, new EnumFormatter());
+            var handler = new GetPlayerDetailsQueryHandler(builder.Context, new EnumFormatter(), new AppSettings());
             var query = new GetPlayerDetailsQuery("test1@test.com", 1);
 
             var result = handler.Execute(query);
@@ -149,7 +153,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
                 .WithPlayer(1)
                 .WithPlayer(2, displayName: "New", creationDate: DateTime.UtcNow.AddHours(-23).AddMinutes(-59));
 
-            var handler = new GetPlayerDetailsQueryHandler(builder.Context, new EnumFormatter());
+            var handler = new GetPlayerDetailsQueryHandler(builder.Context, new EnumFormatter(), new AppSettings());
             var query = new GetPlayerDetailsQuery("test1@test.com", 2);
 
             var result = handler.Execute(query);
@@ -164,7 +168,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
                 .WithMember(1)
                 .WithMember(2, displayName: "Allied");
 
-            var handler = new GetPlayerDetailsQueryHandler(builder.Context, new EnumFormatter());
+            var handler = new GetPlayerDetailsQueryHandler(builder.Context, new EnumFormatter(), new AppSettings());
             var query = new GetPlayerDetailsQuery("test1@test.com", 2);
 
             var result = handler.Execute(query);
@@ -183,7 +187,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
                 .WithWar(1, builder.Alliance)
                 .WithNonAggressionPact(1, builder.Alliance);
 
-            var handler = new GetPlayerDetailsQueryHandler(builder.Context, new EnumFormatter());
+            var handler = new GetPlayerDetailsQueryHandler(builder.Context, new EnumFormatter(), new AppSettings());
             var query = new GetPlayerDetailsQuery("test1@test.com", 2);
 
             var result = handler.Execute(query);
@@ -201,7 +205,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
                 .WithMember(2, displayName: "Don't attack")
                 .WithWar(1, builder.Alliance);
 
-            var handler = new GetPlayerDetailsQueryHandler(builder.Context, new EnumFormatter());
+            var handler = new GetPlayerDetailsQueryHandler(builder.Context, new EnumFormatter(), new AppSettings());
             var query = new GetPlayerDetailsQuery("test1@test.com", 2);
 
             var result = handler.Execute(query);
@@ -214,7 +218,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
             var builder = new FakeBuilder()
                 .BuildPlayer(1, grandOverlordTime: TimeSpan.FromMinutes(1234));
 
-            var handler = new GetPlayerDetailsQueryHandler(builder.Context, new EnumFormatter());
+            var handler = new GetPlayerDetailsQueryHandler(builder.Context, new EnumFormatter(), new AppSettings());
             var query = new GetPlayerDetailsQuery("test1@test.com", 1);
 
             var result = handler.Execute(query);
@@ -227,7 +231,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
             var builder = new FakeBuilder()
                 .BuildPlayer(1);
 
-            var handler = new GetPlayerDetailsQueryHandler(builder.Context, new EnumFormatter());
+            var handler = new GetPlayerDetailsQueryHandler(builder.Context, new EnumFormatter(), new AppSettings());
             var query = new GetPlayerDetailsQuery("test1@test.com", 5);
 
             Action action = () => handler.Execute(query);

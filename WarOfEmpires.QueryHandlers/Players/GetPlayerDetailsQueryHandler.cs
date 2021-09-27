@@ -10,6 +10,7 @@ using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Models.Players;
 using WarOfEmpires.Queries.Players;
 using WarOfEmpires.QueryHandlers.Decorators;
+using WarOfEmpires.Utilities.Configuration;
 using WarOfEmpires.Utilities.Formatting;
 using WarOfEmpires.Utilities.Services;
 
@@ -18,10 +19,12 @@ namespace WarOfEmpires.QueryHandlers.Players {
     public sealed class GetPlayerDetailsQueryHandler : IQueryHandler<GetPlayerDetailsQuery, PlayerDetailsViewModel> {
         private readonly IWarContext _context;
         private readonly IEnumFormatter _formatter;
+        private readonly AppSettings _appSettings;
 
-        public GetPlayerDetailsQueryHandler(IWarContext context, IEnumFormatter formatter) {
+        public GetPlayerDetailsQueryHandler(IWarContext context, IEnumFormatter formatter, AppSettings appSettings) {
             _formatter = formatter;
             _context = context;
+            _appSettings = appSettings;
         }
 
         [Audit]
@@ -69,7 +72,7 @@ namespace WarOfEmpires.QueryHandlers.Players {
                 GrandOverlordTime = player.GrandOverlordTime == TimeSpan.Zero ? null : player.GrandOverlordTime,
                 FullName = player.Profile?.FullName,
                 Description = player.Profile?.Description,
-                AvatarLocation = player.Profile?.AvatarLocation
+                AvatarLocation = string.IsNullOrWhiteSpace(player.Profile?.AvatarLocation) ? null : $"{_appSettings.UserImageBaseUrl?.TrimEnd('/')}/{player.Profile.AvatarLocation}"
             };
         }
 
