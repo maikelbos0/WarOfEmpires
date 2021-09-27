@@ -6,5 +6,8 @@ namespace WarOfEmpires.Utilities.Configuration {
         public string ApplicationBaseUrl { get; set; }
         public string SendGridApiKey { get; set; }
         public string EmailFromAddress { get; set; }
+        public string BlobStorageConnectionString { get; set; }
+        public string BlobStorageContainer { get; set; }
+        public string UserImageBaseUrl { get; set; }
     }
 }
