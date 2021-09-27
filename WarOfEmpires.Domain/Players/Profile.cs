@@ -1,7 +1,7 @@
 ﻿namespace WarOfEmpires.Domain.Players {
-    public class Profile {
-        public string FullName { get; set; }
-        public string Description { get; set; }
-        public string AvatarLocation { get; set; }
+    public class Profile : Entity {
+        public virtual string FullName { get; set; }
+        public virtual string Description { get; set; }
+        public virtual string AvatarLocation { get; set; }
     }
 }
