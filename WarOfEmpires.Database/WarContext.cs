@@ -106,6 +106,7 @@ namespace WarOfEmpires.Database {
             var players = modelBuilder.Entity<Players.Player>().ToTable("Players", "Players");
             players.HasKey(p => p.Id);
             players.HasOne(p => p.User).WithOne().HasForeignKey<Players.Player>(p => p.Id);
+            players.HasOne(p => p.Profile).WithOne().HasForeignKey<Players.Profile>(p => p.Id);
             players.HasMany(p => p.Workers).WithOne().IsRequired();
             players.HasMany(p => p.Troops).WithOne().IsRequired();
             players.HasMany(p => p.SiegeWeapons).WithOne().IsRequired();
@@ -161,6 +162,8 @@ namespace WarOfEmpires.Database {
             researchTypes.HasMany(r => r.QueuedResearch).WithOne().IsRequired().HasForeignKey(r => r.Type);
             researchTypes.Property(r => r.Name).IsRequired();
             researchTypes.HasData(ReferenceEntityExtensions.GetValues<Empires.ResearchType, ResearchTypeEntity>());
+
+            modelBuilder.Entity<Players.Profile>().ToTable("Profiles", "Players").HasKey(p => p.Id);
 
             modelBuilder.Entity<Empires.Workers>().ToTable("Workers", "Empires").HasKey(t => t.Id);
 
