@@ -29,26 +29,28 @@ namespace WarOfEmpires.QueryHandlers.Players {
             var currentPlayer = _context.Players
                 .Include(p => p.Alliance).ThenInclude(a => a.Wars).ThenInclude(w => w.Alliances)
                 .Include(p => p.Alliance).ThenInclude(a => a.NonAggressionPacts).ThenInclude(p => p.Alliances)
+                .Include(p => p.Profile)
                 .Single(p => EmailComparisonService.Equals(p.User.Email, query.Email));
             var currentAllianceId = currentPlayer.Alliance?.Id;
-            
+
             // Materialize before setting the title
             var player = _context.Players
                 .Where(p => p.User.Status == UserStatus.Active && p.Id == query.Id)
-                .Select( p => new {
+                .Select(p => new {
                     p.Id,
                     p.Rank,
                     p.Title,
                     p.DisplayName,
                     Population = p.Peasants
-                        + (p.Workers.Sum(w => (int?)w.Count) ?? 0)
-                        + (p.Troops.Sum(t => (int?)t.Soldiers) ?? 0)
-                        + (p.Troops.Sum(t => (int?)t.Mercenaries) ?? 0),
+                       + (p.Workers.Sum(w => (int?)w.Count) ?? 0)
+                       + (p.Troops.Sum(t => (int?)t.Soldiers) ?? 0)
+                       + (p.Troops.Sum(t => (int?)t.Mercenaries) ?? 0),
                     Defences = p.Buildings.SingleOrDefault(b => b.Type == BuildingType.Defences),
                     p.Alliance,
                     p.GrandOverlordTime,
                     CanBeAttacked = p.Id != currentPlayer.Id && p.CreationDate <= DateTime.UtcNow.AddHours(-Player.NewPlayerTruceHours) && (p.Alliance == null || (p.Alliance.Id != currentAllianceId && !p.Alliance.NonAggressionPacts.Any(pact => pact.Alliances.Any(pa => pa.Id == currentAllianceId)))),
-                    p.CreationDate
+                    p.CreationDate,
+                    p.Profile
                 })
                 .Single();
 
@@ -64,7 +66,10 @@ namespace WarOfEmpires.QueryHandlers.Players {
                 AllianceCode = player.Alliance?.Code,
                 AllianceName = player.Alliance?.Name,
                 CanBeAttacked = player.CanBeAttacked,
-                GrandOverlordTime = player.GrandOverlordTime == TimeSpan.Zero ? null : player.GrandOverlordTime
+                GrandOverlordTime = player.GrandOverlordTime == TimeSpan.Zero ? null : player.GrandOverlordTime,
+                FullName = player.Profile?.FullName,
+                Description = player.Profile?.Description,
+                AvatarLocation = player.Profile?.AvatarLocation
             };
         }
 

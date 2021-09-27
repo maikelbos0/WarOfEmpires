@@ -13,5 +13,8 @@ namespace WarOfEmpires.Models.Players {
         public string Defences { get; set; }
         public bool CanBeAttacked { get; set; }
         public TimeSpan? GrandOverlordTime { get; set; }
+        public string FullName { get; set; }
+        public string Description { get; set; }
+        public string AvatarLocation { get; set; }
     }
 }

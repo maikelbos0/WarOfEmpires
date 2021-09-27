@@ -205,5 +205,21 @@ namespace WarOfEmpires.Test.Utilities {
         public FakePlayerBuilder WithQueuedResearch(int id, ResearchType type, int priority, long completedResearchTime = 0) {
             return WithQueuedResearch(id, out _, type, priority, completedResearchTime);
         }
+
+        public FakePlayerBuilder WithProfile(int id, out Profile profile, string fullName = null, string description = null, string avatarLocation = null) {
+            profile = Substitute.For<Profile>();
+
+            profile.Id.Returns(id);
+            profile.FullName.Returns(fullName);
+            profile.Description.Returns(description);
+            profile.AvatarLocation.Returns(avatarLocation);
+            Player.Profile.Returns(profile);
+
+            return this;
+        }
+
+        public FakePlayerBuilder WithProfile(int id, string fullName = null, string description = null, string avatarLocation = null) {
+            return WithProfile(id, out _, fullName, description, avatarLocation);
+        }
     }
 }

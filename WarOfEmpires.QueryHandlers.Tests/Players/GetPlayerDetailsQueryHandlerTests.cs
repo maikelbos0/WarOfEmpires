@@ -17,7 +17,8 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
                 .BuildAlliance(14)
                 .BuildMember(2, rank: 1, creationDate: DateTime.UtcNow.AddHours(-24).AddMinutes(-1))
                 .WithBuilding(BuildingType.Defences, 4)
-                .WithPopulation();
+                .WithPopulation()
+                .WithProfile(1, "A name", "Description", "1.jpeg");
 
             var handler = new GetPlayerDetailsQueryHandler(builder.Context, new EnumFormatter());
             var query = new GetPlayerDetailsQuery("test1@test.com", 2);
@@ -35,6 +36,9 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
             result.AllianceName.Should().Be("Føroyskir Samgonga");
             result.CanBeAttacked.Should().BeTrue();
             result.GrandOverlordTime.Should().BeNull();
+            result.FullName.Should().Be("A name");
+            result.Description.Should().Be("Description");
+            result.AvatarLocation.Should().Be("1.jpeg");
         }
 
         [TestMethod]
