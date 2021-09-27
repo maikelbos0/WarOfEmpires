@@ -3,13 +3,15 @@
 
 @{
     ViewBag.Title = Model.DisplayName;
+
+    bool hasProfile = !string.IsNullOrEmpty(Model.FullName) || !string.IsNullOrEmpty(Model.AvatarLocation) || !string.IsNullOrEmpty(Model.Description);
 }
 
 <h2>@Model.DisplayName</h2>
 
 <div class="row">
-    <div class="col-12 col-md-6 offset-md-3">
-        <div class="text-end">
+    <div class="col-12" condition="!hasProfile" class-name="col-md-6 offset-md-3">
+        <div class="text-end" condition="hasProfile" class-name="mb-3">
             <div class="btn-group">
                 @if (Model.CanBeAttacked) {
                     <a asp-controller="@Attack.Route" asp-action="@nameof(Attack.Execute)" asp-route-defenderId="@Model.Id" class="btn btn-primary">Attack</a>
@@ -28,7 +30,11 @@
                 </form>
             </div>
         </div>
+    </div>
+</div>
 
+<div class="row">
+    <div class="col-12 col-md-6" condition="!hasProfile" class-name="offset-md-3">
         @if (!string.IsNullOrEmpty(Model.Status)) {
             <div class="mb-3">
                 <label>Status</label>
@@ -75,4 +81,23 @@
             </div>
         }
     </div>
+
+    @if (hasProfile) {
+        <div class="col-12 col-md-6">
+            <div class="mb-3">
+                <label>Full name</label>
+                <div class="form-control" readonly="readonly">@Model.FullName</div>
+            </div>
+
+            @if (!string.IsNullOrEmpty(Model.AvatarLocation)) {
+                <div class="mb-3">
+                    <img src="@Model.AvatarLocation" class="img-fluid" />
+                </div>
+            }
+
+            @if (!string.IsNullOrEmpty(Model.Description)) {
+                <div class="site-user-text">@Model.Description</div>
+            }
+        </div>
+    }
 </div>
