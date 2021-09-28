@@ -8,6 +8,7 @@
     <ProjectReference Include="..\WarOfEmpires.Utilities\WarOfEmpires.Utilities.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.10" />
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
   </ItemGroup>
 </Project>

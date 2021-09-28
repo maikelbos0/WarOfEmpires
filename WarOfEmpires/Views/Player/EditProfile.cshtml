@@ -1,0 +1,42 @@
+@model WarOfEmpires.Models.Players.ProfileModel
+
+@{
+    ViewBag.Title = "Profile";
+}
+
+<h2>Profile</h2>
+
+<form method="post" class="html-only">
+    <div class="row">
+        <div class="col-12 col-md-6 offset-md-3">
+            <div asp-validation-summary="ModelOnly" class="site-validation-summary text-danger"></div>
+
+            <div class="mb-3">
+                <label asp-for="FullName" class="site-required"></label>
+                <input type="text" asp-for="FullName" class="form-control" />
+                <span asp-validation-for="FullName" class="small form-text text-danger"></span>
+            </div>
+
+            @if (!string.IsNullOrEmpty(Model.AvatarLocation)) {
+                <div class="mb-3">
+                    <img src="@Model.AvatarLocation" class="img-fluid" />
+                </div>
+            }
+
+            <div class="mb-3">
+                <label asp-for="Avatar" class="site-required"></label>
+                <input type="file" asp-for="Avatar" class="form-control password-strength" />
+                <span asp-validation-for="Avatar" class="small form-text text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Description" class="site-required"></label>
+                <textarea asp-for="Description" class="form-control" rows="8"></textarea>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-6 offset-6 col-md-3"><button type="submit" class="btn btn-primary w-100">Submit</button></div>
+    </div>
+</form>

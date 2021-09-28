@@ -138,6 +138,7 @@
                             @Model.DisplayName
                         </a>
                         <div class="dropdown-menu bg-info" aria-labelledby="navbar-login-dropdown">
+                            <a asp-controller="@Player.Route" asp-action="@nameof(Player.EditProfile)" class="dropdown-item">Edit profile</a>
                             <a asp-controller="@Home.Route" asp-action="@nameof(Home.ChangeEmail)" class="dropdown-item">Change email address</a>
                             <a asp-controller="@Home.Route" asp-action="@nameof(Home.ChangePassword)" class="dropdown-item">Change password</a>
                             <div class="dropdown-divider"></div>
