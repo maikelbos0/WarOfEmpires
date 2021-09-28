@@ -62,5 +62,10 @@ namespace WarOfEmpires.Controllers {
         public ViewResult Home() {
             return View(_messageService.Dispatch(new GetPlayerHomeQuery(_authenticationService.Identity)));
         }
+
+        [HttpGet(nameof(EditProfile))]
+        public ViewResult EditProfile() {
+            return View(_messageService.Dispatch(new GetProfileQuery(_authenticationService.Identity)));
+        }
     }
 }
