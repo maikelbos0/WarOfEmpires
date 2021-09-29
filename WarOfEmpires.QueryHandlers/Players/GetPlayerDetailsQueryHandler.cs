@@ -32,7 +32,6 @@ namespace WarOfEmpires.QueryHandlers.Players {
             var currentPlayer = _context.Players
                 .Include(p => p.Alliance).ThenInclude(a => a.Wars).ThenInclude(w => w.Alliances)
                 .Include(p => p.Alliance).ThenInclude(a => a.NonAggressionPacts).ThenInclude(p => p.Alliances)
-                .Include(p => p.Profile)
                 .Single(p => EmailComparisonService.Equals(p.User.Email, query.Email));
             var currentAllianceId = currentPlayer.Alliance?.Id;
 
