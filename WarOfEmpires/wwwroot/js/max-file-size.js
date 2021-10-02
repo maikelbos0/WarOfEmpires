@@ -1,4 +1,4 @@
-﻿$.validator.addMethod("maxfilesize", function (value, element, params) {
+﻿$.validator.addMethod("maxfilesize", function (_, element, params) {
     if (element.files && element.files[0]) {
         return element.files[0].size <= params.size;
     }

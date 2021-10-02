@@ -10,6 +10,7 @@ namespace WarOfEmpires.Models.Tests.DataAnnotations {
         [DataTestMethod]
         [DataRow(new[] { ".jpg" }, "test.jpg", true)]
         [DataRow(new[] { ".jpeg", ".jpg", ".gif" }, "test.jpg", true)]
+        [DataRow(new[] { ".jpeg", ".jpg", ".gif" }, "test.JPEG", true)]
         [DataRow(new[] { ".jpeg", ".jpg", ".gif" }, "test.png", false)]
         public void FileExtensionAttribute_IsValid_Succeeds(string[] extensions, string fileName, bool expectedIsValid) {
             var attribute = new FileExtensionAttribute(extensions);

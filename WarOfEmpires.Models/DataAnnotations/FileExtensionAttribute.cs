@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.IO;
@@ -14,7 +15,7 @@ namespace WarOfEmpires.Models.DataAnnotations {
         }
 
         public override bool IsValid(object value) {
-            return !(value is IFormFile file) || Extensions.Contains(Path.GetExtension(file.FileName));
+            return !(value is IFormFile file) || Extensions.Any(e => string.Equals(e, Path.GetExtension(file.FileName), StringComparison.OrdinalIgnoreCase));
         }
 
         public override string FormatErrorMessage(string name) {

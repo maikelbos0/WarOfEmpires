@@ -420,7 +420,7 @@ $(function () {
         });
     });
 });
-$.validator.addMethod("maxfilesize", function (value, element, params) {
+$.validator.addMethod("maxfilesize", function (_, element, params) {
     if (element.files && element.files[0]) {
         return element.files[0].size <= params.size;
     }
@@ -435,10 +435,10 @@ $.validator.unobtrusive.adapters.add("maxfilesize", ["size"], function (options)
     options.messages["maxfilesize"] = options.message;
 });
 
-$.validator.addMethod("fileextension", function (value, element, params) {
+$.validator.addMethod("fileextension", function (_, element, params) {
     if (element.files && element.files[0]) {
         return params.extensions.some(function (extension) {
-            return element.files[0].name.endsWith(extension);
+            return element.files[0].name.toLowerCase().endsWith(extension);
         });
     }
 
@@ -447,7 +447,7 @@ $.validator.addMethod("fileextension", function (value, element, params) {
 
 $.validator.unobtrusive.adapters.add("fileextension", ["extensions"], function (options) {
     options.rules["fileextension"] = {
-        extensions: options.params.extensions.split(",")
+        extensions: options.params.extensions.toLowerCase().split(",")
     };
     options.messages["fileextension"] = options.message;
 });
