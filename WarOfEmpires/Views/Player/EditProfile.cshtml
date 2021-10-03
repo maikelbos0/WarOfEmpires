@@ -7,7 +7,7 @@
 <h2>Profile</h2>
 
 <form method="post" class="html-only" enctype="multipart/form-data">
-    <input type="hidden" asp-for="AvatarLocation"/>
+    <input type="hidden" asp-for="AvatarLocation" />
     <div class="row">
         <div class="col-12 col-md-6 offset-md-3">
             <div asp-validation-summary="ModelOnly" class="site-validation-summary text-danger"></div>
@@ -27,6 +27,7 @@
             <div class="mb-3">
                 <label asp-for="Avatar" class="site-required"></label>
                 <input type="file" asp-for="Avatar" class="form-control password-strength" />
+                <div class="form-text">It can take up to 10 minutes for your new avatar to be available on our CDN.</div>
                 <span asp-validation-for="Avatar" class="small form-text text-danger"></span>
             </div>
 
