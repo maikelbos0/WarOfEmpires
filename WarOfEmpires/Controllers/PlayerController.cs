@@ -69,8 +69,10 @@ namespace WarOfEmpires.Controllers {
         }
 
         [HttpPost(nameof(EditProfile))]
-        public ViewResult EditProfile(ProfileModel model) {
-            return View(model);
+        public ActionResult EditProfile(ProfileModel model) {
+            return BuildViewResultFor(new UpdateProfileCommand(_authenticationService.Identity, model.FullName, model.Description, model.Avatar.OpenReadStream))
+                .OnSuccess(nameof(EditProfile))
+                .OnFailure(model);
         }
     }
 }
