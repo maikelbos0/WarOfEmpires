@@ -46,6 +46,10 @@ namespace WarOfEmpires.CommandHandlers.Players {
                 player.Profile.Description = command.Description;
 
                 if (imageFilePath != null) {
+                    if (player.Profile.AvatarLocation != null) {
+                        _storageClient.Delete(player.Profile.AvatarLocation);
+                    }
+
                     using (var stream = command.Avatar()) {
                         _storageClient.Store(imageFilePath, stream);
                     }
