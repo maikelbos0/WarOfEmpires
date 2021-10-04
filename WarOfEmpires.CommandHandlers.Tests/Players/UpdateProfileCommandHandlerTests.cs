@@ -58,7 +58,8 @@ namespace WarOfEmpires.CommandHandlers.Tests.Players {
         [TestMethod]
         public void UpdateProfileCommandHandler_Succeeds_Without_Avatar() {
             var builder = new FakeBuilder()
-                .BuildPlayer(1);
+                .BuildPlayer(1)
+                .WithProfile(1, "Test", "Old", "1.png");
             var storageClient = Substitute.For<IStorageClient>();
 
             var handler = new UpdateProfileCommandHandler(new PlayerRepository(builder.Context), storageClient);
@@ -70,6 +71,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Players {
             builder.Player.Profile.Received().FullName = "Name";
             builder.Player.Profile.Received().Description = "Description";
             builder.Player.Profile.DidNotReceiveWithAnyArgs().AvatarLocation = default;
+            storageClient.DidNotReceiveWithAnyArgs().Delete(default);
             storageClient.DidNotReceiveWithAnyArgs().Store(default, default);
             builder.Context.CallsToSaveChanges.Should().Be(1);
         }
@@ -77,7 +79,8 @@ namespace WarOfEmpires.CommandHandlers.Tests.Players {
         [TestMethod]
         public void UpdateProfileCommandHandler_Fails_For_Not_An_Image_File() {
             var builder = new FakeBuilder()
-                .BuildPlayer(1);
+                .BuildPlayer(1)
+                .WithProfile(1, "Test", "Old", "1.png");
             var storageClient = Substitute.For<IStorageClient>();
 
             var handler = new UpdateProfileCommandHandler(new PlayerRepository(builder.Context), storageClient);
@@ -89,6 +92,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Players {
             builder.Player.Profile.DidNotReceiveWithAnyArgs().FullName = default;
             builder.Player.Profile.DidNotReceiveWithAnyArgs().Description = default;
             builder.Player.Profile.DidNotReceiveWithAnyArgs().AvatarLocation = default;
+            storageClient.DidNotReceiveWithAnyArgs().Delete(default);
             storageClient.DidNotReceiveWithAnyArgs().Store(default, default);
             builder.Context.CallsToSaveChanges.Should().Be(0);
         }
