@@ -58,4 +58,10 @@ steps:
     ArtifactName: database
 
 - task: PublishBuildArtifacts@1
+  displayName: 'Publish static files'
+  inputs:
+    PathtoPublish: $(Build.SourcesDirectory)/WarOfEmpires/wwwroot/
+    ArtifactName: static
+
+- task: PublishBuildArtifacts@1
   displayName: 'Publish build artifacts'
