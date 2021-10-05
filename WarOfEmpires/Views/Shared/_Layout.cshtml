@@ -1,4 +1,5 @@
-﻿@inject AuthenticationService AuthenticationService
+﻿@inject IAuthenticationService AuthenticationService
+@inject IStaticResourceService StaticResourceService
 
 <!DOCTYPE html>
 <html>
@@ -7,39 +8,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewBag.Title - War of Empires</title>
 
-    <link rel="icon" type="image/png" sizes="16x16" href="~/favicon-16x16.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="~/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="@StaticResourceService.Resolve("~/favicon-16x16.png")" asp-append-version="true">
+    <link rel="icon" type="image/png" sizes="32x32" href="@StaticResourceService.Resolve("~/favicon-32x32.png")" asp-append-version="true">
 
     <environment include="Development">
-        <link rel="stylesheet" href="~/lib/jquery-rangeslider/Content/jquery-rangeslider.css" />
-        <link rel="stylesheet" href="~/lib/jquery-datagridview/Content/jquery-datagridview.css" />
-        <link rel="stylesheet" href="~/css/_bundle.css" />
-        <link rel="stylesheet" href="~/lib/toastr/build/toastr.css" />
+        <link rel="stylesheet" href="@StaticResourceService.Resolve("~/lib/jquery-rangeslider/Content/jquery-rangeslider.css")" asp-append-version="true" />
+        <link rel="stylesheet" href="@StaticResourceService.Resolve("~/lib/jquery-datagridview/Content/jquery-datagridview.css")" asp-append-version="true" />
+        <link rel="stylesheet" href="@StaticResourceService.Resolve("~/css/_bundle.css")" asp-append-version="true" />
+        <link rel="stylesheet" href="@StaticResourceService.Resolve("~/lib/toastr/build/toastr.css")" asp-append-version="true" />
 
-        <script src="~/lib/jquery/dist/jquery.js"></script>
-        <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
-        <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.js"></script>
-        <script src="~/lib/toastr/toastr.js"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
-        <script src="~/lib/jquery-datagridview/Scripts/jquery-datagridview.js"></script>
-        <script src="~/lib/jquery-rangeslider/Scripts/jquery-rangeslider.js"></script>
-        <script src="~/js/_bundle.js"></script>
+        <script src="@StaticResourceService.Resolve("~/lib/jquery/dist/jquery.js")" asp-append-version="true"></script>
+        <script src="@StaticResourceService.Resolve("~/lib/jquery-validation/dist/jquery.validate.js")" asp-append-version="true"></script>
+        <script src="@StaticResourceService.Resolve("~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.js")" asp-append-version="true"></script>
+        <script src="@StaticResourceService.Resolve("~/lib/toastr/toastr.js")" asp-append-version="true"></script>
+        <script src="@StaticResourceService.Resolve("~/lib/bootstrap/dist/js/bootstrap.bundle.js")" asp-append-version="true"></script>
+        <script src="@StaticResourceService.Resolve("~/lib/jquery-datagridview/Scripts/jquery-datagridview.js")" asp-append-version="true"></script>
+        <script src="@StaticResourceService.Resolve("~/lib/jquery-rangeslider/Scripts/jquery-rangeslider.js")" asp-append-version="true"></script>
+        <script src="@StaticResourceService.Resolve("~/js/_bundle.js")" asp-append-version="true"></script>
     </environment>
 
     <environment exclude="Development">
-        <link rel="stylesheet" href="~/lib/jquery-rangeslider/Content/jquery-rangeslider.min.css" asp-append-version="true" />
-        <link rel="stylesheet" href="~/lib/jquery-datagridview/Content/jquery-datagridview.css" asp-append-version="true" />
-        <link rel="stylesheet" href="~/css/_bundle.min.css" asp-append-version="true" />
-        <link rel="stylesheet" href="~/lib/toastr/build/toastr.min.css" asp-append-version="true" />
+        <link rel="stylesheet" href="@StaticResourceService.Resolve("~/lib/jquery-rangeslider/Content/jquery-rangeslider.min.css")" asp-append-version="true" />
+        <link rel="stylesheet" href="@StaticResourceService.Resolve("~/lib/jquery-datagridview/Content/jquery-datagridview.css")" asp-append-version="true" />
+        <link rel="stylesheet" href="@StaticResourceService.Resolve("~/css/_bundle.min.css")" asp-append-version="true" />
+        <link rel="stylesheet" href="@StaticResourceService.Resolve("~/lib/toastr/build/toastr.min.css")" asp-append-version="true" />
 
-        <script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
-        <script src="~/lib/jquery-validation/dist/jquery.validate.min.js" asp-append-version="true"></script>
-        <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js" asp-append-version="true"></script>
-        <script src="~/lib/toastr/build//toastr.min.js" asp-append-version="true"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js" asp-append-version="true"></script>
-        <script src="~/lib/jquery-datagridview/Scripts/jquery-datagridview.min.js" asp-append-version="true"></script>
-        <script src="~/lib/jquery-rangeslider/Scripts/jquery-rangeslider.min.js" asp-append-version="true"></script>
-        <script src="~/js/_bundle.min.js" asp-append-version="true"></script>
+        <script src="@StaticResourceService.Resolve("~/lib/jquery/dist/jquery.min.js")" asp-append-version="true"></script>
+        <script src="@StaticResourceService.Resolve("~/lib/jquery-validation/dist/jquery.validate.min.js")" asp-append-version="true"></script>
+        <script src="@StaticResourceService.Resolve("~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js")" asp-append-version="true"></script>
+        <script src="@StaticResourceService.Resolve("~/lib/toastr/build//toastr.min.js")" asp-append-version="true"></script>
+        <script src="@StaticResourceService.Resolve("~/lib/bootstrap/dist/js/bootstrap.bundle.min.js")" asp-append-version="true"></script>
+        <script src="@StaticResourceService.Resolve("~/lib/jquery-datagridview/Scripts/jquery-datagridview.min.js")" asp-append-version="true"></script>
+        <script src="@StaticResourceService.Resolve("~/lib/jquery-rangeslider/Scripts/jquery-rangeslider.min.js")" asp-append-version="true"></script>
+        <script src="@StaticResourceService.Resolve("~/js/_bundle.min.js")" asp-append-version="true"></script>
     </environment>
 </head>
 <body>
