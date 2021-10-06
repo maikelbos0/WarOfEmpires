@@ -18,13 +18,13 @@ using Siege = WarOfEmpires.Domain.Siege;
 namespace WarOfEmpires.Database {
     [ScopedServiceImplementation(typeof(IWarContext))]
     public class WarContext : DbContext, IWarContext {
-        public DbSet<Game.GameStatus> GameStatus { get; set; }
-        public DbSet<Security.User> Users { get; set; }
-        public DbSet<Auditing.CommandExecution> CommandExecutions { get; set; }
-        public DbSet<Auditing.QueryExecution> QueryExecutions { get; set; }
-        public DbSet<Alliances.Alliance> Alliances { get; set; }
-        public DbSet<Players.Player> Players { get; set; }
-        public DbSet<Events.ScheduledTask> ScheduledTasks { get; set; }
+        public DbSet<Game.GameStatus> GameStatus { get; private set; }
+        public DbSet<Security.User> Users { get; private set; }
+        public DbSet<Auditing.CommandExecution> CommandExecutions { get; private set; }
+        public DbSet<Auditing.QueryExecution> QueryExecutions { get; private set; }
+        public DbSet<Alliances.Alliance> Alliances { get; private set; }
+        public DbSet<Players.Player> Players { get; private set; }
+        public DbSet<Events.ScheduledTask> ScheduledTasks { get; private set; }
 
         public WarContext(AppSettings appSettings)
             : base(new DbContextOptionsBuilder<WarContext>()
