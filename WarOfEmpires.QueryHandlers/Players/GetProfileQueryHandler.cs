@@ -10,10 +10,10 @@ using WarOfEmpires.Utilities.Services;
 namespace WarOfEmpires.QueryHandlers.Players {
     [TransientServiceImplementation(typeof(IQueryHandler<GetProfileQuery, ProfileModel>))]
     public sealed class GetProfileQueryHandler : IQueryHandler<GetProfileQuery, ProfileModel> {
-        private readonly IWarContext _context;
+        private readonly IReadOnlyWarContext _context;
         private readonly AppSettings _appSettings;
 
-        public GetProfileQueryHandler(IWarContext context, AppSettings appSettings) {
+        public GetProfileQueryHandler(IReadOnlyWarContext context, AppSettings appSettings) {
             _context = context;
             _appSettings = appSettings;
         }

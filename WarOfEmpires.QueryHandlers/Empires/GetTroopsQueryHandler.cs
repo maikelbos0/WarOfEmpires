@@ -15,11 +15,11 @@ using WarOfEmpires.Utilities.Services;
 namespace WarOfEmpires.QueryHandlers.Empires {
     [TransientServiceImplementation(typeof(IQueryHandler<GetTroopsQuery, TroopsModel>))]
     public sealed class GetTroopsQueryHandler : IQueryHandler<GetTroopsQuery, TroopsModel> {
-        private readonly IWarContext _context;
+        private readonly IReadOnlyWarContext _context;
         private readonly IResourcesMap _resourcesMap;
         private readonly IEnumFormatter _formatter;
 
-        public GetTroopsQueryHandler(IWarContext context, IResourcesMap resourcesMap, IEnumFormatter formatter) {
+        public GetTroopsQueryHandler(IReadOnlyWarContext context, IResourcesMap resourcesMap, IEnumFormatter formatter) {
             _context = context;
             _resourcesMap = resourcesMap;
             _formatter = formatter;

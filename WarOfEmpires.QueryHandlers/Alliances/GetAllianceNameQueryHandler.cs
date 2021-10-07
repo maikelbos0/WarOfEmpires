@@ -9,9 +9,9 @@ using WarOfEmpires.Utilities.Services;
 namespace WarOfEmpires.QueryHandlers.Alliances {
     [TransientServiceImplementation(typeof(IQueryHandler<GetAllianceNameQuery, string>))]
     public sealed class GetAllianceNameQueryHandler : IQueryHandler<GetAllianceNameQuery, string> {
-        private readonly IWarContext _context;
+        private readonly IReadOnlyWarContext _context;
 
-        public GetAllianceNameQueryHandler(IWarContext context) {
+        public GetAllianceNameQueryHandler(IReadOnlyWarContext context) {
             _context = context;
         }
 

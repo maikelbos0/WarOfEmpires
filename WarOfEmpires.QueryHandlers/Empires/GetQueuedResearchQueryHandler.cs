@@ -14,10 +14,10 @@ using WarOfEmpires.Utilities.Services;
 namespace WarOfEmpires.QueryHandlers.Empires {
     [TransientServiceImplementation(typeof(IQueryHandler<GetQueuedResearchQuery, IEnumerable<QueuedResearchViewModel>>))]
     public sealed class GetQueuedResearchQueryHandler : IQueryHandler<GetQueuedResearchQuery, IEnumerable<QueuedResearchViewModel>> {
-        private readonly IWarContext _context;
+        private readonly IReadOnlyWarContext _context;
         private readonly IEnumFormatter _formatter;
 
-        public GetQueuedResearchQueryHandler(IWarContext context, IEnumFormatter formatter) {
+        public GetQueuedResearchQueryHandler(IReadOnlyWarContext context, IEnumFormatter formatter) {
             _context = context;
             _formatter = formatter;
         }

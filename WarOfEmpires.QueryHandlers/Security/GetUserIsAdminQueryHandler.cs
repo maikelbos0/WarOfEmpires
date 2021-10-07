@@ -7,9 +7,9 @@ using WarOfEmpires.Utilities.Services;
 namespace WarOfEmpires.QueryHandlers.Security {
     [TransientServiceImplementation(typeof(IQueryHandler<GetUserIsAdminQuery, bool>))]
     public sealed class GetUserIsAdminQueryHandler : IQueryHandler<GetUserIsAdminQuery, bool> {
-        private readonly IWarContext _context;
+        private readonly IReadOnlyWarContext _context;
 
-        public GetUserIsAdminQueryHandler(IWarContext context) {
+        public GetUserIsAdminQueryHandler(IReadOnlyWarContext context) {
             _context = context;
         }
 

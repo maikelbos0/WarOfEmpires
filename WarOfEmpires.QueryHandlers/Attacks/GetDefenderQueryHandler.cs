@@ -16,9 +16,9 @@ using WarOfEmpires.Utilities.Services;
 namespace WarOfEmpires.QueryHandlers.Attacks {
     [TransientServiceImplementation(typeof(IQueryHandler<GetDefenderQuery, ExecuteAttackModel>))]
     public sealed class GetDefenderQueryHandler : IQueryHandler<GetDefenderQuery, ExecuteAttackModel> {
-        private readonly IWarContext _context;
+        private readonly IReadOnlyWarContext _context;
 
-        public GetDefenderQueryHandler(IWarContext context) {
+        public GetDefenderQueryHandler(IReadOnlyWarContext context) {
             _context = context;
         }
 

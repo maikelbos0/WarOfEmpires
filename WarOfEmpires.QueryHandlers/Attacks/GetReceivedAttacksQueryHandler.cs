@@ -11,10 +11,10 @@ using WarOfEmpires.Utilities.Services;
 namespace WarOfEmpires.QueryHandlers.Attacks {
     [TransientServiceImplementation(typeof(IQueryHandler<GetReceivedAttacksQuery, IEnumerable<ReceivedAttackViewModel>>))]
     public sealed class GetReceivedAttacksQueryHandler : IQueryHandler<GetReceivedAttacksQuery, IEnumerable<ReceivedAttackViewModel>> {
-        private readonly IWarContext _context;
+        private readonly IReadOnlyWarContext _context;
         private readonly IEnumFormatter _formatter;
 
-        public GetReceivedAttacksQueryHandler(IWarContext context, IEnumFormatter formatter) {
+        public GetReceivedAttacksQueryHandler(IReadOnlyWarContext context, IEnumFormatter formatter) {
             _context = context;
             _formatter = formatter;
         }

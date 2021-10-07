@@ -10,10 +10,10 @@ using WarOfEmpires.Utilities.Formatting;
 namespace WarOfEmpires.QueryHandlers.Security {
     [TransientServiceImplementation(typeof(IQueryHandler<GetUsersQuery, IEnumerable<UserViewModel>>))]
     public sealed class GetUsersQueryHandler : IQueryHandler<GetUsersQuery, IEnumerable<UserViewModel>> {
-        private readonly IWarContext _context;
+        private readonly IReadOnlyWarContext _context;
         private readonly IEnumFormatter _formatter;
 
-        public GetUsersQueryHandler(IWarContext context, IEnumFormatter formatter) {
+        public GetUsersQueryHandler(IReadOnlyWarContext context, IEnumFormatter formatter) {
             _context = context;
             _formatter = formatter;
         }

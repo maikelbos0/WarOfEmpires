@@ -16,11 +16,11 @@ using WarOfEmpires.Utilities.Services;
 namespace WarOfEmpires.QueryHandlers.Empires {
     [TransientServiceImplementation(typeof(IQueryHandler<GetSiegeQuery, SiegeModel>))]
     public class GetSiegeQueryHandler : IQueryHandler<GetSiegeQuery, SiegeModel> {
-        private readonly IWarContext _context;
+        private readonly IReadOnlyWarContext _context;
         private readonly IResourcesMap _resourcesMap;
         private readonly IEnumFormatter _formatter;
 
-        public GetSiegeQueryHandler(IWarContext context, IResourcesMap resourcesMap, IEnumFormatter formatter) {
+        public GetSiegeQueryHandler(IReadOnlyWarContext context, IResourcesMap resourcesMap, IEnumFormatter formatter) {
             _context = context;
             _resourcesMap = resourcesMap;
             _formatter = formatter;

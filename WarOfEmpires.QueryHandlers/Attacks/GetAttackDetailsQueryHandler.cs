@@ -13,11 +13,11 @@ using WarOfEmpires.Utilities.Services;
 namespace WarOfEmpires.QueryHandlers.Attacks {
     [TransientServiceImplementation(typeof(IQueryHandler<GetAttackDetailsQuery, AttackDetailsViewModel>))]
     public sealed class GetAttackDetailsQueryHandler : IQueryHandler<GetAttackDetailsQuery, AttackDetailsViewModel> {
-        private readonly IWarContext _context;
+        private readonly IReadOnlyWarContext _context;
         private readonly IResourcesMap _resourcesMap;
         private readonly IEnumFormatter _formatter;
 
-        public GetAttackDetailsQueryHandler(IWarContext context, IResourcesMap resourcesMap, IEnumFormatter formatter) {
+        public GetAttackDetailsQueryHandler(IReadOnlyWarContext context, IResourcesMap resourcesMap, IEnumFormatter formatter) {
             _context = context;
             _resourcesMap = resourcesMap;
             _formatter = formatter;

@@ -11,9 +11,9 @@ using WarOfEmpires.Utilities.Services;
 namespace WarOfEmpires.QueryHandlers.Empires {
     [TransientServiceImplementation(typeof(IQueryHandler<GetHousingTotalsQuery, HousingTotalsViewModel>))]
     public sealed class GetHousingTotalsQueryHandler : IQueryHandler<GetHousingTotalsQuery, HousingTotalsViewModel> {
-        private readonly IWarContext _context;
+        private readonly IReadOnlyWarContext _context;
 
-        public GetHousingTotalsQueryHandler(IWarContext context) {
+        public GetHousingTotalsQueryHandler(IReadOnlyWarContext context) {
             _context = context;
         }
 

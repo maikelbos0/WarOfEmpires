@@ -15,10 +15,10 @@ using WarOfEmpires.Utilities.Services;
 namespace WarOfEmpires.QueryHandlers.Markets {
     [TransientServiceImplementation(typeof(IQueryHandler<GetMarketQuery, MarketModel>))]
     public sealed class GetMarketQueryHandler : IQueryHandler<GetMarketQuery, MarketModel> {
-        private readonly IWarContext _context;
+        private readonly IReadOnlyWarContext _context;
         private readonly IEnumFormatter _formatter;
 
-        public GetMarketQueryHandler(IWarContext context, IEnumFormatter formatter) {
+        public GetMarketQueryHandler(IReadOnlyWarContext context, IEnumFormatter formatter) {
             _context = context;
             _formatter = formatter;
         }

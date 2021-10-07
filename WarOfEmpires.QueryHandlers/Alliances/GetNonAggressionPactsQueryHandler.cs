@@ -11,9 +11,9 @@ using WarOfEmpires.Utilities.Services;
 namespace WarOfEmpires.QueryHandlers.Alliances {
     [TransientServiceImplementation(typeof(IQueryHandler<GetNonAggressionPactsQuery, IEnumerable<NonAggressionPactViewModel>>))]
     public sealed class GetNonAggressionPactsQueryHandler : IQueryHandler<GetNonAggressionPactsQuery, IEnumerable<NonAggressionPactViewModel>> {
-        private readonly IWarContext _context;
+        private readonly IReadOnlyWarContext _context;
 
-        public GetNonAggressionPactsQueryHandler(IWarContext context) {
+        public GetNonAggressionPactsQueryHandler(IReadOnlyWarContext context) {
             _context = context;
         }
 

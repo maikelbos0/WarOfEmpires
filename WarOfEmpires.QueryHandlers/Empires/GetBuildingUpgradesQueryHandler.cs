@@ -12,10 +12,10 @@ using WarOfEmpires.Utilities.Services;
 namespace WarOfEmpires.QueryHandlers.Empires {
     [TransientServiceImplementation(typeof(IQueryHandler<GetBuildingUpgradesQuery, BuildingUpgradesViewModel>))]
     public sealed class GetBuildingUpgradesQueryHandler : IQueryHandler<GetBuildingUpgradesQuery, BuildingUpgradesViewModel> {
-        private readonly IWarContext _context;
+        private readonly IReadOnlyWarContext _context;
         private readonly IResourcesMap _resourcesMap;
 
-        public GetBuildingUpgradesQueryHandler(IWarContext context, IResourcesMap resourcesMap) {
+        public GetBuildingUpgradesQueryHandler(IReadOnlyWarContext context, IResourcesMap resourcesMap) {
             _context = context;
             _resourcesMap = resourcesMap;
         }

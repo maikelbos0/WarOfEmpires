@@ -8,9 +8,9 @@ using WarOfEmpires.QueryHandlers.Decorators;
 namespace WarOfEmpires.QueryHandlers.Alliances {
     [TransientServiceImplementation(typeof(IQueryHandler<GetDeclareWarQuery, DeclareWarModel>))]
     public sealed class GetDeclareWarQueryHandler : IQueryHandler<GetDeclareWarQuery, DeclareWarModel> {
-        private readonly IWarContext _context;
+        private readonly IReadOnlyWarContext _context;
 
-        public GetDeclareWarQueryHandler(IWarContext context) {
+        public GetDeclareWarQueryHandler(IReadOnlyWarContext context) {
             _context = context;
         }
 

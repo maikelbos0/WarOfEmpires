@@ -9,9 +9,9 @@ using WarOfEmpires.QueryHandlers.Decorators;
 namespace WarOfEmpires.QueryHandlers.Security {
     [TransientServiceImplementation(typeof(IQueryHandler<GetUserDetailsQuery, UserDetailsModel>))]
     public sealed class GetUserDetailsQueryHandler : IQueryHandler<GetUserDetailsQuery, UserDetailsModel> {
-        private readonly IWarContext _context;
+        private readonly IReadOnlyWarContext _context;
 
-        public GetUserDetailsQueryHandler(IWarContext context) {
+        public GetUserDetailsQueryHandler(IReadOnlyWarContext context) {
             _context = context;
         }
 

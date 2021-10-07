@@ -13,9 +13,9 @@ namespace WarOfEmpires.QueryHandlers.Markets {
     [TransientServiceImplementation(typeof(IQueryHandler<GetCaravansQuery, IEnumerable<CaravanViewModel>>))]
     public sealed class GetCaravansQueryHandler : IQueryHandler<GetCaravansQuery, IEnumerable<CaravanViewModel>> {
 
-        private readonly IWarContext _context;
+        private readonly IReadOnlyWarContext _context;
 
-        public GetCaravansQueryHandler(IWarContext context) {
+        public GetCaravansQueryHandler(IReadOnlyWarContext context) {
             _context = context;
         }
 

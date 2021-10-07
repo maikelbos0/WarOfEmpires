@@ -11,9 +11,9 @@ using WarOfEmpires.Utilities.Services;
 namespace WarOfEmpires.QueryHandlers.Players {
     [TransientServiceImplementation(typeof(IQueryHandler<GetBlockedPlayersQuery, IEnumerable<BlockedPlayerViewModel>>))]
     public sealed class GetBlockedPlayersQueryHandler : IQueryHandler<GetBlockedPlayersQuery, IEnumerable<BlockedPlayerViewModel>> {
-        private readonly IWarContext _context;
+        private readonly IReadOnlyWarContext _context;
 
-        public GetBlockedPlayersQueryHandler(IWarContext context) {
+        public GetBlockedPlayersQueryHandler(IReadOnlyWarContext context) {
             _context = context;
         }
 

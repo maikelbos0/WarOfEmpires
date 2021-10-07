@@ -11,10 +11,10 @@ using WarOfEmpires.Utilities.Services;
 namespace WarOfEmpires.QueryHandlers.Markets {
     [TransientServiceImplementation(typeof(IQueryHandler<GetSellTransactionsQuery, IEnumerable<TransactionViewModel>>))]
     public sealed class GetSellTransactionsQueryHandler : IQueryHandler<GetSellTransactionsQuery, IEnumerable<TransactionViewModel>> {
-        private readonly IWarContext _context;
+        private readonly IReadOnlyWarContext _context;
         private readonly IEnumFormatter _formatter;
 
-        public GetSellTransactionsQueryHandler(IWarContext context, IEnumFormatter formatter) {
+        public GetSellTransactionsQueryHandler(IReadOnlyWarContext context, IEnumFormatter formatter) {
             _context = context;
             _formatter = formatter;
         }
