@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using VDT.Core.DependencyInjection;
 using WarOfEmpires.Database.ReferenceEntities;
 using WarOfEmpires.Utilities.Configuration;
@@ -328,6 +329,27 @@ namespace WarOfEmpires.Database {
 
             var userEvents = modelBuilder.Entity<Security.UserEvent>().ToTable("UserEvents", "Security");
             userEvents.HasKey(e => e.Id);
+        }
+
+        public override int SaveChanges() {
+            DeleteOrphanedNonAggressionPacts();
+
+            return base.SaveChanges();
+        }
+
+        private void DeleteOrphanedNonAggressionPacts() {
+            var orphans = GetChangeTrackerEntities<Alliances.NonAggressionPact>()
+                .Except(GetChangeTrackerEntities<Alliances.Alliance>().SelectMany(a => a.NonAggressionPacts));
+
+            Set<Alliances.NonAggressionPact>().RemoveRange(orphans);
+        }
+
+        private IEnumerable<TEntity> GetChangeTrackerEntities<TEntity>() {
+            return ChangeTracker.Entries()
+                .Where(e => e.State != EntityState.Deleted)
+                .Select(e => e.Entity)
+                .OfType<TEntity>()
+                .ToList();
         }
     }
 }
