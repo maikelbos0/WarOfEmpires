@@ -12,10 +12,10 @@ using WarOfEmpires.Utilities.Services;
 namespace WarOfEmpires.QueryHandlers.Empires {
     [TransientServiceImplementation(typeof(IQueryHandler<GetBuildingQuery, BuildingModel>))]
     public sealed class GetBuildingQueryHandler : IQueryHandler<GetBuildingQuery, BuildingModel> {
-        private readonly IWarContext _context;
+        private readonly IReadOnlyWarContext _context;
         private readonly IResourcesMap _resourcesMap;
 
-        public GetBuildingQueryHandler(IWarContext context, IResourcesMap resourcesMap) {
+        public GetBuildingQueryHandler(IReadOnlyWarContext context, IResourcesMap resourcesMap) {
             _context = context;
             _resourcesMap = resourcesMap;
         }

@@ -8,9 +8,9 @@ using WarOfEmpires.QueryHandlers.Decorators;
 namespace WarOfEmpires.QueryHandlers.Alliances {
     [TransientServiceImplementation(typeof(IQueryHandler<GetCreateNonAggressionPactRequestQuery, CreateNonAggressionPactRequestModel>))]
     public sealed class GetCreateNonAggressionPactRequestQueryHandler : IQueryHandler<GetCreateNonAggressionPactRequestQuery, CreateNonAggressionPactRequestModel> {
-        private readonly IWarContext _context;
+        private readonly IReadOnlyWarContext _context;
 
-        public GetCreateNonAggressionPactRequestQueryHandler(IWarContext context) {
+        public GetCreateNonAggressionPactRequestQueryHandler(IReadOnlyWarContext context) {
             _context = context;
         }
 

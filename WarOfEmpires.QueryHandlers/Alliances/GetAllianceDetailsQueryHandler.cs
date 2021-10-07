@@ -14,10 +14,10 @@ using WarOfEmpires.Utilities.Services;
 namespace WarOfEmpires.QueryHandlers.Alliances {
     [TransientServiceImplementation(typeof(IQueryHandler<GetAllianceDetailsQuery, AllianceDetailsViewModel>))]
     public sealed class GetAllianceDetailsQueryHandler : IQueryHandler<GetAllianceDetailsQuery, AllianceDetailsViewModel> {
-        private readonly IWarContext _context;
+        private readonly IReadOnlyWarContext _context;
         private readonly IEnumFormatter _formatter;
 
-        public GetAllianceDetailsQueryHandler(IWarContext context, IEnumFormatter formatter) {
+        public GetAllianceDetailsQueryHandler(IReadOnlyWarContext context, IEnumFormatter formatter) {
             _formatter = formatter;
             _context = context;
         }

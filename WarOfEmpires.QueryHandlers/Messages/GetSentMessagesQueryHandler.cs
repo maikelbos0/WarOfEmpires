@@ -10,9 +10,9 @@ using WarOfEmpires.Utilities.Services;
 namespace WarOfEmpires.QueryHandlers.Messages {
     [TransientServiceImplementation(typeof(IQueryHandler<GetSentMessagesQuery, IEnumerable<SentMessageViewModel>>))]
     public sealed class GetSentMessagesQueryHandler : IQueryHandler<GetSentMessagesQuery, IEnumerable<SentMessageViewModel>> {
-        private readonly IWarContext _context;
+        private readonly IReadOnlyWarContext _context;
 
-        public GetSentMessagesQueryHandler(IWarContext context) {
+        public GetSentMessagesQueryHandler(IReadOnlyWarContext context) {
             _context = context;
         }
 

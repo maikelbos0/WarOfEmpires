@@ -8,9 +8,9 @@ using WarOfEmpires.QueryHandlers.Decorators;
 namespace WarOfEmpires.QueryHandlers.Game {
     [TransientServiceImplementation(typeof(IQueryHandler<GetGamePhaseQuery, GamePhaseModel>))]
     public sealed class GetGamePhaseQueryHandler : IQueryHandler<GetGamePhaseQuery, GamePhaseModel> {
-        private readonly IWarContext _context;
+        private readonly IReadOnlyWarContext _context;
 
-        public GetGamePhaseQueryHandler(IWarContext context) {
+        public GetGamePhaseQueryHandler(IReadOnlyWarContext context) {
             _context = context;
         }
 

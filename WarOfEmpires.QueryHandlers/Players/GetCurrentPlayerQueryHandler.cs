@@ -10,9 +10,9 @@ using WarOfEmpires.Utilities.Services;
 namespace WarOfEmpires.QueryHandlers.Players {
     [TransientServiceImplementation(typeof(IQueryHandler<GetCurrentPlayerQuery, CurrentPlayerViewModel>))]
     public sealed class GetCurrentPlayerQueryHandler : IQueryHandler<GetCurrentPlayerQuery, CurrentPlayerViewModel> {
-        private readonly IWarContext _context;
+        private readonly IReadOnlyWarContext _context;
 
-        public GetCurrentPlayerQueryHandler(IWarContext context) {
+        public GetCurrentPlayerQueryHandler(IReadOnlyWarContext context) {
             _context = context;
         }
 

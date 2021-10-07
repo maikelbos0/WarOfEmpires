@@ -34,6 +34,7 @@ namespace WarOfEmpires.Tests.Integration {
             services.AddServices(typeof(HomeController).Assembly);
             services.Replace(ServiceDescriptor.Scoped<IAuthenticationService>(serviceProvider => _authenticationService));
             services.Replace(ServiceDescriptor.Transient<IWarContext>(serviceProvider => _context));
+            services.Replace(ServiceDescriptor.Transient<IReadOnlyWarContext>(serviceProvider => _context));
             services.Replace(ServiceDescriptor.Scoped<IMailClient>(serviceProvider => _mailClient));
             services.AddSingleton<AppSettings>();
             services.AddTransient<HomeController>();

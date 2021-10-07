@@ -17,11 +17,11 @@ using WarOfEmpires.Utilities.Services;
 namespace WarOfEmpires.QueryHandlers.Players {
     [TransientServiceImplementation(typeof(IQueryHandler<GetPlayerDetailsQuery, PlayerDetailsViewModel>))]
     public sealed class GetPlayerDetailsQueryHandler : IQueryHandler<GetPlayerDetailsQuery, PlayerDetailsViewModel> {
-        private readonly IWarContext _context;
+        private readonly IReadOnlyWarContext _context;
         private readonly IEnumFormatter _formatter;
         private readonly AppSettings _appSettings;
 
-        public GetPlayerDetailsQueryHandler(IWarContext context, IEnumFormatter formatter, AppSettings appSettings) {
+        public GetPlayerDetailsQueryHandler(IReadOnlyWarContext context, IEnumFormatter formatter, AppSettings appSettings) {
             _formatter = formatter;
             _context = context;
             _appSettings = appSettings;

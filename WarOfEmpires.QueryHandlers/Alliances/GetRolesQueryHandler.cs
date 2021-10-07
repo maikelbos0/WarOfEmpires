@@ -11,9 +11,9 @@ using WarOfEmpires.Utilities.Services;
 namespace WarOfEmpires.QueryHandlers.Alliances {
     [TransientServiceImplementation(typeof(IQueryHandler<GetRolesQuery, IEnumerable<RoleViewModel>>))]
     public sealed class GetRolesQueryHandler : IQueryHandler<GetRolesQuery, IEnumerable<RoleViewModel>> {
-        private readonly IWarContext _context;
+        private readonly IReadOnlyWarContext _context;
 
-        public GetRolesQueryHandler(IWarContext context) {
+        public GetRolesQueryHandler(IReadOnlyWarContext context) {
             _context = context;
         }
 

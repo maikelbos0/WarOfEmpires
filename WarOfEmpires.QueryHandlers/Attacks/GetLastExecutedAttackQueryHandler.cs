@@ -8,9 +8,9 @@ using WarOfEmpires.Utilities.Services;
 namespace WarOfEmpires.QueryHandlers.Attacks {
     [TransientServiceImplementation(typeof(IQueryHandler<GetLastExecutedAttackQuery, int>))]
     public sealed class GetLastExecutedAttackQueryHandler : IQueryHandler<GetLastExecutedAttackQuery, int> {
-        private readonly IWarContext _context;
+        private readonly IReadOnlyWarContext _context;
 
-        public GetLastExecutedAttackQueryHandler(IWarContext context) {
+        public GetLastExecutedAttackQueryHandler(IReadOnlyWarContext context) {
             _context = context;
         }
 

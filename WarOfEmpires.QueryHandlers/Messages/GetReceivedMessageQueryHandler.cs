@@ -11,9 +11,9 @@ namespace WarOfEmpires.QueryHandlers.Messages {
     [TransientServiceImplementation(typeof(IQueryHandler<GetReceivedMessageQuery, ReceivedMessageDetailsViewModel>))]
     public sealed class GetReceivedMessageQueryHandler : IQueryHandler<GetReceivedMessageQuery, ReceivedMessageDetailsViewModel> {
 
-        private readonly IWarContext _context;
+        private readonly IReadOnlyWarContext _context;
 
-        public GetReceivedMessageQueryHandler(IWarContext context) {
+        public GetReceivedMessageQueryHandler(IReadOnlyWarContext context) {
             _context = context;
         }
 

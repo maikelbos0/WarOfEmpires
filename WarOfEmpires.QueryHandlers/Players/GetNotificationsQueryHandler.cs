@@ -10,9 +10,9 @@ using WarOfEmpires.Utilities.Services;
 namespace WarOfEmpires.QueryHandlers.Players {
     [TransientServiceImplementation(typeof(IQueryHandler<GetNotificationsQuery, NotificationsViewModel>))]
     public sealed class GetNotificationsQueryHandler : IQueryHandler<GetNotificationsQuery, NotificationsViewModel> {
-        private readonly IWarContext _context;
+        private readonly IReadOnlyWarContext _context;
 
-        public GetNotificationsQueryHandler(IWarContext context) {
+        public GetNotificationsQueryHandler(IReadOnlyWarContext context) {
             _context = context;
         }
 

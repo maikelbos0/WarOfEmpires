@@ -11,9 +11,9 @@ using WarOfEmpires.Utilities.Services;
 namespace WarOfEmpires.QueryHandlers.Alliances {
     [TransientServiceImplementation(typeof(IQueryHandler<GetTransferResourcesQuery, TransferResourcesModel>))]
     public sealed class GetTransferResourcesQueryHandler : IQueryHandler<GetTransferResourcesQuery, TransferResourcesModel> {
-        private readonly IWarContext _context;
+        private readonly IReadOnlyWarContext _context;
 
-        public GetTransferResourcesQueryHandler(IWarContext context) {
+        public GetTransferResourcesQueryHandler(IReadOnlyWarContext context) {
             _context = context;
         }
 

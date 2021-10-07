@@ -10,10 +10,10 @@ using WarOfEmpires.Utilities.Services;
 namespace WarOfEmpires.QueryHandlers.Empires {
     [TransientServiceImplementation(typeof(IQueryHandler<GetBankedResourcesQuery, BankedResourcesViewModel>))]
     public sealed class GetBankedResourcesQueryHandler : IQueryHandler<GetBankedResourcesQuery, BankedResourcesViewModel> {
-        private readonly IWarContext _context;
+        private readonly IReadOnlyWarContext _context;
         private readonly IResourcesMap _resourcesMap;
 
-        public GetBankedResourcesQueryHandler(IWarContext context, IResourcesMap resourcesMap) {
+        public GetBankedResourcesQueryHandler(IReadOnlyWarContext context, IResourcesMap resourcesMap) {
             _context = context;
             _resourcesMap = resourcesMap;
         }

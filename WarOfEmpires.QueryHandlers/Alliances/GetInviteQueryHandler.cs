@@ -10,9 +10,9 @@ using WarOfEmpires.Utilities.Services;
 namespace WarOfEmpires.QueryHandlers.Alliances {
     [TransientServiceImplementation(typeof(IQueryHandler<GetInviteQuery, InviteDetailsViewModel>))]
     public sealed class GetInviteQueryHandler : IQueryHandler<GetInviteQuery, InviteDetailsViewModel> {
-        private readonly IWarContext _context;
+        private readonly IReadOnlyWarContext _context;
 
-        public GetInviteQueryHandler(IWarContext context) {
+        public GetInviteQueryHandler(IReadOnlyWarContext context) {
             _context = context;
         }
 

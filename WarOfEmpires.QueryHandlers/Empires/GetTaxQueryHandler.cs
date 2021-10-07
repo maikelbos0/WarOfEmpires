@@ -12,9 +12,9 @@ using WarOfEmpires.Utilities.Services;
 namespace WarOfEmpires.QueryHandlers.Empires {
     [TransientServiceImplementation(typeof(IQueryHandler<GetTaxQuery, TaxModel>))]
     public sealed class GetTaxQueryHandler : IQueryHandler<GetTaxQuery, TaxModel> {
-        private readonly IWarContext _context;
+        private readonly IReadOnlyWarContext _context;
 
-        public GetTaxQueryHandler(IWarContext context) {
+        public GetTaxQueryHandler(IReadOnlyWarContext context) {
             _context = context;
         }
 

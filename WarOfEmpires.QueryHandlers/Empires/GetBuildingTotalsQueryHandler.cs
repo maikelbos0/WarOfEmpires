@@ -10,9 +10,9 @@ using WarOfEmpires.Utilities.Services;
 namespace WarOfEmpires.QueryHandlers.Empires {
     [TransientServiceImplementation(typeof(IQueryHandler<GetBuildingTotalsQuery, BuildingTotalsViewModel>))]
     public sealed class GetBuildingTotalsQueryHandler : IQueryHandler<GetBuildingTotalsQuery, BuildingTotalsViewModel> {
-        private readonly IWarContext _context;
+        private readonly IReadOnlyWarContext _context;
 
-        public GetBuildingTotalsQueryHandler(IWarContext context) {
+        public GetBuildingTotalsQueryHandler(IReadOnlyWarContext context) {
             _context = context;
         }
 
