@@ -32,7 +32,14 @@
                     <td class="table-form-label">@research.ResearchTime.ToString(StringFormat.Integer) <icon type="University" /></td>
                     <td class="table-form-label">@research.CompletedResearchTime.ToString(StringFormat.Integer) <icon type="University" /></td>
                     <td class="table-form-label">@research.NeededResearchTime.ToString(StringFormat.Integer) <icon type="University" /></td>
-                    <td class="table-form-label">@(((int)research.NeededTime.TotalHours).ToString(StringFormat.Integer)) hours and @research.NeededTime.Minutes.ToString(StringFormat.Integer) minutes</td>
+
+                    @if (research.NeededTime.HasValue) {
+                        <td class="table-form-label">@(((int)research.NeededTime.Value.TotalHours).ToString(StringFormat.Integer)) hours and @research.NeededTime.Value.Minutes.ToString(StringFormat.Integer) minutes</td>
+                    }
+                    else {
+                        <td class="table-form-label">&#8734;</td>
+                    }
+
                     <td>
                         <form method="post" asp-action="@nameof(Empire.RemoveQueuedResearch)" data-success-message="The research has been removed from your queue.">
                             <input type="hidden" name="id" value="@research.Id" />
