@@ -3,6 +3,7 @@
         Efficiency = 1,
         Commerce = 2,
         Tactics = 3,
-        CombatMedicine = 4
+        CombatMedicine = 4,
+        SafeStorage = 5
     }
 }

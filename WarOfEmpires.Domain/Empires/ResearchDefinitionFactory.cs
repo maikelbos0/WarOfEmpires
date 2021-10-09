@@ -36,10 +36,19 @@ namespace WarOfEmpires.Domain.Empires {
             );
         }
 
+        private static ResearchDefinition GenerateSafeStorage() {
+            return new ResearchDefinition(
+                ResearchType.SafeStorage,
+                0.06M,
+                "Safe storage makes your workers store a percentage of their production in your banks automatically"
+            );
+        }
+
         static ResearchDefinitionFactory() {
             foreach (var definition in new[] {
                 GenerateEfficiency(), GenerateCommerce(),
-                GenerateTactics(), GenerateCombatMedicine()
+                GenerateTactics(), GenerateCombatMedicine(),
+                GenerateSafeStorage()
             }) {
                 _researches.Add(definition.Type, definition);
             }
