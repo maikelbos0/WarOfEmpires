@@ -227,7 +227,7 @@ namespace WarOfEmpires.Domain.Players {
 
             if (CanAfford(upkeep)) {
                 var resourcesPerTurn = GetResourcesPerTurn();
-                var bankedPercentage = GetResearchBonusMultiplier(ResearchType.SafeStorage) - 1;
+                var bankedPercentage = GetResearchBonus(ResearchType.SafeStorage);
 
                 Resources += resourcesPerTurn * (1 - bankedPercentage);
                 BankedResources += resourcesPerTurn * bankedPercentage;
@@ -296,10 +296,14 @@ namespace WarOfEmpires.Domain.Players {
             return (100m + GetBuildingBonus(type)) / 100m;
         }
 
-        public decimal GetResearchBonusMultiplier(ResearchType type) {
+        public decimal GetResearchBonus(ResearchType type) {
             var definition = ResearchDefinitionFactory.Get(type);
 
-            return 1 + definition.LevelBonus * (Research.SingleOrDefault(r => r.Type == type)?.Level ?? 0);
+            return definition.LevelBonus * (Research.SingleOrDefault(r => r.Type == type)?.Level ?? 0);
+        }
+
+        public decimal GetResearchBonusMultiplier(ResearchType type) {
+            return 1 + GetResearchBonus(type);
         }
 
         public int GetSiegeWeaponCount(SiegeWeaponType type) {
