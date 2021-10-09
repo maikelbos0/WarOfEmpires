@@ -179,6 +179,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
             player.Troops.Add(new Troops(TroopType.Archers, 0, 1));
 
             var previousResources = player.Resources;
+            var previousBankedResources = player.BankedResources;
 
             player.Tax = 80;
             player.ProcessTurn();
@@ -190,6 +191,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
                 player.GetProduction(WorkerType.StoneMasons).GetTotalProduction(),
                 player.GetProduction(WorkerType.OreMiners).GetTotalProduction()
             ) - player.GetUpkeepPerTurn());
+            player.BankedResources.Should().Be(previousBankedResources);
         }
 
         [TestMethod]
@@ -426,6 +428,24 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
             player.Stamina.Should().Be(80);
             troops.Mercenaries.Should().Be(102);
+        }
+
+        [TestMethod]
+        public void Player_ResearchBonus_Is_Applied_For_SafeStorage() {
+            var player = new Player(0, "Test");
+
+            player.Workers.Add(new Workers(WorkerType.Farmers, 5));
+            player.Workers.Add(new Workers(WorkerType.WoodWorkers, 5));
+            player.Research.Add(new Research(ResearchType.CombatMedicine) { Level = 2 });
+            player.Research.Add(new Research(ResearchType.SafeStorage) { Level = 5 });
+
+            var previousResources = player.Resources;
+            var previousBankedResources = player.BankedResources;
+
+            player.ProcessTurn();
+
+            player.Resources.Should().Be(previousResources - player.GetUpkeepPerTurn() + player.GetResourcesPerTurn() * 0.7M);
+            player.BankedResources.Should().Be(previousBankedResources + player.GetResourcesPerTurn() * 0.3M);
         }
 
         [TestMethod]

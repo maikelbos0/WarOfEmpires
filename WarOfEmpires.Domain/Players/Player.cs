@@ -226,8 +226,13 @@ namespace WarOfEmpires.Domain.Players {
             }
 
             if (CanAfford(upkeep)) {
+                var resourcesPerTurn = GetResourcesPerTurn();
+                var bankedPercentage = GetResearchBonusMultiplier(ResearchType.SafeStorage) - 1;
+
+                Resources += resourcesPerTurn * (1 - bankedPercentage);
+                BankedResources += resourcesPerTurn * bankedPercentage;
+
                 SpendResources(upkeep);
-                Resources += GetResourcesPerTurn();
 
                 if (QueuedResearch.Any()) {
                     QueuedResearch.OrderBy(r => r.Priority).First().ProcessTurn(GetWorkerCount(WorkerType.Scientists) * GetBuildingBonus(BuildingType.University));
