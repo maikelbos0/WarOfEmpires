@@ -58,5 +58,19 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
             combatMedicine2.NeededResearchTime.Should().Be(155000);
             combatMedicine2.NeededTime.Should().Be(TimeSpan.FromMinutes(15500));
         }
+
+        [TestMethod]
+        public void GetResearchQueryHandler_Succeeds_Without_Scientists() {
+            var builder = new FakeBuilder()
+                .BuildPlayer(1)
+                .WithQueuedResearch(1, ResearchType.CombatMedicine, 1, completedResearchTime: 1599);
+
+            var handler = new GetQueuedResearchQueryHandler(builder.Context, new EnumFormatter());
+            var query = new GetQueuedResearchQuery("test1@test.com");
+
+            var result = handler.Execute(query);
+
+            result.Should().ContainSingle().Subject.NeededTime.Should().BeNull();
+        }
     }
 }

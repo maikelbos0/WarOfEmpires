@@ -8,6 +8,6 @@ namespace WarOfEmpires.Models.Empires {
         public long ResearchTime { get; set; }
         public long CompletedResearchTime { get; set; }
         public long NeededResearchTime { get; set; }
-        public TimeSpan NeededTime { get; set; }
+        public TimeSpan? NeededTime { get; set; }
     }
 }

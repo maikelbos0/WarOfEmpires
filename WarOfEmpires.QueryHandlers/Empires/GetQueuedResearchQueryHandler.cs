@@ -54,7 +54,7 @@ namespace WarOfEmpires.QueryHandlers.Empires {
                     ResearchTime = r.ResearchTime,
                     CompletedResearchTime = r.QueuedResearch.CompletedResearchTime,
                     NeededResearchTime = r.ResearchTime - r.QueuedResearch.CompletedResearchTime,
-                    NeededTime = TimeSpan.FromMinutes(Math.Ceiling(1.0 * (r.ResearchTime - r.QueuedResearch.CompletedResearchTime) / researchPerTurn) * 10)
+                    NeededTime = researchPerTurn > 0 ? TimeSpan.FromMinutes(Math.Ceiling(1.0 * (r.ResearchTime - r.QueuedResearch.CompletedResearchTime) / researchPerTurn) * 10) : null
                 })
                 .ToList();
         }
