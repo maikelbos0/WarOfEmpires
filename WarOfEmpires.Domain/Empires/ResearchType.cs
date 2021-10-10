@@ -4,6 +4,7 @@
         Commerce = 2,
         Tactics = 3,
         CombatMedicine = 4,
-        SafeStorage = 5
+        SafeStorage = 5,
+        Regency = 6
     }
 }
