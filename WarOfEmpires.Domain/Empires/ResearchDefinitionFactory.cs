@@ -44,11 +44,19 @@ namespace WarOfEmpires.Domain.Empires {
             );
         }
 
+        private static ResearchDefinition GenerateRegency() {
+            return new ResearchDefinition(
+                ResearchType.Regency,
+                0.05M,
+                "Regents hire back a percentage of the mercenaries you lose when you are attacked"
+            );
+        }
+
         static ResearchDefinitionFactory() {
             foreach (var definition in new[] {
                 GenerateEfficiency(), GenerateCommerce(),
                 GenerateTactics(), GenerateCombatMedicine(),
-                GenerateSafeStorage()
+                GenerateSafeStorage(), GenerateRegency()
             }) {
                 _researches.Add(definition.Type, definition);
             }
