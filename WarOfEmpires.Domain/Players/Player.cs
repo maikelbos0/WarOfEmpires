@@ -150,11 +150,21 @@ namespace WarOfEmpires.Domain.Players {
             }
 
             var totalDefence = troops.Sum(t => t.Info.GetTotalDefense());
-            var casualties = troops.Select(t => t.Troops.ProcessCasualties((int)(t.Info.GetTotalDefense() * damage * casualtiesModifier / totalDefence / AttackDamageCasualtiesModifier / t.Info.GetDefensePerSoldier() * GetResearchBonusMultiplier(ResearchType.CombatMedicine))));
+            var casualties = troops.Select(t => t.Troops.ProcessCasualties((int)(t.Info.GetTotalDefense() * damage * casualtiesModifier / totalDefence / AttackDamageCasualtiesModifier / t.Info.GetDefensePerSoldier() * GetResearchBonusMultiplier(ResearchType.CombatMedicine)))).ToList();
 
             Stamina = Math.Max(0, (int)(Stamina - damage * AttackStaminaDrainModifier / totalDefence));
 
-            return casualties.ToList();
+            var regencyBonus = GetResearchBonus(ResearchType.Regency);
+
+            if (regencyBonus > 0) {
+                foreach (var casualty in casualties) {
+                    var regencyMercenaries = (int)(casualty.Mercenaries * regencyBonus + 0.5M);
+
+                    TrainTroops(casualty.TroopType, 0, regencyMercenaries);
+                }
+            }
+
+            return casualties;
         }
 
         public virtual Resources GetBankCapacity() {

@@ -8,7 +8,6 @@ using WarOfEmpires.Domain.Common;
 using WarOfEmpires.Domain.Empires;
 using WarOfEmpires.Domain.Markets;
 using WarOfEmpires.Domain.Players;
-using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Domain.Siege;
 
 namespace WarOfEmpires.Domain.Tests.Players {
@@ -446,6 +445,28 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
             player.Resources.Should().Be(previousResources - player.GetUpkeepPerTurn() + player.GetResourcesPerTurn() * 0.7M);
             player.BankedResources.Should().Be(previousBankedResources + player.GetResourcesPerTurn() * 0.3M);
+        }
+
+        [DataTestMethod]
+        [DataRow(450, 150, 60, 15, DisplayName = "No rounding")]
+        [DataRow(45, 15, 6, 2, DisplayName = "Rounding up")]
+        [DataRow(45, 14, 5, 1, DisplayName = "Rounding down")]
+        public void Player_ResearchBonus_Is_Applied_For_Regency(int soldiers, int mercenaries, int casualties, int regencyMercenaries) {
+            var player = new Player(0, "Test");
+            var troops = new Troops(TroopType.Archers, soldiers, mercenaries);
+
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(1000000, 100000, 100000, 100000, 100000));
+            player.Troops.Add(troops);
+            player.Research.Add(new Research(ResearchType.Commerce) { Level = 2 });
+            player.Research.Add(new Research(ResearchType.Regency) { Level = 5 });
+
+            var damage = player.Troops.Sum(t => player.GetTroopInfo(t.Type).GetTotalDefense());
+            var previousResources = player.Resources;
+
+            player.ProcessAttackDamage(damage * 10, 2M);
+
+            player.Resources.Should().Be(previousResources - Player.MercenaryTrainingCost * regencyMercenaries);
+            troops.Mercenaries.Should().Be(mercenaries - casualties + regencyMercenaries);
         }
 
         [TestMethod]
