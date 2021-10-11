@@ -60,6 +60,32 @@ namespace WarOfEmpires.Domain.Common {
             return this - safeValue;
         }
 
+        public long GetCapacity(Resources unit) {
+            var capacity = long.MaxValue;
+
+            if (unit.Gold > 0 && Gold / unit.Gold < capacity) {
+                capacity = Gold / unit.Gold;
+            }
+
+            if (unit.Food > 0 && Food / unit.Food < capacity) {
+                capacity = Food / unit.Food;
+            }
+
+            if (unit.Wood > 0 && Wood / unit.Wood < capacity) {
+                capacity = Wood / unit.Wood;
+            }
+
+            if (unit.Stone > 0 && Stone / unit.Stone < capacity) {
+                capacity = Stone / unit.Stone;
+            }
+
+            if (unit.Ore > 0 && Ore / unit.Ore < capacity) {
+                capacity = Ore / unit.Ore;
+            }
+
+            return capacity;
+        }
+
         public static Resources operator +(Resources a, Resources b) {
             return new Resources(a.Gold + b.Gold, a.Food + b.Food, a.Wood + b.Wood, a.Stone + b.Stone, a.Ore + b.Ore);
         }

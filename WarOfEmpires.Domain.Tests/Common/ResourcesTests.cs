@@ -124,5 +124,18 @@ namespace WarOfEmpires.Domain.Tests.Common {
 
             resources.SubtractSafe(new Resources(5500, 5500, 5500, 5500, 5500)).Should().Be(new Resources());
         }
+
+        [DataTestMethod]
+        [DataRow(10, 10, 10, 10, 10, 99, DisplayName = "Even distribution")]
+        [DataRow(10, 0, 0, 0, 0, 99, DisplayName = "Gold")]
+        [DataRow(0, 10, 0, 0, 0, 99, DisplayName = "Food")]
+        [DataRow(0, 0, 10, 0, 0, 99, DisplayName = "Wood")]
+        [DataRow(0, 0, 0, 10, 0, 99, DisplayName = "Stone")]
+        [DataRow(0, 0, 0, 0, 10, 99, DisplayName = "Ore")]
+        public void Resources_GetCapacity_Works(int gold, int food, int wood, int stone, int ore, long expectedCapacity) {
+            var resources = new Resources(999, 999, 999, 999, 999);
+
+            resources.GetCapacity(new Resources(gold, food, wood, stone, ore)).Should().Be(expectedCapacity);
+        }
     }
 }
