@@ -412,29 +412,8 @@ namespace WarOfEmpires.Domain.Players {
         public virtual int GetStaminaToHeal() {
             var healCostPerTurn = Troops.Sum(t => t.GetTotals()) * HealCostPerTroopPerTurn;
             var totalResources = GetTotalResources();
-            var staminaToHeal = 100 - Stamina;
 
-            if (healCostPerTurn.Gold > 0 && totalResources.Gold / healCostPerTurn.Gold < staminaToHeal) {
-                staminaToHeal = (int)(totalResources.Gold / healCostPerTurn.Gold);
-            }
-
-            if (healCostPerTurn.Food > 0 && totalResources.Food / healCostPerTurn.Food < staminaToHeal) {
-                staminaToHeal = (int)(totalResources.Food / healCostPerTurn.Food);
-            }
-
-            if (healCostPerTurn.Wood > 0 && totalResources.Wood / healCostPerTurn.Wood < staminaToHeal) {
-                staminaToHeal = (int)(totalResources.Wood / healCostPerTurn.Wood);
-            }
-
-            if (healCostPerTurn.Stone > 0 && totalResources.Stone / healCostPerTurn.Stone < staminaToHeal) {
-                staminaToHeal = (int)(totalResources.Stone / healCostPerTurn.Stone);
-            }
-
-            if (healCostPerTurn.Ore > 0 && totalResources.Ore / healCostPerTurn.Ore < staminaToHeal) {
-                staminaToHeal = (int)(totalResources.Ore / healCostPerTurn.Ore);
-            }
-
-            return staminaToHeal;
+            return (int)Math.Min(100 - Stamina, totalResources.GetCapacity(healCostPerTurn));
         }
 
         public virtual void TrainTroops(TroopType type, int soldiers, int mercenaries) {
