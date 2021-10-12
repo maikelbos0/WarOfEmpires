@@ -470,6 +470,27 @@ namespace WarOfEmpires.Domain.Tests.Players {
         }
 
         [TestMethod]
+        public void Player_ResearchBonus_For_Regency_Checks_If_Mercenaries_Can_Be_Afforded() {
+            var player = new Player(0, "Test");
+            var troops = new Troops(TroopType.Archers, 450, 150);
+
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, Player.MercenaryTrainingCost);
+            typeof(Player).GetProperty(nameof(Player.BankedResources)).SetValue(player, Player.MercenaryTrainingCost);
+            player.Troops.Add(troops);
+            player.Research.Add(new Research(ResearchType.Commerce) { Level = 2 });
+            player.Research.Add(new Research(ResearchType.Regency) { Level = 5 });
+
+            var damage = player.Troops.Sum(t => player.GetTroopInfo(t.Type).GetTotalDefense());
+            var previousResources = player.Resources;
+
+            player.ProcessAttackDamage(damage * 10, 2M);
+
+            player.Resources.Should().Be(new Resources());
+            player.BankedResources.Should().Be(new Resources());
+            troops.Mercenaries.Should().Be(92);
+        }
+
+        [TestMethod]
         public void Player_GetSiegeWeaponCount_Succeeds_For_Nonexistent_SiegeWeaponType() {
             var player = new Player(0, "Test");
 
