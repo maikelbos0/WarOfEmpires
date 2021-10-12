@@ -158,7 +158,7 @@ namespace WarOfEmpires.Domain.Players {
 
             if (regencyBonus > 0) {
                 foreach (var casualty in casualties) {
-                    var regencyMercenaries = (int)(casualty.Mercenaries * regencyBonus + 0.5M);
+                    var regencyMercenaries = (int)Math.Min(casualty.Mercenaries * regencyBonus + 0.5M, GetTotalResources().GetCapacity(MercenaryTrainingCost));
 
                     TrainTroops(casualty.TroopType, 0, regencyMercenaries);
                 }
