@@ -10,10 +10,17 @@ namespace WarOfEmpires.Domain.Players {
         public Race Race { get; }
         public string Description { get; }
 
-        public RaceDefinition(Race race, string description,
-            decimal farmerModifier = 1M, decimal woodWorkerModifier = 1M, decimal stoneMasonModifier = 1M, decimal oreMinerModifier = 1M,
-            decimal archerModifier = 1M, decimal cavalryModifier = 1M, decimal footmenModifier = 1M) {
-
+        public RaceDefinition(
+            Race race, 
+            string description,
+            decimal farmerModifier = 1M,
+            decimal woodWorkerModifier = 1M, 
+            decimal stoneMasonModifier = 1M, 
+            decimal oreMinerModifier = 1M,
+            decimal archerModifier = 1M, 
+            decimal cavalryModifier = 1M,
+            decimal footmenModifier = 1M
+        ) {
             Race = race;
             Description = description;
             _workerModifiers.Add(WorkerType.Farmers, farmerModifier);

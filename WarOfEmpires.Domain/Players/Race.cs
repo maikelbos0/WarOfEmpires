@@ -1,8 +1,7 @@
 ﻿namespace WarOfEmpires.Domain.Players {
     public enum Race {
-        Human = 1,
-        Dwarf = 2,
-        Elf = 3,
-        Orc = 4
+        Humans = 1,
+        Dwarves = 2,
+        Elves = 3
     }
 }
