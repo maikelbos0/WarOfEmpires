@@ -61,7 +61,7 @@ namespace WarOfEmpires.Tests.Integration {
                 DisplayName = "Test display"
             });
 
-            registrationResult.Should().BeOfType<JsonResult>();
+            registrationResult.Should().BeOfType<RedirectResult>();
             _mailClient.SentMessages.Should().NotBeEmpty();
 
             // Activation

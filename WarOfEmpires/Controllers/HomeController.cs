@@ -35,25 +35,9 @@ namespace WarOfEmpires.Controllers {
 
         [HttpPost(nameof(Register))]
         public ActionResult Register(RegisterUserModel model) {
-            CommandResult<RegisterUserCommand> result = null;
-
-            if (ModelState.IsValid) {
-                result = _messageService.Dispatch(new RegisterUserCommand(model.Email, model.Password));
-                ModelState.Merge(result);
-            }
-
-            if (ModelState.IsValid) {
-                _messageService.Dispatch(new RegisterPlayerCommand(model.Email, model.DisplayName));
-
-                return new JsonResult(new {
-                    Success = true,
-                    result.Warnings,
-                    RedirectUrl = Url.Action(nameof(Index))
-                });
-            }
-            else {
-                return View(model);
-            }
+            return BuildViewResultFor(new RegisterUserCommand(model.Email, model.Password))
+                .OnSuccess(nameof(Index))
+                .OnFailure(model);
         }
 
         [HttpGet(nameof(Activate))]
