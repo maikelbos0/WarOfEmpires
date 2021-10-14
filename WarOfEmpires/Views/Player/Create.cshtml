@@ -1,0 +1,27 @@
+@model WarOfEmpires.Models.Security.RegisterUserModel
+
+@{
+    ViewBag.Title = "Create player";
+}
+
+<h2>Create player</h2>
+
+<p>Fill out the details below to start playing.</p>
+
+<form method="post" class="html-only">
+    <div class="row">
+        <div class="col-12 col-md-6 offset-md-3">
+            <div asp-validation-summary="ModelOnly" class="site-validation-summary text-danger"></div>
+
+            <div class="mb-3">
+                <label asp-for="DisplayName" class="site-required"></label>
+                <input type="text" asp-for="DisplayName" class="form-control" />
+                <span asp-validation-for="DisplayName" class="small form-text text-danger"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-6 offset-6 col-md-3"><button type="submit" class="btn btn-primary w-100">Submit</button></div>
+    </div>
+</form>
