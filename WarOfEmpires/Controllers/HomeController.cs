@@ -7,6 +7,7 @@ using WarOfEmpires.Commands.Security;
 using WarOfEmpires.Extensions;
 using WarOfEmpires.Filters;
 using WarOfEmpires.Models.Security;
+using WarOfEmpires.Queries.Players;
 using WarOfEmpires.Queries.Security;
 using WarOfEmpires.Services;
 
@@ -101,7 +102,10 @@ namespace WarOfEmpires.Controllers {
             if (ModelState.IsValid) {
                 await _authenticationService.SignIn(model.Email);
 
-                if (!string.IsNullOrEmpty(model.ReturnUrl)) {
+                if (!_messageService.Dispatch(new GetPlayerIsCreatedQuery(_authenticationService.Identity))) {
+                    return RedirectToAction(nameof(PlayerController.Create), PlayerController.Route);
+                }
+                else if (!string.IsNullOrEmpty(model.ReturnUrl)) {
                     return Redirect(model.ReturnUrl);
                 }
                 else {
