@@ -24,6 +24,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
 
             result.IsAuthenticated.Should().BeTrue();
             result.IsAdmin.Should().BeFalse();
+            result.IsPlayer.Should().BeTrue();
             result.IsInAlliance.Should().BeFalse();
             result.CanTransferLeadership.Should().BeFalse();
             result.CanInvite.Should().BeFalse();
@@ -33,6 +34,19 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
             result.CanManageNonAggressionPacts.Should().BeFalse();
             result.CanManageWars.Should().BeFalse();
             result.DisplayName.Should().Be("Test display name 1");
+        }
+
+        [TestMethod]
+        public void GetCurrentPlayerQueryHandler_Returns_Correct_Information_IsPlayer() {
+            var builder = new FakeBuilder()
+                .BuildUser(1);
+
+            var handler = new GetCurrentPlayerQueryHandler(builder.Context);
+            var query = new GetCurrentPlayerQuery("test1@test.com");
+
+            var result = handler.Execute(query);
+
+            result.IsPlayer.Should().BeFalse();
         }
 
         [TestMethod]
@@ -99,19 +113,6 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
             result.CanDisbandAlliance.Should().BeTrue();
             result.CanManageNonAggressionPacts.Should().BeTrue();
             result.CanManageWars.Should().BeTrue();
-        }
-
-        [TestMethod]
-        public void GetCurrentPlayerQueryHandler_Throws_Exception_For_Nonexistent_Email() {
-            var builder = new FakeBuilder()
-                .BuildPlayer(1);
-
-            var handler = new GetCurrentPlayerQueryHandler(builder.Context);
-            var query = new GetCurrentPlayerQuery("wrong@test.com");
-
-            Action action = () => handler.Execute(query);
-
-            action.Should().Throw<InvalidOperationException>();
         }
     }
 }
