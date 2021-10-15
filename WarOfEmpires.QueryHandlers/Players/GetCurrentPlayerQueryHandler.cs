@@ -22,16 +22,17 @@ namespace WarOfEmpires.QueryHandlers.Players {
                 .Include(p => p.User)
                 .Include(p => p.AllianceRole)
                 .Include(p => p.Alliance.Leader)
-                .Single(p => EmailComparisonService.Equals(p.User.Email, query.Email));
+                .SingleOrDefault(p => EmailComparisonService.Equals(p.User.Email, query.Email));
 
             var result = new CurrentPlayerViewModel() {
-                IsAuthenticated = true,
-                IsAdmin = player.User.IsAdmin,
-                IsInAlliance = player.Alliance != null,
-                DisplayName = player.DisplayName
+                IsAuthenticated = true,                
+                IsAdmin = player?.User.IsAdmin ?? false,
+                IsPlayer = player != null,
+                IsInAlliance = player?.Alliance != null,
+                DisplayName = player?.DisplayName
             };
 
-            if (player.Alliance != null) {
+            if (player?.Alliance != null) {
                 result.IsInAlliance = true;
 
                 if (player == player.Alliance.Leader) {
