@@ -70,7 +70,7 @@ namespace WarOfEmpires.Controllers {
 
         [HttpPost(nameof(EditProfile))]
         public ActionResult EditProfile(ProfileModel model) {
-            return BuildViewResultFor(new UpdateProfileCommand(_authenticationService.Identity, model.FullName, model.Description, model.Avatar.OpenReadStream))
+            return BuildViewResultFor(new UpdateProfileCommand(_authenticationService.Identity, model.FullName, model.Description, model.Avatar == null ? null : model.Avatar.OpenReadStream))
                 .OnSuccess(nameof(EditProfile))
                 .OnFailure(model);
         }
