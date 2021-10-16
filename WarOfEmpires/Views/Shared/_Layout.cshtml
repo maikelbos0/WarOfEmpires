@@ -55,15 +55,5 @@
     </div>
 
     @RenderSection("Scripts", required: false)
-
-    @if (AuthenticationService.IsAuthenticated) {
-        <script type="text/javascript">
-            $(function () {
-                NotificationManager.url = "@Url.Action(nameof(Player.GetNotifications), Player.Route)";
-                NotificationManager.refresh();
-                AjaxManager.onSuccess.push(NotificationManager.refresh);
-            });
-        </script>
-    }
 </body>
 </html>
