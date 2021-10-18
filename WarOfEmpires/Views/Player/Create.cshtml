@@ -18,6 +18,24 @@
                 <input type="text" asp-for="DisplayName" class="form-control" />
                 <span asp-validation-for="DisplayName" class="small form-text text-danger"></span>
             </div>
+
+            <div class="mb-3">
+                <label asp-for="FullName"></label>
+                <input type="text" asp-for="FullName" class="form-control" />
+                <span asp-validation-for="FullName" class="small form-text text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Avatar"></label>
+                <input type="file" asp-for="Avatar" class="form-control" />
+                <div class="form-text">It can take up to 10 minutes for your new avatar to be available on our CDN.</div>
+                <span asp-validation-for="Avatar" class="small form-text text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Description"></label>
+                <textarea asp-for="Description" class="form-control" rows="8"></textarea>
+            </div>
         </div>
     </div>
 

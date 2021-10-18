@@ -19,9 +19,9 @@ namespace WarOfEmpires.Models.Players {
         [DisplayName("Description")]
         public string Description { get; set; }
 
-        [DisplayName("Upload new avatar")]
-        [MaxFileSize(1024 * 1024, ErrorMessage = "New avatar size has to be 1 megabyte or smaller")]
-        [FileExtension(".jpg", ".jpeg", ".png", ErrorMessage = "New avatar has to be a jpeg or png image")]
+        [DisplayName("Upload avatar")]
+        [MaxFileSize(1024 * 1024, ErrorMessage = "Avatar size has to be 1 megabyte or smaller")]
+        [FileExtension(".jpg", ".jpeg", ".png", ErrorMessage = "Avatar has to be a jpeg or png image")]
         public IFormFile Avatar { get; set; }
     }
 }
