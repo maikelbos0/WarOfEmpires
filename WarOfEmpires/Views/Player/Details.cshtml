@@ -84,18 +84,20 @@
 
     @if (hasProfile) {
         <div class="col-12 col-md-6">
-            <div class="mb-3">
-                <label>Full name</label>
-                <div class="form-control" readonly="readonly">@Model.FullName</div>
-            </div>
+            @if (!string.IsNullOrWhiteSpace(Model.FullName)) {
+                <div class="mb-3">
+                    <label>Full name</label>
+                    <div class="form-control" readonly="readonly">@Model.FullName</div>
+                </div>
+            }
 
-            @if (!string.IsNullOrEmpty(Model.AvatarLocation)) {
+            @if (!string.IsNullOrWhiteSpace(Model.AvatarLocation)) {
                 <div class="mb-3">
                     <img src="@Model.AvatarLocation" class="img-fluid" />
                 </div>
             }
 
-            @if (!string.IsNullOrEmpty(Model.Description)) {
+            @if (!string.IsNullOrWhiteSpace(Model.Description)) {
                 <div class="site-user-text">@Model.Description</div>
             }
         </div>
