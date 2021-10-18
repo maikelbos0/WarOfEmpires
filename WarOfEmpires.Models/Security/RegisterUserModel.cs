@@ -16,10 +16,5 @@ namespace WarOfEmpires.Models.Security {
         [Required(ErrorMessage = "Confirm password is required")]
         [Compare("Password", ErrorMessage = "Password and confirm password must match")]
         public string ConfirmPassword { get; set; }
-
-        [DisplayName("Display name")]
-        [Required(ErrorMessage = "Display name is required")]
-        [MaxLength(25, ErrorMessage = "Display name can only be 25 characters long")]
-        public string DisplayName { get; set; }
     }
 }

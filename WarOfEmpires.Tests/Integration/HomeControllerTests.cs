@@ -57,8 +57,7 @@ namespace WarOfEmpires.Tests.Integration {
             var registrationResult = GetController().Register(new RegisterUserModel() {
                 Email = "test@test.com",
                 Password = "test",
-                ConfirmPassword = "test",
-                DisplayName = "Test display"
+                ConfirmPassword = "test"
             });
 
             registrationResult.Should().BeOfType<RedirectResult>();
