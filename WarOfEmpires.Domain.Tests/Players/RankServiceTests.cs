@@ -11,7 +11,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
     public sealed class RankServiceTests {
         [TestMethod]
         public void RankService_GetPoints_Succeeds() {
-            var player = new Player(0, "test@test.com");
+            var player = new Player(0, "test@test.com", Race.Elves);
 
             player.Workers.Add(new Workers(WorkerType.Farmers, 50));
             player.Workers.Add(new Workers(WorkerType.WoodWorkers, 250));
@@ -39,8 +39,8 @@ namespace WarOfEmpires.Domain.Tests.Players {
         [DataRow(100, 0, double.PositiveInfinity)]
         [DataRow(0, 0, 1)]
         public void RankService_GetRatio_Succeeds(int divident, int divisor, double expectedRatio) {
-            var dividentPlayer = new Player(0, "divident@test.com");
-            var divisorPlayer = new Player(0, "divisor@test.com");
+            var dividentPlayer = new Player(0, "divident@test.com", Race.Elves);
+            var divisorPlayer = new Player(0, "divisor@test.com", Race.Elves);
 
             dividentPlayer.Workers.Add(new Workers(WorkerType.WoodWorkers, divident));
             divisorPlayer.Workers.Add(new Workers(WorkerType.WoodWorkers, divisor));
@@ -60,7 +60,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
         [DataRow(15, 1200, 2, TitleType.Overlord, DisplayName = "Overlord (too low rank)")]
         [DataRow(15, 1200, 1, TitleType.GrandOverlord, DisplayName = "Grand Overlord")]
         public void RankService_GetTitle_Succeeds(int defenceLevel, int soldiers, int newRank, TitleType expectedTitle) {
-            var player = new Player(0, "test@test.com");
+            var player = new Player(0, "test@test.com", Race.Elves);
 
             player.Troops.Add(new Troops(TroopType.Archers, soldiers, 250));
             player.Buildings.Add(new Building(BuildingType.Defences, defenceLevel));

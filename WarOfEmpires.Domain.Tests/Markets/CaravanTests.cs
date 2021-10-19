@@ -11,7 +11,7 @@ namespace WarOfEmpires.Domain.Tests.Markets {
     public sealed class CaravanTests {
         [TestMethod]
         public void Caravan_GetRemainingCapacity_Succeeds_When_Empty() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
             var caravan = new Caravan(player);
 
             caravan.GetRemainingCapacity(25000).Should().Be(25000);
@@ -19,7 +19,7 @@ namespace WarOfEmpires.Domain.Tests.Markets {
 
         [TestMethod]
         public void Caravan_GetRemainingCapacity_Succeeds() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
             var caravan = new Caravan(player);
 
             caravan.Merchandise.Add(new Merchandise(MerchandiseType.Food, 8000, 5));
@@ -30,7 +30,7 @@ namespace WarOfEmpires.Domain.Tests.Markets {
 
         [TestMethod]
         public void Caravan_GetRemainingCapacity_Succeeds_When_Full() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
             var caravan = new Caravan(player);
 
             caravan.Merchandise.Add(new Merchandise(MerchandiseType.Food, 10000, 5));
@@ -43,7 +43,7 @@ namespace WarOfEmpires.Domain.Tests.Markets {
 
         [TestMethod]
         public void Caravan_Withdraw_Succeeds() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
             var previousResources = player.Resources;
             var caravan = new Caravan(player);
 
@@ -71,7 +71,7 @@ namespace WarOfEmpires.Domain.Tests.Markets {
         [DataRow(15, 2500, 5000, DisplayName = "15 hours")]
         [DataRow(24, 1724, 3846, DisplayName = "24 hours")]
         public void Caravan_Withdraw_Destroys_Randomly_Based_On_Duration(int hours, int expectedMinimum, int expectedMaximum) {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
             var previousFood = player.Resources.Food;
             var caravan = new Caravan(player);
 
@@ -85,8 +85,8 @@ namespace WarOfEmpires.Domain.Tests.Markets {
 
         [TestMethod]
         public void Caravan_Buy_Succeeds_Partial_Purchase() {
-            var seller = new Player(1, "Seller");
-            var buyer = new Player(2, "Buyer");
+            var seller = new Player(1, "Seller", Race.Elves);
+            var buyer = new Player(2, "Buyer", Race.Elves);
             var caravan = new Caravan(seller);
 
             seller.Caravans.Add(caravan);
@@ -101,8 +101,8 @@ namespace WarOfEmpires.Domain.Tests.Markets {
 
         [TestMethod]
         public void Caravan_Buy_Succeeds_Full_Purchase() {
-            var seller = new Player(1, "Seller");
-            var buyer = new Player(2, "Buyer");
+            var seller = new Player(1, "Seller", Race.Elves);
+            var buyer = new Player(2, "Buyer", Race.Elves);
             var caravan = new Caravan(seller);
 
             seller.Caravans.Add(caravan);

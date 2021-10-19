@@ -47,7 +47,8 @@ namespace WarOfEmpires.CommandHandlers.Players {
 
 
             if (result.Success) {
-                var player = new Player(user.Id, command.DisplayName);
+                // TODO not hardcore race
+                var player = new Player(user.Id, command.DisplayName, Race.Elves);
                 _repository.Add(player);
 
                 player.Profile.FullName = command.FullName;

@@ -152,7 +152,7 @@ namespace WarOfEmpires.Tests.Integration {
             user.Activate();
             _context.Users.Add(user);
             
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
             typeof(Player).GetProperty(nameof(Player.User)).SetValue(player, user);
             _context.Players.Add(player);
 

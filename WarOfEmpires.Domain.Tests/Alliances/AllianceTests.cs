@@ -10,7 +10,7 @@ namespace WarOfEmpires.Domain.Tests.Alliances {
     public sealed class AllianceTests {
         [TestMethod]
         public void Alliance_New_Adds_Leader_As_Member() {
-            var leader = new Player(1, "Leader");
+            var leader = new Player(1, "Leader", Race.Elves);
             var alliance = new Alliance(leader, "TEST", "The Test");
 
             alliance.Members.Should().BeEquivalentTo(new[] { leader });
@@ -18,8 +18,8 @@ namespace WarOfEmpires.Domain.Tests.Alliances {
 
         [TestMethod]
         public void Alliance_Leave_Succeeds() {
-            var leader = new Player(1, "Leader");
-            var member = new Player(2, "Member");
+            var leader = new Player(1, "Leader", Race.Elves);
+            var member = new Player(2, "Member", Race.Elves);
             var alliance = new Alliance(leader, "TEST", "The Test");
 
             alliance.Members.Add(member);
@@ -36,8 +36,8 @@ namespace WarOfEmpires.Domain.Tests.Alliances {
 
         [TestMethod]
         public void Alliance_Kick_Succeeds() {
-            var leader = new Player(1, "Leader");
-            var member = new Player(2, "Member");
+            var leader = new Player(1, "Leader", Race.Elves);
+            var member = new Player(2, "Member", Race.Elves);
             var alliance = new Alliance(leader, "TEST", "The Test");
 
             alliance.Members.Add(member);
@@ -54,8 +54,8 @@ namespace WarOfEmpires.Domain.Tests.Alliances {
 
         [TestMethod]
         public void Alliance_SendInvite_Succeeds() {
-            var leader = new Player(1, "Leader");
-            var player = new Player(2, "Player");
+            var leader = new Player(1, "Leader", Race.Elves);
+            var player = new Player(2, "Player", Race.Elves);
             var alliance = new Alliance(leader, "TEST", "The Test");
 
             alliance.SendInvite(player, "The subject", "A body");
@@ -71,8 +71,8 @@ namespace WarOfEmpires.Domain.Tests.Alliances {
 
         [TestMethod]
         public void Alliance_AcceptInvite_Succeeds() {
-            var leader = new Player(1, "Leader");
-            var player = new Player(2, "New Guy");
+            var leader = new Player(1, "Leader", Race.Elves);
+            var player = new Player(2, "New Guy", Race.Elves);
             var alliance = new Alliance(leader, "TEST", "The Test");
             var invite = new Invite(alliance, player, null, null);
 
@@ -89,8 +89,8 @@ namespace WarOfEmpires.Domain.Tests.Alliances {
 
         [TestMethod]
         public void Alliance_RemoveInvite_Succeeds() {
-            var leader = new Player(1, "Leader");
-            var player = new Player(2, "Player");
+            var leader = new Player(1, "Leader", Race.Elves);
+            var player = new Player(2, "Player", Race.Elves);
             var alliance = new Alliance(leader, "TEST", "The Test");
             var invite = new Invite(alliance, player, null, null);
 
@@ -103,7 +103,7 @@ namespace WarOfEmpires.Domain.Tests.Alliances {
 
         [TestMethod]
         public void Alliance_PostChatMessage_Succeeds() {
-            var leader = new Player(1, "Leader");
+            var leader = new Player(1, "Leader", Race.Elves);
             var alliance = new Alliance(leader, "TEST", "The Test");
 
             alliance.PostChatMessage(leader, "Test message");
@@ -116,9 +116,9 @@ namespace WarOfEmpires.Domain.Tests.Alliances {
 
         [TestMethod]
         public void Alliance_PostChatMessage_Sets_HasNewChatMessages() {
-            var leader = new Player(1, "Leader");
-            var member1 = new Player(2, "Member 1");
-            var member2 = new Player(3, "Member 2");
+            var leader = new Player(1, "Leader", Race.Elves);
+            var member1 = new Player(2, "Member 1", Race.Elves);
+            var member2 = new Player(3, "Member 2", Race.Elves);
             var alliance = new Alliance(leader, "TEST", "The Test");
 
             alliance.Members.Add(member1);
@@ -133,7 +133,7 @@ namespace WarOfEmpires.Domain.Tests.Alliances {
 
         [TestMethod]
         public void Alliance_PostChatMessage__Without_Player_Succeeds() {
-            var leader = new Player(1, "Leader");
+            var leader = new Player(1, "Leader", Race.Elves);
             var alliance = new Alliance(leader, "TEST", "The Test");
 
             alliance.PostChatMessage("Test message");
@@ -147,7 +147,7 @@ namespace WarOfEmpires.Domain.Tests.Alliances {
 
         [TestMethod]
         public void Alliance_DeleteChatMessage_Succeeds() {
-            var leader = new Player(1, "Leader");
+            var leader = new Player(1, "Leader", Race.Elves);
             var alliance = new Alliance(leader, "TEST", "The Test");
             var chatMessage = new ChatMessage(leader, "Test message");
 
@@ -160,7 +160,7 @@ namespace WarOfEmpires.Domain.Tests.Alliances {
 
         [TestMethod]
         public void Alliance_CreateRole_Succeeds() {
-            var leader = new Player(1, "Leader");
+            var leader = new Player(1, "Leader", Race.Elves);
             var alliance = new Alliance(leader, "TEST", "The Test");
 
             alliance.CreateRole("Testrole", true, true, true, true, true, true);
@@ -178,7 +178,7 @@ namespace WarOfEmpires.Domain.Tests.Alliances {
 
         [TestMethod]
         public void Alliance_DeleteRole_Succeeds() {
-            var leader = new Player(1, "Leader");
+            var leader = new Player(1, "Leader", Race.Elves);
             var alliance = new Alliance(leader, "TEST", "The Test");
             var role = new Role(alliance, "Testrole", false, false, false, false, false, false);
 
@@ -193,7 +193,7 @@ namespace WarOfEmpires.Domain.Tests.Alliances {
 
         [TestMethod]
         public void Alliance_SetRole_Succeeds() {
-            var leader = new Player(1, "Leader");
+            var leader = new Player(1, "Leader", Race.Elves);
             var alliance = new Alliance(leader, "TEST", "The Test");
             var role = new Role(alliance, "Testrole", false, false, false, false, false, false);
 
@@ -206,8 +206,8 @@ namespace WarOfEmpires.Domain.Tests.Alliances {
 
         [TestMethod]
         public void Alliance_ClearRole_Succeeds() {
-            var leader = new Player(1, "Leader");
-            var member = new Player(2, "Member");
+            var leader = new Player(1, "Leader", Race.Elves);
+            var member = new Player(2, "Member", Race.Elves);
             var alliance = new Alliance(leader, "TEST", "The Test");
             var role = new Role(alliance, "Testrole", false, false, false, false, false, false);
 
@@ -221,8 +221,8 @@ namespace WarOfEmpires.Domain.Tests.Alliances {
 
         [TestMethod]
         public void Alliance_TransferLeadership_Succeeds() {
-            var oldLeader = new Player(1, "Old leader");
-            var newLeader = new Player(2, "New leader");
+            var oldLeader = new Player(1, "Old leader", Race.Elves);
+            var newLeader = new Player(2, "New leader", Race.Elves);
             var alliance = new Alliance(oldLeader, "TEST", "The Test");
 
             alliance.Members.Add(newLeader);
@@ -237,8 +237,8 @@ namespace WarOfEmpires.Domain.Tests.Alliances {
 
         [TestMethod]
         public void Alliance_Disband_Succeeds() {
-            var leader = new Player(1, "Leader") { HasNewChatMessages = true };
-            var member = new Player(2, "Member") { HasNewChatMessages = true };
+            var leader = new Player(1, "Leader", Race.Elves) { HasNewChatMessages = true };
+            var member = new Player(2, "Member", Race.Elves) { HasNewChatMessages = true };
             var alliance = new Alliance(leader, "TEST", "The Test");
             var role = new Role(alliance, "Testrole", false, false, false, false, false, false);
 
@@ -260,8 +260,8 @@ namespace WarOfEmpires.Domain.Tests.Alliances {
 
         [TestMethod]
         public void Alliance_SendNonAggressionPactRequest_Succeeds() {
-            var senderAlliance = new Alliance(new Player(1, "Sender"), "SEND", "The Senders");
-            var recipientAlliance = new Alliance(new Player(2, "Recipient"), "RECV", "The Recipients");
+            var senderAlliance = new Alliance(new Player(1, "Sender", Race.Elves), "SEND", "The Senders");
+            var recipientAlliance = new Alliance(new Player(2, "Recipient", Race.Elves), "RECV", "The Recipients");
 
             senderAlliance.SendNonAggressionPactRequest(recipientAlliance);
 
@@ -274,8 +274,8 @@ namespace WarOfEmpires.Domain.Tests.Alliances {
 
         [TestMethod]
         public void Alliance_DeclareWar_Succeeds() {
-            var declaringAlliance = new Alliance(new Player(1, "Sender"), "SEND", "The Senders");
-            var targetAlliance = new Alliance(new Player(2, "Target"), "TRGT", "The Targets");
+            var declaringAlliance = new Alliance(new Player(1, "Sender", Race.Elves), "SEND", "The Senders");
+            var targetAlliance = new Alliance(new Player(2, "Target", Race.Elves), "TRGT", "The Targets");
 
             declaringAlliance.DeclareWar(targetAlliance);
 
@@ -293,7 +293,7 @@ namespace WarOfEmpires.Domain.Tests.Alliances {
 
         [TestMethod]
         public void Alliance_Update_Succeeds() {
-            var alliance = new Alliance(new Player(1, "Leader"), "ALLY", "The Alliance");
+            var alliance = new Alliance(new Player(1, "Leader", Race.Elves), "ALLY", "The Alliance");
 
             alliance.Update("NEW", "The Reborn");
 
