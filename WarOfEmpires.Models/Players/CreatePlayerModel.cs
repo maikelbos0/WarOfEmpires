@@ -1,10 +1,13 @@
 ﻿using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using WarOfEmpires.Models.DataAnnotations;
 
 namespace WarOfEmpires.Models.Players {
     public sealed class CreatePlayerModel {
+        public List<RaceViewModel> Races { get; set; } = new List<RaceViewModel>();
+
         // TODO add race here
 
         [DisplayName("Display name")]
