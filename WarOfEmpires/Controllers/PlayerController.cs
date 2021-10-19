@@ -82,7 +82,7 @@ namespace WarOfEmpires.Controllers {
 
         [HttpPost(nameof(Create))]
         public ActionResult Create(CreatePlayerModel model) {
-            return BuildViewResultFor(new RegisterPlayerCommand(_authenticationService.Identity, model.DisplayName, model.FullName, model.Description, model.Avatar == null ? null : model.Avatar.OpenReadStream))
+            return BuildViewResultFor(new CreatePlayerCommand(_authenticationService.Identity, model.DisplayName, model.FullName, model.Description, model.Avatar == null ? null : model.Avatar.OpenReadStream))
                 .OnSuccess(nameof(Home))
                 .OnFailure(model);
         }

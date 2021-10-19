@@ -8,20 +8,20 @@ using WarOfEmpires.Repositories.Security;
 using WarOfEmpires.Utilities.Storage;
 
 namespace WarOfEmpires.CommandHandlers.Players {
-    [TransientServiceImplementation(typeof(ICommandHandler<RegisterPlayerCommand>))]
-    public sealed class RegisterPlayerCommandHandler : ICommandHandler<RegisterPlayerCommand> {
+    [TransientServiceImplementation(typeof(ICommandHandler<CreatePlayerCommand>))]
+    public sealed class CreatePlayerCommandHandler : ICommandHandler<CreatePlayerCommand> {
         private readonly IUserRepository _userRepository;
         private readonly IPlayerRepository _repository;
         private readonly IStorageClient _storageClient;
 
-        public RegisterPlayerCommandHandler(IUserRepository userRepository, IPlayerRepository repository, IStorageClient storageClient) {
+        public CreatePlayerCommandHandler(IUserRepository userRepository, IPlayerRepository repository, IStorageClient storageClient) {
             _userRepository = userRepository;
             _repository = repository;
             _storageClient = storageClient;
         }
 
-        public CommandResult<RegisterPlayerCommand> Execute(RegisterPlayerCommand command) {
-            var result = new CommandResult<RegisterPlayerCommand>();
+        public CommandResult<CreatePlayerCommand> Execute(CreatePlayerCommand command) {
+            var result = new CommandResult<CreatePlayerCommand>();
             var user = _userRepository.TryGetByEmail(command.Email);
             string imageFileExtension = null;
 

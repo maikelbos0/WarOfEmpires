@@ -2,7 +2,7 @@
 using System.IO;
 
 namespace WarOfEmpires.Commands.Players {
-    public sealed class RegisterPlayerCommand : ICommand {
+    public sealed class CreatePlayerCommand : ICommand {
         public string Email { get; }
         public string DisplayName { get; }
         public string FullName { get; }
@@ -10,9 +10,8 @@ namespace WarOfEmpires.Commands.Players {
         public Func<Stream> Avatar { get; }
 
         // TODO add race
-        // TODO rename to create
 
-        public RegisterPlayerCommand(string email, string displayName, string fullName, string description, Func<Stream> avatar) {
+        public CreatePlayerCommand(string email, string displayName, string fullName, string description, Func<Stream> avatar) {
             Email = email;
             DisplayName = displayName;
             FullName = fullName;
