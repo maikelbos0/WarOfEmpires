@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WarOfEmpires.Database;
 
 namespace WarOfEmpires.Database.Migrations
 {
     [DbContext(typeof(WarContext))]
-    partial class WarContextModelSnapshot : ModelSnapshot
+    [Migration("20211019174146_Players-Race")]
+    partial class PlayersRace
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1506,7 +1508,8 @@ namespace WarOfEmpires.Database.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("Race")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasDefaultValue(3);
 
                     b.Property<int>("Rank")
                         .HasColumnType("int");
