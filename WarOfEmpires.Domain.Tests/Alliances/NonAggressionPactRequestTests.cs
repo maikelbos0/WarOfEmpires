@@ -9,8 +9,8 @@ namespace WarOfEmpires.Domain.Tests.Alliances {
     public sealed class NonAggressionPactRequestTests {
         [TestMethod]
         public void NonAggressionPactRequest_Accept_Succeeds() {
-            var senderAlliance = new Alliance(new Player(1, "Sender"), "SEND", "The Senders");
-            var recipientAlliance = new Alliance(new Player(2, "Recipient"), "RECV", "The Recipients");
+            var senderAlliance = new Alliance(new Player(1, "Sender", Race.Elves), "SEND", "The Senders");
+            var recipientAlliance = new Alliance(new Player(2, "Recipient", Race.Elves), "RECV", "The Recipients");
             var request = new NonAggressionPactRequest(senderAlliance, recipientAlliance);
 
             senderAlliance.SentNonAggressionPactRequests.Add(request);
@@ -33,8 +33,8 @@ namespace WarOfEmpires.Domain.Tests.Alliances {
 
         [TestMethod]
         public void NonAggressionPactRequest_Reject_Succeeds() {
-            var senderAlliance = new Alliance(new Player(1, "Sender"), "SEND", "The Senders");
-            var recipientAlliance = new Alliance(new Player(2, "Recipient"), "RECV", "The Recipients");
+            var senderAlliance = new Alliance(new Player(1, "Sender", Race.Elves), "SEND", "The Senders");
+            var recipientAlliance = new Alliance(new Player(2, "Recipient", Race.Elves), "RECV", "The Recipients");
             var request = new NonAggressionPactRequest(senderAlliance, recipientAlliance);
 
             senderAlliance.SentNonAggressionPactRequests.Add(request);
@@ -50,8 +50,8 @@ namespace WarOfEmpires.Domain.Tests.Alliances {
 
         [TestMethod]
         public void NonAggressionPactRequest_Withdraw_Succeeds() {
-            var senderAlliance = new Alliance(new Player(1, "Sender"), "SEND", "The Senders");
-            var recipientAlliance = new Alliance(new Player(2, "Recipient"), "RECV", "The Recipients");
+            var senderAlliance = new Alliance(new Player(1, "Sender", Race.Elves), "SEND", "The Senders");
+            var recipientAlliance = new Alliance(new Player(2, "Recipient", Race.Elves), "RECV", "The Recipients");
             var request = new NonAggressionPactRequest(senderAlliance, recipientAlliance);
 
             senderAlliance.SentNonAggressionPactRequests.Add(request);

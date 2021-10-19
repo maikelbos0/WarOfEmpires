@@ -9,8 +9,8 @@ namespace WarOfEmpires.Domain.Tests.Alliances {
     public sealed class WarTests {
         [TestMethod]
         public void War_DeclarePeace_Succeeds() {
-            var firstAlliance = new Alliance(new Player(1, "First"), "1ST", "The First");
-            var secondAlliance = new Alliance(new Player(2, "Second"), "OTHR", "The Others");
+            var firstAlliance = new Alliance(new Player(1, "First", Race.Elves), "1ST", "The First");
+            var secondAlliance = new Alliance(new Player(2, "Second", Race.Elves), "OTHR", "The Others");
             var war = new War();
 
             war.Alliances.Add(firstAlliance);
@@ -25,8 +25,8 @@ namespace WarOfEmpires.Domain.Tests.Alliances {
 
         [TestMethod]
         public void War_DeclarePeace_Succeeds_Last_Alliance() {
-            var firstAlliance = new Alliance(new Player(1, "First"), "1ST", "The First");
-            var secondAlliance = new Alliance(new Player(2, "Second"), "OTHR", "The Others");
+            var firstAlliance = new Alliance(new Player(1, "First", Race.Elves), "1ST", "The First");
+            var secondAlliance = new Alliance(new Player(2, "Second", Race.Elves), "OTHR", "The Others");
             var war = new War();
 
             war.Alliances.Add(firstAlliance);
@@ -48,8 +48,8 @@ namespace WarOfEmpires.Domain.Tests.Alliances {
 
         [TestMethod]
         public void War_CancelPeaceDeclaration_Succeeds() {
-            var firstAlliance = new Alliance(new Player(1, "First"), "1ST", "The First");
-            var secondAlliance = new Alliance(new Player(2, "Second"), "OTHR", "The Others");
+            var firstAlliance = new Alliance(new Player(1, "First", Race.Elves), "1ST", "The First");
+            var secondAlliance = new Alliance(new Player(2, "Second", Race.Elves), "OTHR", "The Others");
             var war = new War();
 
             war.Alliances.Add(firstAlliance);

@@ -11,8 +11,8 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
     public sealed class RevengeTests {
         [TestMethod]
         public void Revenge_Result_Is_Never_Surrendered() {
-            var attacker = new Player(1, "Attacker");
-            var defender = new Player(2, "Defender");
+            var attacker = new Player(1, "Attacker", Race.Elves);
+            var defender = new Player(2, "Defender", Race.Elves);
 
             attacker.Troops.Add(new Troops(TroopType.Archers, 600, 200));
             defender.Troops.Add(new Troops(TroopType.Archers, 10, 2));
@@ -28,8 +28,8 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
 
         [TestMethod]
         public void Revenge_Result_Is_Surrendered_For_Defender_Without_Troops() {
-            var attacker = new Player(1, "Attacker");
-            var defender = new Player(2, "Defender");
+            var attacker = new Player(1, "Attacker", Race.Elves);
+            var defender = new Player(2, "Defender", Race.Elves);
 
             attacker.Troops.Add(new Troops(TroopType.Archers, 600, 200));
             defender.Troops.Add(new Troops(TroopType.Archers, 0, 0));
@@ -42,8 +42,8 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
 
         [TestMethod]
         public void Revenge_Won_Calculates_Correct_Resources() {
-            var attacker = new Player(1, "Attacker");
-            var defender = new Player(2, "Defender");
+            var attacker = new Player(1, "Attacker", Race.Elves);
+            var defender = new Player(2, "Defender", Race.Elves);
 
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(attacker, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(defender, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
@@ -63,8 +63,8 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
         [DataRow(95, false, 5, 10, 2000, 19000, DisplayName = "Defender 10 turns with defences")]
         [DataRow(95, true, 5, 10, 2000, 9500, DisplayName = "Attacker 10 turns with defences")]
         public void Revenge_CalculateDamage_Is_Correct(int stamina, bool isAggressor, int defenceLevel, int turns, int troopAttackDamage, int expectedDamage) {
-            var attacker = new Player(1, "Attacker");
-            var defender = new Player(2, "Defender");
+            var attacker = new Player(1, "Attacker", Race.Elves);
+            var defender = new Player(2, "Defender", Race.Elves);
             var attack = new Revenge(attacker, defender, turns);
             var troopInfo = Substitute.For<TroopInfo>();
 

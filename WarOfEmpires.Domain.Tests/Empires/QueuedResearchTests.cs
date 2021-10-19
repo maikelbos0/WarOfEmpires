@@ -8,7 +8,7 @@ namespace WarOfEmpires.Domain.Tests.Empires {
     public sealed class QueuedResearchTests {
         [TestMethod]
         public void QueuedResearch_ProcessTurn_Succeeds_When_Not_Completed() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
             var research = new QueuedResearch(player, 1, ResearchType.CombatMedicine);
 
             player.Research.Add(new Research(ResearchType.CombatMedicine) { Level = 2 });
@@ -24,7 +24,7 @@ namespace WarOfEmpires.Domain.Tests.Empires {
 
         [TestMethod]
         public void QueuedResearch_ProcessTurn_Succeeds_When_Completed_New() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
             var research = new QueuedResearch(player, 1, ResearchType.CombatMedicine);
 
             player.Research.Add(new Research(ResearchType.Tactics) { Level = 2 });
@@ -40,7 +40,7 @@ namespace WarOfEmpires.Domain.Tests.Empires {
 
         [TestMethod]
         public void QueuedResearch_ProcessTurn_Succeeds_When_Completed_Existing() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
             var research = new QueuedResearch(player, 1, ResearchType.CombatMedicine);
 
             player.Research.Add(new Research(ResearchType.CombatMedicine) { Level = 2 });

@@ -48,6 +48,7 @@ namespace WarOfEmpires.Domain.Players {
         public virtual int Rank { get; protected set; } = int.MaxValue;
         public virtual TimeSpan GrandOverlordTime { get; protected set; } = TimeSpan.Zero;
         public virtual TitleType Title { get; protected set; } = TitleType.PeasantLeader;
+        public virtual Race Race { get; protected set; }
         public virtual Alliance Alliance { get; protected set; }
         public virtual Role AllianceRole { get; protected set; }
         public virtual DateTime CreationDate { get; protected set; }
@@ -70,9 +71,10 @@ namespace WarOfEmpires.Domain.Players {
         protected Player() {
         }
 
-        public Player(int id, string displayName) {
+        public Player(int id, string displayName, Race race) {
             Id = id;
             DisplayName = displayName;
+            Race = race;
             CreationDate = DateTime.UtcNow;
 
             foreach (var building in GetStartingBuildings()) {

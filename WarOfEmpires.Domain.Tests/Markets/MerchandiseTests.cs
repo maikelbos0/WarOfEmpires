@@ -10,8 +10,8 @@ namespace WarOfEmpires.Domain.Tests.Markets {
     public sealed class MerchandiseTests {
         [TestMethod]
         public void Merchandise_Buy_Succeeds() {
-            var seller = new Player(1, "Seller");
-            var buyer = new Player(2, "Buyer");
+            var seller = new Player(1, "Seller", Race.Elves);
+            var buyer = new Player(2, "Buyer", Race.Elves);
             var merchandise = new Merchandise(MerchandiseType.Wood, 2000, 5);
             var previousSellerResources = seller.Resources;
             var previousBuyerResources = buyer.Resources;
@@ -25,8 +25,8 @@ namespace WarOfEmpires.Domain.Tests.Markets {
 
         [TestMethod]
         public void Merchandise_Buy_Adds_History() {
-            var seller = new Player(1, "Seller");
-            var buyer = new Player(2, "Buyer");
+            var seller = new Player(1, "Seller", Race.Elves);
+            var buyer = new Player(2, "Buyer", Race.Elves);
             var merchandise = new Merchandise(MerchandiseType.Wood, 2000, 5);
 
             merchandise.Buy(seller, buyer, 800);
@@ -45,8 +45,8 @@ namespace WarOfEmpires.Domain.Tests.Markets {
 
         [TestMethod]
         public void Merchandise_Buy_Sets_Seller_HasNewMarketSales_True() {
-            var seller = new Player(1, "Seller");
-            var buyer = new Player(2, "Buyer");
+            var seller = new Player(1, "Seller", Race.Elves);
+            var buyer = new Player(2, "Buyer", Race.Elves);
             var merchandise = new Merchandise(MerchandiseType.Wood, 2000, 5);
 
             merchandise.Buy(seller, buyer, 800);

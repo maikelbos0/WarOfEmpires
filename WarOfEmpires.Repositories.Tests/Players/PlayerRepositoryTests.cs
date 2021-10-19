@@ -158,7 +158,7 @@ namespace WarOfEmpires.Repositories.Tests.Players {
             var context = new FakeWarContext();
 
             var repository = new PlayerRepository(context);
-            var player = new Player(0, "New");
+            var player = new Player(0, "New", Race.Elves);
 
             repository.Add(player);
 
@@ -171,7 +171,7 @@ namespace WarOfEmpires.Repositories.Tests.Players {
 
             var repository = new PlayerRepository(context);
 
-            repository.Add(new Player(0, "New"));
+            repository.Add(new Player(0, "New", Race.Elves));
 
             context.CallsToSaveChanges.Should().Be(1);
         }

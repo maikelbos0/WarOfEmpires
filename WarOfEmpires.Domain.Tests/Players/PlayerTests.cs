@@ -15,7 +15,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
     public sealed class PlayerTests {
         [TestMethod]
         public void Player_Recruit_Adds_To_CurrentRecruitingEffort() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
             var previousRecruitingEffort = player.CurrentRecruitingEffort;
 
             player.Recruit();
@@ -25,7 +25,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_Recruit_Adds_Peasants_When_Possible() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
             var previousPeasants = player.Peasants;
 
             while (player.CurrentRecruitingEffort < 23) {
@@ -39,7 +39,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_Recruit_Adds_No_Peasants_When_Not_Possible() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
             var previousPeasants = player.Peasants;
 
             player.Recruit();
@@ -49,7 +49,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_Recruit_Gives_Correct_Effort_Remainder_When_Adding_Peasants() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
 
             player.Buildings.Add(new Building(BuildingType.Farm, 8));
             player.Buildings.Add(new Building(BuildingType.Lumberyard, 8));
@@ -73,7 +73,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_TrainWorkers_Trains_Workers() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
             var previousStoneMasons = player.GetWorkerCount(WorkerType.StoneMasons);
 
             player.TrainWorkers(WorkerType.StoneMasons, 4);
@@ -83,7 +83,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_TrainWorkers_Removes_Peasants() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
             var previousPeasants = player.Peasants;
 
             player.TrainWorkers(WorkerType.StoneMasons, 4);
@@ -93,7 +93,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_TrainWorkers_Removes_Gold() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
             var previousResources = player.Resources;
 
             player.TrainWorkers(WorkerType.StoneMasons, 4);
@@ -103,7 +103,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_UntrainWorkers_Untrains_Workers() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
             player.Workers.Add(new Workers(WorkerType.SiegeEngineers, 5));
 
             player.UntrainWorkers(WorkerType.SiegeEngineers, 3);
@@ -113,7 +113,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_UntrainWorkers_Adds_Peasants() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
             var previousPeasants = player.Peasants;
             player.Workers.Add(new Workers(WorkerType.SiegeEngineers, 5));
 
@@ -124,7 +124,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_GetTaxRate_Is_Correct() {
-            var player = new Player(0, "Test") {
+            var player = new Player(0, "Test", Race.Elves) {
                 Tax = 20
             };
 
@@ -133,7 +133,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_GetGoldPerTurn_Is_Correct() {
-            var player = new Player(0, "Test") {
+            var player = new Player(0, "Test", Race.Elves) {
                 Tax = 30
             };
 
@@ -148,7 +148,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_GetProduction_Is_Correct() {
-            var player = new Player(0, "Test") {
+            var player = new Player(0, "Test", Race.Elves) {
                 Tax = 40
             };
 
@@ -160,7 +160,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_ProcessTurn_Increases_Stamina() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
             typeof(Player).GetProperty(nameof(Player.Stamina)).SetValue(player, 66);
 
             player.ProcessTurn();
@@ -170,7 +170,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_ProcessTurn_Adds_Resources() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
             player.Workers.Add(new Workers(WorkerType.Farmers, 1));
             player.Workers.Add(new Workers(WorkerType.WoodWorkers, 2));
             player.Workers.Add(new Workers(WorkerType.StoneMasons, 1));
@@ -195,7 +195,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_ProcessTurn_Adds_ResearchTime() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
             var priorityResearch = new QueuedResearch(player, 1, ResearchType.CombatMedicine);
             var queuedResearch = new QueuedResearch(player, 2, ResearchType.Commerce);
 
@@ -211,7 +211,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_ProcessTurn_Adds_AttackTurns() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
 
             var previousAttackTurns = player.AttackTurns;
 
@@ -223,7 +223,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_ProcessTurn_Does_Not_Increase_Stamina_When_Full() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
 
             player.ProcessTurn();
 
@@ -232,7 +232,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_ProcessTurn_Does_Not_Give_Resources_When_Out_Of_Food_Or_Gold() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
             player.Workers.Add(new Workers(WorkerType.Farmers, 1));
             player.Workers.Add(new Workers(WorkerType.WoodWorkers, 2));
             player.Workers.Add(new Workers(WorkerType.StoneMasons, 3));
@@ -253,7 +253,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_ProcessTurn_Does_Not_Add_ResearchTime_When_Out_Of_Food_Or_Gold() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
             var research = new QueuedResearch(player, 1, ResearchType.CombatMedicine);
 
             player.Workers.Add(new Workers(WorkerType.Scientists, 1));
@@ -272,7 +272,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_ProcessTurn_Gives_AttackTurns_When_Out_Of_Food_Or_Gold() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
 
             while (player.CanAfford(player.GetUpkeepPerTurn())) {
                 player.ProcessTurn();
@@ -287,7 +287,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_ProcessTurn_Increases_Stamina_When_Out_Of_Food_Or_Gold() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
 
             while (player.CanAfford(player.GetUpkeepPerTurn())) {
                 player.ProcessTurn();
@@ -302,7 +302,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_ProcessTurn_Disbands_Mercenaries_When_Out_Of_Food_Or_Gold() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
             player.Tax = 85;
 
             while (player.Resources.CanAfford(player.GetUpkeepPerTurn())) {
@@ -320,7 +320,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_UpgradeBuilding_Succeeds_For_New_BuildingType() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
             var buildingDefinition = BuildingDefinitionFactory.Get(BuildingType.Farm);
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(100000, 10000, 10000, 10000, 10000));
 
@@ -337,7 +337,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_UpgradeBuilding_Succeeds_For_Existing_BuildingType() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
             var buildingDefinition = BuildingDefinitionFactory.Get(BuildingType.Farm);
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(100000, 10000, 10000, 10000, 10000));
 
@@ -354,14 +354,14 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_GetBuildingBonusMultiplier_Succeeds_For_Nonexistent_BuildingType() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
 
             player.GetBuildingBonusMultiplier(BuildingType.Farm).Should().Be(1m);
         }
 
         [TestMethod]
         public void Player_GetBuildingBonusMultiplier_Succeeds_For_Existing_BuildingType() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
 
             player.Buildings.Add(new Building(BuildingType.Farm, 3));
 
@@ -370,14 +370,14 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_GetResearchBonusMultiplier_Succeeds_For_Nonexistent_ResearchType() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
 
             player.GetResearchBonusMultiplier(ResearchType.CombatMedicine).Should().Be(1M);
         }
 
         [TestMethod]
         public void Player_GetResearchBonusMultiplier_Succeeds_For_Existing_ResearchType() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
 
             player.Research.Add(new Research(ResearchType.CombatMedicine) { Level = 3 });
 
@@ -386,7 +386,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_Research_Bonus_Is_Applied_For_Efficiency() {
-            var player = new Player(0, "Test") {
+            var player = new Player(0, "Test", Race.Elves) {
                 Tax = 40
             };
 
@@ -400,7 +400,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_Research_Bonus_Is_Applied_For_Commerce() {
-            var player = new Player(0, "Test") {
+            var player = new Player(0, "Test", Race.Elves) {
                 Tax = 30
             };
 
@@ -414,7 +414,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_ResearchBonus_Is_Applied_For_CombatMedicine() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
             var troops = new Troops(TroopType.Archers, 450, 150);
 
             player.Troops.Add(troops);
@@ -431,7 +431,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_ResearchBonus_Is_Applied_For_SafeStorage() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
 
             player.Workers.Add(new Workers(WorkerType.Farmers, 5));
             player.Workers.Add(new Workers(WorkerType.WoodWorkers, 5));
@@ -452,7 +452,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
         [DataRow(45, 15, 6, 2, DisplayName = "Rounding up")]
         [DataRow(45, 14, 5, 1, DisplayName = "Rounding down")]
         public void Player_ResearchBonus_Is_Applied_For_Regency(int soldiers, int mercenaries, int casualties, int regencyMercenaries) {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
             var troops = new Troops(TroopType.Archers, soldiers, mercenaries);
 
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(1000000, 100000, 100000, 100000, 100000));
@@ -471,7 +471,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_ResearchBonus_For_Regency_Checks_If_Mercenaries_Can_Be_Afforded() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
             var troops = new Troops(TroopType.Archers, 450, 150);
 
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, Player.MercenaryTrainingCost);
@@ -492,14 +492,14 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_GetSiegeWeaponCount_Succeeds_For_Nonexistent_SiegeWeaponType() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
 
             player.GetSiegeWeaponCount(SiegeWeaponType.ScalingLadders).Should().Be(0);
         }
 
         [TestMethod]
         public void Player_GetSiegeWeaponCount_Succeeds_For_Existing_SiegeWeaponType() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
 
             player.SiegeWeapons.Add(new SiegeWeapon(SiegeWeaponType.BatteringRams, 5));
 
@@ -508,7 +508,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_GetUpkeepPerTurn_Succeeds() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
             typeof(Player).GetProperty(nameof(Player.Peasants)).SetValue(player, 50);
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(100000, 10000, 10000, 10000, 10000));
             player.TrainTroops(TroopType.Archers, 1, 1);
@@ -525,7 +525,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_WillUpkeepRunOut_Is_False_For_Enough_Resources() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(5250, food: 576));
             player.TrainWorkers(WorkerType.Farmers, 1);
             player.TrainTroops(TroopType.Archers, 0, 1);
@@ -535,7 +535,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_WillUpkeepRunOut_Is_True_For_Too_Few_Resources() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(5250, food: 575));
             player.TrainWorkers(WorkerType.Farmers, 1);
             player.TrainTroops(TroopType.Archers, 0, 1);
@@ -545,7 +545,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_GetTheoreticalRecruitsPerDay_Succeeds() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
 
             player.Buildings.Add(new Building(BuildingType.Farm, 4));
             player.Buildings.Add(new Building(BuildingType.Lumberyard, 6));
@@ -563,7 +563,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_GetTheoreticalRecruitsPerDay_Uses_Soldier_Penalty() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
 
             player.Buildings.Add(new Building(BuildingType.Farm, 4));
             player.Buildings.Add(new Building(BuildingType.Lumberyard, 6));
@@ -576,14 +576,14 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_GetTheoreticalRecruitsPerDay_Minimum_Is_1() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
 
             player.GetTheoreticalRecruitsPerDay().Should().Be(1);
         }
 
         [TestMethod]
         public void Player_GetTheoreticalRecruitsPerDay_Maximum_Is_25() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
 
             player.Buildings.Add(new Building(BuildingType.Farm, 15));
             player.Buildings.Add(new Building(BuildingType.Lumberyard, 15));
@@ -601,7 +601,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_GetAvailableHutCapacity_Succeeds() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
 
             typeof(Player).GetProperty(nameof(Player.Peasants)).SetValue(player, 5);
             player.Workers.Add(new Workers(WorkerType.Farmers, 4));
@@ -612,7 +612,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_GetAvailableBarracksCapacity_Succeeds() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
 
             typeof(Player).GetProperty(nameof(Player.Peasants)).SetValue(player, 5);
             player.Workers.Add(new Workers(WorkerType.Farmers, 4));
@@ -623,7 +623,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_GetAvailableHousingCapacity_Succeeds() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
 
             player.Troops.Add(new Troops(TroopType.Archers, 19, 0));
             typeof(Player).GetProperty(nameof(Player.Peasants)).SetValue(player, 10);
@@ -633,7 +633,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_GetAvailableHousingCapacity_Succeeds_For_Crowded_Barracks() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
 
             player.Troops.Add(new Troops(TroopType.Archers, 6, 1));
             player.Troops.Add(new Troops(TroopType.Cavalry, 6, 1));
@@ -645,7 +645,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_GetAvailableHousingCapacity_Succeeds_For_Crowded_Huts() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
 
             typeof(Player).GetProperty(nameof(Player.Peasants)).SetValue(player, 5);
             player.Workers.Add(new Workers(WorkerType.Farmers, 4));
@@ -659,7 +659,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_GetRecruitsPerDay_Is_Maxed_By_Barracks_And_Huts_Capacity() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
 
             player.Buildings.Add(new Building(BuildingType.Farm, 4));
             player.Buildings.Add(new Building(BuildingType.Lumberyard, 6));
@@ -675,7 +675,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_GetTotalGoldSpentOnBuildings_Succeeds() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
 
             player.Buildings.Add(new Building(BuildingType.Farm, 4));
             player.Buildings.Add(new Building(BuildingType.Lumberyard, 8));
@@ -687,7 +687,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_GetTotalGoldSpentOnBuildings_Ignores_Defences() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
 
             player.Buildings.Add(new Building(BuildingType.Defences, 10));
 
@@ -696,7 +696,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_TrainTroops_Trains_Troops_Existing_TroopType() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(200000, 10000, 10000, 10000, 10000));
 
             player.Troops.Add(new Troops(TroopType.Cavalry, 1, 1));
@@ -710,7 +710,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_TrainTroops_Trains_Troops_New_TroopType() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(200000, 10000, 10000, 10000, 10000));
 
             player.Troops.Add(new Troops(TroopType.Archers, 1, 1));
@@ -724,7 +724,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_TrainTroops_Removes_Peasants() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(200000, 10000, 10000, 10000, 10000));
 
             player.TrainTroops(TroopType.Cavalry, 1, 4);
@@ -734,7 +734,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_TrainTroops_Costs_Resources() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(200000, 10000, 10000, 10000, 10000));
 
             player.TrainTroops(TroopType.Archers, 1, 4);
@@ -746,7 +746,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_UntrainTroops_Removes_Troops() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(200000, 10000, 10000, 10000, 10000));
             player.TrainTroops(TroopType.Archers, 2, 5);
 
@@ -758,7 +758,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_UntrainTroops_Adds_Peasants() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(200000, 10000, 10000, 10000, 10000));
             player.TrainTroops(TroopType.Archers, 2, 5);
 
@@ -772,7 +772,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
         [DataRow(TroopType.Cavalry, BuildingType.CavalryRange, 11 * (int)(45 * 1.2m * 1.3m), 11 * (int)(35 * 1.1m * 1.3m), DisplayName = "Cavalry")]
         [DataRow(TroopType.Footmen, BuildingType.FootmanRange, 11 * (int)(40 * 1.2m * 1.3m), 11 * (int)(40 * 1.1m * 1.3m), DisplayName = "Footmen")]
         public void Player_GetTroopInfo_Succeeds(TroopType type, BuildingType buildingType, int attack, int defence) {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
 
             player.Buildings.Add(new Building(BuildingType.Armoury, 1));
             player.Buildings.Add(new Building(BuildingType.Forge, 2));
@@ -787,7 +787,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_ProcessAttackDamage_Reduces_Stamina() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
 
             player.Troops.Add(new Troops(TroopType.Archers, 150, 50));
             player.Troops.Add(new Troops(TroopType.Cavalry, 150, 50));
@@ -802,7 +802,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_ProcessAttackDamage_Reduces_Troops() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
 
             player.Troops.Add(new Troops(TroopType.Archers, 150, 50));
             player.Troops.Add(new Troops(TroopType.Cavalry, 150, 50));
@@ -820,7 +820,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_ProcessAttackDamage_Uses_CasualtiesModifier() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
 
             player.Troops.Add(new Troops(TroopType.Archers, 150, 50));
             player.Troops.Add(new Troops(TroopType.Cavalry, 150, 50));
@@ -838,7 +838,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_ProcessAttackDamage_Returns_Casualties() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
 
             player.Troops.Add(new Troops(TroopType.Archers, 150, 50));
             player.Troops.Add(new Troops(TroopType.Cavalry, 150, 50));
@@ -858,7 +858,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_ProcessAttackDamage_Succeeds_Without_Troops() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
 
             player.Troops.Add(new Troops(TroopType.Archers, 0, 0));
 
@@ -870,8 +870,8 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_ExecuteAttack_Succeeds() {
-            var attacker = new Player(0, "Test 1");
-            var defender = new Player(1, "Test 2");
+            var attacker = new Player(0, "Test 1", Race.Elves);
+            var defender = new Player(1, "Test 2", Race.Elves);
 
             attacker.Troops.Add(new Troops(TroopType.Archers, 1, 0));
 
@@ -891,8 +891,8 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_AddResources_Resets_HasUpkeepRunOut_When_Enough() {
-            var player = new Player(0, "Test");
-            var defender = new Player(1, "Test 2");
+            var player = new Player(0, "Test", Race.Elves);
+            var defender = new Player(1, "Test 2", Race.Elves);
 
             typeof(Player).GetProperty(nameof(Player.HasUpkeepRunOut)).SetValue(player, true);
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(defender, new Resources(gold: 100000, food: 10000));
@@ -903,8 +903,8 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_AddResources_Does_Not_Reset_HasUpkeepRunOut_When_Not_Enough() {
-            var player = new Player(0, "Test");
-            var defender = new Player(1, "Test 2");
+            var player = new Player(0, "Test", Race.Elves);
+            var defender = new Player(1, "Test 2", Race.Elves);
 
             typeof(Player).GetProperty(nameof(Player.HasUpkeepRunOut)).SetValue(player, true);
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources());
@@ -916,14 +916,14 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_GetBankCapacity_Succeeds_For_No_Bank_Buildings() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
 
             player.GetBankCapacity().Should().Be(new Resources());
         }
 
         [TestMethod]
         public void Player_GetBankCapacity_Succeeds_For_Available_Bank_Buildings() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
 
             player.Buildings.Add(new Building(BuildingType.GoldBank, 1));
             player.Buildings.Add(new Building(BuildingType.FoodBank, 2));
@@ -936,7 +936,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_GetAvailableBankCapacity_Succeeds() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
 
             typeof(Player).GetProperty(nameof(Player.BankedResources)).SetValue(player, new Resources(5000, 4000, 3000, 2000, 1000));
             player.Buildings.Add(new Building(BuildingType.GoldBank, 1));
@@ -950,7 +950,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_GetBankableResources_Succeeds_With_More_Resources_Than_Capacity() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
 
             typeof(Player).GetProperty(nameof(Player.BankedResources)).SetValue(player, new Resources(5000, 4000, 3000, 2000, 1000));
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(60000, 50000, 40000, 30000, 20000));
@@ -965,7 +965,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_GetBankableResources_Succeeds_With_More_Capacity_Than_Resources() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
 
             typeof(Player).GetProperty(nameof(Player.BankedResources)).SetValue(player, new Resources(5000, 4000, 3000, 2000, 1000));
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(6000, 5000, 4000, 3000, 2000));
@@ -980,7 +980,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_AddBankTurn_Adds_BankTurn() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
             var previousBankTurns = player.BankTurns;
 
             player.AddBankTurn();
@@ -990,7 +990,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_Bank_Succeeds() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
             var previousBankTurns = player.BankTurns;
 
             typeof(Player).GetProperty(nameof(Player.BankedResources)).SetValue(player, new Resources(25000, 10000, 10000, 10000, 10000));
@@ -1010,7 +1010,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_SpendResources_Spends_Resources_First() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
 
             typeof(Player).GetProperty(nameof(Player.BankedResources)).SetValue(player, new Resources(10000, 10000, 10000, 10000, 10000));
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(10000, 10000, 10000, 10000, 10000));
@@ -1022,7 +1022,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_SpendResources_Spends_BankedResources_Second() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
 
             typeof(Player).GetProperty(nameof(Player.BankedResources)).SetValue(player, new Resources(10000, 10000, 10000, 10000, 10000));
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(10000, 10000, 10000, 10000, 10000));
@@ -1034,7 +1034,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_CanAfford_Succeeds_When_Enough() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
 
             typeof(Player).GetProperty(nameof(Player.BankedResources)).SetValue(player, new Resources(10000, 10000, 10000, 10000, 10000));
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(10000, 10000, 10000, 10000, 10000));
@@ -1049,7 +1049,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
         [DataRow(0, 0, 0, 20001, 0, DisplayName = "Stone")]
         [DataRow(0, 0, 0, 0, 20001, DisplayName = "Ore")]
         public void Player_CanAfford_Succeeds_When_Not_Enough(int gold, int food, int wood, int stone, int ore) {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
 
             typeof(Player).GetProperty(nameof(Player.BankedResources)).SetValue(player, new Resources(10000, 10000, 10000, 10000, 10000));
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(10000, 10000, 10000, 10000, 10000));
@@ -1064,7 +1064,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
         [DataRow(8, 12, 2, DisplayName = "Too few")]
         [DataRow(7, 13, 3, DisplayName = "Way too few")]
         public void Player_GetSoldierRecruitsPenalty_Succeeds(int soldiers, int peasants, int expectedResult) {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
 
             player.Troops.Add(new Troops(TroopType.Archers, soldiers, 50));
             typeof(Player).GetProperty(nameof(Player.Peasants)).SetValue(player, peasants);
@@ -1074,7 +1074,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_BuildSiege_Succeeds_For_New_SiegeWeaponType() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
             var siegeWeaponDefinition = SiegeWeaponDefinitionFactory.Get(SiegeWeaponType.FireArrows);
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(100000, 10000, 10000, 10000, 10000));
 
@@ -1089,7 +1089,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_BuildSiege_Succeeds_For_Existing_SiegeWeaponType() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
             var siegeWeaponDefinition = SiegeWeaponDefinitionFactory.Get(SiegeWeaponType.FireArrows);
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(100000, 10000, 10000, 10000, 10000));
 
@@ -1105,7 +1105,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_DiscardSiege_Succeeds() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
             player.SiegeWeapons.Add(new SiegeWeapon(SiegeWeaponType.FireArrows, 5));
 
             player.DiscardSiege(SiegeWeaponType.FireArrows, 3);
@@ -1115,7 +1115,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_HealTroops_Succeeds() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
             player.Troops.Add(new Troops(TroopType.Archers, 30, 10));
             player.Troops.Add(new Troops(TroopType.Cavalry, 20, 10));
             player.Troops.Add(new Troops(TroopType.Footmen, 20, 10));
@@ -1129,7 +1129,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_HealTroops_Succeeds_For_Zero_Troops() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(1000000, 100000, 100000, 100000, 100000));
             typeof(Player).GetProperty(nameof(Player.Stamina)).SetValue(player, 90);
             var previousResources = player.Resources;
@@ -1140,7 +1140,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_GetStaminaToHeal_Correct_For_Can_Afford() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(food: 100000));
             typeof(Player).GetProperty(nameof(Player.Stamina)).SetValue(player, 90);
             player.Troops.Add(new Troops(TroopType.Archers, 30, 10));
@@ -1151,7 +1151,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_GetStaminaToHeal_Correct_For_Cant_Afford() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(food: 1000));
             typeof(Player).GetProperty(nameof(Player.Stamina)).SetValue(player, 90);
             player.Troops.Add(new Troops(TroopType.Archers, 30, 10));
@@ -1162,7 +1162,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_GetStaminaToHeal_Correct_For_Zero_Troops() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(food: 100000));
             typeof(Player).GetProperty(nameof(Player.Stamina)).SetValue(player, 90);
             player.Troops.Add(new Troops(TroopType.Archers, 0, 0));
@@ -1173,7 +1173,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_GetStaminaToHeal_Correct_For_Zero_Food() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(food: 0));
             typeof(Player).GetProperty(nameof(Player.Stamina)).SetValue(player, 90);
             player.Troops.Add(new Troops(TroopType.Archers, 30, 10));
@@ -1190,7 +1190,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
         [DataRow(TroopType.Cavalry, 60, 2, 16, DisplayName = "Cavalry, insufficient weapons")]
         [DataRow(TroopType.Footmen, 60, 2, 24, DisplayName = "Footmen, insufficient weapons")]
         public void Player_GetSiegeWeaponTroopCount_Succeeds(TroopType troopType, int troopCount, int siegeWeaponCount, int expectedResult) {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
 
             player.Troops.Add(new Troops(troopType, troopCount, 0));
             player.SiegeWeapons.Add(new SiegeWeapon(SiegeWeaponDefinitionFactory.Get(troopType).Type, siegeWeaponCount));
@@ -1199,7 +1199,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_GetTroops_Succeeds_For_Nonexistent_TroopType() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
 
             var troops = player.GetTroops(TroopType.Archers);
 
@@ -1210,7 +1210,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_GetTroops_Succeeds_For_Existing_TroopType() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
 
             player.Troops.Add(new Troops(TroopType.Cavalry, 10, 2));
 
@@ -1223,14 +1223,14 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_GetWorkers_Succeeds_For_Nonexistent_WorkerType() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
 
             player.GetWorkerCount(WorkerType.StoneMasons).Should().Be(0);
         }
 
         [TestMethod]
         public void Player_GetWorkers_Succeeds_For_Existing_WorkerType() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
 
             player.Workers.Add(new Workers(WorkerType.OreMiners, 7));
 
@@ -1239,7 +1239,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_SellResources_Succeeds_For_Single_Batch_Single_Type() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(0, 100000, 100000, 100000, 100000));
             player.Buildings.Add(new Building(BuildingType.Market, 3));
 
@@ -1264,7 +1264,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_SellResources_Succeeds_For_Multiple_Batches_Single_Type() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(0, 100000, 100000, 100000, 100000));
             player.Buildings.Add(new Building(BuildingType.Market, 3));
 
@@ -1289,7 +1289,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_SellResources_Succeeds_For_Single_Batch_Multiple_Types() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(0, 100000, 100000, 100000, 100000));
             player.Buildings.Add(new Building(BuildingType.Market, 3));
 
@@ -1317,7 +1317,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_SellResources_Succeeds_For_Multiple_Batches_Multiple_Types() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(0, 100000, 100000, 100000, 100000));
             player.Buildings.Add(new Building(BuildingType.Market, 3));
 
@@ -1351,7 +1351,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_SellResources_Subtracts_Resources() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(0, 100000, 100000, 100000, 100000));
             player.Buildings.Add(new Building(BuildingType.Market, 3));
 
@@ -1367,7 +1367,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_UpdateRank_Succeeds() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
 
             player.UpdateRank(5, TitleType.SubChieftain);
 
@@ -1378,7 +1378,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_UpdateRank_Updates_GrandOverlordTime() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
 
             player.UpdateRank(5, TitleType.GrandOverlord);
             player.GrandOverlordTime.Should().Be(TimeSpan.FromMinutes(1));
@@ -1386,8 +1386,8 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_SendMessage_Succeeds() {
-            var sender = new Player(0, "Test 1");
-            var recipient = new Player(1, "Test 2");
+            var sender = new Player(0, "Test 1", Race.Elves);
+            var recipient = new Player(1, "Test 2", Race.Elves);
 
             sender.SendMessage(recipient, "Message subject", "Message body");
 
@@ -1405,8 +1405,8 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_Block_Succeeds() {
-            var player = new Player(0, "Test");
-            var blocked = new Player(1, "Blocked");
+            var player = new Player(0, "Test", Race.Elves);
+            var blocked = new Player(1, "Blocked", Race.Elves);
 
             player.Block(blocked);
 
@@ -1415,8 +1415,8 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_Block_Does_Not_Add_Doubles() {
-            var player = new Player(0, "Test");
-            var blocked = new Player(1, "Blocked");
+            var player = new Player(0, "Test", Race.Elves);
+            var blocked = new Player(1, "Blocked", Race.Elves);
 
             player.PlayerBlocks.Add(new PlayerBlock(blocked));
 
@@ -1427,8 +1427,8 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_Unblock_Succeeds() {
-            var player = new Player(0, "Test");
-            var blocked = new Player(1, "Blocked");
+            var player = new Player(0, "Test", Race.Elves);
+            var blocked = new Player(1, "Blocked", Race.Elves);
 
             player.PlayerBlocks.Add(new PlayerBlock(blocked));
 
@@ -1439,7 +1439,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_Update_Succeeds() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
 
             player.Update("New");
 
@@ -1448,8 +1448,8 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_Reset_Succeeds() {
-            var player = new Player(0, "Test");
-            var otherPlayer = new Player(1, "Test 2");
+            var player = new Player(0, "Test", Race.Elves);
+            var otherPlayer = new Player(1, "Test 2", Race.Elves);
 
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(1000000, 10000, 100000, 100000, 100000));
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(otherPlayer, new Resources(1000000, 10000, 100000, 100000, 100000));
@@ -1503,7 +1503,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_BuyResourcesFromBlackMarket_Succeeds() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
 
             player.BuyResourcesFromBlackMarket(new BlackMarketMerchandiseTotals(MerchandiseType.Food, 1));
 
@@ -1512,7 +1512,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_SellResourcesToBlackMarket_Succeeds() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
 
             player.SellResourcesToBlackMarket(new BlackMarketMerchandiseTotals(MerchandiseType.Food, 1));
 
@@ -1521,7 +1521,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_QueueResearch_Succeeds_For_Empty_Queue() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
 
             player.QueueResearch(ResearchType.Efficiency);
 
@@ -1533,7 +1533,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_QueueResearch_Succeeds_For_Existing_Queue() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
 
             player.QueuedResearch.Add(new QueuedResearch(player, 5, ResearchType.CombatMedicine));
 
@@ -1545,7 +1545,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_PrioritizeResearch_Succeeds_For_Empty_Queue() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
 
             player.PrioritizeResearch(ResearchType.Efficiency);
 
@@ -1557,7 +1557,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_PrioritizeResearch_Succeeds_For_Existing_Queue() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
 
             player.QueuedResearch.Add(new QueuedResearch(player, 5, ResearchType.CombatMedicine));
 
@@ -1569,7 +1569,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_RemoveQueuedResearch_Succeeds() {
-            var player = new Player(0, "Test");
+            var player = new Player(0, "Test", Race.Elves);
             var research = new QueuedResearch(player, 5, ResearchType.CombatMedicine);
 
             player.QueuedResearch.Add(research);
@@ -1581,8 +1581,8 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_TransferResources_Succeeds() {
-            var sender = new Player(0, "Sender");
-            var recipient = new Player(0, "Recipient");
+            var sender = new Player(0, "Sender", Race.Elves);
+            var recipient = new Player(0, "Recipient", Race.Elves);
 
             typeof(Player).GetProperty(nameof(Player.BankedResources)).SetValue(sender, new Resources(10000, 10000, 10000, 10000, 10000));
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(sender, new Resources(10000, 10000, 10000, 10000, 10000));
@@ -1598,8 +1598,8 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_TransferResources_Succeeds_Minimum_Tax() {
-            var sender = new Player(0, "Sender");
-            var recipient = new Player(0, "Recipient");
+            var sender = new Player(0, "Sender", Race.Elves);
+            var recipient = new Player(0, "Recipient", Race.Elves);
 
             typeof(Player).GetProperty(nameof(Player.BankedResources)).SetValue(sender, new Resources(10000, 10000, 10000, 10000, 10000));
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(sender, new Resources(10000, 10000, 10000, 10000, 10000));

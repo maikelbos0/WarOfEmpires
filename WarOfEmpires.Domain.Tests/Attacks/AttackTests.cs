@@ -16,8 +16,8 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
 
         [TestMethod]
         public void Attack_IsAtWar_Is_Correct_For_No_Alliance() {
-            var attacker = new Player(1, "Attacker");
-            var defender = new Player(2, "Defender");
+            var attacker = new Player(1, "Attacker", Race.Elves);
+            var defender = new Player(2, "Defender", Race.Elves);
 
             attacker.Troops.Add(new Troops(TroopType.Archers, 600, 200));
 
@@ -28,8 +28,8 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
 
         [TestMethod]
         public void Attack_IsAtWar_Is_Correct_For_Alliance_Without_War() {            
-            var attacker = new Player(1, "Attacker");            
-            var defender = new Player(2, "Defender");
+            var attacker = new Player(1, "Attacker", Race.Elves);            
+            var defender = new Player(2, "Defender", Race.Elves);
             var attackerAlliance = new Alliance(attacker, "ATK", "The Attackers");
             var defenderAlliance = new Alliance(defender, "DEF", "The Defenders");
 
@@ -44,8 +44,8 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
 
         [TestMethod]
         public void Attack_IsAtWar_Is_Correct_For_Alliance_With_War() {
-            var attacker = new Player(1, "Attacker");
-            var defender = new Player(2, "Defender");
+            var attacker = new Player(1, "Attacker", Race.Elves);
+            var defender = new Player(2, "Defender", Race.Elves);
             var attackerAlliance = new Alliance(attacker, "ATK", "The Attackers");
             var defenderAlliance = new Alliance(defender, "DEF", "The Defenders");
 
@@ -61,8 +61,8 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
 
         [TestMethod]
         public void Attack_HasWarDamage_Is_Correct_For_No_Alliance() {
-            var attacker = new Player(1, "Attacker");
-            var defender = new Player(2, "Defender");
+            var attacker = new Player(1, "Attacker", Race.Elves);
+            var defender = new Player(2, "Defender", Race.Elves);
 
             attacker.Troops.Add(new Troops(TroopType.Archers, 600, 200));
 
@@ -73,8 +73,8 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
 
         [TestMethod]
         public void Attack_HasWarDamage_Is_Correct_For_Alliance_Without_War() {            
-            var attacker = new Player(1, "Attacker");            
-            var defender = new Player(2, "Defender");
+            var attacker = new Player(1, "Attacker", Race.Elves);            
+            var defender = new Player(2, "Defender", Race.Elves);
             var attackerAlliance = new Alliance(attacker, "ATK", "The Attackers");
             var defenderAlliance = new Alliance(defender, "DEF", "The Defenders");
 
@@ -89,8 +89,8 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
 
         [TestMethod]
         public void Attack_HasWarDamage_Is_Correct_For_Alliance_With_War() {
-            var attacker = new Player(1, "Attacker");
-            var defender = new Player(2, "Defender");
+            var attacker = new Player(1, "Attacker", Race.Elves);
+            var defender = new Player(2, "Defender", Race.Elves);
             var attackerAlliance = new Alliance(attacker, "ATK", "The Attackers");
             var defenderAlliance = new Alliance(defender, "DEF", "The Defenders");
 
@@ -106,8 +106,8 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
          
         [TestMethod]
         public void Attack_HasWarDamage_Is_Correct_When_Received_War_Attack_Recently() {
-            var attacker = new Player(1, "Attacker");
-            var defender = new Player(2, "Defender");
+            var attacker = new Player(1, "Attacker", Race.Elves);
+            var defender = new Player(2, "Defender", Race.Elves);
             var receivedAttack = new Assault(defender, attacker, 10);
 
             typeof(Assault).GetProperty(nameof(Assault.IsAtWar)).SetValue(receivedAttack, true);
@@ -123,8 +123,8 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
          
         [TestMethod]
         public void Attack_HasWarDamage_Is_Correct_When_Received_War_Attack_Expired() {
-            var attacker = new Player(1, "Attacker");
-            var defender = new Player(2, "Defender");
+            var attacker = new Player(1, "Attacker", Race.Elves);
+            var defender = new Player(2, "Defender", Race.Elves);
             var receivedAttack = new Assault(defender, attacker, 10);
 
             typeof(Assault).GetProperty(nameof(Assault.IsAtWar)).SetValue(receivedAttack, true);
@@ -140,8 +140,8 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
 
         [TestMethod]
         public void Attack_Result_Is_Fatigued_for_Attacker_Without_Troops() {
-            var attacker = new Player(1, "Attacker");
-            var defender = new Player(2, "Defender");
+            var attacker = new Player(1, "Attacker", Race.Elves);
+            var defender = new Player(2, "Defender", Race.Elves);
 
             defender.Troops.Add(new Troops(TroopType.Archers, 600, 200));
 
@@ -153,8 +153,8 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
 
         [TestMethod]
         public void Attack_Result_Is_Fatigued_For_Attacker_Low_Stamina() {
-            var attacker = new Player(1, "Attacker");
-            var defender = new Player(2, "Defender");
+            var attacker = new Player(1, "Attacker", Race.Elves);
+            var defender = new Player(2, "Defender", Race.Elves);
 
             attacker.Troops.Add(new Troops(TroopType.Archers, 600, 200));
             defender.Troops.Add(new Troops(TroopType.Archers, 600, 200));
@@ -168,8 +168,8 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
         }
 
         public void Attack_Result_Is_Won_For_Stronger_Attacker() {
-            var attacker = new Player(1, "Attacker");
-            var defender = new Player(2, "Defender");
+            var attacker = new Player(1, "Attacker", Race.Elves);
+            var defender = new Player(2, "Defender", Race.Elves);
 
             attacker.Troops.Add(new Troops(TroopType.Archers, 600, 200));
             defender.Troops.Add(new Troops(TroopType.Archers, 400, 100));
@@ -181,8 +181,8 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
         }
 
         public void Attack_Result_Is_Defended_For_Stronger_Defender() {
-            var attacker = new Player(1, "Attacker");
-            var defender = new Player(2, "Defender");
+            var attacker = new Player(1, "Attacker", Race.Elves);
+            var defender = new Player(2, "Defender", Race.Elves);
 
             attacker.Troops.Add(new Troops(TroopType.Archers, 400, 100));
             defender.Troops.Add(new Troops(TroopType.Archers, 600, 200));
@@ -195,8 +195,8 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
 
         [TestMethod]
         public void Attack_Surrendered_Calculates_Correct_Minimum_Resources() {
-            var attacker = new Player(1, "Attacker");
-            var defender = new Player(2, "Defender");
+            var attacker = new Player(1, "Attacker", Race.Elves);
+            var defender = new Player(2, "Defender", Race.Elves);
 
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(attacker, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(defender, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
@@ -213,8 +213,8 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
 
         [TestMethod]
         public void Attack_Won_Calculates_Correct_Minimum_Resources() {
-            var attacker = new Player(1, "Attacker");
-            var defender = new Player(2, "Defender");
+            var attacker = new Player(1, "Attacker", Race.Elves);
+            var defender = new Player(2, "Defender", Race.Elves);
 
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(attacker, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(defender, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
@@ -233,8 +233,8 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
 
         [TestMethod]
         public void Attack_Surrendered_With_War_Damage_Calculates_Correct_Resources() {
-            var attacker = new Player(1, "Attacker");
-            var defender = new Player(2, "Defender");
+            var attacker = new Player(1, "Attacker", Race.Elves);
+            var defender = new Player(2, "Defender", Race.Elves);
 
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(attacker, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(defender, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
@@ -256,8 +256,8 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
 
         [TestMethod]
         public void Attack_Won_With_War_Damage_Calculates_Correct_Resources() {
-            var attacker = new Player(1, "Attacker");
-            var defender = new Player(2, "Defender");
+            var attacker = new Player(1, "Attacker", Race.Elves);
+            var defender = new Player(2, "Defender", Race.Elves);
 
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(attacker, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(defender, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
@@ -277,8 +277,8 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
 
         [TestMethod]
         public void Attack_Resources_Are_Never_More_Than_Defender_Resources() {
-            var attacker = new Player(1, "Attacker");
-            var defender = new Player(2, "Defender");
+            var attacker = new Player(1, "Attacker", Race.Elves);
+            var defender = new Player(2, "Defender", Race.Elves);
 
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(attacker, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(defender, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
@@ -300,8 +300,8 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
 
         [TestMethod]
         public void Attack_Fatigued_Results_In_No_Resources() {
-            var attacker = new Player(1, "Attacker");
-            var defender = new Player(2, "Defender");
+            var attacker = new Player(1, "Attacker", Race.Elves);
+            var defender = new Player(2, "Defender", Race.Elves);
 
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(attacker, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(defender, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
@@ -319,8 +319,8 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
 
         [TestMethod]
         public void Attack_Defended_Results_In_No_Resources() {
-            var attacker = new Player(1, "Attacker");
-            var defender = new Player(2, "Defender");
+            var attacker = new Player(1, "Attacker", Race.Elves);
+            var defender = new Player(2, "Defender", Race.Elves);
 
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(attacker, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(defender, new Resources(10000000, 1000000, 1000000, 1000000, 1000000));
@@ -346,8 +346,8 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
 
         [TestMethod]
         public void Attack_Creates_Correct_Rounds_One_TroopType() {
-            var attacker = new Player(1, "Attacker");
-            var defender = new Player(2, "Defender");
+            var attacker = new Player(1, "Attacker", Race.Elves);
+            var defender = new Player(2, "Defender", Race.Elves);
 
             attacker.Troops.Add(new Troops(TroopType.Archers, 600, 200));
             defender.Troops.Add(new Troops(TroopType.Archers, 600, 200));
@@ -365,8 +365,8 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
 
         [TestMethod]
         public void Attack_Creates_Correct_Rounds_One_Vs_Three_TroopTypes() {
-            var attacker = new Player(1, "Attacker");
-            var defender = new Player(2, "Defender");
+            var attacker = new Player(1, "Attacker", Race.Elves);
+            var defender = new Player(2, "Defender", Race.Elves);
 
             attacker.Troops.Add(new Troops(TroopType.Archers, 600, 200));
             defender.Troops.Add(new Troops(TroopType.Archers, 200, 50));
@@ -390,8 +390,8 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
 
         [TestMethod]
         public void Attack_Creates_Correct_Rounds_Two_TroopTypes() {
-            var attacker = new Player(1, "Attacker");
-            var defender = new Player(2, "Defender");
+            var attacker = new Player(1, "Attacker", Race.Elves);
+            var defender = new Player(2, "Defender", Race.Elves);
 
             attacker.Troops.Add(new Troops(TroopType.Archers, 300, 100));
             attacker.Troops.Add(new Troops(TroopType.Cavalry, 300, 100));
@@ -415,8 +415,8 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
 
         [TestMethod]
         public void Attack_Creates_Correct_Rounds_Three_TroopTypes() {
-            var attacker = new Player(1, "Attacker");
-            var defender = new Player(2, "Defender");
+            var attacker = new Player(1, "Attacker", Race.Elves);
+            var defender = new Player(2, "Defender", Race.Elves);
 
             attacker.Troops.Add(new Troops(TroopType.Archers, 200, 50));
             attacker.Troops.Add(new Troops(TroopType.Cavalry, 200, 50));
@@ -446,8 +446,8 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
 
         [TestMethod]
         public void Attack_GetArmyStrengthModifier_Minimum_Works() {
-            var attacker = new Player(1, "Attacker");
-            var defender = new Player(2, "Defender");
+            var attacker = new Player(1, "Attacker", Race.Elves);
+            var defender = new Player(2, "Defender", Race.Elves);
 
             attacker.Troops.Add(new Troops(TroopType.Archers, 600, 130));
             attacker.Troops.Add(new Troops(TroopType.Cavalry, 10, 15));
@@ -460,8 +460,8 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
 
         [TestMethod]
         public void Attack_GetArmyStrengthModifier_Works_Small_Defender() {
-            var attacker = new Player(1, "Attacker");
-            var defender = new Player(2, "Defender");
+            var attacker = new Player(1, "Attacker", Race.Elves);
+            var defender = new Player(2, "Defender", Race.Elves);
 
             attacker.Troops.Add(new Troops(TroopType.Archers, 600, 130));
             attacker.Troops.Add(new Troops(TroopType.Cavalry, 10, 15));
@@ -477,8 +477,8 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
 
         [TestMethod]
         public void Attack_GetArmyStrengthModifier_Works_Medium_Defender() {
-            var attacker = new Player(1, "Attacker");
-            var defender = new Player(2, "Defender");
+            var attacker = new Player(1, "Attacker", Race.Elves);
+            var defender = new Player(2, "Defender", Race.Elves);
 
             attacker.Troops.Add(new Troops(TroopType.Archers, 600, 130));
             attacker.Troops.Add(new Troops(TroopType.Cavalry, 10, 15));
@@ -494,8 +494,8 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
 
         [TestMethod]
         public void Attack_GetArmyStrengthModifier_Works_Big_Defender() {
-            var attacker = new Player(1, "Attacker");
-            var defender = new Player(2, "Defender");
+            var attacker = new Player(1, "Attacker", Race.Elves);
+            var defender = new Player(2, "Defender", Race.Elves);
 
             attacker.Troops.Add(new Troops(TroopType.Archers, 600, 130));
             attacker.Troops.Add(new Troops(TroopType.Cavalry, 10, 15));
@@ -511,8 +511,8 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
 
         [TestMethod]
         public void Attack_Defender_Always_Has_Minimum_Stamina() {
-            var attacker = new Player(1, "Attacker");
-            var defender = new Player(2, "Defender");
+            var attacker = new Player(1, "Attacker", Race.Elves);
+            var defender = new Player(2, "Defender", Race.Elves);
 
             attacker.Troops.Add(new Troops(TroopType.Archers, 600, 200));
             defender.Troops.Add(new Troops(TroopType.Archers, 600, 200));
@@ -528,8 +528,8 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
 
         [TestMethod]
         public void Attack_ResearchBonus_Is_Applied_For_Tactics() {
-            var attacker = new Player(1, "Attacker");
-            var defender = Substitute.ForPartsOf<Player>(2, "Defender");
+            var attacker = new Player(1, "Attacker", Race.Elves);
+            var defender = Substitute.ForPartsOf<Player>(2, "Defender", Race.Elves);
             
             attacker.Troops.Add(new Troops(TroopType.Archers, 600, 200));
             attacker.Research.Add(new Research(ResearchType.Commerce) { Level = 2 });
