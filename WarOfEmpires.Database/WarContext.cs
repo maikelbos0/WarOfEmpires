@@ -164,6 +164,12 @@ namespace WarOfEmpires.Database {
             researchTypes.Property(r => r.Name).IsRequired();
             researchTypes.HasData(ReferenceEntityExtensions.GetValues<Empires.ResearchType, ResearchTypeEntity>());
 
+            var races = modelBuilder.Entity<RaceEntity>().ToTable("Races", "Players");
+            races.HasKey(r => r.Id);
+            races.HasMany(r => r.Players).WithOne().IsRequired().HasForeignKey(p => p.Race);
+            races.Property(r => r.Name).IsRequired();
+            races.HasData(ReferenceEntityExtensions.GetValues<Players.Race, RaceEntity>());
+
             modelBuilder.Entity<Players.Profile>().ToTable("Profiles", "Players").HasKey(p => p.Id);
 
             modelBuilder.Entity<Empires.Workers>().ToTable("Workers", "Empires").HasKey(t => t.Id);
