@@ -26,13 +26,13 @@ namespace WarOfEmpires.QueryHandlers.Players {
                         Race = r.Race.ToString(),
                         Name = _formatter.ToString(r.Race),
                         Description = r.Description,
-                        FarmerModifier = r.GetWorkerModifier(WorkerType.Farmers),
-                        WoodWorkerModifier = r.GetWorkerModifier(WorkerType.WoodWorkers),
-                        StoneMasonModifier = r.GetWorkerModifier(WorkerType.StoneMasons),
-                        OreMinerModifier = r.GetWorkerModifier(WorkerType.OreMiners),
-                        ArcherModifier = r.GetTroopModifier(TroopType.Archers),
-                        CavalryModifier = r.GetTroopModifier(TroopType.Cavalry),
-                        FootmenModifier = r.GetTroopModifier(TroopType.Footmen)
+                        FarmerBonus = r.GetWorkerModifier(WorkerType.Farmers) - 1,
+                        WoodWorkerBonus = r.GetWorkerModifier(WorkerType.WoodWorkers) - 1,
+                        StoneMasonBonus = r.GetWorkerModifier(WorkerType.StoneMasons) - 1,
+                        OreMinerBonus = r.GetWorkerModifier(WorkerType.OreMiners) - 1,
+                        ArcherBonus = r.GetTroopModifier(TroopType.Archers) - 1,
+                        CavalryBonus = r.GetTroopModifier(TroopType.Cavalry) - 1,
+                        FootmenBonus = r.GetTroopModifier(TroopType.Footmen) - 1
                     })
                     .ToList()
             };
