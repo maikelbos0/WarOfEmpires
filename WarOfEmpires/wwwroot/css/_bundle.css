@@ -7671,6 +7671,10 @@ textarea.form-control-lg {
     border-bottom-left-radius: 0;
 }
 
+input:not(:checked) + label + .form-check-details {
+    display: none;
+}
+
 .si:after {
     display: inline-block;
     vertical-align: top;

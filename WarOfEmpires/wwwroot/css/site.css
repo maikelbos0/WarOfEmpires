@@ -183,3 +183,7 @@
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
 }
+
+input:not(:checked) + label + .form-check-details {
+    display: none;
+}

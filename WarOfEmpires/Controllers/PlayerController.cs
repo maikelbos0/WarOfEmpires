@@ -77,7 +77,7 @@ namespace WarOfEmpires.Controllers {
 
         [HttpGet(nameof(Create))]
         public ViewResult Create() {
-            return View(new CreatePlayerModel());
+            return View(_messageService.Dispatch(new GetCreatePlayerQuery()));
         }
 
         [HttpPost(nameof(Create))]
