@@ -30,13 +30,13 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
 
                 raceModel.Name.Should().Be(enumFormatter.ToString(race));
                 raceModel.Description.Should().Be(raceDefinition.Description);
-                raceModel.FarmerModifier.Should().Be(raceDefinition.GetWorkerModifier(WorkerType.Farmers));
-                raceModel.WoodWorkerModifier.Should().Be(raceDefinition.GetWorkerModifier(WorkerType.WoodWorkers));
-                raceModel.StoneMasonModifier.Should().Be(raceDefinition.GetWorkerModifier(WorkerType.StoneMasons));
-                raceModel.OreMinerModifier.Should().Be(raceDefinition.GetWorkerModifier(WorkerType.OreMiners));
-                raceModel.ArcherModifier.Should().Be(raceDefinition.GetTroopModifier(TroopType.Archers));
-                raceModel.CavalryModifier.Should().Be(raceDefinition.GetTroopModifier(TroopType.Cavalry));
-                raceModel.FootmenModifier.Should().Be(raceDefinition.GetTroopModifier(TroopType.Footmen));
+                raceModel.FarmerBonus.Should().Be(raceDefinition.GetWorkerModifier(WorkerType.Farmers) - 1);
+                raceModel.WoodWorkerBonus.Should().Be(raceDefinition.GetWorkerModifier(WorkerType.WoodWorkers) - 1);
+                raceModel.StoneMasonBonus.Should().Be(raceDefinition.GetWorkerModifier(WorkerType.StoneMasons) - 1);
+                raceModel.OreMinerBonus.Should().Be(raceDefinition.GetWorkerModifier(WorkerType.OreMiners) - 1);
+                raceModel.ArcherBonus.Should().Be(raceDefinition.GetTroopModifier(TroopType.Archers) - 1);
+                raceModel.CavalryBonus.Should().Be(raceDefinition.GetTroopModifier(TroopType.Cavalry) - 1);
+                raceModel.FootmenBonus.Should().Be(raceDefinition.GetTroopModifier(TroopType.Footmen) - 1);
             }
         }
     }
