@@ -9,16 +9,56 @@
 <p>Fill out the details below to start playing.</p>
 
 <form method="post" class="html-only" enctype="multipart/form-data">
-    <div class="row">
-        <div class="col-12 col-md-6 offset-md-3">
-            <div asp-validation-summary="ModelOnly" class="site-validation-summary text-danger"></div>
+    <div asp-validation-summary="ModelOnly" class="site-validation-summary text-danger"></div>
 
+    <div class="row">
+        <div class="col-12 col-md-6">
             <div class="mb-3">
                 <label asp-for="DisplayName" class="site-required"></label>
                 <input type="text" asp-for="DisplayName" class="form-control" />
                 <span asp-validation-for="DisplayName" class="small form-text text-danger"></span>
             </div>
 
+            <div>
+                <label asp-for="Race" class="site-required">Race</label>
+
+                @foreach (var race in Model.Races) {
+                    <div>
+                        <div class="form-check mb-3">
+                            <input type="radio" asp-for="Race" id="Race-@race.Race" value="Truce" class="form-check-input" checked="@(Model.Race == race.Race)" />
+                            <label class="form-check-label" for="Race-@race.Race">@race.Name <span class="text-muted">- @race.Description</span></label>
+
+                            <div class="form-check-details row mt-3">
+                                <div class="col-6">
+                                    <div>Production bonuses</div>
+
+                                    <ul>
+                                        <li>Farmers: <span condition="race.FarmerBonus < 0" class-name="text-warning">@race.FarmerBonus.ToString(StringFormat.Percentage)</span></li>
+                                        <li>Wood workers: <span condition="race.WoodWorkerBonus < 0" class-name="text-warning">@race.WoodWorkerBonus.ToString(StringFormat.Percentage)</span></li>
+                                        <li>Stone masons: <span condition="race.StoneMasonBonus < 0" class-name="text-warning">@race.StoneMasonBonus.ToString(StringFormat.Percentage)</span></li>
+                                        <li>Ore miners: <span condition="race.OreMinerBonus < 0" class-name="text-warning">@race.OreMinerBonus.ToString(StringFormat.Percentage)</span></li>
+                                    </ul>
+                                </div>
+
+                                <div class="col-6">
+                                    <div>Troop bonuses</div>
+
+                                    <ul>
+                                        <li>Archers: <span condition="race.ArcherBonus < 0" class-name="text-warning">@race.ArcherBonus.ToString(StringFormat.Percentage)</span></li>
+                                        <li>Cavalry: <span condition="race.CavalryBonus < 0" class-name="text-warning">@race.CavalryBonus.ToString(StringFormat.Percentage)</span></li>
+                                        <li>Footmen: <span condition="race.FootmenBonus < 0" class-name="text-warning">@race.FootmenBonus.ToString(StringFormat.Percentage)</span></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+                <span asp-validation-for="Race" class="small form-text text-danger"></span>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-6">
             <div class="mb-3">
                 <label asp-for="FullName"></label>
                 <input type="text" asp-for="FullName" class="form-control" />
@@ -40,6 +80,6 @@
     </div>
 
     <div class="row">
-        <div class="col-6 offset-6 col-md-3"><button type="submit" class="btn btn-primary w-100">Submit</button></div>
+        <div class="col-6 offset-6 col-md-3 offset-md-9"><button type="submit" class="btn btn-primary w-100">Submit</button></div>
     </div>
 </form>

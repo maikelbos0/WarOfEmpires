@@ -8,7 +8,9 @@ namespace WarOfEmpires.Models.Players {
     public sealed class CreatePlayerModel {
         public List<RaceViewModel> Races { get; set; } = new List<RaceViewModel>();
 
-        // TODO add race here
+        [DisplayName("Race")]
+        [Required(ErrorMessage = "Race is required")]
+        public string Race { get; set; }
 
         [DisplayName("Display name")]
         [Required(ErrorMessage = "Display name is required")]
