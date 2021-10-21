@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Drawing.Imaging;
 using VDT.Core.DependencyInjection;
 using WarOfEmpires.Commands.Players;
@@ -22,6 +23,7 @@ namespace WarOfEmpires.CommandHandlers.Players {
 
         public CommandResult<CreatePlayerCommand> Execute(CreatePlayerCommand command) {
             var result = new CommandResult<CreatePlayerCommand>();
+            var race = (Race)Enum.Parse(typeof(Race), command.Race);
             var user = _userRepository.TryGetByEmail(command.Email);
             string imageFileExtension = null;
 
@@ -45,10 +47,8 @@ namespace WarOfEmpires.CommandHandlers.Players {
                 }
             }
 
-
             if (result.Success) {
-                // TODO not hardcore race
-                var player = new Player(user.Id, command.DisplayName, Race.Elves);
+                var player = new Player(user.Id, command.DisplayName, race);
                 _repository.Add(player);
 
                 player.Profile.FullName = command.FullName;

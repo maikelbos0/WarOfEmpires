@@ -1,10 +1,12 @@
 ﻿using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
+using System;
 using System.IO;
 using System.Linq;
 using WarOfEmpires.CommandHandlers.Players;
 using WarOfEmpires.Commands.Players;
+using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Repositories.Players;
 using WarOfEmpires.Repositories.Security;
 using WarOfEmpires.Test.Utilities;
@@ -21,7 +23,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Players {
             var storageClient = Substitute.For<IStorageClient>();
 
             var handler = new CreatePlayerCommandHandler(new UserRepository(builder.Context), new PlayerRepository(builder.Context), storageClient);
-            var command = new CreatePlayerCommand("test1@test.com", "My name", "Name", "Description", () => new MemoryStream(file));
+            var command = new CreatePlayerCommand("test1@test.com", "My name", "Elves", "Name", "Description", () => new MemoryStream(file));
             
             var result = handler.Execute(command);
             var player = builder.Context.Players.SingleOrDefault();
@@ -29,6 +31,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Players {
             result.Success.Should().BeTrue();
             player.Should().NotBeNull();
             player.DisplayName.Should().Be("My name");
+            player.Race.Should().Be(Race.Elves);
             player.Profile.FullName.Should().Be("Name");
             player.Profile.Description.Should().Be("Description");
             player.Profile.AvatarLocation.Should().Be("1.jpeg");
@@ -44,7 +47,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Players {
             var storageClient = Substitute.For<IStorageClient>();
 
             var handler = new CreatePlayerCommandHandler(new UserRepository(builder.Context), new PlayerRepository(builder.Context), storageClient);
-            var command = new CreatePlayerCommand("test1@test.com", "My name", "Name", "Description", () => new MemoryStream(file));
+            var command = new CreatePlayerCommand("test1@test.com", "My name", "Elves", "Name", "Description", () => new MemoryStream(file));
 
             var result = handler.Execute(command);
             var player = builder.Context.Players.SingleOrDefault();
@@ -52,6 +55,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Players {
             result.Success.Should().BeTrue();
             player.Should().NotBeNull();
             player.DisplayName.Should().Be("My name");
+            player.Race.Should().Be(Race.Elves);
             player.Profile.FullName.Should().Be("Name");
             player.Profile.Description.Should().Be("Description");
             player.Profile.AvatarLocation.Should().Be("1.png");
@@ -66,7 +70,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Players {
             var storageClient = Substitute.For<IStorageClient>();
 
             var handler = new CreatePlayerCommandHandler(new UserRepository(builder.Context), new PlayerRepository(builder.Context), storageClient);
-            var command = new CreatePlayerCommand("test1@test.com", "My name", "Name", "Description", null);
+            var command = new CreatePlayerCommand("test1@test.com", "My name", "Elves", "Name", "Description", null);
 
             var result = handler.Execute(command);
             var player = builder.Context.Players.SingleOrDefault();
@@ -74,6 +78,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Players {
             result.Success.Should().BeTrue();
             player.Should().NotBeNull();
             player.DisplayName.Should().Be("My name");
+            player.Race.Should().Be(Race.Elves);
             player.Profile.FullName.Should().Be("Name");
             player.Profile.Description.Should().Be("Description");
             player.Profile.AvatarLocation.Should().BeNull();
@@ -88,13 +93,49 @@ namespace WarOfEmpires.CommandHandlers.Tests.Players {
             var storageClient = Substitute.For<IStorageClient>();
 
             var handler = new CreatePlayerCommandHandler(new UserRepository(builder.Context), new PlayerRepository(builder.Context), storageClient);
-            var command = new CreatePlayerCommand("test1@test.com", "My name", "Name", "Description", () => new MemoryStream(new byte[] { 1, 2, 3, 4, 5 }));
+            var command = new CreatePlayerCommand("test1@test.com", "My name", "Elves", "Name", "Description", () => new MemoryStream(new byte[] { 1, 2, 3, 4, 5 }));
 
             var result = handler.Execute(command);
 
             result.Should().HaveError(command => command.Avatar, "Avatar has to be a jpeg or png image");
             builder.Context.Players.Should().BeEmpty();
             storageClient.DidNotReceiveWithAnyArgs().Store(default, default);
+            builder.Context.CallsToSaveChanges.Should().Be(0);
+        }
+
+        [DataTestMethod]
+        [DataRow("Humans", Race.Humans, DisplayName = "Humans")]
+        [DataRow("Elves", Race.Elves, DisplayName = "Elves")]
+        [DataRow("Dwarves", Race.Dwarves, DisplayName = "Dwarves")]
+        public void CreatePlayerCommandHandler_Resolves_Race_Parameter_To_Correct_Race(string raceParameter, Race expectedRace) {
+            var builder = new FakeBuilder()
+                .BuildUser(1);
+            var storageClient = Substitute.For<IStorageClient>();
+
+            var handler = new CreatePlayerCommandHandler(new UserRepository(builder.Context), new PlayerRepository(builder.Context), storageClient);
+            var command = new CreatePlayerCommand("test1@test.com", "My name", raceParameter, null, null, null);
+
+            var result = handler.Execute(command);
+            var player = builder.Context.Players.SingleOrDefault();
+
+            result.Success.Should().BeTrue();
+            player.Should().NotBeNull();
+            player.Race.Should().Be(expectedRace);
+        }
+
+        [TestMethod]
+        public void CreatePlayerCommandHandler_Throws_Exception_For_Nonexistent_Race() {
+            var builder = new FakeBuilder()
+                .BuildUser(1);
+            var storageClient = Substitute.For<IStorageClient>();
+
+            var handler = new CreatePlayerCommandHandler(new UserRepository(builder.Context), new PlayerRepository(builder.Context), storageClient);
+            var command = new CreatePlayerCommand("test1@test.com", "My name", "wrong", null, null, null);
+
+            Action action = () => handler.Execute(command);
+
+            action.Should().Throw<ArgumentException>();
+            builder.Context.Players.Should().BeEmpty();
             builder.Context.CallsToSaveChanges.Should().Be(0);
         }
     }
