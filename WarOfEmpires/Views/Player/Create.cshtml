@@ -22,21 +22,32 @@
             <div>
                 <label asp-for="Race" class="site-required">Race</label>
 
-                @foreach (var race in Model.Races) {
+                @for (var i = 0; i < Model.Races.Count; i++) {
+                    <input type="hidden" asp-for="Races[i].Race" />
+                    <input type="hidden" asp-for="Races[i].Name" />
+                    <input type="hidden" asp-for="Races[i].Description" />
+                    <input type="hidden" asp-for="Races[i].FarmerBonus" />
+                    <input type="hidden" asp-for="Races[i].WoodWorkerBonus" />
+                    <input type="hidden" asp-for="Races[i].StoneMasonBonus" />
+                    <input type="hidden" asp-for="Races[i].OreMinerBonus" />
+                    <input type="hidden" asp-for="Races[i].ArcherBonus" />
+                    <input type="hidden" asp-for="Races[i].CavalryBonus" />
+                    <input type="hidden" asp-for="Races[i].FootmenBonus" />
+
                     <div>
                         <div class="form-check mb-3">
-                            <input type="radio" asp-for="Race" id="Race-@race.Race" value="@race.Race" class="form-check-input" checked="@(Model.Race == race.Race)" />
-                            <label class="form-check-label" for="Race-@race.Race">@race.Name <span class="text-muted">- @race.Description</span></label>
+                            <input type="radio" asp-for="Race" id="Race-@Model.Races[i].Race" value="@Model.Races[i].Race" class="form-check-input" checked="@(Model.Race == Model.Races[i].Race)" />
+                            <label class="form-check-label" for="Race-@Model.Races[i].Race">@Model.Races[i].Name <span class="text-muted">- @Model.Races[i].Description</span></label>
 
                             <div class="form-check-details row mt-3">
                                 <div class="col-6">
                                     <div>Production bonuses</div>
 
                                     <ul>
-                                        <li>Farmers: <span condition="race.FarmerBonus < 0" class-name="text-warning">@race.FarmerBonus.ToString(StringFormat.Percentage)</span></li>
-                                        <li>Wood workers: <span condition="race.WoodWorkerBonus < 0" class-name="text-warning">@race.WoodWorkerBonus.ToString(StringFormat.Percentage)</span></li>
-                                        <li>Stone masons: <span condition="race.StoneMasonBonus < 0" class-name="text-warning">@race.StoneMasonBonus.ToString(StringFormat.Percentage)</span></li>
-                                        <li>Ore miners: <span condition="race.OreMinerBonus < 0" class-name="text-warning">@race.OreMinerBonus.ToString(StringFormat.Percentage)</span></li>
+                                        <li>Farmers: <span condition="Model.Races[i].FarmerBonus < 0" class-name="text-warning">@Model.Races[i].FarmerBonus.ToString(StringFormat.Percentage)</span></li>
+                                        <li>Wood workers: <span condition="Model.Races[i].WoodWorkerBonus < 0" class-name="text-warning">@Model.Races[i].WoodWorkerBonus.ToString(StringFormat.Percentage)</span></li>
+                                        <li>Stone masons: <span condition="Model.Races[i].StoneMasonBonus < 0" class-name="text-warning">@Model.Races[i].StoneMasonBonus.ToString(StringFormat.Percentage)</span></li>
+                                        <li>Ore miners: <span condition="Model.Races[i].OreMinerBonus < 0" class-name="text-warning">@Model.Races[i].OreMinerBonus.ToString(StringFormat.Percentage)</span></li>
                                     </ul>
                                 </div>
 
@@ -44,9 +55,9 @@
                                     <div>Troop bonuses</div>
 
                                     <ul>
-                                        <li>Archers: <span condition="race.ArcherBonus < 0" class-name="text-warning">@race.ArcherBonus.ToString(StringFormat.Percentage)</span></li>
-                                        <li>Cavalry: <span condition="race.CavalryBonus < 0" class-name="text-warning">@race.CavalryBonus.ToString(StringFormat.Percentage)</span></li>
-                                        <li>Footmen: <span condition="race.FootmenBonus < 0" class-name="text-warning">@race.FootmenBonus.ToString(StringFormat.Percentage)</span></li>
+                                        <li>Archers: <span condition="Model.Races[i].ArcherBonus < 0" class-name="text-warning">@Model.Races[i].ArcherBonus.ToString(StringFormat.Percentage)</span></li>
+                                        <li>Cavalry: <span condition="Model.Races[i].CavalryBonus < 0" class-name="text-warning">@Model.Races[i].CavalryBonus.ToString(StringFormat.Percentage)</span></li>
+                                        <li>Footmen: <span condition="Model.Races[i].FootmenBonus < 0" class-name="text-warning">@Model.Races[i].FootmenBonus.ToString(StringFormat.Percentage)</span></li>
                                     </ul>
                                 </div>
                             </div>
