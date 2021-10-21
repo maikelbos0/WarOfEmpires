@@ -25,7 +25,7 @@
                 @foreach (var race in Model.Races) {
                     <div>
                         <div class="form-check mb-3">
-                            <input type="radio" asp-for="Race" id="Race-@race.Race" value="Truce" class="form-check-input" checked="@(Model.Race == race.Race)" />
+                            <input type="radio" asp-for="Race" id="Race-@race.Race" value="@race.Race" class="form-check-input" checked="@(Model.Race == race.Race)" />
                             <label class="form-check-label" for="Race-@race.Race">@race.Name <span class="text-muted">- @race.Description</span></label>
 
                             <div class="form-check-details row mt-3">
