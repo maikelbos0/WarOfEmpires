@@ -52,6 +52,11 @@
             <div class="form-control" readonly="readonly">@Model.DisplayName</div>
         </div>
 
+        <div class="mb-3">
+            <label>Race</label>
+            <div class="form-control" readonly="readonly">@Model.Race</div>
+        </div>
+
         @if (Model.AllianceId.HasValue) {
             <div class="mb-3">
                 <label>Alliance</label>

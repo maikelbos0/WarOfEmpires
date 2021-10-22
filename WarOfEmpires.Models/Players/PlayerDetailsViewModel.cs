@@ -5,6 +5,7 @@ namespace WarOfEmpires.Models.Players {
         public string Status { get; set; }
         public int Rank { get; set; }
         public string DisplayName { get; set; }
+        public string Race { get; set; }
         public int? AllianceId { get; set; }
         public string AllianceCode { get; set; }
         public string AllianceName { get; set; }

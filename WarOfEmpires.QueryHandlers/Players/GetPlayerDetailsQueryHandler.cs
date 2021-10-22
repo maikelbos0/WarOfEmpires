@@ -35,7 +35,7 @@ namespace WarOfEmpires.QueryHandlers.Players {
                 .Single(p => EmailComparisonService.Equals(p.User.Email, query.Email));
             var currentAllianceId = currentPlayer.Alliance?.Id;
 
-            // Materialize before setting the title
+            // Materialize before setting the title and race
             var player = _context.Players
                 .Where(p => p.User.Status == UserStatus.Active && p.Id == query.Id)
                 .Select(p => new {
@@ -43,6 +43,7 @@ namespace WarOfEmpires.QueryHandlers.Players {
                     p.Rank,
                     p.Title,
                     p.DisplayName,
+                    p.Race,
                     Population = p.Peasants
                        + (p.Workers.Sum(w => (int?)w.Count) ?? 0)
                        + (p.Troops.Sum(t => (int?)t.Soldiers) ?? 0)
@@ -62,6 +63,7 @@ namespace WarOfEmpires.QueryHandlers.Players {
                 Rank = player.Rank,
                 Title = _formatter.ToString(player.Title),
                 DisplayName = player.DisplayName,
+                Race = _formatter.ToString(player.Race),
                 Population = player.Population,
                 Defences = BuildingDefinitionFactory.Get(BuildingType.Defences).GetName(player.Defences?.Level ?? 0),
                 AllianceId = player.Alliance?.Id,

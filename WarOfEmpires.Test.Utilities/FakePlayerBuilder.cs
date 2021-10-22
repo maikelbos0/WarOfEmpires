@@ -23,6 +23,7 @@ namespace WarOfEmpires.Test.Utilities {
             Player.User.Returns(User);
             Player.Id.Returns(id);
             Player.DisplayName.Returns(displayName ?? $"Test display name {id}");
+            Player.Race.Returns(Race.Elves);
             Player.Rank.Returns(rank);
             Player.Title.Returns(title);
             Player.AttackTurns.Returns(attackTurns);
