@@ -46,7 +46,7 @@
 
             <div class="mb-3">
                 <label>Current stamina</label>
-                <div class="form-control" readonly="readonly">@Model.CurrentStamina.ToString(StringFormat.Integer)</div>
+                <div class="form-control">@Model.CurrentStamina.ToString(StringFormat.Integer)</div>
             </div>
 
             <div class="mb-3">
@@ -80,12 +80,12 @@
 
                 <div class="mb-3">
                     <label>Current soldiers</label>
-                    <div class="form-control" readonly="readonly">@Model.Troops[i].CurrentSoldiers.ToString(StringFormat.Integer)</div>
+                    <div class="form-control">@Model.Troops[i].CurrentSoldiers.ToString(StringFormat.Integer)</div>
                 </div>
 
                 <div class="mb-3">
                     <label>Current mercenaries</label>
-                    <div class="form-control" readonly="readonly">@Model.Troops[i].CurrentMercenaries.ToString(StringFormat.Integer)</div>
+                    <div class="form-control">@Model.Troops[i].CurrentMercenaries.ToString(StringFormat.Integer)</div>
                 </div>
 
                 <div class="mb-3">

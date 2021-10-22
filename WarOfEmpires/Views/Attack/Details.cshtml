@@ -11,7 +11,7 @@
         <div class="mb-3">
             <label>Attacker</label>
             @if (Model.AttackerId == null) {
-                <div class="form-control" readonly="readonly">@Model.Attacker</div>
+                <div class="form-control">@Model.Attacker</div>
             }
             else {
                 <a asp-controller="@Player.Route" asp-action="@nameof(Player.Details)" asp-route-id="@Model.AttackerId" class="w-100 btn btn-secondary text-start">@Model.Attacker</a>
@@ -30,7 +30,7 @@
         <div class="mb-3">
             <label>Defender</label>
             @if (Model.DefenderId == null) {
-                <div class="form-control" readonly="readonly">@Model.Defender</div>
+                <div class="form-control">@Model.Defender</div>
             }
             else {
                 <a asp-controller="@Player.Route" asp-action="@nameof(Player.Details)" asp-route-id="@Model.DefenderId" class="w-100 btn btn-secondary text-start">@Model.Defender</a>
@@ -48,22 +48,22 @@
     <div class="col-12 col-md-6">
         <div class="mb-3">
             <label>Date</label>
-            <div class="form-control" readonly="readonly">@Model.Date.ToString(StringFormat.Date)</div>
+            <div class="form-control">@Model.Date.ToString(StringFormat.Date)</div>
         </div>
 
         <div class="mb-3">
             <label>Attack type</label>
-            <div class="form-control" readonly="readonly">@Model.Type</div>
+            <div class="form-control">@Model.Type</div>
         </div>
 
         <div class="mb-3">
             <label>Number of turns</label>
-            <div class="form-control" readonly="readonly">@Model.Turns.ToString(StringFormat.Integer)</div>
+            <div class="form-control">@Model.Turns.ToString(StringFormat.Integer)</div>
         </div>
 
         <div class="mb-3">
             <label>Result</label>
-            <div class="form-control" readonly="readonly">@Model.Result</div>
+            <div class="form-control">@Model.Result</div>
         </div>
     </div>
 

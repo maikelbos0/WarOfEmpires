@@ -83,7 +83,7 @@
 
                 <div class="mb-3">
                     <label>Workers</label>
-                    <div class="form-control" readonly="readonly">@Model.Workers[i].CurrentWorkers.ToString(StringFormat.Integer)</div>
+                    <div class="form-control">@Model.Workers[i].CurrentWorkers.ToString(StringFormat.Integer)</div>
                 </div>
 
                 <div class="mb-3">
@@ -92,7 +92,7 @@
                     else {
                         <label>Capacity per worker</label>
                     }
-                    <div class="form-control" readonly="readonly">
+                    <div class="form-control">
                         @Model.Workers[i].CurrentProductionPerWorkerPerTurn.ToString(StringFormat.Integer)
                         <icon type="@iconTypes[Model.Workers[i].Type]" />
                     </div>
@@ -104,7 +104,7 @@
                     else {
                         <label>Total capacity</label>
                     }
-                    <div class="form-control" readonly="readonly">
+                    <div class="form-control">
                         @Model.Workers[i].CurrentProductionPerTurn.ToString(StringFormat.Integer)
                         <icon type="@iconTypes[Model.Workers[i].Type]" />
                     </div>

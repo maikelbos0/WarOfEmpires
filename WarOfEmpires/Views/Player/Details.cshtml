@@ -38,23 +38,23 @@
         @if (!string.IsNullOrEmpty(Model.Status)) {
             <div class="mb-3">
                 <label>Status</label>
-                <div class="form-control site-form-control-status-@Model.Status.ToLower()" readonly="readonly">@Model.Status</div>
+                <div class="form-control site-form-control-status-@Model.Status.ToLower()">@Model.Status</div>
             </div>
         }
 
         <div class="mb-3">
             <label>Rank</label>
-            <div class="form-control" readonly="readonly">@Model.Rank.ToString(StringFormat.Integer)</div>
+            <div class="form-control">@Model.Rank.ToString(StringFormat.Integer)</div>
         </div>
 
         <div class="mb-3">
             <label>Display name</label>
-            <div class="form-control" readonly="readonly">@Model.DisplayName</div>
+            <div class="form-control">@Model.DisplayName</div>
         </div>
 
         <div class="mb-3">
             <label>Race</label>
-            <div class="form-control" readonly="readonly">@Model.Race</div>
+            <div class="form-control">@Model.Race</div>
         </div>
 
         @if (Model.AllianceId.HasValue) {
@@ -66,23 +66,23 @@
 
         <div class="mb-3">
             <label>Title</label>
-            <div class="form-control" readonly="readonly">@Model.Title</div>
+            <div class="form-control">@Model.Title</div>
         </div>
 
         <div class="mb-3">
             <label>Population</label>
-            <div class="form-control" readonly="readonly">@Model.Population.ToString(StringFormat.Integer)</div>
+            <div class="form-control">@Model.Population.ToString(StringFormat.Integer)</div>
         </div>
 
         <div class="mb-3">
             <label>Defences</label>
-            <div class="form-control" readonly="readonly">@Model.Defences</div>
+            <div class="form-control">@Model.Defences</div>
         </div>
 
         @if (Model.GrandOverlordTime.HasValue) {
             <div class="mb-3">
                 <label>Grand overlord time</label>
-                <div class="form-control" readonly="readonly">@(((int)Model.GrandOverlordTime.Value.TotalHours).ToString(StringFormat.Integer)) hours and @Model.GrandOverlordTime.Value.Minutes.ToString(StringFormat.Integer) minutes</div>
+                <div class="form-control">@(((int)Model.GrandOverlordTime.Value.TotalHours).ToString(StringFormat.Integer)) hours and @Model.GrandOverlordTime.Value.Minutes.ToString(StringFormat.Integer) minutes</div>
             </div>
         }
     </div>
@@ -92,7 +92,7 @@
             @if (!string.IsNullOrWhiteSpace(Model.FullName)) {
                 <div class="mb-3">
                     <label>Full name</label>
-                    <div class="form-control" readonly="readonly">@Model.FullName</div>
+                    <div class="form-control">@Model.FullName</div>
                 </div>
             }
 
