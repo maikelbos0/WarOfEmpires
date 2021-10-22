@@ -25,7 +25,7 @@
         <div class="mb-3">
             <label>Sender</label>
             @if (Model.SenderId == null) {
-                <div class="form-control" readonly="readonly">@Model.Sender</div>
+                <div class="form-control">@Model.Sender</div>
             }
             else {
                 <a asp-controller="@Player.Route" asp-action="@nameof(Player.Details)" asp-route-id="@Model.SenderId" class="w-100 btn btn-secondary text-start">@Model.Sender</a>
@@ -34,12 +34,12 @@
 
         <div class="mb-3">
             <label>Date received</label>
-            <div class="form-control" readonly="readonly">@Model.Date.ToString(StringFormat.Date)</div>
+            <div class="form-control">@Model.Date.ToString(StringFormat.Date)</div>
         </div>
 
         <div class="mb-3">
             <label>Subject</label>
-            <div class="form-control" readonly="readonly">@Model.Subject</div>
+            <div class="form-control">@Model.Subject</div>
         </div>
 
         <div class="site-user-text">@Model.Body</div>

@@ -14,18 +14,18 @@
     <div class="col-12 col-lg-6">
         <div class="mb-3">
             <label>Code</label>
-            <div class="form-control" readonly="readonly">@Model.Code</div>
+            <div class="form-control">@Model.Code</div>
         </div>
 
         <div class="mb-3">
             <label>Name</label>
-            <div class="form-control" readonly="readonly">@Model.Name</div>
+            <div class="form-control">@Model.Name</div>
         </div>
 
         <div class="mb-3">
             <label>Leader</label>
             @if (Model.LeaderId == null) {
-                <div class="form-control" readonly="readonly">@Model.Leader</div>
+                <div class="form-control">@Model.Leader</div>
             }
             else {
                 <a asp-controller="@Player.Route" asp-action="@nameof(Player.Details)" asp-route-id="@Model.LeaderId" class="w-100 btn btn-secondary text-start">@Model.Leader</a>
