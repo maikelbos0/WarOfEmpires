@@ -33,6 +33,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
             result.Rank.Should().Be(1);
             result.Title.Should().Be("Sub chieftain");
             result.DisplayName.Should().Be("Test display name 2");
+            result.Race.Should().Be("Elves");
             result.Population.Should().Be(49);
             result.Defences.Should().Be("Walled fort");
             result.AllianceId.Should().Be(14);
