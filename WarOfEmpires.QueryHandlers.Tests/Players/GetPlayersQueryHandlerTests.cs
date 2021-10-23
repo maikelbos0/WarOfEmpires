@@ -45,6 +45,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Players {
             result.Single().Rank.Should().Be(5);
             result.Single().Title.Should().Be("Sub chieftain");
             result.Single().DisplayName.Should().Be("Test display name 1");
+            result.Single().Race.Should().Be("Elves");
             result.Single().Alliance.Should().Be("FS");
             result.Single().Population.Should().Be(49);
             result.Single().GrandOverlordTime.Should().Be(TimeSpan.FromMinutes(1234));

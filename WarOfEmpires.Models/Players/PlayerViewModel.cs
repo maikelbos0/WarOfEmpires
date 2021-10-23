@@ -10,17 +10,19 @@ namespace WarOfEmpires.Models.Players {
         public int Rank { get; set; }
         [GridColumn(1, 10, "Rank", SortData = nameof(Rank))]
         public string RankString { get { return Rank.ToString(StringFormat.Integer); } }
-        [GridColumn(2, 30, "Display name")]
+        [GridColumn(2, 20, "Display name")]
         public string DisplayName { get; set; }
-        [GridColumn(3, 10, "Alliance")]
+        [GridColumn(3, 10, "Race", ResponsiveDisplayBehaviour = ResponsiveDisplayBehaviour.HiddenFromLarge)]
+        public string Race { get; set; }
+        [GridColumn(4, 10, "Alliance")]
         public string Alliance { get; set; }
-        [GridColumn(4, 20, "Title", ResponsiveDisplayBehaviour = ResponsiveDisplayBehaviour.HiddenFromMedium )]
+        [GridColumn(5, 20, "Title", ResponsiveDisplayBehaviour = ResponsiveDisplayBehaviour.HiddenFromMedium )]
         public string Title { get; set; }
         public int Population { get; set; }
-        [GridColumn(5, 10, "Population", SortData = nameof(Population), ResponsiveDisplayBehaviour = ResponsiveDisplayBehaviour.HiddenFromSmall)]
+        [GridColumn(6, 10, "Population", SortData = nameof(Population), ResponsiveDisplayBehaviour = ResponsiveDisplayBehaviour.HiddenFromSmall)]
         public string PopulationString { get { return Population.ToString(StringFormat.Integer); } }
         public TimeSpan GrandOverlordTime { get; set; }
-        [GridColumn(6, 10, "GO Time", SortData = nameof(GrandOverlordTime), ResponsiveDisplayBehaviour = ResponsiveDisplayBehaviour.HiddenFromMedium)]
+        [GridColumn(7, 10, "GO Time", SortData = nameof(GrandOverlordTime), ResponsiveDisplayBehaviour = ResponsiveDisplayBehaviour.HiddenFromMedium)]
         public string GrandOverlordTimeString { get { return GrandOverlordTime > TimeSpan.Zero ? $"{(int)GrandOverlordTime.TotalHours}:{GrandOverlordTime.Minutes:00}" : null; } }
     }
 }

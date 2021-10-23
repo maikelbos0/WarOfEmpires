@@ -38,13 +38,14 @@ namespace WarOfEmpires.QueryHandlers.Players {
                 players = players.Where(p => p.DisplayName.Contains(query.DisplayName));
             }
 
-            // Materialize before setting the title and status
+            // Materialize before setting the title, status and race
             return players
                 .Select(p => new {
                     p.Id,
                     p.Rank,
                     p.Title,
                     p.DisplayName,
+                    p.Race,
                     Population = p.Peasants
                         + (p.Workers.Sum(w => (int?)w.Count) ?? 0)
                         + (p.Troops.Sum(t => (int?)t.Soldiers) ?? 0)
@@ -60,6 +61,7 @@ namespace WarOfEmpires.QueryHandlers.Players {
                     Rank = p.Rank,
                     Title = _formatter.ToString(p.Title),
                     DisplayName = p.DisplayName,
+                    Race = _formatter.ToString(p.Race),
                     Population = p.Population,
                     Alliance = p.Alliance?.Code,
                     GrandOverlordTime = p.GrandOverlordTime
