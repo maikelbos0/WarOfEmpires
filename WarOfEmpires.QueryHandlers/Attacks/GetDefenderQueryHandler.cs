@@ -51,7 +51,7 @@ namespace WarOfEmpires.QueryHandlers.Attacks {
 
             return new ExecuteAttackModel() {
                 DefenderId = player.Id,
-                DisplayName = player.DisplayName,
+                Defender = player.DisplayName,
                 Population = player.Peasants + player.Workers.Sum(w => w.Count) + player.Troops.Sum(t => t.GetTotals()),
                 Turns = 10,
                 HasWarDamage = (currentPlayer.Alliance != null && player.Alliance != null && currentPlayer.Alliance.Wars.Any(w => w.Alliances.Contains(player.Alliance)))

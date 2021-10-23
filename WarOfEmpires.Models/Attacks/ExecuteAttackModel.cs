@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 namespace WarOfEmpires.Models.Attacks {
     public sealed class ExecuteAttackModel {
         public int DefenderId { get; set; }
-        public string DisplayName { get; set; }
+        public string Defender { get; set; }
         public int Population { get; set; }
         public bool HasWarDamage { get; set; }
 
