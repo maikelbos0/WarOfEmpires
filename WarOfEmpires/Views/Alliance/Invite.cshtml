@@ -20,7 +20,7 @@
 
             <div class="mb-3">
                 <label>Player</label>
-                <div class="form-control">@Model.PlayerName</div>
+                <a asp-controller="@Player.Route" asp-action="@nameof(Player.Details)" asp-route-id="@Model.PlayerId" class="w-100 btn btn-secondary text-start">@Model.PlayerName</a>
             </div>
 
             <div class="mb-3">
