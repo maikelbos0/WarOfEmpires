@@ -25,7 +25,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Attacks {
             var result = handler.Execute(query);
 
             result.DefenderId.Should().Be(2);
-            result.DisplayName.Should().Be("Test display name 2");
+            result.Defender.Should().Be("Test display name 2");
             result.Population.Should().Be(49);
             result.HasWarDamage.Should().BeFalse();
             result.ValidAttackTypes.Should().BeEquivalentTo("Raid", "Assault");

@@ -1,10 +1,10 @@
 ﻿@model WarOfEmpires.Models.Attacks.ExecuteAttackModel
 
 @{
-    ViewBag.Title = "Attack " + Model.DisplayName;
+    ViewBag.Title = "Attack " + Model.Defender;
 }
 
-<h2>Attack @Model.DisplayName</h2>
+<h2>Attack @Model.Defender</h2>
 
 @if (Model.IsTruce) {
     <ul class="text-muted">
@@ -20,7 +20,7 @@ else if (Model.HasWarDamage) {
 <form method="post">
     <fieldset disabled="@Model.IsTruce">
         <input type="hidden" asp-for="DefenderId" />
-        <input type="hidden" asp-for="DisplayName" />
+        <input type="hidden" asp-for="Defender" />
         <input type="hidden" asp-for="Population" />
 
         @for (int i = 0; i < Model.ValidAttackTypes.Count; i++) {
@@ -33,7 +33,7 @@ else if (Model.HasWarDamage) {
 
                 <div class="mb-3">
                     <label>Display name</label>
-                    <div class="form-control">@Model.DisplayName</div>
+                    <a asp-controller="@Player.Route" asp-action="@nameof(Player.Details)" asp-route-id="@Model.DefenderId" class="w-100 btn btn-secondary text-start">@Model.Defender</a>
                 </div>
 
                 <div class="mb-3">
