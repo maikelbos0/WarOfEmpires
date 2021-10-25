@@ -86,7 +86,7 @@ namespace WarOfEmpires.Controllers {
             if (ModelState.IsValid) {
                 await _authenticationService.SignIn(model.Email);
 
-                if (!_messageService.Dispatch(new GetPlayerIsCreatedQuery(_authenticationService.Identity))) {
+                if (!_messageService.Dispatch(new GetPlayerIsCreatedQuery(model.Email))) {
                     return RedirectToAction(nameof(PlayerController.Create), PlayerController.Route);
                 }
                 else if (!string.IsNullOrEmpty(model.ReturnUrl)) {
