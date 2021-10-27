@@ -768,9 +768,9 @@ namespace WarOfEmpires.Domain.Tests.Players {
         }
 
         [DataTestMethod]
-        [DataRow(TroopType.Archers, BuildingType.ArcheryRange, 11 * (int)(50 * 1.2m * 1.3m), 11 * (int)(30 * 1.1m * 1.3m), DisplayName = "Archers")]
+        [DataRow(TroopType.Archers, BuildingType.ArcheryRange, 11 * (int)(50 * 1.2m * 1.3m * 1.3m), 11 * (int)(30 * 1.1m * 1.3m * 1.3m), DisplayName = "Archers")]
         [DataRow(TroopType.Cavalry, BuildingType.CavalryRange, 11 * (int)(45 * 1.2m * 1.3m), 11 * (int)(35 * 1.1m * 1.3m), DisplayName = "Cavalry")]
-        [DataRow(TroopType.Footmen, BuildingType.FootmanRange, 11 * (int)(40 * 1.2m * 1.3m), 11 * (int)(40 * 1.1m * 1.3m), DisplayName = "Footmen")]
+        [DataRow(TroopType.Footmen, BuildingType.FootmanRange, 11 * (int)(40 * 1.2m * 1.3m * 0.8m), 11 * (int)(40 * 1.1m * 1.3m * 0.8m), DisplayName = "Footmen")]
         public void Player_GetTroopInfo_Succeeds(TroopType type, BuildingType buildingType, int attack, int defence) {
             var player = new Player(0, "Test", Race.Elves);
 

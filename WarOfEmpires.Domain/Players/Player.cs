@@ -133,12 +133,13 @@ namespace WarOfEmpires.Domain.Players {
 
         public virtual TroopInfo GetTroopInfo(TroopType type) {
             var definition = TroopDefinitionFactory.Get(type);
+            var raceModifier = RaceDefinitionFactory.Get(Race).GetTroopModifier(type);
 
             return new TroopInfo(
                 GetTroops(type),
                 definition.BaseAttack,
                 definition.BaseDefence,
-                GetBuildingBonusMultiplier(definition.BuildingType),
+                GetBuildingBonusMultiplier(definition.BuildingType) * raceModifier,
                 GetBuildingBonusMultiplier(BuildingType.Forge),
                 GetBuildingBonusMultiplier(BuildingType.Armoury),
                 GetSiegeWeaponTroopCount(type)
