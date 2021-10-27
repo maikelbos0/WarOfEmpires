@@ -105,8 +105,9 @@ namespace WarOfEmpires.Domain.Players {
 
         public ProductionInfo GetProduction(WorkerType workerType) {
             var buildingType = WorkerDefinitionFactory.Get(workerType).BuildingType;
+            var raceModifier = RaceDefinitionFactory.Get(Race).GetWorkerModifier(workerType);
 
-            return new ProductionInfo(GetWorkerCount(workerType), GetBuildingBonusMultiplier(buildingType) * GetResearchBonusMultiplier(ResearchType.Efficiency), GetTaxRate());
+            return new ProductionInfo(GetWorkerCount(workerType), GetBuildingBonusMultiplier(buildingType) * GetResearchBonusMultiplier(ResearchType.Efficiency) * raceModifier, GetTaxRate());
         }
 
         public virtual Resources GetUpkeepPerTurn() {
