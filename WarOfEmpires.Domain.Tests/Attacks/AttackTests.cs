@@ -523,7 +523,7 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
 
             attack.Execute();
 
-            attack.Rounds.Single(a => !a.IsAggressor).Damage.Should().Be(defender.Troops.Sum(t => t.GetTotals()) * 100);
+            attack.Rounds.Single(a => !a.IsAggressor).Damage.Should().Be(defender.Troops.Sum(t => t.GetTotals()) * 130);
         }
 
         [TestMethod]

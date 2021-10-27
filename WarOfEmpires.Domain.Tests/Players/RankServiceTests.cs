@@ -27,8 +27,8 @@ namespace WarOfEmpires.Domain.Tests.Players {
             var service = new RankService();
 
             service.GetPoints(player).Should().Be((50 + 250 + 20) * 10
-                + (1000 + 250) * ((int)(50 * 1.2 * 1.4) + (int)(30 * 1.4)) * 0.1
-                + (10 + 10) * ((int)(40 * 1.2) + 40) * 0.1
+                + (1000 + 250) * ((int)(50 * 1.2 * 1.4 * 1.3) + (int)(30 * 1.4 * 1.3)) * 0.1
+                + (10 + 10) * ((int)(40 * 1.2 * 0.8) + (int)(40 * 0.8)) * 0.1
                 + 10 * 1000);
         }
 

@@ -8,30 +8,31 @@ namespace WarOfEmpires.Domain.Players {
         public int SiegeCoverage { get; }
         public long BaseAttack { get; }
         public long BaseDefense { get; }
-        public decimal TroopBonusMultiplier { get; }
-        public decimal ForgeBonusMultiplier { get; }
-        public decimal ArmouryBonusMultiplier { get; }
+        public decimal BonusMultiplier { get; }
+        public decimal AttackBonusMultiplier { get; }
+        public decimal DefenseBonusMultiplier { get; }
 
         protected TroopInfo() {
         }
 
-        public TroopInfo(Troops troops, long baseAttack, long baseDefense, decimal troopBonusMultiplier, decimal forgeBonusMultiplier, decimal armouryBonusMultiplier, int siegeCoverage) {
+        public TroopInfo(Troops troops, long baseAttack, long baseDefense, decimal bonusMultiplier, decimal attackBonusMultiplier, decimal defenseBonusMultiplier, int siegeCoverage) {
             Troops = troops;
             BaseAttack = baseAttack;
             BaseDefense = baseDefense;
-            TroopBonusMultiplier = troopBonusMultiplier;
-            ForgeBonusMultiplier = forgeBonusMultiplier;
-            ArmouryBonusMultiplier = armouryBonusMultiplier;
+            BonusMultiplier = bonusMultiplier;
+            AttackBonusMultiplier = attackBonusMultiplier;
+            DefenseBonusMultiplier = defenseBonusMultiplier;
             SiegeCoverage = siegeCoverage;
         }
 
         public long GetAttackPerSoldier() {
-            return (int)(BaseAttack * TroopBonusMultiplier * ForgeBonusMultiplier);
+            return (int)(BaseAttack * BonusMultiplier * AttackBonusMultiplier);
 
         }
 
         public long GetDefensePerSoldier() {
-            return (int)(BaseDefense * TroopBonusMultiplier * ArmouryBonusMultiplier);
+            // TODO add race bonus
+            return (int)(BaseDefense * BonusMultiplier * DefenseBonusMultiplier);
         }
 
         public virtual long GetTotalAttack(double? defenceModifier = null) {
@@ -54,9 +55,9 @@ namespace WarOfEmpires.Domain.Players {
             yield return Troops.Mercenaries;
             yield return BaseAttack;
             yield return BaseDefense;
-            yield return TroopBonusMultiplier;
-            yield return ForgeBonusMultiplier;
-            yield return ArmouryBonusMultiplier;
+            yield return BonusMultiplier;
+            yield return AttackBonusMultiplier;
+            yield return DefenseBonusMultiplier;
         }
     }
 }
