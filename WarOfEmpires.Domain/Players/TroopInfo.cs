@@ -31,7 +31,6 @@ namespace WarOfEmpires.Domain.Players {
         }
 
         public long GetDefensePerSoldier() {
-            // TODO add race bonus
             return (int)(BaseDefense * BonusMultiplier * DefenseBonusMultiplier);
         }
 

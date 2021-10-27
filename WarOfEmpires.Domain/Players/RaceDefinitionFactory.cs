@@ -16,7 +16,7 @@ namespace WarOfEmpires.Domain.Players {
         private static RaceDefinition GenerateHumans() {
             return new RaceDefinition(
                 Race.Humans, 
-                "Humans are excellent producers that specialize agriculture. While overall not the strongest on the battlefield, their cavalry is unrivaled.",
+                "Humans are excellent producers that specialize in agriculture. While overall not the strongest on the battlefield, their cavalry is unrivaled.",
                 farmerModifier: 1.3M,
                 woodWorkerModifier: 1.1M,
                 archerModifier: 0.9M,
@@ -42,7 +42,7 @@ namespace WarOfEmpires.Domain.Players {
         private static RaceDefinition GenerateElves() {
             return new RaceDefinition(
                 Race.Elves,
-                "Elves can cultivate woodland like no other. With this wood they make the finest bows for their extremely lethal archers.",
+                "Elves can cultivate woodland like no other. With their wood they make the finest bows for their extremely lethal archers.",
                 farmerModifier: 1.1M,
                 woodWorkerModifier: 1.3M,
                 stoneMasonModifier: 0.8M,
