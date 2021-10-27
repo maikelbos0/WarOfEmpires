@@ -54,8 +54,8 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
 
             woodWorkers.Name.Should().Be("Wood workers");
             woodWorkers.CurrentWorkers.Should().Be(3);
-            woodWorkers.CurrentProductionPerWorkerPerTurn.Should().Be(10);
-            woodWorkers.CurrentProductionPerTurn.Should().Be(30);
+            woodWorkers.CurrentProductionPerWorkerPerTurn.Should().Be(13);
+            woodWorkers.CurrentProductionPerTurn.Should().Be(39);
 
             var merchants = result.Workers.Single(s => s.Type == "Merchants");
 

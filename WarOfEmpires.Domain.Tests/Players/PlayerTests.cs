@@ -155,7 +155,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
             player.Buildings.Add(new Building(BuildingType.Lumberyard, 6));
             player.Workers.Add(new Workers(WorkerType.WoodWorkers, 2));
 
-            player.GetProduction(WorkerType.WoodWorkers).GetTotalProduction().Should().Be(60);
+            player.GetProduction(WorkerType.WoodWorkers).GetTotalProduction().Should().Be(78);
         }
 
         [TestMethod]
@@ -395,7 +395,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
             player.Buildings.Add(new Building(BuildingType.Lumberyard, 6));
             player.Workers.Add(new Workers(WorkerType.WoodWorkers, 2));
 
-            player.GetProduction(WorkerType.WoodWorkers).GetTotalProduction().Should().Be(66);
+            player.GetProduction(WorkerType.WoodWorkers).GetTotalProduction().Should().Be(84);
         }
 
         [TestMethod]
@@ -536,7 +536,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
         [TestMethod]
         public void Player_WillUpkeepRunOut_Is_True_For_Too_Few_Resources() {
             var player = new Player(0, "Test", Race.Elves);
-            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(5250, food: 575));
+            typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(5250, food: 525));
             player.TrainWorkers(WorkerType.Farmers, 1);
             player.TrainTroops(TroopType.Archers, 0, 1);
 

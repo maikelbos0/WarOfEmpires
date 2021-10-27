@@ -23,16 +23,16 @@ namespace WarOfEmpires.QueryHandlers.Tests.Empires {
             result.Tax.Should().Be(50);
 
             result.BaseGoldPerTurn.Should().Be(500);
-            result.BaseFoodPerTurn.Should().Be(20);
-            result.BaseWoodPerTurn.Should().Be(20);
-            result.BaseStonePerTurn.Should().Be(20);
-            result.BaseOrePerTurn.Should().Be(20);
+            result.BaseFoodPerTurn.Should().Be(22);
+            result.BaseWoodPerTurn.Should().Be(26);
+            result.BaseStonePerTurn.Should().Be(16);
+            result.BaseOrePerTurn.Should().Be(16);
 
             result.CurrentGoldPerWorkerPerTurn.Should().Be(250);
-            result.CurrentWoodPerWorkerPerTurn.Should().Be(10);
-            result.CurrentFoodPerWorkerPerTurn.Should().Be(10);
-            result.CurrentStonePerWorkerPerTurn.Should().Be(10);
-            result.CurrentOrePerWorkerPerTurn.Should().Be(10);
+            result.CurrentFoodPerWorkerPerTurn.Should().Be(11);
+            result.CurrentWoodPerWorkerPerTurn.Should().Be(13);
+            result.CurrentStonePerWorkerPerTurn.Should().Be(8);
+            result.CurrentOrePerWorkerPerTurn.Should().Be(8);
         }
     }
 }
