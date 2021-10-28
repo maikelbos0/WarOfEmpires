@@ -43,7 +43,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Decorators {
             queryHandler.Execute(query);
 
             context.QueryExecutions.Should().HaveCount(1);
-            context.QueryExecutions.First().Date.Should().BeCloseTo(DateTime.UtcNow, 1000);
+            context.QueryExecutions.First().Date.Should().BeCloseTo(DateTime.UtcNow, TimeSpan.FromSeconds(1));
             context.QueryExecutions.First().QueryType.Should().Be("WarOfEmpires.QueryHandlers.Tests.Decorators.AuditDecoratorTests+TestQuery");
             context.QueryExecutions.First().QueryData.Should().Be("{\"Test\":\"Value\"}");
             context.QueryExecutions.First().ElapsedMilliseconds.Should().BeInRange(0, 1000);

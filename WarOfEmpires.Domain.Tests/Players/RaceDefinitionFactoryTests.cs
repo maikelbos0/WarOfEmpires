@@ -17,7 +17,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void RaceDefinitionFactory_GetAll_Succeeds() {
-            RaceDefinitionFactory.GetAll().Should().HaveSameCount(Enum.GetValues(typeof(Race)));
+            RaceDefinitionFactory.GetAll().Should().HaveCount(Enum.GetValues(typeof(Race)).Length);
         }
     }
 }

@@ -19,7 +19,7 @@ namespace WarOfEmpires.Domain.Tests.Empires {
 
             research.CompletedResearchTime.Should().Be(64999);
             player.Research.Should().ContainSingle(r => r.Type == ResearchType.CombatMedicine && r.Level == 2);
-            player.QueuedResearch.Should().BeEquivalentTo(research);
+            player.QueuedResearch.Should().BeEquivalentTo(new[] { research });
         }
 
         [TestMethod]

@@ -25,7 +25,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Markets {
             result.Should().HaveCount(2);
 
             result[0].Id.Should().Be(1);
-            result[0].Date.Should().BeCloseTo(DateTime.UtcNow, 1000);
+            result[0].Date.Should().BeCloseTo(DateTime.UtcNow, TimeSpan.FromSeconds(1));
             result[0].Food.Should().Be(1000);
             result[0].FoodPrice.Should().Be(10);
             result[0].Wood.Should().Be(2000);
@@ -36,7 +36,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Markets {
             result[0].OrePrice.Should().Be(7);
 
             result[1].Id.Should().Be(2);
-            result[1].Date.Should().BeCloseTo(DateTime.UtcNow, 1000);
+            result[1].Date.Should().BeCloseTo(DateTime.UtcNow, TimeSpan.FromSeconds(1));
             result[1].Ore.Should().Be(25000);
             result[1].OrePrice.Should().Be(4);
         }

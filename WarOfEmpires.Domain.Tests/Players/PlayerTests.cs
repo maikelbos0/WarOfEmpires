@@ -1400,7 +1400,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
             message.Subject.Should().Be("Message subject");
             message.Body.Should().Be("Message body");
             message.IsRead.Should().Be(false);
-            message.Date.Should().BeCloseTo(DateTime.UtcNow, 1000);
+            message.Date.Should().BeCloseTo(DateTime.UtcNow, TimeSpan.FromSeconds(1));
         }
 
         [TestMethod]
@@ -1494,7 +1494,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
             player.HasUpkeepRunOut.Should().BeFalse();
             player.Stamina.Should().Be(100);
             player.HasNewMarketSales.Should().BeFalse();
-            player.CreationDate.Should().BeCloseTo(DateTime.UtcNow, 1000);
+            player.CreationDate.Should().BeCloseTo(DateTime.UtcNow, TimeSpan.FromSeconds(1));
             player.Tax.Should().Be(50);
             player.GrandOverlordTime.Should().Be(TimeSpan.Zero);
             player.QueuedResearch.Should().BeEmpty();

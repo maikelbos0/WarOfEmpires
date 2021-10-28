@@ -66,7 +66,7 @@ namespace WarOfEmpires.Domain.Tests.Alliances {
             alliance.Invites.Single().Subject.Should().Be("The subject");
             alliance.Invites.Single().Body.Should().Be("A body");
             alliance.Invites.Single().IsRead.Should().Be(false);
-            alliance.Invites.Single().Date.Should().BeCloseTo(DateTime.UtcNow, 1000);
+            alliance.Invites.Single().Date.Should().BeCloseTo(DateTime.UtcNow, TimeSpan.FromSeconds(1));
         }
 
         [TestMethod]
@@ -110,7 +110,7 @@ namespace WarOfEmpires.Domain.Tests.Alliances {
 
             alliance.ChatMessages.Should().HaveCount(1);
             alliance.ChatMessages.Single().Player.Should().Be(leader);
-            alliance.ChatMessages.Single().Date.Should().BeCloseTo(DateTime.UtcNow, 1000);
+            alliance.ChatMessages.Single().Date.Should().BeCloseTo(DateTime.UtcNow, TimeSpan.FromSeconds(1));
             alliance.ChatMessages.Single().Message.Should().Be("Test message");
         }
 
@@ -140,7 +140,7 @@ namespace WarOfEmpires.Domain.Tests.Alliances {
 
             alliance.ChatMessages.Should().HaveCount(1);
             alliance.ChatMessages.Single().Player.Should().BeNull();
-            alliance.ChatMessages.Single().Date.Should().BeCloseTo(DateTime.UtcNow, 1000);
+            alliance.ChatMessages.Single().Date.Should().BeCloseTo(DateTime.UtcNow, TimeSpan.FromSeconds(1));
             alliance.ChatMessages.Single().Message.Should().Be("Test message");
             leader.HasNewChatMessages.Should().BeTrue();
         }
@@ -201,7 +201,7 @@ namespace WarOfEmpires.Domain.Tests.Alliances {
 
             alliance.SetRole(leader, role);
 
-            role.Players.Should().BeEquivalentTo(leader);
+            role.Players.Should().BeEquivalentTo(new[] { leader });
         }
 
         [TestMethod]
@@ -216,7 +216,7 @@ namespace WarOfEmpires.Domain.Tests.Alliances {
             alliance.Roles.Add(role);
 
             alliance.ClearRole(leader);
-            role.Players.Should().BeEquivalentTo(member);
+            role.Players.Should().BeEquivalentTo(new[] { member });
         }
 
         [TestMethod]
@@ -282,7 +282,7 @@ namespace WarOfEmpires.Domain.Tests.Alliances {
             declaringAlliance.Wars.Should().HaveCount(1);
             targetAlliance.Wars.Should().HaveCount(1);
             declaringAlliance.Wars.Single().Should().Be(targetAlliance.Wars.Single());
-            declaringAlliance.Wars.Single().Alliances.Should().BeEquivalentTo(declaringAlliance, targetAlliance);
+            declaringAlliance.Wars.Single().Alliances.Should().BeEquivalentTo(new[] { declaringAlliance, targetAlliance });
             targetAlliance.ChatMessages.Should().HaveCount(1);
             targetAlliance.ChatMessages.Single().Player.Should().BeNull();
             targetAlliance.ChatMessages.Single().Message.Should().Be("The Senders have declared war on you.");
