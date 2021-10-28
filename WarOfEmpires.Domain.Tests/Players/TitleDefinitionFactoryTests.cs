@@ -17,7 +17,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void TitleDefinitionFactory_GetAll_Succeeds() {
-            TitleDefinitionFactory.GetAll().Should().HaveSameCount(Enum.GetValues(typeof(TitleType)));
+            TitleDefinitionFactory.GetAll().Should().HaveCount(Enum.GetValues(typeof(TitleType)).Length);
         }
     }
 }

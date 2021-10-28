@@ -18,7 +18,7 @@ namespace WarOfEmpires.Domain.Tests.Alliances {
 
             war.DeclarePeace(firstAlliance);
 
-            war.PeaceDeclarations.Should().BeEquivalentTo(firstAlliance);
+            war.PeaceDeclarations.Should().BeEquivalentTo(new[] { firstAlliance });
             firstAlliance.ChatMessages.Should().BeEmpty();
             secondAlliance.ChatMessages.Should().BeEmpty();
         }
@@ -35,7 +35,7 @@ namespace WarOfEmpires.Domain.Tests.Alliances {
 
             war.DeclarePeace(firstAlliance);
 
-            war.PeaceDeclarations.Should().BeEquivalentTo(firstAlliance, secondAlliance);
+            war.PeaceDeclarations.Should().BeEquivalentTo(new[] { firstAlliance, secondAlliance });
             firstAlliance.Wars.Should().BeEmpty();
             secondAlliance.Wars.Should().BeEmpty();
             firstAlliance.ChatMessages.Should().HaveCount(1);

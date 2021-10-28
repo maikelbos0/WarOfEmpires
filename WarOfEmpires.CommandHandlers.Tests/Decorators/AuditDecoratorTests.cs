@@ -43,7 +43,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Decorators {
             commandHandler.Execute(command);
 
             context.CommandExecutions.Should().HaveCount(1);
-            context.CommandExecutions.First().Date.Should().BeCloseTo(DateTime.UtcNow, 1000);
+            context.CommandExecutions.First().Date.Should().BeCloseTo(DateTime.UtcNow, TimeSpan.FromSeconds(1));
             context.CommandExecutions.First().CommandType.Should().Be("WarOfEmpires.CommandHandlers.Tests.Decorators.AuditDecoratorTests+TestCommand");
             context.CommandExecutions.First().CommandData.Should().Be("{\"Test\":\"Value\"}");
             context.CommandExecutions.First().ElapsedMilliseconds.Should().BeInRange(0, 1000);

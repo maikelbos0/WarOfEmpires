@@ -14,7 +14,7 @@ namespace WarOfEmpires.Domain.Tests.Security {
             user.ActivationCode.Should().NotBeNull();
             user.Status.Should().Be(UserStatus.New);
             user.UserEvents.Last().Type.Should().Be(UserEventType.Registered);
-            user.UserEvents.Last().Date.Should().BeCloseTo(DateTime.UtcNow, 1000);
+            user.UserEvents.Last().Date.Should().BeCloseTo(DateTime.UtcNow, TimeSpan.FromSeconds(1));
         }
 
         [TestMethod]
@@ -27,7 +27,7 @@ namespace WarOfEmpires.Domain.Tests.Security {
 
             user.PasswordResetToken.Should().Be(TemporaryPassword.None);
             user.UserEvents.Last().Type.Should().Be(UserEventType.LoggedIn);
-            user.UserEvents.Last().Date.Should().BeCloseTo(DateTime.UtcNow, 1000);
+            user.UserEvents.Last().Date.Should().BeCloseTo(DateTime.UtcNow, TimeSpan.FromSeconds(1));
         }
 
         [TestMethod]
@@ -38,7 +38,7 @@ namespace WarOfEmpires.Domain.Tests.Security {
             user.LogInFailed();
 
             user.UserEvents.Last().Type.Should().Be(UserEventType.FailedLogIn);
-            user.UserEvents.Last().Date.Should().BeCloseTo(DateTime.UtcNow, 1000);
+            user.UserEvents.Last().Date.Should().BeCloseTo(DateTime.UtcNow, TimeSpan.FromSeconds(1));
         }
 
         [TestMethod]
@@ -49,7 +49,7 @@ namespace WarOfEmpires.Domain.Tests.Security {
             user.LogOut();
 
             user.UserEvents.Last().Type.Should().Be(UserEventType.LoggedOut);
-            user.UserEvents.Last().Date.Should().BeCloseTo(DateTime.UtcNow, 1000);
+            user.UserEvents.Last().Date.Should().BeCloseTo(DateTime.UtcNow, TimeSpan.FromSeconds(1));
         }
 
         [TestMethod]
@@ -62,7 +62,7 @@ namespace WarOfEmpires.Domain.Tests.Security {
 
             user.PasswordResetToken.Verify(token).Should().BeTrue();
             user.UserEvents.Last().Type.Should().Be(UserEventType.PasswordResetRequested);
-            user.UserEvents.Last().Date.Should().BeCloseTo(DateTime.UtcNow, 1000);
+            user.UserEvents.Last().Date.Should().BeCloseTo(DateTime.UtcNow, TimeSpan.FromSeconds(1));
         }
 
         [TestMethod]
@@ -74,7 +74,7 @@ namespace WarOfEmpires.Domain.Tests.Security {
             user.ActivationCode.Should().BeNull();
             user.Status.Should().Be(UserStatus.Active);
             user.UserEvents.Last().Type.Should().Be(UserEventType.Activated);
-            user.UserEvents.Last().Date.Should().BeCloseTo(DateTime.UtcNow, 1000);
+            user.UserEvents.Last().Date.Should().BeCloseTo(DateTime.UtcNow, TimeSpan.FromSeconds(1));
         }
 
         [TestMethod]
@@ -86,7 +86,7 @@ namespace WarOfEmpires.Domain.Tests.Security {
             user.ActivationCode.Should().NotBeNull();
             user.Status.Should().Be(UserStatus.New);
             user.UserEvents.Last().Type.Should().Be(UserEventType.FailedActivation);
-            user.UserEvents.Last().Date.Should().BeCloseTo(DateTime.UtcNow, 1000);
+            user.UserEvents.Last().Date.Should().BeCloseTo(DateTime.UtcNow, TimeSpan.FromSeconds(1));
         }
 
         [TestMethod]
@@ -98,7 +98,7 @@ namespace WarOfEmpires.Domain.Tests.Security {
 
             user.Password.Verify("new").Should().BeTrue();
             user.UserEvents.Last().Type.Should().Be(UserEventType.PasswordChanged);
-            user.UserEvents.Last().Date.Should().BeCloseTo(DateTime.UtcNow, 1000);
+            user.UserEvents.Last().Date.Should().BeCloseTo(DateTime.UtcNow, TimeSpan.FromSeconds(1));
         }
 
         [TestMethod]
@@ -109,7 +109,7 @@ namespace WarOfEmpires.Domain.Tests.Security {
             user.ChangePasswordFailed();
 
             user.UserEvents.Last().Type.Should().Be(UserEventType.FailedPasswordChange);
-            user.UserEvents.Last().Date.Should().BeCloseTo(DateTime.UtcNow, 1000);
+            user.UserEvents.Last().Date.Should().BeCloseTo(DateTime.UtcNow, TimeSpan.FromSeconds(1));
         }
 
         [TestMethod]
@@ -123,7 +123,7 @@ namespace WarOfEmpires.Domain.Tests.Security {
             user.PasswordResetToken.Should().Be(TemporaryPassword.None);
             user.Password.Verify("new").Should().BeTrue();
             user.UserEvents.Last().Type.Should().Be(UserEventType.PasswordReset);
-            user.UserEvents.Last().Date.Should().BeCloseTo(DateTime.UtcNow, 1000);
+            user.UserEvents.Last().Date.Should().BeCloseTo(DateTime.UtcNow, TimeSpan.FromSeconds(1));
         }
         
         [TestMethod]
@@ -134,7 +134,7 @@ namespace WarOfEmpires.Domain.Tests.Security {
             user.PasswordResetRequestFailed();
 
             user.UserEvents.Last().Type.Should().Be(UserEventType.FailedPasswordResetRequest); 
-            user.UserEvents.Last().Date.Should().BeCloseTo(DateTime.UtcNow, 1000);
+            user.UserEvents.Last().Date.Should().BeCloseTo(DateTime.UtcNow, TimeSpan.FromSeconds(1));
         }
 
         [TestMethod]
@@ -145,7 +145,7 @@ namespace WarOfEmpires.Domain.Tests.Security {
             user.ResetPasswordFailed();
 
             user.UserEvents.Last().Type.Should().Be(UserEventType.FailedPasswordReset);
-            user.UserEvents.Last().Date.Should().BeCloseTo(DateTime.UtcNow, 1000);
+            user.UserEvents.Last().Date.Should().BeCloseTo(DateTime.UtcNow, TimeSpan.FromSeconds(1));
         }
 
         [TestMethod]
@@ -157,7 +157,7 @@ namespace WarOfEmpires.Domain.Tests.Security {
 
             user.ActivationCode.Should().NotBe(oldActivationCode); // This test will fail once every 256 ^ 3 runs
             user.UserEvents.Last().Type.Should().Be(UserEventType.ActivationCodeSent);
-            user.UserEvents.Last().Date.Should().BeCloseTo(DateTime.UtcNow, 1000);
+            user.UserEvents.Last().Date.Should().BeCloseTo(DateTime.UtcNow, TimeSpan.FromSeconds(1));
         }
 
         [TestMethod]
@@ -169,7 +169,7 @@ namespace WarOfEmpires.Domain.Tests.Security {
 
             user.Status.Should().Be(UserStatus.Inactive);
             user.UserEvents.Last().Type.Should().Be(UserEventType.Deactivated);
-            user.UserEvents.Last().Date.Should().BeCloseTo(DateTime.UtcNow, 1000);
+            user.UserEvents.Last().Date.Should().BeCloseTo(DateTime.UtcNow, TimeSpan.FromSeconds(1));
         }
 
         [TestMethod]
@@ -180,7 +180,7 @@ namespace WarOfEmpires.Domain.Tests.Security {
             user.DeactivationFailed();
 
             user.UserEvents.Last().Type.Should().Be(UserEventType.FailedDeactivation);
-            user.UserEvents.Last().Date.Should().BeCloseTo(DateTime.UtcNow, 1000);
+            user.UserEvents.Last().Date.Should().BeCloseTo(DateTime.UtcNow, TimeSpan.FromSeconds(1));
         }
 
         [TestMethod]
@@ -193,7 +193,7 @@ namespace WarOfEmpires.Domain.Tests.Security {
             user.NewEmailConfirmationCode.Should().NotBeNull();
             user.NewEmail.Should().Be("new@test.com");
             user.UserEvents.Last().Type.Should().Be(UserEventType.EmailChangeRequested);
-            user.UserEvents.Last().Date.Should().BeCloseTo(DateTime.UtcNow, 1000);
+            user.UserEvents.Last().Date.Should().BeCloseTo(DateTime.UtcNow, TimeSpan.FromSeconds(1));
         }
 
         [TestMethod]
@@ -204,7 +204,7 @@ namespace WarOfEmpires.Domain.Tests.Security {
             user.RequestEmailChangeFailed();
 
             user.UserEvents.Last().Type.Should().Be(UserEventType.FailedEmailChangeRequest);
-            user.UserEvents.Last().Date.Should().BeCloseTo(DateTime.UtcNow, 1000);
+            user.UserEvents.Last().Date.Should().BeCloseTo(DateTime.UtcNow, TimeSpan.FromSeconds(1));
         }
 
         [TestMethod]
@@ -219,7 +219,7 @@ namespace WarOfEmpires.Domain.Tests.Security {
             user.NewEmailConfirmationCode.Should().BeNull();
             user.NewEmail.Should().BeNull();
             user.UserEvents.Last().Type.Should().Be(UserEventType.EmailChanged);
-            user.UserEvents.Last().Date.Should().BeCloseTo(DateTime.UtcNow, 1000);
+            user.UserEvents.Last().Date.Should().BeCloseTo(DateTime.UtcNow, TimeSpan.FromSeconds(1));
         }
 
         [TestMethod]
@@ -229,7 +229,7 @@ namespace WarOfEmpires.Domain.Tests.Security {
             user.ChangeEmailFailed();
 
             user.UserEvents.Last().Type.Should().Be(UserEventType.FailedEmailChange);
-            user.UserEvents.Last().Date.Should().BeCloseTo(DateTime.UtcNow, 1000);
+            user.UserEvents.Last().Date.Should().BeCloseTo(DateTime.UtcNow, TimeSpan.FromSeconds(1));
         }
 
         [TestMethod]
@@ -238,7 +238,7 @@ namespace WarOfEmpires.Domain.Tests.Security {
 
             user.WasOnline();
 
-            user.LastOnline.Should().BeCloseTo(DateTime.UtcNow, 1000);
+            user.LastOnline.Should().BeCloseTo(DateTime.UtcNow, TimeSpan.FromSeconds(1));
         }
 
         [TestMethod]

@@ -40,7 +40,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Markets {
             var transaction = result.FirstOrDefault();
 
             transaction.Should().NotBeNull();
-            transaction.Date.Should().BeCloseTo(DateTime.UtcNow, 1000);
+            transaction.Date.Should().BeCloseTo(DateTime.UtcNow, TimeSpan.FromSeconds(1));
             transaction.Type.Should().Be("Wood");
             transaction.Quantity.Should().Be(1234);
             transaction.Price.Should().Be(5);

@@ -11,9 +11,7 @@ namespace WarOfEmpires.CommandHandlers.Tests {
     public class CommandResultAssertions<TCommand> : ReferenceTypeAssertions<CommandResult<TCommand>, CommandResultAssertions<TCommand>> where TCommand : ICommand {
         protected override string Identifier => "CommandResult";
 
-        public CommandResultAssertions(CommandResult<TCommand> subject) {
-            Subject = subject;
-        }
+        public CommandResultAssertions(CommandResult<TCommand> subject) : base(subject) { }
 
         public AndConstraint<CommandResultAssertions<TCommand>> HaveError<TProperty>(Expression<Func<TCommand, TProperty>> expression, string message) {
             Execute.Assertion
