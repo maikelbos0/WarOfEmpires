@@ -22,11 +22,11 @@ namespace WarOfEmpires.Domain.Players {
         public const int BlackMarketBuyPrice = 20;
         public const double MinimumTransferTax = 0.25;
 
-        public static Resources MercenaryTrainingCost = new Resources(gold: 5000);
-        public static Resources PeasantUpkeep = new Resources(food: 2);
-        public static Resources SoldierUpkeep = new Resources(food: 2);
-        public static Resources MercenaryUpkeep = new Resources(gold: 250, food: 2);
-        public static Resources HealCostPerTroopPerTurn = new Resources(food: 2);
+        public static Resources MercenaryTrainingCost => new Resources(gold: 5000);
+        public static Resources PeasantUpkeep => new Resources(food: 2);
+        public static Resources SoldierUpkeep => new Resources(food: 2);
+        public static Resources MercenaryUpkeep => new Resources(gold: 250, food: 2);
+        public static Resources HealCostPerTroopPerTurn => new Resources(food: 2);
 
         public virtual string DisplayName { get; set; }
         public virtual Security.User User { get; protected set; }
