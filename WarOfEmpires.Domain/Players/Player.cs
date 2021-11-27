@@ -31,9 +31,6 @@ namespace WarOfEmpires.Domain.Players {
         public virtual string DisplayName { get; set; }
         public virtual Security.User User { get; protected set; }
         public virtual Profile Profile { get; protected set; } = new Profile();
-        /// <summary>
-        /// Current number of expected recruits / 24
-        /// </summary>
         public virtual int CurrentRecruitingEffort { get; protected set; } = 0;
         public virtual int Peasants { get; protected set; } = 10;
         public virtual Resources Resources { get; protected set; } = new Resources(10000, 2000, 2000, 2000, 2000);
