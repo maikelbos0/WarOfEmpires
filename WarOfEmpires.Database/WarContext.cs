@@ -234,6 +234,13 @@ namespace WarOfEmpires.Database {
             alliances.HasOne(a => a.Leader).WithMany().IsRequired().OnDelete(DeleteBehavior.Cascade);
             alliances.Property(a => a.Code).IsRequired().HasMaxLength(4);
             alliances.Property(a => a.Name).IsRequired();
+            alliances.OwnsOne(p => p.BankedResources, ar => {
+                ar.Property(r => r.Gold).HasColumnName("BankedGold");
+                ar.Property(r => r.Food).HasColumnName("BankedFood");
+                ar.Property(r => r.Wood).HasColumnName("BankedWood");
+                ar.Property(r => r.Stone).HasColumnName("BankedStone");
+                ar.Property(r => r.Ore).HasColumnName("BankedOre");
+            });
 
             var invites = modelBuilder.Entity<Alliances.Invite>().ToTable("Invites", "Alliances");
             invites.HasKey(i => i.Id);
