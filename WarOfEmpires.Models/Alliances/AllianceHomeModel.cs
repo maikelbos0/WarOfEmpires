@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace WarOfEmpires.Models.Alliances {
-    public sealed class AllianceHomeViewModel : EntityViewModel {
+    public sealed class AllianceHomeModel : EntityViewModel {
         public string Code { get; set; }
         public string Name { get; set; }
         public int? LeaderId { get; set; }

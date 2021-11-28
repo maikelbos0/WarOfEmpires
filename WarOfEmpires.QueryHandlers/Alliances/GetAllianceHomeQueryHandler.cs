@@ -10,8 +10,8 @@ using WarOfEmpires.QueryHandlers.Decorators;
 using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Alliances {
-    [TransientServiceImplementation(typeof(IQueryHandler<GetAllianceHomeQuery, AllianceHomeViewModel>))]
-    public sealed class GetAllianceHomeQueryHandler : IQueryHandler<GetAllianceHomeQuery, AllianceHomeViewModel> {
+    [TransientServiceImplementation(typeof(IQueryHandler<GetAllianceHomeQuery, AllianceHomeModel>))]
+    public sealed class GetAllianceHomeQueryHandler : IQueryHandler<GetAllianceHomeQuery, AllianceHomeModel> {
         private readonly IReadOnlyWarContext _context;
 
         public GetAllianceHomeQueryHandler(IReadOnlyWarContext context) {
@@ -19,7 +19,7 @@ namespace WarOfEmpires.QueryHandlers.Alliances {
         }
 
         [Audit]
-        public AllianceHomeViewModel Execute(GetAllianceHomeQuery query) {
+        public AllianceHomeModel Execute(GetAllianceHomeQuery query) {
             var alliance = _context.Players
                 .Include(p => p.Alliance.Leader)
                 .Single(p => EmailComparisonService.Equals(p.User.Email, query.Email))
@@ -41,7 +41,7 @@ namespace WarOfEmpires.QueryHandlers.Alliances {
                 .OrderByDescending(m => m.Date)
                 .ToList();
 
-            return new AllianceHomeViewModel() {
+            return new AllianceHomeModel() {
                 Id = alliance.Id,
                 Code = alliance.Code,
                 Name = alliance.Name,
