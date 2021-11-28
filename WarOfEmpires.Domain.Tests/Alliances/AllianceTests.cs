@@ -1,8 +1,10 @@
 ﻿using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NSubstitute;
 using System;
 using System.Linq;
 using WarOfEmpires.Domain.Alliances;
+using WarOfEmpires.Domain.Common;
 using WarOfEmpires.Domain.Players;
 
 namespace WarOfEmpires.Domain.Tests.Alliances {
@@ -299,6 +301,19 @@ namespace WarOfEmpires.Domain.Tests.Alliances {
 
             alliance.Code.Should().Be("NEW");
             alliance.Name.Should().Be("The Reborn");
+        }
+
+        [TestMethod]
+        public void Alliance_Bank_Succeeds() {
+            var player = Substitute.For<Player>();
+            var alliance = new Alliance(player, "ALLY", "The Alliance");
+            var previousBankTurns = alliance.BankTurns;
+
+            alliance.Bank(player, new Resources(5, 4, 3, 2, 1));
+
+            player.Received().SpendResources(new Resources(5, 4, 3, 2, 1));
+            alliance.BankTurns.Should().Be(previousBankTurns - 1);
+            alliance.BankedResources.Should().Be(new Resources(5, 4, 3, 2, 1));
         }
     }
 }
