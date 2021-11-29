@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using VDT.Core.DependencyInjection;
 using WarOfEmpires.Database;
 using WarOfEmpires.Domain.Alliances;
@@ -16,6 +17,10 @@ namespace WarOfEmpires.Repositories.Alliances {
 
         public Alliance Get(int id) {
             return _context.Alliances.Single(a => a.Id == id);
+        }
+
+        public IEnumerable<Alliance> GetAll() {
+            return _context.Alliances.ToList();
         }
 
         public void Add(Alliance alliance) {
