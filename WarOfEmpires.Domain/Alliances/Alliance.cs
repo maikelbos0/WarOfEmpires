@@ -137,5 +137,9 @@ namespace WarOfEmpires.Domain.Alliances {
             player.SpendResources(resources);
             BankedResources += resources;
         }
+
+        public virtual void AddBankTurn() {
+            BankTurns++;
+        }
     }
 }
