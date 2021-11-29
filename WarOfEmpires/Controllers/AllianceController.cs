@@ -131,7 +131,7 @@ namespace WarOfEmpires.Controllers {
 
         [AllianceAuthorize]
         [HttpPost(nameof(PostChatMessage))]
-        public ActionResult PostChatMessage(AllianceHomeViewModel model) {
+        public ActionResult PostChatMessage(AllianceHomeModel model) {
             return BuildViewResultFor(new PostChatMessageCommand(_authenticationService.Identity, model.ChatMessage))
                 .OnSuccess(nameof(Home))
                 .ThrowOnFailure();
@@ -369,6 +369,20 @@ namespace WarOfEmpires.Controllers {
             return BuildViewResultFor(new TransferResourcesCommand(_authenticationService.Identity, model.RecipientId.Value, model.Gold, model.Food, model.Wood, model.Stone, model.Ore))
                 .OnSuccess(nameof(TransferResources))
                 .OnFailure(model);
+        }
+
+        // TODO add right
+        [AllianceAuthorize]
+        [HttpGet(nameof(Banking))]
+        public ViewResult Banking() {
+            return View(_messageService.Dispatch(new GetBankedResourcesQuery(_authenticationService.Identity)));
+        }
+
+        // TODO add right
+        [AllianceAuthorize]
+        [HttpPost(nameof(Banking))]
+        public ViewResult Banking(BankedResourcesModel model) {
+            return View(model);
         }
     }
 }

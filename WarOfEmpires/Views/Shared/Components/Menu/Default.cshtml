@@ -70,6 +70,7 @@
                                 @if (Model.IsInAlliance) {
                                     <a id="alliance-link" asp-controller="@Alliance.Route" asp-action="@nameof(Alliance.Home)" class="dropdown-item">Home</a>
                                     <a id="alliance-link" asp-controller="@Alliance.Route" asp-action="@nameof(Alliance.TransferResources)" class="dropdown-item">Transfer resources</a>
+                                    <a id="alliance-link" asp-controller="@Alliance.Route" asp-action="@nameof(Alliance.Banking)" class="dropdown-item">Banking</a>
 
                                     if (Model.CanInvite || Model.CanManageRoles || Model.CanManageNonAggressionPacts || Model.CanManageWars) {
                                         <div class="dropdown-divider"></div>

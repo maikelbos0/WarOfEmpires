@@ -9,8 +9,8 @@ using WarOfEmpires.QueryHandlers.Decorators;
 using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Alliances {
-    [TransientServiceImplementation(typeof(IQueryHandler<GetBankedResourcesQuery, BankedResourcesViewModel>))]
-    public class GetBankedResourcesQueryHandler : IQueryHandler<GetBankedResourcesQuery, BankedResourcesViewModel> {
+    [TransientServiceImplementation(typeof(IQueryHandler<GetBankedResourcesQuery, BankedResourcesModel>))]
+    public class GetBankedResourcesQueryHandler : IQueryHandler<GetBankedResourcesQuery, BankedResourcesModel> {
         private readonly IReadOnlyWarContext _context;
         private readonly IResourcesMap _resourcesMap;
 
@@ -20,13 +20,13 @@ namespace WarOfEmpires.QueryHandlers.Alliances {
         }
 
         [Audit]
-        public BankedResourcesViewModel Execute(GetBankedResourcesQuery query) {
+        public BankedResourcesModel Execute(GetBankedResourcesQuery query) {
             var alliance = _context.Players
                 .Include(p => p.Alliance)
                 .Single(p => EmailComparisonService.Equals(p.User.Email, query.Email))
                 .Alliance;
 
-            return new BankedResourcesViewModel() {
+            return new BankedResourcesModel() {
                 BankedResources = _resourcesMap.ToViewModel(alliance.BankedResources),
                 BankTurns = alliance.BankTurns
             };
