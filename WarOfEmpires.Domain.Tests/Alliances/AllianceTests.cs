@@ -315,5 +315,15 @@ namespace WarOfEmpires.Domain.Tests.Alliances {
             alliance.BankTurns.Should().Be(previousBankTurns - 1);
             alliance.BankedResources.Should().Be(new Resources(5, 4, 3, 2, 1));
         }
+
+        [TestMethod]
+        public void Alliance_AddBankTurn_Adds_BankTurn() {
+            var alliance = new Alliance(new Player(1, "Leader", Race.Elves), "ALLY", "The Alliance");
+            var previousBankTurns = alliance.BankTurns;
+
+            alliance.AddBankTurn();
+
+            alliance.BankTurns.Should().Be(previousBankTurns + 1);
+        }
     }
 }
