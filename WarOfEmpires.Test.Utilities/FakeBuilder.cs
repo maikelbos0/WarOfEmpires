@@ -29,6 +29,12 @@ namespace WarOfEmpires.Test.Utilities {
             return this;
         }
 
+        public FakeBuilder WithAlliance(int id, string code = "FS", string name = "Føroyskir Samgonga") {
+            BuildAlliance(id, code, name);
+
+            return this;
+        }
+
         public FakeUserBuilder BuildUser(int id, string email = null, string password = "test", DateTime? lastOnline = null, UserStatus status = UserStatus.Active) {
             return new FakeUserBuilder(Context, id, email, password, lastOnline, status);
         }
