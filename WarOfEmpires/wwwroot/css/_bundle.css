@@ -7675,6 +7675,9 @@ input:not(:checked) + label + .form-check-details {
     display: none;
 }
 
+.w-40 {
+    width: 40%;
+}
 .si:after {
     display: inline-block;
     vertical-align: top;

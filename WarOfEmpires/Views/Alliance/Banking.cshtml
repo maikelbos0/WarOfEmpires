@@ -1,0 +1,88 @@
+﻿@model WarOfEmpires.Models.Alliances.BankedResourcesModel
+
+@{
+    ViewBag.Title = "Banking";
+}
+
+<h2>Banking</h2>
+
+<p>
+    Here you can add gold and resources to your alliance bank to aid your allies in times of need.
+</p>
+
+
+<ul class="text-muted">
+    <li>Remaining bank turns: @Model.BankTurns.ToString(StringFormat.Integer)</li>
+</ul>
+
+<form method="post" data-success-message="Your resources were stored in their banks.">
+    <div asp-validation-summary="ModelOnly" class="site-validation-summary text-danger"></div>
+
+    <input type="hidden" asp-for="BankedResources.Gold" />
+    <input type="hidden" asp-for="BankedResources.Food" />
+    <input type="hidden" asp-for="BankedResources.Wood" />
+    <input type="hidden" asp-for="BankedResources.Stone" />
+    <input type="hidden" asp-for="BankedResources.Ore" />
+    <input type="hidden" asp-for="BankTurns" />
+
+    <table class="table table-borderless table-striped">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Banked</th>
+                <th class="w-40">To add</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr>
+                <td><label asp-for="Gold"></label></td>
+                <td>@Model.BankedResources.Gold.ToString(StringFormat.Integer) <icon type="Gold" /></td>
+                <td class="w-40">
+                    <input type="text" asp-for="Gold" class="form-control" />
+                    <span asp-validation-for="Gold" class="small form-text text-danger"></span>
+                </td>
+            </tr>
+
+            <tr>
+                <td><label asp-for="Food"></label></td>
+                <td>@Model.BankedResources.Food.ToString(StringFormat.Integer) <icon type="Food" /></td>
+                <td class="w-40">
+                    <input type="text" asp-for="Food" class="form-control" />
+                    <span asp-validation-for="Food" class="small form-text text-danger"></span>
+                </td>
+            </tr>
+
+            <tr>
+                <td><label asp-for="Wood"></label></td>
+                <td>@Model.BankedResources.Wood.ToString(StringFormat.Integer) <icon type="Wood" /></td>
+                <td class="w-40">
+                    <input type="text" asp-for="Wood" class="form-control" />
+                    <span asp-validation-for="Wood" class="small form-text text-danger"></span>
+                </td>
+            </tr>
+
+            <tr>
+                <td><label asp-for="Stone"></label></td>
+                <td>@Model.BankedResources.Stone.ToString(StringFormat.Integer) <icon type="Stone" /></td>
+                <td class="w-40">
+                    <input type="text" asp-for="Stone" class="form-control" />
+                    <span asp-validation-for="Stone" class="small form-text text-danger"></span>
+                </td>
+            </tr>
+
+            <tr>
+                <td><label asp-for="Ore"></label></td>
+                <td>@Model.BankedResources.Ore.ToString(StringFormat.Integer) <icon type="Ore" /></td>
+                <td class="w-40">
+                    <input type="text" asp-for="Ore" class="form-control" />
+                    <span asp-validation-for="Ore" class="small form-text text-danger"></span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="row">
+        <div class="col-6 offset-6 col-md-3 offset-md-9"><button type="submit" class="btn btn-primary w-100">Bank</button></div>
+    </div>
+</form>
