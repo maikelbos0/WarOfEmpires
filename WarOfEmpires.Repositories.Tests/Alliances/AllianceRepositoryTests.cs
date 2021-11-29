@@ -60,6 +60,32 @@ namespace WarOfEmpires.Repositories.Tests.Alliances {
         }
 
         [TestMethod]
+        public void AllianceRepository_GetAll_Succeeds() {
+            var builder = new FakeBuilder()
+                .WithAlliance(1)
+                .WithAlliance(2);
+
+            var repository = new AllianceRepository(builder.Context);
+
+            var alliances = repository.GetAll();
+
+            alliances.Should().NotBeNull();
+            alliances.Should().HaveCount(2);
+        }
+
+        [TestMethod]
+        public void AllianceRepository_GetAll_Does_Not_Save() {
+            var builder = new FakeBuilder()
+                .WithAlliance(1);
+
+            var repository = new AllianceRepository(builder.Context);
+
+            repository.GetAll();
+
+            builder.Context.CallsToSaveChanges.Should().Be(0);
+        }
+
+        [TestMethod]
         public void AllianceRepository_Add_Succeeds() {
             var context = new FakeWarContext();
 
