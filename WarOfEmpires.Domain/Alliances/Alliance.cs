@@ -141,5 +141,10 @@ namespace WarOfEmpires.Domain.Alliances {
         public virtual void AddBankTurn() {
             BankTurns++;
         }
+
+        public virtual void Reset() {
+            BankedResources = new Resources();
+            BankTurns = 12;
+        }
     }
 }
