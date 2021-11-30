@@ -1453,6 +1453,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(player, new Resources(1000000, 10000, 100000, 100000, 100000));
             typeof(Player).GetProperty(nameof(Player.Resources)).SetValue(otherPlayer, new Resources(1000000, 10000, 100000, 100000, 100000));
+            typeof(Player).GetProperty(nameof(Player.BankedResources)).SetValue(player, new Resources(1000000, 10000, 100000, 100000, 100000));
             player.UpgradeBuilding(BuildingType.Barracks);
             player.UpgradeBuilding(BuildingType.Market);
             player.UpgradeBuilding(BuildingType.Defences);
