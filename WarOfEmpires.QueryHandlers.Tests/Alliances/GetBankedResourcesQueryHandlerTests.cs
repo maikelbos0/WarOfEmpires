@@ -17,7 +17,6 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
                 .WithMember(1);
 
             builder.Alliance.BankedResources.Returns(new Resources(5000, 4000, 3000, 2000, 1000));
-            builder.Alliance.BankTurns.Returns(12);
 
             var handler = new GetBankedResourcesQueryHandler(builder.Context, new ResourcesMap());
             var query = new GetBankedResourcesQuery("test1@test.com");

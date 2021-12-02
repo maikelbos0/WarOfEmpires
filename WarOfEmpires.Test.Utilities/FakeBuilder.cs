@@ -19,18 +19,18 @@ namespace WarOfEmpires.Test.Utilities {
             Context = context;
         }
 
-        public FakeAllianceBuilder BuildAlliance(int id, string code = "FS", string name = "Føroyskir Samgonga") {
-            return new FakeAllianceBuilder(Context, id, code, name);
+        public FakeAllianceBuilder BuildAlliance(int id, string code = "FS", string name = "Føroyskir Samgonga", int bankTurns = 12) {
+            return new FakeAllianceBuilder(Context, id, code, name, bankTurns);
         }
 
-        public FakeBuilder WithAlliance(int id, out Alliance alliance, string code = "FS", string name = "Føroyskir Samgonga") {
-            alliance = BuildAlliance(id, code, name).Alliance;
+        public FakeBuilder WithAlliance(int id, out Alliance alliance, string code = "FS", string name = "Føroyskir Samgonga", int bankTurns = 12) {
+            alliance = BuildAlliance(id, code, name, bankTurns).Alliance;
 
             return this;
         }
 
-        public FakeBuilder WithAlliance(int id, string code = "FS", string name = "Føroyskir Samgonga") {
-            BuildAlliance(id, code, name);
+        public FakeBuilder WithAlliance(int id, string code = "FS", string name = "Føroyskir Samgonga", int bankTurns = 12) {
+            BuildAlliance(id, code, name, bankTurns);
 
             return this;
         }

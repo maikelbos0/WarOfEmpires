@@ -9,11 +9,12 @@ namespace WarOfEmpires.Test.Utilities {
     public class FakeAllianceBuilder : FakeBuilder {
         public Alliance Alliance { get; }
 
-        internal FakeAllianceBuilder(FakeWarContext context, int id, string code, string name) : base(context) {
+        internal FakeAllianceBuilder(FakeWarContext context, int id, string code, string name, int bankturns) : base(context) {
             Alliance = Substitute.For<Alliance>();
             Alliance.Id.Returns(id);
             Alliance.Code.Returns(code);
             Alliance.Name.Returns(name);
+            Alliance.BankTurns.Returns(bankturns);
             Alliance.Members.Returns(new List<Player>());
             Alliance.ChatMessages.Returns(new List<ChatMessage>());
             Alliance.Invites.Returns(new List<Invite>());
