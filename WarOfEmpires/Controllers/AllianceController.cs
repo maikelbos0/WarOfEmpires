@@ -381,8 +381,10 @@ namespace WarOfEmpires.Controllers {
         // TODO add right
         [AllianceAuthorize]
         [HttpPost(nameof(Banking))]
-        public ViewResult Banking(BankedResourcesModel model) {
-            return View(model);
+        public ActionResult Banking(BankedResourcesModel model) {
+            return BuildViewResultFor(new BankCommand(_authenticationService.Identity, model.Gold, model.Food, model.Wood, model.Stone, model.Ore))
+                .OnSuccess(nameof(Banking))
+                .OnFailure(model);
         }
     }
 }
