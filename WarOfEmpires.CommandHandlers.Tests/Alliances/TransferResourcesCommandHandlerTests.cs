@@ -57,7 +57,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
             var rankService = Substitute.For<IRankService>();
             var builder = new FakeBuilder()
                 .BuildAlliance(1)
-                .WithMember(2, out var recipient)
+                .WithMember(2)
                 .BuildMember(1, canAffordAnything: false);
 
             var handler = new TransferResourcesCommandHandler(new PlayerRepository(builder.Context), rankService);

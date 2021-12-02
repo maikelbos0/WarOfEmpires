@@ -22,7 +22,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
             var result = handler.Execute(command);
 
             result.Success.Should().BeTrue();
-            builder.Alliance.Received().CreateRole("Diva", true, false, true, false, true, false);
+            builder.Alliance.Received().CreateRole("Diva", true, false, true, false, true, false, false);
             builder.Context.CallsToSaveChanges.Should().Be(1);
         }
 
@@ -38,7 +38,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
             Action action = () => handler.Execute(command);
 
             action.Should().Throw<InvalidOperationException>();
-            builder.Alliance.DidNotReceiveWithAnyArgs().CreateRole(default, default, default, default, default, default, default);
+            builder.Alliance.DidNotReceiveWithAnyArgs().CreateRole(default, default, default, default, default, default, default, default);
             builder.Context.CallsToSaveChanges.Should().Be(0);
         }
 
