@@ -166,7 +166,7 @@ namespace WarOfEmpires.Controllers {
         [AllianceAuthorize(CanManageRoles = true)]
         [HttpPost(nameof(CreateRole))]
         public ActionResult CreateRole(CreateRoleModel model) {
-            return BuildViewResultFor(new CreateRoleCommand(_authenticationService.Identity, model.Name, model.CanInvite, model.CanManageRoles, model.CanDeleteChatMessages, model.CanKickMembers, model.CanManageNonAggressionPacts, model.CanManageWars))
+            return BuildViewResultFor(new CreateRoleCommand(_authenticationService.Identity, model.Name, model.CanInvite, model.CanManageRoles, model.CanDeleteChatMessages, model.CanKickMembers, model.CanManageNonAggressionPacts, model.CanManageWars, model.CanBank))
                 .OnSuccess(nameof(Roles))
                 .OnFailure(model);
         }

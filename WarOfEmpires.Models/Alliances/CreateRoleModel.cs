@@ -18,5 +18,7 @@ namespace WarOfEmpires.Models.Alliances {
         public bool CanManageNonAggressionPacts { get; set; }
         [DisplayName("Can manage wars")]
         public bool CanManageWars { get; set; }
+        [DisplayName("Can bank")]
+        public bool CanBank { get; set; }
     }
 }
