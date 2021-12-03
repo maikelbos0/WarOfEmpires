@@ -33,8 +33,9 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
             result.CanKickMembers.Should().BeTrue();
             result.CanManageNonAggressionPacts.Should().BeTrue();
             result.CanManageWars.Should().BeTrue();
-            result.Players.Should().HaveCount(1);
+            result.CanBank.Should().BeTrue();
 
+            result.Players.Should().HaveCount(1);
             result.Players.Should().ContainSingle(p => p.Id == 3);
             result.Players.Single(p => p.Id == 3).DisplayName.Should().Be("Test display name 3");
             result.Players.Single(p => p.Id == 3).Rank.Should().Be(5);

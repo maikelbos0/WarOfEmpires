@@ -34,6 +34,7 @@ namespace WarOfEmpires.QueryHandlers.Alliances {
                 CanKickMembers = role.CanKickMembers,
                 CanManageNonAggressionPacts = role.CanManageNonAggressionPacts,
                 CanManageWars = role.CanManageWars,
+                CanBank = role.CanBank,
                 Players = role.Players.Where(p => p.User.Status == UserStatus.Active).Select(p => new RolePlayerViewModel() {
                     Id = p.Id,
                     Rank = p.Rank,
