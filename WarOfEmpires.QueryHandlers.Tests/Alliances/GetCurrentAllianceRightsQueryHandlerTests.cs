@@ -26,6 +26,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
             result.CanDisbandAlliance.Should().BeFalse();
             result.CanManageNonAggressionPacts.Should().BeFalse();
             result.CanManageWars.Should().BeFalse();
+            result.CanBank.Should().BeFalse();
         }
 
         [TestMethod]
@@ -49,6 +50,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
             result.CanDisbandAlliance.Should().BeFalse();
             result.CanManageNonAggressionPacts.Should().BeTrue();
             result.CanManageWars.Should().BeTrue();
+            result.CanBank.Should().BeTrue();
         }
 
         [TestMethod]
@@ -71,6 +73,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
             result.CanDisbandAlliance.Should().BeTrue();
             result.CanManageNonAggressionPacts.Should().BeTrue();
             result.CanManageWars.Should().BeTrue();
+            result.CanBank.Should().BeTrue();
         }
     }
 }
