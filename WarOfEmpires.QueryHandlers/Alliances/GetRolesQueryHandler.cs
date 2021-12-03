@@ -31,6 +31,7 @@ namespace WarOfEmpires.QueryHandlers.Alliances {
                     CanKickMembers = r.CanKickMembers,
                     CanManageNonAggressionPacts = r.CanManageNonAggressionPacts,
                     CanManageWars = r.CanManageWars,
+                    CanBank = r.CanBank,
                     Players = r.Players.Count(p => p.User.Status == UserStatus.Active)
                 });
         }

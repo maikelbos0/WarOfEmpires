@@ -35,6 +35,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
             result.Single(r => r.Id == 1).CanKickMembers.Should().BeTrue();
             result.Single(r => r.Id == 1).CanManageNonAggressionPacts.Should().BeTrue();
             result.Single(r => r.Id == 1).CanManageWars.Should().BeTrue();
+            result.Single(r => r.Id == 1).CanBank.Should().BeTrue();
             result.Single(r => r.Id == 1).Players.Should().Be(2);
         }
     }
