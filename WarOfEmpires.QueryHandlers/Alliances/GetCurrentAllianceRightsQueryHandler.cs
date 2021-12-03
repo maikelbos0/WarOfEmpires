@@ -36,6 +36,7 @@ namespace WarOfEmpires.QueryHandlers.Alliances {
                 result.CanDisbandAlliance = true;
                 result.CanManageNonAggressionPacts = true;
                 result.CanManageWars = true;
+                result.CanBank = true;
             }
             else if (player.AllianceRole != null) {
                 result.CanInvite = player.AllianceRole.CanInvite;
@@ -44,6 +45,7 @@ namespace WarOfEmpires.QueryHandlers.Alliances {
                 result.CanKickMembers = player.AllianceRole.CanKickMembers;
                 result.CanManageNonAggressionPacts = player.AllianceRole.CanManageNonAggressionPacts;
                 result.CanManageWars = player.AllianceRole.CanManageWars;
+                result.CanBank = player.AllianceRole.CanBank;
             }
 
             return result;
