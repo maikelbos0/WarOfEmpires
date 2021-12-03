@@ -25,7 +25,7 @@ namespace WarOfEmpires.QueryHandlers.Players {
                 .SingleOrDefault(p => EmailComparisonService.Equals(p.User.Email, query.Email));
 
             var result = new CurrentPlayerViewModel() {
-                IsAuthenticated = true,                
+                IsAuthenticated = true,
                 IsAdmin = player?.User.IsAdmin ?? false,
                 IsPlayer = player != null,
                 IsInAlliance = player?.Alliance != null,
@@ -42,6 +42,7 @@ namespace WarOfEmpires.QueryHandlers.Players {
                     result.CanDisbandAlliance = true;
                     result.CanManageNonAggressionPacts = true;
                     result.CanManageWars = true;
+                    result.CanBank = true;
                 }
                 else {
                     result.CanLeaveAlliance = true;
@@ -51,6 +52,7 @@ namespace WarOfEmpires.QueryHandlers.Players {
                         result.CanManageRoles = player.AllianceRole.CanManageRoles;
                         result.CanManageNonAggressionPacts = player.AllianceRole.CanManageNonAggressionPacts;
                         result.CanManageWars = player.AllianceRole.CanManageWars;
+                        result.CanBank = player.AllianceRole.CanBank;
                     }
                 }
             }
