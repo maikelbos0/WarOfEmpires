@@ -11,6 +11,7 @@
         public bool CanDisbandAlliance { get; set; }
         public bool CanManageNonAggressionPacts { get; set; }
         public bool CanManageWars { get; set; }
+        public bool CanBank { get; set; }
         public string DisplayName { get; set; }
     }
 }
