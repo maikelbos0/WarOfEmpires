@@ -11,6 +11,7 @@ namespace WarOfEmpires.Filters {
         public bool CanDisbandAlliance { get; set; }
         public bool CanManageNonAggressionPacts { get; set; }
         public bool CanManageWars { get; set; }
+        public bool CanBank { get; set; }
 
         public AllianceAuthorizeAttribute() : base(typeof(AllianceAuthorizeFilter)) {
             Arguments = new object[] { this };

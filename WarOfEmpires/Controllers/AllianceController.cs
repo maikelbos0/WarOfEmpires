@@ -371,15 +371,13 @@ namespace WarOfEmpires.Controllers {
                 .OnFailure(model);
         }
 
-        // TODO add right
-        [AllianceAuthorize]
+        [AllianceAuthorize(CanBank = true)]
         [HttpGet(nameof(Banking))]
         public ViewResult Banking() {
             return View(_messageService.Dispatch(new GetBankedResourcesQuery(_authenticationService.Identity)));
         }
 
-        // TODO add right
-        [AllianceAuthorize]
+        [AllianceAuthorize(CanBank = true)]
         [HttpPost(nameof(Banking))]
         public ActionResult Banking(BankedResourcesModel model) {
             return BuildViewResultFor(new BankCommand(_authenticationService.Identity, model.Gold, model.Food, model.Wood, model.Stone, model.Ore))
