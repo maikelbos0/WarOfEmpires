@@ -24,7 +24,7 @@ namespace WarOfEmpires.Domain.Players {
                 return double.PositiveInfinity;
             }
 
-            return GetPoints(dividendPlayer) / divisor;
+            return dividend / divisor;
         }
 
         public virtual void Update(IEnumerable<Player> players) {
