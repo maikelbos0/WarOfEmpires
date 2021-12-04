@@ -1,10 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using WarOfEmpires.Domain.Common;
 using WarOfEmpires.Domain.Players;
 
 namespace WarOfEmpires.Domain.Alliances {
     public class Alliance : Entity {
+        public const double MinimumBankTax = 0.3;
+
         public virtual Player Leader { get; protected set; }
         public virtual string Code { get; protected set; }
         public virtual string Name { get; protected set; }
@@ -130,12 +133,12 @@ namespace WarOfEmpires.Domain.Alliances {
             Name = name;
         }
 
-        // TODO somehow add a tax to alliance banking
-        public virtual void Bank(Player player, Resources resources) {
-            BankTurns--;
+        public virtual void Bank(Player player, double ratio, Resources resources) {
+            decimal tax = (decimal)Math.Max(1 - ratio, MinimumBankTax);
 
+            BankTurns--;
             player.SpendResources(resources);
-            BankedResources += resources;
+            BankedResources += resources * (1 - tax);
         }
 
         public virtual void AddBankTurn() {

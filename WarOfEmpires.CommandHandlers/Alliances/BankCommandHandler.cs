@@ -30,7 +30,7 @@ namespace WarOfEmpires.CommandHandlers.Alliances {
             }
 
             if (result.Success) {
-                alliance.Bank(player, resources);
+                alliance.Bank(player, 1, resources); // TODO ratio
                 _repository.SaveChanges();
             }
 
