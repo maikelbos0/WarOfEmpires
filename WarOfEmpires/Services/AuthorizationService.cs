@@ -60,6 +60,10 @@ namespace WarOfEmpires.Services {
                 return false;
             }
 
+            if (request.CanBank && !allianceRights.CanBank) {
+                return false;
+            }
+
             return true;
         }
     }

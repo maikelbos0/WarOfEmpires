@@ -8,5 +8,6 @@
         bool CanDisbandAlliance { get; set; }
         bool CanManageNonAggressionPacts { get; set; }
         bool CanManageWars { get; set; }
+        bool CanBank { get; set; }
     }
 }
