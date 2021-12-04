@@ -14,43 +14,54 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
     public sealed class BankCommandHandlerTests {
         [TestMethod]
         public void BankCommandHandler_Succeeds() {
+            var rankService = Substitute.For<IRankService>();
             var builder = new FakeBuilder()
                 .BuildAlliance(1)
-                .BuildMember(1);
+                .WithMember(3, rank: 5)
+                .WithMember(2, out var highestRankedPlayer, rank: 3)
+                .BuildMember(1, rank: 7);
 
-            var handler = new BankCommandHandler(new PlayerRepository(builder.Context));
+            rankService.GetRatio(builder.Player, highestRankedPlayer).Returns(0.6);
+
+            var handler = new BankCommandHandler(new PlayerRepository(builder.Context), rankService);
             var command = new BankCommand("test1@test.com", 2, 3, 4, 5, 6);
 
             var result = handler.Execute(command);
 
             result.Success.Should().BeTrue();
-            builder.Alliance.Received().Bank(builder.Player, 1, new Resources(2, 3, 4, 5, 6)); // TODO ratio
+            builder.Alliance.Received().Bank(builder.Player, 0.6, new Resources(2, 3, 4, 5, 6));
             builder.Context.CallsToSaveChanges.Should().Be(1);
         }
 
         [TestMethod]
         public void BankCommandHandler_Allows_Empty_Values() {
+            var rankService = Substitute.For<IRankService>();
             var builder = new FakeBuilder()
                 .BuildAlliance(1)
-                .BuildMember(1);
+                .WithMember(3, rank: 5)
+                .WithMember(2, out var highestRankedPlayer, rank: 3)
+                .BuildMember(1, rank: 7);
 
-            var handler = new BankCommandHandler(new PlayerRepository(builder.Context));
+            rankService.GetRatio(builder.Player, highestRankedPlayer).Returns(0.6);
+
+            var handler = new BankCommandHandler(new PlayerRepository(builder.Context), rankService);
             var command = new BankCommand("test1@test.com", null, null, null, null, null);
 
             var result = handler.Execute(command);
 
             result.Success.Should().BeTrue();
-            builder.Alliance.Received().Bank(builder.Player, 1, new Resources()); // TODO ratio
+            builder.Alliance.Received().Bank(builder.Player, 0.6, new Resources());
             builder.Context.CallsToSaveChanges.Should().Be(1);
         }
 
         [TestMethod]
         public void BankCommandHandler_Fails_For_Too_Little_Resources() {
+            var rankService = Substitute.For<IRankService>();
             var builder = new FakeBuilder()
                 .BuildAlliance(1)
                 .WithMember(1, canAffordAnything: false);
 
-            var handler = new BankCommandHandler(new PlayerRepository(builder.Context));
+            var handler = new BankCommandHandler(new PlayerRepository(builder.Context), rankService);
             var command = new BankCommand("test1@test.com", 2, 3, 4, 5, 6);
 
             var result = handler.Execute(command);
@@ -62,11 +73,12 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
 
         [TestMethod]
         public void BankCommandHandler_Fails_For_Too_Few_Bank_Turns() {
+            var rankService = Substitute.For<IRankService>();
             var builder = new FakeBuilder()
                 .BuildAlliance(1, bankTurns: 0)
                 .WithMember(1);
 
-            var handler = new BankCommandHandler(new PlayerRepository(builder.Context));
+            var handler = new BankCommandHandler(new PlayerRepository(builder.Context), rankService);
             var command = new BankCommand("test1@test.com", 2, 3, 4, 5, 6);
 
             var result = handler.Execute(command);
@@ -77,12 +89,13 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
         }
 
         [TestMethod]
-        public void TransferResourcesCommandHandler_Throws_Exception_For_Player_Not_In_Alliance() {
+        public void BankCommandHandler_Throws_Exception_For_Player_Not_In_Alliance() {
+            var rankService = Substitute.For<IRankService>();
             var builder = new FakeBuilder()
                 .WithPlayer(1, out var recipient)
                 .BuildAlliance(1);
 
-            var handler = new BankCommandHandler(new PlayerRepository(builder.Context));
+            var handler = new BankCommandHandler(new PlayerRepository(builder.Context), rankService);
             var command = new BankCommand("test1@test.com", 2, 3, 4, 5, 6);
 
             Action action = () => handler.Execute(command);
