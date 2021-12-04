@@ -24,7 +24,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
             var result = handler.Execute(command);
 
             result.Success.Should().BeTrue();
-            builder.Alliance.Received().Bank(builder.Player, new Resources(2, 3, 4, 5, 6));
+            builder.Alliance.Received().Bank(builder.Player, 1, new Resources(2, 3, 4, 5, 6)); // TODO ratio
             builder.Context.CallsToSaveChanges.Should().Be(1);
         }
 
@@ -40,7 +40,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
             var result = handler.Execute(command);
 
             result.Success.Should().BeTrue();
-            builder.Alliance.Received().Bank(builder.Player, new Resources());
+            builder.Alliance.Received().Bank(builder.Player, 1, new Resources()); // TODO ratio
             builder.Context.CallsToSaveChanges.Should().Be(1);
         }
 
@@ -56,7 +56,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
             var result = handler.Execute(command);
 
             result.Should().HaveError("You don't have enough resources available to bank that much");
-            builder.Alliance.DidNotReceiveWithAnyArgs().Bank(default, default);
+            builder.Alliance.DidNotReceiveWithAnyArgs().Bank(default, default, default);
             builder.Context.CallsToSaveChanges.Should().Be(0);
         }
 
@@ -72,7 +72,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
             var result = handler.Execute(command);
 
             result.Should().HaveError("You don't have any bank turns available");
-            builder.Alliance.DidNotReceiveWithAnyArgs().Bank(default, default);
+            builder.Alliance.DidNotReceiveWithAnyArgs().Bank(default, default, default);
             builder.Context.CallsToSaveChanges.Should().Be(0);
         }
 
@@ -88,7 +88,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
             Action action = () => handler.Execute(command);
 
             action.Should().Throw<NullReferenceException>();
-            builder.Alliance.DidNotReceiveWithAnyArgs().Bank(default, default);
+            builder.Alliance.DidNotReceiveWithAnyArgs().Bank(default, default, default);
             builder.Context.CallsToSaveChanges.Should().Be(0);
         }
     }

@@ -310,11 +310,24 @@ namespace WarOfEmpires.Domain.Tests.Alliances {
             var alliance = new Alliance(player, "ALLY", "The Alliance");
             var previousBankTurns = alliance.BankTurns;
 
-            alliance.Bank(player, new Resources(5, 4, 3, 2, 1));
+            alliance.Bank(player, 0.69, new Resources(5000, 4000, 3000, 2000, 1000));
 
-            player.Received().SpendResources(new Resources(5, 4, 3, 2, 1));
+            player.Received().SpendResources(new Resources(5000, 4000, 3000, 2000, 1000));
             alliance.BankTurns.Should().Be(previousBankTurns - 1);
-            alliance.BankedResources.Should().Be(new Resources(5, 4, 3, 2, 1));
+            alliance.BankedResources.Should().Be(new Resources(5000, 4000, 3000, 2000, 1000) * 0.69M);
+        }
+
+        [TestMethod]
+        public void Alliance_Bank_Succeeds_Minimum_Tax() {
+            var player = Substitute.For<Player>();
+            var alliance = new Alliance(player, "ALLY", "The Alliance");
+            var previousBankTurns = alliance.BankTurns;
+
+            alliance.Bank(player, 0.71, new Resources(5000, 4000, 3000, 2000, 1000));
+
+            player.Received().SpendResources(new Resources(5000, 4000, 3000, 2000, 1000));
+            alliance.BankTurns.Should().Be(previousBankTurns - 1);
+            alliance.BankedResources.Should().Be(new Resources(5000, 4000, 3000, 2000, 1000) * 0.7M);
         }
 
         [TestMethod]
