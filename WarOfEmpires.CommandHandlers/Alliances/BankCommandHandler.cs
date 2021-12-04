@@ -1,7 +1,9 @@
-﻿using VDT.Core.DependencyInjection;
+﻿using System.Linq;
+using VDT.Core.DependencyInjection;
 using WarOfEmpires.CommandHandlers.Decorators;
 using WarOfEmpires.Commands.Alliances;
 using WarOfEmpires.Domain.Common;
+using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Repositories.Players;
 
 namespace WarOfEmpires.CommandHandlers.Alliances {
@@ -9,9 +11,11 @@ namespace WarOfEmpires.CommandHandlers.Alliances {
     [TransientServiceImplementation(typeof(ICommandHandler<BankCommand>))]
     public sealed class BankCommandHandler : ICommandHandler<BankCommand> {
         private readonly IPlayerRepository _repository;
+        private readonly IRankService _rankService;
 
-        public BankCommandHandler(IPlayerRepository repository) {
+        public BankCommandHandler(IPlayerRepository repository, IRankService rankService) {
             _repository = repository;
+            _rankService = rankService;
         }
 
         [Audit]
@@ -30,7 +34,9 @@ namespace WarOfEmpires.CommandHandlers.Alliances {
             }
 
             if (result.Success) {
-                alliance.Bank(player, 1, resources); // TODO ratio
+                var highestRankedPlayer = alliance.Members.OrderBy(p => p.Rank).First();
+
+                alliance.Bank(player, _rankService.GetRatio(player, highestRankedPlayer) , resources);
                 _repository.SaveChanges();
             }
 
