@@ -149,5 +149,11 @@ namespace WarOfEmpires.Domain.Alliances {
             BankedResources = new Resources();
             BankTurns = 12;
         }
+
+        public virtual void Withdraw(Player player, Resources resources) {
+            BankTurns--;
+            BankedResources -= resources;
+            player.AddResources(resources);
+        }
     }
 }

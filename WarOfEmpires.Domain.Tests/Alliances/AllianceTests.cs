@@ -344,13 +344,28 @@ namespace WarOfEmpires.Domain.Tests.Alliances {
         public void Alliance_Reset_Succeeds() {
             var alliance = new Alliance(new Player(1, "Leader", Race.Elves), "ALLY", "The Alliance");
 
-            typeof(Alliance).GetProperty(nameof(Alliance.BankedResources)).SetValue(alliance, new Resources(1000000, 10000, 100000, 100000, 100000));
+            typeof(Alliance).GetProperty(nameof(Alliance.BankedResources)).SetValue(alliance, new Resources(10000, 10000, 10000, 10000, 10000));
             typeof(Alliance).GetProperty(nameof(Alliance.BankTurns)).SetValue(alliance, 20);
 
             alliance.Reset();
 
             alliance.BankedResources.Should().Be(new Resources());
             alliance.BankTurns.Should().Be(12);
+        }
+
+        [TestMethod]
+        public void Alliance_Withdraw_Succeeds() {
+            var player = Substitute.For<Player>();
+            var alliance = new Alliance(player, "ALLY", "The Alliance");
+            var previousBankTurns = alliance.BankTurns;
+
+            typeof(Alliance).GetProperty(nameof(Alliance.BankedResources)).SetValue(alliance, new Resources(10000, 10000, 10000, 10000, 10000));
+
+            alliance.Withdraw(player, new Resources(5000, 4000, 3000, 2000, 1000));
+
+            player.Received().AddResources(new Resources(5000, 4000, 3000, 2000, 1000));
+            alliance.BankTurns.Should().Be(previousBankTurns - 1);
+            alliance.BankedResources.Should().Be(new Resources(5000, 6000, 7000, 8000, 9000));
         }
     }
 }
