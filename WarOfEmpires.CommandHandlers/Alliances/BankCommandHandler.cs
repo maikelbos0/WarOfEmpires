@@ -30,13 +30,13 @@ namespace WarOfEmpires.CommandHandlers.Alliances {
             }
 
             if (alliance.BankTurns <= 0) {
-                result.AddError("You don't have any bank turns available");
+                result.AddError("Your alliance doesn't have any bank turns available");
             }
 
             if (result.Success) {
                 var highestRankedPlayer = alliance.Members.OrderBy(p => p.Rank).First();
 
-                alliance.Bank(player, _rankService.GetRatio(player, highestRankedPlayer) , resources);
+                alliance.Bank(player, _rankService.GetRatio(player, highestRankedPlayer), resources);
                 _repository.SaveChanges();
             }
 
