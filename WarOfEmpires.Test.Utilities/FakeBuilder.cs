@@ -2,6 +2,7 @@
 using System;
 using System.Linq;
 using WarOfEmpires.Domain.Alliances;
+using WarOfEmpires.Domain.Common;
 using WarOfEmpires.Domain.Events;
 using WarOfEmpires.Domain.Game;
 using WarOfEmpires.Domain.Players;
@@ -19,18 +20,18 @@ namespace WarOfEmpires.Test.Utilities {
             Context = context;
         }
 
-        public FakeAllianceBuilder BuildAlliance(int id, string code = "FS", string name = "Føroyskir Samgonga", int bankTurns = 24) {
-            return new FakeAllianceBuilder(Context, id, code, name, bankTurns);
+        public FakeAllianceBuilder BuildAlliance(int id, string code = "FS", string name = "Føroyskir Samgonga", Resources bankedResources = null, int bankTurns = 24) {
+            return new FakeAllianceBuilder(Context, id, code, name, bankedResources, bankTurns);
         }
 
-        public FakeBuilder WithAlliance(int id, out Alliance alliance, string code = "FS", string name = "Føroyskir Samgonga", int bankTurns = 24) {
-            alliance = BuildAlliance(id, code, name, bankTurns).Alliance;
+        public FakeBuilder WithAlliance(int id, out Alliance alliance, string code = "FS", string name = "Føroyskir Samgonga", Resources bankedResources = null, int bankTurns = 24) {
+            alliance = BuildAlliance(id, code, name, bankedResources, bankTurns).Alliance;
 
             return this;
         }
 
-        public FakeBuilder WithAlliance(int id, string code = "FS", string name = "Føroyskir Samgonga", int bankTurns = 24) {
-            BuildAlliance(id, code, name, bankTurns);
+        public FakeBuilder WithAlliance(int id, string code = "FS", string name = "Føroyskir Samgonga", Resources bankedResources = null, int bankTurns = 24) {
+            BuildAlliance(id, code, name, bankedResources, bankTurns);
 
             return this;
         }

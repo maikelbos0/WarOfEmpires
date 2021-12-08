@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using WarOfEmpires.Domain.Alliances;
+using WarOfEmpires.Domain.Common;
 using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Domain.Security;
 
@@ -9,11 +10,12 @@ namespace WarOfEmpires.Test.Utilities {
     public class FakeAllianceBuilder : FakeBuilder {
         public Alliance Alliance { get; }
 
-        internal FakeAllianceBuilder(FakeWarContext context, int id, string code, string name, int bankturns) : base(context) {
+        internal FakeAllianceBuilder(FakeWarContext context, int id, string code, string name, Resources bankedResources, int bankturns) : base(context) {
             Alliance = Substitute.For<Alliance>();
             Alliance.Id.Returns(id);
             Alliance.Code.Returns(code);
             Alliance.Name.Returns(name);
+            Alliance.BankedResources.Returns(bankedResources ?? new Resources());
             Alliance.BankTurns.Returns(bankturns);
             Alliance.Members.Returns(new List<Player>());
             Alliance.ChatMessages.Returns(new List<ChatMessage>());
