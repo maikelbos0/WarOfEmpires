@@ -83,7 +83,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
 
             var result = handler.Execute(command);
 
-            result.Should().HaveError("You don't have any bank turns available");
+            result.Should().HaveError("Your alliance doesn't have any bank turns available");
             builder.Alliance.DidNotReceiveWithAnyArgs().Bank(default, default, default);
             builder.Context.CallsToSaveChanges.Should().Be(0);
         }
@@ -92,7 +92,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
         public void BankCommandHandler_Throws_Exception_For_Player_Not_In_Alliance() {
             var rankService = Substitute.For<IRankService>();
             var builder = new FakeBuilder()
-                .WithPlayer(1, out var recipient)
+                .WithPlayer(1)
                 .BuildAlliance(1);
 
             var handler = new BankCommandHandler(new PlayerRepository(builder.Context), rankService);
