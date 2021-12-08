@@ -12,7 +12,7 @@ namespace WarOfEmpires.Domain.Alliances {
         public virtual string Code { get; protected set; }
         public virtual string Name { get; protected set; }
         public virtual Resources BankedResources { get; protected set; } = new Resources();
-        public virtual int BankTurns { get; protected set; } = 12;
+        public virtual int BankTurns { get; protected set; } = 24;
         public virtual ICollection<Player> Members { get; protected set; } = new List<Player>();
         public virtual ICollection<Role> Roles { get; protected set; } = new List<Role>();
         public virtual ICollection<Invite> Invites { get; protected set; } = new List<Invite>();

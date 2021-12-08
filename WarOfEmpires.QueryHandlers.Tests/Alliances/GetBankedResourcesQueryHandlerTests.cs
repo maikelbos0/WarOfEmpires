@@ -29,7 +29,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
             result.BankedResources.Stone.Should().Be(2000);
             result.BankedResources.Ore.Should().Be(1000);
 
-            result.BankTurns.Should().Be(12);
+            result.BankTurns.Should().Be(24);
         }
     }
 }
