@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using WarOfEmpires.Commands.Alliances;
 using WarOfEmpires.Filters;
 using WarOfEmpires.Models.Alliances;
@@ -380,9 +381,18 @@ namespace WarOfEmpires.Controllers {
         [AllianceAuthorize(CanBank = true)]
         [HttpPost(nameof(Banking))]
         public ActionResult Banking(BankedResourcesModel model) {
-            return BuildViewResultFor(new BankCommand(_authenticationService.Identity, model.Gold, model.Food, model.Wood, model.Stone, model.Ore))
-                .OnSuccess(nameof(Banking))
-                .OnFailure(model);
+            switch (model.Command) {
+                case "bank":
+                    return BuildViewResultFor(new BankCommand(_authenticationService.Identity, model.Gold, model.Food, model.Wood, model.Stone, model.Ore))
+                        .OnSuccess(nameof(Banking))
+                        .OnFailure(model);
+                case "withdraw":
+                    return BuildViewResultFor(new WithdrawCommand(_authenticationService.Identity, model.Gold, model.Food, model.Wood, model.Stone, model.Ore))
+                        .OnSuccess(nameof(Banking))
+                        .OnFailure(model);
+                default:
+                    throw new InvalidOperationException($"Invalid operation '{model.Command}' found");
+            }
         }
     }
 }

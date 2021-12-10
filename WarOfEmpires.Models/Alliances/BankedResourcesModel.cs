@@ -15,5 +15,6 @@ namespace WarOfEmpires.Models.Alliances {
         public int? Stone { get; set; }
         [DisplayName("Ore")]
         public int? Ore { get; set; }
+        public string Command { get; set; }
     }
 }
