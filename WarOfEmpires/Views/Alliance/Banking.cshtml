@@ -15,9 +15,10 @@
     <li>Remaining bank turns: @Model.BankTurns.ToString(StringFormat.Integer)</li>
 </ul>
 
-<form method="post" data-success-message="Your resources were stored in their banks.">
+<form method="post" data-success-message-bank="The resources were stored in the alliance bank." data-success-message-withdraw="The resources were withdrawn from the alliance bank.">
     <div asp-validation-summary="ModelOnly" class="site-validation-summary text-danger"></div>
-
+    
+    <input type="hidden" asp-for="Command" />
     <input type="hidden" asp-for="BankedResources.Gold" />
     <input type="hidden" asp-for="BankedResources.Food" />
     <input type="hidden" asp-for="BankedResources.Wood" />
@@ -83,6 +84,10 @@
     </table>
 
     <div class="row">
-        <div class="col-6 offset-6 col-md-3 offset-md-9"><button type="submit" class="btn btn-primary w-100">Bank</button></div>
+        <div class="col-6 offset-6 col-md-3 offset-md-9"><button type="submit" class="btn btn-primary w-100" value="bank">Bank</button></div>
+    </div>
+
+    <div class="row mt-1">
+        <div class="col-6 offset-6 col-md-3 offset-md-9"><button type="submit" class="btn btn-secondary w-100" value="withdraw">Withdraw</button></div>
     </div>
 </form>
