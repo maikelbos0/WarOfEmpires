@@ -133,7 +133,7 @@ namespace WarOfEmpires.Domain.Alliances {
             Name = name;
         }
 
-        public virtual void Bank(Player player, double ratio, Resources resources) {
+        public virtual void Deposit(Player player, double ratio, Resources resources) {
             decimal tax = (decimal)Math.Max(1 - ratio, MinimumBankTax);
 
             BankTurns--;

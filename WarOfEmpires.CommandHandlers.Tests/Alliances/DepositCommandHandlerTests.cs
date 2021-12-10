@@ -11,9 +11,9 @@ using WarOfEmpires.Test.Utilities;
 
 namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
     [TestClass]
-    public sealed class BankCommandHandlerTests {
+    public sealed class DepositCommandHandlerTests {
         [TestMethod]
-        public void BankCommandHandler_Succeeds() {
+        public void DepositCommandHandler_Succeeds() {
             var rankService = Substitute.For<IRankService>();
             var builder = new FakeBuilder()
                 .BuildAlliance(1)
@@ -23,18 +23,18 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
 
             rankService.GetRatio(builder.Player, highestRankedPlayer).Returns(0.6);
 
-            var handler = new BankCommandHandler(new PlayerRepository(builder.Context), rankService);
-            var command = new BankCommand("test1@test.com", 2, 3, 4, 5, 6);
+            var handler = new DepositCommandHandler(new PlayerRepository(builder.Context), rankService);
+            var command = new DepositCommand("test1@test.com", 2, 3, 4, 5, 6);
 
             var result = handler.Execute(command);
 
             result.Success.Should().BeTrue();
-            builder.Alliance.Received().Bank(builder.Player, 0.6, new Resources(2, 3, 4, 5, 6));
+            builder.Alliance.Received().Deposit(builder.Player, 0.6, new Resources(2, 3, 4, 5, 6));
             builder.Context.CallsToSaveChanges.Should().Be(1);
         }
 
         [TestMethod]
-        public void BankCommandHandler_Allows_Empty_Values() {
+        public void DepositCommandHandler_Allows_Empty_Values() {
             var rankService = Substitute.For<IRankService>();
             var builder = new FakeBuilder()
                 .BuildAlliance(1)
@@ -44,64 +44,64 @@ namespace WarOfEmpires.CommandHandlers.Tests.Alliances {
 
             rankService.GetRatio(builder.Player, highestRankedPlayer).Returns(0.6);
 
-            var handler = new BankCommandHandler(new PlayerRepository(builder.Context), rankService);
-            var command = new BankCommand("test1@test.com", null, null, null, null, null);
+            var handler = new DepositCommandHandler(new PlayerRepository(builder.Context), rankService);
+            var command = new DepositCommand("test1@test.com", null, null, null, null, null);
 
             var result = handler.Execute(command);
 
             result.Success.Should().BeTrue();
-            builder.Alliance.Received().Bank(builder.Player, 0.6, new Resources());
+            builder.Alliance.Received().Deposit(builder.Player, 0.6, new Resources());
             builder.Context.CallsToSaveChanges.Should().Be(1);
         }
 
         [TestMethod]
-        public void BankCommandHandler_Fails_For_Too_Little_Resources() {
+        public void DepositCommandHandler_Fails_For_Too_Little_Resources() {
             var rankService = Substitute.For<IRankService>();
             var builder = new FakeBuilder()
                 .BuildAlliance(1)
                 .WithMember(1, canAffordAnything: false);
 
-            var handler = new BankCommandHandler(new PlayerRepository(builder.Context), rankService);
-            var command = new BankCommand("test1@test.com", 2, 3, 4, 5, 6);
+            var handler = new DepositCommandHandler(new PlayerRepository(builder.Context), rankService);
+            var command = new DepositCommand("test1@test.com", 2, 3, 4, 5, 6);
 
             var result = handler.Execute(command);
 
-            result.Should().HaveError("You don't have enough resources available to bank that much");
-            builder.Alliance.DidNotReceiveWithAnyArgs().Bank(default, default, default);
+            result.Should().HaveError("You don't have enough resources available to deposit that much");
+            builder.Alliance.DidNotReceiveWithAnyArgs().Deposit(default, default, default);
             builder.Context.CallsToSaveChanges.Should().Be(0);
         }
 
         [TestMethod]
-        public void BankCommandHandler_Fails_For_Too_Few_Bank_Turns() {
+        public void DepositCommandHandler_Fails_For_Too_Few_Bank_Turns() {
             var rankService = Substitute.For<IRankService>();
             var builder = new FakeBuilder()
                 .BuildAlliance(1, bankTurns: 0)
                 .WithMember(1);
 
-            var handler = new BankCommandHandler(new PlayerRepository(builder.Context), rankService);
-            var command = new BankCommand("test1@test.com", 2, 3, 4, 5, 6);
+            var handler = new DepositCommandHandler(new PlayerRepository(builder.Context), rankService);
+            var command = new DepositCommand("test1@test.com", 2, 3, 4, 5, 6);
 
             var result = handler.Execute(command);
 
             result.Should().HaveError("Your alliance doesn't have any bank turns available");
-            builder.Alliance.DidNotReceiveWithAnyArgs().Bank(default, default, default);
+            builder.Alliance.DidNotReceiveWithAnyArgs().Deposit(default, default, default);
             builder.Context.CallsToSaveChanges.Should().Be(0);
         }
 
         [TestMethod]
-        public void BankCommandHandler_Throws_Exception_For_Player_Not_In_Alliance() {
+        public void DepositCommandHandler_Throws_Exception_For_Player_Not_In_Alliance() {
             var rankService = Substitute.For<IRankService>();
             var builder = new FakeBuilder()
                 .WithPlayer(1)
                 .BuildAlliance(1);
 
-            var handler = new BankCommandHandler(new PlayerRepository(builder.Context), rankService);
-            var command = new BankCommand("test1@test.com", 2, 3, 4, 5, 6);
+            var handler = new DepositCommandHandler(new PlayerRepository(builder.Context), rankService);
+            var command = new DepositCommand("test1@test.com", 2, 3, 4, 5, 6);
 
             Action action = () => handler.Execute(command);
 
             action.Should().Throw<NullReferenceException>();
-            builder.Alliance.DidNotReceiveWithAnyArgs().Bank(default, default, default);
+            builder.Alliance.DidNotReceiveWithAnyArgs().Deposit(default, default, default);
             builder.Context.CallsToSaveChanges.Should().Be(0);
         }
     }
