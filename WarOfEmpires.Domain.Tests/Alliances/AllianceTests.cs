@@ -305,12 +305,12 @@ namespace WarOfEmpires.Domain.Tests.Alliances {
         }
 
         [TestMethod]
-        public void Alliance_Bank_Succeeds() {
+        public void Alliance_Deposit_Succeeds() {
             var player = Substitute.For<Player>();
             var alliance = new Alliance(player, "ALLY", "The Alliance");
             var previousBankTurns = alliance.BankTurns;
 
-            alliance.Bank(player, 0.69, new Resources(5000, 4000, 3000, 2000, 1000));
+            alliance.Deposit(player, 0.69, new Resources(5000, 4000, 3000, 2000, 1000));
 
             player.Received().SpendResources(new Resources(5000, 4000, 3000, 2000, 1000));
             alliance.BankTurns.Should().Be(previousBankTurns - 1);
@@ -318,12 +318,12 @@ namespace WarOfEmpires.Domain.Tests.Alliances {
         }
 
         [TestMethod]
-        public void Alliance_Bank_Succeeds_Minimum_Tax() {
+        public void Alliance_Deposit_Succeeds_Minimum_Tax() {
             var player = Substitute.For<Player>();
             var alliance = new Alliance(player, "ALLY", "The Alliance");
             var previousBankTurns = alliance.BankTurns;
 
-            alliance.Bank(player, 0.71, new Resources(5000, 4000, 3000, 2000, 1000));
+            alliance.Deposit(player, 0.71, new Resources(5000, 4000, 3000, 2000, 1000));
 
             player.Received().SpendResources(new Resources(5000, 4000, 3000, 2000, 1000));
             alliance.BankTurns.Should().Be(previousBankTurns - 1);

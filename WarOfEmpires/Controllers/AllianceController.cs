@@ -382,8 +382,8 @@ namespace WarOfEmpires.Controllers {
         [HttpPost(nameof(Banking))]
         public ActionResult Banking(BankedResourcesModel model) {
             switch (model.Command) {
-                case "bank":
-                    return BuildViewResultFor(new BankCommand(_authenticationService.Identity, model.Gold, model.Food, model.Wood, model.Stone, model.Ore))
+                case "deposit":
+                    return BuildViewResultFor(new DepositCommand(_authenticationService.Identity, model.Gold, model.Food, model.Wood, model.Stone, model.Ore))
                         .OnSuccess(nameof(Banking))
                         .OnFailure(model);
                 case "withdraw":
