@@ -194,7 +194,7 @@ namespace WarOfEmpires.Domain.Players {
             );
         }
 
-        public virtual void Bank() {
+        public virtual void Deposit() {
             var toBank = GetBankableResources();
 
             BankTurns--;
