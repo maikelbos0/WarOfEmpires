@@ -141,7 +141,7 @@ namespace WarOfEmpires.Controllers {
 
         [HttpPost(nameof(Banking))]
         public ActionResult Banking(BankedResourcesViewModel model) {
-            return BuildViewResultFor(new BankCommand(_authenticationService.Identity))
+            return BuildViewResultFor(new DepositCommand(_authenticationService.Identity))
                 .OnSuccess(nameof(Banking))
                 .OnFailure(model);
         }

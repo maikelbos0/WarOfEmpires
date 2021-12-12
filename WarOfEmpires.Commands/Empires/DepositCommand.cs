@@ -1,8 +1,8 @@
 ﻿namespace WarOfEmpires.Commands.Empires {
-    public sealed class BankCommand : ICommand {
+    public sealed class DepositCommand : ICommand {
         public string Email { get; }
 
-        public BankCommand(string email) {
+        public DepositCommand(string email) {
             Email = email;
         }
     }

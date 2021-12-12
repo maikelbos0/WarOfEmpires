@@ -8,19 +8,19 @@ using WarOfEmpires.Test.Utilities;
 
 namespace WarOfEmpires.CommandHandlers.Tests.Empires {
     [TestClass]
-    public sealed class BankCommandHandlerTests {
+    public sealed class DepositCommandHandlerTests {
         [TestMethod]
         public void BankCommandHandler_Succeeds() {
             var builder = new FakeBuilder()
                 .WithPlayer(1, out var player);
 
-            var handler = new BankCommandHandler(new PlayerRepository(builder.Context));
-            var command = new BankCommand("test1@test.com");
+            var handler = new DepositCommandHandler(new PlayerRepository(builder.Context));
+            var command = new DepositCommand("test1@test.com");
 
             var result = handler.Execute(command);
 
             result.Success.Should().BeTrue();
-            player.Received().Bank();
+            player.Received().Deposit();
             builder.Context.CallsToSaveChanges.Should().Be(1);
         }
 
@@ -29,13 +29,13 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
             var builder = new FakeBuilder()
                 .WithPlayer(1, out var player, bankTurns: 0);
 
-            var handler = new BankCommandHandler(new PlayerRepository(builder.Context));
-            var command = new BankCommand("test1@test.com");
+            var handler = new DepositCommandHandler(new PlayerRepository(builder.Context));
+            var command = new DepositCommand("test1@test.com");
 
             var result = handler.Execute(command);
 
             result.Should().HaveError("You don't have any bank turns available");
-            player.DidNotReceiveWithAnyArgs().Bank();
+            player.DidNotReceiveWithAnyArgs().Deposit();
             builder.Context.CallsToSaveChanges.Should().Be(0);
         }
     }

@@ -4,17 +4,17 @@ using WarOfEmpires.Commands.Empires;
 using WarOfEmpires.Repositories.Players;
 
 namespace WarOfEmpires.CommandHandlers.Empires {
-    [TransientServiceImplementation(typeof(ICommandHandler<BankCommand>))]
-    public sealed class BankCommandHandler : ICommandHandler<BankCommand> {
+    [TransientServiceImplementation(typeof(ICommandHandler<DepositCommand>))]
+    public sealed class DepositCommandHandler : ICommandHandler<DepositCommand> {
         private readonly IPlayerRepository _repository;
 
-        public BankCommandHandler(IPlayerRepository repository) {
+        public DepositCommandHandler(IPlayerRepository repository) {
             _repository = repository;
         }
 
         [Audit]
-        public CommandResult<BankCommand> Execute(BankCommand command) {
-            var result = new CommandResult<BankCommand>();
+        public CommandResult<DepositCommand> Execute(DepositCommand command) {
+            var result = new CommandResult<DepositCommand>();
             var player = _repository.Get(command.Email);
 
             if (player.BankTurns <= 0) {
@@ -22,7 +22,7 @@ namespace WarOfEmpires.CommandHandlers.Empires {
             }
 
             if (result.Success) {
-                player.Bank();
+                player.Deposit();
                 _repository.SaveChanges();
             }
 

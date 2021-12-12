@@ -989,7 +989,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
         }
 
         [TestMethod]
-        public void Player_Bank_Succeeds() {
+        public void Player_Deposit_Succeeds() {
             var player = new Player(0, "Test", Race.Elves);
             var previousBankTurns = player.BankTurns;
 
@@ -1001,7 +1001,7 @@ namespace WarOfEmpires.Domain.Tests.Players {
             player.Buildings.Add(new Building(BuildingType.StoneBank, 1));
             player.Buildings.Add(new Building(BuildingType.OreBank, 1));
 
-            player.Bank();
+            player.Deposit();
 
             player.BankTurns.Should().Be(previousBankTurns - 1);
             player.Resources.Should().Be(new Resources(10000, 0, 5000, 0, 5000));
