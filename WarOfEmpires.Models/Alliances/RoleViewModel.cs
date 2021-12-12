@@ -21,11 +21,9 @@ namespace WarOfEmpires.Models.Alliances {
         [GridColumn(5, 10, "Manage pacts", ResponsiveDisplayBehaviour = ResponsiveDisplayBehaviour.HiddenFromSmall)]
         public string CanManageNonAggressionPactsString { get { return CanManageNonAggressionPacts ? "Yes" : "No"; } }
         public bool CanManageWars { get; set; }
-
         [GridColumn(6, 10, "Manage wars", ResponsiveDisplayBehaviour = ResponsiveDisplayBehaviour.HiddenFromSmall)]
         public string CanManageWarsString { get { return CanManageWars ? "Yes" : "No"; } }
         public bool CanBank { get; set; }
-
         [GridColumn(7, 10, "Bank", ResponsiveDisplayBehaviour = ResponsiveDisplayBehaviour.HiddenFromSmall)]
         public string CanBankString { get { return CanBank ? "Yes" : "No"; } }
         public int Players { get; set; }
