@@ -6,14 +6,14 @@ using WarOfEmpires.Commands.Events;
 
 namespace WarOfEmpires.Services {
     public sealed class ScheduledTaskRunnerService : BackgroundService {
-        private IServiceScopeFactory _serviceScopeFactory;
+        private readonly IServiceScopeFactory _serviceScopeFactory;
 
         public ScheduledTaskRunnerService(IServiceScopeFactory serviceScopeFactory) {
             _serviceScopeFactory = serviceScopeFactory;
         }
 
         protected override Task ExecuteAsync(CancellationToken cancellationToken) {
-            Task.Run(() => RunScheduledTasks(cancellationToken));
+            Task.Run(() => RunScheduledTasks(cancellationToken), cancellationToken);
 
             return Task.CompletedTask;
         }
@@ -24,7 +24,7 @@ namespace WarOfEmpires.Services {
                     scope.ServiceProvider.GetRequiredService<IMessageService>().Dispatch(new RunScheduledTasksCommand());
                 }
 
-                await Task.Delay(15 * 1000);
+                await Task.Delay(15 * 1000, cancellationToken);
             }
         }
     }
