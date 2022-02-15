@@ -10,7 +10,6 @@
   <ItemGroup>
     <PackageReference Include="Azure.Storage.Blobs" Version="12.10.0" />
     <PackageReference Include="SendGrid" Version="9.24.4" />
-    <PackageReference Include="System.Configuration.ConfigurationManager" Version="5.0.0" />
     <PackageReference Include="VDT.Core.DependencyInjection" Version="1.2.0" />
   </ItemGroup>
 </Project>
