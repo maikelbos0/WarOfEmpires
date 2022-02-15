@@ -20,13 +20,7 @@ namespace WarOfEmpires.Domain.Security {
         }
 
         private byte[] GetNewSalt() {
-            using (var rng = new RNGCryptoServiceProvider()) {
-                byte[] salt = new byte[20];
-
-                rng.GetBytes(salt);
-
-                return salt;
-            }
+            return RandomNumberGenerator.GetBytes(20);
         }
 
         private byte[] GetHash(string password) {

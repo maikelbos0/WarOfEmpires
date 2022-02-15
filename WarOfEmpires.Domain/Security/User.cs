@@ -123,40 +123,18 @@ namespace WarOfEmpires.Domain.Security {
         }
 
         protected string GetNewPasswordResetToken() {
-            using (var rng = new RNGCryptoServiceProvider()) {
-                // Establish a maximum based on the amount of characters to prevent bias
-                var tokenCharacters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789".ToCharArray();
-                var maximumNumber = (byte.MaxValue / tokenCharacters.Length) * tokenCharacters.Length;
-                var tokenBuilder = new StringBuilder();
-                byte[] buffer = new byte[1];
+            var tokenCharacters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789".ToCharArray();
+            var tokenBuilder = new StringBuilder();
 
-                for (var i = 0; i < 20; i++) {
-                    // Get a new number as long as we're at or over the maximum number
-                    do {
-                        rng.GetBytes(buffer);
-                    }
-                    while (buffer[0] >= maximumNumber);
-
-                    tokenBuilder.Append(tokenCharacters[buffer[0] % tokenCharacters.Length]);
-                }
-
-                return tokenBuilder.ToString();
+            for (var i = 0; i < 20; i++) {
+                tokenBuilder.Append(tokenCharacters[RandomNumberGenerator.GetInt32(tokenCharacters.Length)]);
             }
+
+            return tokenBuilder.ToString();
         }
 
         protected int GetNewActivationCode() {
-            using (var rng = new RNGCryptoServiceProvider()) {
-                byte[] buffer = new byte[4];
-                int activationCode = 0;
-
-                while (activationCode < 10000) {
-                    rng.GetBytes(buffer);
-
-                    activationCode = BitConverter.ToInt32(buffer, 0);
-                }
-
-                return activationCode;
-            }
+            return RandomNumberGenerator.GetInt32(9999, int.MaxValue) + 1;
         }
 
         public virtual void WasOnline() {
