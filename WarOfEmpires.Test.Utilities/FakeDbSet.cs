@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.EntityFrameworkCore.Metadata;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -33,5 +35,7 @@ namespace WarOfEmpires.Test.Utilities {
         IQueryProvider IQueryable.Provider => data.AsQueryable().Provider;
 
         Expression IQueryable.Expression => data.AsQueryable().Expression;
+
+        public override IEntityType EntityType => throw new NotImplementedException();
     }
 }
