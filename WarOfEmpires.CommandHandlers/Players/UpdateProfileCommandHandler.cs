@@ -1,5 +1,6 @@
-﻿using System.Drawing;
-using System.Drawing.Imaging;
+﻿using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Formats.Jpeg;
+using SixLabors.ImageSharp.Formats.Png;
 using VDT.Core.DependencyInjection;
 using WarOfEmpires.Commands.Players;
 using WarOfEmpires.Repositories.Players;
@@ -24,12 +25,12 @@ namespace WarOfEmpires.CommandHandlers.Players {
             if (command.Avatar != null) {
                 try {
                     using (var stream = command.Avatar()) {
-                        var image = Image.FromStream(command.Avatar());
-
-                        if (image.RawFormat.Equals(ImageFormat.Jpeg)) {
+                        var imageFormat = Image.DetectFormat(command.Avatar());
+                        
+                        if (imageFormat == JpegFormat.Instance) {
                             imageFilePath = $"{player.Id}.jpeg";
                         }
-                        else if (image.RawFormat.Equals(ImageFormat.Png)) {
+                        else if (imageFormat == PngFormat.Instance) {
                             imageFilePath = $"{player.Id}.png";
                         }
                     }
