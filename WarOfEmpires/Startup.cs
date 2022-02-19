@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using VDT.Core.DependencyInjection;
+using VDT.Core.DependencyInjection.Attributes;
+using VDT.Core.DependencyInjection.Decorators;
 using WarOfEmpires.Services;
 using WarOfEmpires.Utilities.Configuration;
-using WarOfEmpires.Utilities.DependencyInjection;
 
 namespace WarOfEmpires {
     public class Startup {
@@ -30,7 +32,12 @@ namespace WarOfEmpires {
             services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
             services.AddSingleton<IUrlHelperFactory, UrlHelperFactory>();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options => options.LoginPath = "/Home/LogIn");
-            services.AddServices(typeof(Startup).Assembly);
+            services.AddServices(options => options
+                .AddAssemblies(typeof(Startup).Assembly, nameof(WarOfEmpires))
+                .AddAttributeServiceTypeProviders()
+                .UseDecoratorServiceRegistrar(decoratorOptions => decoratorOptions.AddAttributeDecorators())
+            );
+
             services.AddSingleton(Configuration.GetSection(AppSettings.Key).Get<AppSettings>());
             services.AddHostedService<ScheduledTaskRunnerService>();
             services.AddApplicationInsightsTelemetry();

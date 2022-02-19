@@ -2,22 +2,30 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 using System;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using WarOfEmpires.CommandHandlers;
+using WarOfEmpires.CommandHandlers.Security;
+using WarOfEmpires.Commands.Security;
 using WarOfEmpires.Controllers;
 using WarOfEmpires.Database;
 using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Models.Security;
+using WarOfEmpires.Queries.Players;
+using WarOfEmpires.Queries.Security;
+using WarOfEmpires.QueryHandlers;
+using WarOfEmpires.QueryHandlers.Players;
+using WarOfEmpires.QueryHandlers.Security;
+using WarOfEmpires.Repositories.Players;
+using WarOfEmpires.Repositories.Security;
 using WarOfEmpires.Services;
 using WarOfEmpires.Test.Utilities;
 using WarOfEmpires.Utilities.Configuration;
-using WarOfEmpires.Utilities.DependencyInjection;
 using WarOfEmpires.Utilities.Mail;
 
 namespace WarOfEmpires.Tests.Integration {
@@ -31,11 +39,29 @@ namespace WarOfEmpires.Tests.Integration {
         public HomeControllerTests() {
             var services = new ServiceCollection();
 
-            services.AddServices(typeof(HomeController).Assembly);
-            services.Replace(ServiceDescriptor.Scoped<IAuthenticationService>(serviceProvider => _authenticationService));
-            services.Replace(ServiceDescriptor.Transient<IWarContext>(serviceProvider => _context));
-            services.Replace(ServiceDescriptor.Transient<IReadOnlyWarContext>(serviceProvider => _context));
-            services.Replace(ServiceDescriptor.Scoped<IMailClient>(serviceProvider => _mailClient));
+            services.AddTransient<IMessageService, MessageService>();
+            services.AddTransient<IDataGridViewService, DataGridViewService>();
+            services.AddTransient<ICommandHandler<ActivateUserCommand>, ActivateUserCommandHandler>();
+            services.AddTransient<ICommandHandler<ChangeUserEmailCommand>, ChangeUserEmailCommandHandler>();
+            services.AddTransient<ICommandHandler<ChangeUserPasswordCommand>, ChangeUserPasswordCommandHandler>();
+            services.AddTransient<ICommandHandler<ConfirmUserEmailChangeCommand>, ConfirmUserEmailChangeCommandHandler>();
+            services.AddTransient<ICommandHandler<DeactivateUserCommand>, DeactivateUserCommandHandler>();
+            services.AddTransient<ICommandHandler<ForgotUserPasswordCommand>, ForgotUserPasswordCommandHandler>();
+            services.AddTransient<ICommandHandler<LogInUserCommand>, LogInUserCommandHandler>();
+            services.AddTransient<ICommandHandler<LogOutUserCommand>, LogOutUserCommandHandler>();
+            services.AddTransient<ICommandHandler<RegisterUserCommand>, RegisterUserCommandHandler>();
+            services.AddTransient<ICommandHandler<ResetUserPasswordCommand>, ResetUserPasswordCommandHandler>();
+            services.AddTransient<IQueryHandler<GetPlayerIsCreatedQuery, bool>, GetPlayerIsCreatedQueryHandler>();
+            services.AddTransient<IQueryHandler<GetUserNewEmailQuery, string>, GetUserNewEmailQueryHandler>();
+            services.AddTransient<IPlayerRepository, PlayerRepository>();
+            services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IMailTemplate<ActivationMailTemplateParameters>, ActivationMailTemplate>();
+            services.AddTransient<IMailTemplate<ConfirmEmailMailTemplateParameters>, ConfirmEmailMailTemplate>();
+            services.AddTransient<IMailTemplate<PasswordResetMailTemplateParameters>, PasswordResetMailTemplate>();
+            services.AddScoped<IAuthenticationService>(serviceProvider => _authenticationService);
+            services.AddTransient<IWarContext>(serviceProvider => _context);
+            services.AddTransient<IReadOnlyWarContext>(serviceProvider => _context);
+            services.AddScoped<IMailClient>(serviceProvider => _mailClient);
             services.AddSingleton<AppSettings>();
             services.AddTransient<HomeController>();
 
@@ -151,7 +177,7 @@ namespace WarOfEmpires.Tests.Integration {
             var user = new User("test@test.com", "test");
             user.Activate();
             _context.Users.Add(user);
-            
+
             var player = new Player(0, "Test", Race.Elves);
             typeof(Player).GetProperty(nameof(Player.User)).SetValue(player, user);
             _context.Players.Add(player);
