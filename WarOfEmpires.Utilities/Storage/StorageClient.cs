@@ -1,10 +1,8 @@
 ﻿using Azure.Storage.Blobs;
 using System.IO;
-using VDT.Core.DependencyInjection.Attributes;
 using WarOfEmpires.Utilities.Configuration;
 
 namespace WarOfEmpires.Utilities.Storage {
-    [TransientServiceImplementation(typeof(IStorageClient))]
     public sealed class StorageClient : IStorageClient {
         private readonly AppSettings _appSettings;
 

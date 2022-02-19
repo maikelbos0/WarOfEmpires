@@ -1,9 +1,7 @@
-﻿using VDT.Core.DependencyInjection.Attributes;
-using WarOfEmpires.Domain.Common;
+﻿using WarOfEmpires.Domain.Common;
 using WarOfEmpires.Models.Empires;
 
 namespace WarOfEmpires.QueryHandlers.Common {
-    [TransientServiceImplementation(typeof(IResourcesMap))]
     public sealed class ResourcesMap : IResourcesMap {
         public ResourcesViewModel ToViewModel(Resources resources) {
             return new ResourcesViewModel() {

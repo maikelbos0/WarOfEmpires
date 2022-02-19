@@ -1,12 +1,10 @@
 using System.Diagnostics;
-using VDT.Core.DependencyInjection.Attributes;
 using VDT.Core.DependencyInjection.Decorators;
 using WarOfEmpires.Domain.Auditing;
 using WarOfEmpires.Repositories.Auditing;
 using WarOfEmpires.Utilities.Serialization;
 
 namespace WarOfEmpires.CommandHandlers.Decorators {
-    [TransientServiceImplementation(typeof(IAuditDecorator))]
     public sealed class AuditDecorator : IAuditDecorator {
         private readonly ICommandExecutionRepository _repository;
         private readonly ISerializer _serializer;

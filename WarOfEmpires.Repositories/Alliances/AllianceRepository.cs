@@ -1,13 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using VDT.Core.DependencyInjection.Attributes;
 using WarOfEmpires.Database;
 using WarOfEmpires.Domain.Alliances;
 using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.Repositories.Alliances {
-    [TransientServiceImplementation(typeof(IAllianceRepository))]
     public sealed class AllianceRepository : BaseRepository, IAllianceRepository {
         public AllianceRepository(IWarContext context) : base(context) { }
 
