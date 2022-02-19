@@ -1,4 +1,4 @@
-﻿using VDT.Core.DependencyInjection;
+﻿using VDT.Core.DependencyInjection.Attributes;
 using WarOfEmpires.Commands.Empires;
 using WarOfEmpires.Domain.Empires;
 using WarOfEmpires.Utilities.Events;

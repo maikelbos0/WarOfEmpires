@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using VDT.Core.DependencyInjection;
+using VDT.Core.DependencyInjection.Attributes;
 using WarOfEmpires.Database.ReferenceEntities;
 using WarOfEmpires.Utilities.Configuration;
 using Alliances = WarOfEmpires.Domain.Alliances;

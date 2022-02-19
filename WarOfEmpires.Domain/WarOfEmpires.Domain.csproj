@@ -5,6 +5,6 @@
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="VDT.Core.DependencyInjection" Version="1.2.0" />
+    <PackageReference Include="VDT.Core.DependencyInjection" Version="2.1.0" />
   </ItemGroup>
 </Project>

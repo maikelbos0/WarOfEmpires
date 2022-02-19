@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using VDT.Core.DependencyInjection;
+using VDT.Core.DependencyInjection.Attributes;
 using WarOfEmpires.Domain.Alliances;
 using WarOfEmpires.Domain.Auditing;
 using WarOfEmpires.Domain.Events;

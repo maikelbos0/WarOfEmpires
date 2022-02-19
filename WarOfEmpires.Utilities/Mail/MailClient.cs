@@ -1,6 +1,6 @@
 using SendGrid;
 using SendGrid.Helpers.Mail;
-using VDT.Core.DependencyInjection;
+using VDT.Core.DependencyInjection.Attributes;
 using WarOfEmpires.Utilities.Configuration;
 
 namespace WarOfEmpires.Utilities.Mail {

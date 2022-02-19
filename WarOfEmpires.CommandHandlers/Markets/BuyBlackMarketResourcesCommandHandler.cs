@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using VDT.Core.DependencyInjection;
+using VDT.Core.DependencyInjection.Attributes;
 using WarOfEmpires.CommandHandlers.Decorators;
 using WarOfEmpires.Commands.Markets;
 using WarOfEmpires.Domain.Common;

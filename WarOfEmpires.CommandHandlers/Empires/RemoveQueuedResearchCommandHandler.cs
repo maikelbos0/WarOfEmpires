@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using VDT.Core.DependencyInjection;
+using VDT.Core.DependencyInjection.Attributes;
 using WarOfEmpires.CommandHandlers.Decorators;
 using WarOfEmpires.Commands.Empires;
 using WarOfEmpires.Repositories.Players;

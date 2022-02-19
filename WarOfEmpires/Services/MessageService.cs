@@ -2,7 +2,7 @@ using WarOfEmpires.CommandHandlers;
 using WarOfEmpires.Commands;
 using WarOfEmpires.Queries;
 using WarOfEmpires.QueryHandlers;
-using VDT.Core.DependencyInjection;
+using VDT.Core.DependencyInjection.Attributes;
 using System;
 using Microsoft.Extensions.DependencyInjection;
 
