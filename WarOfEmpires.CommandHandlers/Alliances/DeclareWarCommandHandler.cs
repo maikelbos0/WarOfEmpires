@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using VDT.Core.DependencyInjection;
+using VDT.Core.DependencyInjection.Attributes;
 using WarOfEmpires.CommandHandlers.Decorators;
 using WarOfEmpires.Commands.Alliances;
 using WarOfEmpires.Repositories.Alliances;

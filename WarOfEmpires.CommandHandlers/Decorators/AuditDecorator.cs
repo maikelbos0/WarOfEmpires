@@ -1,5 +1,5 @@
 using System.Diagnostics;
-using VDT.Core.DependencyInjection;
+using VDT.Core.DependencyInjection.Attributes;
 using VDT.Core.DependencyInjection.Decorators;
 using WarOfEmpires.Domain.Auditing;
 using WarOfEmpires.Repositories.Auditing;

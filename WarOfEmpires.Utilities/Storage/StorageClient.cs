@@ -1,6 +1,6 @@
 ﻿using Azure.Storage.Blobs;
 using System.IO;
-using VDT.Core.DependencyInjection;
+using VDT.Core.DependencyInjection.Attributes;
 using WarOfEmpires.Utilities.Configuration;
 
 namespace WarOfEmpires.Utilities.Storage {

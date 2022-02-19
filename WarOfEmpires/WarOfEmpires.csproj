@@ -33,6 +33,6 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="VDT.Core.DependencyInjection" Version="1.2.0" />
+    <PackageReference Include="VDT.Core.DependencyInjection" Version="2.1.0" />
   </ItemGroup>
 </Project>

@@ -1,5 +1,5 @@
 using Newtonsoft.Json;
-using VDT.Core.DependencyInjection;
+using VDT.Core.DependencyInjection.Attributes;
 
 namespace WarOfEmpires.Utilities.Serialization {
     [TransientServiceImplementation(typeof(ISerializer))]

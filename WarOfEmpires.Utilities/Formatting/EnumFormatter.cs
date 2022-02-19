@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Text.RegularExpressions;
-using VDT.Core.DependencyInjection;
+using VDT.Core.DependencyInjection.Attributes;
 
 namespace WarOfEmpires.Utilities.Formatting {
     [TransientServiceImplementation(typeof(IEnumFormatter))]

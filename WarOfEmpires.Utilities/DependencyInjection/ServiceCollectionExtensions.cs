@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using VDT.Core.DependencyInjection;
+using VDT.Core.DependencyInjection.Attributes;
 
 namespace WarOfEmpires.Utilities.DependencyInjection {
     public static class ServiceCollectionExtensions {
