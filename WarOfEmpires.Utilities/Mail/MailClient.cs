@@ -1,10 +1,8 @@
 using SendGrid;
 using SendGrid.Helpers.Mail;
-using VDT.Core.DependencyInjection.Attributes;
 using WarOfEmpires.Utilities.Configuration;
 
 namespace WarOfEmpires.Utilities.Mail {
-    [TransientServiceImplementation(typeof(IMailClient))]
     public sealed class MailClient : IMailClient {
         private readonly AppSettings _appSettings;
 

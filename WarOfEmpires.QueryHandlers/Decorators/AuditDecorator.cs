@@ -3,10 +3,8 @@ using WarOfEmpires.Utilities.Serialization;
 using WarOfEmpires.Database;
 using System.Diagnostics;
 using VDT.Core.DependencyInjection.Decorators;
-using VDT.Core.DependencyInjection.Attributes;
 
 namespace WarOfEmpires.QueryHandlers.Decorators {
-    [TransientServiceImplementation(typeof(IAuditDecorator))]
     public sealed class AuditDecorator : IAuditDecorator {
         private readonly IWarContext _context;
         private readonly ISerializer _serializer;

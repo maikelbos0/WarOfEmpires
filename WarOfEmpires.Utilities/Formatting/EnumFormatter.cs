@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Text.RegularExpressions;
-using VDT.Core.DependencyInjection.Attributes;
 
 namespace WarOfEmpires.Utilities.Formatting {
-    [TransientServiceImplementation(typeof(IEnumFormatter))]
     public class EnumFormatter : IEnumFormatter {
         private static readonly Regex _wordBoundaryFinder = new Regex("(\\B[A-Z])", RegexOptions.Compiled);
 

@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
-using VDT.Core.DependencyInjection.Attributes;
 using WarOfEmpires.Database;
 using WarOfEmpires.Domain.Markets;
 using WarOfEmpires.Domain.Players;
@@ -9,7 +8,6 @@ using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.Repositories.Players {
-    [TransientServiceImplementation(typeof(IPlayerRepository))]
     public sealed class PlayerRepository : BaseRepository, IPlayerRepository {
         public PlayerRepository(IWarContext context) : base(context) { }
 

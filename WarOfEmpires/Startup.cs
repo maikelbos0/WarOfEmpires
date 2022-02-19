@@ -34,6 +34,7 @@ namespace WarOfEmpires {
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options => options.LoginPath = "/Home/LogIn");
             services.AddServices(options => options
                 .AddAssemblies(typeof(Startup).Assembly, nameof(WarOfEmpires))
+                .AddServiceTypeProvider(DefaultServiceTypeProviders.InterfaceByName)
                 .AddAttributeServiceTypeProviders()
                 .UseDecoratorServiceRegistrar(decoratorOptions => decoratorOptions.AddAttributeDecorators())
             );

@@ -1,10 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using VDT.Core.DependencyInjection.Attributes;
 using WarOfEmpires.Domain.Empires;
 
 namespace WarOfEmpires.Domain.Players {
-    [TransientServiceImplementation(typeof(IRankService))]
     public class RankService : IRankService {
         public const double TroopModifier = 0.1;
         public const double WorkerModifier = 10.0;

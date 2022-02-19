@@ -1,9 +1,7 @@
-using VDT.Core.DependencyInjection.Attributes;
 using WarOfEmpires.Database;
 using WarOfEmpires.Domain.Auditing;
 
 namespace WarOfEmpires.Repositories.Auditing {
-    [TransientServiceImplementation(typeof(ICommandExecutionRepository))]
     public sealed class CommandExecutionRepository : BaseRepository, ICommandExecutionRepository {
         public CommandExecutionRepository(IWarContext context) : base(context) { }
 
