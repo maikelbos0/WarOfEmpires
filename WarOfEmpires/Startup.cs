@@ -12,6 +12,7 @@ using VDT.Core.DependencyInjection.Decorators;
 using WarOfEmpires.CommandHandlers;
 using WarOfEmpires.Services;
 using WarOfEmpires.Utilities.Configuration;
+using WarOfEmpires.Utilities.Mail;
 
 namespace WarOfEmpires {
     public class Startup {
@@ -37,6 +38,7 @@ namespace WarOfEmpires {
                 .AddAssemblies(typeof(Startup).Assembly, nameof(WarOfEmpires))
                 .AddServiceTypeProvider(DefaultServiceTypeProviders.InterfaceByName)
                 .AddServiceTypeProvider(DefaultServiceTypeProviders.CreateGenericInterfaceTypeProvider(typeof(ICommandHandler<>)))
+                .AddServiceTypeProvider(DefaultServiceTypeProviders.CreateGenericInterfaceTypeProvider(typeof(IMailTemplate<>)))
                 .AddAttributeServiceTypeProviders()
                 .UseDefaultServiceLifetime(ServiceLifetime.Transient)
                 .UseDecoratorServiceRegistrar(decoratorOptions => decoratorOptions.AddAttributeDecorators())
