@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using VDT.Core.DependencyInjection.Attributes;
 using WarOfEmpires.CommandHandlers.Decorators;
 using WarOfEmpires.Commands.Empires;
 using WarOfEmpires.Domain.Siege;
@@ -8,7 +7,6 @@ using WarOfEmpires.Repositories.Players;
 using WarOfEmpires.Utilities.Formatting;
 
 namespace WarOfEmpires.CommandHandlers.Empires {
-    [TransientServiceImplementation(typeof(ICommandHandler<DiscardSiegeCommand>))]
     public sealed class DiscardSiegeCommandHandler : ICommandHandler<DiscardSiegeCommand> {
         private readonly IPlayerRepository _repository;
         private readonly IEnumFormatter _formatter;

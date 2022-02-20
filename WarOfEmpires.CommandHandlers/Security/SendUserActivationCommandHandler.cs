@@ -1,11 +1,9 @@
-using VDT.Core.DependencyInjection.Attributes;
 using WarOfEmpires.Commands.Security;
 using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Repositories.Security;
 using WarOfEmpires.Utilities.Mail;
 
 namespace WarOfEmpires.CommandHandlers.Security {
-    [TransientServiceImplementation(typeof(ICommandHandler<SendUserActivationCommand>))]
     public sealed class SendUserActivationCommandHandler : ICommandHandler<SendUserActivationCommand> {
         private readonly IUserRepository _repository;
         private readonly IMailClient _mailClient;

@@ -1,10 +1,8 @@
-﻿using VDT.Core.DependencyInjection.Attributes;
-using WarOfEmpires.CommandHandlers.Decorators;
+﻿using WarOfEmpires.CommandHandlers.Decorators;
 using WarOfEmpires.Commands.Players;
 using WarOfEmpires.Repositories.Players;
 
 namespace WarOfEmpires.CommandHandlers.Players {
-    [TransientServiceImplementation(typeof(ICommandHandler<BlockPlayerCommand>))]
     public sealed class BlockPlayerCommandHandler : ICommandHandler<BlockPlayerCommand> {
         private readonly IPlayerRepository _repository;
 

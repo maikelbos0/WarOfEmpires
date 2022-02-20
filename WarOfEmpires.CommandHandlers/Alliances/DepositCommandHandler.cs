@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using VDT.Core.DependencyInjection.Attributes;
 using WarOfEmpires.CommandHandlers.Decorators;
 using WarOfEmpires.Commands.Alliances;
 using WarOfEmpires.Domain.Common;
@@ -7,7 +6,6 @@ using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Repositories.Players;
 
 namespace WarOfEmpires.CommandHandlers.Alliances {
-    [TransientServiceImplementation(typeof(ICommandHandler<DepositCommand>))]
     public sealed class DepositCommandHandler : ICommandHandler<DepositCommand> {
         private readonly IPlayerRepository _repository;
         private readonly IRankService _rankService;

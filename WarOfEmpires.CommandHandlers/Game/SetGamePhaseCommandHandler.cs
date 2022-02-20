@@ -1,12 +1,10 @@
 ﻿using System;
-using VDT.Core.DependencyInjection.Attributes;
 using WarOfEmpires.CommandHandlers.Decorators;
 using WarOfEmpires.Commands.Game;
 using WarOfEmpires.Domain.Game;
 using WarOfEmpires.Repositories.Game;
 
 namespace WarOfEmpires.CommandHandlers.Game {
-    [TransientServiceImplementation(typeof(ICommandHandler<SetGamePhaseCommand>))]
     public sealed class SetGamePhaseCommandHandler : ICommandHandler<SetGamePhaseCommand> {
         private readonly IGameStatusRepository _repository;
 

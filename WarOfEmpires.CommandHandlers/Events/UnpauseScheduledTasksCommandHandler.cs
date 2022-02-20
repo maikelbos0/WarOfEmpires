@@ -1,10 +1,8 @@
-﻿using VDT.Core.DependencyInjection.Attributes;
-using WarOfEmpires.CommandHandlers.Decorators;
+﻿using WarOfEmpires.CommandHandlers.Decorators;
 using WarOfEmpires.Commands.Events;
 using WarOfEmpires.Repositories.Events;
 
 namespace WarOfEmpires.CommandHandlers.Events {
-    [TransientServiceImplementation(typeof(ICommandHandler<UnpauseScheduledTasksCommand>))]
     public sealed class UnpauseScheduledTasksCommandHandler : ICommandHandler<UnpauseScheduledTasksCommand> {
         private readonly IScheduledTaskRepository _repository;
 

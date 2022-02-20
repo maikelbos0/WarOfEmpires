@@ -2,7 +2,6 @@
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Formats.Jpeg;
 using SixLabors.ImageSharp.Formats.Png;
-using VDT.Core.DependencyInjection.Attributes;
 using WarOfEmpires.Commands.Players;
 using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Repositories.Players;
@@ -10,7 +9,6 @@ using WarOfEmpires.Repositories.Security;
 using WarOfEmpires.Utilities.Storage;
 
 namespace WarOfEmpires.CommandHandlers.Players {
-    [TransientServiceImplementation(typeof(ICommandHandler<CreatePlayerCommand>))]
     public sealed class CreatePlayerCommandHandler : ICommandHandler<CreatePlayerCommand> {
         private readonly IUserRepository _userRepository;
         private readonly IPlayerRepository _repository;

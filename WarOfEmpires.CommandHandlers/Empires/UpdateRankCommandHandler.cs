@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using VDT.Core.DependencyInjection.Attributes;
 using WarOfEmpires.CommandHandlers.Decorators;
 using WarOfEmpires.Commands.Empires;
 using WarOfEmpires.Domain.Game;
@@ -9,7 +8,6 @@ using WarOfEmpires.Repositories.Game;
 using WarOfEmpires.Repositories.Players;
 
 namespace WarOfEmpires.CommandHandlers.Empires {
-    [TransientServiceImplementation(typeof(ICommandHandler<UpdateRankCommand>))]
     public sealed class UpdateRankCommandHandler : ICommandHandler<UpdateRankCommand> {
         private readonly IPlayerRepository _repository;
         private readonly IGameStatusRepository _gameStatusRepository;

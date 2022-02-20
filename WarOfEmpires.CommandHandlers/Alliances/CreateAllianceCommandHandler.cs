@@ -1,12 +1,10 @@
-﻿using VDT.Core.DependencyInjection.Attributes;
-using WarOfEmpires.CommandHandlers.Decorators;
+﻿using WarOfEmpires.CommandHandlers.Decorators;
 using WarOfEmpires.Commands.Alliances;
 using WarOfEmpires.Domain.Alliances;
 using WarOfEmpires.Repositories.Alliances;
 using WarOfEmpires.Repositories.Players;
 
 namespace WarOfEmpires.CommandHandlers.Alliances {
-    [TransientServiceImplementation(typeof(ICommandHandler<CreateAllianceCommand>))]
     public sealed class CreateAllianceCommandHandler : ICommandHandler<CreateAllianceCommand> {
         private readonly IPlayerRepository _playerRepository;
         private readonly IAllianceRepository _allianceRepository;

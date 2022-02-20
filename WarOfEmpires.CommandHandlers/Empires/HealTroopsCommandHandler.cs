@@ -1,12 +1,10 @@
 ﻿using System.Linq;
-using VDT.Core.DependencyInjection.Attributes;
 using WarOfEmpires.CommandHandlers.Decorators;
 using WarOfEmpires.Commands.Empires;
 using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Repositories.Players;
 
 namespace WarOfEmpires.CommandHandlers.Empires {
-    [TransientServiceImplementation(typeof(ICommandHandler<HealTroopsCommand>))]
     public sealed class HealTroopsCommandHandler : ICommandHandler<HealTroopsCommand> {
         private readonly IPlayerRepository _repository;
 
