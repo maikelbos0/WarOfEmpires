@@ -1,10 +1,8 @@
-﻿using VDT.Core.DependencyInjection.Attributes;
-using WarOfEmpires.Commands.Empires;
+﻿using WarOfEmpires.Commands.Empires;
 using WarOfEmpires.Domain.Empires;
 using WarOfEmpires.Utilities.Events;
 
 namespace WarOfEmpires.CommandHandlers.Empires {
-    [TransientServiceImplementation(typeof(IEventHandler<RecruitTaskTriggeredEvent>))]
     public sealed class RecruitTaskTriggeredEventHandler : IEventHandler<RecruitTaskTriggeredEvent> {
         private readonly ICommandHandler<RecruitCommand> _commandHandler;
 
