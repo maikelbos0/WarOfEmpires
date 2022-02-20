@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using VDT.Core.DependencyInjection.Attributes;
 using WarOfEmpires.Database;
 using WarOfEmpires.Domain.Attacks;
 using WarOfEmpires.Domain.Game;
@@ -14,7 +13,6 @@ using WarOfEmpires.QueryHandlers.Decorators;
 using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Attacks {
-    [TransientServiceImplementation(typeof(IQueryHandler<GetDefenderQuery, ExecuteAttackModel>))]
     public sealed class GetDefenderQueryHandler : IQueryHandler<GetDefenderQuery, ExecuteAttackModel> {
         private readonly IReadOnlyWarContext _context;
 

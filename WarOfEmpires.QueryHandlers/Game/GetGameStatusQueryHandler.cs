@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using VDT.Core.DependencyInjection.Attributes;
 using WarOfEmpires.Database;
 using WarOfEmpires.Domain.Game;
 using WarOfEmpires.Models.Game;
@@ -7,7 +6,6 @@ using WarOfEmpires.Queries.Game;
 using WarOfEmpires.QueryHandlers.Decorators;
 
 namespace WarOfEmpires.QueryHandlers.Players {
-    [TransientServiceImplementation(typeof(IQueryHandler<GetGameStatusQuery, GameStatusViewModel>))]
     public sealed class GetGameStatusQueryHandler : IQueryHandler<GetGameStatusQuery, GameStatusViewModel> {
         private readonly IReadOnlyWarContext _context;
 

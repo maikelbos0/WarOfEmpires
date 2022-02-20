@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using VDT.Core.DependencyInjection.Attributes;
 using WarOfEmpires.Database;
 using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Models.Alliances;
@@ -9,7 +8,6 @@ using WarOfEmpires.QueryHandlers.Decorators;
 using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Alliances {
-    [TransientServiceImplementation(typeof(IQueryHandler<GetInvitesQuery, IEnumerable<InviteViewModel>>))]
     public sealed class GetInvitesQueryHandler : IQueryHandler<GetInvitesQuery, IEnumerable<InviteViewModel>> {
         private readonly IReadOnlyWarContext _context;
 

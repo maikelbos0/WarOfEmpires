@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using VDT.Core.DependencyInjection.Attributes;
 using WarOfEmpires.Database;
 using WarOfEmpires.Domain.Empires;
 using WarOfEmpires.Models.Empires;
@@ -12,7 +11,6 @@ using WarOfEmpires.Utilities.Formatting;
 using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Empires {
-    [TransientServiceImplementation(typeof(IQueryHandler<GetQueuedResearchQuery, IEnumerable<QueuedResearchViewModel>>))]
     public sealed class GetQueuedResearchQueryHandler : IQueryHandler<GetQueuedResearchQuery, IEnumerable<QueuedResearchViewModel>> {
         private readonly IReadOnlyWarContext _context;
         private readonly IEnumFormatter _formatter;

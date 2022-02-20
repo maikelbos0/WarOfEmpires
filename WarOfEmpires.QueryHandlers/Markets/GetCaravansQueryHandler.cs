@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
-using VDT.Core.DependencyInjection.Attributes;
 using WarOfEmpires.Database;
 using WarOfEmpires.Domain.Markets;
 using WarOfEmpires.Models.Markets;
@@ -10,7 +9,6 @@ using WarOfEmpires.QueryHandlers.Decorators;
 using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Markets {
-    [TransientServiceImplementation(typeof(IQueryHandler<GetCaravansQuery, IEnumerable<CaravanViewModel>>))]
     public sealed class GetCaravansQueryHandler : IQueryHandler<GetCaravansQuery, IEnumerable<CaravanViewModel>> {
 
         private readonly IReadOnlyWarContext _context;

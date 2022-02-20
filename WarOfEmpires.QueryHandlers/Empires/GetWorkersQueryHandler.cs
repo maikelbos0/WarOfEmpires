@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
-using VDT.Core.DependencyInjection.Attributes;
 using WarOfEmpires.Database;
 using WarOfEmpires.Domain.Empires;
 using WarOfEmpires.Domain.Players;
@@ -13,7 +12,6 @@ using WarOfEmpires.Utilities.Formatting;
 using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Empires {
-    [TransientServiceImplementation(typeof(IQueryHandler<GetWorkersQuery, WorkersModel>))]
     public sealed class GetWorkersQueryHandler : IQueryHandler<GetWorkersQuery, WorkersModel> {
         private readonly IReadOnlyWarContext _context;
         private readonly IResourcesMap _resourcesMap;

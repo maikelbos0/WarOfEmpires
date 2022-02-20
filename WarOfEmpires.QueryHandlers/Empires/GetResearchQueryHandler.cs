@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
-using VDT.Core.DependencyInjection.Attributes;
 using WarOfEmpires.Database;
 using WarOfEmpires.Domain.Empires;
 using WarOfEmpires.Models.Empires;
@@ -11,7 +10,6 @@ using WarOfEmpires.Utilities.Formatting;
 using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Empires {
-    [TransientServiceImplementation(typeof(IQueryHandler<GetResearchQuery, ResearchViewModel>))]
     public sealed class GetResearchQueryHandler : IQueryHandler<GetResearchQuery, ResearchViewModel> {
         private readonly IReadOnlyWarContext _context;
         private readonly IEnumFormatter _formatter;

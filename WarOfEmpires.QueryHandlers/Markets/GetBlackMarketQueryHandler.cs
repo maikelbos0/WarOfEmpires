@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using VDT.Core.DependencyInjection.Attributes;
 using WarOfEmpires.Domain.Markets;
 using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Models.Markets;
@@ -8,7 +7,6 @@ using WarOfEmpires.QueryHandlers.Decorators;
 using WarOfEmpires.Utilities.Formatting;
 
 namespace WarOfEmpires.QueryHandlers.Markets {
-    [TransientServiceImplementation(typeof(IQueryHandler<GetBlackMarketQuery, BlackMarketModel>))]
     public sealed class GetBlackMarketQueryHandler : IQueryHandler<GetBlackMarketQuery, BlackMarketModel> {
         private readonly IEnumFormatter _formatter;
 

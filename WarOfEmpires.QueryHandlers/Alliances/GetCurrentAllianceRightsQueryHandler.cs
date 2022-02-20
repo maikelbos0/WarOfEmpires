@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Linq;
-using VDT.Core.DependencyInjection.Attributes;
 using WarOfEmpires.Database;
 using WarOfEmpires.Models.Alliances;
 using WarOfEmpires.Queries.Alliances;
@@ -8,7 +7,6 @@ using WarOfEmpires.QueryHandlers.Decorators;
 using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Alliances {
-    [TransientServiceImplementation(typeof(IQueryHandler<GetCurrentAllianceRightsQuery, CurrentAllianceRightsViewModel>))]
     public sealed class GetCurrentAllianceRightsQueryHandler : IQueryHandler<GetCurrentAllianceRightsQuery, CurrentAllianceRightsViewModel> {
         private readonly IReadOnlyWarContext _context;
 

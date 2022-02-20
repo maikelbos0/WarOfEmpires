@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
-using VDT.Core.DependencyInjection.Attributes;
 using WarOfEmpires.Database;
 using WarOfEmpires.Models.Alliances;
 using WarOfEmpires.Queries.Alliances;
@@ -9,7 +8,6 @@ using WarOfEmpires.QueryHandlers.Decorators;
 using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Alliances {
-    [TransientServiceImplementation(typeof(IQueryHandler<GetReceivedNonAggressionPactRequestsQuery, IEnumerable<ReceivedNonAggressionPactRequestViewModel>>))]
     public sealed class GetReceivedNonAggressionPactRequestsQueryHandler : IQueryHandler<GetReceivedNonAggressionPactRequestsQuery, IEnumerable<ReceivedNonAggressionPactRequestViewModel>> {
         private readonly IReadOnlyWarContext _context;
 

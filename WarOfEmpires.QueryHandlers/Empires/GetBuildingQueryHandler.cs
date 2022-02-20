@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using VDT.Core.DependencyInjection.Attributes;
 using WarOfEmpires.Database;
 using WarOfEmpires.Domain.Empires;
 using WarOfEmpires.Models.Empires;
@@ -10,7 +9,6 @@ using WarOfEmpires.QueryHandlers.Decorators;
 using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Empires {
-    [TransientServiceImplementation(typeof(IQueryHandler<GetBuildingQuery, BuildingModel>))]
     public sealed class GetBuildingQueryHandler : IQueryHandler<GetBuildingQuery, BuildingModel> {
         private readonly IReadOnlyWarContext _context;
         private readonly IResourcesMap _resourcesMap;

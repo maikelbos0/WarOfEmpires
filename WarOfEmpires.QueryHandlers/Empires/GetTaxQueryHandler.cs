@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Linq;
-using VDT.Core.DependencyInjection.Attributes;
 using WarOfEmpires.Database;
 using WarOfEmpires.Domain.Empires;
 using WarOfEmpires.Domain.Players;
@@ -10,7 +9,6 @@ using WarOfEmpires.QueryHandlers.Decorators;
 using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Empires {
-    [TransientServiceImplementation(typeof(IQueryHandler<GetTaxQuery, TaxModel>))]
     public sealed class GetTaxQueryHandler : IQueryHandler<GetTaxQuery, TaxModel> {
         private readonly IReadOnlyWarContext _context;
 

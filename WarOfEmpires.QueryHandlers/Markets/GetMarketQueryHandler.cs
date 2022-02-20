@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
-using VDT.Core.DependencyInjection.Attributes;
 using WarOfEmpires.Database;
 using WarOfEmpires.Domain.Empires;
 using WarOfEmpires.Domain.Markets;
@@ -13,7 +12,6 @@ using WarOfEmpires.Utilities.Formatting;
 using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Markets {
-    [TransientServiceImplementation(typeof(IQueryHandler<GetMarketQuery, MarketModel>))]
     public sealed class GetMarketQueryHandler : IQueryHandler<GetMarketQuery, MarketModel> {
         private readonly IReadOnlyWarContext _context;
         private readonly IEnumFormatter _formatter;

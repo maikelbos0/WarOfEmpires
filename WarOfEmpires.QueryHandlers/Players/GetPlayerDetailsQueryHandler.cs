@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
-using VDT.Core.DependencyInjection.Attributes;
 using WarOfEmpires.Database;
 using WarOfEmpires.Domain.Alliances;
 using WarOfEmpires.Domain.Empires;
@@ -15,7 +14,6 @@ using WarOfEmpires.Utilities.Formatting;
 using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Players {
-    [TransientServiceImplementation(typeof(IQueryHandler<GetPlayerDetailsQuery, PlayerDetailsViewModel>))]
     public sealed class GetPlayerDetailsQueryHandler : IQueryHandler<GetPlayerDetailsQuery, PlayerDetailsViewModel> {
         private readonly IReadOnlyWarContext _context;
         private readonly IEnumFormatter _formatter;

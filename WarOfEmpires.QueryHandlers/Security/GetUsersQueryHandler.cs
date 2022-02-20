@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using VDT.Core.DependencyInjection.Attributes;
 using WarOfEmpires.Database;
 using WarOfEmpires.Models.Security;
 using WarOfEmpires.Queries.Security;
@@ -8,7 +7,6 @@ using WarOfEmpires.QueryHandlers.Decorators;
 using WarOfEmpires.Utilities.Formatting;
 
 namespace WarOfEmpires.QueryHandlers.Security {
-    [TransientServiceImplementation(typeof(IQueryHandler<GetUsersQuery, IEnumerable<UserViewModel>>))]
     public sealed class GetUsersQueryHandler : IQueryHandler<GetUsersQuery, IEnumerable<UserViewModel>> {
         private readonly IReadOnlyWarContext _context;
         private readonly IEnumFormatter _formatter;

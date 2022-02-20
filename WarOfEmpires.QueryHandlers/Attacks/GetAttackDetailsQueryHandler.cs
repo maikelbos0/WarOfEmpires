@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Linq;
-using VDT.Core.DependencyInjection.Attributes;
 using WarOfEmpires.Database;
 using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Models.Attacks;
@@ -11,7 +10,6 @@ using WarOfEmpires.Utilities.Formatting;
 using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Attacks {
-    [TransientServiceImplementation(typeof(IQueryHandler<GetAttackDetailsQuery, AttackDetailsViewModel>))]
     public sealed class GetAttackDetailsQueryHandler : IQueryHandler<GetAttackDetailsQuery, AttackDetailsViewModel> {
         private readonly IReadOnlyWarContext _context;
         private readonly IResourcesMap _resourcesMap;

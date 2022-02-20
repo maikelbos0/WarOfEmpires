@@ -1,12 +1,10 @@
 ﻿using System.Linq;
-using VDT.Core.DependencyInjection.Attributes;
 using WarOfEmpires.Database;
 using WarOfEmpires.Queries.Attacks;
 using WarOfEmpires.QueryHandlers.Decorators;
 using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Attacks {
-    [TransientServiceImplementation(typeof(IQueryHandler<GetLastExecutedAttackQuery, int>))]
     public sealed class GetLastExecutedAttackQueryHandler : IQueryHandler<GetLastExecutedAttackQuery, int> {
         private readonly IReadOnlyWarContext _context;
 
