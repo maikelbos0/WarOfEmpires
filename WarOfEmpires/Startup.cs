@@ -13,6 +13,7 @@ using WarOfEmpires.CommandHandlers;
 using WarOfEmpires.QueryHandlers;
 using WarOfEmpires.Services;
 using WarOfEmpires.Utilities.Configuration;
+using WarOfEmpires.Utilities.Events;
 using WarOfEmpires.Utilities.Mail;
 
 namespace WarOfEmpires {
@@ -39,6 +40,7 @@ namespace WarOfEmpires {
                 .AddAssemblies(typeof(Startup).Assembly, nameof(WarOfEmpires))
                 .AddServiceTypeProvider(DefaultServiceTypeProviders.InterfaceByName)
                 .AddServiceTypeProvider(DefaultServiceTypeProviders.CreateGenericInterfaceTypeProvider(typeof(ICommandHandler<>)))
+                .AddServiceTypeProvider(DefaultServiceTypeProviders.CreateGenericInterfaceTypeProvider(typeof(IEventHandler<>)))
                 .AddServiceTypeProvider(DefaultServiceTypeProviders.CreateGenericInterfaceTypeProvider(typeof(IMailTemplate<>)))
                 .AddServiceTypeProvider(DefaultServiceTypeProviders.CreateGenericInterfaceTypeProvider(typeof(IQueryHandler<,>)))
                 .AddAttributeServiceTypeProviders()

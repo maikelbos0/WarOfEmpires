@@ -1,10 +1,8 @@
-﻿using VDT.Core.DependencyInjection.Attributes;
-using WarOfEmpires.Commands.Empires;
+﻿using WarOfEmpires.Commands.Empires;
 using WarOfEmpires.Domain.Empires;
 using WarOfEmpires.Utilities.Events;
 
 namespace WarOfEmpires.CommandHandlers.Empires {
-    [TransientServiceImplementation(typeof(IEventHandler<UpdateRankTaskTriggeredEvent>))]
     public sealed class UpdateRankTaskTriggeredEventHandler : IEventHandler<UpdateRankTaskTriggeredEvent> {
         private readonly ICommandHandler<UpdateRankCommand> _commandHandler;
 
