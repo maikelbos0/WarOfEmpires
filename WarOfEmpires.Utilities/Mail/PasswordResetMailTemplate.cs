@@ -1,9 +1,7 @@
 using System.Net;
-using VDT.Core.DependencyInjection.Attributes;
 using WarOfEmpires.Utilities.Configuration;
 
 namespace WarOfEmpires.Utilities.Mail {
-    [TransientServiceImplementation(typeof(IMailTemplate<PasswordResetMailTemplateParameters>))]
     public sealed class PasswordResetMailTemplate : IMailTemplate<PasswordResetMailTemplateParameters> {
         private readonly AppSettings _appSettings;
 
