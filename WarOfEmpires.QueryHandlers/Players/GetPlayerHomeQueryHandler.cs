@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Linq;
-using VDT.Core.DependencyInjection.Attributes;
 using WarOfEmpires.Database;
 using WarOfEmpires.Models.Players;
 using WarOfEmpires.Queries.Players;
@@ -8,7 +7,6 @@ using WarOfEmpires.QueryHandlers.Decorators;
 using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Players {
-    [TransientServiceImplementation(typeof(IQueryHandler<GetPlayerHomeQuery, PlayerHomeViewModel>))]
     public sealed class GetPlayerHomeQueryHandler : IQueryHandler<GetPlayerHomeQuery, PlayerHomeViewModel> {
         private readonly IReadOnlyWarContext _context;
 

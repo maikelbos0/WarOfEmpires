@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using VDT.Core.DependencyInjection.Attributes;
 using WarOfEmpires.Database;
 using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Models.Players;
@@ -9,7 +8,6 @@ using WarOfEmpires.QueryHandlers.Decorators;
 using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Players {
-    [TransientServiceImplementation(typeof(IQueryHandler<GetBlockedPlayersQuery, IEnumerable<BlockedPlayerViewModel>>))]
     public sealed class GetBlockedPlayersQueryHandler : IQueryHandler<GetBlockedPlayersQuery, IEnumerable<BlockedPlayerViewModel>> {
         private readonly IReadOnlyWarContext _context;
 

@@ -1,12 +1,10 @@
 ﻿using System.Linq;
-using VDT.Core.DependencyInjection.Attributes;
 using WarOfEmpires.Database;
 using WarOfEmpires.Models.Game;
 using WarOfEmpires.Queries.Game;
 using WarOfEmpires.QueryHandlers.Decorators;
 
 namespace WarOfEmpires.QueryHandlers.Game {
-    [TransientServiceImplementation(typeof(IQueryHandler<GetGamePhaseQuery, GamePhaseModel>))]
     public sealed class GetGamePhaseQueryHandler : IQueryHandler<GetGamePhaseQuery, GamePhaseModel> {
         private readonly IReadOnlyWarContext _context;
 

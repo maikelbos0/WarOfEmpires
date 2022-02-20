@@ -1,11 +1,9 @@
 using System.Linq;
-using VDT.Core.DependencyInjection.Attributes;
 using WarOfEmpires.Database;
 using WarOfEmpires.Queries.Security;
 using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Security {
-    [TransientServiceImplementation(typeof(IQueryHandler<GetUserNewEmailQuery, string>))]
     public sealed class GetUserNewEmailQueryHandler : IQueryHandler<GetUserNewEmailQuery, string> {
         private readonly IReadOnlyWarContext _context;
 

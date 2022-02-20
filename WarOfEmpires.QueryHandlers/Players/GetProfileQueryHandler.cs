@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using VDT.Core.DependencyInjection.Attributes;
 using WarOfEmpires.Database;
 using WarOfEmpires.Models.Players;
 using WarOfEmpires.Queries.Players;
@@ -8,7 +7,6 @@ using WarOfEmpires.Utilities.Configuration;
 using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Players {
-    [TransientServiceImplementation(typeof(IQueryHandler<GetProfileQuery, ProfileModel>))]
     public sealed class GetProfileQueryHandler : IQueryHandler<GetProfileQuery, ProfileModel> {
         private readonly IReadOnlyWarContext _context;
         private readonly AppSettings _appSettings;

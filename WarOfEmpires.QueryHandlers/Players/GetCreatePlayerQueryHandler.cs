@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using VDT.Core.DependencyInjection.Attributes;
 using WarOfEmpires.Domain.Attacks;
 using WarOfEmpires.Domain.Empires;
 using WarOfEmpires.Domain.Players;
@@ -9,7 +8,6 @@ using WarOfEmpires.QueryHandlers.Decorators;
 using WarOfEmpires.Utilities.Formatting;
 
 namespace WarOfEmpires.QueryHandlers.Players {
-    [TransientServiceImplementation(typeof(IQueryHandler<GetCreatePlayerQuery, CreatePlayerModel>))]
     public class GetCreatePlayerQueryHandler : IQueryHandler<GetCreatePlayerQuery, CreatePlayerModel> {
         private readonly IEnumFormatter _formatter;
 

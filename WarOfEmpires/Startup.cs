@@ -10,6 +10,7 @@ using VDT.Core.DependencyInjection;
 using VDT.Core.DependencyInjection.Attributes;
 using VDT.Core.DependencyInjection.Decorators;
 using WarOfEmpires.CommandHandlers;
+using WarOfEmpires.QueryHandlers;
 using WarOfEmpires.Services;
 using WarOfEmpires.Utilities.Configuration;
 using WarOfEmpires.Utilities.Mail;
@@ -39,6 +40,7 @@ namespace WarOfEmpires {
                 .AddServiceTypeProvider(DefaultServiceTypeProviders.InterfaceByName)
                 .AddServiceTypeProvider(DefaultServiceTypeProviders.CreateGenericInterfaceTypeProvider(typeof(ICommandHandler<>)))
                 .AddServiceTypeProvider(DefaultServiceTypeProviders.CreateGenericInterfaceTypeProvider(typeof(IMailTemplate<>)))
+                .AddServiceTypeProvider(DefaultServiceTypeProviders.CreateGenericInterfaceTypeProvider(typeof(IQueryHandler<,>)))
                 .AddAttributeServiceTypeProviders()
                 .UseDefaultServiceLifetime(ServiceLifetime.Transient)
                 .UseDecoratorServiceRegistrar(decoratorOptions => decoratorOptions.AddAttributeDecorators())
