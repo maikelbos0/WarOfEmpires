@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using VDT.Core.DependencyInjection.Attributes;
 using WarOfEmpires.CommandHandlers.Decorators;
 using WarOfEmpires.Commands.Empires;
 using WarOfEmpires.Domain.Empires;
@@ -10,7 +9,6 @@ using WarOfEmpires.Repositories.Players;
 using WarOfEmpires.Utilities.Formatting;
 
 namespace WarOfEmpires.CommandHandlers.Empires {
-    [TransientServiceImplementation(typeof(ICommandHandler<UntrainWorkersCommand>))]
     public sealed class UntrainWorkersCommandHandler : ICommandHandler<UntrainWorkersCommand> {
         private readonly IPlayerRepository _repository;
         private readonly IEnumFormatter _formatter;

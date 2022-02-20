@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Linq;
-using VDT.Core.DependencyInjection.Attributes;
 using WarOfEmpires.CommandHandlers.Decorators;
 using WarOfEmpires.Commands.Alliances;
 using WarOfEmpires.Repositories.Alliances;
 
 namespace WarOfEmpires.CommandHandlers.Alliances {
-    [TransientServiceImplementation(typeof(ICommandHandler<SendNonAggressionPactRequestCommand>))]
     public sealed class SendNonAggressionPactRequestCommandHandler : ICommandHandler<SendNonAggressionPactRequestCommand> {
         private readonly IAllianceRepository _repository;
 

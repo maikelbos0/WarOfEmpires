@@ -1,10 +1,8 @@
-using VDT.Core.DependencyInjection.Attributes;
 using WarOfEmpires.Commands.Security;
 using WarOfEmpires.Repositories.Players;
 using WarOfEmpires.Repositories.Security;
 
 namespace WarOfEmpires.CommandHandlers.Security {
-    [TransientServiceImplementation(typeof(ICommandHandler<DeactivateUserCommand>))]
     public sealed class DeactivateUserCommandHandler : ICommandHandler<DeactivateUserCommand> {
         private readonly IUserRepository _repository;
         private readonly IPlayerRepository _playerRepository;

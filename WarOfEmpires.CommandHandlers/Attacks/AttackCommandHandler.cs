@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using VDT.Core.DependencyInjection.Attributes;
 using WarOfEmpires.CommandHandlers.Decorators;
 using WarOfEmpires.Commands.Attacks;
 using WarOfEmpires.Domain.Attacks;
@@ -10,7 +9,6 @@ using WarOfEmpires.Repositories.Game;
 using WarOfEmpires.Repositories.Players;
 
 namespace WarOfEmpires.CommandHandlers.Attacks {
-    [TransientServiceImplementation(typeof(ICommandHandler<AttackCommand>))]
     public sealed class AttackCommandHandler : ICommandHandler<AttackCommand> {
         private readonly IPlayerRepository _repository;
         private readonly IGameStatusRepository _gameStatusRepository;

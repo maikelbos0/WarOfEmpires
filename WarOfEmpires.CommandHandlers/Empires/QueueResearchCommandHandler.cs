@@ -1,12 +1,10 @@
 ﻿using System;
-using VDT.Core.DependencyInjection.Attributes;
 using WarOfEmpires.CommandHandlers.Decorators;
 using WarOfEmpires.Commands.Empires;
 using WarOfEmpires.Domain.Empires;
 using WarOfEmpires.Repositories.Players;
 
 namespace WarOfEmpires.CommandHandlers.Empires {
-    [TransientServiceImplementation(typeof(ICommandHandler<QueueResearchCommand>))]
     public sealed class QueueResearchCommandHandler : ICommandHandler<QueueResearchCommand> {
         private readonly IPlayerRepository _repository;
 

@@ -1,10 +1,8 @@
-﻿using VDT.Core.DependencyInjection.Attributes;
-using WarOfEmpires.CommandHandlers.Decorators;
+﻿using WarOfEmpires.CommandHandlers.Decorators;
 using WarOfEmpires.Commands.Alliances;
 using WarOfEmpires.Repositories.Alliances;
 
 namespace WarOfEmpires.CommandHandlers.Alliances {
-    [TransientServiceImplementation(typeof(ICommandHandler<AddBankTurnCommand>))]
     public sealed class AddBankTurnCommandHandler : ICommandHandler<AddBankTurnCommand> {
         private readonly IAllianceRepository _repository;
 

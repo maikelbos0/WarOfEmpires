@@ -1,9 +1,7 @@
-﻿using VDT.Core.DependencyInjection.Attributes;
-using WarOfEmpires.Commands.Security;
+﻿using WarOfEmpires.Commands.Security;
 using WarOfEmpires.Repositories.Security;
 
 namespace WarOfEmpires.CommandHandlers.Security {
-    [TransientServiceImplementation(typeof(ICommandHandler<UpdateUserLastOnlineCommand>))]
     public sealed class UpdateUserLastOnlineCommandHandler : ICommandHandler<UpdateUserLastOnlineCommand> {
         private readonly IUserRepository _repository;
 

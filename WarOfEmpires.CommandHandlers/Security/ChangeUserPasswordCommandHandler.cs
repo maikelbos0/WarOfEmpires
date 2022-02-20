@@ -1,9 +1,7 @@
-using VDT.Core.DependencyInjection.Attributes;
 using WarOfEmpires.Commands.Security;
 using WarOfEmpires.Repositories.Security;
 
 namespace WarOfEmpires.CommandHandlers.Security {
-    [TransientServiceImplementation(typeof(ICommandHandler<ChangeUserPasswordCommand>))]
     public sealed class ChangeUserPasswordCommandHandler : ICommandHandler<ChangeUserPasswordCommand> {
         private readonly IUserRepository _repository;
 

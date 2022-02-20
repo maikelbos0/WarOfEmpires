@@ -9,6 +9,7 @@ using Microsoft.Extensions.Hosting;
 using VDT.Core.DependencyInjection;
 using VDT.Core.DependencyInjection.Attributes;
 using VDT.Core.DependencyInjection.Decorators;
+using WarOfEmpires.CommandHandlers;
 using WarOfEmpires.Services;
 using WarOfEmpires.Utilities.Configuration;
 
@@ -35,7 +36,9 @@ namespace WarOfEmpires {
             services.AddServices(options => options
                 .AddAssemblies(typeof(Startup).Assembly, nameof(WarOfEmpires))
                 .AddServiceTypeProvider(DefaultServiceTypeProviders.InterfaceByName)
+                .AddServiceTypeProvider(DefaultServiceTypeProviders.CreateGenericInterfaceTypeProvider(typeof(ICommandHandler<>)))
                 .AddAttributeServiceTypeProviders()
+                .UseDefaultServiceLifetime(ServiceLifetime.Transient)
                 .UseDecoratorServiceRegistrar(decoratorOptions => decoratorOptions.AddAttributeDecorators())
             );
 

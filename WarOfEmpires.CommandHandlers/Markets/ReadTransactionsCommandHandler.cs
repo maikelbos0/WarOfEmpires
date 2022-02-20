@@ -1,10 +1,8 @@
-﻿using VDT.Core.DependencyInjection.Attributes;
-using WarOfEmpires.CommandHandlers.Decorators;
+﻿using WarOfEmpires.CommandHandlers.Decorators;
 using WarOfEmpires.Commands.Markets;
 using WarOfEmpires.Repositories.Players;
 
 namespace WarOfEmpires.CommandHandlers.Markets {
-    [TransientServiceImplementation(typeof(ICommandHandler<ReadTransactionsCommand>))]
     public sealed class ReadTransactionsCommandHandler : ICommandHandler<ReadTransactionsCommand> {
         private readonly IPlayerRepository _repository;
 

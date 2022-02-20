@@ -1,13 +1,11 @@
 ﻿using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Formats.Jpeg;
 using SixLabors.ImageSharp.Formats.Png;
-using VDT.Core.DependencyInjection.Attributes;
 using WarOfEmpires.Commands.Players;
 using WarOfEmpires.Repositories.Players;
 using WarOfEmpires.Utilities.Storage;
 
 namespace WarOfEmpires.CommandHandlers.Players {
-    [TransientServiceImplementation(typeof(ICommandHandler<UpdateProfileCommand>))]
     public sealed class UpdateProfileCommandHandler : ICommandHandler<UpdateProfileCommand> {
         private readonly IPlayerRepository _repository;
         private readonly IStorageClient _storageClient;

@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Linq;
-using VDT.Core.DependencyInjection.Attributes;
 using WarOfEmpires.CommandHandlers.Decorators;
 using WarOfEmpires.Commands.Alliances;
 using WarOfEmpires.Repositories.Alliances;
 
 namespace WarOfEmpires.CommandHandlers.Alliances {
-    [TransientServiceImplementation(typeof(ICommandHandler<DeclareWarCommand>))]
     public sealed class DeclareWarCommandHandler : ICommandHandler<DeclareWarCommand> {
         private readonly IAllianceRepository _repository;
 

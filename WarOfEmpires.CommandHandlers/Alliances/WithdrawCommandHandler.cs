@@ -1,12 +1,10 @@
-﻿using VDT.Core.DependencyInjection.Attributes;
-using WarOfEmpires.CommandHandlers.Decorators;
+﻿using WarOfEmpires.CommandHandlers.Decorators;
 using WarOfEmpires.Commands.Alliances;
 using WarOfEmpires.Domain.Common;
 using WarOfEmpires.Repositories.Players;
 
 namespace WarOfEmpires.CommandHandlers.Alliances {
 
-    [TransientServiceImplementation(typeof(ICommandHandler<WithdrawCommand>))]
     public sealed class WithdrawCommandHandler : ICommandHandler<WithdrawCommand> {
         private readonly IPlayerRepository _repository;
 
