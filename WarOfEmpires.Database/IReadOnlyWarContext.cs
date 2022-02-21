@@ -10,6 +10,7 @@ using WarOfEmpires.Domain.Security;
 namespace WarOfEmpires.Database {
     [ScopedService(typeof(WarContext))]    
     public interface IReadOnlyWarContext {
+        DbSet<ActionExecution> ActionExecutions { get; }
         DbSet<Alliance> Alliances { get; }
         DbSet<CommandExecution> CommandExecutions { get; }
         DbSet<GameStatus> GameStatus { get; }
