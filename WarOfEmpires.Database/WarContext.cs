@@ -65,6 +65,7 @@ namespace WarOfEmpires.Database {
             actionExecutions.HasKey(e => e.Id);
             actionExecutions.Property(e => e.Date).IsRequired();
             actionExecutions.Property(e => e.Type).IsRequired().HasMaxLength(255);
+            actionExecutions.Property(e => e.Method).IsRequired().HasMaxLength(255);
             actionExecutions.Property(e => e.Data).IsRequired();
 
             var commandExecutions = modelBuilder.Entity<DomainAuditing.CommandExecution>().ToTable("CommandExecutions", "Auditing");
