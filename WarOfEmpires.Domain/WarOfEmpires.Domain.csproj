@@ -4,7 +4,4 @@
     <OutputType>Library</OutputType>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
-  <ItemGroup>
-    <PackageReference Include="VDT.Core.DependencyInjection" Version="2.1.1" />
-  </ItemGroup>
 </Project>
