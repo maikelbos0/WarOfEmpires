@@ -13,8 +13,6 @@ namespace WarOfEmpires.Test.Utilities {
         public DbSet<Game.GameStatus> GameStatus { get; } = new FakeDbSet<Game.GameStatus>();
         public DbSet<Security.User> Users { get; } = new FakeDbSet<Security.User>();
         public DbSet<Auditing.ActionExecution> ActionExecutions { get; } = new FakeDbSet<Auditing.ActionExecution>();
-        public DbSet<Auditing.CommandExecution> CommandExecutions { get; } = new FakeDbSet<Auditing.CommandExecution>();
-        public DbSet<Auditing.QueryExecution> QueryExecutions { get; } = new FakeDbSet<Auditing.QueryExecution>();
         public DbSet<Alliances.Alliance> Alliances { get; } = new FakeDbSet<Alliances.Alliance>();
         public DbSet<Players.Player> Players { get; } = new FakeDbSet<Players.Player>();
         public DbSet<Events.ScheduledTask> ScheduledTasks { get; } = new FakeDbSet<Events.ScheduledTask>();

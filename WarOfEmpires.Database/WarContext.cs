@@ -22,8 +22,6 @@ namespace WarOfEmpires.Database {
         public DbSet<DomainGame.GameStatus> GameStatus { get; private set; }
         public DbSet<DomainSecurity.User> Users { get; private set; }
         public DbSet<DomainAuditing.ActionExecution> ActionExecutions { get; private set; }
-        public DbSet<DomainAuditing.CommandExecution> CommandExecutions { get; private set; }
-        public DbSet<DomainAuditing.QueryExecution> QueryExecutions { get; private set; }
         public DbSet<DomainAlliances.Alliance> Alliances { get; private set; }
         public DbSet<DomainPlayers.Player> Players { get; private set; }
         public DbSet<DomainEvents.ScheduledTask> ScheduledTasks { get; private set; }
@@ -67,18 +65,6 @@ namespace WarOfEmpires.Database {
             actionExecutions.Property(e => e.Type).IsRequired().HasMaxLength(255);
             actionExecutions.Property(e => e.Method).IsRequired().HasMaxLength(255);
             actionExecutions.Property(e => e.Data).IsRequired();
-
-            var commandExecutions = modelBuilder.Entity<DomainAuditing.CommandExecution>().ToTable("CommandExecutions", "Auditing");
-            commandExecutions.HasKey(e => e.Id);
-            commandExecutions.Property(e => e.Date).IsRequired();
-            commandExecutions.Property(e => e.CommandType).IsRequired().HasMaxLength(255);
-            commandExecutions.Property(e => e.CommandData).IsRequired();
-
-            var queryExecutions = modelBuilder.Entity<DomainAuditing.QueryExecution>().ToTable("QueryExecutions", "Auditing");
-            queryExecutions.HasKey(e => e.Id);
-            queryExecutions.Property(e => e.Date).IsRequired();
-            queryExecutions.Property(e => e.QueryType).IsRequired().HasMaxLength(255);
-            queryExecutions.Property(e => e.QueryData).IsRequired();
         }
 
         private void OnEventsModelCreating(ModelBuilder modelBuilder) {
