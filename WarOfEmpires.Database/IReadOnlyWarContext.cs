@@ -12,10 +12,8 @@ namespace WarOfEmpires.Database {
     public interface IReadOnlyWarContext {
         DbSet<ActionExecution> ActionExecutions { get; }
         DbSet<Alliance> Alliances { get; }
-        DbSet<CommandExecution> CommandExecutions { get; }
         DbSet<GameStatus> GameStatus { get; }
         DbSet<Player> Players { get; }
-        DbSet<QueryExecution> QueryExecutions { get; }
         DbSet<ScheduledTask> ScheduledTasks { get; }
         DbSet<User> Users { get; }
     }

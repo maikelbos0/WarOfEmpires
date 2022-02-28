@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WarOfEmpires.Database;
 
@@ -11,9 +12,10 @@ using WarOfEmpires.Database;
 namespace WarOfEmpires.Database.Migrations
 {
     [DbContext(typeof(WarContext))]
-    partial class WarContextModelSnapshot : ModelSnapshot
+    [Migration("20220228133259_Auditing-Delete-Commands-Queries")]
+    partial class AuditingDeleteCommandsQueries
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
