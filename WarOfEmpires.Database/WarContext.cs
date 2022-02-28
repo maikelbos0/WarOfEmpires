@@ -5,26 +5,26 @@ using System.Linq;
 using VDT.Core.DependencyInjection.Attributes;
 using WarOfEmpires.Database.ReferenceEntities;
 using WarOfEmpires.Utilities.Configuration;
-using DomainAlliances = WarOfEmpires.Domain.Alliances;
-using DomainAttacks = WarOfEmpires.Domain.Attacks;
-using DomainAuditing = WarOfEmpires.Domain.Auditing;
-using DomainEmpires = WarOfEmpires.Domain.Empires;
-using DomainEvents = WarOfEmpires.Domain.Events;
-using DomainGame = WarOfEmpires.Domain.Game;
-using DomainMarkets = WarOfEmpires.Domain.Markets;
-using DomainPlayers = WarOfEmpires.Domain.Players;
-using DomainSecurity = WarOfEmpires.Domain.Security;
-using DomainSiege = WarOfEmpires.Domain.Siege;
+using WarOfEmpires.Domain.Alliances;
+using WarOfEmpires.Domain.Attacks;
+using WarOfEmpires.Domain.Auditing;
+using WarOfEmpires.Domain.Empires;
+using WarOfEmpires.Domain.Events;
+using WarOfEmpires.Domain.Game;
+using WarOfEmpires.Domain.Markets;
+using WarOfEmpires.Domain.Players;
+using WarOfEmpires.Domain.Security;
+using WarOfEmpires.Domain.Siege;
 
 namespace WarOfEmpires.Database {
     [ScopedServiceImplementation(typeof(IWarContext))]
     public class WarContext : DbContext, IWarContext {
-        public DbSet<DomainGame.GameStatus> GameStatus { get; private set; }
-        public DbSet<DomainSecurity.User> Users { get; private set; }
-        public DbSet<DomainAuditing.ActionExecution> ActionExecutions { get; private set; }
-        public DbSet<DomainAlliances.Alliance> Alliances { get; private set; }
-        public DbSet<DomainPlayers.Player> Players { get; private set; }
-        public DbSet<DomainEvents.ScheduledTask> ScheduledTasks { get; private set; }
+        public DbSet<GameStatus> GameStatus { get; private set; }
+        public DbSet<User> Users { get; private set; }
+        public DbSet<ActionExecution> ActionExecutions { get; private set; }
+        public DbSet<Alliance> Alliances { get; private set; }
+        public DbSet<Player> Players { get; private set; }
+        public DbSet<ScheduledTask> ScheduledTasks { get; private set; }
 
         public WarContext(AppSettings appSettings)
             : base(new DbContextOptionsBuilder<WarContext>()
@@ -49,17 +49,17 @@ namespace WarOfEmpires.Database {
             gamePhase.HasKey(p => p.Id);
             gamePhase.HasMany(p => p.GameStatus).WithOne().IsRequired().HasForeignKey(s => s.Phase);
             gamePhase.Property(p => p.Name).IsRequired();
-            gamePhase.HasData(ReferenceEntityExtensions.GetValues<DomainGame.GamePhase, GamePhaseEntity>());
+            gamePhase.HasData(ReferenceEntityExtensions.GetValues<GamePhase, GamePhaseEntity>());
 
-            var gameStatus = modelBuilder.Entity<DomainGame.GameStatus>().ToTable("GameStatus", "Game");
+            var gameStatus = modelBuilder.Entity<GameStatus>().ToTable("GameStatus", "Game");
             gameStatus.HasKey(s => s.Id);
             gameStatus.Property(s => s.Id).ValueGeneratedNever();
             gameStatus.HasOne(s => s.CurrentGrandOverlord).WithMany();
-            gameStatus.HasData(new DomainGame.GameStatus() { Id = 1, Phase = DomainGame.GamePhase.Truce });
+            gameStatus.HasData(new GameStatus() { Id = 1, Phase = GamePhase.Truce });
         }
 
         private void OnAuditingModelCreating(ModelBuilder modelBuilder) {
-            var actionExecutions = modelBuilder.Entity<DomainAuditing.ActionExecution>().ToTable("ActionExecutions", "Auditing");
+            var actionExecutions = modelBuilder.Entity<ActionExecution>().ToTable("ActionExecutions", "Auditing");
             actionExecutions.HasKey(e => e.Id);
             actionExecutions.Property(e => e.Date).IsRequired();
             actionExecutions.Property(e => e.Type).IsRequired().HasMaxLength(255);
@@ -72,17 +72,17 @@ namespace WarOfEmpires.Database {
             executionModes.HasKey(t => t.Id);
             executionModes.HasMany(m => m.ScheduledTasks).WithOne().IsRequired().HasForeignKey(e => e.ExecutionMode);
             executionModes.Property(m => m.Name).IsRequired();
-            executionModes.HasData(ReferenceEntityExtensions.GetValues<DomainEvents.TaskExecutionMode, TaskExecutionModeEntity>());
+            executionModes.HasData(ReferenceEntityExtensions.GetValues<TaskExecutionMode, TaskExecutionModeEntity>());
 
-            var scheduledTasks = modelBuilder.Entity<DomainEvents.ScheduledTask>().ToTable("ScheduledTasks", "Events");
+            var scheduledTasks = modelBuilder.Entity<ScheduledTask>().ToTable("ScheduledTasks", "Events");
             scheduledTasks.HasKey(t => t.Id);
             scheduledTasks.Property(e => e.EventType).IsRequired();
             scheduledTasks.HasData(
-                DomainEvents.ScheduledTask.Create<DomainEmpires.RecruitTaskTriggeredEvent>(1, new TimeSpan(1, 0, 0), DomainEvents.TaskExecutionMode.ExecuteAllIntervals),
-                DomainEvents.ScheduledTask.Create<DomainEmpires.TurnTaskTriggeredEvent>(2, new TimeSpan(0, 10, 0), DomainEvents.TaskExecutionMode.ExecuteAllIntervals),
-                DomainEvents.ScheduledTask.Create<DomainEmpires.BankTurnTaskTriggeredEvent>(3, new TimeSpan(4, 0, 0), DomainEvents.TaskExecutionMode.ExecuteAllIntervals),
-                DomainEvents.ScheduledTask.Create<DomainEmpires.UpdateRankTaskTriggeredEvent>(4, new TimeSpan(0, 1, 0), DomainEvents.TaskExecutionMode.ExecuteOnce),
-                DomainEvents.ScheduledTask.Create<DomainAlliances.BankTurnTaskTriggeredEvent>(5, new TimeSpan(1, 0, 0), DomainEvents.TaskExecutionMode.ExecuteAllIntervals)
+                ScheduledTask.Create<RecruitTaskTriggeredEvent>(1, new TimeSpan(1, 0, 0), TaskExecutionMode.ExecuteAllIntervals),
+                ScheduledTask.Create<TurnTaskTriggeredEvent>(2, new TimeSpan(0, 10, 0), TaskExecutionMode.ExecuteAllIntervals),
+                ScheduledTask.Create<Domain.Empires.BankTurnTaskTriggeredEvent>(3, new TimeSpan(4, 0, 0), TaskExecutionMode.ExecuteAllIntervals),
+                ScheduledTask.Create<UpdateRankTaskTriggeredEvent>(4, new TimeSpan(0, 1, 0), TaskExecutionMode.ExecuteOnce),
+                ScheduledTask.Create<Domain.Alliances.BankTurnTaskTriggeredEvent>(5, new TimeSpan(1, 0, 0), TaskExecutionMode.ExecuteAllIntervals)
             );
         }
 
@@ -91,18 +91,18 @@ namespace WarOfEmpires.Database {
             buildingTypes.HasKey(t => t.Id);
             buildingTypes.HasMany(t => t.Buildings).WithOne().IsRequired().HasForeignKey(b => b.Type);
             buildingTypes.Property(t => t.Name).IsRequired();
-            buildingTypes.HasData(ReferenceEntityExtensions.GetValues<DomainEmpires.BuildingType, BuildingTypeEntity>());
+            buildingTypes.HasData(ReferenceEntityExtensions.GetValues<BuildingType, BuildingTypeEntity>());
 
             var siegeWeaponTypes = modelBuilder.Entity<SiegeWeaponTypeEntity>().ToTable("SiegeWeaponTypes", "Siege");
             siegeWeaponTypes.HasKey(t => t.Id);
             siegeWeaponTypes.HasMany(t => t.SiegeWeapons).WithOne().IsRequired().HasForeignKey(b => b.Type);
             siegeWeaponTypes.Property(t => t.Name).IsRequired();
-            siegeWeaponTypes.HasData(ReferenceEntityExtensions.GetValues<DomainSiege.SiegeWeaponType, SiegeWeaponTypeEntity>());
+            siegeWeaponTypes.HasData(ReferenceEntityExtensions.GetValues<SiegeWeaponType, SiegeWeaponTypeEntity>());
 
-            var players = modelBuilder.Entity<DomainPlayers.Player>().ToTable("Players", "Players");
+            var players = modelBuilder.Entity<Player>().ToTable("Players", "Players");
             players.HasKey(p => p.Id);
-            players.HasOne(p => p.User).WithOne().HasForeignKey<DomainPlayers.Player>(p => p.Id);
-            players.HasOne(p => p.Profile).WithOne().HasForeignKey<DomainPlayers.Profile>(p => p.Id);
+            players.HasOne(p => p.User).WithOne().HasForeignKey<Player>(p => p.Id);
+            players.HasOne(p => p.Profile).WithOne().HasForeignKey<Profile>(p => p.Id);
             players.HasMany(p => p.Workers).WithOne().IsRequired();
             players.HasMany(p => p.Troops).WithOne().IsRequired();
             players.HasMany(p => p.SiegeWeapons).WithOne().IsRequired();
@@ -144,84 +144,84 @@ namespace WarOfEmpires.Database {
             titleTypes.HasKey(t => t.Id);
             titleTypes.HasMany(t => t.Players).WithOne().IsRequired().HasForeignKey(p => p.Title);
             titleTypes.Property(t => t.Name).IsRequired();
-            titleTypes.HasData(ReferenceEntityExtensions.GetValues<DomainPlayers.TitleType, TitleTypeEntity>());
+            titleTypes.HasData(ReferenceEntityExtensions.GetValues<TitleType, TitleTypeEntity>());
 
             var workerTypes = modelBuilder.Entity<WorkerTypeEntity>().ToTable("WorkerTypes", "Empires");
             workerTypes.HasKey(w => w.Id);
             workerTypes.HasMany(w => w.Workers).WithOne().IsRequired().HasForeignKey(w => w.Type);
             workerTypes.Property(w => w.Name).IsRequired();
-            workerTypes.HasData(ReferenceEntityExtensions.GetValues<DomainEmpires.WorkerType, WorkerTypeEntity>());
+            workerTypes.HasData(ReferenceEntityExtensions.GetValues<WorkerType, WorkerTypeEntity>());
 
             var researchTypes = modelBuilder.Entity<ResearchTypeEntity>().ToTable("ResearchTypes", "Empires");
             researchTypes.HasKey(r => r.Id);
             researchTypes.HasMany(r => r.Research).WithOne().IsRequired().HasForeignKey(r => r.Type);
             researchTypes.HasMany(r => r.QueuedResearch).WithOne().IsRequired().HasForeignKey(r => r.Type);
             researchTypes.Property(r => r.Name).IsRequired();
-            researchTypes.HasData(ReferenceEntityExtensions.GetValues<DomainEmpires.ResearchType, ResearchTypeEntity>());
+            researchTypes.HasData(ReferenceEntityExtensions.GetValues<ResearchType, ResearchTypeEntity>());
 
             var races = modelBuilder.Entity<RaceEntity>().ToTable("Races", "Players");
             races.HasKey(r => r.Id);
             races.HasMany(r => r.Players).WithOne().IsRequired().HasForeignKey(p => p.Race);
             races.Property(r => r.Name).IsRequired();
-            races.HasData(ReferenceEntityExtensions.GetValues<DomainPlayers.Race, RaceEntity>());
+            races.HasData(ReferenceEntityExtensions.GetValues<Race, RaceEntity>());
 
-            modelBuilder.Entity<DomainPlayers.Profile>().ToTable("Profiles", "Players").HasKey(p => p.Id);
+            modelBuilder.Entity<Profile>().ToTable("Profiles", "Players").HasKey(p => p.Id);
 
-            modelBuilder.Entity<DomainEmpires.Workers>().ToTable("Workers", "Empires").HasKey(t => t.Id);
+            modelBuilder.Entity<Workers>().ToTable("Workers", "Empires").HasKey(t => t.Id);
 
-            modelBuilder.Entity<DomainAttacks.Troops>().ToTable("Troops", "Attacks").HasKey(t => t.Id);
+            modelBuilder.Entity<Troops>().ToTable("Troops", "Attacks").HasKey(t => t.Id);
 
-            modelBuilder.Entity<DomainEmpires.Building>().ToTable("Buildings", "Empires").HasKey(b => b.Id);
+            modelBuilder.Entity<Building>().ToTable("Buildings", "Empires").HasKey(b => b.Id);
 
-            modelBuilder.Entity<DomainSiege.SiegeWeapon>().ToTable("SiegeWeapons", "Siege").HasKey(w => w.Id);
+            modelBuilder.Entity<SiegeWeapon>().ToTable("SiegeWeapons", "Siege").HasKey(w => w.Id);
 
-            modelBuilder.Entity<DomainEmpires.QueuedResearch>().ToTable("QueuedResearch", "Empires").HasKey(t => t.Id);
+            modelBuilder.Entity<QueuedResearch>().ToTable("QueuedResearch", "Empires").HasKey(t => t.Id);
 
-            modelBuilder.Entity<DomainEmpires.Research>().ToTable("Research", "Empires").HasKey(t => t.Id);
+            modelBuilder.Entity<Research>().ToTable("Research", "Empires").HasKey(t => t.Id);
 
-            var messages = modelBuilder.Entity<DomainPlayers.Message>().ToTable("Messages", "Players");
+            var messages = modelBuilder.Entity<Message>().ToTable("Messages", "Players");
             messages.HasKey(m => m.Id);
             messages.Property(m => m.Subject).IsRequired().HasMaxLength(100);
 
-            var playerBlocks = modelBuilder.Entity<DomainPlayers.PlayerBlock>().ToTable("PlayerBlocks", "Players");
+            var playerBlocks = modelBuilder.Entity<PlayerBlock>().ToTable("PlayerBlocks", "Players");
             playerBlocks.HasKey(b => b.Id);
             playerBlocks.HasOne(b => b.BlockedPlayer).WithMany().IsRequired().OnDelete(DeleteBehavior.NoAction);
 
-            var caravans = modelBuilder.Entity<DomainMarkets.Caravan>().ToTable("Caravans", "Markets");
+            var caravans = modelBuilder.Entity<Caravan>().ToTable("Caravans", "Markets");
             caravans.HasMany(c => c.Merchandise).WithOne().IsRequired();
 
-            modelBuilder.Entity<DomainMarkets.Merchandise>().ToTable("Merchandise", "Markets");
+            modelBuilder.Entity<Merchandise>().ToTable("Merchandise", "Markets");
 
             var merchandiseTypes = modelBuilder.Entity<MerchandiseTypeEntity>().ToTable("MerchandiseTypes", "Markets");
             merchandiseTypes.HasKey(t => t.Id);
             merchandiseTypes.HasMany(m => m.Merchandise).WithOne().IsRequired().HasForeignKey(m => m.Type);
             merchandiseTypes.HasMany(m => m.Transactions).WithOne().IsRequired().HasForeignKey(m => m.Type);
             merchandiseTypes.Property(m => m.Name).IsRequired();
-            merchandiseTypes.HasData(ReferenceEntityExtensions.GetValues<DomainMarkets.MerchandiseType, MerchandiseTypeEntity>());
+            merchandiseTypes.HasData(ReferenceEntityExtensions.GetValues<MerchandiseType, MerchandiseTypeEntity>());
 
-            modelBuilder.Entity<DomainMarkets.Transaction>().ToTable("Transactions", "Markets");
+            modelBuilder.Entity<Transaction>().ToTable("Transactions", "Markets");
         }
 
         private void OnAllianceModelCreating(ModelBuilder modelBuilder) {
-            var alliances = modelBuilder.Entity<DomainAlliances.Alliance>().ToTable("Alliances", "Alliances");
+            var alliances = modelBuilder.Entity<Alliance>().ToTable("Alliances", "Alliances");
             alliances.HasKey(a => a.Id);
             alliances.HasMany(a => a.Members).WithOne(p => p.Alliance);
             alliances.HasMany(a => a.Invites).WithOne(i => i.Alliance).IsRequired();
             alliances.HasMany(a => a.Roles).WithOne(r => r.Alliance).IsRequired();
             alliances.HasMany(a => a.NonAggressionPacts).WithMany(p => p.Alliances).UsingEntity<Dictionary<string, object>>(
                 "AllianceNonAggressionPacts",
-                n => n.HasOne<DomainAlliances.NonAggressionPact>().WithMany().HasForeignKey("NonAggressionPactId"),
-                n => n.HasOne<DomainAlliances.Alliance>().WithMany().HasForeignKey("AllianceId")
+                n => n.HasOne<NonAggressionPact>().WithMany().HasForeignKey("NonAggressionPactId"),
+                n => n.HasOne<Alliance>().WithMany().HasForeignKey("AllianceId")
             ).ToTable("AllianceNonAggressionPacts", "Alliances");
             alliances.HasMany(a => a.Wars).WithMany(w => w.Alliances).UsingEntity<Dictionary<string, object>>(
                 "AllianceWars",
-                n => n.HasOne<DomainAlliances.War>().WithMany().HasForeignKey("WarId"),
-                n => n.HasOne<DomainAlliances.Alliance>().WithMany().HasForeignKey("AllianceId")
+                n => n.HasOne<War>().WithMany().HasForeignKey("WarId"),
+                n => n.HasOne<Alliance>().WithMany().HasForeignKey("AllianceId")
             ).ToTable("AllianceWars", "Alliances");
             alliances.HasMany(a => a.PeaceDeclarations).WithMany(w => w.PeaceDeclarations).UsingEntity<Dictionary<string, object>>(
                  "PeaceDeclarations",
-                 n => n.HasOne<DomainAlliances.War>().WithMany().HasForeignKey("WarId"),
-                 n => n.HasOne<DomainAlliances.Alliance>().WithMany().HasForeignKey("AllianceId")
+                 n => n.HasOne<War>().WithMany().HasForeignKey("WarId"),
+                 n => n.HasOne<Alliance>().WithMany().HasForeignKey("AllianceId")
             ).ToTable("PeaceDeclarations", "Alliances");
             alliances.HasMany(a => a.SentNonAggressionPactRequests).WithOne(r => r.Sender).IsRequired().OnDelete(DeleteBehavior.NoAction);
             alliances.HasMany(a => a.ReceivedNonAggressionPactRequests).WithOne(r => r.Recipient).IsRequired();
@@ -237,24 +237,24 @@ namespace WarOfEmpires.Database {
                 ar.Property(r => r.Ore).HasColumnName("BankedOre");
             });
 
-            var invites = modelBuilder.Entity<DomainAlliances.Invite>().ToTable("Invites", "Alliances");
+            var invites = modelBuilder.Entity<Invite>().ToTable("Invites", "Alliances");
             invites.HasKey(i => i.Id);
             invites.Property(i => i.Subject).IsRequired().HasMaxLength(100);
 
-            var chatMessages = modelBuilder.Entity<DomainAlliances.ChatMessage>().ToTable("ChatMessages", "Alliances");
+            var chatMessages = modelBuilder.Entity<ChatMessage>().ToTable("ChatMessages", "Alliances");
             chatMessages.HasKey(m => m.Id);
             chatMessages.HasOne(m => m.Player).WithMany().OnDelete(DeleteBehavior.NoAction);
             chatMessages.Property(m => m.Message).IsRequired();
 
-            var roles = modelBuilder.Entity<DomainAlliances.Role>().ToTable("Roles", "Alliances");
+            var roles = modelBuilder.Entity<Role>().ToTable("Roles", "Alliances");
             roles.HasKey(r => r.Id);
             roles.Property(r => r.Name).IsRequired();
 
-            modelBuilder.Entity<DomainAlliances.NonAggressionPact>().ToTable("NonAggressionPacts", "Alliances").HasKey(m => m.Id);
+            modelBuilder.Entity<NonAggressionPact>().ToTable("NonAggressionPacts", "Alliances").HasKey(m => m.Id);
 
-            modelBuilder.Entity<DomainAlliances.NonAggressionPactRequest>().ToTable("NonAggressionPactRequests", "Alliances").HasKey(m => m.Id);
+            modelBuilder.Entity<NonAggressionPactRequest>().ToTable("NonAggressionPactRequests", "Alliances").HasKey(m => m.Id);
 
-            modelBuilder.Entity<DomainAlliances.War>().ToTable("Wars", "Alliances").HasKey(m => m.Id);
+            modelBuilder.Entity<War>().ToTable("Wars", "Alliances").HasKey(m => m.Id);
         }
 
         private void OnAttacksModelCreating(ModelBuilder modelBuilder) {
@@ -262,15 +262,15 @@ namespace WarOfEmpires.Database {
             attackResults.HasKey(r => r.Id);
             attackResults.HasMany(r => r.Attacks).WithOne().IsRequired().HasForeignKey(a => a.Result);
             attackResults.Property(r => r.Name).IsRequired();
-            attackResults.HasData(ReferenceEntityExtensions.GetValues<DomainAttacks.AttackResult, AttackResultEntity>());
+            attackResults.HasData(ReferenceEntityExtensions.GetValues<AttackResult, AttackResultEntity>());
 
             var attackTypes = modelBuilder.Entity<AttackTypeEntity>().ToTable("AttackTypes", "Attacks");
             attackTypes.HasKey(r => r.Id);
             attackTypes.HasMany(r => r.Attacks).WithOne().IsRequired().HasForeignKey(a => a.Type);
             attackTypes.Property(r => r.Name).IsRequired();
-            attackTypes.HasData(ReferenceEntityExtensions.GetValues<DomainAttacks.AttackType, AttackTypeEntity>());
+            attackTypes.HasData(ReferenceEntityExtensions.GetValues<AttackType, AttackTypeEntity>());
 
-            var attacks = modelBuilder.Entity<DomainAttacks.Attack>().ToTable("Attacks", "Attacks");
+            var attacks = modelBuilder.Entity<Attack>().ToTable("Attacks", "Attacks");
             attacks.HasKey(a => a.Id);
             attacks.HasMany(a => a.Rounds).WithOne().IsRequired();
             attacks.OwnsOne(a => a.Resources, ar => {
@@ -282,10 +282,10 @@ namespace WarOfEmpires.Database {
             });
             attacks.Navigation(a => a.Resources).IsRequired();
             attacks.HasDiscriminator<string>("AttackType")
-                .HasValue<DomainAttacks.Assault>(nameof(DomainAttacks.Assault))
-                .HasValue<DomainAttacks.Raid>(nameof(DomainAttacks.Raid))
-                .HasValue<DomainAttacks.GrandOverlordAttack>(nameof(DomainAttacks.GrandOverlordAttack))
-                .HasValue<DomainAttacks.Revenge>(nameof(DomainAttacks.Revenge));
+                .HasValue<Assault>(nameof(Assault))
+                .HasValue<Raid>(nameof(Raid))
+                .HasValue<GrandOverlordAttack>(nameof(GrandOverlordAttack))
+                .HasValue<Revenge>(nameof(Revenge));
 
             var troopTypes = modelBuilder.Entity<TroopTypeEntity>().ToTable("TroopTypes", "Attacks");
             troopTypes.HasKey(t => t.Id);
@@ -293,13 +293,13 @@ namespace WarOfEmpires.Database {
             troopTypes.HasMany(t => t.Casualties).WithOne().IsRequired().HasForeignKey(c => c.TroopType).OnDelete(DeleteBehavior.NoAction);
             troopTypes.HasMany(t => t.Troops).WithOne().IsRequired().HasForeignKey(t => t.Type);
             troopTypes.Property(t => t.Name).IsRequired();
-            troopTypes.HasData(ReferenceEntityExtensions.GetValues<DomainAttacks.TroopType, TroopTypeEntity>());
+            troopTypes.HasData(ReferenceEntityExtensions.GetValues<TroopType, TroopTypeEntity>());
 
-            var attackRounds = modelBuilder.Entity<DomainAttacks.AttackRound>().ToTable("AttackRounds", "Attacks");
+            var attackRounds = modelBuilder.Entity<AttackRound>().ToTable("AttackRounds", "Attacks");
             attackRounds.HasKey(r => r.Id);
             attackRounds.HasMany(r => r.Casualties).WithOne().IsRequired();
 
-            modelBuilder.Entity<DomainAttacks.Casualties>().ToTable("Casualties", "Attacks").HasKey(c => c.Id);
+            modelBuilder.Entity<Casualties>().ToTable("Casualties", "Attacks").HasKey(c => c.Id);
         }
 
         private void OnSecurityModelCreating(ModelBuilder modelBuilder) {
@@ -307,15 +307,15 @@ namespace WarOfEmpires.Database {
             userEventTypes.HasKey(t => t.Id);
             userEventTypes.HasMany(t => t.UserEvents).WithOne().IsRequired().HasForeignKey(e => e.Type);
             userEventTypes.Property(t => t.Name).IsRequired();
-            userEventTypes.HasData(ReferenceEntityExtensions.GetValues<DomainSecurity.UserEventType, UserEventTypeEntity>());
+            userEventTypes.HasData(ReferenceEntityExtensions.GetValues<UserEventType, UserEventTypeEntity>());
 
             var userStatus = modelBuilder.Entity<UserStatusEntity>().ToTable("UserStatus", "Security");
             userStatus.HasKey(s => s.Id);
             userStatus.HasMany(t => t.Users).WithOne().IsRequired().HasForeignKey(u => u.Status);
             userStatus.Property(t => t.Name).IsRequired();
-            userStatus.HasData(ReferenceEntityExtensions.GetValues<DomainSecurity.UserStatus, UserStatusEntity>());
+            userStatus.HasData(ReferenceEntityExtensions.GetValues<UserStatus, UserStatusEntity>());
 
-            var users = modelBuilder.Entity<DomainSecurity.User>().ToTable("Users", "Security");
+            var users = modelBuilder.Entity<User>().ToTable("Users", "Security");
             users.HasKey(u => u.Id);
             users.HasMany(u => u.UserEvents).WithOne(e => e.User).IsRequired();
             users.HasIndex(u => u.Email).IsUnique();
@@ -335,7 +335,7 @@ namespace WarOfEmpires.Database {
             });
             users.Property(u => u.NewEmail).HasMaxLength(255);
 
-            var userEvents = modelBuilder.Entity<DomainSecurity.UserEvent>().ToTable("UserEvents", "Security");
+            var userEvents = modelBuilder.Entity<UserEvent>().ToTable("UserEvents", "Security");
             userEvents.HasKey(e => e.Id);
         }
 
@@ -346,10 +346,10 @@ namespace WarOfEmpires.Database {
         }
 
         private void DeleteOrphanedNonAggressionPacts() {
-            var orphans = GetChangeTrackerEntities<DomainAlliances.NonAggressionPact>()
-                .Except(GetChangeTrackerEntities<DomainAlliances.Alliance>().SelectMany(a => a.NonAggressionPacts));
+            var orphans = GetChangeTrackerEntities<NonAggressionPact>()
+                .Except(GetChangeTrackerEntities<Alliance>().SelectMany(a => a.NonAggressionPacts));
 
-            Set<DomainAlliances.NonAggressionPact>().RemoveRange(orphans);
+            Set<NonAggressionPact>().RemoveRange(orphans);
         }
 
         private IEnumerable<TEntity> GetChangeTrackerEntities<TEntity>() {

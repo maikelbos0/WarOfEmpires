@@ -1,21 +1,21 @@
 using WarOfEmpires.Database;
 using Microsoft.EntityFrameworkCore;
-using Alliances = WarOfEmpires.Domain.Alliances;
-using Auditing = WarOfEmpires.Domain.Auditing;
-using Events = WarOfEmpires.Domain.Events;
-using Game = WarOfEmpires.Domain.Game;
-using Players = WarOfEmpires.Domain.Players;
-using Security = WarOfEmpires.Domain.Security;
+using WarOfEmpires.Domain.Alliances;
+using WarOfEmpires.Domain.Auditing;
+using WarOfEmpires.Domain.Events;
+using WarOfEmpires.Domain.Game;
+using WarOfEmpires.Domain.Players;
+using WarOfEmpires.Domain.Security;
 
 namespace WarOfEmpires.Test.Utilities {
 
     public sealed class FakeWarContext : IWarContext {
-        public DbSet<Game.GameStatus> GameStatus { get; } = new FakeDbSet<Game.GameStatus>();
-        public DbSet<Security.User> Users { get; } = new FakeDbSet<Security.User>();
-        public DbSet<Auditing.ActionExecution> ActionExecutions { get; } = new FakeDbSet<Auditing.ActionExecution>();
-        public DbSet<Alliances.Alliance> Alliances { get; } = new FakeDbSet<Alliances.Alliance>();
-        public DbSet<Players.Player> Players { get; } = new FakeDbSet<Players.Player>();
-        public DbSet<Events.ScheduledTask> ScheduledTasks { get; } = new FakeDbSet<Events.ScheduledTask>();
+        public DbSet<GameStatus> GameStatus { get; } = new FakeDbSet<GameStatus>();
+        public DbSet<User> Users { get; } = new FakeDbSet<User>();
+        public DbSet<ActionExecution> ActionExecutions { get; } = new FakeDbSet<ActionExecution>();
+        public DbSet<Alliance> Alliances { get; } = new FakeDbSet<Alliance>();
+        public DbSet<Player> Players { get; } = new FakeDbSet<Player>();
+        public DbSet<ScheduledTask> ScheduledTasks { get; } = new FakeDbSet<ScheduledTask>();
 
         public int CallsToSaveChanges { get; private set; }
 
