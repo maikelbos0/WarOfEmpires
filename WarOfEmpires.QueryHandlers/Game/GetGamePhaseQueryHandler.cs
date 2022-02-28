@@ -2,7 +2,7 @@
 using WarOfEmpires.Database;
 using WarOfEmpires.Models.Game;
 using WarOfEmpires.Queries.Game;
-using WarOfEmpires.QueryHandlers.Decorators;
+using WarOfEmpires.Utilities.Auditing;
 
 namespace WarOfEmpires.QueryHandlers.Game {
     public sealed class GetGamePhaseQueryHandler : IQueryHandler<GetGamePhaseQuery, GamePhaseModel> {

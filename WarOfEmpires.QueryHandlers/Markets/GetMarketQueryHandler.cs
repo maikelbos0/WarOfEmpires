@@ -7,7 +7,7 @@ using WarOfEmpires.Domain.Markets;
 using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Models.Markets;
 using WarOfEmpires.Queries.Markets;
-using WarOfEmpires.QueryHandlers.Decorators;
+using WarOfEmpires.Utilities.Auditing;
 using WarOfEmpires.Utilities.Formatting;
 using WarOfEmpires.Utilities.Services;
 

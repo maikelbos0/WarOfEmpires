@@ -3,7 +3,7 @@ using WarOfEmpires.Database;
 using WarOfEmpires.Domain.Game;
 using WarOfEmpires.Models.Game;
 using WarOfEmpires.Queries.Game;
-using WarOfEmpires.QueryHandlers.Decorators;
+using WarOfEmpires.Utilities.Auditing;
 
 namespace WarOfEmpires.QueryHandlers.Players {
     public sealed class GetGameStatusQueryHandler : IQueryHandler<GetGameStatusQuery, GameStatusViewModel> {

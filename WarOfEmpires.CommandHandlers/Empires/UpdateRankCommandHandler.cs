@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using WarOfEmpires.CommandHandlers.Decorators;
+using WarOfEmpires.Utilities.Auditing;
 using WarOfEmpires.Commands.Empires;
 using WarOfEmpires.Domain.Game;
 using WarOfEmpires.Domain.Players;

@@ -3,7 +3,7 @@ using System.Linq;
 using WarOfEmpires.Database;
 using WarOfEmpires.Models.Security;
 using WarOfEmpires.Queries.Security;
-using WarOfEmpires.QueryHandlers.Decorators;
+using WarOfEmpires.Utilities.Auditing;
 using WarOfEmpires.Utilities.Formatting;
 
 namespace WarOfEmpires.QueryHandlers.Security {
