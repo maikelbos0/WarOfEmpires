@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using WarOfEmpires.Database;
 using WarOfEmpires.Queries.Events;
-using WarOfEmpires.QueryHandlers.Decorators;
+using WarOfEmpires.Utilities.Auditing;
 
 namespace WarOfEmpires.QueryHandlers.Events {
     public sealed class GetScheduledTasksPausedQueryHandler : IQueryHandler<GetScheduledTasksPausedQuery, bool?> {

@@ -4,7 +4,7 @@ using WarOfEmpires.Database;
 using WarOfEmpires.Models.Alliances;
 using WarOfEmpires.Queries.Alliances;
 using WarOfEmpires.QueryHandlers.Common;
-using WarOfEmpires.QueryHandlers.Decorators;
+using WarOfEmpires.Utilities.Auditing;
 using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Alliances {

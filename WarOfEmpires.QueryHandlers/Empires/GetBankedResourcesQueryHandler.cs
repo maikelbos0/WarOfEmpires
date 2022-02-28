@@ -3,7 +3,7 @@ using WarOfEmpires.Database;
 using WarOfEmpires.Models.Empires;
 using WarOfEmpires.Queries.Empires;
 using WarOfEmpires.QueryHandlers.Common;
-using WarOfEmpires.QueryHandlers.Decorators;
+using WarOfEmpires.Utilities.Auditing;
 using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Empires {

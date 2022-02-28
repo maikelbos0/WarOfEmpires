@@ -1,5 +1,5 @@
 ﻿using System;
-using WarOfEmpires.CommandHandlers.Decorators;
+using WarOfEmpires.Utilities.Auditing;
 using WarOfEmpires.Commands.Game;
 using WarOfEmpires.Domain.Game;
 using WarOfEmpires.Repositories.Game;

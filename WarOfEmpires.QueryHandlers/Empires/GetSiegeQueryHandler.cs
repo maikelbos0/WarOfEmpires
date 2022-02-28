@@ -8,7 +8,7 @@ using WarOfEmpires.Domain.Siege;
 using WarOfEmpires.Models.Empires;
 using WarOfEmpires.Queries.Empires;
 using WarOfEmpires.QueryHandlers.Common;
-using WarOfEmpires.QueryHandlers.Decorators;
+using WarOfEmpires.Utilities.Auditing;
 using WarOfEmpires.Utilities.Formatting;
 using WarOfEmpires.Utilities.Services;
 
