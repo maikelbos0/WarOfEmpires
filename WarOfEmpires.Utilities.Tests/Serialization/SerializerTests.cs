@@ -28,7 +28,7 @@ namespace WarOfEmpires.Utilities.Tests.Serialization {
             var serializer = new Serializer();
             var testObject = new TestObject(1, "\"'\\<([{test}])>%&\r\n");
 
-            serializer.SerializeToJson(testObject).Should().Be("{\"Id\":1,\"Value\":\"\\\"'\\\\<([{test}])>%&\\r\\n\"}");
+            serializer.SerializeToJson(testObject).Should().Be("{\"Id\":1,\"Value\":\"\\u0022\\u0027\\\\\\u003C([{test}])\\u003E%\\u0026\\r\\n\"}");
         }
     }
 }
