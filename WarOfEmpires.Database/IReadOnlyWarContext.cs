@@ -8,7 +8,7 @@ using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Domain.Security;
 
 namespace WarOfEmpires.Database {
-    [ScopedService(typeof(WarContext))]    
+    [TransientService(typeof(WarContext))]    
     public interface IReadOnlyWarContext {
         DbSet<ActionExecution> ActionExecutions { get; }
         DbSet<Alliance> Alliances { get; }

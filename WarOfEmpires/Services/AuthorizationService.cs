@@ -1,9 +1,7 @@
-﻿using VDT.Core.DependencyInjection.Attributes;
-using WarOfEmpires.Queries.Alliances;
+﻿using WarOfEmpires.Queries.Alliances;
 using WarOfEmpires.Queries.Security;
 
 namespace WarOfEmpires.Services {
-    [ScopedServiceImplementation(typeof(IAuthorizationService))]
     public class AuthorizationService : IAuthorizationService {
         private readonly IAuthenticationService _authenticationService;
         private readonly IMessageService _messageService;

@@ -3,10 +3,8 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using VDT.Core.DependencyInjection.Attributes;
 
 namespace WarOfEmpires.Services {
-    [ScopedServiceImplementation(typeof(IAuthenticationService))]
     public sealed class AuthenticationService : IAuthenticationService {
         private readonly IHttpContextAccessor _httpContextAccessor;
 
