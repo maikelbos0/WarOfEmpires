@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using VDT.Core.DependencyInjection.Attributes;
 using WarOfEmpires.Database.ReferenceEntities;
 using WarOfEmpires.Utilities.Configuration;
 using WarOfEmpires.Domain.Alliances;
@@ -17,7 +16,6 @@ using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Domain.Siege;
 
 namespace WarOfEmpires.Database {
-    [ScopedServiceImplementation(typeof(IWarContext))]
     public class WarContext : DbContext, IWarContext {
         public DbSet<GameStatus> GameStatus { get; private set; }
         public DbSet<User> Users { get; private set; }

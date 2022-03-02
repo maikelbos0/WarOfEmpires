@@ -1,8 +1,6 @@
-﻿using VDT.Core.DependencyInjection.Attributes;
-using WarOfEmpires.Utilities.Configuration;
+﻿using WarOfEmpires.Utilities.Configuration;
 
 namespace WarOfEmpires.Services {
-    [ScopedServiceImplementation(typeof(IStaticResourceService))]
     public sealed class StaticResourceService : IStaticResourceService {
         private AppSettings _appSettings;
 

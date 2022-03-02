@@ -2,12 +2,10 @@ using WarOfEmpires.CommandHandlers;
 using WarOfEmpires.Commands;
 using WarOfEmpires.Queries;
 using WarOfEmpires.QueryHandlers;
-using VDT.Core.DependencyInjection.Attributes;
 using System;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace WarOfEmpires.Services {
-    [ScopedServiceImplementation(typeof(IMessageService))]
     public sealed class MessageService : IMessageService {
         private readonly IServiceProvider _serviceProvider;
 
