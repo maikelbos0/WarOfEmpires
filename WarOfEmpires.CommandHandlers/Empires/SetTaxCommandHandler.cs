@@ -1,5 +1,4 @@
-﻿using WarOfEmpires.Utilities.Auditing;
-using WarOfEmpires.Commands.Empires;
+﻿using WarOfEmpires.Commands.Empires;
 using WarOfEmpires.Repositories.Players;
 
 namespace WarOfEmpires.CommandHandlers.Empires {
@@ -10,7 +9,6 @@ namespace WarOfEmpires.CommandHandlers.Empires {
             _repository = repository;
         }
 
-        [Audit]
         public CommandResult<SetTaxCommand> Execute(SetTaxCommand command) {
             var result = new CommandResult<SetTaxCommand>();
             var player = _repository.Get(command.Email);

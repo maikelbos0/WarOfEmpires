@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using WarOfEmpires.Utilities.Auditing;
 using WarOfEmpires.Commands.Empires;
 using WarOfEmpires.Domain.Attacks;
 using WarOfEmpires.Repositories.Players;
@@ -16,7 +15,6 @@ namespace WarOfEmpires.CommandHandlers.Empires {
             _formatter = formatter;
         }
 
-        [Audit]
         public CommandResult<UntrainTroopsCommand> Execute(UntrainTroopsCommand command) {
             var result = new CommandResult<UntrainTroopsCommand>();
             var player = _repository.Get(command.Email);

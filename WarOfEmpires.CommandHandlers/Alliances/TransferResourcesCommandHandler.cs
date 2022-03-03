@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using WarOfEmpires.Utilities.Auditing;
 using WarOfEmpires.Commands.Alliances;
 using WarOfEmpires.Domain.Common;
 using WarOfEmpires.Domain.Players;
@@ -17,7 +16,6 @@ namespace WarOfEmpires.CommandHandlers.Alliances {
             _rankService = rankService;
         }
 
-        [Audit]
         public CommandResult<TransferResourcesCommand> Execute(TransferResourcesCommand command) {
             var result = new CommandResult<TransferResourcesCommand>();
             var currentPlayer = _repository.Get(command.Email);

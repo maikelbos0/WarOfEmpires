@@ -3,7 +3,6 @@ using WarOfEmpires.Database;
 using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Models.Messages;
 using WarOfEmpires.Queries.Messages;
-using WarOfEmpires.Utilities.Auditing;
 using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Messages {
@@ -15,7 +14,6 @@ namespace WarOfEmpires.QueryHandlers.Messages {
             _context = context;
         }
 
-        [Audit]
         public ReceivedMessageDetailsViewModel Execute(GetReceivedMessageQuery query) {
             return _context.Players
                 .Where(p => EmailComparisonService.Equals(p.User.Email, query.Email))

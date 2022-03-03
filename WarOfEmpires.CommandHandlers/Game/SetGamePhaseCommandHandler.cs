@@ -1,5 +1,4 @@
 ﻿using System;
-using WarOfEmpires.Utilities.Auditing;
 using WarOfEmpires.Commands.Game;
 using WarOfEmpires.Domain.Game;
 using WarOfEmpires.Repositories.Game;
@@ -12,7 +11,6 @@ namespace WarOfEmpires.CommandHandlers.Game {
             _repository = repository;
         }
 
-        [Audit]
         public CommandResult<SetGamePhaseCommand> Execute(SetGamePhaseCommand command) {
             var result = new CommandResult<SetGamePhaseCommand>();
             var phase = (GamePhase)Enum.Parse(typeof(GamePhase), command.Phase);

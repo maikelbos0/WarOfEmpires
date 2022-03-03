@@ -5,7 +5,6 @@ using WarOfEmpires.Database;
 using WarOfEmpires.Domain.Markets;
 using WarOfEmpires.Models.Markets;
 using WarOfEmpires.Queries.Markets;
-using WarOfEmpires.Utilities.Auditing;
 using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Markets {
@@ -17,7 +16,6 @@ namespace WarOfEmpires.QueryHandlers.Markets {
             _context = context;
         }
 
-        [Audit]
         public IEnumerable<CaravanViewModel> Execute(GetCaravansQuery query) {
             var player = _context.Players
                 .Include(p => p.Caravans).ThenInclude(c => c.Merchandise)

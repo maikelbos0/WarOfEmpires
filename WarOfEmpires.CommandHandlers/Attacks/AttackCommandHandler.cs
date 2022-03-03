@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using WarOfEmpires.Utilities.Auditing;
 using WarOfEmpires.Commands.Attacks;
 using WarOfEmpires.Domain.Attacks;
 using WarOfEmpires.Domain.Game;
@@ -18,7 +17,6 @@ namespace WarOfEmpires.CommandHandlers.Attacks {
             _gameStatusRepository = gameStatusRepository;
         }
 
-        [Audit]
         public CommandResult<AttackCommand> Execute(AttackCommand command) {
             var result = new CommandResult<AttackCommand>();
             var type = (AttackType)Enum.Parse(typeof(AttackType), command.AttackType);

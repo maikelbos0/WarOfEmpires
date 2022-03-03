@@ -4,7 +4,6 @@ using WarOfEmpires.Domain.Empires;
 using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Models.Players;
 using WarOfEmpires.Queries.Players;
-using WarOfEmpires.Utilities.Auditing;
 using WarOfEmpires.Utilities.Formatting;
 
 namespace WarOfEmpires.QueryHandlers.Players {
@@ -15,7 +14,6 @@ namespace WarOfEmpires.QueryHandlers.Players {
             _formatter = formatter;
         }
 
-        [Audit]
         public CreatePlayerModel Execute(GetCreatePlayerQuery query) {
             return new CreatePlayerModel() {
                 Races = RaceDefinitionFactory

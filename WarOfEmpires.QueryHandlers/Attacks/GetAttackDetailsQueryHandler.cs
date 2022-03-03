@@ -5,7 +5,6 @@ using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Models.Attacks;
 using WarOfEmpires.Queries.Attacks;
 using WarOfEmpires.QueryHandlers.Common;
-using WarOfEmpires.Utilities.Auditing;
 using WarOfEmpires.Utilities.Formatting;
 using WarOfEmpires.Utilities.Services;
 
@@ -21,7 +20,6 @@ namespace WarOfEmpires.QueryHandlers.Attacks {
             _formatter = formatter;
         }
 
-        [Audit]
         public AttackDetailsViewModel Execute(GetAttackDetailsQuery query) {
             var attack = _context.Players
                 .Include(p => p.ReceivedAttacks).ThenInclude(a => a.Rounds).ThenInclude(r => r.Casualties)

@@ -3,7 +3,6 @@ using System.Linq;
 using WarOfEmpires.Database;
 using WarOfEmpires.Models.Markets;
 using WarOfEmpires.Queries.Markets;
-using WarOfEmpires.Utilities.Auditing;
 using WarOfEmpires.Utilities.Formatting;
 using WarOfEmpires.Utilities.Services;
 
@@ -17,7 +16,6 @@ namespace WarOfEmpires.QueryHandlers.Markets {
             _formatter = formatter;
         }
 
-        [Audit]
         public IEnumerable<TransactionViewModel> Execute(GetSellTransactionsQuery query) {
             return _context.Players
                 .Where(p => EmailComparisonService.Equals(p.User.Email, query.Email))

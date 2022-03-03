@@ -12,6 +12,7 @@ using VDT.Core.DependencyInjection.Decorators;
 using WarOfEmpires.CommandHandlers;
 using WarOfEmpires.QueryHandlers;
 using WarOfEmpires.Services;
+using WarOfEmpires.Utilities.Auditing;
 using WarOfEmpires.Utilities.Configuration;
 using WarOfEmpires.Utilities.Events;
 using WarOfEmpires.Utilities.Mail;
@@ -35,17 +36,22 @@ namespace WarOfEmpires {
             services.AddHttpContextAccessor();
             services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
             services.AddSingleton<IUrlHelperFactory, UrlHelperFactory>();
+            // TODO investigate different authentication and authorization methods
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options => options.LoginPath = "/Home/LogIn");
             services.AddServices(options => options
                 .AddAssemblies(typeof(Startup).Assembly, nameof(WarOfEmpires))
                 .AddServiceTypeProvider(DefaultServiceTypeProviders.InterfaceByName)
-                .AddServiceTypeProvider(DefaultServiceTypeProviders.CreateGenericInterfaceTypeProvider(typeof(ICommandHandler<>)))
                 .AddServiceTypeProvider(DefaultServiceTypeProviders.CreateGenericInterfaceTypeProvider(typeof(IEventHandler<>)))
                 .AddServiceTypeProvider(DefaultServiceTypeProviders.CreateGenericInterfaceTypeProvider(typeof(IMailTemplate<>)))
-                .AddServiceTypeProvider(DefaultServiceTypeProviders.CreateGenericInterfaceTypeProvider(typeof(IQueryHandler<,>)))
                 .AddAttributeServiceTypeProviders()
                 .UseDefaultServiceLifetime(ServiceLifetime.Transient)
-                .UseDecoratorServiceRegistrar(decoratorOptions => decoratorOptions.AddAttributeDecorators())
+            );
+            services.AddServices(options => options
+                .AddAssemblies(typeof(Startup).Assembly, nameof(WarOfEmpires))
+                .AddServiceTypeProvider(DefaultServiceTypeProviders.CreateGenericInterfaceTypeProvider(typeof(ICommandHandler<>)))
+                .AddServiceTypeProvider(DefaultServiceTypeProviders.CreateGenericInterfaceTypeProvider(typeof(IQueryHandler<,>)))
+                .UseDefaultServiceLifetime(ServiceLifetime.Transient)
+                .UseDecoratorServiceRegistrar(decoratorOptions => decoratorOptions.AddDecorator<IAuditDecorator>())
             );
 
             services.AddSingleton(Configuration.GetSection(AppSettings.Key).Get<AppSettings>());

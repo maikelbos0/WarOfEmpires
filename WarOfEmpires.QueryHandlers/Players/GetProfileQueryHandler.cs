@@ -2,7 +2,6 @@
 using WarOfEmpires.Database;
 using WarOfEmpires.Models.Players;
 using WarOfEmpires.Queries.Players;
-using WarOfEmpires.Utilities.Auditing;
 using WarOfEmpires.Utilities.Configuration;
 using WarOfEmpires.Utilities.Services;
 
@@ -16,7 +15,6 @@ namespace WarOfEmpires.QueryHandlers.Players {
             _appSettings = appSettings;
         }
 
-        [Audit]
         public ProfileModel Execute(GetProfileQuery query) {
             return _context.Players
                 .Where(p => EmailComparisonService.Equals(p.User.Email, query.Email))

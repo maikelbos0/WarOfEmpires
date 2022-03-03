@@ -4,7 +4,6 @@ using WarOfEmpires.Database;
 using WarOfEmpires.Models.Alliances;
 using WarOfEmpires.Queries.Alliances;
 using WarOfEmpires.QueryHandlers.Common;
-using WarOfEmpires.Utilities.Auditing;
 using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Alliances {
@@ -17,7 +16,6 @@ namespace WarOfEmpires.QueryHandlers.Alliances {
             _resourcesMap = resourcesMap;
         }
 
-        [Audit]
         public BankedResourcesModel Execute(GetBankedResourcesQuery query) {
             var alliance = _context.Players
                 .Include(p => p.Alliance)

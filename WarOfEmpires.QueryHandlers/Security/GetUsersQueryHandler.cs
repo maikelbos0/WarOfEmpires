@@ -3,7 +3,6 @@ using System.Linq;
 using WarOfEmpires.Database;
 using WarOfEmpires.Models.Security;
 using WarOfEmpires.Queries.Security;
-using WarOfEmpires.Utilities.Auditing;
 using WarOfEmpires.Utilities.Formatting;
 
 namespace WarOfEmpires.QueryHandlers.Security {
@@ -16,7 +15,6 @@ namespace WarOfEmpires.QueryHandlers.Security {
             _formatter = formatter;
         }
 
-        [Audit]
         public IEnumerable<UserViewModel> Execute(GetUsersQuery query) {
             var players = _context.Players.AsQueryable();
 

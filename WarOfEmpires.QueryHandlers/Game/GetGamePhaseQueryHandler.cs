@@ -2,7 +2,6 @@
 using WarOfEmpires.Database;
 using WarOfEmpires.Models.Game;
 using WarOfEmpires.Queries.Game;
-using WarOfEmpires.Utilities.Auditing;
 
 namespace WarOfEmpires.QueryHandlers.Game {
     public sealed class GetGamePhaseQueryHandler : IQueryHandler<GetGamePhaseQuery, GamePhaseModel> {
@@ -12,7 +11,6 @@ namespace WarOfEmpires.QueryHandlers.Game {
             _context = context;
         }
 
-        [Audit]
         public GamePhaseModel Execute(GetGamePhaseQuery query) {
             return _context.GameStatus.Select(s => new GamePhaseModel() {
                 Phase = s.Phase.ToString()

@@ -1,5 +1,4 @@
-﻿using WarOfEmpires.Utilities.Auditing;
-using WarOfEmpires.Commands.Players;
+﻿using WarOfEmpires.Commands.Players;
 using WarOfEmpires.Repositories.Alliances;
 using WarOfEmpires.Repositories.Players;
 
@@ -13,7 +12,6 @@ namespace WarOfEmpires.CommandHandlers.Players {
             _allianceRepository = allianceRepository;
         }
 
-        [Audit]
         public CommandResult<ResetPlayersCommand> Execute(ResetPlayersCommand command) {
             var result = new CommandResult<ResetPlayersCommand>();
 

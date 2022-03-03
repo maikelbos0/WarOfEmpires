@@ -2,7 +2,6 @@
 using WarOfEmpires.Database;
 using WarOfEmpires.Models.Alliances;
 using WarOfEmpires.Queries.Alliances;
-using WarOfEmpires.Utilities.Auditing;
 
 namespace WarOfEmpires.QueryHandlers.Alliances {
     public sealed class GetCreateNonAggressionPactRequestQueryHandler : IQueryHandler<GetCreateNonAggressionPactRequestQuery, CreateNonAggressionPactRequestModel> {
@@ -12,7 +11,6 @@ namespace WarOfEmpires.QueryHandlers.Alliances {
             _context = context;
         }
 
-        [Audit]
         public CreateNonAggressionPactRequestModel Execute(GetCreateNonAggressionPactRequestQuery query) {
             return _context.Alliances.Select(a => new CreateNonAggressionPactRequestModel() {
                 AllianceId = a.Id,

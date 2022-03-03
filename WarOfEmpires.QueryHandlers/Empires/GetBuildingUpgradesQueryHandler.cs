@@ -5,7 +5,6 @@ using WarOfEmpires.Domain.Empires;
 using WarOfEmpires.Models.Empires;
 using WarOfEmpires.Queries.Empires;
 using WarOfEmpires.QueryHandlers.Common;
-using WarOfEmpires.Utilities.Auditing;
 using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Empires {
@@ -18,7 +17,6 @@ namespace WarOfEmpires.QueryHandlers.Empires {
             _resourcesMap = resourcesMap;
         }
 
-        [Audit]
         public BuildingUpgradesViewModel Execute(GetBuildingUpgradesQuery query) {
             var buildingType = (BuildingType)Enum.Parse(typeof(BuildingType), query.BuildingType);
             var buildingDefinition = BuildingDefinitionFactory.Get(buildingType);

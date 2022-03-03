@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using WarOfEmpires.Utilities.Auditing;
 using WarOfEmpires.Commands.Empires;
 using WarOfEmpires.Domain.Empires;
 using WarOfEmpires.Domain.Siege;
@@ -16,7 +15,6 @@ namespace WarOfEmpires.CommandHandlers.Empires {
             _repository = repository;
         }
 
-        [Audit]
         public CommandResult<BuildSiegeCommand> Execute(BuildSiegeCommand command) {
             var result = new CommandResult<BuildSiegeCommand>();
             var player = _repository.Get(command.Email);

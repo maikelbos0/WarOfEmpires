@@ -4,7 +4,6 @@ using WarOfEmpires.Database;
 using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Models.Alliances;
 using WarOfEmpires.Queries.Alliances;
-using WarOfEmpires.Utilities.Auditing;
 using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Alliances {
@@ -15,7 +14,6 @@ namespace WarOfEmpires.QueryHandlers.Alliances {
             _context = context;
         }
 
-        [Audit]
         public TransferResourcesModel Execute(GetTransferResourcesQuery query) {
             var player = _context.Players
                 .Include(p => p.Alliance.Members)

@@ -3,7 +3,6 @@ using System.Linq;
 using WarOfEmpires.Database;
 using WarOfEmpires.Models.Security;
 using WarOfEmpires.Queries.Security;
-using WarOfEmpires.Utilities.Auditing;
 
 namespace WarOfEmpires.QueryHandlers.Security {
     public sealed class GetUserDetailsQueryHandler : IQueryHandler<GetUserDetailsQuery, UserDetailsModel> {
@@ -13,7 +12,6 @@ namespace WarOfEmpires.QueryHandlers.Security {
             _context = context;
         }
 
-        [Audit]
         public UserDetailsModel Execute(GetUserDetailsQuery query) {            
             var player = _context.Players
                 .Include(p => p.User)

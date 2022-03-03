@@ -3,7 +3,6 @@ using WarOfEmpires.Database;
 using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Models.Alliances;
 using WarOfEmpires.Queries.Alliances;
-using WarOfEmpires.Utilities.Auditing;
 using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Alliances {
@@ -14,7 +13,6 @@ namespace WarOfEmpires.QueryHandlers.Alliances {
             _context = context;
         }
 
-        [Audit]
         public InviteDetailsViewModel Execute(GetInviteQuery query) {
             var invite = _context.Players
                 .Where(p => p.Alliance != null && EmailComparisonService.Equals(p.User.Email, query.Email))

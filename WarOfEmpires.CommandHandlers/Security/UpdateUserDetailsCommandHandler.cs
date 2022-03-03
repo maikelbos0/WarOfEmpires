@@ -1,5 +1,4 @@
 ﻿using System;
-using WarOfEmpires.Utilities.Auditing;
 using WarOfEmpires.Commands.Security;
 using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Repositories.Players;
@@ -15,7 +14,6 @@ namespace WarOfEmpires.CommandHandlers.Security {
             _playerRepository = playerRepository;
         }
 
-        [Audit]
         public CommandResult<UpdateUserDetailsCommand> Execute(UpdateUserDetailsCommand command) {
             var result = new CommandResult<UpdateUserDetailsCommand>();
             var status = (UserStatus)Enum.Parse(typeof(UserStatus), command.Status);

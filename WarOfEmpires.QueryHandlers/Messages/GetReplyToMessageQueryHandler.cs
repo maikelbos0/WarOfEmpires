@@ -3,7 +3,6 @@ using System.Linq;
 using WarOfEmpires.Database;
 using WarOfEmpires.Models.Messages;
 using WarOfEmpires.Queries.Messages;
-using WarOfEmpires.Utilities.Auditing;
 using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Messages {
@@ -14,7 +13,6 @@ namespace WarOfEmpires.QueryHandlers.Messages {
             _context = context;
         }
 
-        [Audit]
         public MessageModel Execute(GetReplyToMessageQuery query) {
             var message = _context.Players
                 .Where(p => EmailComparisonService.Equals(p.User.Email, query.Email))

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using WarOfEmpires.Utilities.Auditing;
 using WarOfEmpires.Commands.Alliances;
 using WarOfEmpires.Repositories.Alliances;
 
@@ -12,7 +11,6 @@ namespace WarOfEmpires.CommandHandlers.Alliances {
             _repository = repository;
         }
 
-        [Audit]
         public CommandResult<CancelPeaceDeclarationCommand> Execute(CancelPeaceDeclarationCommand command) {
             var result = new CommandResult<CancelPeaceDeclarationCommand>();
             var alliance = _repository.Get(command.Email);

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using WarOfEmpires.Utilities.Auditing;
 using WarOfEmpires.Commands.Markets;
 using WarOfEmpires.Domain.Common;
 using WarOfEmpires.Domain.Markets;
@@ -18,7 +17,6 @@ namespace WarOfEmpires.CommandHandlers.Markets {
             _formatter = formatter;
         }
 
-        [Audit]
         public CommandResult<BuyResourcesCommand> Execute(BuyResourcesCommand command) {
             var result = new CommandResult<BuyResourcesCommand>();
             var merchandiseTotals = new List<MerchandiseTotals>();

@@ -1,5 +1,4 @@
-﻿using WarOfEmpires.Utilities.Auditing;
-using WarOfEmpires.Commands.Alliances;
+﻿using WarOfEmpires.Commands.Alliances;
 using WarOfEmpires.Domain.Alliances;
 using WarOfEmpires.Repositories.Alliances;
 using WarOfEmpires.Repositories.Players;
@@ -14,7 +13,6 @@ namespace WarOfEmpires.CommandHandlers.Alliances {
             _allianceRepository = allianceRepository;
         }
 
-        [Audit]
         public CommandResult<CreateAllianceCommand> Execute(CreateAllianceCommand command) {
             var result = new CommandResult<CreateAllianceCommand>();
             var player = _playerRepository.Get(command.Email);

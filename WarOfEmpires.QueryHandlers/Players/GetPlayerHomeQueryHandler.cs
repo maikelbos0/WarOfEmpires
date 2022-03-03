@@ -3,7 +3,6 @@ using System.Linq;
 using WarOfEmpires.Database;
 using WarOfEmpires.Models.Players;
 using WarOfEmpires.Queries.Players;
-using WarOfEmpires.Utilities.Auditing;
 using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Players {
@@ -14,7 +13,6 @@ namespace WarOfEmpires.QueryHandlers.Players {
             _context = context;
         }
 
-        [Audit]
         public PlayerHomeViewModel Execute(GetPlayerHomeQuery query) {
             var player = _context.Players
                 .Include(p => p.Workers)

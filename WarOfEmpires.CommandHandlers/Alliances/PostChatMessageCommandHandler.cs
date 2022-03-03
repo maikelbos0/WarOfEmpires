@@ -1,5 +1,4 @@
-﻿using WarOfEmpires.Utilities.Auditing;
-using WarOfEmpires.Commands.Alliances;
+﻿using WarOfEmpires.Commands.Alliances;
 using WarOfEmpires.Repositories.Players;
 
 namespace WarOfEmpires.CommandHandlers.Alliances {
@@ -10,7 +9,6 @@ namespace WarOfEmpires.CommandHandlers.Alliances {
             _repository = repository;
         }
 
-        [Audit]
         public CommandResult<PostChatMessageCommand> Execute(PostChatMessageCommand command) {
             var result = new CommandResult<PostChatMessageCommand>();
             var player = _repository.Get(command.Email);

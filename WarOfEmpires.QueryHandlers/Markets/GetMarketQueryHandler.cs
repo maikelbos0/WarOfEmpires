@@ -7,7 +7,6 @@ using WarOfEmpires.Domain.Markets;
 using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Models.Markets;
 using WarOfEmpires.Queries.Markets;
-using WarOfEmpires.Utilities.Auditing;
 using WarOfEmpires.Utilities.Formatting;
 using WarOfEmpires.Utilities.Services;
 
@@ -21,7 +20,6 @@ namespace WarOfEmpires.QueryHandlers.Markets {
             _formatter = formatter;
         }
 
-        [Audit]
         public MarketModel Execute(GetMarketQuery query) {
             var player = _context.Players
                 .Include(p => p.Workers)

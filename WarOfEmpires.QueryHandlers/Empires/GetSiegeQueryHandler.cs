@@ -8,7 +8,6 @@ using WarOfEmpires.Domain.Siege;
 using WarOfEmpires.Models.Empires;
 using WarOfEmpires.Queries.Empires;
 using WarOfEmpires.QueryHandlers.Common;
-using WarOfEmpires.Utilities.Auditing;
 using WarOfEmpires.Utilities.Formatting;
 using WarOfEmpires.Utilities.Services;
 
@@ -24,7 +23,6 @@ namespace WarOfEmpires.QueryHandlers.Empires {
             _formatter = formatter;
         }
 
-        [Audit]
         public SiegeModel Execute(GetSiegeQuery query) {
             var player = _context.Players
                 .Include(p => p.SiegeWeapons)
