@@ -9,7 +9,6 @@ using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Models.Attacks;
 using WarOfEmpires.Queries.Attacks;
-using WarOfEmpires.Utilities.Auditing;
 using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Attacks {
@@ -20,7 +19,6 @@ namespace WarOfEmpires.QueryHandlers.Attacks {
             _context = context;
         }
 
-        [Audit]
         public ExecuteAttackModel Execute(GetDefenderQuery query) {
             var currentPlayer = _context.Players
                 .Include(p => p.Alliance).ThenInclude(a => a.Wars).ThenInclude(w => w.Alliances)

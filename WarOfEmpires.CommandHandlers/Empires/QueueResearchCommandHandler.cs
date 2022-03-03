@@ -1,5 +1,4 @@
 ﻿using System;
-using WarOfEmpires.Utilities.Auditing;
 using WarOfEmpires.Commands.Empires;
 using WarOfEmpires.Domain.Empires;
 using WarOfEmpires.Repositories.Players;
@@ -12,7 +11,6 @@ namespace WarOfEmpires.CommandHandlers.Empires {
             _repository = repository;
         }
 
-        [Audit]
         public CommandResult<QueueResearchCommand> Execute(QueueResearchCommand command) {
             var result = new CommandResult<QueueResearchCommand>();
             var player = _repository.Get(command.Email);

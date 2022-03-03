@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using WarOfEmpires.Utilities.Auditing;
 using WarOfEmpires.Commands.Alliances;
 using WarOfEmpires.Repositories.Alliances;
 
@@ -11,7 +10,6 @@ namespace WarOfEmpires.CommandHandlers.Alliances {
             _repository = repository;
         }
 
-        [Audit]
         public CommandResult<AcceptNonAggressionPactRequestCommand> Execute(AcceptNonAggressionPactRequestCommand command) {
             var result = new CommandResult<AcceptNonAggressionPactRequestCommand>();
             var alliance = _repository.Get(command.Email);

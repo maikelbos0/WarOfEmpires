@@ -1,5 +1,4 @@
-﻿using WarOfEmpires.Utilities.Auditing;
-using WarOfEmpires.Commands.Players;
+﻿using WarOfEmpires.Commands.Players;
 using WarOfEmpires.Repositories.Players;
 
 namespace WarOfEmpires.CommandHandlers.Players {
@@ -10,7 +9,6 @@ namespace WarOfEmpires.CommandHandlers.Players {
             _repository = repository;
         }
 
-        [Audit]
         public CommandResult<UnblockPlayerCommand> Execute(UnblockPlayerCommand command) {
             var result = new CommandResult<UnblockPlayerCommand>();
             var currentPlayer = _repository.Get(command.Email);

@@ -1,5 +1,4 @@
-﻿using WarOfEmpires.Utilities.Auditing;
-using WarOfEmpires.Commands.Events;
+﻿using WarOfEmpires.Commands.Events;
 using WarOfEmpires.Repositories.Events;
 
 namespace WarOfEmpires.CommandHandlers.Events {
@@ -10,7 +9,6 @@ namespace WarOfEmpires.CommandHandlers.Events {
             _repository = repository;
         }
 
-        [Audit]
         public CommandResult<UnpauseScheduledTasksCommand> Execute(UnpauseScheduledTasksCommand command) {
             var result = new CommandResult<UnpauseScheduledTasksCommand>();
 

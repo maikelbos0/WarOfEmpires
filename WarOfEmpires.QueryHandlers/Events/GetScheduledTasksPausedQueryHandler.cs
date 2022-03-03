@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using WarOfEmpires.Database;
 using WarOfEmpires.Queries.Events;
-using WarOfEmpires.Utilities.Auditing;
 
 namespace WarOfEmpires.QueryHandlers.Events {
     public sealed class GetScheduledTasksPausedQueryHandler : IQueryHandler<GetScheduledTasksPausedQuery, bool?> {
@@ -11,7 +10,6 @@ namespace WarOfEmpires.QueryHandlers.Events {
             _context = context;
         }
 
-        [Audit]
         public bool? Execute(GetScheduledTasksPausedQuery query) {
             var taskPausedStatus = _context.ScheduledTasks.Select(t => t.IsPaused).Distinct().ToList();
 

@@ -2,7 +2,6 @@
 using WarOfEmpires.Database;
 using WarOfEmpires.Models.Messages;
 using WarOfEmpires.Queries.Messages;
-using WarOfEmpires.Utilities.Auditing;
 
 namespace WarOfEmpires.QueryHandlers.Messages {
     public sealed class GetMessageRecipientQueryHandler : IQueryHandler<GetMessageRecipientQuery, MessageModel> {
@@ -13,7 +12,6 @@ namespace WarOfEmpires.QueryHandlers.Messages {
             _context = context;
         }
 
-        [Audit]
         public MessageModel Execute(GetMessageRecipientQuery query) {
             return _context.Players
                 .Select(p => new MessageModel() {

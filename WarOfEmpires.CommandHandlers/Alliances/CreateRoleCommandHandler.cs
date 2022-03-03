@@ -1,5 +1,4 @@
-﻿using WarOfEmpires.Utilities.Auditing;
-using WarOfEmpires.Commands.Alliances;
+﻿using WarOfEmpires.Commands.Alliances;
 using WarOfEmpires.Repositories.Alliances;
 
 namespace WarOfEmpires.CommandHandlers.Alliances {
@@ -10,7 +9,6 @@ namespace WarOfEmpires.CommandHandlers.Alliances {
             _repository = repository;
         }
 
-        [Audit]
         public CommandResult<CreateRoleCommand> Execute(CreateRoleCommand command) {
             var result = new CommandResult<CreateRoleCommand>();
             var alliance = _repository.Get(command.Email);

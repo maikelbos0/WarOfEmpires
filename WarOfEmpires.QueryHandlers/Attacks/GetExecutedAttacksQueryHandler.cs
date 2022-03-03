@@ -3,7 +3,6 @@ using System.Linq;
 using WarOfEmpires.Database;
 using WarOfEmpires.Models.Attacks;
 using WarOfEmpires.Queries.Attacks;
-using WarOfEmpires.Utilities.Auditing;
 using WarOfEmpires.Utilities.Formatting;
 using WarOfEmpires.Utilities.Services;
 
@@ -17,7 +16,6 @@ namespace WarOfEmpires.QueryHandlers.Attacks {
             _formatter = formatter;
         }
 
-        [Audit]
         public IEnumerable<ExecutedAttackViewModel> Execute(GetExecutedAttacksQuery query) {
             return _context.Players
                 .Where(p => EmailComparisonService.Equals(p.User.Email, query.Email))

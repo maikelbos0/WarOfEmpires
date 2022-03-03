@@ -5,7 +5,6 @@ using WarOfEmpires.Database;
 using WarOfEmpires.Domain.Empires;
 using WarOfEmpires.Models.Empires;
 using WarOfEmpires.Queries.Empires;
-using WarOfEmpires.Utilities.Auditing;
 using WarOfEmpires.Utilities.Formatting;
 using WarOfEmpires.Utilities.Services;
 
@@ -19,7 +18,6 @@ namespace WarOfEmpires.QueryHandlers.Empires {
             _formatter = formatter;
         }
 
-        [Audit]
         public ResearchViewModel Execute(GetResearchQuery query) {
             var researchType = (ResearchType)Enum.Parse(typeof(ResearchType), query.ResearchType);
             var research = _context.Players

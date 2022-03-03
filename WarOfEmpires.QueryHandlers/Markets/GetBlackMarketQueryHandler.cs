@@ -3,7 +3,6 @@ using WarOfEmpires.Domain.Markets;
 using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Models.Markets;
 using WarOfEmpires.Queries.Markets;
-using WarOfEmpires.Utilities.Auditing;
 using WarOfEmpires.Utilities.Formatting;
 
 namespace WarOfEmpires.QueryHandlers.Markets {
@@ -14,7 +13,6 @@ namespace WarOfEmpires.QueryHandlers.Markets {
             _formatter = formatter;
         }
 
-        [Audit]
         public BlackMarketModel Execute(GetBlackMarketQuery query) {
             return new BlackMarketModel() {
                 BuyPrice = Player.BlackMarketBuyPrice,

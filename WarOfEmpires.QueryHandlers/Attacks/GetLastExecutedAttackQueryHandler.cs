@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using WarOfEmpires.Database;
 using WarOfEmpires.Queries.Attacks;
-using WarOfEmpires.Utilities.Auditing;
 using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Attacks {
@@ -12,7 +11,6 @@ namespace WarOfEmpires.QueryHandlers.Attacks {
             _context = context;
         }
 
-        [Audit]
         public int Execute(GetLastExecutedAttackQuery query) {
             return _context.Players
                 .Where(p => EmailComparisonService.Equals(p.User.Email, query.Email))

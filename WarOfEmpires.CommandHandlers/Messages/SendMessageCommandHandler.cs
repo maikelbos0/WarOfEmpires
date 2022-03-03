@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using WarOfEmpires.Utilities.Auditing;
 using WarOfEmpires.Commands.Messages;
 using WarOfEmpires.Repositories.Players;
 
@@ -11,7 +10,6 @@ namespace WarOfEmpires.CommandHandlers.Messages {
             _repository = repository;
         }
 
-        [Audit]
         public CommandResult<SendMessageCommand> Execute(SendMessageCommand command) {
             var result = new CommandResult<SendMessageCommand>();
             var sender = _repository.Get(command.SenderEmail);

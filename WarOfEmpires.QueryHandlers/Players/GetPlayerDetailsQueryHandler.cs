@@ -8,7 +8,6 @@ using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Models.Players;
 using WarOfEmpires.Queries.Players;
-using WarOfEmpires.Utilities.Auditing;
 using WarOfEmpires.Utilities.Configuration;
 using WarOfEmpires.Utilities.Formatting;
 using WarOfEmpires.Utilities.Services;
@@ -25,7 +24,6 @@ namespace WarOfEmpires.QueryHandlers.Players {
             _appSettings = appSettings;
         }
 
-        [Audit]
         public PlayerDetailsViewModel Execute(GetPlayerDetailsQuery query) {
             var currentPlayer = _context.Players
                 .Include(p => p.Alliance).ThenInclude(a => a.Wars).ThenInclude(w => w.Alliances)

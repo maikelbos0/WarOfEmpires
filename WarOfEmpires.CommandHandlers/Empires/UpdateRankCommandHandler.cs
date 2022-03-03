@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using WarOfEmpires.Utilities.Auditing;
 using WarOfEmpires.Commands.Empires;
 using WarOfEmpires.Domain.Game;
 using WarOfEmpires.Domain.Players;
@@ -19,7 +18,6 @@ namespace WarOfEmpires.CommandHandlers.Empires {
             _rankService = rankService;
         }
 
-        [Audit]
         public CommandResult<UpdateRankCommand> Execute(UpdateRankCommand command) {
             var result = new CommandResult<UpdateRankCommand>();
             var players = _repository.GetAll();

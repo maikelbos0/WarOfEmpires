@@ -3,7 +3,6 @@ using WarOfEmpires.Database;
 using WarOfEmpires.Domain.Game;
 using WarOfEmpires.Models.Game;
 using WarOfEmpires.Queries.Game;
-using WarOfEmpires.Utilities.Auditing;
 
 namespace WarOfEmpires.QueryHandlers.Players {
     public sealed class GetGameStatusQueryHandler : IQueryHandler<GetGameStatusQuery, GameStatusViewModel> {
@@ -13,7 +12,6 @@ namespace WarOfEmpires.QueryHandlers.Players {
             _context = context;
         }
 
-        [Audit]
         public GameStatusViewModel Execute(GetGameStatusQuery query) {
             return _context.GameStatus.Select(s => new GameStatusViewModel() {
                 CurrentGrandOverlordId = s.CurrentGrandOverlord.Id,

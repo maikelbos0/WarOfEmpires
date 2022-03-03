@@ -4,7 +4,6 @@ using WarOfEmpires.Database;
 using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Models.Players;
 using WarOfEmpires.Queries.Players;
-using WarOfEmpires.Utilities.Auditing;
 using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Players {
@@ -15,7 +14,6 @@ namespace WarOfEmpires.QueryHandlers.Players {
             _context = context;
         }
 
-        [Audit]
         public IEnumerable<BlockedPlayerViewModel> Execute(GetBlockedPlayersQuery query) {
             return _context.Players
                 .Where(p => EmailComparisonService.Equals(p.User.Email, query.Email))

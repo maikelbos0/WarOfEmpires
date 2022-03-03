@@ -7,7 +7,6 @@ using WarOfEmpires.Domain.Players;
 using WarOfEmpires.Models.Empires;
 using WarOfEmpires.Queries.Empires;
 using WarOfEmpires.QueryHandlers.Common;
-using WarOfEmpires.Utilities.Auditing;
 using WarOfEmpires.Utilities.Formatting;
 using WarOfEmpires.Utilities.Services;
 
@@ -23,7 +22,6 @@ namespace WarOfEmpires.QueryHandlers.Empires {
             _formatter = formatter;
         }
 
-        [Audit]
         public TroopsModel Execute(GetTroopsQuery query) {
             var player = _context.Players
                 .Include(p => p.Troops)

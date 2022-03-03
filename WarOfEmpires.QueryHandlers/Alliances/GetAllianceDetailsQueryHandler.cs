@@ -6,7 +6,6 @@ using WarOfEmpires.Domain.Alliances;
 using WarOfEmpires.Domain.Security;
 using WarOfEmpires.Models.Alliances;
 using WarOfEmpires.Queries.Alliances;
-using WarOfEmpires.Utilities.Auditing;
 using WarOfEmpires.Utilities.Formatting;
 using WarOfEmpires.Utilities.Services;
 
@@ -20,7 +19,6 @@ namespace WarOfEmpires.QueryHandlers.Alliances {
             _context = context;
         }
 
-        [Audit]
         public AllianceDetailsViewModel Execute(GetAllianceDetailsQuery query) {
             var nonAggressionPactAlliances = new List<Alliance>();
             var warAlliances = new List<Alliance>();

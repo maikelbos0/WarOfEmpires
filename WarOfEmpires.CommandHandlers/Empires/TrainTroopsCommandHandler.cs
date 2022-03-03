@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using WarOfEmpires.Utilities.Auditing;
 using WarOfEmpires.Commands.Empires;
 using WarOfEmpires.Domain.Attacks;
 using WarOfEmpires.Domain.Players;
@@ -16,7 +15,6 @@ namespace WarOfEmpires.CommandHandlers.Empires {
             _repository = repository;
         }
 
-        [Audit]
         public CommandResult<TrainTroopsCommand> Execute(TrainTroopsCommand command) {
             var result = new CommandResult<TrainTroopsCommand>();
             var player = _repository.Get(command.Email);

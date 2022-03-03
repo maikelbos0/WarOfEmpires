@@ -1,5 +1,4 @@
 ﻿using System;
-using WarOfEmpires.Utilities.Auditing;
 using WarOfEmpires.Commands.Events;
 using WarOfEmpires.Domain.Events;
 using WarOfEmpires.Repositories.Events;
@@ -15,7 +14,6 @@ namespace WarOfEmpires.CommandHandlers.Events {
             _eventService = eventService;
         }
 
-        [Audit]
         public CommandResult<RunScheduledTasksCommand> Execute(RunScheduledTasksCommand command) {
             var result = new CommandResult<RunScheduledTasksCommand>();
 

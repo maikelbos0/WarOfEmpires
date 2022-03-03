@@ -4,7 +4,6 @@ using WarOfEmpires.Database;
 using WarOfEmpires.Domain.Empires;
 using WarOfEmpires.Models.Empires;
 using WarOfEmpires.Queries.Empires;
-using WarOfEmpires.Utilities.Auditing;
 using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Empires {
@@ -15,7 +14,6 @@ namespace WarOfEmpires.QueryHandlers.Empires {
             _context = context;
         }
 
-        [Audit]
         public HousingTotalsViewModel Execute(GetHousingTotalsQuery query) {
             var player = _context.Players
                 .Include(p => p.Buildings)

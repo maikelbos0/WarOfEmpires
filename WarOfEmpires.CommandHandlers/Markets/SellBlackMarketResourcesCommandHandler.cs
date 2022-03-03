@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using WarOfEmpires.Utilities.Auditing;
 using WarOfEmpires.Commands.Markets;
 using WarOfEmpires.Domain.Markets;
 using WarOfEmpires.Repositories.Players;
@@ -16,7 +15,6 @@ namespace WarOfEmpires.CommandHandlers.Markets {
             _formatter = formatter;
         }
 
-        [Audit]
         public CommandResult<SellBlackMarketResourcesCommand> Execute(SellBlackMarketResourcesCommand command) {
             var result = new CommandResult<SellBlackMarketResourcesCommand>();
             var merchandiseTotals = new List<BlackMarketMerchandiseTotals>();

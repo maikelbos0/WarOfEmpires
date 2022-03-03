@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using WarOfEmpires.Utilities.Auditing;
 using WarOfEmpires.Commands.Alliances;
 using WarOfEmpires.Repositories.Players;
 
@@ -11,7 +10,6 @@ namespace WarOfEmpires.CommandHandlers.Alliances {
             _repository = repository;
         }
 
-        [Audit]
         public CommandResult<AcceptInviteCommand> Execute(AcceptInviteCommand command) {
             var result = new CommandResult<AcceptInviteCommand>();
             var player = _repository.Get(command.Email);

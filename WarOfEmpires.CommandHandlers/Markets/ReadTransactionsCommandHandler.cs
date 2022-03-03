@@ -1,5 +1,4 @@
-﻿using WarOfEmpires.Utilities.Auditing;
-using WarOfEmpires.Commands.Markets;
+﻿using WarOfEmpires.Commands.Markets;
 using WarOfEmpires.Repositories.Players;
 
 namespace WarOfEmpires.CommandHandlers.Markets {
@@ -10,7 +9,6 @@ namespace WarOfEmpires.CommandHandlers.Markets {
             _repository = repository;
         }
 
-        [Audit]
         public CommandResult<ReadTransactionsCommand> Execute(ReadTransactionsCommand command) {
             var result = new CommandResult<ReadTransactionsCommand>();
             var player = _repository.Get(command.Email);

@@ -3,7 +3,6 @@ using WarOfEmpires.Database;
 using WarOfEmpires.Models.Empires;
 using WarOfEmpires.Queries.Empires;
 using WarOfEmpires.QueryHandlers.Common;
-using WarOfEmpires.Utilities.Auditing;
 using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Empires {
@@ -16,7 +15,6 @@ namespace WarOfEmpires.QueryHandlers.Empires {
             _resourcesMap = resourcesMap;
         }
 
-        [Audit]
         public BankedResourcesViewModel Execute(GetBankedResourcesQuery query) {
             var player = _context.Players
                 .Single(p => EmailComparisonService.Equals(p.User.Email, query.Email));
