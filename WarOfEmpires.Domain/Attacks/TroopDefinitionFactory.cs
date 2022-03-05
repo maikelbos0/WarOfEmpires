@@ -4,7 +4,7 @@ using WarOfEmpires.Domain.Empires;
 
 namespace WarOfEmpires.Domain.Attacks {
     public static class TroopDefinitionFactory {
-        private static readonly Dictionary<TroopType, TroopDefinition> _troops = new Dictionary<TroopType, TroopDefinition>();
+        private static readonly Dictionary<TroopType, TroopDefinition> _troops = new();
 
         static TroopDefinitionFactory() {
             foreach (var definition in new[] { GenerateArchers(), GenerateCavalry(), GenerateFootmen() }) {
