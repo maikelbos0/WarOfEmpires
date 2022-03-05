@@ -3,7 +3,7 @@ using WarOfEmpires.Domain.Common;
 
 namespace WarOfEmpires.Domain.Empires {
     public static class BuildingDefinitionFactory {
-        private static readonly Dictionary<BuildingType, BuildingDefinition> _buildings = new Dictionary<BuildingType, BuildingDefinition>();
+        private static readonly Dictionary<BuildingType, BuildingDefinition> _buildings = new();
 
         static BuildingDefinitionFactory() {
             foreach (var definition in new[] {

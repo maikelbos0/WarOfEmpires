@@ -2,7 +2,7 @@
 
 namespace WarOfEmpires.Domain.Empires {
     public static class ResearchDefinitionFactory {
-        private static readonly Dictionary<ResearchType, ResearchDefinition> _researches = new Dictionary<ResearchType, ResearchDefinition>();
+        private static readonly Dictionary<ResearchType, ResearchDefinition> _researches = new();
 
         private static ResearchDefinition GenerateEfficiency() {
             return new ResearchDefinition(

@@ -13,11 +13,11 @@ namespace WarOfEmpires.Domain.Common {
         }
 
         public Resources(long gold = 0, long food = 0, long wood = 0, long stone = 0, long ore = 0) {
-            if (gold < 0) throw new ArgumentOutOfRangeException("gold", "Negative values are not allowed");
-            if (food < 0) throw new ArgumentOutOfRangeException("food", "Negative values are not allowed");
-            if (wood < 0) throw new ArgumentOutOfRangeException("wood", "Negative values are not allowed");
-            if (stone < 0) throw new ArgumentOutOfRangeException("stone", "Negative values are not allowed");
-            if (ore < 0) throw new ArgumentOutOfRangeException("ore", "Negative values are not allowed");
+            if (gold < 0) throw new ArgumentOutOfRangeException(nameof(gold), "Negative values are not allowed");
+            if (food < 0) throw new ArgumentOutOfRangeException(nameof(food), "Negative values are not allowed");
+            if (wood < 0) throw new ArgumentOutOfRangeException(nameof(wood), "Negative values are not allowed");
+            if (stone < 0) throw new ArgumentOutOfRangeException(nameof(stone), "Negative values are not allowed");
+            if (ore < 0) throw new ArgumentOutOfRangeException(nameof(ore), "Negative values are not allowed");
 
             Gold = gold;
             Food = food;
