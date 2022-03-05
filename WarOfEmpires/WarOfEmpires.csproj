@@ -1,37 +1,37 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <OutputType>Exe</OutputType>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <UserSecretsId>c61bb83f-efb6-4b20-a8d9-eca92057923a</UserSecretsId>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <OutputPath>bin\</OutputPath>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\</OutputPath>
-  </PropertyGroup>
-  <ItemGroup>
-    <None Update="compilerconfig.json.defaults">
-      <DependentUpon>compilerconfig.json</DependentUpon>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\WarOfEmpires.CommandHandlers\WarOfEmpires.CommandHandlers.csproj" />
-    <ProjectReference Include="..\WarOfEmpires.Commands\WarOfEmpires.Commands.csproj" />
-    <ProjectReference Include="..\WarOfEmpires.Models\WarOfEmpires.Models.csproj" />
-    <ProjectReference Include="..\WarOfEmpires.Queries\WarOfEmpires.Queries.csproj" />
-    <ProjectReference Include="..\WarOfEmpires.QueryHandlers\WarOfEmpires.QueryHandlers.csproj" />
-    <ProjectReference Include="..\WarOfEmpires.Utilities\WarOfEmpires.Utilities.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="BuildBundlerMinifier" Version="3.2.449" />
-    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.20.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.2">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="VDT.Core.DependencyInjection" Version="2.1.1" />
-  </ItemGroup>
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<OutputType>Exe</OutputType>
+		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+		<UserSecretsId>c61bb83f-efb6-4b20-a8d9-eca92057923a</UserSecretsId>
+	</PropertyGroup>
+	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+		<OutputPath>bin\</OutputPath>
+	</PropertyGroup>
+	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+		<DebugSymbols>true</DebugSymbols>
+		<OutputPath>bin\</OutputPath>
+	</PropertyGroup>
+	<ItemGroup>
+		<None Update="compilerconfig.json.defaults">
+			<DependentUpon>compilerconfig.json</DependentUpon>
+		</None>
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\WarOfEmpires.CommandHandlers\WarOfEmpires.CommandHandlers.csproj" />
+		<ProjectReference Include="..\WarOfEmpires.Commands\WarOfEmpires.Commands.csproj" />
+		<ProjectReference Include="..\WarOfEmpires.Models\WarOfEmpires.Models.csproj" />
+		<ProjectReference Include="..\WarOfEmpires.Queries\WarOfEmpires.Queries.csproj" />
+		<ProjectReference Include="..\WarOfEmpires.QueryHandlers\WarOfEmpires.QueryHandlers.csproj" />
+		<ProjectReference Include="..\WarOfEmpires.Utilities\WarOfEmpires.Utilities.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="BuildBundlerMinifier" Version="3.2.449" />
+		<PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.20.0" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.2">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="VDT.Core.DependencyInjection" Version="2.1.1" />
+	</ItemGroup>
 </Project>

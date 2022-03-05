@@ -2,7 +2,7 @@
 
 namespace WarOfEmpires.Services {
     public sealed class StaticResourceService : IStaticResourceService {
-        private AppSettings _appSettings;
+        private readonly AppSettings _appSettings;
 
         public StaticResourceService(AppSettings appSettings) {
             _appSettings = appSettings;

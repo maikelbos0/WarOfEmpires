@@ -1,5 +1,5 @@
 ﻿using VDT.Core.DependencyInjection.Decorators;
 
-namespace WarOfEmpires.Utilities.Auditing {
+namespace WarOfEmpires.Database.Auditing {
     public interface IAuditDecorator : IDecorator { }
 }
