@@ -13,7 +13,7 @@ namespace WarOfEmpires.Domain.Players {
         public const int RecruitingEffortStep = 24;
         public const int BaseGoldPerTurn = 500;
         public const int BaseResourceProduction = 20;
-        public static long[] BuildingRecruitingLevels = { 50000, 100000, 200000, 300000, 500000, 800000, 1200000, 2000000, 3000000, 5000000, 8000000, 12000000, 20000000, 30000000, 40000000, 50000000, 60000000, 70000000, 80000000, 90000000, 100000000, 110000000, 120000000, 130000000, 140000000, 150000000 };
+        public static readonly long[] BuildingRecruitingLevels = { 50000, 100000, 200000, 300000, 500000, 800000, 1200000, 2000000, 3000000, 5000000, 8000000, 12000000, 20000000, 30000000, 40000000, 50000000, 60000000, 70000000, 80000000, 90000000, 100000000, 110000000, 120000000, 130000000, 140000000, 150000000 };
         public const int AttackDamageCasualtiesModifier = 200;
         public const int AttackStaminaDrainModifier = 2;
         public const int UpkeepWarningTurns = 48;
@@ -22,11 +22,11 @@ namespace WarOfEmpires.Domain.Players {
         public const int BlackMarketBuyPrice = 20;
         public const double MinimumTransferTax = 0.25;
 
-        public static Resources MercenaryTrainingCost => new Resources(gold: 5000);
-        public static Resources PeasantUpkeep => new Resources(food: 2);
-        public static Resources SoldierUpkeep => new Resources(food: 2);
-        public static Resources MercenaryUpkeep => new Resources(gold: 250, food: 2);
-        public static Resources HealCostPerTroopPerTurn => new Resources(food: 2);
+        public static Resources MercenaryTrainingCost => new(gold: 5000);
+        public static Resources PeasantUpkeep => new(food: 2);
+        public static Resources SoldierUpkeep => new(food: 2);
+        public static Resources MercenaryUpkeep => new(gold: 250, food: 2);
+        public static Resources HealCostPerTroopPerTurn => new(food: 2);
 
         public virtual string DisplayName { get; set; }
         public virtual Security.User User { get; protected set; }
