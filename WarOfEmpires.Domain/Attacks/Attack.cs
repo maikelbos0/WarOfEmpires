@@ -19,7 +19,7 @@ namespace WarOfEmpires.Domain.Attacks {
         public const int WarAttackExpirationHours = 16;
         public const decimal WarCasualtiesModifier = 2.0m;
 
-        private Random random = new Random();
+        private readonly Random random = new();
 
         public virtual DateTime Date { get; protected set; }
         public virtual bool IsRead { get; set; }
@@ -36,7 +36,7 @@ namespace WarOfEmpires.Domain.Attacks {
         protected Attack() { }
 
         public Attack(Player attacker, Player defender, int turns) {
-            if (turns < 1 || turns > 10) throw new ArgumentOutOfRangeException("turns", "Turns must be between 1 and 10");
+            if (turns < 1 || turns > 10) throw new ArgumentOutOfRangeException(nameof(turns), "Turns must be between 1 and 10");
 
             Date = DateTime.UtcNow;
             IsRead = false;
