@@ -2,7 +2,6 @@ using WarOfEmpires.Domain.Auditing;
 using WarOfEmpires.Utilities.Serialization;
 using System.Diagnostics;
 using VDT.Core.DependencyInjection.Decorators;
-using WarOfEmpires.Utilities.Auditing;
 
 namespace WarOfEmpires.Database.Auditing {
     public sealed class AuditDecorator : IAuditDecorator {

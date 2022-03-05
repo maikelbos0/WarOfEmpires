@@ -1,17 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-	<TargetFramework>net6.0</TargetFramework>
-    <OutputType>Library</OutputType>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-  </PropertyGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\WarOfEmpires.Database\WarOfEmpires.Database.csproj" />
-    <ProjectReference Include="..\WarOfEmpires.Domain\WarOfEmpires.Domain.csproj" />
-    <ProjectReference Include="..\WarOfEmpires.Models\WarOfEmpires.Models.csproj" />
-    <ProjectReference Include="..\WarOfEmpires.Utilities\WarOfEmpires.Utilities.csproj" />
-    <ProjectReference Include="..\WarOfEmpires\WarOfEmpires.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="NSubstitute" Version="4.3.0" />
-  </ItemGroup>
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<OutputType>Library</OutputType>
+		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+	</PropertyGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\WarOfEmpires.Database\WarOfEmpires.Database.csproj" />
+		<ProjectReference Include="..\WarOfEmpires.Domain\WarOfEmpires.Domain.csproj" />
+		<ProjectReference Include="..\WarOfEmpires.Models\WarOfEmpires.Models.csproj" />
+		<ProjectReference Include="..\WarOfEmpires.Utilities\WarOfEmpires.Utilities.csproj" />
+		<ProjectReference Include="..\WarOfEmpires\WarOfEmpires.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="NSubstitute" Version="4.3.0" />
+	</ItemGroup>
 </Project>

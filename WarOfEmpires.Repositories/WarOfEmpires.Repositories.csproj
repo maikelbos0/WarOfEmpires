@@ -1,12 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-	<TargetFramework>net6.0</TargetFramework>
-    <OutputType>Library</OutputType>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-  </PropertyGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\WarOfEmpires.Database\WarOfEmpires.Database.csproj" />
-    <ProjectReference Include="..\WarOfEmpires.Domain\WarOfEmpires.Domain.csproj" />
-    <ProjectReference Include="..\WarOfEmpires.Utilities\WarOfEmpires.Utilities.csproj" />
-  </ItemGroup>
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<OutputType>Library</OutputType>
+		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+	</PropertyGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\WarOfEmpires.Database\WarOfEmpires.Database.csproj" />
+		<ProjectReference Include="..\WarOfEmpires.Domain\WarOfEmpires.Domain.csproj" />
+		<ProjectReference Include="..\WarOfEmpires.Utilities\WarOfEmpires.Utilities.csproj" />
+	</ItemGroup>
 </Project>
