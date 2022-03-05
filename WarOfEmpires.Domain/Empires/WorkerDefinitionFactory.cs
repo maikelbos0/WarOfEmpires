@@ -3,7 +3,7 @@ using WarOfEmpires.Domain.Common;
 
 namespace WarOfEmpires.Domain.Empires {
     public static class WorkerDefinitionFactory {
-        private readonly static Dictionary<WorkerType, WorkerDefinition> _workers = new Dictionary<WorkerType, WorkerDefinition>();
+        private readonly static Dictionary<WorkerType, WorkerDefinition> _workers = new();
 
         static WorkerDefinitionFactory() {
             foreach (var definition in new[] {
