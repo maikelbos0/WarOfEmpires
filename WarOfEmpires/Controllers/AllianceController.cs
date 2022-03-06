@@ -10,7 +10,6 @@ using WarOfEmpires.Services;
 
 namespace WarOfEmpires.Controllers {
     [Authorize]
-    [UserOnline]
     [Route(Route)]
     public class AllianceController : BaseController {
         public const string Route = "Alliance";

@@ -11,7 +11,6 @@ using WarOfEmpires.Services;
 
 namespace WarOfEmpires.Controllers {
     [Authorize]
-    [UserOnline]
     [Route(Route)]
     public class MarketController : BaseController {
         public const string Route = "Market";
