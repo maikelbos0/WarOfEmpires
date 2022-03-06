@@ -12,6 +12,7 @@ using VDT.Core.DependencyInjection.Decorators;
 using WarOfEmpires.CommandHandlers;
 using WarOfEmpires.Database.Auditing;
 using WarOfEmpires.QueryHandlers;
+using WarOfEmpires.Middleware;
 using WarOfEmpires.Services;
 using WarOfEmpires.Utilities.Configuration;
 using WarOfEmpires.Utilities.Events;
@@ -73,6 +74,7 @@ namespace WarOfEmpires {
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseMiddleware<UserOnlineMiddleware>();
 
             app.UseEndpoints(endpoints => {
                 endpoints.MapControllers();
