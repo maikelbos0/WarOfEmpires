@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WarOfEmpires.Commands.Messages;
-using WarOfEmpires.Filters;
 using WarOfEmpires.Models.Grids;
 using WarOfEmpires.Models.Messages;
 using WarOfEmpires.Queries.Messages;
@@ -9,7 +8,6 @@ using WarOfEmpires.Services;
 
 namespace WarOfEmpires.Controllers {
     [Authorize]
-    [UserOnline]
     [Route(Route)]
     public class MessageController : BaseController {
         public const string Route = "Message";

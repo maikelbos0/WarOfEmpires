@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WarOfEmpires.Commands.Attacks;
-using WarOfEmpires.Filters;
 using WarOfEmpires.Models.Attacks;
 using WarOfEmpires.Models.Grids;
 using WarOfEmpires.Queries.Attacks;
@@ -9,7 +8,6 @@ using WarOfEmpires.Services;
 
 namespace WarOfEmpires.Controllers {
     [Authorize]
-    [UserOnline]
     [Route(Route)]
     public class AttackController : BaseController {
         public const string Route = "Attack";

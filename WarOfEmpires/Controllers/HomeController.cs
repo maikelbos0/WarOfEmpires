@@ -1,11 +1,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using WarOfEmpires.CommandHandlers;
-using WarOfEmpires.Commands.Players;
 using WarOfEmpires.Commands.Security;
 using WarOfEmpires.Extensions;
-using WarOfEmpires.Filters;
 using WarOfEmpires.Models.Security;
 using WarOfEmpires.Queries.Players;
 using WarOfEmpires.Queries.Security;
@@ -20,7 +17,6 @@ namespace WarOfEmpires.Controllers {
             : base(messageService, authenticationService, dataGridViewService) {
         }
 
-        [UserOnline]
         [HttpGet("~/", Order = -2)]
         [HttpGet("", Order = -1)]
         [HttpGet(nameof(Index))]
@@ -101,7 +97,6 @@ namespace WarOfEmpires.Controllers {
             }
         }
 
-        [UserOnline]
         [HttpPost(nameof(LogOut))]
         [Authorize]
         public async Task<RedirectToActionResult> LogOut() {
@@ -110,14 +105,12 @@ namespace WarOfEmpires.Controllers {
             return RedirectToAction(nameof(Index));
         }
 
-        [UserOnline]
         [HttpGet(nameof(ChangePassword))]
         [Authorize]
         public ViewResult ChangePassword() {
             return View(new ChangeUserPasswordModel());
         }
 
-        [UserOnline]
         [HttpPost(nameof(ChangePassword))]
         [Authorize]
         public ActionResult ChangePassword(ChangeUserPasswordModel model) {
@@ -150,14 +143,12 @@ namespace WarOfEmpires.Controllers {
                 .OnFailure(model);
         }
 
-        [UserOnline]
         [HttpGet(nameof(Deactivate))]
         [Authorize]
         public ViewResult Deactivate() {
             return View(new DeactivateUserModel());
         }
 
-        [UserOnline]
         [HttpPost(nameof(Deactivate))]
         [Authorize]
         public ActionResult Deactivate(DeactivateUserModel model) {
@@ -175,14 +166,12 @@ namespace WarOfEmpires.Controllers {
             }
         }
 
-        [UserOnline]
         [HttpGet(nameof(ChangeEmail))]
         [Authorize]
         public ViewResult ChangeEmail() {
             return View(new ChangeUserEmailModel());
         }
 
-        [UserOnline]
         [HttpPost(nameof(ChangeEmail))]
         [Authorize]
         public ActionResult ChangeEmail(ChangeUserEmailModel model) {

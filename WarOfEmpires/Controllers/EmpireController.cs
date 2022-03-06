@@ -3,14 +3,12 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
 using WarOfEmpires.Commands.Empires;
-using WarOfEmpires.Filters;
 using WarOfEmpires.Models.Empires;
 using WarOfEmpires.Queries.Empires;
 using WarOfEmpires.Services;
 
 namespace WarOfEmpires.Controllers {
     [Authorize]
-    [UserOnline]
     [Route(Route)]
     public class EmpireController : BaseController {
         public const string Route = "Empire";

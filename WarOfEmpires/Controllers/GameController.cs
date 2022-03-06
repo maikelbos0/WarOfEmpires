@@ -1,12 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using WarOfEmpires.Filters;
 using WarOfEmpires.Queries.Game;
 using WarOfEmpires.Services;
 
 namespace WarOfEmpires.Controllers {
     [Authorize]
-    [UserOnline]
     [Route(Route)]
     public class GameController : BaseController {
         public const string Route = "Game";

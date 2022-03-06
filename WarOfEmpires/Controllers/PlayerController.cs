@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WarOfEmpires.Commands.Players;
-using WarOfEmpires.Filters;
 using WarOfEmpires.Models.Grids;
 using WarOfEmpires.Models.Players;
 using WarOfEmpires.Queries.Players;
@@ -9,7 +8,6 @@ using WarOfEmpires.Services;
 
 namespace WarOfEmpires.Controllers {
     [Authorize]
-    [UserOnline]
     [Route(Route)]
     public sealed class PlayerController : BaseController {
         public const string Route = "Player";

@@ -16,7 +16,6 @@ using WarOfEmpires.Services;
 namespace WarOfEmpires.Controllers {
     [Authorize]
     [AdminAuthorize]
-    [UserOnline]
     [Route(Route)]
     public class AdministrationController : BaseController {
         public const string Route = "Administration";
