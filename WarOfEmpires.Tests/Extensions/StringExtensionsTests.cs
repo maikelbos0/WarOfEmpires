@@ -12,7 +12,7 @@ namespace WarOfEmpires.Tests.Extensions {
         [DataRow("TestCase", "testCase", DisplayName = "Property")]
         [DataRow("Test Case", "test Case", DisplayName = "With space")]
         [DataRow("testCase", "testCase", DisplayName = "Already correct")]
-        public void ToCamelCase_Succeeds(string input, string expectedOutput) {
+        public void String_ToCamelCase_Succeeds(string input, string expectedOutput) {
             var output = input.ToCamelCase();
 
             output.Should().Be(expectedOutput);
@@ -25,7 +25,7 @@ namespace WarOfEmpires.Tests.Extensions {
         [DataRow("testCase", "TestCase", DisplayName = "Property")]
         [DataRow("test Case", "Test Case", DisplayName = "With space")]
         [DataRow("TestCase", "TestCase", DisplayName = "Already correct")]
-        public void ToPascalCase_Succeeds(string input, string expectedOutput) {
+        public void String_ToPascalCase_Succeeds(string input, string expectedOutput) {
             var output = input.ToPascalCase();
 
             output.Should().Be(expectedOutput);
