@@ -255,7 +255,7 @@ let NotificationManager = {
     refresh: function () {
         $.ajax({
             url: NotificationManager.url,
-            method: "POST",
+            method: "GET",
             success: function (result) {
                 $('#navbar-message-dropdown').toggleClass("notify", result.hasNewInvites || result.hasNewMessages);
                 $('#invite-link').toggleClass("notify", result.hasNewInvites);
