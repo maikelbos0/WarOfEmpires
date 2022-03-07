@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using WarOfEmpires.ActionResults;
 using WarOfEmpires.Commands;
+using WarOfEmpires.Extensions;
 using WarOfEmpires.Models;
 using WarOfEmpires.Models.Grids;
 using WarOfEmpires.Queries;
@@ -20,11 +21,11 @@ namespace WarOfEmpires.Controllers {
         }
 
         protected CommandResultBuilder<TCommand, ViewResult> BuildViewResultFor<TCommand>(TCommand command) where TCommand : ICommand {
-            return new CommandResultBuilder<TCommand, ViewResult>(_messageService, View, ModelState, Url, Request?.Headers["X-Requested-With"].ToString() == "XMLHttpRequest", command);
+            return new CommandResultBuilder<TCommand, ViewResult>(_messageService, View, ModelState, Url, Request.IsAjaxRequest(), command);
         }
 
         protected CommandResultBuilder<TCommand, PartialViewResult> BuildPartialViewResultFor<TCommand>(TCommand command) where TCommand : ICommand {
-            return new CommandResultBuilder<TCommand, PartialViewResult>(_messageService, PartialView, ModelState, Url, Request?.Headers["X-Requested-With"].ToString() == "XMLHttpRequest", command);
+            return new CommandResultBuilder<TCommand, PartialViewResult>(_messageService, PartialView, ModelState, Url, Request.IsAjaxRequest(), command);
         }
 
         protected JsonResult GridJson<TReturnValue>(IQuery<IEnumerable<TReturnValue>> query, DataGridViewMetaData metaData) where TReturnValue : EntityViewModel {

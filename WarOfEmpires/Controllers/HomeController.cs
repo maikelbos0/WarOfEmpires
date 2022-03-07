@@ -214,7 +214,7 @@ namespace WarOfEmpires.Controllers {
         [Route(nameof(Error))]
         [Route(nameof(Error) + "/{statusCode:int}")]
         public ActionResult Error(int statusCode = 500) {
-            if (Request.Headers["X-Requested-With"] == "XMLHttpRequest") {
+            if (Request.IsAjaxRequest()) {
                 return new StatusCodeResult(statusCode);
             }
 
