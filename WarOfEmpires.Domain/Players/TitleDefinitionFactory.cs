@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace WarOfEmpires.Domain.Players {
     public static class TitleDefinitionFactory {
-        private readonly static Dictionary<TitleType, TitleDefinition> _titles = new Dictionary<TitleType, TitleDefinition>();
+        private readonly static Dictionary<TitleType, TitleDefinition> _titles = new();
 
         static TitleDefinitionFactory() {
             foreach (var definition in new[] {
