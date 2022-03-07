@@ -2,7 +2,7 @@ using System;
 
 namespace WarOfEmpires.Domain.Security {
     public class TemporaryPassword : Password {
-        public static TemporaryPassword None => new TemporaryPassword();
+        public static TemporaryPassword None => new();
 
         private readonly int _expirationInSeconds = 3600;
 

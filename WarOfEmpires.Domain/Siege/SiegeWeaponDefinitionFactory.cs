@@ -4,8 +4,8 @@ using WarOfEmpires.Domain.Common;
 
 namespace WarOfEmpires.Domain.Siege {
     public static class SiegeWeaponDefinitionFactory {
-        private static readonly Dictionary<SiegeWeaponType, SiegeWeaponDefinition> _siegeWeapons = new Dictionary<SiegeWeaponType, SiegeWeaponDefinition>();
-        private static readonly Dictionary<TroopType, SiegeWeaponDefinition> _troopSiegeWeapons = new Dictionary<TroopType, SiegeWeaponDefinition>();
+        private static readonly Dictionary<SiegeWeaponType, SiegeWeaponDefinition> _siegeWeapons = new();
+        private static readonly Dictionary<TroopType, SiegeWeaponDefinition> _troopSiegeWeapons = new();
 
         static SiegeWeaponDefinitionFactory() {
             foreach (var definition in new[] { GenerateFireArrows(), GenerateBatteringRams(), GenerateScalingLadders() }) {

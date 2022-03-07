@@ -4,8 +4,8 @@ using WarOfEmpires.Domain.Empires;
 
 namespace WarOfEmpires.Domain.Players {
     public sealed class RaceDefinition {
-        private Dictionary<WorkerType, decimal> _workerModifiers = new Dictionary<WorkerType, decimal>();
-        private Dictionary<TroopType, decimal> _troopModifiers = new Dictionary<TroopType, decimal>();
+        private readonly Dictionary<WorkerType, decimal> _workerModifiers = new();
+        private readonly Dictionary<TroopType, decimal> _troopModifiers = new();
 
         public Race Race { get; }
         public string Description { get; }

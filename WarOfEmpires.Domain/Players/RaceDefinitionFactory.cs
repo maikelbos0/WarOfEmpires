@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace WarOfEmpires.Domain.Players {
     public static class RaceDefinitionFactory {
-        private readonly static Dictionary<Race, RaceDefinition> _races = new Dictionary<Race, RaceDefinition>();
+        private readonly static Dictionary<Race, RaceDefinition> _races = new();
 
         static RaceDefinitionFactory() {
             foreach (var definition in new[] {
