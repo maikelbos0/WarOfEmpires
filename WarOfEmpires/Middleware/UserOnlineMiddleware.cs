@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
 using WarOfEmpires.Commands.Security;
+using WarOfEmpires.Extensions;
 using WarOfEmpires.Services;
 
 namespace WarOfEmpires.Middleware {
@@ -18,7 +19,7 @@ namespace WarOfEmpires.Middleware {
         public async Task InvokeAsync(HttpContext context) {
             await _next(context);
 
-            if (_authenticationService.IsAuthenticated) {
+            if (_authenticationService.IsAuthenticated && !(context.Request.Method == "GET" && context.Request.IsAjaxRequest())) {
                 var command = new UpdateUserLastOnlineCommand(_authenticationService.Identity);
 
                 _messageService.Dispatch(command);

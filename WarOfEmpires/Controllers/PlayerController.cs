@@ -32,7 +32,7 @@ namespace WarOfEmpires.Controllers {
             return View(_messageService.Dispatch(new GetPlayerDetailsQuery(_authenticationService.Identity, id)));
         }
 
-        [HttpPost(nameof(GetNotifications))]
+        [HttpGet(nameof(GetNotifications))]
         public JsonResult GetNotifications() {
             return Json(_messageService.Dispatch(new GetNotificationsQuery(_authenticationService.Identity)));
         }
