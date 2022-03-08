@@ -61,7 +61,7 @@ namespace WarOfEmpires.Domain.Tests.Security {
             pass.Verify("theWrongPass1").Should().BeFalse();
         }
 
-        private Password CreatePassword(byte[] salt, byte[] hash, int iterations) {
+        private static Password CreatePassword(byte[] salt, byte[] hash, int iterations) {
             var password = (Password)Activator.CreateInstance(typeof(Password), true);
 
             typeof(Password).GetProperty(nameof(Password.Salt)).SetValue(password, salt);

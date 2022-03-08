@@ -302,8 +302,9 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
         [TestMethod]
         public void Player_ProcessTurn_Disbands_Mercenaries_When_Out_Of_Food_Or_Gold() {
-            var player = new Player(0, "Test", Race.Elves);
-            player.Tax = 85;
+            var player = new Player(0, "Test", Race.Elves) {
+                Tax = 85
+            };
 
             while (player.Resources.CanAfford(player.GetUpkeepPerTurn())) {
                 player.ProcessTurn();
@@ -1479,8 +1480,8 @@ namespace WarOfEmpires.Domain.Tests.Players {
 
             player.Reset();
 
-            player.Buildings.Should().HaveSameCount(player.GetStartingBuildings());
-            foreach (var building in player.GetStartingBuildings()) {
+            player.Buildings.Should().HaveSameCount(Player.GetStartingBuildings());
+            foreach (var building in Player.GetStartingBuildings()) {
                 player.Buildings.Should().Contain(b => b.Type == building.Type && b.Level == building.Level);
             }
             player.Peasants.Should().Be(10);

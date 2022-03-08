@@ -167,6 +167,7 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
             attack.Result.Should().Be(AttackResult.Fatigued);
         }
 
+        [TestMethod]
         public void Attack_Result_Is_Won_For_Stronger_Attacker() {
             var attacker = new Player(1, "Attacker", Race.Elves);
             var defender = new Player(2, "Defender", Race.Elves);
@@ -180,6 +181,7 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
             attack.Result.Should().Be(AttackResult.Won);
         }
 
+        [TestMethod]
         public void Attack_Result_Is_Defended_For_Stronger_Defender() {
             var attacker = new Player(1, "Attacker", Race.Elves);
             var defender = new Player(2, "Defender", Race.Elves);
@@ -339,7 +341,7 @@ namespace WarOfEmpires.Domain.Tests.Attacks {
         [DataRow(0, DisplayName = "Zero")]
         [DataRow(11, DisplayName = "Too many")]
         public void Attack_Constructor_Throws_Exception_For_Invalid_Turns(int turns) {
-            Action action = () => new Raid(null, null, turns);
+            Action action = () => _ = new Raid(null, null, turns);
 
             action.Should().Throw<ArgumentOutOfRangeException>();
         }
