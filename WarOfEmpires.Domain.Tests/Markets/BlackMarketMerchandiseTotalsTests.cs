@@ -19,7 +19,7 @@ namespace WarOfEmpires.Domain.Tests.Markets {
         [DataRow(-1, DisplayName = "Negative quantity")]
         [DataRow(0, DisplayName = "Zero quantity")]
         public void BlackMarketMerchandiseTotals_Constructor_Throws_Exception_For_Negative_Values(int quantity) {
-            Action action = () => new BlackMarketMerchandiseTotals(MerchandiseType.Wood, quantity);
+            Action action = () => _ = new BlackMarketMerchandiseTotals(MerchandiseType.Wood, quantity);
 
             action.Should().Throw<ArgumentOutOfRangeException>();
         }

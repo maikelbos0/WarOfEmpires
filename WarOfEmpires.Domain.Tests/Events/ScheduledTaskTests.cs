@@ -8,12 +8,6 @@ namespace WarOfEmpires.Domain.Tests.Events {
     public sealed class ScheduledTaskTests {
         public class TestEvent : IEvent { }
 
-        public void MoveTaskDate(ScheduledTask task, TimeSpan time) {
-            var property = typeof(ScheduledTask).GetProperty(nameof(ScheduledTask.LastExecutionDate));
-
-            property.SetValue(task, (DateTime)property.GetValue(task) + time);
-        }
-
         [TestMethod]
         public void ScheduledTask_Is_Created_Paused() {
             var task = ScheduledTask.Create<TestEvent>(1, new TimeSpan(0, 5, 0), TaskExecutionMode.ExecuteAllIntervals);
@@ -88,6 +82,12 @@ namespace WarOfEmpires.Domain.Tests.Events {
             }
 
             task.Execute().Should().BeFalse();
+        }
+
+        private static void MoveTaskDate(ScheduledTask task, TimeSpan time) {
+            var property = typeof(ScheduledTask).GetProperty(nameof(ScheduledTask.LastExecutionDate));
+
+            property.SetValue(task, (DateTime)property.GetValue(task) + time);
         }
     }
 }

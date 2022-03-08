@@ -26,7 +26,7 @@ namespace WarOfEmpires.Domain.Tests.Common {
         [DataRow(0, 0, 0, -1, 0, DisplayName = "Stone")]
         [DataRow(0, 0, 0, 0, -1, DisplayName = "Ore")]
         public void Resources_Constructor_Throws_Exception_For_Negative_Values(int gold, int food, int wood, int stone, int ore) {
-            Action action = () => new Resources(gold, food, wood, stone, ore);
+            Action action = () => _ = new Resources(gold, food, wood, stone, ore);
 
             action.Should().Throw<ArgumentOutOfRangeException>();
         }
@@ -103,18 +103,16 @@ namespace WarOfEmpires.Domain.Tests.Common {
         [TestMethod]
         public void Resources_SubtractSafe_Works_For_Too_High_Resources() {
             var resources = new Resources(5000, 4000, 3000, 2000, 1000);
-            Resources remainder;
 
-            resources.SubtractSafe(new Resources(5500, 5500, 5500, 5500, 5500), out remainder).Should().Be(new Resources());
+            resources.SubtractSafe(new Resources(5500, 5500, 5500, 5500, 5500), out Resources remainder).Should().Be(new Resources());
             remainder.Should().Be(new Resources(500, 1500, 2500, 3500, 4500));
         }
 
         [TestMethod]
         public void Resources_SubtractSafe_Works_For_Affordable_Resources() {
             var resources = new Resources(5000, 4000, 3000, 2000, 1000);
-            Resources remainder;
 
-            resources.SubtractSafe(new Resources(500, 500, 500, 500, 500), out remainder).Should().Be(new Resources(4500, 3500, 2500, 1500, 500));
+            resources.SubtractSafe(new Resources(500, 500, 500, 500, 500), out Resources remainder).Should().Be(new Resources(4500, 3500, 2500, 1500, 500));
             remainder.Should().Be(new Resources());
         }
 

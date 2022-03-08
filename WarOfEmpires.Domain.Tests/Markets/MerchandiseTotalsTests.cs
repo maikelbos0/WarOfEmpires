@@ -22,7 +22,7 @@ namespace WarOfEmpires.Domain.Tests.Markets {
         [DataRow(1, -1, DisplayName = "Negative price")]
         [DataRow(1, 0, DisplayName = "Zero price")]
         public void MerchandiseTotals_Constructor_Throws_Exception_For_Negative_Values(int quantity, int price) {
-            Action action = () => new MerchandiseTotals(MerchandiseType.Wood, quantity, price);
+            Action action = () => _ = new MerchandiseTotals(MerchandiseType.Wood, quantity, price);
 
             action.Should().Throw<ArgumentOutOfRangeException>();
         }

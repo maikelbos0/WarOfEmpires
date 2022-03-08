@@ -70,18 +70,6 @@ namespace WarOfEmpires.Domain.Tests.Players {
             service.GetTitle(player, newRank).Should().Be(expectedTitle);
         }
 
-        public Player CreatePlayer(int soldierCount, int defenceLevel) {
-            var player = Substitute.For<Player>();
-            var troops = new Troops(TroopType.Archers, soldierCount, 0);
-
-            player.Workers.Returns(new List<Workers>());
-            player.Troops.Returns(new List<Troops>() { troops });
-            player.GetTroopInfo(Arg.Any<TroopType>()).Returns(new TroopInfo(troops, 50, 30, 1, 1, 1, 0));
-            player.GetBuildingBonus(BuildingType.Defences).Returns(defenceLevel);
-
-            return player;
-        }
-
         [TestMethod]
         public void RankService_Update_Succeeds() {
             var players = new List<Player>() {                
@@ -101,6 +89,18 @@ namespace WarOfEmpires.Domain.Tests.Players {
             players[2].Received().UpdateRank(5, TitleType.PeasantLeader);
             players[3].Received().UpdateRank(3, TitleType.WarbandLeader);
             players[4].Received().UpdateRank(1, TitleType.GrandOverlord);
+        }
+
+        private static Player CreatePlayer(int soldierCount, int defenceLevel) {
+            var player = Substitute.For<Player>();
+            var troops = new Troops(TroopType.Archers, soldierCount, 0);
+
+            player.Workers.Returns(new List<Workers>());
+            player.Troops.Returns(new List<Troops>() { troops });
+            player.GetTroopInfo(Arg.Any<TroopType>()).Returns(new TroopInfo(troops, 50, 30, 1, 1, 1, 0));
+            player.GetBuildingBonus(BuildingType.Defences).Returns(defenceLevel);
+
+            return player;
         }
     }
 }
