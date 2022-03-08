@@ -19,16 +19,15 @@ namespace WarOfEmpires.Domain.Security {
             Hash = GetHash(password);
         }
 
-        private byte[] GetNewSalt() {
+        private static byte[] GetNewSalt() {
             return RandomNumberGenerator.GetBytes(20);
         }
 
         private byte[] GetHash(string password) {
-            using (var pbkdf2 = new Rfc2898DeriveBytes(password, Salt, HashIterations.Value)) {
+            using var pbkdf2 = new Rfc2898DeriveBytes(password, Salt, HashIterations.Value);
 
-                // Return 20 bytes because after that it repeats
-                return pbkdf2.GetBytes(20);
-            }
+            // Return 20 bytes because after that it repeats
+            return pbkdf2.GetBytes(20);
         }
 
         protected override IEnumerable<object> GetEqualityComponents() {
