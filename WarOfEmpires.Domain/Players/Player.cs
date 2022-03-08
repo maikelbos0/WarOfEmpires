@@ -79,7 +79,7 @@ namespace WarOfEmpires.Domain.Players {
             }
         }
 
-        public IEnumerable<Building> GetStartingBuildings() {
+        public static IEnumerable<Building> GetStartingBuildings() {
             yield return new Building(BuildingType.Barracks, 2);
             yield return new Building(BuildingType.Huts, 2);
         }

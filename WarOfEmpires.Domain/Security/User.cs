@@ -122,7 +122,7 @@ namespace WarOfEmpires.Domain.Security {
             AddEvent(UserEventType.FailedEmailChange);
         }
 
-        protected string GetNewPasswordResetToken() {
+        protected static string GetNewPasswordResetToken() {
             var tokenCharacters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789".ToCharArray();
             var tokenBuilder = new StringBuilder();
 
@@ -133,7 +133,7 @@ namespace WarOfEmpires.Domain.Security {
             return tokenBuilder.ToString();
         }
 
-        protected int GetNewActivationCode() {
+        protected static int GetNewActivationCode() {
             return RandomNumberGenerator.GetInt32(9999, int.MaxValue) + 1;
         }
 
