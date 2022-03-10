@@ -22,15 +22,14 @@ namespace WarOfEmpires.CommandHandlers.Players {
 
             if (command.Avatar != null) {
                 try {
-                    using (var stream = command.Avatar()) {
-                        var imageFormat = Image.DetectFormat(command.Avatar());
-                        
-                        if (imageFormat == JpegFormat.Instance) {
-                            imageFilePath = $"{player.Id}.jpeg";
-                        }
-                        else if (imageFormat == PngFormat.Instance) {
-                            imageFilePath = $"{player.Id}.png";
-                        }
+                    using var stream = command.Avatar();
+                    var imageFormat = Image.DetectFormat(command.Avatar());
+
+                    if (imageFormat == JpegFormat.Instance) {
+                        imageFilePath = $"{player.Id}.jpeg";
+                    }
+                    else if (imageFormat == PngFormat.Instance) {
+                        imageFilePath = $"{player.Id}.png";
                     }
                 }
                 catch { }
