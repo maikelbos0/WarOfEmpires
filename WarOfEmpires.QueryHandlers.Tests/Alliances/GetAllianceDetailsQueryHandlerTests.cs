@@ -58,10 +58,12 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
             result.Leader.Should().Be("Test display name 3");
         }
 
+        [TestMethod]
         public void GetAllianceDetailsQueryHandler_CanReceiveNonAggressionPactRequest_Returns_False_For_Allianceless() {
             var builder = new FakeBuilder()
                 .WithPlayer(1)
-                .BuildAlliance(1);
+                .BuildAlliance(1)
+                .WithLeader(2);
 
             var handler = new GetAllianceDetailsQueryHandler(builder.Context, new EnumFormatter());
             var query = new GetAllianceDetailsQuery("test1@test.com", 1);
@@ -71,10 +73,11 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
             result.CanReceiveNonAggressionPactRequest.Should().BeFalse();
         }
 
+        [TestMethod]
         public void GetAllianceDetailsQueryHandler_CanReceiveNonAggressionPactRequest_Returns_False_For_Self() {
             var builder = new FakeBuilder()
                 .BuildAlliance(1)
-                .WithMember(1);
+                .WithLeader(1);
 
             var handler = new GetAllianceDetailsQueryHandler(builder.Context, new EnumFormatter());
             var query = new GetAllianceDetailsQuery("test1@test.com", 1);
@@ -84,12 +87,15 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
             result.CanReceiveNonAggressionPactRequest.Should().BeFalse();
         }
 
-        public void GetAllianceDetailsQueryHandler_CanReceiveNonAggressionPactRequest_Returns_False_For_Outstanding_Request() {
+        [TestMethod]
+        public void GetAllianceDetailsQueryHandler_CanReceiveNonAggressionPactRequest_Returns_False_For_Sent_Request() {
             var builder = new FakeBuilder()
-                .WithAlliance(1, out var alliance)
-                .BuildAlliance(2)
+                .BuildAlliance(1)
+                .WithLeader(2);
+
+            builder.BuildAlliance(2)
                 .WithLeader(1)
-                .WithNonAggressionPactRequestTo(1, alliance);
+                .WithNonAggressionPactRequestFrom(1, builder.Alliance);
 
             var handler = new GetAllianceDetailsQueryHandler(builder.Context, new EnumFormatter());
             var query = new GetAllianceDetailsQuery("test1@test.com", 1);
@@ -99,12 +105,33 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
             result.CanReceiveNonAggressionPactRequest.Should().BeFalse();
         }
 
+        [TestMethod]
+        public void GetAllianceDetailsQueryHandler_CanReceiveNonAggressionPactRequest_Returns_False_For_Received_Request() {
+            var builder = new FakeBuilder()
+                .BuildAlliance(1)
+                .WithLeader(2);
+
+            builder.BuildAlliance(2)
+                .WithLeader(1)
+                .WithNonAggressionPactRequestTo(1, builder.Alliance);
+
+            var handler = new GetAllianceDetailsQueryHandler(builder.Context, new EnumFormatter());
+            var query = new GetAllianceDetailsQuery("test1@test.com", 1);
+
+            var result = handler.Execute(query);
+
+            result.CanReceiveNonAggressionPactRequest.Should().BeFalse();
+        }
+
+        [TestMethod]
         public void GetAllianceDetailsQueryHandler_CanReceiveNonAggressionPactRequest_Returns_False_For_Existing_Pact() {
             var builder = new FakeBuilder()
-                .WithAlliance(1, out var alliance)
-                .BuildAlliance(2)
+                .BuildAlliance(1)
+                .WithLeader(2);
+
+            builder.BuildAlliance(2)
                 .WithLeader(1)
-                .WithNonAggressionPact(1, alliance);
+                .WithNonAggressionPact(1, builder.Alliance);
 
             var handler = new GetAllianceDetailsQueryHandler(builder.Context, new EnumFormatter());
             var query = new GetAllianceDetailsQuery("test1@test.com", 1);
@@ -114,10 +141,12 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
             result.CanReceiveNonAggressionPactRequest.Should().BeFalse();
         }
 
+        [TestMethod]
         public void GetAllianceDetailsQueryHandler_CanReceiveWarDeclaration_Returns_False_For_Allianceless() {
             var builder = new FakeBuilder()
                 .WithPlayer(1)
-                .BuildAlliance(1);
+                .BuildAlliance(1)
+                .WithLeader(2);
 
             var handler = new GetAllianceDetailsQueryHandler(builder.Context, new EnumFormatter());
             var query = new GetAllianceDetailsQuery("test1@test.com", 1);
@@ -127,10 +156,11 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
             result.CanReceiveWarDeclaration.Should().BeFalse();
         }
 
+        [TestMethod]
         public void GetAllianceDetailsQueryHandler_CanReceiveWarDeclaration_Returns_False_For_Self() {
             var builder = new FakeBuilder()
                 .BuildAlliance(1)
-                .WithMember(1);
+                .WithLeader(1);
 
             var handler = new GetAllianceDetailsQueryHandler(builder.Context, new EnumFormatter());
             var query = new GetAllianceDetailsQuery("test1@test.com", 1);
@@ -140,12 +170,15 @@ namespace WarOfEmpires.QueryHandlers.Tests.Alliances {
             result.CanReceiveWarDeclaration.Should().BeFalse();
         }
 
+        [TestMethod]
         public void GetAllianceDetailsQueryHandler_CanReceiveWarDeclaration_Returns_False_For_Existing_War() {
             var builder = new FakeBuilder()
-                .WithAlliance(1, out var alliance)
-                .BuildAlliance(2)
+                .BuildAlliance(1)
+                .WithLeader(2);
+
+            builder.BuildAlliance(2)
                 .WithLeader(1)
-                .WithWar(1, alliance);
+                .WithWar(1, builder.Alliance);
 
             var handler = new GetAllianceDetailsQueryHandler(builder.Context, new EnumFormatter());
             var query = new GetAllianceDetailsQuery("test1@test.com", 1);
