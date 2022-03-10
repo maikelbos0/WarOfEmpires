@@ -59,7 +59,7 @@ namespace WarOfEmpires.CommandHandlers.Tests.Empires {
         public void UpdateRankCommandHandler_Ends_Game_If_Needed(int grandOverlordHours, GamePhase expectedPhase) {
             var rankService = Substitute.For<IRankService>();
             var builder = new FakeBuilder()
-                            .WithPlayer(1, out var player, displayName: "The OG", title: TitleType.GrandOverlord, grandOverlordTime: TimeSpan.FromHours(grandOverlordHours))
+                            .WithPlayer(1, displayName: "The OG", title: TitleType.GrandOverlord, grandOverlordTime: TimeSpan.FromHours(grandOverlordHours))
                             .WithGameStatus(1, out var gameStatus, phase: GamePhase.Active);
 
             var handler = new UpdateRankCommandHandler(new PlayerRepository(builder.Context), new GameStatusRepository(builder.Context), rankService);
