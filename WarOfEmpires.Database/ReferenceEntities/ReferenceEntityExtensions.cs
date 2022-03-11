@@ -5,7 +5,7 @@ using WarOfEmpires.Utilities.Formatting;
 
 namespace WarOfEmpires.Database.ReferenceEntities {
     internal static class ReferenceEntityExtensions {
-        private readonly static EnumFormatter _formatter = new EnumFormatter();
+        private readonly static EnumFormatter _formatter = new();
 
         public static IEnumerable<TReferenceEntity> GetValues<TEnum, TReferenceEntity>()
             where TEnum : Enum
