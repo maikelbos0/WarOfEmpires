@@ -42,7 +42,7 @@ namespace WarOfEmpires.Database {
             OnSecurityModelCreating(modelBuilder);
         }
 
-        private void OnGameModelCreating(ModelBuilder modelBuilder) {
+        private static void OnGameModelCreating(ModelBuilder modelBuilder) {
             var gamePhase = modelBuilder.Entity<GamePhaseEntity>().ToTable("GamePhases", "Game");
             gamePhase.HasKey(p => p.Id);
             gamePhase.HasMany(p => p.GameStatus).WithOne().IsRequired().HasForeignKey(s => s.Phase);
@@ -56,7 +56,7 @@ namespace WarOfEmpires.Database {
             gameStatus.HasData(new GameStatus() { Id = 1, Phase = GamePhase.Truce });
         }
 
-        private void OnAuditingModelCreating(ModelBuilder modelBuilder) {
+        private static void OnAuditingModelCreating(ModelBuilder modelBuilder) {
             var actionExecutions = modelBuilder.Entity<ActionExecution>().ToTable("ActionExecutions", "Auditing");
             actionExecutions.HasKey(e => e.Id);
             actionExecutions.Property(e => e.Date).IsRequired();
@@ -65,7 +65,7 @@ namespace WarOfEmpires.Database {
             actionExecutions.Property(e => e.Data).IsRequired();
         }
 
-        private void OnEventsModelCreating(ModelBuilder modelBuilder) {
+        private static void OnEventsModelCreating(ModelBuilder modelBuilder) {
             var executionModes = modelBuilder.Entity<TaskExecutionModeEntity>().ToTable("TaskExecutionModes", "Events");
             executionModes.HasKey(t => t.Id);
             executionModes.HasMany(m => m.ScheduledTasks).WithOne().IsRequired().HasForeignKey(e => e.ExecutionMode);
@@ -84,7 +84,7 @@ namespace WarOfEmpires.Database {
             );
         }
 
-        private void OnPlayersModelCreating(ModelBuilder modelBuilder) {
+        private static void OnPlayersModelCreating(ModelBuilder modelBuilder) {
             var buildingTypes = modelBuilder.Entity<BuildingTypeEntity>().ToTable("BuildingTypes", "Empires");
             buildingTypes.HasKey(t => t.Id);
             buildingTypes.HasMany(t => t.Buildings).WithOne().IsRequired().HasForeignKey(b => b.Type);
@@ -200,7 +200,7 @@ namespace WarOfEmpires.Database {
             modelBuilder.Entity<Transaction>().ToTable("Transactions", "Markets");
         }
 
-        private void OnAllianceModelCreating(ModelBuilder modelBuilder) {
+        private static void OnAllianceModelCreating(ModelBuilder modelBuilder) {
             var alliances = modelBuilder.Entity<Alliance>().ToTable("Alliances", "Alliances");
             alliances.HasKey(a => a.Id);
             alliances.HasMany(a => a.Members).WithOne(p => p.Alliance);
@@ -255,7 +255,7 @@ namespace WarOfEmpires.Database {
             modelBuilder.Entity<War>().ToTable("Wars", "Alliances").HasKey(m => m.Id);
         }
 
-        private void OnAttacksModelCreating(ModelBuilder modelBuilder) {
+        private static void OnAttacksModelCreating(ModelBuilder modelBuilder) {
             var attackResults = modelBuilder.Entity<AttackResultEntity>().ToTable("AttackResults", "Attacks");
             attackResults.HasKey(r => r.Id);
             attackResults.HasMany(r => r.Attacks).WithOne().IsRequired().HasForeignKey(a => a.Result);
@@ -300,7 +300,7 @@ namespace WarOfEmpires.Database {
             modelBuilder.Entity<Casualties>().ToTable("Casualties", "Attacks").HasKey(c => c.Id);
         }
 
-        private void OnSecurityModelCreating(ModelBuilder modelBuilder) {
+        private static void OnSecurityModelCreating(ModelBuilder modelBuilder) {
             var userEventTypes = modelBuilder.Entity<UserEventTypeEntity>().ToTable("UserEventTypes", "Security");
             userEventTypes.HasKey(t => t.Id);
             userEventTypes.HasMany(t => t.UserEvents).WithOne().IsRequired().HasForeignKey(e => e.Type);
