@@ -6,7 +6,7 @@ using WarOfEmpires.Utilities.Mail;
 namespace WarOfEmpires.Utilities.Tests.Mail {
     [TestClass]
     public sealed class PasswordResetMailTemplateTests {
-        private readonly AppSettings _appSettings = new AppSettings() {
+        private readonly AppSettings _appSettings = new() {
             ApplicationBaseUrl = "http://localhost"
         };
 
