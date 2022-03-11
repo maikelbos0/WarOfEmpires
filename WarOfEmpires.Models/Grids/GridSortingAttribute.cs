@@ -1,6 +1,7 @@
 ﻿using System;
 
 namespace WarOfEmpires.Models.Grids {
+    [AttributeUsage(AttributeTargets.Class)]
     public sealed class GridSortingAttribute : Attribute {
         public string Column { get; }
         public bool Descending { get; }

@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 
 namespace WarOfEmpires.Models.DataAnnotations {
+    [AttributeUsage(AttributeTargets.Property)]
     public sealed class FileExtensionAttribute : ValidationAttribute, IClientModelValidator {
         public string[] Extensions { get; }
 
@@ -15,7 +16,7 @@ namespace WarOfEmpires.Models.DataAnnotations {
         }
 
         public override bool IsValid(object value) {
-            return !(value is IFormFile file) || Extensions.Any(e => string.Equals(e, Path.GetExtension(file.FileName), StringComparison.OrdinalIgnoreCase));
+            return value is not IFormFile file || Extensions.Any(e => string.Equals(e, Path.GetExtension(file.FileName), StringComparison.OrdinalIgnoreCase));
         }
 
         public override string FormatErrorMessage(string name) {
