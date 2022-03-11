@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 
 namespace WarOfEmpires.Models.DataAnnotations {
+    [AttributeUsage(AttributeTargets.Property)]
     public sealed class MaxFileSizeAttribute : ValidationAttribute, IClientModelValidator {
         public int Size { get; }
 

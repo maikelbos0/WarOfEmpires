@@ -1,6 +1,7 @@
 ﻿using System;
 
 namespace WarOfEmpires.Models.Grids {
+    [AttributeUsage(AttributeTargets.Property)]
     public sealed class GridColumnAttribute : Attribute {
         public int Index { get; }
         public int Width { get; }
