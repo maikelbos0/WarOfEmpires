@@ -79,18 +79,15 @@ namespace WarOfEmpires.Controllers {
 
         [HttpPost(nameof(BlackMarket))]
         public ActionResult BlackMarket(BlackMarketModel model) {
-            switch (model.Command) {
-                case "buy":
-                    return BuildViewResultFor(new BuyBlackMarketResourcesCommand(_authenticationService.Identity, model.Merchandise.Select(m => new BlackMarketMerchandiseInfo(m.Type, m.Quantity))))
-                        .OnSuccess(nameof(BlackMarket))
-                        .OnFailure(model);
-                case "sell":
-                    return BuildViewResultFor(new SellBlackMarketResourcesCommand(_authenticationService.Identity, model.Merchandise.Select(m => new BlackMarketMerchandiseInfo(m.Type, m.Quantity))))
-                        .OnSuccess(nameof(BlackMarket))
-                        .OnFailure(model);
-                default:
-                    throw new InvalidOperationException($"Invalid operation '{model.Command}' found");
-            }
+            return model.Command switch {
+                "buy" => BuildViewResultFor(new BuyBlackMarketResourcesCommand(_authenticationService.Identity, model.Merchandise.Select(m => new BlackMarketMerchandiseInfo(m.Type, m.Quantity))))
+                    .OnSuccess(nameof(BlackMarket))
+                    .OnFailure(model),
+                "sell" => BuildViewResultFor(new SellBlackMarketResourcesCommand(_authenticationService.Identity, model.Merchandise.Select(m => new BlackMarketMerchandiseInfo(m.Type, m.Quantity))))
+                    .OnSuccess(nameof(BlackMarket))
+                    .OnFailure(model),
+                _ => throw new InvalidOperationException($"Invalid operation '{model.Command}' found"),
+            };
         }
     }
 }

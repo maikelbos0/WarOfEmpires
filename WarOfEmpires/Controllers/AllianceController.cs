@@ -380,18 +380,15 @@ namespace WarOfEmpires.Controllers {
         [AllianceAuthorize(CanBank = true)]
         [HttpPost(nameof(Banking))]
         public ActionResult Banking(BankedResourcesModel model) {
-            switch (model.Command) {
-                case "deposit":
-                    return BuildViewResultFor(new DepositCommand(_authenticationService.Identity, model.Gold, model.Food, model.Wood, model.Stone, model.Ore))
-                        .OnSuccess(nameof(Banking))
-                        .OnFailure(model);
-                case "withdraw":
-                    return BuildViewResultFor(new WithdrawCommand(_authenticationService.Identity, model.Gold, model.Food, model.Wood, model.Stone, model.Ore))
-                        .OnSuccess(nameof(Banking))
-                        .OnFailure(model);
-                default:
-                    throw new InvalidOperationException($"Invalid operation '{model.Command}' found");
-            }
+            return model.Command switch {
+                "deposit" => BuildViewResultFor(new DepositCommand(_authenticationService.Identity, model.Gold, model.Food, model.Wood, model.Stone, model.Ore))
+                    .OnSuccess(nameof(Banking))
+                    .OnFailure(model),
+                "withdraw" => BuildViewResultFor(new WithdrawCommand(_authenticationService.Identity, model.Gold, model.Food, model.Wood, model.Stone, model.Ore))
+                    .OnSuccess(nameof(Banking))
+                    .OnFailure(model),
+                _ => throw new InvalidOperationException($"Invalid operation '{model.Command}' found"),
+            };
         }
     }
 }

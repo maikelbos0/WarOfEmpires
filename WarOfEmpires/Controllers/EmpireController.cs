@@ -24,18 +24,15 @@ namespace WarOfEmpires.Controllers {
 
         [HttpPost(nameof(Workers))]
         public ActionResult Workers(WorkersModel model) {
-            switch (model.Command) {
-                case "train":
-                    return BuildViewResultFor(new TrainWorkersCommand(_authenticationService.Identity, model.Workers.Select(w => new WorkerInfo(w.Type, w.Count))))
-                        .OnSuccess(nameof(Workers))
-                        .OnFailure(model);
-                case "untrain":
-                    return BuildViewResultFor(new UntrainWorkersCommand(_authenticationService.Identity, model.Workers.Select(w => new WorkerInfo(w.Type, w.Count))))
-                        .OnSuccess(nameof(Workers))
-                        .OnFailure(model);
-                default:
-                    throw new InvalidOperationException($"Invalid operation '{model.Command}' found");
-            }
+            return model.Command switch {
+                "train" => BuildViewResultFor(new TrainWorkersCommand(_authenticationService.Identity, model.Workers.Select(w => new WorkerInfo(w.Type, w.Count))))
+                    .OnSuccess(nameof(Workers))
+                    .OnFailure(model),
+                "untrain" => BuildViewResultFor(new UntrainWorkersCommand(_authenticationService.Identity, model.Workers.Select(w => new WorkerInfo(w.Type, w.Count))))
+                    .OnSuccess(nameof(Workers))
+                    .OnFailure(model),
+                _ => throw new InvalidOperationException($"Invalid operation '{model.Command}' found"),
+            };
         }
 
         [HttpGet(nameof(Troops))]
@@ -45,22 +42,18 @@ namespace WarOfEmpires.Controllers {
 
         [HttpPost(nameof(Troops))]
         public ActionResult Troops(TroopsModel model) {
-            switch (model.Command) {
-                case "train":
-                    return BuildViewResultFor(new TrainTroopsCommand(_authenticationService.Identity, model.Troops.Select(t => new TroopInfo(t.Type, t.Soldiers, t.Mercenaries))))
-                        .OnSuccess(nameof(Troops))
-                        .OnFailure(model);
-                case "untrain":
-                    return BuildViewResultFor(new UntrainTroopsCommand(_authenticationService.Identity, model.Troops.Select(t => new TroopInfo(t.Type, t.Soldiers, t.Mercenaries))))
-                        .OnSuccess(nameof(Troops))
-                        .OnFailure(model);
-                case "heal":
-                    return BuildViewResultFor(new HealTroopsCommand(_authenticationService.Identity, model.StaminaToHeal))
-                        .OnSuccess(nameof(Troops))
-                        .OnFailure(model);
-                default:
-                    throw new InvalidOperationException($"Invalid operation '{model.Command}' found");
-            }
+            return model.Command switch {
+                "train" => BuildViewResultFor(new TrainTroopsCommand(_authenticationService.Identity, model.Troops.Select(t => new TroopInfo(t.Type, t.Soldiers, t.Mercenaries))))
+                    .OnSuccess(nameof(Troops))
+                    .OnFailure(model),
+                "untrain" => BuildViewResultFor(new UntrainTroopsCommand(_authenticationService.Identity, model.Troops.Select(t => new TroopInfo(t.Type, t.Soldiers, t.Mercenaries))))
+                    .OnSuccess(nameof(Troops))
+                    .OnFailure(model),
+                "heal" => BuildViewResultFor(new HealTroopsCommand(_authenticationService.Identity, model.StaminaToHeal))
+                    .OnSuccess(nameof(Troops))
+                    .OnFailure(model),
+                _ => throw new InvalidOperationException($"Invalid operation '{model.Command}' found"),
+            };
         }
 
         [HttpGet(nameof(Tax))]
@@ -151,18 +144,15 @@ namespace WarOfEmpires.Controllers {
 
         [HttpPost(nameof(Siege))]
         public ActionResult Siege(SiegeModel model) {
-            switch (model.Command) {
-                case "build":
-                    return BuildViewResultFor(new BuildSiegeCommand(_authenticationService.Identity, model.SiegeWeapons.Select(d => new SiegeWeaponInfo(d.Type, d.Count))))
-                        .OnSuccess(nameof(Siege))
-                        .OnFailure(model);
-                case "discard":
-                    return BuildViewResultFor(new DiscardSiegeCommand(_authenticationService.Identity, model.SiegeWeapons.Select(d => new SiegeWeaponInfo(d.Type, d.Count))))
-                        .OnSuccess(nameof(Siege))
-                        .OnFailure(model);
-                default:
-                    throw new InvalidOperationException($"Invalid operation '{model.Command}' found");
-            }
+            return model.Command switch {
+                "build" => BuildViewResultFor(new BuildSiegeCommand(_authenticationService.Identity, model.SiegeWeapons.Select(d => new SiegeWeaponInfo(d.Type, d.Count))))
+                    .OnSuccess(nameof(Siege))
+                    .OnFailure(model),
+                "discard" => BuildViewResultFor(new DiscardSiegeCommand(_authenticationService.Identity, model.SiegeWeapons.Select(d => new SiegeWeaponInfo(d.Type, d.Count))))
+                    .OnSuccess(nameof(Siege))
+                    .OnFailure(model),
+                _ => throw new InvalidOperationException($"Invalid operation '{model.Command}' found"),
+            };
         }
 
         [HttpGet(nameof(Research))]
