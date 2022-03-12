@@ -13,13 +13,6 @@ namespace WarOfEmpires.Tests.Services {
             public string Name { get; set; }
         }
 
-        public IEnumerable<TestViewModel> GenerateList() {
-            return Enumerable.Range(1, 137).Select(i => new TestViewModel() {
-                Id = i,
-                Name = $"Name {i}"
-            });
-        }
-
         [TestMethod]
         public void DataGridViewService_Pages_Correctly_First_Page() {
             var service = new DataGridViewService();
@@ -108,9 +101,16 @@ namespace WarOfEmpires.Tests.Services {
                 rowsPerPage = 25
             };
 
-            service.ApplyMetaData(GenerateList(), ref metaData).ToList();
+            service.ApplyMetaData(GenerateList(), ref metaData);
 
             metaData.totalRows.Should().Be(137);
+        }
+
+        private static IEnumerable<TestViewModel> GenerateList() {
+            return Enumerable.Range(1, 137).Select(i => new TestViewModel() {
+                Id = i,
+                Name = $"Name {i}"
+            });
         }
     }
 }
