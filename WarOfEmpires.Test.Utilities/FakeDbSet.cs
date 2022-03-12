@@ -8,7 +8,7 @@ using System.Linq.Expressions;
 
 namespace WarOfEmpires.Test.Utilities {
     public sealed class FakeDbSet<TEntity> : DbSet<TEntity>, IEnumerable<TEntity>, IQueryable where TEntity : class {
-        private readonly List<TEntity> data = new List<TEntity>();
+        private readonly List<TEntity> data = new();
 
         public override EntityEntry<TEntity> Add(TEntity entity) {
             data.Add(entity);

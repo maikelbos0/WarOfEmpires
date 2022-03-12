@@ -1,10 +1,10 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 
 namespace WarOfEmpires.Domain.Security {
     public class Password : ValueObject {
-        private const int _hashIterations = 1000;
+        private const int NewHashIterations = 1000;
 
         public byte[] Salt { get; private set; }
         public byte[] Hash { get; private set; }
@@ -15,7 +15,7 @@ namespace WarOfEmpires.Domain.Security {
 
         public Password(string password) : this() {
             Salt = GetNewSalt();
-            HashIterations = _hashIterations;
+            HashIterations = NewHashIterations;
             Hash = GetHash(password);
         }
 

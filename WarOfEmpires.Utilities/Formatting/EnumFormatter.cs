@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace WarOfEmpires.Utilities.Formatting {
     public class EnumFormatter : IEnumFormatter {
-        private static readonly Regex _wordBoundaryFinder = new Regex("(\\B[A-Z])", RegexOptions.Compiled);
+        private static readonly Regex _wordBoundaryFinder = new("(\\B[A-Z])", RegexOptions.Compiled);
 
         public string ToString<TEnum>(TEnum value, bool capitalize = true) where TEnum : Enum {
             var s = _wordBoundaryFinder.Replace(value.ToString(), g => $" {g.Value.ToLower()}");
