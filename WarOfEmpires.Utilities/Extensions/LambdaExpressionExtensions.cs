@@ -68,9 +68,7 @@ namespace WarOfEmpires.Utilities.Extensions {
         }
 
         private static bool IsSingleArgumentIndexer(Expression expression) {
-            var methodExpression = expression as MethodCallExpression;
-
-            if (methodExpression == null || methodExpression.Arguments.Count != 1) {
+            if (expression is not MethodCallExpression methodExpression || methodExpression.Arguments.Count != 1) {
                 return false;
             }
 

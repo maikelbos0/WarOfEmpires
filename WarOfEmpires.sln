@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29025.244
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32014.148
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WarOfEmpires", "WarOfEmpires\WarOfEmpires.csproj", "{F35DA0DD-C226-42A8-B207-B773452C3183}"
 EndProject
@@ -36,7 +36,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WarOfEmpires.Repositories.T
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WarOfEmpires.QueryHandlers.Tests", "WarOfEmpires.QueryHandlers.Tests\WarOfEmpires.QueryHandlers.Tests.csproj", "{4647FD52-8B1A-4249-AC96-4E04543E0A79}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarOfEmpires.Models.Tests", "WarOfEmpires.Models.Tests\WarOfEmpires.Models.Tests.csproj", "{F5809197-C773-4FF3-8761-54558722E1BA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WarOfEmpires.Models.Tests", "WarOfEmpires.Models.Tests\WarOfEmpires.Models.Tests.csproj", "{F5809197-C773-4FF3-8761-54558722E1BA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
