@@ -119,7 +119,7 @@ namespace WarOfEmpires.Tests.ActionResults {
             result.Should().BeOfType<JsonResult>();
             ((JsonResult)result).Value.Should().BeEquivalentTo(new {
                 Success = true,
-                Warnings = commandResult.Warnings,
+                commandResult.Warnings,
                 RedirectUrl = "Success"
             });
             messageService.Received().Dispatch(command);

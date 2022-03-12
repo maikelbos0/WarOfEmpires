@@ -32,9 +32,9 @@ namespace WarOfEmpires.Tests.Integration {
     [TestClass]
     public sealed class HomeControllerTests {
         private readonly IServiceProvider serviceProvider;
-        private readonly FakeAuthenticationService _authenticationService = new FakeAuthenticationService();
-        private readonly FakeWarContext _context = new FakeWarContext();
-        private readonly FakeMailClient _mailClient = new FakeMailClient();
+        private readonly FakeAuthenticationService _authenticationService = new();
+        private readonly FakeWarContext _context = new();
+        private readonly FakeMailClient _mailClient = new();
 
         public HomeControllerTests() {
             var services = new ServiceCollection();
