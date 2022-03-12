@@ -7,7 +7,7 @@ using WarOfEmpires.Extensions;
 
 namespace WarOfEmpires.Services {
     public sealed class DataGridViewService : IDataGridViewService {
-        private IEnumerable<TEntityViewModel> Sort<TEntityViewModel>(IEnumerable<TEntityViewModel> query, DataGridViewMetaData metaData) where TEntityViewModel : EntityViewModel {
+        private static IEnumerable<TEntityViewModel> Sort<TEntityViewModel>(IEnumerable<TEntityViewModel> query, DataGridViewMetaData metaData) where TEntityViewModel : EntityViewModel {
             Func<TEntityViewModel, object> orderBy = null;
 
             if (!string.IsNullOrEmpty(metaData.sortColumn)) {
@@ -30,11 +30,11 @@ namespace WarOfEmpires.Services {
             }
         }
 
-        private IEnumerable<TViewModel> Page<TViewModel>(IEnumerable<TViewModel> query, DataGridViewMetaData metaData) where TViewModel : EntityViewModel {
+        private static IEnumerable<TViewModel> Page<TViewModel>(IEnumerable<TViewModel> query, DataGridViewMetaData metaData) where TViewModel : EntityViewModel {
             return query.Skip(metaData.page * metaData.rowsPerPage).Take(metaData.rowsPerPage);
         }
 
-        private DataGridViewMetaData GetMetaData<TViewModel>(IEnumerable<TViewModel> query, DataGridViewMetaData metaData) where TViewModel : EntityViewModel {
+        private static DataGridViewMetaData GetMetaData<TViewModel>(IEnumerable<TViewModel> query, DataGridViewMetaData metaData) where TViewModel : EntityViewModel {
             return new DataGridViewMetaData() {
                 sortColumn = metaData.sortColumn,
                 sortDescending = metaData.sortDescending,
