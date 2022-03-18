@@ -1,6 +1,5 @@
 ﻿using System;
 using WarOfEmpires.Commands.Events;
-using WarOfEmpires.Domain.Events;
 using WarOfEmpires.Repositories.Events;
 using WarOfEmpires.Utilities.Events;
 
@@ -19,7 +18,7 @@ namespace WarOfEmpires.CommandHandlers.Events {
 
             foreach (var task in _repository.GetAll()) {
                 while (task.Execute()) {
-                    _eventService.Dispatch((IEvent)Activator.CreateInstance(Type.GetType(task.EventType)));
+                    _eventService.Dispatch((dynamic)Activator.CreateInstance(Type.GetType(task.EventType)));
                     _repository.SaveChanges();
                 }
             }

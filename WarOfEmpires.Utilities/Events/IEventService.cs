@@ -2,6 +2,6 @@
 
 namespace WarOfEmpires.Utilities.Events {
     public interface IEventService {
-        void Dispatch(IEvent domainEvent);
+        void Dispatch<TEvent>(TEvent domainEvent) where TEvent : IEvent;
     }
 }
