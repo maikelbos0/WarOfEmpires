@@ -10,9 +10,9 @@ namespace WarOfEmpires.Utilities.Events {
             _serviceProvider = serviceProvider;
         }
 
-        public void Dispatch(IEvent domainEvent) {
-            foreach (dynamic handler in _serviceProvider.GetServices(typeof(IEventHandler<>).MakeGenericType(domainEvent.GetType()))) {
-                handler.Handle((dynamic)domainEvent);
+        public void Dispatch<TEvent>(TEvent domainEvent) where TEvent : IEvent {
+            foreach (var handler in _serviceProvider.GetServices<IEventHandler<TEvent>>()) {
+                handler.Handle(domainEvent);
             }
         }
     }
