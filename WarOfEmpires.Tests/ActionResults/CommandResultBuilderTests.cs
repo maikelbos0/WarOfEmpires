@@ -10,7 +10,6 @@ using System.Linq;
 using WarOfEmpires.ActionResults;
 using WarOfEmpires.CommandHandlers;
 using WarOfEmpires.Commands;
-using WarOfEmpires.Controllers;
 using WarOfEmpires.Services;
 
 namespace WarOfEmpires.Tests.ActionResults {
@@ -162,7 +161,7 @@ namespace WarOfEmpires.Tests.ActionResults {
 
             Action action = () => builder.Execute();
 
-            action.Should().Throw<InvalidOperationException>().WithMessage("Unexpected error executing WarOfEmpires.Tests.ActionResults.CommandResultBuilderTests+TestCommand: {\"Test\":\"test\"}");
+            action.Should().Throw<InvalidOperationException>().WithMessage("Unexpected error executing WarOfEmpires.Tests.ActionResults.CommandResultBuilderTests+TestCommand");
         }
     }
 }
