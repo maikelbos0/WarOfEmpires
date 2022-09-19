@@ -1,11 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Newtonsoft.Json;
 using System;
 using WarOfEmpires.CommandHandlers;
 using WarOfEmpires.Commands;
 using WarOfEmpires.Extensions;
-using WarOfEmpires.Queries;
 using WarOfEmpires.Services;
 
 namespace WarOfEmpires.ActionResults {
@@ -60,7 +58,7 @@ namespace WarOfEmpires.ActionResults {
         }
 
         public CommandResultBuilder<TCommand, TActionResult> ThrowOnFailure() {
-            _onFailure = () => throw new InvalidOperationException($"Unexpected error executing {typeof(TCommand).FullName}: {JsonConvert.SerializeObject(_command)}");
+            _onFailure = () => throw new InvalidOperationException($"Unexpected error executing {typeof(TCommand).FullName}");
 
             return this;
         }
