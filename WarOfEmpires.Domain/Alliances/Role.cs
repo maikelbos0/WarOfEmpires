@@ -6,6 +6,7 @@ namespace WarOfEmpires.Domain.Alliances {
         public virtual Alliance Alliance { get; protected set; }
         public virtual ICollection<Player> Players { get; protected set; } = new List<Player>();
         public virtual string Name { get; protected set; }
+        public virtual Right Rights { get; protected set; } = Right.None;
         public virtual bool CanInvite { get; protected set; }
         public virtual bool CanManageRoles { get; protected set; }
         public virtual bool CanDeleteChatMessages { get; protected set; }
@@ -27,6 +28,34 @@ namespace WarOfEmpires.Domain.Alliances {
             CanManageNonAggressionPacts = canManageNonAggressionPacts;
             CanManageWars = canManageWars;
             CanBank = canBank;
+
+            if (CanInvite) {
+                Rights |= Right.CanInvite;
+            }
+
+            if (CanManageRoles) {
+                Rights |= Right.CanManageRoles;
+            }
+
+            if (CanDeleteChatMessages) {
+                Rights |= Right.CanDeleteChatMessages;
+            }
+
+            if (CanKickMembers) {
+                Rights |= Right.CanKickMembers;
+            }
+
+            if (CanManageNonAggressionPacts) {
+                Rights |= Right.CanManageNonAggressionPacts;
+            }
+
+            if (CanManageWars) {
+                Rights |= Right.CanManageWars;
+            }
+
+            if (CanBank) {
+                Rights |= Right.CanBank;
+            }
         }
     }
 }

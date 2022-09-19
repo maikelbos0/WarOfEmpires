@@ -191,7 +191,7 @@ namespace WarOfEmpires.Database {
             modelBuilder.Entity<Merchandise>().ToTable("Merchandise", "Markets");
 
             var merchandiseTypes = modelBuilder.Entity<MerchandiseTypeEntity>().ToTable("MerchandiseTypes", "Markets");
-            merchandiseTypes.HasKey(t => t.Id);
+            merchandiseTypes.HasKey(m => m.Id);
             merchandiseTypes.HasMany(m => m.Merchandise).WithOne().IsRequired().HasForeignKey(m => m.Type);
             merchandiseTypes.HasMany(m => m.Transactions).WithOne().IsRequired().HasForeignKey(m => m.Type);
             merchandiseTypes.Property(m => m.Name).IsRequired();
@@ -243,6 +243,11 @@ namespace WarOfEmpires.Database {
             chatMessages.HasKey(m => m.Id);
             chatMessages.HasOne(m => m.Player).WithMany().OnDelete(DeleteBehavior.NoAction);
             chatMessages.Property(m => m.Message).IsRequired();
+
+            var rights = modelBuilder.Entity<RightEntity>().ToTable("Rights", "Alliances");
+            rights.HasKey(r => r.Id);
+            rights.Property(r => r.Name).IsRequired();
+            rights.HasData(ReferenceEntityExtensions.GetValues<Right, RightEntity>());
 
             var roles = modelBuilder.Entity<Role>().ToTable("Roles", "Alliances");
             roles.HasKey(r => r.Id);
