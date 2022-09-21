@@ -38,7 +38,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WarOfEmpires.QueryHandlers.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WarOfEmpires.Models.Tests", "WarOfEmpires.Models.Tests\WarOfEmpires.Models.Tests.csproj", "{F5809197-C773-4FF3-8761-54558722E1BA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarOfEmpires.Client", "WarOfEmpires.Client\WarOfEmpires.Client.csproj", "{D24C5F64-D24E-4C89-B35E-46CF9E8C02B1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WarOfEmpires.Client", "WarOfEmpires.Client\WarOfEmpires.Client.csproj", "{D24C5F64-D24E-4C89-B35E-46CF9E8C02B1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
