@@ -1,0 +1,23 @@
+﻿// Site color definitions
+$site-pale-blue: #B0C8E0;
+$site-light-blue: #72B4E0;
+$site-medium-blue: #6184D8;
+$site-dark-blue: #333399;
+$site-dark-purple: #533A71;
+$site-pale-lemon: #F3FCDC;
+$site-light-apricot: #F8E8C4;
+$site-apricot: #F5E0B7;
+$site-grey-apricot: #DACCB2;
+$site-dark-grey: #777777;
+$site-dark-orange: #DD5500;
+$site-light-green: #77EE99;
+
+body{
+    background-color: $site-pale-lemon;
+}
+
+#app {
+    max-width: 1320px;
+    margin-right: auto;
+    margin-left: auto;
+}
