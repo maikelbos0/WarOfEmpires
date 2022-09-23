@@ -42,7 +42,7 @@ nav > .nav-brand {
     flex-grow: 1;
 }
 
-.nav-brand, .nav-link {
+nav > .nav-brand, nav > .nav-link, .nav-menu > .nav-link, .nav-menu > .nav-menu-content {
     padding: $default-padding;
 }
 
@@ -66,4 +66,14 @@ nav a:hover, nav a:focus {
     margin-right: $default-padding / 2.5;
     border-right: $default-padding / 2.5 solid transparent;
     border-left: $default-padding / 2.5 solid transparent;
+}
+
+.nav-menu > .nav-menu-content {
+    position: absolute;
+    background-color: $site-medium-blue;
+    border: 1px solid $site-dark-purple;
+
+    > .nav-link:not(:first-child) {
+        margin-top: $default-padding / 2;
+    }
 }
