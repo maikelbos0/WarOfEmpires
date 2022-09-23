@@ -26,7 +26,7 @@ nav > .nav-brand {
   flex-grow: 1;
 }
 
-.nav-brand, .nav-link {
+nav > .nav-brand, nav > .nav-link, .nav-menu > .nav-link, .nav-menu > .nav-menu-content {
   padding: 1rem;
 }
 
@@ -50,4 +50,13 @@ nav a:hover, nav a:focus {
   margin-right: 0.4rem;
   border-right: 0.4rem solid transparent;
   border-left: 0.4rem solid transparent;
+}
+
+.nav-menu > .nav-menu-content {
+  position: absolute;
+  background-color: #6184D8;
+  border: 1px solid #533A71;
+}
+.nav-menu > .nav-menu-content > .nav-link:not(:first-child) {
+  margin-top: 0.5rem;
 }

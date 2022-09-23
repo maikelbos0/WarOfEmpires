@@ -14,17 +14,23 @@
 
     <div class="nav-menu">
         <div class="nav-link">
-            <a href="#">Options</a>
+            <a href="#" @onclick="() => isOptionsMenuVisible = !isOptionsMenuVisible">Options</a>
         </div>
 
-        <div class="nav-menu-content" style="display: none;">
-            <div class="nav-link">
-                <NavLink href="resend-activation">Resend activation</NavLink>
-            </div>
+        @if (isOptionsMenuVisible) {
+            <div class="nav-menu-content">
+                <div class="nav-link">
+                    <NavLink href="resend-activation">Resend activation</NavLink>
+                </div>
 
-            <div class="nav-link">
-                <NavLink href="forgot-password">Forgot password</NavLink>
+                <div class="nav-link">
+                    <NavLink href="forgot-password">Forgot password</NavLink>
+                </div>
             </div>
-        </div>
+        }
     </div>
 </nav>
+
+@code {
+    private bool isOptionsMenuVisible = false;
+}
