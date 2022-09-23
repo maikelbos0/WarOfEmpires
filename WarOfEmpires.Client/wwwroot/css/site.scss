@@ -11,13 +11,59 @@ $site-grey-apricot: #DACCB2;
 $site-dark-grey: #777777;
 $site-dark-orange: #DD5500;
 $site-light-green: #77EE99;
+$site-black: #222222;
+$default-padding: 1rem;
 
-body{
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+body {
     background-color: $site-pale-lemon;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font-size: 1rem;
+    line-height: 1.5;
+    color: $site-black;
 }
 
 #app {
     max-width: 1320px;
     margin-right: auto;
     margin-left: auto;
+}
+
+nav {
+    display: flex;
+    background-color: $site-medium-blue;
+    font-weight: bold;
+}
+
+nav > .nav-brand {
+    flex-grow: 1;
+}
+
+.nav-brand, .nav-link {
+    padding: $default-padding;
+}
+
+nav a {
+    color: $site-dark-blue;
+    text-decoration: none;
+    border-top-color: $site-dark-blue;
+}
+
+nav a:hover, nav a:focus {
+    color: $site-light-blue;
+    border-top-color: $site-light-blue;
+}
+
+.nav-menu > .nav-link a::after {
+    content: '';
+    border-top: $default-padding / 2 solid;
+    border-bottom: 0;
+    display: inline-block;
+    margin-left: $default-padding / 2.5;
+    margin-right: $default-padding / 2.5;
+    border-right: $default-padding / 2.5 solid transparent;
+    border-left: $default-padding / 2.5 solid transparent;
 }

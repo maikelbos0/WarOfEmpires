@@ -1,9 +1,53 @@
-﻿body {
+﻿*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
   background-color: #F3FCDC;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #222222;
 }
 
 #app {
   max-width: 1320px;
   margin-right: auto;
   margin-left: auto;
+}
+
+nav {
+  display: flex;
+  background-color: #6184D8;
+  font-weight: bold;
+}
+
+nav > .nav-brand {
+  flex-grow: 1;
+}
+
+.nav-brand, .nav-link {
+  padding: 1rem;
+}
+
+nav a {
+  color: #333399;
+  text-decoration: none;
+  border-top-color: #333399;
+}
+
+nav a:hover, nav a:focus {
+  color: #72B4E0;
+  border-top-color: #72B4E0;
+}
+
+.nav-menu > .nav-link a::after {
+  content: "";
+  border-top: 0.5rem solid;
+  border-bottom: 0;
+  display: inline-block;
+  margin-left: 0.4rem;
+  margin-right: 0.4rem;
+  border-right: 0.4rem solid transparent;
+  border-left: 0.4rem solid transparent;
 }

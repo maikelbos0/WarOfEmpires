@@ -1,9 +1,30 @@
 ﻿
 <nav>
-    <NavLink href="" Match="NavLinkMatch.All">War of Empires</NavLink>
-    
-    <NavLink href="login">Log in</NavLink>
-    <NavLink href="register">Register</NavLink>
-    <NavLink href="resend-activation">Resend activation</NavLink>
-    <NavLink href="forgot-password">Forgot password</NavLink>
+    <div class="nav-brand">
+        <NavLink href="" Match="NavLinkMatch.All">War of Empires</NavLink>
+    </div>
+
+    <div class="nav-link">
+        <NavLink href="login">Log in</NavLink>
+    </div>
+
+    <div class="nav-link">
+        <NavLink href="register">Register</NavLink>
+    </div>
+
+    <div class="nav-menu">
+        <div class="nav-link">
+            <a href="#">Options</a>
+        </div>
+
+        <div class="nav-menu-content" style="display: none;">
+            <div class="nav-link">
+                <NavLink href="resend-activation">Resend activation</NavLink>
+            </div>
+
+            <div class="nav-link">
+                <NavLink href="forgot-password">Forgot password</NavLink>
+            </div>
+        </div>
+    </div>
 </nav>
