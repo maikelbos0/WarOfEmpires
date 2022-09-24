@@ -12,25 +12,15 @@
         <NavLink href="register">Register</NavLink>
     </div>
 
-    <div class="nav-menu">
-        <div class="nav-link">
-            <a href="#" @onclick="() => isOptionsMenuVisible = !isOptionsMenuVisible">Options</a>
-        </div>
-
-        @if (isOptionsMenuVisible) {
-            <div class="nav-menu-content">
-                <div class="nav-link">
-                    <NavLink href="resend-activation">Resend activation</NavLink>
-                </div>
-
-                <div class="nav-link">
-                    <NavLink href="forgot-password">Forgot password</NavLink>
-                </div>
+    <NavMenuDropdown Title="Options">
+        <div class="nav-menu-content">
+            <div class="nav-link">
+                <NavLink href="resend-activation">Resend activation</NavLink>
             </div>
-        }
-    </div>
-</nav>
 
-@code {
-    private bool isOptionsMenuVisible = false;
-}
+            <div class="nav-link">
+                <NavLink href="forgot-password">Forgot password</NavLink>
+            </div>
+        </div>
+    </NavMenuDropdown>
+</nav>

@@ -1,0 +1,42 @@
+﻿
+<VDT.Core.Blazor.GlobalEventHandler.GlobalEventHandler OnClick="TryClose" />
+
+<div class="nav-menu" @onclick="PreventClosing">
+    <div class="nav-link">
+        <a href="#" @onclick="Toggle">@Title</a>
+    </div>
+
+    @if (isOpen) {
+        <div class="nav-menu-content">
+            @ChildContent
+        </div>
+    }
+</div>
+
+
+@code {
+    private bool isOpen = false;
+    private bool shouldPreventClosing = false;
+
+    [Parameter]
+    public string? Title { get; set; }
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    private void Toggle() {
+        isOpen = !isOpen;
+    }
+
+    private void PreventClosing() {
+        shouldPreventClosing = true;
+    }
+
+    private void TryClose() {
+        if (!shouldPreventClosing) {
+            isOpen = false;
+        }
+
+        shouldPreventClosing = false;
+    }
+}
