@@ -12,7 +12,7 @@ $site-dark-grey: #777777;
 $site-dark-orange: #DD5500;
 $site-light-green: #77EE99;
 $site-black: #222222;
-$default-padding: 1rem;
+$default-sizing: 1rem;
 
 *, *::before, *::after {
     box-sizing: border-box;
@@ -21,7 +21,7 @@ $default-padding: 1rem;
 body {
     background-color: $site-pale-lemon;
     font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-    font-size: 1rem;
+    font-size: $default-sizing;
     line-height: 1.5;
     color: $site-black;
 }
@@ -36,6 +36,7 @@ nav {
     display: flex;
     background-color: $site-medium-blue;
     font-weight: bold;
+    margin: $default-sizing;
 }
 
 nav > .nav-brand {
@@ -43,7 +44,7 @@ nav > .nav-brand {
 }
 
 nav > .nav-brand, nav > .nav-link, .nav-menu > .nav-link, .nav-menu > .nav-menu-content {
-    padding: $default-padding;
+    padding: $default-sizing;
 }
 
 nav a {
@@ -59,13 +60,13 @@ nav a:hover, nav a:focus {
 
 .nav-menu > .nav-link a::after {
     content: '';
-    border-top: $default-padding / 2 solid;
+    border-top: $default-sizing / 2 solid;
     border-bottom: 0;
     display: inline-block;
-    margin-left: $default-padding / 2.5;
-    margin-right: $default-padding / 2.5;
-    border-right: $default-padding / 2.5 solid transparent;
-    border-left: $default-padding / 2.5 solid transparent;
+    margin-left: $default-sizing / 2.5;
+    margin-right: $default-sizing / 2.5;
+    border-right: $default-sizing / 2.5 solid transparent;
+    border-left: $default-sizing / 2.5 solid transparent;
 }
 
 .nav-menu > .nav-menu-content {
@@ -74,6 +75,51 @@ nav a:hover, nav a:focus {
     border: 1px solid $site-dark-purple;
 
     > .nav-link:not(:first-child) {
-        margin-top: $default-padding / 2;
+        margin-top: $default-sizing / 2;
     }
+}
+
+main {
+    background-color: $site-apricot;
+    padding: $default-sizing;
+    margin: $default-sizing;
+
+    > *:last-child {
+        margin-bottom: 0;
+    }
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin-top: 0;
+    margin-bottom: $default-sizing / 2;
+    font-weight: 500;
+}
+
+h1 {
+    font-size: $default-sizing * 2.5;
+}
+
+h2 {
+    font-size: $default-sizing * 2;
+}
+
+h3 {
+    font-size: $default-sizing * 1.75;
+}
+
+h4 {
+    font-size: $default-sizing * 1.5;
+}
+
+h5 {
+    font-size: $default-sizing * 1.25;
+}
+
+h6 {
+    font-size: $default-sizing;
+}
+
+p {
+    margin-top: 0;
+    margin-bottom: $default-sizing;
 }
