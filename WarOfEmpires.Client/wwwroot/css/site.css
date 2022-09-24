@@ -22,27 +22,22 @@ nav {
   font-weight: bold;
   margin: 1rem;
 }
-
 nav > .nav-brand {
   flex-grow: 1;
 }
-
-nav > .nav-brand, nav > .nav-link, .nav-menu > .nav-link, .nav-menu > .nav-menu-content {
+nav .nav-brand, nav .nav-link, nav .nav-menu-content {
   padding: 1rem;
 }
-
 nav a {
   color: #333399;
   text-decoration: none;
   border-top-color: #333399;
 }
-
 nav a:hover, nav a:focus {
   color: #72B4E0;
   border-top-color: #72B4E0;
 }
-
-.nav-menu > .nav-link a::after {
+nav .nav-menu > .nav-link a::after {
   content: "";
   border-top: 0.5rem solid;
   border-bottom: 0;
@@ -52,13 +47,12 @@ nav a:hover, nav a:focus {
   border-right: 0.4rem solid transparent;
   border-left: 0.4rem solid transparent;
 }
-
-.nav-menu > .nav-menu-content {
+nav .nav-menu > .nav-menu-content {
   position: absolute;
   background-color: #6184D8;
   border: 1px solid #533A71;
 }
-.nav-menu > .nav-menu-content > .nav-link:not(:first-child) {
+nav .nav-menu > .nav-menu-content > .nav-link:not(:first-child) {
   margin-top: 0.5rem;
 }
 
