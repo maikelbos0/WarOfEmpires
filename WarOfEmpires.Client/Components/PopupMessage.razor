@@ -1,0 +1,22 @@
+﻿
+<div class="popup-message popup-message-@Type.ToString().ToLower()">
+    <div class="popup-message-icon">
+        <i class="fa-solid fa-circle-exclamation"></i>
+    </div>
+
+    <div class="popup-message-body">
+        <div class="popup-message-toolbar">
+            <a class="dismiss"><i class="fa-solid fa-xmark"></i></a>
+        </div>
+
+        @Message
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public PopupMessageType Type { get; set; } = PopupMessageType.Success;
+
+    [Parameter]
+    public string? Message { get; set; }
+}

@@ -101,31 +101,36 @@ p {
   margin-bottom: 1rem;
 }
 
-.message {
+.popup-message-container {
   position: absolute;
-  bottom: 2rem;
-  right: 2rem;
+  bottom: 0;
+  right: 0;
   width: 300px;
+}
+.popup-message-container .popup-message {
   display: flex !important;
   align-items: center;
+  margin: 1rem;
 }
-.message.message-error {
-  background-color: #dd2211;
+.popup-message-container .popup-message.popup-message-success {
+  background-color: #11bb22;
   color: #F8E8C4;
 }
-.message > .message-icon {
+.popup-message-container .popup-message.popup-message-error {
+  background-color: #bb2211;
+  color: #F8E8C4;
+}
+.popup-message-container .popup-message > .popup-message-icon {
   width: 30px;
   font-size: 1.5rem;
   margin-left: 1rem;
 }
-.message > .message-body {
+.popup-message-container .popup-message > .popup-message-body {
   flex-grow: 1;
   margin: 1rem;
 }
-.message > .message-body > .message-toolbar {
+.popup-message-container .popup-message > .popup-message-body > .popup-message-toolbar {
   float: right;
   margin-top: -0.5rem;
-  margin-bottom: 0.5rem;
-  margin-left: 0.5rem;
-  margin-right: -0.5rem;
+  margin-right: -0.25rem;
 }
