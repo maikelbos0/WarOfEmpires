@@ -19,6 +19,7 @@ $default-sizing: 1rem;
 }
 
 body {
+    margin: 0;
     background-color: $site-pale-lemon;
     font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     font-size: $default-sizing;
