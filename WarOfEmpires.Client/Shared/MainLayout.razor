@@ -1,8 +1,16 @@
 ﻿@inherits LayoutComponentBase
 
-
 <NavMenu />
 
 <main>
     @Body
 </main>
+
+<div class="popup-message-container">
+    <PopupMessage Type="PopupMessageType.Success" Message="Hello!" />
+    <PopupMessage Type="PopupMessageType.Success" Message="Hello!" />
+</div>
+
+<div id="blazor-error-ui" class="popup-message-container" style="display: none;">
+    <PopupMessage Type="PopupMessageType.Error" Message="An error occurred processing data; please try again." />
+</div>

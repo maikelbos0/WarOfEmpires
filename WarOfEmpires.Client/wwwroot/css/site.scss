@@ -1,4 +1,4 @@
-﻿// Site color definitions
+﻿// Base colors
 $site-pale-blue: #B0C8E0;
 $site-light-blue: #72B4E0;
 $site-medium-blue: #6184D8;
@@ -12,9 +12,15 @@ $site-dark-grey: #777777;
 $site-dark-orange: #DD5500;
 $site-light-green: #77EE99;
 $site-black: #222222;
-$message-error-background: #dd2211;
-$message-error: $site-light-apricot;
+
+// Base dimensions
 $default-sizing: 1rem;
+
+// Popup colors
+$popup-message-success-background: #11bb22;
+$popup-message-success: $site-light-apricot;
+$popup-message-error-background: #bb2211;
+$popup-message-error: $site-light-apricot;
 
 *, *::before, *::after {
     box-sizing: border-box;
@@ -127,35 +133,42 @@ p {
     margin-bottom: $default-sizing;
 }
 
-.message {
+.popup-message-container {
     position: absolute;
-    bottom: $default-sizing * 2;
-    right: $default-sizing * 2;
+    bottom: 0;
+    right: 0;
     width: 300px;
-    display: flex !important;
-    align-items: center;
 
-    &.message-error {
-        background-color: $message-error-background;
-        color: $message-error
-    }
+    .popup-message {
+        display: flex !important;
+        align-items: center;
+        margin: $default-sizing;
 
-    > .message-icon {
-        width: 30px;
-        font-size: 1.5 * $default-sizing;
-        margin-left: $default-sizing;
-    }
-
-    > .message-body {
-        > .message-toolbar {
-            float: right;
-            margin-top: -$default-sizing / 2;
-            margin-bottom: $default-sizing / 2;
-            margin-left: $default-sizing / 2;
-            margin-right: -$default-sizing / 2;
+        &.popup-message-success {
+            background-color: $popup-message-success-background;
+            color: $popup-message-success
         }
 
-        flex-grow: 1;
-        margin: $default-sizing;
+        &.popup-message-error {
+            background-color: $popup-message-error-background;
+            color: $popup-message-error
+        }
+
+        > .popup-message-icon {
+            width: 30px;
+            font-size: 1.5 * $default-sizing;
+            margin-left: $default-sizing;
+        }
+
+        > .popup-message-body {
+            > .popup-message-toolbar {
+                float: right;
+                margin-top: -$default-sizing / 2;
+                margin-right: -$default-sizing / 4;
+            }
+
+            flex-grow: 1;
+            margin: $default-sizing;
+        }
     }
 }
