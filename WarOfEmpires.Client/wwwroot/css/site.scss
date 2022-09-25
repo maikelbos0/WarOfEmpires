@@ -12,6 +12,8 @@ $site-dark-grey: #777777;
 $site-dark-orange: #DD5500;
 $site-light-green: #77EE99;
 $site-black: #222222;
+$message-error-background: #dd2211;
+$message-error: $site-light-apricot;
 $default-sizing: 1rem;
 
 *, *::before, *::after {
@@ -123,4 +125,37 @@ h6 {
 p {
     margin-top: 0;
     margin-bottom: $default-sizing;
+}
+
+.message {
+    position: absolute;
+    bottom: $default-sizing * 2;
+    right: $default-sizing * 2;
+    width: 300px;
+    display: flex !important;
+    align-items: center;
+
+    &.message-error {
+        background-color: $message-error-background;
+        color: $message-error
+    }
+
+    > .message-icon {
+        width: 30px;
+        font-size: 1.5 * $default-sizing;
+        margin-left: $default-sizing;
+    }
+
+    > .message-body {
+        > .message-toolbar {
+            float: right;
+            margin-top: -$default-sizing / 2;
+            margin-bottom: $default-sizing / 2;
+            margin-left: $default-sizing / 2;
+            margin-right: -$default-sizing / 2;
+        }
+
+        flex-grow: 1;
+        margin: $default-sizing;
+    }
 }
