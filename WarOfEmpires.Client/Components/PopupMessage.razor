@@ -1,5 +1,5 @@
 ﻿
-<div class="popup-message popup-message-@Type.ToString().ToLower()">
+<div class="popup-message popup-message-@NotificationType?.ToString().ToLower()">
     <div class="popup-message-icon">
         @*TODO fix icon per type*@
         <i class="fa-solid fa-circle-exclamation"></i>
@@ -19,7 +19,7 @@
     public EventCallback OnDismissClick { get; set; }
 
     [Parameter]
-    public PopupMessageType Type { get; set; } = PopupMessageType.Success;
+    public NotificationType? NotificationType { get; set; }
 
     [Parameter]
     public string? Message { get; set; }
