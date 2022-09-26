@@ -1,13 +1,12 @@
 ﻿
-<div class="popup-message popup-message-@NotificationType?.ToString().ToLower()">
+<div class="popup-message popup-message-@Type?.ToString().ToLower()">
     <div class="popup-message-icon">
-        @*TODO fix icon per type*@
-        <i class="fa-solid fa-circle-exclamation"></i>
+        <i class="fa-solid @NotificationIcon"></i>
     </div>
 
     <div class="popup-message-body">
         <div class="popup-message-toolbar">
-            <a class="dismiss" @onclick="OnDismissClick">🗙</a>
+            <a class="dismiss" @onclick="OnDismissClick"><i class="fa-solid fa-xmark"></i></a>
         </div>
 
         @Message
@@ -19,7 +18,13 @@
     public EventCallback OnDismissClick { get; set; }
 
     [Parameter]
-    public NotificationType? NotificationType { get; set; }
+    public NotificationType? Type { get; set; }
+
+    private string NotificationIcon => Type switch {
+        NotificationType.Success => "fa-circle-exclamation",
+        NotificationType.Error => "fa-circle-check",
+        _ => throw new InvalidOperationException($"Invalid {nameof(NotificationType)} '{Type}' found")
+    };
 
     [Parameter]
     public string? Message { get; set; }

@@ -10,12 +10,12 @@
 
 <div class="popup-message-container">
     @foreach (var notification in notificationManager.Notifications) {
-        <PopupMessage NotificationType="notification.Type" Message="@notification.Message" OnDismissClick="() => notificationManager.Dismiss(notification)" />
+        <PopupMessage Type="notification.Type" Message="@notification.Message" OnDismissClick="() => notificationManager.Dismiss(notification)" />
     }
 </div>
 
 <div id="blazor-error-ui" class="popup-message-container" style="display: none;">
-    <PopupMessage NotificationType="NotificationType.Error" Message="An error occurred processing data; please try again." />
+    <PopupMessage Type="NotificationType.Error" Message="An error occurred processing data; please try again." />
 </div>
 
 @code {
