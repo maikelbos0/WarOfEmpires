@@ -7,10 +7,29 @@
 </main>
 
 <div class="popup-message-container">
-    <PopupMessage Type="PopupMessageType.Success" Message="Hello!" />
-    <PopupMessage Type="PopupMessageType.Success" Message="Hello!" />
+    @foreach (var notification in notifications) {
+        <PopupMessage Type="notification.Type" Message="@notification.Message" OnDismissClick="() => notifications.Remove(notification)" />
+    }
 </div>
 
 <div id="blazor-error-ui" class="popup-message-container" style="display: none;">
     <PopupMessage Type="PopupMessageType.Error" Message="An error occurred processing data; please try again." />
 </div>
+
+@code {
+    private List<Notification> notifications = new() {
+        new(PopupMessageType.Success, "Hello!"),
+        new(PopupMessageType.Error, "This is an error, hahahahaha! It is red!"),
+        new(PopupMessageType.Success, "Hello again! I am green!"),
+    };
+
+    private class Notification {
+        public Notification(PopupMessageType type, string message) {
+            Type = type;
+            Message = message;
+        }
+
+        public PopupMessageType Type { get; }
+        public string Message { get; }
+    }
+}
