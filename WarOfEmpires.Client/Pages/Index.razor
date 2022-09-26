@@ -16,4 +16,22 @@
     Join an alliance to work together towards a common goal, exchange ideas and hang out.
 </p>
 
-<p @onclick="() => throw new Exception()">Test</p>
+<p @onclick="() => throw new Exception()">Test Blazor error</p>
+
+<p @onclick="Notify">Test Blazor success</p>
+
+<p @onclick="NotifyWithTimeout">Test Blazor success with timeout</p>
+
+@code {
+    [CascadingParameter]
+    [NotNull]
+    public NotificationManager? NotificationManager { get; set; }
+
+    private async Task Notify() {
+        await NotificationManager.Notify(NotificationType.Success, "Hello, I'm a notification");
+    }
+
+    private async Task NotifyWithTimeout() {
+        await NotificationManager.Notify(NotificationType.Success, "Hello, I'm a notification", 3);
+    }
+}
