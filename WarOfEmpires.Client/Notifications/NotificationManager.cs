@@ -1,6 +1,7 @@
 ﻿namespace WarOfEmpires.Client.Notifications;
 
 public class NotificationManager {
+    private const int DefaultTimeoutInSeconds = 3;
 
     private readonly List<Notification> notifications = new();
 
@@ -8,14 +9,14 @@ public class NotificationManager {
 
     public IReadOnlyCollection<Notification> Notifications => notifications.AsReadOnly();
 
-    public async Task Notify(NotificationType type, string message, int? timeoutInSeconds = null) {
+    public async Task Notify(NotificationType type, string message, bool automaticallyDismiss) {
         var notification = new Notification(type, message);
 
         notifications.Add(notification);
         StateHasChanged?.Invoke();
 
-        if (timeoutInSeconds.HasValue) {
-            await Task.Delay(timeoutInSeconds.Value * 1000);
+        if (automaticallyDismiss) {
+            await Task.Delay(DefaultTimeoutInSeconds * 1000);
 
             Dismiss(notification);
         }
