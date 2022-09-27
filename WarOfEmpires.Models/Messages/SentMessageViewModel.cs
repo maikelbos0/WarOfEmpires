@@ -1,6 +1,6 @@
 ﻿using System;
+using WarOfEmpires.Models.Formatting;
 using WarOfEmpires.Models.Grids;
-using WarOfEmpires.Utilities.Formatting;
 
 namespace WarOfEmpires.Models.Messages {
     [GridSorting(nameof(Date), true)]

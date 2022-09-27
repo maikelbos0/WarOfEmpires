@@ -1,5 +1,5 @@
-﻿using WarOfEmpires.Models.Grids;
-using WarOfEmpires.Utilities.Formatting;
+﻿using WarOfEmpires.Models.Formatting;
+using WarOfEmpires.Models.Grids;
 
 namespace WarOfEmpires.Models.Alliances {
     public sealed class AllianceViewModel : EntityViewModel {
