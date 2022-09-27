@@ -18,20 +18,19 @@
 
 <p @onclick="() => throw new Exception()">Test Blazor error</p>
 
-<p @onclick="Notify">Test Blazor success</p>
+<p @onclick="() => Notify(NotificationType.Success, false)">Test success notification</p>
 
-<p @onclick="NotifyWithTimeout">Test Blazor success with timeout</p>
+<p @onclick="() => Notify(NotificationType.Error, false)">Test error notification</p>
+
+<p @onclick="() => Notify(NotificationType.Success, true)">Test success notification with timeout</p>
+
+<p @onclick="() => Notify(NotificationType.Error, true)">Test error notification with timeout</p>
 
 @code {
     [CascadingParameter]
-    [NotNull]
-    public NotificationManager? NotificationManager { get; set; }
+    public NotificationManager NotificationManager { get; set; } = null!;
 
-    private async Task Notify() {
-        await NotificationManager.Notify(NotificationType.Success, "Hello, I'm a notification");
-    }
-
-    private async Task NotifyWithTimeout() {
-        await NotificationManager.Notify(NotificationType.Success, "Hello, I'm a notification", 3);
+    private async Task Notify(NotificationType type, bool automaticallyDismiss) {
+        await NotificationManager.Notify(type, "Hello, I'm a notification", automaticallyDismiss);
     }
 }

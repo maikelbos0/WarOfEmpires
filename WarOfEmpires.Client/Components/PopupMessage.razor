@@ -1,7 +1,7 @@
 ﻿
 <div class="popup-message popup-message-@Type?.ToString().ToLower()">
     <div class="popup-message-icon">
-        <i class="fa-solid @NotificationIcon"></i>
+        <i class="fa-solid @Icon"></i>
     </div>
 
     <div class="popup-message-body">
@@ -20,7 +20,7 @@
     [Parameter]
     public NotificationType? Type { get; set; }
 
-    private string NotificationIcon => Type switch {
+    private string Icon => Type switch {
         NotificationType.Success => "fa-circle-exclamation",
         NotificationType.Error => "fa-circle-check",
         _ => throw new InvalidOperationException($"Invalid {nameof(NotificationType)} '{Type}' found")
