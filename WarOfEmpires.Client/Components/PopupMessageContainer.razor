@@ -1,0 +1,17 @@
+﻿
+<div class="popup-message-container">
+    @foreach (var notification in NotificationManager.Notifications) {
+        <PopupMessage Type="notification.Type" Message="@notification.Message" OnDismissClick="() => NotificationManager.Dismiss(notification)" />
+    }
+</div>
+
+@code {
+    [Parameter]
+    public NotificationManager NotificationManager { get; set; } = null!;
+
+    protected override void OnInitialized() {
+        base.OnInitialized();
+
+        NotificationManager.StateHasChanged = StateHasChanged;
+    }
+}

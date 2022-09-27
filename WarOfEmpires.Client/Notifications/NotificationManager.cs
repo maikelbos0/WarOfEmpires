@@ -3,11 +3,8 @@
 public class NotificationManager {
 
     private readonly List<Notification> notifications = new();
-    private readonly Action stateHasChanged;
 
-    public NotificationManager(Action stateHasChanged) {
-        this.stateHasChanged = stateHasChanged;
-    }
+    public Action? StateHasChanged { get; set; }
 
     public IReadOnlyCollection<Notification> Notifications => notifications.AsReadOnly();
 
@@ -15,7 +12,7 @@ public class NotificationManager {
         var notification = new Notification(type, message);
 
         notifications.Add(notification);
-        stateHasChanged();
+        StateHasChanged?.Invoke();
 
         if (timeoutInSeconds.HasValue) {
             await Task.Delay(timeoutInSeconds.Value * 1000);
@@ -26,6 +23,6 @@ public class NotificationManager {
 
     public void Dismiss(Notification notification) {
         notifications.Remove(notification);
-        stateHasChanged();
+        StateHasChanged?.Invoke();
     }
 }
