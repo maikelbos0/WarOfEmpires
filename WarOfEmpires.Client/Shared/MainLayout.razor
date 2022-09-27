@@ -8,24 +8,12 @@
     </main>
 </CascadingValue>
 
-<div class="popup-message-container">
-    @foreach (var notification in notificationManager.Notifications) {
-        <PopupMessage Type="notification.Type" Message="@notification.Message" OnDismissClick="() => notificationManager.Dismiss(notification)" />
-    }
-</div>
+<PopupMessageContainer NotificationManager="notificationManager" />
 
 <div id="blazor-error-ui" class="popup-message-container" style="display: none;">
     <PopupMessage Type="NotificationType.Error" Message="An error occurred processing data; please try again." />
 </div>
 
 @code {
-    // TODO move manager to separate component so the entire layout's state has changed isn't called
-    [NotNull]
-    private NotificationManager? notificationManager = null!;
-
-    protected override void OnInitialized() {
-        base.OnInitialized();
-
-        notificationManager = new(StateHasChanged);
-    }
+    private NotificationManager notificationManager = new NotificationManager();
 }
