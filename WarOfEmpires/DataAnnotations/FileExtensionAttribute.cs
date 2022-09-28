@@ -6,7 +6,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 
-namespace WarOfEmpires.Models.DataAnnotations {
+namespace WarOfEmpires.DataAnnotations {
     [AttributeUsage(AttributeTargets.Property)]
     public sealed class FileExtensionAttribute : ValidationAttribute, IClientModelValidator {
         public string[] Extensions { get; }

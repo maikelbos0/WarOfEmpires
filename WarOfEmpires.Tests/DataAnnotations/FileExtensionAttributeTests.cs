@@ -2,9 +2,9 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
-using WarOfEmpires.Models.DataAnnotations;
+using WarOfEmpires.DataAnnotations;
 
-namespace WarOfEmpires.Models.Tests.DataAnnotations {
+namespace WarOfEmpires.Tests.DataAnnotations {
     [TestClass]
     public sealed class FileExtensionAttributeTests {
         [DataTestMethod]

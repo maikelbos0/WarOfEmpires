@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System.ComponentModel;
-using WarOfEmpires.Models.DataAnnotations;
+using WarOfEmpires.DataAnnotations;
 
 namespace WarOfEmpires.CompositeModels {
     public sealed class AvatarCompositeModel<TBase> {

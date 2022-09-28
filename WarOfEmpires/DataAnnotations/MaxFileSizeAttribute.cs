@@ -4,7 +4,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 
-namespace WarOfEmpires.Models.DataAnnotations {
+namespace WarOfEmpires.DataAnnotations {
     [AttributeUsage(AttributeTargets.Property)]
     public sealed class MaxFileSizeAttribute : ValidationAttribute, IClientModelValidator {
         public int Size { get; }
