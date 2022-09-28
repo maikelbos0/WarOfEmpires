@@ -1,8 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using WarOfEmpires.Models.DataAnnotations;
 
 namespace WarOfEmpires.Models.Players {
     public sealed class CreatePlayerModel {
@@ -23,10 +21,5 @@ namespace WarOfEmpires.Models.Players {
 
         [DisplayName("Description")]
         public string Description { get; set; }
-
-        [DisplayName("Upload avatar")]
-        [MaxFileSize(1024 * 1024, ErrorMessage = "Avatar size has to be 1 megabyte or smaller")]
-        [FileExtension(".jpg", ".jpeg", ".png", ErrorMessage = "Avatar has to be a jpeg or png image")]
-        public IFormFile Avatar { get; set; }
     }
 }

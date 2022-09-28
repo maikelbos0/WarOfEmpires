@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WarOfEmpires.Commands.Players;
+using WarOfEmpires.CompositeModels;
 using WarOfEmpires.Models.Grids;
 using WarOfEmpires.Models.Players;
 using WarOfEmpires.Queries.Players;
@@ -63,24 +64,28 @@ namespace WarOfEmpires.Controllers {
 
         [HttpGet(nameof(EditProfile))]
         public ViewResult EditProfile() {
-            return View(_messageService.Dispatch(new GetProfileQuery(_authenticationService.Identity)));
+            return View(new AvatarCompositeModel<ProfileModel>() {
+                Base = _messageService.Dispatch(new GetProfileQuery(_authenticationService.Identity))
+            });
         }
 
         [HttpPost(nameof(EditProfile))]
-        public ActionResult EditProfile(ProfileModel model) {
-            return BuildViewResultFor(new UpdateProfileCommand(_authenticationService.Identity, model.FullName, model.Description, model.Avatar == null ? null : model.Avatar.OpenReadStream))
+        public ActionResult EditProfile(AvatarCompositeModel<ProfileModel> model) {
+            return BuildViewResultFor(new UpdateProfileCommand(_authenticationService.Identity, model.Base.FullName, model.Base.Description, model.Avatar == null ? null : model.Avatar.OpenReadStream))
                 .OnSuccess(nameof(EditProfile))
                 .OnFailure(model);
         }
 
         [HttpGet(nameof(Create))]
         public ViewResult Create() {
-            return View(_messageService.Dispatch(new GetCreatePlayerQuery()));
+            return View(new AvatarCompositeModel<CreatePlayerModel>() {
+                Base = _messageService.Dispatch(new GetCreatePlayerQuery())
+            });
         }
 
         [HttpPost(nameof(Create))]
-        public ActionResult Create(CreatePlayerModel model) {
-            return BuildViewResultFor(new CreatePlayerCommand(_authenticationService.Identity, model.DisplayName, model.Race, model.FullName, model.Description, model.Avatar == null ? null : model.Avatar.OpenReadStream))
+        public ActionResult Create(AvatarCompositeModel<CreatePlayerModel> model) {
+            return BuildViewResultFor(new CreatePlayerCommand(_authenticationService.Identity, model.Base.DisplayName, model.Base.Race, model.Base.FullName, model.Base.Description, model.Avatar == null ? null : model.Avatar.OpenReadStream))
                 .OnSuccess(nameof(Home))
                 .OnFailure(model);
         }
