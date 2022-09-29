@@ -1,4 +1,5 @@
 ﻿// Base colors
+$site-white: #ffffff;
 $site-pale-blue: #B0C8E0;
 $site-light-blue: #72B4E0;
 $site-medium-blue: #6184D8;
@@ -46,6 +47,7 @@ nav {
     background-color: $site-medium-blue;
     font-weight: bold;
     margin: $default-sizing;
+    border-radius: $default-sizing / 4;
 
     > .nav-brand {
         flex-grow: 1;
@@ -92,6 +94,7 @@ main {
     background-color: $site-apricot;
     padding: $default-sizing;
     margin: $default-sizing;
+    border-radius: $default-sizing / 4;
 
     > *:last-child {
         margin-bottom: 0;
@@ -143,6 +146,7 @@ p {
         display: flex !important;
         align-items: center;
         margin: $default-sizing;
+        border-radius: $default-sizing / 4;
 
         &.popup-message-success {
             background-color: $popup-message-success-background;
@@ -189,9 +193,32 @@ form {
         .form-field {
             margin-bottom: $default-sizing;
 
+            label {
+                display: inline-block;
+            }
+
             input {
                 display: block;
                 width: 100%;
+                padding: $default-sizing / 4 $default-sizing / 2;
+                font-size: 1rem;
+                font-weight: 400;
+                line-height: 1.5;
+                background-color: $site-white;
+                background-clip: padding-box;
+                border: 1px solid $site-grey-apricot;
+                appearance: none;
+                border-radius: $default-sizing / 4;
+
+                &:focus {
+                    border-color: $site-dark-purple;
+                    outline: 0;
+                    box-shadow: 0 0 $default-sizing / 4 $default-sizing / 4 rgba($site-dark-purple, 0.25);
+                }
+
+                &:disabled, &:read-only {
+                    background-color: $site-light-apricot;
+                }
             }
         }
     }
