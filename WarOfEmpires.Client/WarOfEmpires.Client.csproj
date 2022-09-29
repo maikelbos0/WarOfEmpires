@@ -13,6 +13,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\WarOfEmpires.Models\WarOfEmpires.Models.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="compilerconfig.json.defaults">
       <DependentUpon>compilerconfig.json</DependentUpon>
     </None>

@@ -172,3 +172,43 @@ p {
         }
     }
 }
+
+form {
+    display: flex;
+    flex-wrap: wrap;
+
+    .form-group {
+        width: 100%;
+
+        @media (min-width: 768px) {
+            width: 50%;
+            margin-left: 25%;
+            margin-right: 25%;
+        }
+
+        .form-field {
+            margin-bottom: $default-sizing;
+
+            input {
+                display: block;
+                width: 100%;
+            }
+        }
+    }
+
+    .form-button-group {
+        width: 100%;
+        padding-left: 50%;
+
+        @media (min-width: 768px) {
+            width: 50%;
+            margin-left: 25%;
+            margin-right: 25%;
+            padding-left: 25%;
+        }
+
+        button {
+            width: 100%;
+        }
+    }
+}

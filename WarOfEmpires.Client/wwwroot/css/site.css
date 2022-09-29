@@ -134,3 +134,40 @@ p {
   margin-top: -0.5rem;
   margin-right: -0.25rem;
 }
+
+form {
+  display: flex;
+  flex-wrap: wrap;
+}
+form .form-group {
+  width: 100%;
+}
+@media (min-width: 768px) {
+  form .form-group {
+    width: 50%;
+    margin-left: 25%;
+    margin-right: 25%;
+  }
+}
+form .form-group .form-field {
+  margin-bottom: 1rem;
+}
+form .form-group .form-field input {
+  display: block;
+  width: 100%;
+}
+form .form-button-group {
+  width: 100%;
+  padding-left: 50%;
+}
+@media (min-width: 768px) {
+  form .form-button-group {
+    width: 50%;
+    margin-left: 25%;
+    margin-right: 25%;
+    padding-left: 25%;
+  }
+}
+form .form-button-group button {
+  width: 100%;
+}
