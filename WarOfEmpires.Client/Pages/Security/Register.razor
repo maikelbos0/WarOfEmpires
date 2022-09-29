@@ -1,0 +1,45 @@
+﻿@page "/register"
+@using WarOfEmpires.Models.Security
+
+<Title>Register</Title>
+
+@* TODO fix form field and button styles *@
+
+<EditForm Model="model">
+    @*
+        TODO custom validation summary for model only
+        https://github.com/dotnet/aspnetcore/blob/main/src/Components/Web/src/Forms/ValidationSummary.cs
+    *@
+
+    <div class="form-group">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="form-field">
+            @*TODO add Label component*@
+            <label>Email address</label>
+            <InputText @bind-Value="model.Email" />
+            <ValidationMessage For="() => model.Email" />
+        </div>
+
+        <div class="form-field">
+            <label>Password</label>
+            <InputText type="password" @bind-Value="model.Password" />
+            <ValidationMessage For="() => model.Password" />
+        </div>
+
+        <div class="form-field">
+            <label>Confirm password</label>
+            <InputText type="password" @bind-Value="model.ConfirmPassword" />
+            <ValidationMessage For="() => model.ConfirmPassword" />
+        </div>
+    </div>
+
+    <div class="form-button-group">
+        <button type="submit">Submit</button>
+    </div>
+</EditForm>
+
+@code {
+    private RegisterUserModel model = new();
+}
