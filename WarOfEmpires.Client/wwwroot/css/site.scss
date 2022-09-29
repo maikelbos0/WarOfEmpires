@@ -201,14 +201,13 @@ form {
                 display: block;
                 width: 100%;
                 padding: $default-sizing / 4 $default-sizing / 2;
-                font-size: 1rem;
-                font-weight: 400;
-                line-height: 1.5;
                 background-color: $site-white;
                 background-clip: padding-box;
-                border: 1px solid $site-grey-apricot;
                 appearance: none;
+                border: 1px solid $site-grey-apricot;
                 border-radius: $default-sizing / 4;
+                font-size: $default-sizing;
+                line-height: 1.5;
 
                 &:focus {
                     border-color: $site-dark-purple;
@@ -235,7 +234,25 @@ form {
         }
 
         button {
+            display: block;
             width: 100%;
+            padding: $default-sizing / 4 $default-sizing / 2;
+            color: $site-white;
+            background-color: $site-dark-purple;
+            border-color: $site-dark-purple;
+            text-align: center;
+            vertical-align: middle;
+            cursor: pointer;
+            appearance: none;
+            border: 1px solid $site-dark-purple;
+            border-radius: $default-sizing / 4;
+            font-size: $default-sizing;
+            line-height: 1.5;
+
+            &:focus {
+                outline: 0;
+                box-shadow: 0 0 $default-sizing / 4 $default-sizing / 4 rgba($site-dark-purple, 0.25);
+            }
         }
     }
 }

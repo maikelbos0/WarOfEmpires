@@ -162,14 +162,13 @@ form .form-group .form-field input {
   display: block;
   width: 100%;
   padding: 0.25rem 0.5rem;
-  font-size: 1rem;
-  font-weight: 400;
-  line-height: 1.5;
   background-color: #ffffff;
   background-clip: padding-box;
-  border: 1px solid #DACCB2;
   appearance: none;
+  border: 1px solid #DACCB2;
   border-radius: 0.25rem;
+  font-size: 1rem;
+  line-height: 1.5;
 }
 form .form-group .form-field input:focus {
   border-color: #533A71;
@@ -192,5 +191,22 @@ form .form-button-group {
   }
 }
 form .form-button-group button {
+  display: block;
   width: 100%;
+  padding: 0.25rem 0.5rem;
+  color: #ffffff;
+  background-color: #533A71;
+  border-color: #533A71;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  appearance: none;
+  border: 1px solid #533A71;
+  border-radius: 0.25rem;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+form .form-button-group button:focus {
+  outline: 0;
+  box-shadow: 0 0 0.25rem 0.25rem rgba(83, 58, 113, 0.25);
 }
