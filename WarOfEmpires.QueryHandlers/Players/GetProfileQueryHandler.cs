@@ -2,17 +2,14 @@
 using WarOfEmpires.Database;
 using WarOfEmpires.Models.Players;
 using WarOfEmpires.Queries.Players;
-using WarOfEmpires.Utilities.Configuration;
 using WarOfEmpires.Utilities.Services;
 
 namespace WarOfEmpires.QueryHandlers.Players {
     public sealed class GetProfileQueryHandler : IQueryHandler<GetProfileQuery, ProfileModel> {
         private readonly IReadOnlyWarContext _context;
-        private readonly AppSettings _appSettings;
 
-        public GetProfileQueryHandler(IReadOnlyWarContext context, AppSettings appSettings) {
+        public GetProfileQueryHandler(IReadOnlyWarContext context) {
             _context = context;
-            _appSettings = appSettings;
         }
 
         public ProfileModel Execute(GetProfileQuery query) {
@@ -21,7 +18,7 @@ namespace WarOfEmpires.QueryHandlers.Players {
                 .Select(p => new ProfileModel() {
                     FullName = p.Profile.FullName,
                     Description = p.Profile.Description,
-                    AvatarLocation = string.IsNullOrWhiteSpace(p.Profile.AvatarLocation) ? null : $"{_appSettings.UserImageBaseUrl.TrimEnd('/')}/{p.Profile.AvatarLocation}"
+                    AvatarLocation = p.Profile.AvatarLocation
                 })
                 .Single();
         }

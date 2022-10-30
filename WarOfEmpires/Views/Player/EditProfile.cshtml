@@ -1,4 +1,5 @@
 @model WarOfEmpires.CompositeModels.AvatarCompositeModel<WarOfEmpires.Models.Players.ProfileModel>
+@inject IResourceService ResourceService
 
 @{
     ViewBag.Title = "Profile";
@@ -20,7 +21,7 @@
 
             @if (!string.IsNullOrEmpty(Model.Base.AvatarLocation)) {
                 <div class="mb-3">
-                    <img src="@Model.Base.AvatarLocation" class="img-fluid" />
+                    <img src="@ResourceService.ResolveUserResource(Model.Base.AvatarLocation)" class="img-fluid" />
                 </div>
             }
 

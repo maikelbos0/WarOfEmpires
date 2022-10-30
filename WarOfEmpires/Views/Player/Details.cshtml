@@ -1,5 +1,6 @@
 ﻿@model WarOfEmpires.Models.Players.PlayerDetailsViewModel
 @inject IAuthorizationService AuthorizationService
+@inject IResourceService ResourceService
 
 @{
     ViewBag.Title = Model.DisplayName;
@@ -98,7 +99,7 @@
 
             @if (!string.IsNullOrWhiteSpace(Model.AvatarLocation)) {
                 <div class="mb-3">
-                    <img src="@Model.AvatarLocation" class="img-fluid" />
+                    <img src="@ResourceService.ResolveUserResource(Model.AvatarLocation)" class="img-fluid" />
                 </div>
             }
 

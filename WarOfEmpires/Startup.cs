@@ -17,6 +17,7 @@ using WarOfEmpires.Services;
 using WarOfEmpires.Utilities.Configuration;
 using WarOfEmpires.Utilities.Events;
 using WarOfEmpires.Utilities.Mail;
+using WarOfEmpires.Configuration;
 
 namespace WarOfEmpires {
     public class Startup {
@@ -55,7 +56,8 @@ namespace WarOfEmpires {
                 .UseDecoratorServiceRegistrar(decoratorOptions => decoratorOptions.AddDecorator<IAuditDecorator>())
             );
 
-            services.AddSingleton(Configuration.GetSection(AppSettings.Key).Get<AppSettings>());
+            services.AddSingleton(Configuration.GetSection(nameof(AppSettings)).Get<AppSettings>());
+            services.AddSingleton(Configuration.GetSection(nameof(ResourceSettings)).Get<ResourceSettings>());
             services.AddHostedService<ScheduledTaskRunnerService>();
             services.AddApplicationInsightsTelemetry();
         }
