@@ -17,19 +17,19 @@
 
         <div class="form-field">
             @*TODO add Label component*@
-            <label>Email address</label>
+            <label class="required">Email address</label>
             <InputText @bind-Value="model.Email" />
             <ValidationMessage For="() => model.Email" />
         </div>
 
         <div class="form-field">
-            <label>Password</label>
+            <label class="required">Password</label>
             <InputText type="password" @bind-Value="model.Password" />
             <ValidationMessage For="() => model.Password" />
         </div>
 
         <div class="form-field">
-            <label>Confirm password</label>
+            <label class="required">Confirm password</label>
             <InputText type="password" @bind-Value="model.ConfirmPassword" />
             <ValidationMessage For="() => model.ConfirmPassword" />
         </div>
