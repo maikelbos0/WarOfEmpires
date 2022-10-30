@@ -1,4 +1,8 @@
-﻿namespace WarOfEmpires.Client.Notifications;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
+namespace WarOfEmpires.Client.Notifications;
 
 public class NotificationManager {
     private const int DefaultTimeoutInSeconds = 3;
