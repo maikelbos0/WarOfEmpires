@@ -1,0 +1,27 @@
+﻿@using System.ComponentModel
+@using System.Linq.Expressions
+@using System.Reflection
+@using System.ComponentModel.DataAnnotations
+@typeparam TValue
+
+<label @attributes="AdditionalAttributes">
+    @DisplayName
+
+    @if (IsRequired) {
+        <strong> *</strong>
+    }
+</label>
+
+@code {
+    [Parameter]
+    public Expression<Func<TValue>>? For { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private MemberInfo? ForMember => (For?.Body as MemberExpression)?.Member;
+
+    private bool IsRequired => ForMember != null && Attribute.IsDefined(ForMember, typeof(RequiredAttribute));
+
+    private string? DisplayName => ForMember?.GetCustomAttributes<DisplayNameAttribute>().SingleOrDefault()?.DisplayName;
+}
