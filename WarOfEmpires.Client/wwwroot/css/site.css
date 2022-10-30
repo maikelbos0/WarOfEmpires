@@ -158,6 +158,10 @@ form .form-group .form-field {
 form .form-group .form-field label {
   display: inline-block;
 }
+form .form-group .form-field label.required:after {
+  content: " *";
+  font-weight: bold;
+}
 form .form-group .form-field input {
   display: block;
   width: 100%;
