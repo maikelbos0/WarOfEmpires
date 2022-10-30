@@ -7,8 +7,8 @@
 
 <EditForm Model="model">
     @*
-        TODO custom validation summary for model only
-        https://github.com/dotnet/aspnetcore/blob/main/src/Components/Web/src/Forms/ValidationSummary.cs
+    TODO custom validation summary for model only
+    https://github.com/dotnet/aspnetcore/blob/main/src/Components/Web/src/Forms/ValidationSummary.cs
     *@
 
     <div class="form-group">
@@ -16,20 +16,19 @@
         <ValidationSummary />
 
         <div class="form-field">
-            @*TODO add Label component*@
-            <label class="required">Email address</label>
+            <Label For="() => model.Email" />
             <InputText @bind-Value="model.Email" />
             <ValidationMessage For="() => model.Email" />
         </div>
 
         <div class="form-field">
-            <label class="required">Password</label>
+            <Label For="() => model.Password" />
             <InputText type="password" @bind-Value="model.Password" />
             <ValidationMessage For="() => model.Password" />
         </div>
 
         <div class="form-field">
-            <label class="required">Confirm password</label>
+            <Label For="() => model.ConfirmPassword" />
             <InputText type="password" @bind-Value="model.ConfirmPassword" />
             <ValidationMessage For="() => model.ConfirmPassword" />
         </div>
