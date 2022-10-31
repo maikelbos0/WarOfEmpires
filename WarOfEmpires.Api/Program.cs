@@ -5,6 +5,7 @@ using Microsoft.Extensions.Hosting;
 using VDT.Core.DependencyInjection;
 using VDT.Core.DependencyInjection.Attributes;
 using VDT.Core.DependencyInjection.Decorators;
+using WarOfEmpires.Api.Configuration;
 using WarOfEmpires.CommandHandlers;
 using WarOfEmpires.Database.Auditing;
 using WarOfEmpires.QueryHandlers;
@@ -13,6 +14,10 @@ using WarOfEmpires.Utilities.Events;
 using WarOfEmpires.Utilities.Mail;
 
 var builder = WebApplication.CreateBuilder(args);
+var clientSettings = builder.Configuration.GetSection(nameof(ClientSettings)).Get<ClientSettings>();
+
+builder.Services.AddSingleton(clientSettings);
+builder.Services.AddSingleton(builder.Configuration.GetSection(nameof(AppSettings)).Get<AppSettings>());
 
 builder.Services.AddControllers();
 
@@ -37,7 +42,7 @@ builder.Services.AddServices(options => options
     .UseDecoratorServiceRegistrar(decoratorOptions => decoratorOptions.AddDecorator<IAuditDecorator>())
 );
 
-builder.Services.AddSingleton(builder.Configuration.GetSection(nameof(AppSettings)).Get<AppSettings>());
+builder.Services.AddCors(options => options.AddDefaultPolicy(builder => builder.AllowAnyHeader().AllowAnyMethod().WithOrigins(clientSettings.BaseUrl)));
 
 var app = builder.Build();
 
@@ -49,6 +54,8 @@ if (app.Environment.IsDevelopment()) {
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors();
 
 // TODO auth
 app.UseAuthorization();
