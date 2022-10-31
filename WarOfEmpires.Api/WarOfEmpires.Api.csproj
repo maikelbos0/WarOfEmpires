@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<UserSecretsId>cd012fa9-29bc-4360-84a6-b6d7d40c03b5</UserSecretsId>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\WarOfEmpires.CommandHandlers\WarOfEmpires.CommandHandlers.csproj" />
+	  <ProjectReference Include="..\WarOfEmpires.Commands\WarOfEmpires.Commands.csproj" />
+	  <ProjectReference Include="..\WarOfEmpires.Models\WarOfEmpires.Models.csproj" />
+	  <ProjectReference Include="..\WarOfEmpires.QueryHandlers\WarOfEmpires.QueryHandlers.csproj" />
+	</ItemGroup>
+</Project>
