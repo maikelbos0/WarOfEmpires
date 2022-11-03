@@ -1,9 +1,10 @@
 ﻿@page "/register"
 @using WarOfEmpires.Models.Security
+@inject HttpClient HttpClient
 
 <Title>Register</Title>
 
-<EditForm Model="model">
+<EditForm Model="model" OnValidSubmit="Submit">
     @*
     TODO custom validation summary for model only
     https://github.com/dotnet/aspnetcore/blob/main/src/Components/Web/src/Forms/ValidationSummary.cs
@@ -39,4 +40,12 @@
 
 @code {
     private RegisterUserModel model = new();
+
+    private async Task Submit(EditContext context) {
+        var response = await HttpClient.PostAsJsonAsync("security/register", model);
+
+        // TODO handle success response
+        // TODO handle bad request response
+        // TODO better routing
+    }
 }
