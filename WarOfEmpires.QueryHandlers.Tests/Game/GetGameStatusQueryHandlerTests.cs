@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using WarOfEmpires.Domain.Game;
 using WarOfEmpires.Queries.Game;
-using WarOfEmpires.QueryHandlers.Players;
+using WarOfEmpires.QueryHandlers.Game;
 using WarOfEmpires.Test.Utilities;
 
 namespace WarOfEmpires.QueryHandlers.Tests.Game {

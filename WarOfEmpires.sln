@@ -40,7 +40,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WarOfEmpires.Client", "WarO
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WarOfEmpires.Api", "WarOfEmpires.Api\WarOfEmpires.Api.csproj", "{CF8DD300-1F17-4BE6-A9DF-C6CF247532FA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarOfEmpires.Api.Tests", "WarOfEmpires.Api.Tests\WarOfEmpires.Api.Tests.csproj", "{49C20F97-4886-4A2B-BEFD-D3A5847B9D5E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WarOfEmpires.Api.Tests", "WarOfEmpires.Api.Tests\WarOfEmpires.Api.Tests.csproj", "{49C20F97-4886-4A2B-BEFD-D3A5847B9D5E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WarOfEmpires.Api.Routing", "WarOfEmpires.Api.Routing\WarOfEmpires.Api.Routing.csproj", "{263180EA-7D24-4474-9B4D-AB2998237890}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarOfEmpires.Client.Tests", "WarOfEmpires.Client.Tests\WarOfEmpires.Client.Tests.csproj", "{77ABAAE3-CEE2-409B-922C-8BA7980C1191}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -128,6 +132,14 @@ Global
 		{49C20F97-4886-4A2B-BEFD-D3A5847B9D5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{49C20F97-4886-4A2B-BEFD-D3A5847B9D5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{49C20F97-4886-4A2B-BEFD-D3A5847B9D5E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{263180EA-7D24-4474-9B4D-AB2998237890}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{263180EA-7D24-4474-9B4D-AB2998237890}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{263180EA-7D24-4474-9B4D-AB2998237890}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{263180EA-7D24-4474-9B4D-AB2998237890}.Release|Any CPU.Build.0 = Release|Any CPU
+		{77ABAAE3-CEE2-409B-922C-8BA7980C1191}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77ABAAE3-CEE2-409B-922C-8BA7980C1191}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77ABAAE3-CEE2-409B-922C-8BA7980C1191}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77ABAAE3-CEE2-409B-922C-8BA7980C1191}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

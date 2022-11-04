@@ -7,7 +7,7 @@ using WarOfEmpires.Models.Security;
 namespace WarOfEmpires.Api.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route(nameof(Routing.Security))]
 public class SecurityController : ControllerBase {
     private readonly IMessageService messageService;
 
@@ -15,7 +15,7 @@ public class SecurityController : ControllerBase {
         this.messageService = messageService;
     }
 
-    [HttpPost(nameof(Register))]
+    [HttpPost(nameof(Routing.Security.Register))]
     public IActionResult Register(RegisterUserModel model) {
         // TODO centralize
         // TODO warnings?

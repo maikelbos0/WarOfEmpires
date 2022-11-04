@@ -1,6 +1,8 @@
 ﻿@page "/register"
 @using WarOfEmpires.Models.Security
 @inject HttpClient HttpClient
+@inject RoutingService RoutingService
+@inject NavigationManager NavigationManager
 
 <Title>Register</Title>
 
@@ -23,6 +25,7 @@
         <div class="form-field">
             <Label For="() => model.Password" />
             <InputText type="password" @bind-Value="model.Password" />
+            @*TODO password judger*@
             <ValidationMessage For="() => model.Password" />
         </div>
 
@@ -42,9 +45,10 @@
     private RegisterUserModel model = new();
 
     private async Task Submit(EditContext context) {
-        var response = await HttpClient.PostAsJsonAsync("security/register", model);
+        var response = await HttpClient.PostAsJsonAsync(RoutingService.GetRoute(Security.Register), model);
 
         // TODO handle success response
+        // TODO centralize
         // TODO handle bad request response
         // TODO better routing
     }
