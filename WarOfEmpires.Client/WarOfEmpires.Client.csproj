@@ -9,6 +9,7 @@
 		<PackageReference Include="VDT.Core.Blazor.GlobalEventHandler" Version="1.1.2" />
 	</ItemGroup>
 	<ItemGroup>
+		<ProjectReference Include="..\WarOfEmpires.Api.Routing\WarOfEmpires.Api.Routing.csproj" />
 		<ProjectReference Include="..\WarOfEmpires.Models\WarOfEmpires.Models.csproj" />
 	</ItemGroup>
 	<ItemGroup>

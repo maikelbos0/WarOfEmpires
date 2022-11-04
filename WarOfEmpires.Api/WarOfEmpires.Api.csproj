@@ -8,6 +8,7 @@
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
 	</ItemGroup>
 	<ItemGroup>
+	  <ProjectReference Include="..\WarOfEmpires.Api.Routing\WarOfEmpires.Api.Routing.csproj" />
 	  <ProjectReference Include="..\WarOfEmpires.CommandHandlers\WarOfEmpires.CommandHandlers.csproj" />
 	  <ProjectReference Include="..\WarOfEmpires.Commands\WarOfEmpires.Commands.csproj" />
 	  <ProjectReference Include="..\WarOfEmpires.Models\WarOfEmpires.Models.csproj" />

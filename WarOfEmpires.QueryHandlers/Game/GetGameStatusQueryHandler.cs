@@ -4,7 +4,7 @@ using WarOfEmpires.Domain.Game;
 using WarOfEmpires.Models.Game;
 using WarOfEmpires.Queries.Game;
 
-namespace WarOfEmpires.QueryHandlers.Players {
+namespace WarOfEmpires.QueryHandlers.Game {
     public sealed class GetGameStatusQueryHandler : IQueryHandler<GetGameStatusQuery, GameStatusViewModel> {
         private readonly IReadOnlyWarContext _context;
 
