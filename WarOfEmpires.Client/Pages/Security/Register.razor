@@ -1,8 +1,5 @@
 ﻿@page "/register"
 @using WarOfEmpires.Models.Security
-@inject HttpClient HttpClient
-@inject RoutingService RoutingService
-@inject NavigationManager NavigationManager
 
 <Title>Register</Title>
 
@@ -42,12 +39,31 @@
 </EditForm>
 
 @code {
+    [Inject] public HttpClient HttpClient { get; set; } = null!;
+    [Inject] public RoutingService RoutingService { get; set; } = null!;
+    [Inject] public NavigationManager NavigationManager { get; set; } = null!;
+    [CascadingParameter] public NotificationManager NotificationManager { get; set; } = null!;
+
     private RegisterUserModel model = new();
 
     private async Task Submit(EditContext context) {
         var response = await HttpClient.PostAsJsonAsync(RoutingService.GetRoute(Security.Register), model);
 
-        // TODO handle success response
+        if (response.IsSuccessStatusCode) {
+            NotificationManager.Notify(NotificationType.Success, "You have registered successfully. An email has been sent to the provided email address with a validation link.", true);
+            // TODO Display warning messages
+            NavigationManager.NavigateTo("/");
+        }
+        else {
+            /*
+            var messageStore = new ValidationMessageStore(context);
+            messageStore.Add(context.Field("Password"), "Test");
+            context.OnValidationRequested += (s, e) => messageStore.Clear();
+            context.OnFieldChanged += (s, e) => messageStore.Clear(e.FieldIdentifier);
+            context.NotifyValidationStateChanged();
+            */
+        }
+
         // TODO centralize
         // TODO handle bad request response
         // TODO better routing
