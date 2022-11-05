@@ -13,15 +13,12 @@ public class NotificationManager {
 
     public IReadOnlyCollection<Notification> Notifications => notifications.AsReadOnly();
 
-    public void Notify(NotificationType type, string message, bool automaticallyDismiss) {
+    public void Notify(NotificationType type, string message) {
         var notification = new Notification(type, message);
 
         notifications.Add(notification);
         StateHasChanged?.Invoke();
-
-        if (automaticallyDismiss) {
-            _ = DismissAfterTimeout(notification);
-        }
+        _ = DismissAfterTimeout(notification);
     }
 
     private async Task DismissAfterTimeout(Notification notification) {

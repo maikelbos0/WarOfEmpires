@@ -123,6 +123,10 @@ p {
   background-color: #bb2211;
   color: #F8E8C4;
 }
+.popup-message-container .popup-message.popup-message-warning {
+  background-color: #dd9911;
+  color: #F8E8C4;
+}
 .popup-message-container .popup-message > .popup-message-icon {
   width: 30px;
   font-size: 1.5rem;
