@@ -1,4 +1,5 @@
-﻿@page "/register"
+﻿@using System.Net;
+@page "/register"
 @using WarOfEmpires.Models.Security
 
 <Title>Register</Title>
@@ -7,6 +8,9 @@
     @*
     TODO custom validation summary for model only
     https://github.com/dotnet/aspnetcore/blob/main/src/Components/Web/src/Forms/ValidationSummary.cs
+
+    TODO validation summary styling
+    TODO validation message styling
     *@
 
     <div class="form-group">
@@ -63,18 +67,22 @@
 
             NavigationManager.NavigateTo("/");
         }
-        else {
-            /*
+        else if (response.StatusCode == HttpStatusCode.BadRequest) {
+            var errorDetails = await response.Content.ReadFromJsonAsync<IDictionary<string, IEnumerable<string>>>() ?? throw new InvalidOperationException("Missing error details in request content");
             var messageStore = new ValidationMessageStore(context);
-            messageStore.Add(context.Field("Password"), "Test");
+
+            foreach (var errorField in errorDetails) {
+                messageStore.Add(context.Field(errorField.Key), errorField.Value);
+            }
+
             context.OnValidationRequested += (s, e) => messageStore.Clear();
             context.OnFieldChanged += (s, e) => messageStore.Clear(e.FieldIdentifier);
             context.NotifyValidationStateChanged();
-            */
+        }
+        else {
+            NotificationManager.Notify(NotificationType.Error, "An error occurred processing data; please try again.");
         }
 
         // TODO centralize
-        // TODO handle bad request response
-        // TODO better routing
     }
 }
