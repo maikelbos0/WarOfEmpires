@@ -22,6 +22,8 @@ $popup-message-success-background: #11bb22;
 $popup-message-success: $site-light-apricot;
 $popup-message-error-background: #bb2211;
 $popup-message-error: $site-light-apricot;
+$popup-message-warning-background: #dd9911;
+$popup-message-warning: $site-light-apricot;
 
 *, *::before, *::after {
     box-sizing: border-box;
@@ -150,12 +152,17 @@ p {
 
         &.popup-message-success {
             background-color: $popup-message-success-background;
-            color: $popup-message-success
+            color: $popup-message-success;
         }
 
         &.popup-message-error {
             background-color: $popup-message-error-background;
-            color: $popup-message-error
+            color: $popup-message-error;
+        }
+
+        &.popup-message-warning {
+            background-color: $popup-message-warning-background;
+            color: $popup-message-warning;
         }
 
         > .popup-message-icon {

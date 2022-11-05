@@ -18,19 +18,17 @@
 
 <p @onclick="() => throw new Exception()">Test Blazor error</p>
 
-<p @onclick="() => Notify(NotificationType.Success, false)">Test success notification</p>
+<p @onclick="() => Notify(NotificationType.Success)">Test success notification</p>
 
-<p @onclick="() => Notify(NotificationType.Error, false)">Test error notification</p>
+<p @onclick="() => Notify(NotificationType.Warning)">Test warning notification</p>
 
-<p @onclick="() => Notify(NotificationType.Success, true)">Test success notification with timeout</p>
-
-<p @onclick="() => Notify(NotificationType.Error, true)">Test error notification with timeout</p>
+<p @onclick="() => Notify(NotificationType.Error)">Test error notification</p>
 
 @code {
     [CascadingParameter]
     public NotificationManager NotificationManager { get; set; } = null!;
 
-    private void Notify(NotificationType type, bool automaticallyDismiss) {
-        NotificationManager.Notify(type, "Hello, I'm a notification", automaticallyDismiss);
+    private void Notify(NotificationType type) {
+        NotificationManager.Notify(type, "Hello, I'm a notification");
     }
 }

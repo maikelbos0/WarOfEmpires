@@ -21,8 +21,9 @@
     public NotificationType? Type { get; set; }
 
     private string Icon => Type switch {
-        NotificationType.Success => "fa-circle-exclamation",
-        NotificationType.Error => "fa-circle-check",
+        NotificationType.Success => "fa-circle-check",
+        NotificationType.Error => "fa-circle-exclamation",
+        NotificationType.Warning => "fa-triangle-exclamation",
         _ => throw new InvalidOperationException($"Invalid {nameof(NotificationType)} '{Type}' found")
     };
 

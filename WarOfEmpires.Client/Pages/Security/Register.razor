@@ -50,8 +50,17 @@
         var response = await HttpClient.PostAsJsonAsync(RoutingService.GetRoute(Security.Register), model);
 
         if (response.IsSuccessStatusCode) {
-            NotificationManager.Notify(NotificationType.Success, "You have registered successfully. An email has been sent to the provided email address with a validation link.", true);
-            // TODO Display warning messages
+            var warnings = await response.Content.ReadFromJsonAsync<IEnumerable<string>>();
+
+            if (warnings?.Any() ?? false) {
+                foreach (var warning in warnings){
+                    NotificationManager.Notify(NotificationType.Warning, warning);
+                }
+            }
+            else {
+                NotificationManager.Notify(NotificationType.Success, "You have registered successfully. An email has been sent to the provided email address with a validation link.");
+            }
+
             NavigationManager.NavigateTo("/");
         }
         else {
