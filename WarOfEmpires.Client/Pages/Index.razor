@@ -30,7 +30,7 @@
     [CascadingParameter]
     public NotificationManager NotificationManager { get; set; } = null!;
 
-    private async Task Notify(NotificationType type, bool automaticallyDismiss) {
-        await NotificationManager.Notify(type, "Hello, I'm a notification", automaticallyDismiss);
+    private void Notify(NotificationType type, bool automaticallyDismiss) {
+        NotificationManager.Notify(type, "Hello, I'm a notification", automaticallyDismiss);
     }
 }
