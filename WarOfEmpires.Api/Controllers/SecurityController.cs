@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WarOfEmpires.Api.Extensions;
 using WarOfEmpires.Api.Services;
-using WarOfEmpires.CommandHandlers;
 using WarOfEmpires.Commands.Security;
 using WarOfEmpires.Models.Security;
 
@@ -18,19 +17,15 @@ public class SecurityController : ControllerBase {
 
     [HttpPost(nameof(Routing.Security.Register))]
     public IActionResult Register(RegisterUserModel model) {
-        CommandResult<RegisterUserCommand>? result = null;
+        var result = messageService.Dispatch(new RegisterUserCommand(model.Email, model.Password));
 
-        // TODO centralize
-        if (ModelState.IsValid) {
-            result = messageService.Dispatch(new RegisterUserCommand(model.Email, model.Password));
-            ModelState.Merge(result);
-        }
+        ModelState.Merge(result);
 
         if (ModelState.IsValid) {
             return Ok(result!.Warnings);
         }
         else {
-            return BadRequest(ModelState);
+            return BadRequest(new ValidationProblemDetails(ModelState));
         }
     }
 }
