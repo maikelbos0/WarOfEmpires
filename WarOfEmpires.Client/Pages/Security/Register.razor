@@ -4,15 +4,21 @@
 
 <Title>Register</Title>
 
-<EditForm Model="model" OnValidSubmit="Submit">
-    @*
-    TODO custom validation summary for model only
-    https://github.com/dotnet/aspnetcore/blob/main/src/Components/Web/src/Forms/ValidationSummary.cs
-    *@
+<EditForm EditContext="context" OnValidSubmit="Submit">
+    <DataAnnotationsValidator />
 
     <div class="form-group">
-        <DataAnnotationsValidator />
-        <ValidationSummary />
+        @{
+            var validationMessages = context.GetValidationMessages(context.Field(string.Empty)).ToList();
+
+            if (validationMessages.Any()) {
+                <ul class="validation-errors">
+                    @foreach (var message in validationMessages) {
+                        <li>@message</li>
+                    }
+                </ul>
+            }
+        }
 
         <div class="form-field">
             <Label For="() => model.Email" />
@@ -45,7 +51,13 @@
     [Inject] public NavigationManager NavigationManager { get; set; } = null!;
     [CascadingParameter] public NotificationManager NotificationManager { get; set; } = null!;
 
-    private RegisterUserModel model = new();
+    private RegisterUserModel model;
+    private EditContext context;
+
+    public Register() {
+        model = new();
+        context = new(model);
+    }
 
     private async Task Submit(EditContext context) {
         var response = await HttpClient.PostAsJsonAsync(RoutingService.GetRoute(Security.Register), model);
@@ -54,7 +66,7 @@
             var warnings = await response.Content.ReadFromJsonAsync<IEnumerable<string>>();
 
             if (warnings?.Any() ?? false) {
-                foreach (var warning in warnings){
+                foreach (var warning in warnings) {
                     NotificationManager.Notify(NotificationType.Warning, warning);
                 }
             }
@@ -65,6 +77,7 @@
             NavigationManager.NavigateTo("/");
         }
         else if (response.StatusCode == HttpStatusCode.BadRequest) {
+            // TODO use ValidationProblemDetails class instead?
             var errorDetails = await response.Content.ReadFromJsonAsync<IDictionary<string, IEnumerable<string>>>() ?? throw new InvalidOperationException("Missing error details in request content");
             var messageStore = new ValidationMessageStore(context);
 

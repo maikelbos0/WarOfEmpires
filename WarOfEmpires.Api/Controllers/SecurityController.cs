@@ -25,7 +25,7 @@ public class SecurityController : ControllerBase {
             result = messageService.Dispatch(new RegisterUserCommand(model.Email, model.Password));
             ModelState.Merge(result);
         }
-        
+
         if (ModelState.IsValid) {
             return Ok(result!.Warnings);
         }
