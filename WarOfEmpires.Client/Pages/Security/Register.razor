@@ -1,10 +1,10 @@
-﻿@using System.Net;
+﻿@using System.Net
 @page "/register"
 @using WarOfEmpires.Models.Security
 
 <Title>Register</Title>
 
-<EditForm EditContext="context" OnValidSubmit="Submit">
+<EditForm EditContext="editContext" OnValidSubmit="Submit">
     <DataAnnotationsValidator />
 
     <div class="form-group">
@@ -51,15 +51,27 @@
     [Inject] public NavigationManager NavigationManager { get; set; } = null!;
     [CascadingParameter] public NotificationManager NotificationManager { get; set; } = null!;
 
+    private class ValidationProblemDetails {
+        public IDictionary<string, string[]> Errors { get; }
+
+        public ValidationProblemDetails(IDictionary<string, string[]> errors) {
+            Errors = errors;
+        }
+    }
+
     private RegisterUserModel model;
-    private EditContext context;
+    private EditContext editContext;
+    private ValidationMessageStore validationMessageStore;
 
     public Register() {
         model = new();
-        context = new(model);
+        editContext = new(model);
+        validationMessageStore = new ValidationMessageStore(editContext);
+        editContext.OnValidationRequested += (s, e) => validationMessageStore.Clear();
+        editContext.OnFieldChanged += (s, e) => validationMessageStore.Clear(e.FieldIdentifier);
     }
 
-    private async Task Submit(EditContext context) {
+    private async Task Submit() {
         var response = await HttpClient.PostAsJsonAsync(RoutingService.GetRoute(Security.Register), model);
 
         if (response.IsSuccessStatusCode) {
@@ -77,17 +89,13 @@
             NavigationManager.NavigateTo("/");
         }
         else if (response.StatusCode == HttpStatusCode.BadRequest) {
-            // TODO use ValidationProblemDetails class instead?
-            var errorDetails = await response.Content.ReadFromJsonAsync<IDictionary<string, IEnumerable<string>>>() ?? throw new InvalidOperationException("Missing error details in request content");
-            var messageStore = new ValidationMessageStore(context);
+            var validationProblemDetails = await response.Content.ReadFromJsonAsync<ValidationProblemDetails>() ?? throw new InvalidOperationException("Missing error details in request content");
 
-            foreach (var errorField in errorDetails) {
-                messageStore.Add(context.Field(errorField.Key), errorField.Value);
+            foreach (var errorField in validationProblemDetails.Errors) {
+                validationMessageStore.Add(editContext.Field(errorField.Key), errorField.Value);
             }
 
-            context.OnValidationRequested += (s, e) => messageStore.Clear();
-            context.OnFieldChanged += (s, e) => messageStore.Clear(e.FieldIdentifier);
-            context.NotifyValidationStateChanged();
+            editContext.NotifyValidationStateChanged();
         }
         else {
             NotificationManager.Notify(NotificationType.Error, "An error occurred processing data; please try again.");
