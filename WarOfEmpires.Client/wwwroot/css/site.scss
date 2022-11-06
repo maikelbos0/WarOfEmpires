@@ -13,6 +13,7 @@ $site-dark-grey: #777777;
 $site-dark-orange: #DD5500;
 $site-light-green: #77EE99;
 $site-black: #222222;
+$site-red: #dc3545;
 
 // Base dimensions
 $default-sizing: 1rem;
@@ -197,6 +198,20 @@ form {
             margin-right: 25%;
         }
 
+        ul.validation-errors {
+            margin: 0;
+            padding: 0;
+
+            > li {
+                list-style: none;
+                color: $site-red;
+
+                &:last-child {
+                    margin-bottom: $default-sizing;
+                }
+            }
+        }
+
         .form-field {
             margin-bottom: $default-sizing;
 
@@ -225,6 +240,11 @@ form {
                 &:disabled, &:read-only {
                     background-color: $site-light-apricot;
                 }
+            }
+
+            .validation-message {
+                color: $site-red;
+                font-size: $default-sizing * 0.875;
             }
         }
     }
