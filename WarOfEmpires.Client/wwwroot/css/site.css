@@ -156,6 +156,17 @@ form .form-group {
     margin-right: 25%;
   }
 }
+form .form-group ul.validation-errors {
+  margin: 0;
+  padding: 0;
+}
+form .form-group ul.validation-errors > li {
+  list-style: none;
+  color: #dc3545;
+}
+form .form-group ul.validation-errors > li:last-child {
+  margin-bottom: 1rem;
+}
 form .form-group .form-field {
   margin-bottom: 1rem;
 }
@@ -181,6 +192,10 @@ form .form-group .form-field input:focus {
 }
 form .form-group .form-field input:disabled, form .form-group .form-field input:read-only {
   background-color: #F8E8C4;
+}
+form .form-group .form-field .validation-message {
+  color: #dc3545;
+  font-size: 0.875rem;
 }
 form .form-button-group {
   width: 100%;
