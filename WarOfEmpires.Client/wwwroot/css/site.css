@@ -107,7 +107,7 @@ p {
   position: absolute;
   bottom: 0;
   right: 0;
-  width: 300px;
+  width: 25rem;
 }
 .popup-message-container .popup-message {
   display: flex !important;
@@ -128,8 +128,8 @@ p {
   color: #F8E8C4;
 }
 .popup-message-container .popup-message > .popup-message-icon {
-  width: 30px;
   font-size: 1.5rem;
+  flex-shrink: 0;
   margin-left: 1rem;
 }
 .popup-message-container .popup-message > .popup-message-body {

@@ -143,7 +143,7 @@ p {
     position: absolute;
     bottom: 0;
     right: 0;
-    width: 300px;
+    width: $default-sizing * 25;
 
     .popup-message {
         display: flex !important;
@@ -167,8 +167,8 @@ p {
         }
 
         > .popup-message-icon {
-            width: 30px;
-            font-size: 1.5 * $default-sizing;
+            font-size: $default-sizing * 1.5;
+            flex-shrink: 0;
             margin-left: $default-sizing;
         }
 
