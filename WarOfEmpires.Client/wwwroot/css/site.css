@@ -116,15 +116,15 @@ p {
   border-radius: 0.25rem;
 }
 .popup-message-container .popup-message.popup-message-success {
-  background-color: #11bb22;
+  background-color: #11cc11;
   color: #F8E8C4;
 }
 .popup-message-container .popup-message.popup-message-error {
-  background-color: #bb2211;
+  background-color: #cc1111;
   color: #F8E8C4;
 }
 .popup-message-container .popup-message.popup-message-warning {
-  background-color: #dd9911;
+  background-color: #dd8800;
   color: #F8E8C4;
 }
 .popup-message-container .popup-message > .popup-message-icon {
