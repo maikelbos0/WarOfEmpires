@@ -44,7 +44,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WarOfEmpires.Api.Tests", "W
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WarOfEmpires.Api.Routing", "WarOfEmpires.Api.Routing\WarOfEmpires.Api.Routing.csproj", "{263180EA-7D24-4474-9B4D-AB2998237890}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarOfEmpires.Client.Tests", "WarOfEmpires.Client.Tests\WarOfEmpires.Client.Tests.csproj", "{77ABAAE3-CEE2-409B-922C-8BA7980C1191}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WarOfEmpires.Client.Tests", "WarOfEmpires.Client.Tests\WarOfEmpires.Client.Tests.csproj", "{77ABAAE3-CEE2-409B-922C-8BA7980C1191}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
