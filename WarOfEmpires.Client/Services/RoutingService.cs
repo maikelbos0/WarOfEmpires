@@ -3,6 +3,9 @@
 namespace WarOfEmpires.Client.Services;
 
 public class RoutingService {
-    public string GetRoute<TRoute>(TRoute route) where TRoute : struct, Enum
-        => $"{typeof(TRoute).Name}/{Enum.GetName(route)}";
+    public string GetRoute(Enum route) {
+        var routeType = route.GetType();
+
+        return $"{routeType.Name}/{Enum.GetName(routeType, route)}";
+    }
 }
