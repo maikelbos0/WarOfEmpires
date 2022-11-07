@@ -1,0 +1,110 @@
+﻿@using System.Net
+
+@*TODO make this work for different types of form layouts*@
+
+<EditForm EditContext="editContext" OnValidSubmit="Submit">
+    <DataAnnotationsValidator />
+
+    <div class="form-group">
+        @{
+            var validationMessages = context.GetValidationMessages(context.Field(string.Empty)).ToList();
+
+            if (validationMessages.Any()) {
+                <ul class="validation-errors">
+                    @foreach (var message in validationMessages) {
+                        <li>@message</li>
+                    }
+                </ul>
+            }
+        }
+
+        @ChildContent
+    </div>
+
+    <div class="form-button-group">
+        <button type="submit">Submit</button>
+    </div>
+</EditForm>
+
+@code {
+    private class ValidationProblemDetails {
+        public IDictionary<string, string[]> Errors { get; }
+
+        public ValidationProblemDetails(IDictionary<string, string[]> errors) {
+            Errors = errors;
+        }
+    }
+
+    [Inject]
+    public HttpClient HttpClient { get; set; } = null!;
+
+    [Inject]
+    public RoutingService RoutingService { get; set; } = null!;
+
+    [CascadingParameter]
+    public NotificationManager NotificationManager { get; set; } = null!;
+
+    [Parameter]
+    [EditorRequired]
+    public Enum Route { get; set; } = default!;
+
+    [Parameter]
+    [EditorRequired]
+    public object Model { get; set; } = default!;
+
+    [Parameter]
+    public string? SuccessMessage { get; set; }
+
+    [Parameter]
+    public Action? OnSuccess { get; set; }
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    private EditContext editContext = null!;
+    private ValidationMessageStore validationMessageStore = null!;
+
+    protected override void OnInitialized() {
+        base.OnInitialized();
+
+        editContext = new(Model);
+        validationMessageStore = new ValidationMessageStore(editContext);
+        editContext.OnValidationRequested += (s, e) => validationMessageStore.Clear();
+        editContext.OnFieldChanged += (s, e) => validationMessageStore.Clear(e.FieldIdentifier);
+    }
+
+    private async Task Submit() {
+        var response = await HttpClient.PostAsJsonAsync(RoutingService.GetRoute(Route), Model);
+
+        if (response.IsSuccessStatusCode) {
+            var warnings = await response.Content.ReadFromJsonAsync<IEnumerable<string>>();
+
+            if (warnings?.Any() ?? false) {
+                foreach (var warning in warnings) {
+                    NotificationManager.Notify(NotificationType.Warning, warning);
+                }
+            }
+            else if (!string.IsNullOrWhiteSpace(SuccessMessage)) {
+                NotificationManager.Notify(NotificationType.Success, SuccessMessage);
+            }
+
+            if (OnSuccess != null) {
+                OnSuccess();
+            }
+        }
+        else if (response.StatusCode == HttpStatusCode.BadRequest) {
+            var validationProblemDetails = await response.Content.ReadFromJsonAsync<ValidationProblemDetails>() ?? throw new InvalidOperationException("Missing error details in request content");
+
+            foreach (var errorField in validationProblemDetails.Errors) {
+                validationMessageStore.Add(editContext.Field(errorField.Key), errorField.Value);
+            }
+
+            editContext.NotifyValidationStateChanged();
+        }
+        else {
+            NotificationManager.Notify(NotificationType.Error, "An error occurred processing data; please try again.");
+        }
+    }
+
+    // TODO disable submit buttons on post
+}
