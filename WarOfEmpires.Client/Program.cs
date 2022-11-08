@@ -15,6 +15,7 @@ var apiSettings = builder.Configuration.GetSection(nameof(ApiSettings)).Get<ApiS
 builder.Services.AddSingleton(apiSettings);
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(apiSettings.BaseUrl) });
 builder.Services.AddScoped<RoutingService>();
+builder.Services.AddScoped<PasswordStrengthCalculator>();
 
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
