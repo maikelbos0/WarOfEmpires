@@ -2,7 +2,7 @@
 
 @*TODO make this work for different types of form layouts*@
 
-<EditForm EditContext="editContext" OnValidSubmit="Submit">
+<EditForm EditContext="editContext" OnValidSubmit="Submit" disabled="@isSubmitting">
     <DataAnnotationsValidator />
 
     <div class="form-group">
@@ -35,6 +35,10 @@
         }
     }
 
+    private bool isSubmitting = false;
+    private EditContext editContext = null!;
+    private ValidationMessageStore validationMessageStore = null!;
+
     [Inject]
     public HttpClient HttpClient { get; set; } = null!;
 
@@ -43,6 +47,9 @@
 
     [CascadingParameter]
     public NotificationManager NotificationManager { get; set; } = null!;
+
+    [Inject]
+    public NavigationManager NavigationManager { get; set; } = null!;
 
     [Parameter]
     [EditorRequired]
@@ -56,13 +63,10 @@
     public string? SuccessMessage { get; set; }
 
     [Parameter]
-    public Action? OnSuccess { get; set; }
+    public string? OnSuccess { get; set; }
 
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
-
-    private EditContext editContext = null!;
-    private ValidationMessageStore validationMessageStore = null!;
 
     protected override void OnInitialized() {
         base.OnInitialized();
@@ -74,6 +78,8 @@
     }
 
     private async Task Submit() {
+        isSubmitting = true;
+
         var response = await HttpClient.PostAsJsonAsync(RoutingService.GetRoute(Route), Model);
 
         if (response.IsSuccessStatusCode) {
@@ -89,7 +95,7 @@
             }
 
             if (OnSuccess != null) {
-                OnSuccess();
+                NavigationManager.NavigateTo(OnSuccess);
             }
         }
         else if (response.StatusCode == HttpStatusCode.BadRequest) {
@@ -104,7 +110,7 @@
         else {
             NotificationManager.Notify(NotificationType.Error, "An error occurred processing data; please try again.");
         }
-    }
 
-    // TODO disable submit buttons on post
+        isSubmitting = false;
+    }
 }

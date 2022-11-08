@@ -4,8 +4,7 @@
 
 <Title>Register</Title>
 
-<Form Route="Security.Register" Model="model" OnSuccess="@(() => NavigationManager.NavigateTo("/"))"
-    SuccessMessage="You have registered successfully. An email has been sent to the provided email address with a validation link.">
+<Form Route="Security.Register" Model="model" OnSuccess="/" SuccessMessage="You have registered successfully. An email has been sent to the provided email address with a validation link.">
 
     <div class="form-field">
         <Label For="() => model.Email" />
@@ -29,7 +28,4 @@
 
 @code {
     private RegisterUserModel model = new();
-
-    [Inject]
-    public NavigationManager NavigationManager { get; set; } = null!;
 }
