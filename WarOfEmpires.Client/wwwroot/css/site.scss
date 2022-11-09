@@ -15,16 +15,20 @@ $site-light-green: #77EE99;
 $site-black: #222222;
 $site-red: #dc3545;
 
-// Base dimensions
 $default-sizing: 1rem;
 
-// Popup colors
-$popup-message-success-background: #11cc11;
+$popup-message-success-background: #11CC11;
 $popup-message-success: $site-light-apricot;
-$popup-message-error-background: #cc1111;
+$popup-message-error-background: #CC1111;
 $popup-message-error: $site-light-apricot;
-$popup-message-warning-background: #dd8800;
+$popup-message-warning-background: #DD8800;
 $popup-message-warning: $site-light-apricot;
+
+$password-strength-weakest: #EE3333;
+$password-strength-weak: #EE8833;
+$password-strength-medium: #EEEE33;
+$password-strength-strong: #88EE33;
+$password-strength-strongest: #33EE33;
 
 *, *::before, *::after {
     box-sizing: border-box;
@@ -192,7 +196,7 @@ form {
     .form-group {
         width: 100%;
 
-        @media (min-width: 768px) {
+        @media (min-width: 48 * $default-sizing) {
             width: 50%;
             margin-left: 25%;
             margin-right: 25%;
@@ -240,6 +244,34 @@ form {
                 &:disabled, &:read-only {
                     background-color: $site-light-apricot;
                 }
+
+                @mixin password-strength($color) {
+                    box-shadow: 0 $default-sizing / -4 0 0 $color inset;
+
+                    &:focus {
+                        box-shadow: 0 0 $default-sizing / 4 $default-sizing / 4 rgba($site-dark-purple, 0.25), 0 $default-sizing / -4 0 0 $color inset;
+                    }
+                }
+
+                &.password-strength-weakest {
+                    @include password-strength($password-strength-weakest);
+                }
+
+                &.password-strength-weak {
+                    @include password-strength($password-strength-weak);
+                }
+
+                &.password-strength-medium {
+                    @include password-strength($password-strength-medium);
+                }
+
+                &.password-strength-strong {
+                    @include password-strength($password-strength-strong);
+                }
+
+                &.password-strength-strongest {
+                    @include password-strength($password-strength-strongest);
+                }
             }
 
             .validation-message {
@@ -253,7 +285,7 @@ form {
         width: 100%;
         padding-left: 50%;
 
-        @media (min-width: 768px) {
+        @media (min-width: 48 * $default-sizing) {
             width: 50%;
             margin-left: 25%;
             margin-right: 25%;
