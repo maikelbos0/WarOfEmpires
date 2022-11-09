@@ -14,8 +14,7 @@
 
     <div class="form-field">
         <Label For="() => model.Password" />
-        <InputText type="password" @bind-Value="model.Password" />
-        @*TODO password judger*@
+        <InputPassword @bind-Password="model.Password" />
         <ValidationMessage For="() => model.Password" />
     </div>
 

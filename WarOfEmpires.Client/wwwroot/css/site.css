@@ -116,15 +116,15 @@ p {
   border-radius: 0.25rem;
 }
 .popup-message-container .popup-message.popup-message-success {
-  background-color: #11cc11;
+  background-color: #11CC11;
   color: #F8E8C4;
 }
 .popup-message-container .popup-message.popup-message-error {
-  background-color: #cc1111;
+  background-color: #CC1111;
   color: #F8E8C4;
 }
 .popup-message-container .popup-message.popup-message-warning {
-  background-color: #dd8800;
+  background-color: #DD8800;
   color: #F8E8C4;
 }
 .popup-message-container .popup-message > .popup-message-icon {
@@ -149,7 +149,7 @@ form {
 form .form-group {
   width: 100%;
 }
-@media (min-width: 768px) {
+@media (min-width: 48rem) {
   form .form-group {
     width: 50%;
     margin-left: 25%;
@@ -193,6 +193,36 @@ form .form-group .form-field input:focus {
 form .form-group .form-field input:disabled, form .form-group .form-field input:read-only {
   background-color: #F8E8C4;
 }
+form .form-group .form-field input.password-strength-weakest {
+  box-shadow: 0 -0.25rem 0 0 #EE3333 inset;
+}
+form .form-group .form-field input.password-strength-weakest:focus {
+  box-shadow: 0 0 0.25rem 0.25rem rgba(83, 58, 113, 0.25), 0 -0.25rem 0 0 #EE3333 inset;
+}
+form .form-group .form-field input.password-strength-weak {
+  box-shadow: 0 -0.25rem 0 0 #EE8833 inset;
+}
+form .form-group .form-field input.password-strength-weak:focus {
+  box-shadow: 0 0 0.25rem 0.25rem rgba(83, 58, 113, 0.25), 0 -0.25rem 0 0 #EE8833 inset;
+}
+form .form-group .form-field input.password-strength-medium {
+  box-shadow: 0 -0.25rem 0 0 #EEEE33 inset;
+}
+form .form-group .form-field input.password-strength-medium:focus {
+  box-shadow: 0 0 0.25rem 0.25rem rgba(83, 58, 113, 0.25), 0 -0.25rem 0 0 #EEEE33 inset;
+}
+form .form-group .form-field input.password-strength-strong {
+  box-shadow: 0 -0.25rem 0 0 #88EE33 inset;
+}
+form .form-group .form-field input.password-strength-strong:focus {
+  box-shadow: 0 0 0.25rem 0.25rem rgba(83, 58, 113, 0.25), 0 -0.25rem 0 0 #88EE33 inset;
+}
+form .form-group .form-field input.password-strength-strongest {
+  box-shadow: 0 -0.25rem 0 0 #33EE33 inset;
+}
+form .form-group .form-field input.password-strength-strongest:focus {
+  box-shadow: 0 0 0.25rem 0.25rem rgba(83, 58, 113, 0.25), 0 -0.25rem 0 0 #33EE33 inset;
+}
 form .form-group .form-field .validation-message {
   color: #dc3545;
   font-size: 0.875rem;
@@ -201,7 +231,7 @@ form .form-button-group {
   width: 100%;
   padding-left: 50%;
 }
-@media (min-width: 768px) {
+@media (min-width: 48rem) {
   form .form-button-group {
     width: 50%;
     margin-left: 25%;
