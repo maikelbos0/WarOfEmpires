@@ -18,4 +18,8 @@ public class SecurityController : BaseController {
     [HttpPost(nameof(Routing.Security.Activate))]
     public IActionResult Activate(ActivateUserModel model)
         => ExecuteCommand(new ActivateUserCommand(model.Email, model.ActivationCode));
+
+    [HttpPost(nameof(Routing.Security.SendActivation))]
+    public IActionResult SendActivation(SendUserActivationModel model)
+        => ExecuteCommand(new SendUserActivationCommand(model.Email));
 }
