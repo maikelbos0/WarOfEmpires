@@ -1,0 +1,50 @@
+﻿@page "/activate"
+@page "/home/activate"
+
+@using System.Net
+@using WarOfEmpires.Models.Security
+
+<Title>Activate</Title>
+
+<p>
+    Your account is being activated, please be patient.
+</p>
+
+@code {
+    [Inject]
+    public HttpClient HttpClient { get; set; } = null!;
+
+    [Inject]
+    public RoutingService RoutingService { get; set; } = null!;
+
+    [CascadingParameter]
+    public NotificationManager NotificationManager { get; set; } = null!;
+
+    [Inject]
+    public NavigationManager NavigationManager { get; set; } = null!;
+
+    [Parameter]
+    [SupplyParameterFromQuery(Name = "activationCode")]
+    public string? ActivationCode { get; set; }
+
+    [Parameter]
+    [SupplyParameterFromQuery(Name = "email")]
+    public string? Email { get; set; }
+
+    protected override async Task OnInitializedAsync() {
+        var response = await HttpClient.PostAsJsonAsync(RoutingService.GetRoute(Security.Activate), new ActivateUserModel() {
+                ActivationCode = ActivationCode,
+                Email = Email
+            });
+
+        if (response.IsSuccessStatusCode) {
+            NavigationManager.NavigateTo("/activated");
+        }
+        else if (response.StatusCode == HttpStatusCode.BadRequest) {
+            NavigationManager.NavigateTo("/activation-failed");
+        }
+        else {
+            NotificationManager.Notify(NotificationType.Error, "An error occurred processing data; please try again.");
+        }
+    }
+}
