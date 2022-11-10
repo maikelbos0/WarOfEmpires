@@ -2,5 +2,6 @@
 
 public enum Security {
     Register,
-    Activate
+    Activate,
+    SendActivation
 }
