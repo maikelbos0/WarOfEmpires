@@ -91,8 +91,12 @@ nav {
         background-color: $site-medium-blue;
         border: 1px solid $site-dark-purple;
 
-        > .nav-link:not(:first-child) {
-            margin-top: $default-sizing / 2;
+        > .nav-link {
+            padding: 0;
+
+            &:not(:first-child) {
+                margin-top: $default-sizing / 2;
+            }
         }
     }
 }

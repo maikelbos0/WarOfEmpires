@@ -54,6 +54,9 @@ nav .nav-menu > .nav-menu-content {
   background-color: #6184D8;
   border: 1px solid #533A71;
 }
+nav .nav-menu > .nav-menu-content > .nav-link {
+  padding: 0;
+}
 nav .nav-menu > .nav-menu-content > .nav-link:not(:first-child) {
   margin-top: 0.5rem;
 }
