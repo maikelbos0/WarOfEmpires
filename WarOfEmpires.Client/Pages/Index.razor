@@ -15,20 +15,3 @@
     Attack other empires for resource gains or to simply crush them. Declare war on other alliances for more risk and more rewards.
     Join an alliance to work together towards a common goal, exchange ideas and hang out.
 </p>
-
-<p @onclick="() => throw new Exception()">Test Blazor error</p>
-
-<p @onclick="() => Notify(NotificationType.Success)">Test success notification</p>
-
-<p @onclick="() => Notify(NotificationType.Warning)">Test warning notification</p>
-
-<p @onclick="() => Notify(NotificationType.Error)">Test error notification</p>
-
-@code {
-    [CascadingParameter]
-    public NotificationManager NotificationManager { get; set; } = null!;
-
-    private void Notify(NotificationType type) {
-        NotificationManager.Notify(type, "Hello, I'm a notification");
-    }
-}
