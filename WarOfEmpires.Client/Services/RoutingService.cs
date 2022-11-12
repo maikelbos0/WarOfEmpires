@@ -2,7 +2,7 @@
 
 namespace WarOfEmpires.Client.Services;
 
-public class RoutingService {
+public sealed class RoutingService {
     public string GetRoute(Enum route) {
         var routeType = route.GetType();
 

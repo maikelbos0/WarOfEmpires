@@ -1,6 +1,6 @@
 ﻿namespace WarOfEmpires.Client.Notifications;
 
-public class Notification {
+public sealed class Notification {
     public Notification(NotificationType type, string message) {
         Type = type;
         Message = message;

@@ -5,7 +5,7 @@ using WarOfEmpires.Client.Services;
 namespace WarOfEmpires.Client.Tests.Services;
 
 [TestClass]
-public class RoutingServiceTests {
+public sealed class RoutingServiceTests {
     private enum Test {
         Route
     }

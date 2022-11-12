@@ -7,7 +7,7 @@ namespace WarOfEmpires.Api.Controllers;
 
 [ApiController]
 [Route(nameof(Routing.Security))]
-public class SecurityController : BaseController {
+public sealed class SecurityController : BaseController {
     public SecurityController(IMessageService messageService) : base(messageService) { }
 
     [HttpPost(nameof(Routing.Security.Register))]

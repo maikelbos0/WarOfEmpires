@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace WarOfEmpires.Client.Notifications;
 
-public class NotificationManager {
+public sealed class NotificationManager {
     private const int TimeoutInSeconds = 3;
 
     private readonly List<Notification> notifications = new();

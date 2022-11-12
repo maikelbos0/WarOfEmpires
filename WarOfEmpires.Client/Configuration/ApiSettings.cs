@@ -1,5 +1,5 @@
 ﻿namespace WarOfEmpires.Client.Configuration; 
 
-public class ApiSettings {
+public sealed class ApiSettings {
     public string BaseUrl { get; set; } = null!;
 }
