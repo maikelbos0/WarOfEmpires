@@ -5,7 +5,7 @@ using WarOfEmpires.Client.Services;
 namespace WarOfEmpires.Client.Tests.Services;
 
 [TestClass]
-public class PasswordStrengthCalculatorTests {
+public sealed class PasswordStrengthCalculatorTests {
     [DataTestMethod]
     [DataRow(null, PasswordStrength.None)]
     [DataRow("", PasswordStrength.None)]
