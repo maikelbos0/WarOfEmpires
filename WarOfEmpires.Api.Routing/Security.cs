@@ -3,5 +3,6 @@
 public enum Security {
     Register,
     Activate,
-    SendActivation
+    SendActivation,
+    ForgotPassword
 }
