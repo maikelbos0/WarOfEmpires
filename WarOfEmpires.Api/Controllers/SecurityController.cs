@@ -14,7 +14,6 @@ public class SecurityController : BaseController {
     public IActionResult Register(RegisterUserModel model)
         => ExecuteCommand(new RegisterUserCommand(model.Email, model.Password));
 
-
     [HttpPost(nameof(Routing.Security.Activate))]
     public IActionResult Activate(ActivateUserModel model)
         => ExecuteCommand(new ActivateUserCommand(model.Email, model.ActivationCode));
@@ -22,4 +21,8 @@ public class SecurityController : BaseController {
     [HttpPost(nameof(Routing.Security.SendActivation))]
     public IActionResult SendActivation(SendUserActivationModel model)
         => ExecuteCommand(new SendUserActivationCommand(model.Email));
+
+    [HttpPost(nameof(Routing.Security.ForgotPassword))]
+    public IActionResult ForgotPassword(ForgotUserPasswordModel model)
+        => ExecuteCommand(new ForgotUserPasswordCommand(model.Email));
 }
