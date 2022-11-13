@@ -1,7 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
+using WarOfEmpires.Api.Extensions;
 using WarOfEmpires.Api.Services;
 using WarOfEmpires.Commands.Security;
 using WarOfEmpires.Models.Security;
+using WarOfEmpires.Queries.Players;
+using WarOfEmpires.Queries.Security;
 
 namespace WarOfEmpires.Api.Controllers;
 
@@ -25,4 +29,17 @@ public sealed class SecurityController : BaseController {
     [HttpPost(nameof(Routing.Security.ForgotPassword))]
     public IActionResult ForgotPassword(ForgotUserPasswordModel model)
         => ExecuteCommand(new ForgotUserPasswordCommand(model.Email));
+
+    [HttpPost(nameof(Routing.Security.LogIn))]
+    public IActionResult LogIn(LogInUserModel model) {
+        var result = messageService.Dispatch(new LogInUserCommand(model.Email, model.Password));
+        ModelState.Merge(result);
+
+        if (ModelState.IsValid) {
+            return Ok(messageService.Dispatch(new GetUserTokenQuery(model.Email)));
+        }
+        else {
+            return BadRequest(new ValidationProblemDetails(ModelState));
+        }
+    }
 }
