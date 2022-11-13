@@ -1,0 +1,24 @@
+﻿@page "/log-in"
+@using WarOfEmpires.Models.Security
+
+<Title>Log in</Title>
+
+@*TODO: navigate to either previously requested page or to empire overview*@
+
+<Form Route="Security.LogIn" Model="model" OnSuccess="/">
+    <div class="form-field">
+        <Label For="() => model.Email" />
+        <InputText @bind-Value="model.Email" />
+        <ValidationMessage For="() => model.Email" />
+    </div>
+
+    <div class="form-field">
+        <Label For="() => model.Password" />
+        <InputText type="password" @bind-Value="model.Password" />
+        <ValidationMessage For="() => model.Password" />
+    </div>
+</Form>
+
+@code {
+    LogInUserModel model = new();
+}

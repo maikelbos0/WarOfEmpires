@@ -5,7 +5,7 @@ using WarOfEmpires.Commands;
 
 namespace WarOfEmpires.Api.Controllers {
     public abstract class BaseController : ControllerBase {
-        private readonly IMessageService messageService;
+        protected readonly IMessageService messageService;
 
         public BaseController(IMessageService messageService) {
             this.messageService = messageService;
