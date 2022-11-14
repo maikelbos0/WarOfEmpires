@@ -60,6 +60,9 @@
     public object Model { get; set; } = default!;
 
     [Parameter]
+    public Func<HttpResponseMessage, Task<bool>>? ResponseMessageHandler { get; set; }
+
+    [Parameter]
     public string? SuccessMessage { get; set; }
 
     [Parameter]
@@ -83,14 +86,9 @@
         var response = await HttpClient.PostAsJsonAsync(RoutingService.GetRoute(Route), Model);
 
         if (response.IsSuccessStatusCode) {
-            var warnings = await response.Content.ReadFromJsonAsync<IEnumerable<string>>();
+            var responseIsHandled = await (ResponseMessageHandler ?? HandleResponseMessage)(response);
 
-            if (warnings?.Any() ?? false) {
-                foreach (var warning in warnings) {
-                    NotificationManager.Notify(NotificationType.Warning, warning);
-                }
-            }
-            else if (!string.IsNullOrWhiteSpace(SuccessMessage)) {
+            if (!responseIsHandled && !string.IsNullOrWhiteSpace(SuccessMessage)) {
                 NotificationManager.Notify(NotificationType.Success, SuccessMessage);
             }
 
@@ -99,7 +97,7 @@
             }
         }
         else if (response.StatusCode == HttpStatusCode.BadRequest) {
-            var validationProblemDetails = await response.Content.ReadFromJsonAsync<ValidationProblemDetails>() ?? throw new InvalidOperationException("Missing error details in request content");
+            var validationProblemDetails = await response.Content.ReadFromJsonAsync<ValidationProblemDetails>() ?? throw new InvalidOperationException("Missing error details in response content");
 
             foreach (var errorField in validationProblemDetails.Errors) {
                 validationMessageStore.Add(editContext.Field(errorField.Key), errorField.Value);
@@ -112,5 +110,19 @@
         }
 
         isSubmitting = false;
+    }
+
+    private async Task<bool> HandleResponseMessage(HttpResponseMessage response) {
+        var warnings = await response.Content.ReadFromJsonAsync<IEnumerable<string>>();
+
+        if (warnings?.Any() ?? false) {
+            foreach (var warning in warnings) {
+                NotificationManager.Notify(NotificationType.Warning, warning);
+            }
+
+            return true;
+        }
+
+        return false;
     }
 }
