@@ -4,6 +4,8 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System;
 using WarOfEmpires.Api.Configuration;
+using WarOfEmpires.Models.Security;
+using WarOfEmpires.Api.Routing;
 
 namespace WarOfEmpires.Api.Services {
     public sealed class TokenService : ITokenService {
@@ -15,24 +17,28 @@ namespace WarOfEmpires.Api.Services {
             this.issuerSigningKey = issuerSigningKey;
         }
 
-        public string CreateToken(string subject, bool isAdmin) {
+        public string CreateToken(UserClaimsViewModel viewModel) {
             var now = DateTime.UtcNow;
             var handler = new JwtSecurityTokenHandler();
+            var claims = new List<Claim>() {
+                new Claim(JwtRegisteredClaimNames.Sub, viewModel.Subject),
+                new Claim(JwtRegisteredClaimNames.Name, viewModel.DisplayName),
+            };
             var descriptor = new SecurityTokenDescriptor() {
+                Audience = clientSettings.TokenAudience,
+                Issuer = clientSettings.TokenIssuer,
+                Subject = new ClaimsIdentity(claims),
                 IssuedAt = now,
                 NotBefore = now,
                 Expires = now.AddMinutes(clientSettings.TokenExpirationTimeInMinutes),
-                Audience = clientSettings.TokenAudience,
-                Issuer = clientSettings.TokenIssuer,
-                SigningCredentials = new SigningCredentials(issuerSigningKey, SecurityAlgorithms.HmacSha256Signature),
-                Claims = new Dictionary<string, object>() {
-                    { JwtRegisteredClaimNames.Sub, subject }
-                }
+                SigningCredentials = new SigningCredentials(issuerSigningKey, SecurityAlgorithms.HmacSha256Signature)
             };
 
-            if (isAdmin) {
-                descriptor.Claims.Add(ClaimTypes.Role, Roles.Administrator);
+            if (viewModel.IsAdmin) {
+                claims.Add(new Claim(ClaimTypes.Role, Roles.Administrator));
             }
+
+            // TODO add more roles/claims
 
             var token = handler.CreateToken(descriptor);
 
