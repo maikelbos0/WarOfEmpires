@@ -15,8 +15,7 @@ namespace WarOfEmpires.Api.Services {
             this.issuerSigningKey = issuerSigningKey;
         }
 
-        // TODO add identity
-        public string CreateToken(bool isAdmin) {
+        public string CreateToken(string subject, bool isAdmin) {
             var now = DateTime.UtcNow;
             var handler = new JwtSecurityTokenHandler();
             var descriptor = new SecurityTokenDescriptor() {
@@ -25,11 +24,14 @@ namespace WarOfEmpires.Api.Services {
                 Expires = now.AddMinutes(clientSettings.TokenExpirationTimeInMinutes),
                 Audience = clientSettings.TokenAudience,
                 Issuer = clientSettings.TokenIssuer,
-                SigningCredentials = new SigningCredentials(issuerSigningKey, SecurityAlgorithms.HmacSha256Signature)
+                SigningCredentials = new SigningCredentials(issuerSigningKey, SecurityAlgorithms.HmacSha256Signature),
+                Claims = new Dictionary<string, object>() {
+                    { JwtRegisteredClaimNames.Sub, subject }
+                }
             };
 
             if (isAdmin) {
-                descriptor.Claims = new Dictionary<string, object>() { { ClaimTypes.Role, Roles.Administrator } };
+                descriptor.Claims.Add(ClaimTypes.Role, Roles.Administrator);
             }
 
             var token = handler.CreateToken(descriptor);
