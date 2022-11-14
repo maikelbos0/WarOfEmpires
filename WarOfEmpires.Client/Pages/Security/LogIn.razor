@@ -5,7 +5,7 @@
 
 @*TODO: navigate to either previously requested page or to empire overview*@
 
-<Form Route="Security.LogIn" Model="model" OnSuccess="/">
+<Form Route="Security.LogIn" Model="model" ResponseMessageHandler="StoreAccessToken" OnSuccess="/" SuccessMessage="You have logged in successfully.">
     <div class="form-field">
         <Label For="() => model.Email" />
         <InputText @bind-Value="model.Email" />
@@ -20,5 +20,16 @@
 </Form>
 
 @code {
+    [CascadingParameter]
+    public NotificationManager NotificationManager { get; set; } = null!;
+
     LogInUserModel model = new();
+
+    public async Task<bool> StoreAccessToken(HttpResponseMessage response) {
+        var token = await response.Content.ReadAsStringAsync() ?? throw new InvalidOperationException("Missing token in response content");
+
+        NotificationManager.Notify(NotificationType.Success, token);
+
+        return true;
+    }
 }
