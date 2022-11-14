@@ -18,8 +18,6 @@ using WarOfEmpires.Utilities.Configuration;
 using WarOfEmpires.Utilities.Events;
 using WarOfEmpires.Utilities.Mail;
 using WarOfEmpires.Configuration;
-using Microsoft.IdentityModel.Tokens;
-using System.Security.Cryptography;
 
 namespace WarOfEmpires {
     public class Startup {
@@ -60,8 +58,6 @@ namespace WarOfEmpires {
 
             services.AddSingleton(Configuration.GetSection(nameof(AppSettings)).Get<AppSettings>());
             services.AddSingleton(Configuration.GetSection(nameof(ResourceSettings)).Get<ResourceSettings>());
-            services.AddSingleton(new ClientSettings());
-            services.AddSingleton<SecurityKey>(new SymmetricSecurityKey(RandomNumberGenerator.GetBytes(32)));
             services.AddHostedService<ScheduledTaskRunnerService>();
             services.AddApplicationInsightsTelemetry();
         }

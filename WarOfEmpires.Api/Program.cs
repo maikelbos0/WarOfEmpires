@@ -11,6 +11,7 @@ using VDT.Core.DependencyInjection;
 using VDT.Core.DependencyInjection.Attributes;
 using VDT.Core.DependencyInjection.Decorators;
 using WarOfEmpires.Api;
+using WarOfEmpires.Api.Configuration;
 using WarOfEmpires.CommandHandlers;
 using WarOfEmpires.Database.Auditing;
 using WarOfEmpires.QueryHandlers;

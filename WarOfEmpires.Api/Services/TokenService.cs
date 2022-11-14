@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System;
-using WarOfEmpires.Utilities.Authorization;
-using WarOfEmpires.Utilities.Configuration;
+using WarOfEmpires.Api.Configuration;
 
 namespace WarOfEmpires.Api.Services {
     public sealed class TokenService : ITokenService {

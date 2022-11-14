@@ -3,9 +3,8 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.IdentityModel.Tokens.Jwt;
+using WarOfEmpires.Api.Configuration;
 using WarOfEmpires.Api.Services;
-using WarOfEmpires.Utilities.Authorization;
-using WarOfEmpires.Utilities.Configuration;
 
 namespace WarOfEmpires.Api.Tests.Services {
     [TestClass]
@@ -38,7 +37,7 @@ namespace WarOfEmpires.Api.Tests.Services {
             AssertTimestamp(jwtToken.Claims.Should().Contain(c => c.Type == JwtRegisteredClaimNames.Nbf).Which.Value, DateTime.UtcNow);
             AssertTimestamp(jwtToken.Claims.Should().Contain(c => c.Type == JwtRegisteredClaimNames.Exp).Which.Value, DateTime.UtcNow.AddMinutes(clientSettings.TokenExpirationTimeInMinutes));
 
-            void AssertTimestamp(string timestampValue, DateTime expectedDate) {
+            static void AssertTimestamp(string timestampValue, DateTime expectedDate) {
                 int.TryParse(timestampValue, out var timestamp).Should().BeTrue();
                 var expectedTimestamp = (int)(expectedDate - new DateTime(1970, 1, 1)).TotalSeconds;
 
