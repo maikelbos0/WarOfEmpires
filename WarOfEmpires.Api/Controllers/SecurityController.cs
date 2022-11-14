@@ -38,9 +38,9 @@ public sealed class SecurityController : BaseController {
         ModelState.Merge(result);
 
         if (ModelState.IsValid) {
-            var isAdmin = messageService.Dispatch(new GetUserIsAdminQuery(model.Email));
+            var viewModel = messageService.Dispatch(new GetUserClaimsQuery(model.Email));
 
-            return Ok(tokenService.CreateToken(model.Email, isAdmin));
+            return Ok(tokenService.CreateToken(viewModel));
         }
         else {
             return BadRequest(new ValidationProblemDetails(ModelState));

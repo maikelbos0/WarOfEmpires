@@ -1,5 +1,7 @@
-﻿namespace WarOfEmpires.Api.Services {
+﻿using WarOfEmpires.Models.Security;
+
+namespace WarOfEmpires.Api.Services {
     public interface ITokenService {
-        string CreateToken(string subject, bool isAdmin);
+        string CreateToken(UserClaimsViewModel viewModel);
     }
 }
