@@ -40,7 +40,7 @@ public sealed class SecurityController : BaseController {
         if (ModelState.IsValid) {
             var isAdmin = messageService.Dispatch(new GetUserIsAdminQuery(model.Email));
 
-            return Ok(tokenService.CreateToken(isAdmin));
+            return Ok(tokenService.CreateToken(model.Email, isAdmin));
         }
         else {
             return BadRequest(new ValidationProblemDetails(ModelState));

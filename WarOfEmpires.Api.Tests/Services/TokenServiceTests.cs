@@ -19,7 +19,7 @@ namespace WarOfEmpires.Api.Tests.Services {
             var signingKey = new SymmetricSecurityKey(new byte[] { 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7 });
             var service = new TokenService(clientSettings, signingKey);
             
-            var result = service.CreateToken(false);
+            var result = service.CreateToken("test@test.com", false);
             var tokenHandler = new JwtSecurityTokenHandler();
             tokenHandler.ValidateToken(result, new TokenValidationParameters() {
                 ValidateAudience = false,
@@ -32,6 +32,7 @@ namespace WarOfEmpires.Api.Tests.Services {
             var jwtToken = token.Should().BeAssignableTo<JwtSecurityToken>().Subject;
             jwtToken.Issuer.Should().Be("Issuer");
             jwtToken.Claims.Should().Contain(c => c.Type == JwtRegisteredClaimNames.Aud).Which.Value.Should().Be("Audience");
+            jwtToken.Claims.Should().Contain(c => c.Type == JwtRegisteredClaimNames.Sub).Which.Value.Should().Be("test@test.com");
 
             AssertTimestamp(jwtToken.Claims.Should().Contain(c => c.Type == JwtRegisteredClaimNames.Iat).Which.Value, DateTime.UtcNow);
             AssertTimestamp(jwtToken.Claims.Should().Contain(c => c.Type == JwtRegisteredClaimNames.Nbf).Which.Value, DateTime.UtcNow);
@@ -50,7 +51,7 @@ namespace WarOfEmpires.Api.Tests.Services {
             var signingKey = new SymmetricSecurityKey(new byte[] { 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7 });
             var service = new TokenService(new ClientSettings() { TokenExpirationTimeInMinutes = 60 }, signingKey);
 
-            var result = service.CreateToken(true);
+            var result = service.CreateToken("test@test.com", true);
             var tokenHandler = new JwtSecurityTokenHandler();
             var token = tokenHandler.ReadToken(result).Should().BeAssignableTo<JwtSecurityToken>().Subject;
 
@@ -62,7 +63,7 @@ namespace WarOfEmpires.Api.Tests.Services {
             var signingKey = new SymmetricSecurityKey(new byte[] { 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7 });
             var service = new TokenService(new ClientSettings() { TokenExpirationTimeInMinutes = 60 }, signingKey);
 
-            var result = service.CreateToken(false);
+            var result = service.CreateToken("test@test.com", false);
             var tokenHandler = new JwtSecurityTokenHandler();
             var token = tokenHandler.ReadToken(result).Should().BeAssignableTo<JwtSecurityToken>().Subject;
 
