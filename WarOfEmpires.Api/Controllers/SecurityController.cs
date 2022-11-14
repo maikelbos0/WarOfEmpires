@@ -1,10 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 using WarOfEmpires.Api.Extensions;
 using WarOfEmpires.Api.Services;
 using WarOfEmpires.Commands.Security;
 using WarOfEmpires.Models.Security;
-using WarOfEmpires.Queries.Players;
 using WarOfEmpires.Queries.Security;
 
 namespace WarOfEmpires.Api.Controllers;
@@ -12,7 +10,11 @@ namespace WarOfEmpires.Api.Controllers;
 [ApiController]
 [Route(nameof(Routing.Security))]
 public sealed class SecurityController : BaseController {
-    public SecurityController(IMessageService messageService) : base(messageService) { }
+    private readonly ITokenService tokenService;
+
+    public SecurityController(IMessageService messageService, ITokenService tokenService) : base(messageService) {
+        this.tokenService = tokenService;
+    }
 
     [HttpPost(nameof(Routing.Security.Register))]
     public IActionResult Register(RegisterUserModel model)
@@ -36,7 +38,9 @@ public sealed class SecurityController : BaseController {
         ModelState.Merge(result);
 
         if (ModelState.IsValid) {
-            return Ok(messageService.Dispatch(new GetUserTokenQuery(model.Email)));
+            var isAdmin = messageService.Dispatch(new GetUserIsAdminQuery(model.Email));
+
+            return Ok(tokenService.CreateToken(isAdmin));
         }
         else {
             return BadRequest(new ValidationProblemDetails(ModelState));
