@@ -7,6 +7,7 @@ using System;
 using WarOfEmpires.Client;
 using WarOfEmpires.Client.Configuration;
 using WarOfEmpires.Client.Services;
+using Blazored.LocalStorage;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 
@@ -16,6 +17,8 @@ builder.Services.AddSingleton(apiSettings);
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(apiSettings.BaseUrl) });
 builder.Services.AddScoped<RoutingService>();
 builder.Services.AddScoped<PasswordStrengthCalculator>();
+builder.Services.AddScoped<AccessControlProvider>();
+builder.Services.AddBlazoredLocalStorage();
 
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
