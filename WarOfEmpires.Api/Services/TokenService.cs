@@ -24,6 +24,13 @@ namespace WarOfEmpires.Api.Services {
                 new Claim(JwtRegisteredClaimNames.Sub, viewModel.Subject),
                 new Claim(JwtRegisteredClaimNames.Name, viewModel.DisplayName),
             };
+
+            if (viewModel.IsAdmin) {
+                claims.Add(new Claim(ClaimTypes.Role, Roles.Administrator));
+            }
+
+            // TODO add more roles/claims
+
             var descriptor = new SecurityTokenDescriptor() {
                 Audience = clientSettings.TokenAudience,
                 Issuer = clientSettings.TokenIssuer,
@@ -33,13 +40,6 @@ namespace WarOfEmpires.Api.Services {
                 Expires = now.AddMinutes(clientSettings.TokenExpirationTimeInMinutes),
                 SigningCredentials = new SigningCredentials(issuerSigningKey, SecurityAlgorithms.HmacSha256Signature)
             };
-
-            if (viewModel.IsAdmin) {
-                claims.Add(new Claim(ClaimTypes.Role, Roles.Administrator));
-            }
-
-            // TODO add more roles/claims
-
             var token = handler.CreateToken(descriptor);
 
             return handler.WriteToken(token);

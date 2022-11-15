@@ -41,7 +41,7 @@ namespace WarOfEmpires.Api.Tests.Services {
             jwtToken.Claims.Should().Contain(c => c.Type == JwtRegisteredClaimNames.Sub).Which.Value.Should().Be("test@test.com");
             jwtToken.Claims.Should().Contain(c => c.Type == JwtRegisteredClaimNames.Name).Which.Value.Should().Be("Test");
 
-            //AssertTimestamp(jwtToken.Claims.Should().Contain(c => c.Type == JwtRegisteredClaimNames.Iat).Which.Value, DateTime.UtcNow);
+            AssertTimestamp(jwtToken.Claims.Should().Contain(c => c.Type == JwtRegisteredClaimNames.Iat).Which.Value, DateTime.UtcNow);
             AssertTimestamp(jwtToken.Claims.Should().Contain(c => c.Type == JwtRegisteredClaimNames.Nbf).Which.Value, DateTime.UtcNow);
             AssertTimestamp(jwtToken.Claims.Should().Contain(c => c.Type == JwtRegisteredClaimNames.Exp).Which.Value, DateTime.UtcNow.AddMinutes(clientSettings.TokenExpirationTimeInMinutes));
 
