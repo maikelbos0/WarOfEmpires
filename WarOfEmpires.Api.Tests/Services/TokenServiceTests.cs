@@ -12,7 +12,7 @@ namespace WarOfEmpires.Api.Tests.Services {
     [TestClass]
     public class TokenServiceTests {
         [TestMethod]
-        public void GetUserTokenQueryHandler_Returns_Valid_Token() {
+        public void CreateToken_Returns_Valid_Token() {
             var clientSettings = new ClientSettings() {
                 TokenAudience = "Audience",
                 TokenIssuer = "Issuer",
@@ -22,8 +22,7 @@ namespace WarOfEmpires.Api.Tests.Services {
             var service = new TokenService(clientSettings, signingKey);
 
             var result = service.CreateToken(new UserClaimsViewModel() {
-                Subject = "test@test.com",
-                DisplayName = "Test"
+                Subject = "test@test.com"
             });
 
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -39,7 +38,7 @@ namespace WarOfEmpires.Api.Tests.Services {
             jwtToken.Issuer.Should().Be("Issuer");
             jwtToken.Claims.Should().Contain(c => c.Type == JwtRegisteredClaimNames.Aud).Which.Value.Should().Be("Audience");
             jwtToken.Claims.Should().Contain(c => c.Type == JwtRegisteredClaimNames.Sub).Which.Value.Should().Be("test@test.com");
-            jwtToken.Claims.Should().Contain(c => c.Type == JwtRegisteredClaimNames.Name).Which.Value.Should().Be("Test");
+            jwtToken.Claims.Should().NotContain(c => c.Type == JwtRegisteredClaimNames.Name);
 
             AssertTimestamp(jwtToken.Claims.Should().Contain(c => c.Type == JwtRegisteredClaimNames.Iat).Which.Value, DateTime.UtcNow);
             AssertTimestamp(jwtToken.Claims.Should().Contain(c => c.Type == JwtRegisteredClaimNames.Nbf).Which.Value, DateTime.UtcNow);
@@ -54,7 +53,22 @@ namespace WarOfEmpires.Api.Tests.Services {
         }
 
         [TestMethod]
-        public void GetUserTokenQueryHandler_Returns_Token_With_Administrator_Role_For_Administrators() {
+        public void CreateToken_Returns_Token_With_Name_For_DisplayName() {
+            var signingKey = new SymmetricSecurityKey(new byte[] { 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7 });
+            var service = new TokenService(new ClientSettings() { TokenExpirationTimeInMinutes = 60 }, signingKey);
+
+            var result = service.CreateToken(new UserClaimsViewModel() {
+                Subject = "test@test.com",
+                DisplayName = "Test"
+            });
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var token = tokenHandler.ReadToken(result).Should().BeAssignableTo<JwtSecurityToken>().Subject;
+
+            token.Claims.Should().Contain(c => c.Type == JwtRegisteredClaimNames.Name).Which.Value.Should().Be("Test");
+        }
+
+        [TestMethod]
+        public void CreateToken_Returns_Token_With_Administrator_Role_For_Administrators() {
             var signingKey = new SymmetricSecurityKey(new byte[] { 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7 });
             var service = new TokenService(new ClientSettings() { TokenExpirationTimeInMinutes = 60 }, signingKey);
 
@@ -70,7 +84,7 @@ namespace WarOfEmpires.Api.Tests.Services {
         }
 
         [TestMethod]
-        public void GetUserTokenQueryHandler_Returns_Token_Without_Administrator_Role_For_Normal_User() {
+        public void CreateToken_Returns_Token_Without_Administrator_Role_For_Normal_User() {
             var signingKey = new SymmetricSecurityKey(new byte[] { 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7 });
             var service = new TokenService(new ClientSettings() { TokenExpirationTimeInMinutes = 60 }, signingKey);
 

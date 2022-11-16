@@ -21,9 +21,12 @@ namespace WarOfEmpires.Api.Services {
             var now = DateTime.UtcNow;
             var handler = new JwtSecurityTokenHandler();
             var claims = new List<Claim>() {
-                new Claim(JwtRegisteredClaimNames.Sub, viewModel.Subject),
-                new Claim(JwtRegisteredClaimNames.Name, viewModel.DisplayName),
+                new Claim(JwtRegisteredClaimNames.Sub, viewModel.Subject)
             };
+
+            if (viewModel.DisplayName != null) {
+                claims.Add(new Claim(JwtRegisteredClaimNames.Name, viewModel.DisplayName));
+            }
 
             if (viewModel.IsAdmin) {
                 claims.Add(new Claim(ClaimTypes.Role, Roles.Administrator));
