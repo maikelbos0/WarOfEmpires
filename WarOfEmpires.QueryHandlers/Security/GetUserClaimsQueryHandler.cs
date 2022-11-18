@@ -14,14 +14,17 @@ namespace WarOfEmpires.QueryHandlers.Security {
         }
 
         public UserClaimsViewModel Execute(GetUserClaimsQuery query) {
+            var user = _context.Users
+                .Single(u => EmailComparisonService.Equals(u.Email, query.Email));
+
             var player = _context.Players
-                .Include(p => p.User)
                 .Include(p => p.AllianceRole)
                 .Include(p => p.Alliance.Leader)
                 .SingleOrDefault(p => EmailComparisonService.Equals(p.User.Email, query.Email));
 
             var result = new UserClaimsViewModel() {
-                IsAdmin = player?.User.IsAdmin ?? false,
+                Subject = user.Email,
+                IsAdmin = user.IsAdmin,
                 IsPlayer = player != null,
                 IsInAlliance = player?.Alliance != null,
                 DisplayName = player?.DisplayName
