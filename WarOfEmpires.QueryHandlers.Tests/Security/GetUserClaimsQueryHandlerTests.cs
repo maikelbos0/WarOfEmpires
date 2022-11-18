@@ -21,6 +21,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Security {
 
             var result = handler.Execute(query);
 
+            result.Subject.Should().Be("test1@test.com");
             result.IsAdmin.Should().BeFalse();
             result.IsPlayer.Should().BeTrue();
             result.IsInAlliance.Should().BeFalse();
@@ -49,12 +50,10 @@ namespace WarOfEmpires.QueryHandlers.Tests.Security {
         }
 
         [TestMethod]
-        public void GetUserClaimsQueryHandler_Returns_Correct_Information_IsAdmin_IsInAlliance() {
+        public void GetUserClaimsQueryHandler_Returns_Correct_Information_IsAdmin() {
             var builder = new FakeBuilder()
-                .BuildAlliance(1)
-                .BuildMember(1);
+                .BuildUser(1);
 
-            builder.Player.AllianceRole.Returns((Role)null);
             builder.User.IsAdmin.Returns(true);
 
             var handler = new GetUserClaimsQueryHandler(builder.Context);
@@ -63,6 +62,21 @@ namespace WarOfEmpires.QueryHandlers.Tests.Security {
             var result = handler.Execute(query);
 
             result.IsAdmin.Should().BeTrue();
+        }
+
+        [TestMethod]
+        public void GetUserClaimsQueryHandler_Returns_Correct_Information_IsInAlliance() {
+            var builder = new FakeBuilder()
+                .BuildAlliance(1)
+                .BuildMember(1);
+
+            builder.Player.AllianceRole.Returns((Role)null);
+
+            var handler = new GetUserClaimsQueryHandler(builder.Context);
+            var query = new GetUserClaimsQuery("test1@test.com");
+
+            var result = handler.Execute(query);
+
             result.IsInAlliance.Should().BeTrue();
             result.CanTransferLeadership.Should().BeFalse();
             result.CanInvite.Should().BeFalse();
