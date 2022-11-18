@@ -20,16 +20,16 @@
 </Form>
 
 @code {
-    [CascadingParameter]
-    public NotificationManager NotificationManager { get; set; } = null!;
+    [Inject]
+    public AccessControlProvider AccessControlProvider { get; set; } = null!;
 
     LogInUserModel model = new();
 
     public async Task<bool> StoreAccessToken(HttpResponseMessage response) {
         var token = await response.Content.ReadAsStringAsync() ?? throw new InvalidOperationException("Missing token in response content");
 
-        NotificationManager.Notify(NotificationType.Success, token);
+        await AccessControlProvider.SignIn(token);
 
-        return true;
+        return false;
     }
 }

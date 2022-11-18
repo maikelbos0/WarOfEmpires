@@ -98,6 +98,12 @@ nav {
                 margin-top: $default-sizing / 2;
             }
         }
+
+        > .nav-divider {
+            height: 0;
+            margin: $default-sizing / 2 0;
+            border-top: 1px solid $site-dark-purple;
+        }
     }
 }
 

@@ -60,6 +60,11 @@ nav .nav-menu > .nav-menu-content > .nav-link {
 nav .nav-menu > .nav-menu-content > .nav-link:not(:first-child) {
   margin-top: 0.5rem;
 }
+nav .nav-menu > .nav-menu-content > .nav-divider {
+  height: 0;
+  margin: 0.5rem 0;
+  border-top: 1px solid #533A71;
+}
 
 main {
   background-color: #F5E0B7;
