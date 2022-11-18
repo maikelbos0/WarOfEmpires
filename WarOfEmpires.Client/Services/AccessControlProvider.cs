@@ -37,10 +37,4 @@ public sealed class AccessControlProvider {
 
         AccessControlStateChanged?.Invoke(new AccessControlState());
     }
-
-    public async Task<bool> IsAuthenticated() => await GetAccessToken() != null;
-
-    public async Task<string?> GetName() => (await GetAccessToken())?.Claims.SingleOrDefault(c => c.Type == JwtRegisteredClaimNames.Name)?.Value;
-
-    private async Task<JwtSecurityToken?> GetAccessToken() => await storageService.GetItemAsync<JwtSecurityToken?>(StorageKey);
 }

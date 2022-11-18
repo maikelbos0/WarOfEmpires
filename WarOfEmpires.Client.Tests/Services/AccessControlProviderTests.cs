@@ -2,9 +2,7 @@
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using WarOfEmpires.Client.Services;
 
@@ -44,57 +42,5 @@ public class AccessControlProviderTests {
         state.DisplayName.Should().BeNull();
         state.IsAuthenticated.Should().BeFalse();
         state.IsAdmin.Should().BeFalse();
-    }
-
-    [TestMethod]
-    public async Task IsAuthenticated_Is_True_With_Token() {
-        var storageService = Substitute.For<ILocalStorageService>();
-        var provider = new AccessControlProvider(storageService);
-        
-        storageService.GetItemAsync<JwtSecurityToken>("AccessToken").Returns(new JwtSecurityToken());
-
-        (await provider.IsAuthenticated()).Should().BeTrue();
-    }
-
-    [TestMethod]
-    public async Task IsAuthenticated_Is_False_Without_Token() {
-        var storageService = Substitute.For<ILocalStorageService>();
-        var provider = new AccessControlProvider(storageService);
-
-        storageService.GetItemAsync<JwtSecurityToken>("AccessToken").Returns((JwtSecurityToken)null);
-
-        (await provider.IsAuthenticated()).Should().BeFalse();
-    }
-
-    [TestMethod]
-    public async Task GetName_Returns_Name_Claim_From_Token() {
-        var storageService = Substitute.For<ILocalStorageService>();
-        var provider = new AccessControlProvider(storageService);
-
-        storageService.GetItemAsync<JwtSecurityToken>("AccessToken").Returns(new JwtSecurityToken(claims: new List<Claim>() {
-            new Claim(JwtRegisteredClaimNames.Name, "Test")
-        }));
-
-        (await provider.GetName()).Should().Be("Test");
-    }
-
-    [TestMethod]
-    public async Task GetName_Returns_Null_Without_Name_Claim() {
-        var storageService = Substitute.For<ILocalStorageService>();
-        var provider = new AccessControlProvider(storageService);
-
-        storageService.GetItemAsync<JwtSecurityToken>("AccessToken").Returns(new JwtSecurityToken());
-
-        (await provider.GetName()).Should().BeNull();
-    }
-
-    [TestMethod]
-    public async Task GetName_Returns_Null_Without_Token() {
-        var storageService = Substitute.For<ILocalStorageService>();
-        var provider = new AccessControlProvider(storageService);
-
-        storageService.GetItemAsync<JwtSecurityToken>("AccessToken").Returns((JwtSecurityToken)null);
-
-        (await provider.GetName()).Should().BeNull();
     }
 }
