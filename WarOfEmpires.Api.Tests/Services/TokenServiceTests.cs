@@ -80,7 +80,7 @@ namespace WarOfEmpires.Api.Tests.Services {
             var tokenHandler = new JwtSecurityTokenHandler();
             var token = tokenHandler.ReadToken(result).Should().BeAssignableTo<JwtSecurityToken>().Subject;
 
-            token.Claims.Should().Contain(c => c.Type == "role").Which.Value.Should().Be(Roles.Administrator);
+            token.Claims.Should().Contain(c => c.Type == Roles.ClaimName).Which.Value.Should().Be(Roles.Administrator);
         }
 
         [TestMethod]
@@ -97,7 +97,7 @@ namespace WarOfEmpires.Api.Tests.Services {
             var tokenHandler = new JwtSecurityTokenHandler();
             var token = tokenHandler.ReadToken(result).Should().BeAssignableTo<JwtSecurityToken>().Subject;
 
-            token.Claims.Should().NotContain(c => c.Type == "role");
+            token.Claims.Should().NotContain(c => c.Type == Roles.ClaimName);
         }
     }
 }

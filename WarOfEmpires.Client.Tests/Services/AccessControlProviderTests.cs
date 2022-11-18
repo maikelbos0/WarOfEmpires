@@ -16,20 +16,34 @@ public class AccessControlProviderTests {
     public async Task SignIn() {
         var storageService = Substitute.For<ILocalStorageService>();
         var provider = new AccessControlProvider(storageService);
+        AccessControlState state = null;
 
-        await provider.SignIn("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0QHRlc3QuY29tIiwibmFtZSI6IlRlc3QiLCJuYmYiOjE2Njg0NTU4MjksImV4cCI6MTY2ODQ1OTQyOSwiaWF0IjoxNjY4NDU1ODI5LCJpc3MiOiJJc3N1ZXIiLCJhdWQiOiJBdWRpZW5jZSJ9.YkMn7n5esCSRHclW6ffXMQp5_aBki5UJUm9u2ry111I");
+        provider.AccessControlStateChanged += s => state = s;
 
-        await storageService.Received().SetItemAsync("AccessToken", Arg.Is<JwtSecurityToken>(t => t.Issuer == "Issuer"));
+        await provider.SignIn("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0QHRlc3QuY29tIiwibmFtZSI6IlRlc3QiLCJyb2xlIjoiQWRtaW5pc3RyYXRvciIsIm5iZiI6MTY2ODc2Njc2NywiZXhwIjoxNjY4NzcwMzY3LCJpYXQiOjE2Njg3NjY3Njd9.mxsVQsEVGCXuXJa7hafBzUkLExFGhqCH_nPNhNebBOc");
+
+        await storageService.Received().SetItemAsync("AccessToken", Arg.Any<JwtSecurityToken>());
+        state.Should().NotBeNull();
+        state.DisplayName.Should().Be("Test");
+        state.IsAuthenticated.Should().BeTrue();
+        state.IsAdmin.Should().BeTrue();
     }
 
     [TestMethod]
     public async Task SignOut() {
         var storageService = Substitute.For<ILocalStorageService>();
         var provider = new AccessControlProvider(storageService);
+        AccessControlState state = null;
+
+        provider.AccessControlStateChanged += s => state = s;
 
         await provider.SignOut();
 
         await storageService.Received().RemoveItemAsync("AccessToken");
+        state.Should().NotBeNull();
+        state.DisplayName.Should().BeNull();
+        state.IsAuthenticated.Should().BeFalse();
+        state.IsAdmin.Should().BeFalse();
     }
 
     [TestMethod]
