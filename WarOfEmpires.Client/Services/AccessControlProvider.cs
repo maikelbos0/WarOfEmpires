@@ -8,13 +8,15 @@ namespace WarOfEmpires.Client.Services;
 
 public sealed class AccessControlProvider {
     private readonly ILocalStorageService storageService;
+    private readonly JwtSecurityTokenHandler jwtSecurityTokenHandler;
 
     public delegate void AccessControlStateChangedHandler(AccessControlState state);
 
     public event AccessControlStateChangedHandler? AccessControlStateChanged;
 
-    public AccessControlProvider(ILocalStorageService storageService) {
+    public AccessControlProvider(ILocalStorageService storageService, JwtSecurityTokenHandler jwtSecurityTokenHandler) {
         this.storageService = storageService;
+        this.jwtSecurityTokenHandler = jwtSecurityTokenHandler;
     }
 
     public async Task SignIn(string token) {
@@ -40,8 +42,7 @@ public sealed class AccessControlProvider {
             return new AccessControlState();
         }
 
-        var tokenHandler = new JwtSecurityTokenHandler();
-        var accessToken = tokenHandler.ReadJwtToken(token);
+        var accessToken = jwtSecurityTokenHandler.ReadJwtToken(token);
         var displayName = accessToken.Claims.SingleOrDefault(c => c.Type == JwtRegisteredClaimNames.Name)?.Value;
         var isAdmin = accessToken.Claims.Any(c => c.Type == Roles.ClaimName && c.Value == Roles.Administrator);
 
