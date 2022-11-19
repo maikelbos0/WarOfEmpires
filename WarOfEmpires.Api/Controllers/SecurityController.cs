@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using WarOfEmpires.Api.Extensions;
 using WarOfEmpires.Api.Services;
 using WarOfEmpires.Commands.Security;
@@ -12,7 +13,7 @@ namespace WarOfEmpires.Api.Controllers;
 public sealed class SecurityController : BaseController {
     private readonly ITokenService tokenService;
 
-    public SecurityController(IMessageService messageService, ITokenService tokenService) : base(messageService) {
+    public SecurityController(IMessageService messageService, IIdentityService identityService, ITokenService tokenService) : base(messageService, identityService) {
         this.tokenService = tokenService;
     }
 
@@ -46,4 +47,9 @@ public sealed class SecurityController : BaseController {
             return BadRequest(new ValidationProblemDetails(ModelState));
         }
     }
+
+    [Authorize]
+    [HttpPost(nameof(Routing.Security.ChangePassword))]
+    public IActionResult ChangePassword(ChangeUserPasswordModel model)
+        => ExecuteCommand(new ChangeUserPasswordCommand(identityService.Identity, model.CurrentPassword, model.NewPassword));
 }

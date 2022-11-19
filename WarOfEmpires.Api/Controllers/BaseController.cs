@@ -6,9 +6,11 @@ using WarOfEmpires.Commands;
 namespace WarOfEmpires.Api.Controllers {
     public abstract class BaseController : ControllerBase {
         protected readonly IMessageService messageService;
+        protected readonly IIdentityService identityService;
 
-        public BaseController(IMessageService messageService) {
+        public BaseController(IMessageService messageService, IIdentityService identityService) {
             this.messageService = messageService;
+            this.identityService = identityService;
         }
 
         protected IActionResult ExecuteCommand<TCommand>(TCommand command) where TCommand : ICommand {
