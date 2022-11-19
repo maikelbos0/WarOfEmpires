@@ -19,7 +19,7 @@ namespace WarOfEmpires.Api.Tests.Services {
                 TokenExpirationTimeInMinutes = 60
             };
             var signingKey = new SymmetricSecurityKey(new byte[] { 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7 });
-            var service = new TokenService(clientSettings, signingKey);
+            var service = new TokenService(clientSettings, signingKey, new JwtSecurityTokenHandler());
 
             var result = service.CreateToken(new UserClaimsViewModel() {
                 Subject = "test@test.com"
@@ -55,7 +55,7 @@ namespace WarOfEmpires.Api.Tests.Services {
         [TestMethod]
         public void CreateToken_Returns_Token_With_Name_For_DisplayName() {
             var signingKey = new SymmetricSecurityKey(new byte[] { 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7 });
-            var service = new TokenService(new ClientSettings() { TokenExpirationTimeInMinutes = 60 }, signingKey);
+            var service = new TokenService(new ClientSettings() { TokenExpirationTimeInMinutes = 60 }, signingKey, new JwtSecurityTokenHandler());
 
             var result = service.CreateToken(new UserClaimsViewModel() {
                 Subject = "test@test.com",
@@ -70,7 +70,7 @@ namespace WarOfEmpires.Api.Tests.Services {
         [TestMethod]
         public void CreateToken_Returns_Token_With_Administrator_Role_For_Administrators() {
             var signingKey = new SymmetricSecurityKey(new byte[] { 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7 });
-            var service = new TokenService(new ClientSettings() { TokenExpirationTimeInMinutes = 60 }, signingKey);
+            var service = new TokenService(new ClientSettings() { TokenExpirationTimeInMinutes = 60 }, signingKey, new JwtSecurityTokenHandler());
 
             var result = service.CreateToken(new UserClaimsViewModel() {
                 Subject = "test@test.com",
@@ -86,8 +86,7 @@ namespace WarOfEmpires.Api.Tests.Services {
         [TestMethod]
         public void CreateToken_Returns_Token_Without_Administrator_Role_For_Normal_User() {
             var signingKey = new SymmetricSecurityKey(new byte[] { 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7 });
-            var service = new TokenService(new ClientSettings() { TokenExpirationTimeInMinutes = 60 }, signingKey);
-
+            var service = new TokenService(new ClientSettings() { TokenExpirationTimeInMinutes = 60 }, signingKey, new JwtSecurityTokenHandler());
 
             var result = service.CreateToken(new UserClaimsViewModel() {
                 Subject = "test@test.com",

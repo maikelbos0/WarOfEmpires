@@ -4,8 +4,8 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Cryptography;
 using VDT.Core.DependencyInjection;
 using VDT.Core.DependencyInjection.Attributes;
@@ -50,7 +50,6 @@ builder.Services.AddServices(options => options
 
 builder.Services.AddCors(options => options.AddDefaultPolicy(builder => builder.AllowAnyHeader().AllowAnyMethod().WithOrigins(clientSettings.BaseUrl)));
 
-// TODO test auth, probably move token generation to API
 builder.Services.AddAuthentication()
     .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options => {
         options.TokenValidationParameters = new TokenValidationParameters() {
@@ -83,7 +82,9 @@ builder.Services.AddAuthorization(builder => {
         .Build());
 });
 
+builder.Services.AddScoped<JwtSecurityTokenHandler>();
 builder.Services.AddControllers();
+builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
 
