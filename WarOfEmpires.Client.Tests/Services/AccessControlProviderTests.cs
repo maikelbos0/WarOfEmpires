@@ -2,7 +2,6 @@
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
-using System.IdentityModel.Tokens.Jwt;
 using System.Threading.Tasks;
 using WarOfEmpires.Client.Services;
 
@@ -10,6 +9,8 @@ namespace WarOfEmpires.Client.Tests.Services;
 
 [TestClass]
 public class AccessControlProviderTests {
+    private const string token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0QHRlc3QuY29tIiwibmFtZSI6IlRlc3QiLCJyb2xlIjoiQWRtaW5pc3RyYXRvciIsIm5iZiI6MTY2ODc2Njc2NywiZXhwIjoxNjY4NzcwMzY3LCJpYXQiOjE2Njg3NjY3Njd9.mxsVQsEVGCXuXJa7hafBzUkLExFGhqCH_nPNhNebBOc";
+
     [TestMethod]
     public async Task SignIn() {
         var storageService = Substitute.For<ILocalStorageService>();
@@ -18,9 +19,9 @@ public class AccessControlProviderTests {
 
         provider.AccessControlStateChanged += s => state = s;
 
-        await provider.SignIn("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0QHRlc3QuY29tIiwibmFtZSI6IlRlc3QiLCJyb2xlIjoiQWRtaW5pc3RyYXRvciIsIm5iZiI6MTY2ODc2Njc2NywiZXhwIjoxNjY4NzcwMzY3LCJpYXQiOjE2Njg3NjY3Njd9.mxsVQsEVGCXuXJa7hafBzUkLExFGhqCH_nPNhNebBOc");
+        await provider.SignIn(token);
 
-        await storageService.Received().SetItemAsync("AccessToken", Arg.Any<JwtSecurityToken>());
+        await storageService.Received().SetItemAsync(AccessControlProvider.StorageKey, token);
         state.Should().NotBeNull();
         state.DisplayName.Should().Be("Test");
         state.IsAuthenticated.Should().BeTrue();
@@ -37,7 +38,37 @@ public class AccessControlProviderTests {
 
         await provider.SignOut();
 
-        await storageService.Received().RemoveItemAsync("AccessToken");
+        await storageService.Received().RemoveItemAsync(AccessControlProvider.StorageKey);
+        state.Should().NotBeNull();
+        state.DisplayName.Should().BeNull();
+        state.IsAuthenticated.Should().BeFalse();
+        state.IsAdmin.Should().BeFalse();
+    }
+
+    [TestMethod]
+    public async Task GetAccessControlState_With_Token() {
+        var storageService = Substitute.For<ILocalStorageService>();
+        var provider = new AccessControlProvider(storageService);
+
+        storageService.GetItemAsync<string?>(AccessControlProvider.StorageKey).Returns(token);
+
+        var state = await provider.GetAccessControlState();
+
+        state.Should().NotBeNull();
+        state.DisplayName.Should().Be("Test");
+        state.IsAuthenticated.Should().BeTrue();
+        state.IsAdmin.Should().BeTrue();
+    }
+
+    [TestMethod]
+    public async Task GetAccessControlState_Without_Token() {
+        var storageService = Substitute.For<ILocalStorageService>();
+        var provider = new AccessControlProvider(storageService);
+
+        storageService.GetItemAsync<string>(AccessControlProvider.StorageKey).Returns((string)null);
+
+        var state = await provider.GetAccessControlState();
+        
         state.Should().NotBeNull();
         state.DisplayName.Should().BeNull();
         state.IsAuthenticated.Should().BeFalse();

@@ -21,7 +21,7 @@
             </div>
 
             <div class="nav-link">
-                <NavLink href="change-email">Change email address</NavLink>
+                <NavLink href="change-password">Change password</NavLink>
             </div>
 
             <div class="nav-divider"></div>
@@ -69,24 +69,22 @@
 </nav>
 
 @code {
-
     [Inject]
     public AccessControlProvider AccessControlProvider { get; set; } = null!;
 
-    // TODO retrieve initial state oninit
     private AccessControlState accessControlState = new AccessControlState();
 
-    protected override void OnInitialized() {
+    protected override async Task OnInitializedAsync() {
         base.OnInitialized();
 
         AccessControlProvider.AccessControlStateChanged += HandlerAccessControlStateChanged;
+        accessControlState = await AccessControlProvider.GetAccessControlState();
     }
 
     private void HandlerAccessControlStateChanged(AccessControlState state) {
         accessControlState = state;
         StateHasChanged();
     }
-
 
     public void Dispose() {
         AccessControlProvider.AccessControlStateChanged -= HandlerAccessControlStateChanged;

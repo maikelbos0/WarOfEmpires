@@ -7,7 +7,7 @@ using WarOfEmpires.Api.Routing;
 namespace WarOfEmpires.Client.Services;
 
 public sealed class AccessControlProvider {
-    private const string StorageKey = "AccessToken";
+    public const string StorageKey = "AccessToken";
 
     private readonly ILocalStorageService storageService;
 
@@ -20,21 +20,33 @@ public sealed class AccessControlProvider {
     }
 
     public async Task SignIn(string token) {
-        var tokenHandler = new JwtSecurityTokenHandler();
-        var accessToken = tokenHandler.ReadJwtToken(token);
-        
-        await storageService.SetItemAsync(StorageKey, accessToken);
+        await storageService.SetItemAsync(StorageKey, token);
 
-        AccessControlStateChanged?.Invoke(new AccessControlState(
-            accessToken.Claims.SingleOrDefault(c => c.Type == JwtRegisteredClaimNames.Name)?.Value,
-            true,
-            accessToken.Claims.Any(c => c.Type == Roles.ClaimName && c.Value == Roles.Administrator)
-        ));
+        AccessControlStateChanged?.Invoke(GetAccessControlState(token));
     }
 
     public async Task SignOut() {
         await storageService.RemoveItemAsync(StorageKey);
 
-        AccessControlStateChanged?.Invoke(new AccessControlState());
+        AccessControlStateChanged?.Invoke(GetAccessControlState(null));
+    }
+
+    public async Task<AccessControlState> GetAccessControlState() {
+        var token = await storageService.GetItemAsync<string?>(StorageKey);
+
+        return GetAccessControlState(token);
+    }
+
+    private AccessControlState GetAccessControlState(string? token) {
+        if (token == null) {
+            return new AccessControlState();
+        }
+
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var accessToken = tokenHandler.ReadJwtToken(token);
+        var displayName = accessToken.Claims.SingleOrDefault(c => c.Type == JwtRegisteredClaimNames.Name)?.Value;
+        var isAdmin = accessToken.Claims.Any(c => c.Type == Roles.ClaimName && c.Value == Roles.Administrator);
+
+        return new AccessControlState(displayName, true, isAdmin);
     }
 }
