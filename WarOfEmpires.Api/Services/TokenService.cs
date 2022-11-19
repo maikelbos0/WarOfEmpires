@@ -12,7 +12,7 @@ namespace WarOfEmpires.Api.Services {
         private readonly ClientSettings clientSettings;
         private readonly SecurityKey issuerSigningKey;
 
-        public TokenService(ClientSettings clientSettings, SecurityKey issuerSigningKey) {
+        public TokenService(ClientSettings clientSettings, SecurityKey issuerSigningKey, JwtSecurityTokenHandler jwtSecurityTokenHandler) {
             this.clientSettings = clientSettings;
             this.issuerSigningKey = issuerSigningKey;
         }
