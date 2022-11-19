@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.IdentityModel.Tokens.Jwt;
 using System.Net.Http;
 using WarOfEmpires.Client;
 using WarOfEmpires.Client.Configuration;
@@ -19,8 +20,9 @@ builder.Services.AddScoped<TokenHandler>();
 builder.Services.AddScoped(provider => new HttpClient(provider.GetRequiredService<TokenHandler>()) { BaseAddress = new Uri(apiSettings.BaseUrl) });
 builder.Services.AddScoped<RoutingService>();
 builder.Services.AddScoped<PasswordStrengthCalculator>();
-builder.Services.AddScoped<AccessControlProvider>();
 builder.Services.AddBlazoredLocalStorage();
+builder.Services.AddScoped<JwtSecurityTokenHandler>();
+builder.Services.AddScoped<AccessControlProvider>();
 
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
