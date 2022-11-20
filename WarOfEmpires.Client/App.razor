@@ -1,7 +1,15 @@
-﻿<Router AppAssembly="@typeof(App).Assembly">
+﻿@using Microsoft.AspNetCore.Components.Authorization
+
+<Router AppAssembly="@typeof(App).Assembly">
     <Found Context="routeData">
-        <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
-        <FocusOnNavigate RouteData="@routeData" Selector="h1" />
+        <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
+            <NotAuthorized>
+                @{
+                    // TODO add redirect url
+                    NavigationManager.NavigateTo("/");
+                }
+            </NotAuthorized>
+        </AuthorizeRouteView>
     </Found>
     <NotFound>
         <PageTitle>Not found</PageTitle>
@@ -11,3 +19,8 @@
         </LayoutView>
     </NotFound>
 </Router>
+
+@code {
+    [Inject]
+    public NavigationManager NavigationManager { get; set; } = null!;
+}

@@ -5,6 +5,9 @@
         <NavLink href="" Match="NavLinkMatch.All">War of Empires</NavLink>
     </div>
 
+    @*TODO switch to AuthorizeView, get rid of state management?
+    https://learn.microsoft.com/en-us/aspnet/core/blazor/security/?view=aspnetcore-7.0*@
+
     @if (accessControlState.IsAuthenticated) {
         <NavMenuDropdown Title="@(accessControlState.DisplayName ?? "Account")">
             @*TODO show/hide these two based on IsPlayer*@
