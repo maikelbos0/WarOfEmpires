@@ -22,6 +22,7 @@ builder.Services.AddScoped<RoutingService>();
 builder.Services.AddScoped<PasswordStrengthCalculator>();
 builder.Services.AddBlazoredLocalStorage();
 builder.Services.AddScoped<JwtSecurityTokenHandler>();
+builder.Services.AddScoped<ITimerService, TimerService>();
 builder.Services.AddScoped<AccessControlProvider>();
 
 builder.RootComponents.Add<App>("#app");
