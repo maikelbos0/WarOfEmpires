@@ -16,8 +16,8 @@ var apiSettings = builder.Configuration.GetSection(nameof(ApiSettings)).Get<ApiS
 
 builder.Services.AddSingleton(apiSettings);
 builder.Services.AddScoped<HttpMessageHandler, HttpClientHandler>();
-builder.Services.AddScoped<TokenHandler>();
-builder.Services.AddScoped(provider => new HttpClient(provider.GetRequiredService<TokenHandler>()) { BaseAddress = new Uri(apiSettings.BaseUrl) });
+builder.Services.AddScoped<HttpMessageAuthorizationHandler>();
+builder.Services.AddScoped(provider => new HttpClient(provider.GetRequiredService<HttpMessageAuthorizationHandler>()) { BaseAddress = new Uri(apiSettings.BaseUrl) });
 builder.Services.AddScoped<RoutingService>();
 builder.Services.AddScoped<PasswordStrengthCalculator>();
 builder.Services.AddBlazoredLocalStorage();
