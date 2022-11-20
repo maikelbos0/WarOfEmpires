@@ -1,4 +1,5 @@
 using Blazored.LocalStorage;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -24,6 +25,8 @@ builder.Services.AddBlazoredLocalStorage();
 builder.Services.AddScoped<JwtSecurityTokenHandler>();
 builder.Services.AddScoped<ITimerService, TimerService>();
 builder.Services.AddScoped<IAccessControlProvider, AccessControlProvider>();
+builder.Services.AddScoped<AuthenticationStateProvider, TokenAuthenticationStateProvider>();
+builder.Services.AddAuthorizationCore();
 
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
