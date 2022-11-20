@@ -18,12 +18,12 @@ builder.Services.AddSingleton(apiSettings);
 builder.Services.AddScoped<HttpMessageHandler, HttpClientHandler>();
 builder.Services.AddScoped<HttpMessageAuthorizationHandler>();
 builder.Services.AddScoped(provider => new HttpClient(provider.GetRequiredService<HttpMessageAuthorizationHandler>()) { BaseAddress = new Uri(apiSettings.BaseUrl) });
-builder.Services.AddScoped<RoutingService>();
-builder.Services.AddScoped<PasswordStrengthCalculator>();
+builder.Services.AddScoped<IRoutingService, RoutingService>();
+builder.Services.AddScoped<IPasswordStrengthCalculator, PasswordStrengthCalculator>();
 builder.Services.AddBlazoredLocalStorage();
 builder.Services.AddScoped<JwtSecurityTokenHandler>();
 builder.Services.AddScoped<ITimerService, TimerService>();
-builder.Services.AddScoped<AccessControlProvider>();
+builder.Services.AddScoped<IAccessControlProvider, AccessControlProvider>();
 
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");

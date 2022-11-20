@@ -15,7 +15,7 @@ public class HttpMessageAuthorizationHandler : DelegatingHandler {
 	}
 
 	protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken) {
-        var token = await storageService.GetItemAsync<string?>(Constants.AccessToken);
+        var token = await storageService.GetItemAsync<string?>(Constants.AccessToken, cancellationToken);
 
 		if (token != null) {
 			request.Headers.Authorization = new AuthenticationHeaderValue(Constants.AuthenticationScheme, token);

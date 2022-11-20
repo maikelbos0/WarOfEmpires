@@ -15,7 +15,7 @@
     public HttpClient HttpClient { get; set; } = null!;
 
     [Inject]
-    public RoutingService RoutingService { get; set; } = null!;
+    public IRoutingService RoutingService { get; set; } = null!;
 
     [CascadingParameter]
     public NotificationManager NotificationManager { get; set; } = null!;
