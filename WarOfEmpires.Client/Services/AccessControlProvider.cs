@@ -26,28 +26,18 @@ public sealed class AccessControlProvider {
     public async Task SignIn(string token) {
         await storageService.SetItemAsync(Constants.AccessToken, token);
 
-        AccessControlStateChanged?.Invoke(await GetAccessControlState(token));
+        AccessControlStateChanged?.Invoke(await GetAccessControlState());
     }
 
     public async Task SignOut() {
         await storageService.RemoveItemAsync(Constants.AccessToken);
 
-        AccessControlStateChanged?.Invoke(await GetAccessControlState(null));
+        AccessControlStateChanged?.Invoke(await GetAccessControlState());
         isTimerStarted = false;
     }
 
     public async Task<AccessControlState> GetAccessControlState() {
-        var token = await storageService.GetItemAsync<string?>(Constants.AccessToken);
-
-        return await GetAccessControlState(token);
-    }
-
-    private async Task<AccessControlState> GetAccessControlState(string? token) {
-        if (token == null) {
-            return new AccessControlState();
-        }
-
-        var accessToken = await GetValidToken(token);
+        var accessToken = await GetValidToken();
 
         if (accessToken == null) {
             return new AccessControlState();
@@ -59,7 +49,13 @@ public sealed class AccessControlProvider {
         return new AccessControlState(displayName, true, isAdmin);
     }
 
-    private async Task<JwtSecurityToken?> GetValidToken(string token) {
+    public async Task<JwtSecurityToken?> GetValidToken() {
+        var token = await storageService.GetItemAsync<string?>(Constants.AccessToken);
+
+        if (token == null) {
+            return null;
+        }
+
         var accessToken = jwtSecurityTokenHandler.ReadJwtToken(token);
 
         if (accessToken.ValidTo < DateTime.UtcNow) {
@@ -69,8 +65,8 @@ public sealed class AccessControlProvider {
         }
 
         if (!isTimerStarted) {
-            timerService.ExecuteAfter(SignOut, accessToken.ValidTo - DateTime.UtcNow);
             isTimerStarted = true;
+            timerService.ExecuteAfter(SignOut, accessToken.ValidTo - DateTime.UtcNow);
         }
 
         return accessToken;
