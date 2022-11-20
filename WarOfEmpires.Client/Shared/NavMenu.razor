@@ -43,7 +43,7 @@
 
             @*TODO make log out a function here*@
             <div class="nav-link">
-                <NavLink href="log-out">Log out</NavLink>
+                <NavLink @onclick="AccessControlProvider.SignOut">Log out</NavLink>
             </div>
         </NavMenuDropdown>
     }
@@ -69,8 +69,14 @@
 </nav>
 
 @code {
+    [CascadingParameter]
+    public NotificationManager NotificationManager { get; set; } = null!;
+
     [Inject]
     public AccessControlProvider AccessControlProvider { get; set; } = null!;
+
+    [Inject]
+    public NavigationManager NavigationManager { get; set; } = null!;
 
     private AccessControlState accessControlState = new AccessControlState();
 
@@ -84,6 +90,12 @@
     private void HandlerAccessControlStateChanged(AccessControlState state) {
         accessControlState = state;
         StateHasChanged();
+    }
+
+    private async Task SignOut() {
+        await AccessControlProvider.SignOut();
+        NotificationManager.Notify(NotificationType.Success, "You have logged out succesfully.");
+        NavigationManager.NavigateTo("/");
     }
 
     public void Dispose() {
