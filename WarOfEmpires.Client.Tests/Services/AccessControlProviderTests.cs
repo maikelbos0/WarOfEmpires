@@ -20,6 +20,7 @@ public class AccessControlProviderTests {
         var provider = new AccessControlProvider(storageService, Substitute.For<ITimerService>(), new JwtSecurityTokenHandler());
         AccessControlState state = null;
 
+        storageService.GetItemAsync<string>(Constants.AccessToken).Returns(validToken);
         provider.AccessControlStateChanged += s => state = s;
 
         await provider.SignIn(validToken);
@@ -37,6 +38,7 @@ public class AccessControlProviderTests {
         var provider = new AccessControlProvider(storageService, Substitute.For<ITimerService>(), new JwtSecurityTokenHandler());
         AccessControlState state = null;
 
+        storageService.GetItemAsync<string>(Constants.AccessToken).Returns((string)null);
         provider.AccessControlStateChanged += s => state = s;
 
         await provider.SignOut();
