@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace WarOfEmpires.Client.Services;
 
-public class TokenHandler : DelegatingHandler {
+public class HttpMessageAuthorizationHandler : DelegatingHandler {
 	private readonly ILocalStorageService storageService;
 
-	public TokenHandler(ILocalStorageService storageService, HttpMessageHandler innerHandler) {
+	public HttpMessageAuthorizationHandler(ILocalStorageService storageService, HttpMessageHandler innerHandler) {
 		this.storageService = storageService;
 		InnerHandler = innerHandler;
 	}
