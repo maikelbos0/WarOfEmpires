@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace WarOfEmpires.Client.Services;
 
-public sealed class PasswordStrengthCalculator {    
+public sealed class PasswordStrengthCalculator : IPasswordStrengthCalculator {
     public PasswordStrength Calculate(string? password) {
         if (string.IsNullOrEmpty(password)) {
             return PasswordStrength.None;

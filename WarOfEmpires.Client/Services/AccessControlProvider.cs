@@ -7,13 +7,11 @@ using WarOfEmpires.Api.Routing;
 
 namespace WarOfEmpires.Client.Services;
 
-public sealed class AccessControlProvider {
+public sealed class AccessControlProvider : IAccessControlProvider {
     private readonly ILocalStorageService storageService;
     private readonly ITimerService timerService;
     private readonly JwtSecurityTokenHandler jwtSecurityTokenHandler;
     private bool isTimerStarted = false;
-
-    public delegate void AccessControlStateChangedHandler(AccessControlState state);
 
     public event AccessControlStateChangedHandler? AccessControlStateChanged;
 
