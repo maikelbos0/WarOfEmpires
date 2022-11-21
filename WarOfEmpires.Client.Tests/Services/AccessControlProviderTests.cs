@@ -21,7 +21,7 @@ public class AccessControlProviderTests {
         AccessControlState state = null;
 
         storageService.GetItemAsync<string>(Constants.AccessToken).Returns(validToken);
-        provider.AccessControlStateChanged += s => state = s;
+        provider.AccessControlStateChanged += s => { state = s; return Task.CompletedTask; };
 
         await provider.SignIn(validToken);
 
@@ -39,7 +39,7 @@ public class AccessControlProviderTests {
         AccessControlState state = null;
 
         storageService.GetItemAsync<string>(Constants.AccessToken).Returns((string)null);
-        provider.AccessControlStateChanged += s => state = s;
+        provider.AccessControlStateChanged += s => { state = s; return Task.CompletedTask; };
 
         await provider.SignOut();
 

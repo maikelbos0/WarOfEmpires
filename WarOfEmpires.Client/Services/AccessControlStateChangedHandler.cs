@@ -1,3 +1,5 @@
-﻿namespace WarOfEmpires.Client.Services;
+﻿using System.Threading.Tasks;
 
-public delegate void AccessControlStateChangedHandler(AccessControlState state);
+namespace WarOfEmpires.Client.Services;
+
+public delegate Task AccessControlStateChangedHandler(AccessControlState state);
