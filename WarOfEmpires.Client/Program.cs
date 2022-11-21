@@ -24,7 +24,6 @@ builder.Services.AddScoped<IPasswordStrengthCalculator, PasswordStrengthCalculat
 builder.Services.AddBlazoredLocalStorage();
 builder.Services.AddScoped<JwtSecurityTokenHandler>();
 builder.Services.AddScoped<ITimerService, TimerService>();
-builder.Services.AddScoped<IAccessControlProvider, AccessControlProvider>();
 builder.Services.AddScoped<AccessControlService, AccessControlService>();
 builder.Services.AddScoped<AuthenticationStateProvider, AccessControlService>(provider => provider.GetRequiredService<AccessControlService>());
 builder.Services.AddScoped<IAccessControlService, AccessControlService>(provider => provider.GetRequiredService<AccessControlService>());
