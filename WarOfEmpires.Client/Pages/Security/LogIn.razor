@@ -21,14 +21,14 @@
 
 @code {
     [Inject]
-    public IAccessControlProvider AccessControlProvider { get; set; } = null!;
+    public IAccessControlService AccessControlService { get; set; } = null!;
 
     LogInUserModel model = new();
 
     public async Task<bool> StoreAccessToken(HttpResponseMessage response) {
         var token = await response.Content.ReadAsStringAsync() ?? throw new InvalidOperationException("Missing token in response content");
 
-        await AccessControlProvider.SignIn(token);
+        await AccessControlService.SignIn(token);
 
         return false;
     }
