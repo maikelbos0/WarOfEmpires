@@ -1,74 +1,73 @@
-﻿@implements IDisposable
+﻿@using Microsoft.AspNetCore.Components.Authorization
+@implements IDisposable
 
 <nav>
     <div class="nav-brand">
         <NavLink href="" Match="NavLinkMatch.All">War of Empires</NavLink>
     </div>
 
-    @*TODO switch to AuthorizeView, get rid of state management?
-    https://learn.microsoft.com/en-us/aspnet/core/blazor/security/?view=aspnetcore-7.0*@
+    <AuthorizeView>
+        <Authorized>
+            <NavMenuDropdown Title="@(context.User?.Identity?.Name ?? "Account")">
+                @*TODO show/hide these two based on IsPlayer*@
+                <div class="nav-link">
+                    <NavLink href="edit-profile">Edit profile</NavLink>
+                </div>
 
-    @if (accessControlState.IsAuthenticated) {
-        <NavMenuDropdown Title="@(accessControlState.DisplayName ?? "Account")">
-            @*TODO show/hide these two based on IsPlayer*@
+                <div class="nav-link">
+                    <NavLink href="create-player">Create player</NavLink>
+                </div>
+
+                <div class="nav-link">
+                    <NavLink href="change-email">Change email address</NavLink>
+                </div>
+
+                <div class="nav-link">
+                    <NavLink href="change-password">Change password</NavLink>
+                </div>
+
+                <div class="nav-divider"></div>
+
+                @*TODO show/hide these two based on IsAdmin*@
+                <div class="nav-link">
+                    <NavLink href="admin-tools">Administration tools</NavLink>
+                </div>
+
+                <div class="nav-link">
+                    <NavLink href="admin-users">Users</NavLink>
+                </div>
+
+                <div class="nav-divider"></div>
+
+                <div class="nav-link">
+                    <NavLink href="deactivate">Deactivate account</NavLink>
+                </div>
+
+                <div class="nav-link">
+                    <NavLink @onclick="SignOut">Log out</NavLink>
+                </div>
+            </NavMenuDropdown>
+        </Authorized>
+        <NotAuthorized>
             <div class="nav-link">
-                <NavLink href="edit-profile">Edit profile</NavLink>
+                <NavLink href="log-in">Log in</NavLink>
             </div>
 
             <div class="nav-link">
-                <NavLink href="create-player">Create player</NavLink>
+                <NavLink href="register">Register</NavLink>
             </div>
 
-            <div class="nav-link">
-                <NavLink href="change-email">Change email address</NavLink>
-            </div>
+            <NavMenuDropdown Title="Options">
+                <div class="nav-link">
+                    <NavLink href="send-activation">Send activation</NavLink>
+                </div>
 
-            <div class="nav-link">
-                <NavLink href="change-password">Change password</NavLink>
-            </div>
-
-            <div class="nav-divider"></div>
-
-            @*TODO show/hide these two based on IsAdmin*@
-            <div class="nav-link">
-                <NavLink href="admin-tools">Administration tools</NavLink>
-            </div>
-
-            <div class="nav-link">
-                <NavLink href="admin-users">Users</NavLink>
-            </div>
-
-            <div class="nav-divider"></div>
-
-            <div class="nav-link">
-                <NavLink href="deactivate">Deactivate account</NavLink>
-            </div>
-
-            @*TODO make log out a function here*@
-            <div class="nav-link">
-                <NavLink @onclick="AccessControlProvider.SignOut">Log out</NavLink>
-            </div>
-        </NavMenuDropdown>
-    }
-    else {
-        <div class="nav-link">
-            <NavLink href="log-in">Log in</NavLink>
-        </div>
-
-        <div class="nav-link">
-            <NavLink href="register">Register</NavLink>
-        </div>
-
-        <NavMenuDropdown Title="Options">
-            <div class="nav-link">
-                <NavLink href="send-activation">Send activation</NavLink>
-            </div>
-
-            <div class="nav-link">
-                <NavLink href="forgot-password">Forgot password</NavLink>
-            </div>
-        </NavMenuDropdown>
-    }
+                <div class="nav-link">
+                    <NavLink href="forgot-password">Forgot password</NavLink>
+                </div>
+            </NavMenuDropdown>
+        </NotAuthorized>
+    </AuthorizeView>
 </nav>
 
 @code {
@@ -86,13 +85,15 @@
     protected override async Task OnInitializedAsync() {
         base.OnInitialized();
 
-        AccessControlProvider.AccessControlStateChanged += HandlerAccessControlStateChanged;
+        AccessControlProvider.AccessControlStateChanged += HandleAccessControlStateChanged;
         accessControlState = await AccessControlProvider.GetAccessControlState();
     }
 
-    private void HandlerAccessControlStateChanged(AccessControlState state) {
-        accessControlState = state;
-        StateHasChanged();
+    private async Task HandleAccessControlStateChanged(AccessControlState state) {
+        await InvokeAsync(() => {
+            accessControlState = state;
+            StateHasChanged();
+        });
     }
 
     private async Task SignOut() {
@@ -102,6 +103,6 @@
     }
 
     public void Dispose() {
-        AccessControlProvider.AccessControlStateChanged -= HandlerAccessControlStateChanged;
+        AccessControlProvider.AccessControlStateChanged -= HandleAccessControlStateChanged;
     }
 }
