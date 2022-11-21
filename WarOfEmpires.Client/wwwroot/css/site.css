@@ -34,6 +34,7 @@ nav a {
   color: #333399;
   text-decoration: none;
   border-top-color: #333399;
+  cursor: pointer;
 }
 nav a:hover, nav a:focus {
   color: #72B4E0;
