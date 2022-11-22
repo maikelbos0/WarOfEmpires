@@ -49,6 +49,11 @@ public sealed class SecurityController : BaseController {
     }
 
     [Authorize]
+    [HttpPost(nameof(Routing.Security.ChangeEmail))]
+    public IActionResult ChangeEmail(ChangeUserEmailModel model)
+        => ExecuteCommand(new ChangeUserEmailCommand(identityService.Identity, model.Password, model.NewEmail));
+
+    [Authorize]
     [HttpPost(nameof(Routing.Security.ChangePassword))]
     public IActionResult ChangePassword(ChangeUserPasswordModel model)
         => ExecuteCommand(new ChangeUserPasswordCommand(identityService.Identity, model.CurrentPassword, model.NewPassword));

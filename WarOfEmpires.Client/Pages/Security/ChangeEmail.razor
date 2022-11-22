@@ -1,0 +1,31 @@
+﻿@page "/change-email"
+@*TODO decide on blacklisting or whitelisting*@
+@attribute [Authorize]
+@using Microsoft.AspNetCore.Authorization
+@using WarOfEmpires.Models.Security
+
+<Title>Change email address</Title>
+
+<Form Route="Security.ChangeEmail" Model="model" OnSuccess="/" SuccessMessage="An email has been sent to the new email address with a validation link. Follow the link in the email to confirm your new email address.">
+    <div class="form-field">
+        <Label For="() => model.Password" />
+        <InputText type="password" @bind-Value="model.Password" />
+        <ValidationMessage For="() => model.Password" />
+    </div>
+
+    <div class="form-field">
+        <Label For="() => model.NewEmail" />
+        <InputText @bind-Value="model.NewEmail" />
+        <ValidationMessage For="() => model.NewEmail" />
+    </div>
+
+    <div class="form-field">
+        <Label For="() => model.ConfirmNewEmail" />
+        <InputText @bind-Value="model.ConfirmNewEmail" />
+        <ValidationMessage For="() => model.ConfirmNewEmail" />
+    </div>    
+</Form>
+
+@code {
+    ChangeUserEmailModel model = new();
+}
