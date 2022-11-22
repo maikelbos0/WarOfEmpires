@@ -10,7 +10,6 @@ using System.Security.Cryptography;
 using VDT.Core.DependencyInjection;
 using VDT.Core.DependencyInjection.Attributes;
 using VDT.Core.DependencyInjection.Decorators;
-using WarOfEmpires.Api;
 using WarOfEmpires.Api.Configuration;
 using WarOfEmpires.CommandHandlers;
 using WarOfEmpires.Database.Auditing;
@@ -50,7 +49,7 @@ builder.Services.AddServices(options => options
 
 builder.Services.AddCors(options => options.AddDefaultPolicy(builder => builder.AllowAnyHeader().AllowAnyMethod().WithOrigins(clientSettings.BaseUrl)));
 
-builder.Services.AddAuthentication()
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options => {
         options.TokenValidationParameters = new TokenValidationParameters() {
             RequireAudience = true,
@@ -72,14 +71,6 @@ builder.Services.AddAuthorization(builder => {
         .RequireClaim(JwtRegisteredClaimNames.Aud, clientSettings.TokenAudience)
         .RequireClaim(JwtRegisteredClaimNames.Iss, clientSettings.TokenIssuer)
         .Build();
-
-    builder.AddPolicy(Policies.Administrator, new AuthorizationPolicyBuilder()
-        .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
-        .RequireAuthenticatedUser()
-        .RequireClaim(JwtRegisteredClaimNames.Aud, clientSettings.TokenAudience)
-        .RequireClaim(JwtRegisteredClaimNames.Iss, clientSettings.TokenIssuer)
-        .RequireRole(Policies.Administrator)
-        .Build());
 });
 
 builder.Services.AddScoped<JwtSecurityTokenHandler>();

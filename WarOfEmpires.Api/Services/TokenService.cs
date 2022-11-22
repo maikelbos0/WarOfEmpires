@@ -29,7 +29,7 @@ namespace WarOfEmpires.Api.Services {
             }
 
             if (viewModel.IsAdmin) {
-                claims.Add(new Claim(ClaimTypes.Role, Roles.Administrator));
+                claims.Add(new Claim(Roles.ClaimName, Roles.Administrator));
             }
 
             // TODO add more roles/claims
