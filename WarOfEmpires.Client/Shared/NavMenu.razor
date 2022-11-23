@@ -8,14 +8,19 @@
     <AuthorizeView>
         <Authorized>
             <NavMenuDropdown Title="@(context.User?.Identity?.Name ?? "Account")">
-                @*TODO show/hide these two based on IsPlayer*@
-                <div class="nav-link">
-                    <NavLink href="edit-profile">Edit profile</NavLink>
-                </div>
+                <AuthorizeView Roles="@Roles.Player" Context="_">
+                    <Authorized>
+                        <div class="nav-link">
+                            <NavLink href="edit-profile">Edit profile</NavLink>
+                        </div>
+                    </Authorized>
 
-                <div class="nav-link">
-                    <NavLink href="create-player">Create player</NavLink>
-                </div>
+                    <NotAuthorized>
+                        <div class="nav-link">
+                            <NavLink href="create-player">Create player</NavLink>
+                        </div>
+                    </NotAuthorized>
+                </AuthorizeView>
 
                 <div class="nav-link">
                     <NavLink href="change-email">Change email address</NavLink>
@@ -25,16 +30,17 @@
                     <NavLink href="change-password">Change password</NavLink>
                 </div>
 
-                <div class="nav-divider"></div>
+                <AuthorizeView Roles="@Roles.Administrator" Context="_">
+                    <div class="nav-divider"></div>
 
-                @*TODO show/hide these two based on IsAdmin*@
-                <div class="nav-link">
-                    <NavLink href="admin-tools">Administration tools</NavLink>
-                </div>
+                    <div class="nav-link">
+                        <NavLink href="admin-tools">Administration tools</NavLink>
+                    </div>
 
-                <div class="nav-link">
-                    <NavLink href="admin-users">Users</NavLink>
-                </div>
+                    <div class="nav-link">
+                        <NavLink href="admin-users">Users</NavLink>
+                    </div>
+                </AuthorizeView>
 
                 <div class="nav-divider"></div>
 
@@ -47,6 +53,7 @@
                 </div>
             </NavMenuDropdown>
         </Authorized>
+
         <NotAuthorized>
             <div class="nav-link">
                 <NavLink href="log-in">Log in</NavLink>
