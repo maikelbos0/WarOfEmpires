@@ -11,5 +11,9 @@ namespace WarOfEmpires.Models.Security {
         [Required(ErrorMessage = "Confirm new password is required")]
         [Compare("NewPassword", ErrorMessage = "New password and confirm new password must match")]
         public string ConfirmNewPassword { get; set; }
+
+        public string Email { get; set; }
+
+        public string PasswordResetToken { get; set; }
     }
 }

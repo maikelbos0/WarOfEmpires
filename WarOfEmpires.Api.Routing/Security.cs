@@ -5,6 +5,7 @@ public enum Security {
     Activate,
     SendActivation,
     ForgotPassword,
+    ResetPassword,
     LogIn,
     ChangeEmail,
     ChangePassword,

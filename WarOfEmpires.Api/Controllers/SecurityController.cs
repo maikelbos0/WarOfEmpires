@@ -33,6 +33,10 @@ public sealed class SecurityController : BaseController {
     public IActionResult ForgotPassword(ForgotUserPasswordModel model)
         => ExecuteCommand(new ForgotUserPasswordCommand(model.Email));
 
+    [HttpPost(nameof(Routing.Security.ResetPassword))]
+    public IActionResult ResetPassword(ResetUserPasswordModel model)
+        => ExecuteCommand(new ResetUserPasswordCommand(model.Email, model.PasswordResetToken, model.NewPassword));
+
     [HttpPost(nameof(Routing.Security.LogIn))]
     public IActionResult LogIn(LogInUserModel model) {
         var result = messageService.Dispatch(new LogInUserCommand(model.Email, model.Password));
