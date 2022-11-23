@@ -32,6 +32,10 @@ namespace WarOfEmpires.Api.Services {
                 claims.Add(new Claim(Roles.ClaimName, Roles.Administrator));
             }
 
+            if (viewModel.IsPlayer) {
+                claims.Add(new Claim(Roles.ClaimName, Roles.Player));
+            }
+
             // TODO add more roles/claims
 
             var descriptor = new SecurityTokenDescriptor() {

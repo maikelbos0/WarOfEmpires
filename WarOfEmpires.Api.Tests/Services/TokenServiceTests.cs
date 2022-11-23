@@ -74,7 +74,6 @@ namespace WarOfEmpires.Api.Tests.Services {
 
             var result = service.CreateToken(new UserClaimsViewModel() {
                 Subject = "test@test.com",
-                DisplayName = "Test",
                 IsAdmin = true
             });
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -90,8 +89,37 @@ namespace WarOfEmpires.Api.Tests.Services {
 
             var result = service.CreateToken(new UserClaimsViewModel() {
                 Subject = "test@test.com",
-                DisplayName = "Test",
                 IsAdmin = false
+            });
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var token = tokenHandler.ReadToken(result).Should().BeAssignableTo<JwtSecurityToken>().Subject;
+
+            token.Claims.Should().NotContain(c => c.Type == Roles.ClaimName);
+        }
+
+        [TestMethod]
+        public void CreateToken_Returns_Token_With_Player_Role_For_Player() {
+            var signingKey = new SymmetricSecurityKey(new byte[] { 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7 });
+            var service = new TokenService(new ClientSettings() { TokenExpirationTimeInMinutes = 60 }, signingKey, new JwtSecurityTokenHandler());
+
+            var result = service.CreateToken(new UserClaimsViewModel() {
+                Subject = "test@test.com",
+                IsPlayer = true
+            });
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var token = tokenHandler.ReadToken(result).Should().BeAssignableTo<JwtSecurityToken>().Subject;
+
+            token.Claims.Should().Contain(c => c.Type == Roles.ClaimName).Which.Value.Should().Be(Roles.Player);
+        }
+
+        [TestMethod]
+        public void CreateToken_Returns_Token_Without_Player_Role_For_New_User() {
+            var signingKey = new SymmetricSecurityKey(new byte[] { 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7 });
+            var service = new TokenService(new ClientSettings() { TokenExpirationTimeInMinutes = 60 }, signingKey, new JwtSecurityTokenHandler());
+
+            var result = service.CreateToken(new UserClaimsViewModel() {
+                Subject = "test@test.com",
+                IsPlayer = false
             });
             var tokenHandler = new JwtSecurityTokenHandler();
             var token = tokenHandler.ReadToken(result).Should().BeAssignableTo<JwtSecurityToken>().Subject;
