@@ -8,5 +8,6 @@ public enum Security {
     ResetPassword,
     LogIn,
     ChangeEmail,
+    ConfirmEmail,
     ChangePassword,
 }

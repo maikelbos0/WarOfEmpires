@@ -56,6 +56,11 @@ public sealed class SecurityController : BaseController {
     [HttpPost(nameof(Routing.Security.ChangeEmail))]
     public IActionResult ChangeEmail(ChangeUserEmailModel model)
         => ExecuteCommand(new ChangeUserEmailCommand(identityService.Identity, model.Password, model.NewEmail));
+    
+    // TODO if signed in, then issue new token
+    [HttpPost(nameof(Routing.Security.ConfirmEmail))]
+    public IActionResult ConfirmEmail(ConfirmUserEmailChangeModel model)
+        => ExecuteCommand(new ConfirmUserEmailChangeCommand(model.Email, model.ConfirmationCode));
 
     [Authorize]
     [HttpPost(nameof(Routing.Security.ChangePassword))]
