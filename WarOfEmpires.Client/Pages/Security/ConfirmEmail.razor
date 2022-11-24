@@ -17,6 +17,9 @@
     [Inject]
     public IRoutingService RoutingService { get; set; } = null!;
 
+    [Inject]
+    public IAccessControlService AccessControlService { get; set; } = null!;
+
     [CascadingParameter]
     public NotificationManager NotificationManager { get; set; } = null!;
 
@@ -38,6 +41,12 @@
             });
 
         if (response.IsSuccessStatusCode) {
+            var token = await response.Content.ReadAsStringAsync();
+
+            if (!string.IsNullOrWhiteSpace(token)) {
+                await AccessControlService.SignIn(token);
+            }
+
             NavigationManager.NavigateTo("/email-confirmed");
         }
         else if (response.StatusCode == HttpStatusCode.BadRequest) {

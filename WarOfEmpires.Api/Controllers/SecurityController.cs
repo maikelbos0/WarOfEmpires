@@ -40,6 +40,7 @@ public sealed class SecurityController : BaseController {
     [HttpPost(nameof(Routing.Security.LogIn))]
     public IActionResult LogIn(LogInUserModel model) {
         var result = messageService.Dispatch(new LogInUserCommand(model.Email, model.Password));
+
         ModelState.Merge(result);
 
         if (ModelState.IsValid) {
@@ -56,11 +57,29 @@ public sealed class SecurityController : BaseController {
     [HttpPost(nameof(Routing.Security.ChangeEmail))]
     public IActionResult ChangeEmail(ChangeUserEmailModel model)
         => ExecuteCommand(new ChangeUserEmailCommand(identityService.Identity, model.Password, model.NewEmail));
-    
-    // TODO if signed in, then issue new token
+
     [HttpPost(nameof(Routing.Security.ConfirmEmail))]
-    public IActionResult ConfirmEmail(ConfirmUserEmailChangeModel model)
-        => ExecuteCommand(new ConfirmUserEmailChangeCommand(model.Email, model.ConfirmationCode));
+    public IActionResult ConfirmEmail(ConfirmUserEmailChangeModel model) {
+        var email = messageService.Dispatch(new GetUserNewEmailQuery(model.Email));
+        var result = messageService.Dispatch(new ConfirmUserEmailChangeCommand(model.Email, model.ConfirmationCode));
+
+        ModelState.Merge(result);
+
+        if (ModelState.IsValid) {
+            if (identityService.IsAuthenticated) {
+                var viewModel = messageService.Dispatch(new GetUserClaimsQuery(email));
+
+                // TODO we're issuing a new token and circumventing lifetime. Perhaps do this in a more secure way, perhaps using refresh token somehow.
+                return Ok(tokenService.CreateToken(viewModel));
+            }
+            else {
+                return Ok();
+            }
+        }
+        else {
+            return BadRequest(new ValidationProblemDetails(ModelState));
+        }
+    }
 
     [Authorize]
     [HttpPost(nameof(Routing.Security.ChangePassword))]

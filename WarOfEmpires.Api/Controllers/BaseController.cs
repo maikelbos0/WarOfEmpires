@@ -19,7 +19,7 @@ namespace WarOfEmpires.Api.Controllers {
             ModelState.Merge(result);
 
             if (ModelState.IsValid) {
-                return Ok(result!.Warnings);
+                return Ok(result.Warnings);
             }
             else {
                 return BadRequest(new ValidationProblemDetails(ModelState));
