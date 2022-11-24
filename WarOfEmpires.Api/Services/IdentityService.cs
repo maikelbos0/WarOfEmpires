@@ -12,5 +12,9 @@ public sealed class IdentityService : IIdentityService {
         this.httpContextAccessor = httpContextAccessor;
     }
 
-    public string Identity => (httpContextAccessor.HttpContext ?? throw new InvalidOperationException("Missing http context")).User.Claims.Single(c => c.Type == ClaimTypes.NameIdentifier).Value;
+    private ClaimsPrincipal User => (httpContextAccessor.HttpContext ?? throw new InvalidOperationException("Missing http context")).User;
+
+    public bool IsAuthenticated => User.Identity?.IsAuthenticated ?? false;
+
+    public string Identity => User.Claims.Single(c => c.Type == ClaimTypes.NameIdentifier).Value;
 }
