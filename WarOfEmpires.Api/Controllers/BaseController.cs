@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using WarOfEmpires.Api.Extensions;
 using WarOfEmpires.Api.Services;
 using WarOfEmpires.Commands;
 
 namespace WarOfEmpires.Api.Controllers {
+    [Authorize]
     public abstract class BaseController : ControllerBase {
         protected readonly IMessageService messageService;
         protected readonly IIdentityService identityService;
