@@ -10,4 +10,5 @@ public enum Security {
     ChangeEmail,
     ConfirmEmail,
     ChangePassword,
+    Deactivate
 }

@@ -85,4 +85,9 @@ public sealed class SecurityController : BaseController {
     [HttpPost(nameof(Routing.Security.ChangePassword))]
     public IActionResult ChangePassword(ChangeUserPasswordModel model)
         => ExecuteCommand(new ChangeUserPasswordCommand(identityService.Identity, model.CurrentPassword, model.NewPassword));
+
+    [HttpPost(nameof(Routing.Security.Deactivate))]
+    [Authorize]
+    public IActionResult Deactivate(DeactivateUserModel model)
+        => ExecuteCommand(new DeactivateUserCommand(identityService.Identity, model.Password));
 }

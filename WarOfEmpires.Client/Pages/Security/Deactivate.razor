@@ -1,0 +1,28 @@
+﻿@page "/deactivate"
+@*TODO decide on blacklisting or whitelisting*@
+@attribute [Authorize]
+@using Microsoft.AspNetCore.Authorization
+@using WarOfEmpires.Models.Security
+
+<Title>Deactivate account</Title>
+
+<Form Route="Security.Deactivate" Model="model" ResponseMessageHandler="SignOut" OnSuccess="/" SuccessMessage="Your account has been deactivated.">
+    <div class="form-field">
+        <Label For="() => model.Password" />
+        <InputText type="password" @bind-Value="model.Password" />
+        <ValidationMessage For="() => model.Password" />
+    </div>
+</Form>
+
+@code {
+    [Inject]
+    public IAccessControlService AccessControlService { get; set; } = null!;
+
+    DeactivateUserModel model = new();
+
+    public async Task<bool> SignOut(HttpResponseMessage _) {
+        await AccessControlService.SignOut();
+
+        return false;
+    }
+}
