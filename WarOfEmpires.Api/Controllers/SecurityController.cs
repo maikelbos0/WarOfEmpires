@@ -17,26 +17,32 @@ public sealed class SecurityController : BaseController {
         this.tokenService = tokenService;
     }
 
+    [AllowAnonymous]
     [HttpPost(nameof(Routing.Security.Register))]
     public IActionResult Register(RegisterUserModel model)
         => ExecuteCommand(new RegisterUserCommand(model.Email, model.Password));
 
+    [AllowAnonymous]
     [HttpPost(nameof(Routing.Security.Activate))]
     public IActionResult Activate(ActivateUserModel model)
         => ExecuteCommand(new ActivateUserCommand(model.Email, model.ActivationCode));
 
+    [AllowAnonymous]
     [HttpPost(nameof(Routing.Security.SendActivation))]
     public IActionResult SendActivation(SendUserActivationModel model)
         => ExecuteCommand(new SendUserActivationCommand(model.Email));
 
+    [AllowAnonymous]
     [HttpPost(nameof(Routing.Security.ForgotPassword))]
     public IActionResult ForgotPassword(ForgotUserPasswordModel model)
         => ExecuteCommand(new ForgotUserPasswordCommand(model.Email));
 
+    [AllowAnonymous]
     [HttpPost(nameof(Routing.Security.ResetPassword))]
     public IActionResult ResetPassword(ResetUserPasswordModel model)
         => ExecuteCommand(new ResetUserPasswordCommand(model.Email, model.PasswordResetToken, model.NewPassword));
 
+    [AllowAnonymous]
     [HttpPost(nameof(Routing.Security.LogIn))]
     public IActionResult LogIn(LogInUserModel model) {
         var result = messageService.Dispatch(new LogInUserCommand(model.Email, model.Password));
@@ -53,11 +59,11 @@ public sealed class SecurityController : BaseController {
         }
     }
 
-    [Authorize]
     [HttpPost(nameof(Routing.Security.ChangeEmail))]
     public IActionResult ChangeEmail(ChangeUserEmailModel model)
         => ExecuteCommand(new ChangeUserEmailCommand(identityService.Identity, model.Password, model.NewEmail));
 
+    [AllowAnonymous]
     [HttpPost(nameof(Routing.Security.ConfirmEmail))]
     public IActionResult ConfirmEmail(ConfirmUserEmailChangeModel model) {
         var email = messageService.Dispatch(new GetUserNewEmailQuery(model.Email));
@@ -81,13 +87,11 @@ public sealed class SecurityController : BaseController {
         }
     }
 
-    [Authorize]
     [HttpPost(nameof(Routing.Security.ChangePassword))]
     public IActionResult ChangePassword(ChangeUserPasswordModel model)
         => ExecuteCommand(new ChangeUserPasswordCommand(identityService.Identity, model.CurrentPassword, model.NewPassword));
 
     [HttpPost(nameof(Routing.Security.Deactivate))]
-    [Authorize]
     public IActionResult Deactivate(DeactivateUserModel model)
         => ExecuteCommand(new DeactivateUserCommand(identityService.Identity, model.Password));
 }
