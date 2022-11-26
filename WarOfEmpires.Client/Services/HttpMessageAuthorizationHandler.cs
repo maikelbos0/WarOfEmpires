@@ -7,20 +7,20 @@ using System.Threading.Tasks;
 namespace WarOfEmpires.Client.Services;
 
 public class HttpMessageAuthorizationHandler : DelegatingHandler {
-	private readonly ILocalStorageService storageService;
+    private readonly ILocalStorageService storageService;
 
-	public HttpMessageAuthorizationHandler(ILocalStorageService storageService, HttpMessageHandler innerHandler) {
-		this.storageService = storageService;
-		InnerHandler = innerHandler;
-	}
+    public HttpMessageAuthorizationHandler(ILocalStorageService storageService, HttpMessageHandler innerHandler) {
+        this.storageService = storageService;
+        InnerHandler = innerHandler;
+    }
 
-	protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken) {
+    protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken) {
         var token = await storageService.GetItemAsync<string?>(Constants.AccessToken, cancellationToken);
 
-		if (token != null) {
-			request.Headers.Authorization = new AuthenticationHeaderValue(Constants.AuthenticationScheme, token);
-		}
+        if (token != null) {
+            request.Headers.Authorization = new AuthenticationHeaderValue(Constants.AuthenticationScheme, token);
+        }
 
         return await base.SendAsync(request, cancellationToken);
-	}
+    }
 }

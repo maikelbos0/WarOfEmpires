@@ -83,6 +83,7 @@ public class AccessControlServiceTests {
         state.User.Identity.Name.Should().BeNull();
         state.User.Identity.IsAuthenticated.Should().BeFalse();
         state.User.IsInRole(Roles.Administrator).Should().BeFalse();
+        await storageService.Received().RemoveItemAsync(Constants.AccessToken);
         timerService.DidNotReceiveWithAnyArgs().ExecuteAfter(default, default);
     }
 
