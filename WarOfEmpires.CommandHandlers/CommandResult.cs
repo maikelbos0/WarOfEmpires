@@ -15,12 +15,6 @@ namespace WarOfEmpires.CommandHandlers {
             }
         }
 
-        public bool HasWarnings {
-            get {
-                return Warnings.Any();
-            }
-        }
-
         public void AddError(string message) {
             Errors.Add(new CommandError<TCommand>() {
                 Message = message
