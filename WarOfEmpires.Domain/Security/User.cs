@@ -15,6 +15,7 @@ namespace WarOfEmpires.Domain.Security {
         public virtual int? NewEmailConfirmationCode { get; protected set; }
         public virtual DateTime? LastOnline { get; protected set; }
         public virtual ICollection<UserEvent> UserEvents { get; protected set; } = new List<UserEvent>();
+        public virtual ICollection<RefreshTokenFamily> RefreshTokenFamilies { get; protected set; } = new List<RefreshTokenFamily>();
 
         protected User() {
         }
