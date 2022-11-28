@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -41,6 +42,28 @@ namespace WarOfEmpires.Domain.Security {
             AddEvent(UserEventType.LoggedIn);
 
             return family.CurrentToken;
+        }
+
+        public virtual bool RotateRefreshToken(byte[] currentToken, out byte[] newToken) {
+            var family = RefreshTokenFamilies.SingleOrDefault(f => f.CurrentToken.SequenceEqual(currentToken));
+
+            if (family != null) {
+                newToken = GetNewRefreshToken();
+                family.RotateRefreshToken(newToken);
+                AddEvent(UserEventType.RefreshTokenRotated);
+                return true;
+            }
+            else {
+                var reusedFamilies = RefreshTokenFamilies.Where(f => f.ExpiredRefreshTokens.Any(t => t.Token.SequenceEqual(currentToken))).ToList();
+
+                foreach (var reusedFamily in reusedFamilies) {
+                    RefreshTokenFamilies.Remove(reusedFamily);
+                }
+
+                AddEvent(UserEventType.FailedRefreshTokenValidation);
+                newToken = null;
+                return false;
+            }
         }
 
         private static byte[] GetNewRefreshToken() {
