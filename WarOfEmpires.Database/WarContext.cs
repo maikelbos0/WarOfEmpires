@@ -313,13 +313,13 @@ namespace WarOfEmpires.Database {
             userStatus.Property(t => t.Name).IsRequired();
             userStatus.HasData(ReferenceEntityExtensions.GetValues<UserStatus, UserStatusEntity>());
 
-            var expiredRefreshTokens = modelBuilder.Entity<ExpiredRefreshToken>().ToTable("ExpiredRefreshTokens", "Security");
+            var expiredRefreshTokens = modelBuilder.Entity<PreviousRefreshToken>().ToTable("ExpiredRefreshTokens", "Security");
             expiredRefreshTokens.HasKey(t => t.Id);
             expiredRefreshTokens.Property(t => t.Token).IsRequired().HasMaxLength(100);
 
             var refreshTokenFamilies = modelBuilder.Entity<RefreshTokenFamily>().ToTable("RefreshTokenFamilies", "Security");
             refreshTokenFamilies.HasKey(t => t.Id);
-            refreshTokenFamilies.HasMany(t => t.ExpiredRefreshTokens).WithOne().IsRequired();
+            refreshTokenFamilies.HasMany(t => t.PreviousRefreshTokens).WithOne().IsRequired();
             refreshTokenFamilies.Property(t => t.CurrentToken).IsRequired().HasMaxLength(100);
 
             var users = modelBuilder.Entity<User>().ToTable("Users", "Security");

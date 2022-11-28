@@ -33,35 +33,33 @@ namespace WarOfEmpires.Domain.Security {
             UserEvents.Add(new UserEvent(this, userEventType));
         }
 
-        public virtual byte[] LogIn() {
-            var family = new RefreshTokenFamily(GetNewRefreshToken());
-
+        public virtual void LogIn() {
             // If we log in, the password reset is not needed anymore and leaving it is a security risk
             PasswordResetToken = TemporaryPassword.None;
-            RefreshTokenFamilies.Add(family);
             AddEvent(UserEventType.LoggedIn);
-
-            return family.CurrentToken;
         }
 
-        public virtual bool RotateRefreshToken(byte[] currentToken, out byte[] newToken) {
+        public virtual void GenerateRefreshToken(Guid requestId) {
+            RefreshTokenFamilies.Add(new RefreshTokenFamily(requestId, GetNewRefreshToken()));
+            AddEvent(UserEventType.RefreshTokenGenerated);
+        }
+
+        public virtual bool RotateRefreshToken(Guid requestId, byte[] currentToken) {
             var family = RefreshTokenFamilies.SingleOrDefault(f => f.CurrentToken.SequenceEqual(currentToken));
 
             if (family != null) {
-                newToken = GetNewRefreshToken();
-                family.RotateRefreshToken(newToken);
+                family.RotateRefreshToken(requestId, GetNewRefreshToken());
                 AddEvent(UserEventType.RefreshTokenRotated);
                 return true;
             }
             else {
-                var reusedFamilies = RefreshTokenFamilies.Where(f => f.ExpiredRefreshTokens.Any(t => t.Token.SequenceEqual(currentToken))).ToList();
+                var reusedFamilies = RefreshTokenFamilies.Where(f => f.PreviousRefreshTokens.Any(t => t.Token.SequenceEqual(currentToken))).ToList();
 
                 foreach (var reusedFamily in reusedFamilies) {
                     RefreshTokenFamilies.Remove(reusedFamily);
                 }
 
-                AddEvent(UserEventType.FailedRefreshTokenValidation);
-                newToken = null;
+                AddEvent(UserEventType.FailedRefreshTokenRotation);
                 return false;
             }
         }

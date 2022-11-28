@@ -24,65 +24,83 @@ namespace WarOfEmpires.Domain.Tests.Security {
             user.Activate();
             user.GeneratePasswordResetToken();
             
-            var result = user.LogIn();
+            user.LogIn();
 
             user.PasswordResetToken.Should().Be(TemporaryPassword.None);
             user.UserEvents.Last().Type.Should().Be(UserEventType.LoggedIn);
             user.UserEvents.Last().Date.Should().BeCloseTo(DateTime.UtcNow, TimeSpan.FromSeconds(1));
+        }
+
+        [TestMethod]
+        public void User_GenerateRefreshToken_Succeeds() {
+            var user = new User("test@test.com", "test");
+            var requestId = Guid.NewGuid();
+
+            user.Activate();            
+
+            user.GenerateRefreshToken(requestId);
+
+            user.UserEvents.Last().Type.Should().Be(UserEventType.RefreshTokenGenerated);
+            user.UserEvents.Last().Date.Should().BeCloseTo(DateTime.UtcNow, TimeSpan.FromSeconds(1));
             user.RefreshTokenFamilies.Should().HaveCount(1);
-            user.RefreshTokenFamilies.Single().CurrentToken.Should().BeEquivalentTo(result);
-            user.RefreshTokenFamilies.Single().ExpiredRefreshTokens.Should().BeEmpty();
+            user.RefreshTokenFamilies.Single().CurrentToken.Should().HaveCount(100);
+            user.RefreshTokenFamilies.Single().RequestId.Should().Be(requestId);
+            user.RefreshTokenFamilies.Single().PreviousRefreshTokens.Should().BeEmpty();
         }
 
         [TestMethod]
         public void User_RotateRefreshToken_Succeeds() {
             var user = new User("test@test.com", "test");
-            var family = new RefreshTokenFamily(new byte[] { 1, 1, 1, 1, 1, 1, 1, 1 });
+            var requestId = Guid.NewGuid();
+            var family = new RefreshTokenFamily(Guid.NewGuid(), new byte[] { 1, 1, 1, 1, 1, 1, 1, 1 });
             
             user.RefreshTokenFamilies.Add(family);
 
-            var result = user.RotateRefreshToken(new byte[] { 1, 1, 1, 1, 1, 1, 1, 1 }, out var newToken);
+            var result = user.RotateRefreshToken(requestId, new byte[] { 1, 1, 1, 1, 1, 1, 1, 1 });
 
             result.Should().BeTrue();
-            newToken.Should().NotBeNull();
-            newToken.Should().HaveCount(100);
-            family.ExpiredRefreshTokens.Should().HaveCount(1);
-            family.ExpiredRefreshTokens.Single().Token.Should().BeEquivalentTo(new byte[] { 1, 1, 1, 1, 1, 1, 1, 1 });
+            family.CurrentToken.Should().NotBeEquivalentTo(new byte[] { 1, 1, 1, 1, 1, 1, 1, 1 });
+            family.RequestId.Should().Be(requestId);
+            family.PreviousRefreshTokens.Should().HaveCount(1);
+            family.PreviousRefreshTokens.Single().Token.Should().BeEquivalentTo(new byte[] { 1, 1, 1, 1, 1, 1, 1, 1 });
             user.RefreshTokenFamilies.Should().Contain(family);
             user.UserEvents.Last().Type.Should().Be(UserEventType.RefreshTokenRotated);
+            user.UserEvents.Last().Date.Should().BeCloseTo(DateTime.UtcNow, TimeSpan.FromSeconds(1));
         }
 
         [TestMethod]
         public void User_RotateRefreshToken_Returns_False_For_Invalid_Token() {
             var user = new User("test@test.com", "test");
-            var family = new RefreshTokenFamily(new byte[] { 1, 1, 1, 1, 1, 1, 1, 1 });
+            var requestId = Guid.NewGuid();
+            var family = new RefreshTokenFamily(requestId, new byte[] { 1, 1, 1, 1, 1, 1, 1, 1 });
 
             user.RefreshTokenFamilies.Add(family);
 
-            var result = user.RotateRefreshToken(new byte[] { 2, 2, 2, 2, 2, 2, 2, 2 }, out var newToken);
+            var result = user.RotateRefreshToken(Guid.NewGuid(), new byte[] { 2, 2, 2, 2, 2, 2, 2, 2 });
 
             result.Should().BeFalse();
-            newToken.Should().BeNull();
-            family.ExpiredRefreshTokens.Should().BeEmpty();
+            family.PreviousRefreshTokens.Should().BeEmpty();
             family.CurrentToken.Should().BeEquivalentTo(new byte[] { 1, 1, 1, 1, 1, 1, 1, 1 });
+            family.RequestId.Should().Be(requestId);
             user.RefreshTokenFamilies.Should().Contain(family);
-            user.UserEvents.Last().Type.Should().Be(UserEventType.FailedRefreshTokenValidation);
+            user.UserEvents.Last().Type.Should().Be(UserEventType.FailedRefreshTokenRotation);
+            user.UserEvents.Last().Date.Should().BeCloseTo(DateTime.UtcNow, TimeSpan.FromSeconds(1));
         }
 
         [TestMethod]
-        public void User_RotateRefreshToken_Returns_False_And_Removes_Family_For_Expired_Token() {
+        public void User_RotateRefreshToken_Returns_False_And_Removes_Family_For_Previous_Token() {
             var user = new User("test@test.com", "test");
-            var family = new RefreshTokenFamily(new byte[] { 1, 1, 1, 1, 1, 1, 1, 1 });
+            var family = new RefreshTokenFamily(Guid.NewGuid(), new byte[] { 1, 1, 1, 1, 1, 1, 1, 1 });
 
-            family.ExpiredRefreshTokens.Add(new ExpiredRefreshToken(new byte[] { 2, 2, 2, 2, 2, 2, 2, 2 }));
+            family.PreviousRefreshTokens.Add(new PreviousRefreshToken(new byte[] { 2, 2, 2, 2, 2, 2, 2, 2 }));
             user.RefreshTokenFamilies.Add(family);
 
-            var result = user.RotateRefreshToken(new byte[] { 2, 2, 2, 2, 2, 2, 2, 2 }, out var newToken);
+            var result = user.RotateRefreshToken(Guid.NewGuid(), new byte[] { 2, 2, 2, 2, 2, 2, 2, 2 });
 
             result.Should().BeFalse();
-            newToken.Should().BeNull();
             user.RefreshTokenFamilies.Should().NotContain(family);
-            user.UserEvents.Last().Type.Should().Be(UserEventType.FailedRefreshTokenValidation);
+            user.UserEvents.Last().Type.Should().Be(UserEventType.FailedRefreshTokenRotation);
+            user.UserEvents.Last().Date.Should().BeCloseTo(DateTime.UtcNow, TimeSpan.FromSeconds(1));
         }
 
         [TestMethod]
