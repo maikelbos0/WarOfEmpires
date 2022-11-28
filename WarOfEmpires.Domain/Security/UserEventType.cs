@@ -19,7 +19,8 @@ namespace WarOfEmpires.Domain.Security {
         EmailChanged = 17,
         FailedEmailChange = 18,
         FailedPasswordResetRequest = 19,
+        RefreshTokenGenerated = 20,
         RefreshTokenRotated = 21,
-        FailedRefreshTokenValidation = 22
+        FailedRefreshTokenRotation = 22
     }
 }

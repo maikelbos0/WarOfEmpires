@@ -1,11 +1,11 @@
 ﻿namespace WarOfEmpires.Domain.Security {
-    public class ExpiredRefreshToken : Entity {
+    public class PreviousRefreshToken : Entity {
         public virtual byte[] Token { get; protected set; }
 
-        protected ExpiredRefreshToken() {
+        protected PreviousRefreshToken() {
         }
 
-        public ExpiredRefreshToken(byte[] token) : this() {
+        public PreviousRefreshToken(byte[] token) : this() {
             Token = token;
         }
     }
