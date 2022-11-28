@@ -319,7 +319,7 @@ namespace WarOfEmpires.Database {
 
             var refreshTokenFamilies = modelBuilder.Entity<RefreshTokenFamily>().ToTable("RefreshTokenFamilies", "Security");
             refreshTokenFamilies.HasKey(t => t.Id);
-            refreshTokenFamilies.HasMany(t => t.ExpiredRefreshTokens).WithOne(t => t.RefreshTokenFamily).IsRequired();
+            refreshTokenFamilies.HasMany(t => t.ExpiredRefreshTokens).WithOne().IsRequired();
             refreshTokenFamilies.Property(t => t.CurrentToken).IsRequired().HasMaxLength(100);
 
             var users = modelBuilder.Entity<User>().ToTable("Users", "Security");
