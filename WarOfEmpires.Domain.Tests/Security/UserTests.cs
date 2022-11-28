@@ -35,6 +35,57 @@ namespace WarOfEmpires.Domain.Tests.Security {
         }
 
         [TestMethod]
+        public void User_RotateRefreshToken_Succeeds() {
+            var user = new User("test@test.com", "test");
+            var family = new RefreshTokenFamily(new byte[] { 1, 1, 1, 1, 1, 1, 1, 1 });
+            
+            user.RefreshTokenFamilies.Add(family);
+
+            var result = user.RotateRefreshToken(new byte[] { 1, 1, 1, 1, 1, 1, 1, 1 }, out var newToken);
+
+            result.Should().BeTrue();
+            newToken.Should().NotBeNull();
+            newToken.Should().HaveCount(100);
+            family.ExpiredRefreshTokens.Should().HaveCount(1);
+            family.ExpiredRefreshTokens.Single().Token.Should().BeEquivalentTo(new byte[] { 1, 1, 1, 1, 1, 1, 1, 1 });
+            user.RefreshTokenFamilies.Should().Contain(family);
+            user.UserEvents.Last().Type.Should().Be(UserEventType.RefreshTokenRotated);
+        }
+
+        [TestMethod]
+        public void User_RotateRefreshToken_Returns_False_For_Invalid_Token() {
+            var user = new User("test@test.com", "test");
+            var family = new RefreshTokenFamily(new byte[] { 1, 1, 1, 1, 1, 1, 1, 1 });
+
+            user.RefreshTokenFamilies.Add(family);
+
+            var result = user.RotateRefreshToken(new byte[] { 2, 2, 2, 2, 2, 2, 2, 2 }, out var newToken);
+
+            result.Should().BeFalse();
+            newToken.Should().BeNull();
+            family.ExpiredRefreshTokens.Should().BeEmpty();
+            family.CurrentToken.Should().BeEquivalentTo(new byte[] { 1, 1, 1, 1, 1, 1, 1, 1 });
+            user.RefreshTokenFamilies.Should().Contain(family);
+            user.UserEvents.Last().Type.Should().Be(UserEventType.FailedRefreshTokenValidation);
+        }
+
+        [TestMethod]
+        public void User_RotateRefreshToken_Returns_False_And_Removes_Family_For_Expired_Token() {
+            var user = new User("test@test.com", "test");
+            var family = new RefreshTokenFamily(new byte[] { 1, 1, 1, 1, 1, 1, 1, 1 });
+
+            family.ExpiredRefreshTokens.Add(new ExpiredRefreshToken(new byte[] { 2, 2, 2, 2, 2, 2, 2, 2 }));
+            user.RefreshTokenFamilies.Add(family);
+
+            var result = user.RotateRefreshToken(new byte[] { 2, 2, 2, 2, 2, 2, 2, 2 }, out var newToken);
+
+            result.Should().BeFalse();
+            newToken.Should().BeNull();
+            user.RefreshTokenFamilies.Should().NotContain(family);
+            user.UserEvents.Last().Type.Should().Be(UserEventType.FailedRefreshTokenValidation);
+        }
+
+        [TestMethod]
         public void User_LogInFailed_Succeeds() {
             var user = new User("test@test.com", "test");
 
