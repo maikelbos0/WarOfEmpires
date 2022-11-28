@@ -23,11 +23,15 @@ namespace WarOfEmpires.Domain.Tests.Security {
 
             user.Activate();
             user.GeneratePasswordResetToken();
-            user.LogIn();
+            
+            var result = user.LogIn();
 
             user.PasswordResetToken.Should().Be(TemporaryPassword.None);
             user.UserEvents.Last().Type.Should().Be(UserEventType.LoggedIn);
             user.UserEvents.Last().Date.Should().BeCloseTo(DateTime.UtcNow, TimeSpan.FromSeconds(1));
+            user.RefreshTokenFamilies.Should().HaveCount(1);
+            user.RefreshTokenFamilies.Single().CurrentToken.Should().BeEquivalentTo(result);
+            user.RefreshTokenFamilies.Single().ExpiredRefreshTokens.Should().BeEmpty();
         }
 
         [TestMethod]

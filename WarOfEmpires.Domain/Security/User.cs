@@ -32,10 +32,19 @@ namespace WarOfEmpires.Domain.Security {
             UserEvents.Add(new UserEvent(this, userEventType));
         }
 
-        public virtual void LogIn() {
+        public virtual byte[] LogIn() {
+            var family = new RefreshTokenFamily(GetNewRefreshToken());
+
             // If we log in, the password reset is not needed anymore and leaving it is a security risk
             PasswordResetToken = TemporaryPassword.None;
+            RefreshTokenFamilies.Add(family);
             AddEvent(UserEventType.LoggedIn);
+
+            return family.CurrentToken;
+        }
+
+        private static byte[] GetNewRefreshToken() {
+            return RandomNumberGenerator.GetBytes(100);
         }
 
         public virtual void LogInFailed() {
