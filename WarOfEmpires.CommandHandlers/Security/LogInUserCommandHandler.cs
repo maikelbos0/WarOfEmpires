@@ -10,11 +10,11 @@ namespace WarOfEmpires.CommandHandlers.Security {
             _repository = repository;
         }
 
-        public CommandResult<LogInUserCommand> Execute(LogInUserCommand parameter) {
+        public CommandResult<LogInUserCommand> Execute(LogInUserCommand command) {
             var result = new CommandResult<LogInUserCommand>();
-            var user = _repository.TryGetByEmail(parameter.Email);
+            var user = _repository.TryGetByEmail(command.Email);
 
-            if (user == null || user.Status != UserStatus.Active || !user.Password.Verify(parameter.Password)) {
+            if (user == null || user.Status != UserStatus.Active || !user.Password.Verify(command.Password)) {
                 result.AddError("Invalid email or password");
                 user?.LogInFailed();
             }
