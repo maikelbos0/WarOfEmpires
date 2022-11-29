@@ -1,6 +1,7 @@
 ﻿namespace WarOfEmpires.Models.Security {
     public sealed class UserClaimsViewModel {
         public string Subject { get; set; }
+        public string RefreshToken { get; set; }
         public bool IsAdmin { get; set; }
         public bool IsPlayer { get; set; }
         public bool IsInAlliance { get; set; }

@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
+using System;
 using WarOfEmpires.Domain.Alliances;
 using WarOfEmpires.Queries.Security;
 using WarOfEmpires.QueryHandlers.Security;
@@ -11,17 +12,20 @@ namespace WarOfEmpires.QueryHandlers.Tests.Security {
     public sealed class GetUserClaimsQueryHandlerTests {
         [TestMethod]
         public void GetUserClaimsQueryHandler_Returns_Correct_Information() {
+            var requestId = Guid.NewGuid();
             var builder = new FakeBuilder()
-                .BuildPlayer(1);
+                .BuildPlayer(1)
+                .WithRefreshTokenFamily(1, requestId, new byte[] { 1, 1, 1, 1, 1, 1, 1, 1 });
 
             builder.User.IsAdmin.Returns(false);
 
             var handler = new GetUserClaimsQueryHandler(builder.Context);
-            var query = new GetUserClaimsQuery("test1@test.com");
+            var query = new GetUserClaimsQuery("test1@test.com", requestId);
 
             var result = handler.Execute(query);
 
             result.Subject.Should().Be("test1@test.com");
+            result.RefreshToken.Should().Be(Convert.ToBase64String(new byte[] { 1, 1, 1, 1, 1, 1, 1, 1 }));
             result.IsAdmin.Should().BeFalse();
             result.IsPlayer.Should().BeTrue();
             result.IsInAlliance.Should().BeFalse();
@@ -42,7 +46,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Security {
                 .BuildUser(1);
 
             var handler = new GetUserClaimsQueryHandler(builder.Context);
-            var query = new GetUserClaimsQuery("test1@test.com");
+            var query = new GetUserClaimsQuery("test1@test.com", Guid.NewGuid());
 
             var result = handler.Execute(query);
 
@@ -57,7 +61,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Security {
             builder.User.IsAdmin.Returns(true);
 
             var handler = new GetUserClaimsQueryHandler(builder.Context);
-            var query = new GetUserClaimsQuery("test1@test.com");
+            var query = new GetUserClaimsQuery("test1@test.com", Guid.NewGuid());
 
             var result = handler.Execute(query);
 
@@ -73,7 +77,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Security {
             builder.Player.AllianceRole.Returns((Role)null);
 
             var handler = new GetUserClaimsQueryHandler(builder.Context);
-            var query = new GetUserClaimsQuery("test1@test.com");
+            var query = new GetUserClaimsQuery("test1@test.com", Guid.NewGuid());
 
             var result = handler.Execute(query);
 
@@ -96,7 +100,7 @@ namespace WarOfEmpires.QueryHandlers.Tests.Security {
                 .WithRole(2, "Test", player);
 
             var handler = new GetUserClaimsQueryHandler(builder.Context);
-            var query = new GetUserClaimsQuery("test1@test.com");
+            var query = new GetUserClaimsQuery("test1@test.com", Guid.NewGuid());
 
             var result = handler.Execute(query);
 
@@ -114,10 +118,10 @@ namespace WarOfEmpires.QueryHandlers.Tests.Security {
         public void GetUserClaimsQueryHandler_Returns_Correct_Information_Rights_For_Alliance_Leader() {
             var builder = new FakeBuilder()
                 .BuildAlliance(1)
-                .WithLeader(1);
+                .BuildLeader(1);
 
             var handler = new GetUserClaimsQueryHandler(builder.Context);
-            var query = new GetUserClaimsQuery("test1@test.com");
+            var query = new GetUserClaimsQuery("test1@test.com", Guid.NewGuid());
 
             var result = handler.Execute(query);
 

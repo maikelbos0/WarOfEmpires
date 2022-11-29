@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using WarOfEmpires.Api.Extensions;
 using WarOfEmpires.Api.Services;
 using WarOfEmpires.Commands.Security;
@@ -50,7 +51,14 @@ public sealed class SecurityController : BaseController {
         ModelState.Merge(result);
 
         if (ModelState.IsValid) {
-            var viewModel = messageService.Dispatch(new GetUserClaimsQuery(model.Email));
+            var requestId = Guid.NewGuid();
+            var tokenResult = messageService.Dispatch(new GenerateUserRefreshTokenCommand(model.Email, requestId));
+
+            if (!tokenResult.Success) {
+                throw new InvalidOperationException("Failed to generate token");
+            }
+
+            var viewModel = messageService.Dispatch(new GetUserClaimsQuery(model.Email, requestId));
 
             return Ok(tokenService.CreateToken(viewModel));
         }
@@ -73,7 +81,7 @@ public sealed class SecurityController : BaseController {
 
         if (ModelState.IsValid) {
             if (identityService.IsAuthenticated) {
-                var viewModel = messageService.Dispatch(new GetUserClaimsQuery(email));
+                var viewModel = messageService.Dispatch(new GetUserClaimsQuery(email, Guid.NewGuid()));
 
                 // TODO we're issuing a new token and circumventing lifetime. Perhaps do this in a more secure way, perhaps using refresh token somehow.
                 return Ok(tokenService.CreateToken(viewModel));
