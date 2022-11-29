@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 using WarOfEmpires.Database;
 using WarOfEmpires.Models.Security;
@@ -15,6 +16,7 @@ namespace WarOfEmpires.QueryHandlers.Security {
 
         public UserClaimsViewModel Execute(GetUserClaimsQuery query) {
             var user = _context.Users
+                .Include(u => u.RefreshTokenFamilies)
                 .Single(u => EmailComparisonService.Equals(u.Email, query.Email));
 
             var player = _context.Players
@@ -23,12 +25,18 @@ namespace WarOfEmpires.QueryHandlers.Security {
                 .SingleOrDefault(p => EmailComparisonService.Equals(p.User.Email, query.Email));
 
             var result = new UserClaimsViewModel() {
-                Subject = user.Email,
+                Subject = user.Email,                
                 IsAdmin = user.IsAdmin,
                 IsPlayer = player != null,
                 IsInAlliance = player?.Alliance != null,
                 DisplayName = player?.DisplayName
             };
+            
+            var refreshToken = user.RefreshTokenFamilies.SingleOrDefault(f => f.RequestId == query.RequestId)?.CurrentToken;
+
+            if (refreshToken != null) {
+                result.RefreshToken = Convert.ToBase64String(user.RefreshTokenFamilies.Single(f => f.RequestId == query.RequestId).CurrentToken);
+            }
 
             if (player?.Alliance != null) {
                 result.IsInAlliance = true;
