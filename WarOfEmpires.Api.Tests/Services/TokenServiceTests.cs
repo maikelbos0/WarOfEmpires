@@ -126,5 +126,57 @@ namespace WarOfEmpires.Api.Tests.Services {
 
             token.Claims.Should().NotContain(c => c.Type == Roles.ClaimName);
         }
+
+        [TestMethod]
+        public void TryGetIdentity_Returns_True_When_Identity_Found_In_Expired_Token() {
+            var clientSettings = new ClientSettings() {
+                TokenAudience = "Audience",
+                TokenIssuer = "Issuer"
+            };
+            var signingKey = new SymmetricSecurityKey(new byte[] { 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7 });
+            var service = new TokenService(clientSettings, signingKey, new JwtSecurityTokenHandler());
+
+            service.TryGetIdentity("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0QHRlc3QuY29tIiwibmJmIjoxNjY5ODM3MzgwLCJleHAiOjE2Njk4Mzc0NDAsImlhdCI6MTY2OTgzNzM4MCwiaXNzIjoiSXNzdWVyIiwiYXVkIjoiQXVkaWVuY2UifQ.zddYMO1vjVQdgvKJu2c7b0vnW0oIAS3K9RNc06xtzII", out var identity).Should().BeTrue();
+            identity.Should().Be("test@test.com");
+        }
+
+        [TestMethod]
+        public void TryGetIdentity_Returns_False_When_Identity_Not_Found() {
+            var clientSettings = new ClientSettings() {
+                TokenAudience = "Audience",
+                TokenIssuer = "Issuer"
+            };
+            var signingKey = new SymmetricSecurityKey(new byte[] { 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7 });
+            var service = new TokenService(clientSettings, signingKey, new JwtSecurityTokenHandler());
+
+            service.TryGetIdentity("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYmYiOjE2Njk4MzgwNjYsImV4cCI6MTY2OTgzODEyNiwiaWF0IjoxNjY5ODM4MDY2LCJpc3MiOiJJc3N1ZXIiLCJhdWQiOiJBdWRpZW5jZSJ9.3ETUZuIT5v69qpWyX2z-VzZnPPDR5UufwXxXG1VkY7E", out var identity).Should().BeFalse();
+            identity.Should().BeNull();
+        }
+
+        [TestMethod]
+        public void TryGetIdentity_Returns_False_When_Signature_Invalid() {
+            var clientSettings = new ClientSettings() {
+                TokenAudience = "Audience",
+                TokenIssuer = "Issuer"
+            };
+            var signingKey = new SymmetricSecurityKey(new byte[] { 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 0 });
+            var service = new TokenService(clientSettings, signingKey, new JwtSecurityTokenHandler());
+
+            service.TryGetIdentity("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0QHRlc3QuY29tIiwibmJmIjoxNjY5ODM3MzgwLCJleHAiOjE2Njk4Mzc0NDAsImlhdCI6MTY2OTgzNzM4MCwiaXNzIjoiSXNzdWVyIiwiYXVkIjoiQXVkaWVuY2UifQ.zddYMO1vjVQdgvKJu2c7b0vnW0oIAS3K9RNc06xtzII", out var identity).Should().BeFalse();
+            identity.Should().BeNull();
+        }
+
+        [TestMethod]
+        public void TryGetIdentity_Returns_False_When_Token_Is_Invalid() {
+            var clientSettings = new ClientSettings() {
+                TokenAudience = "Audience",
+                TokenIssuer = "Issuer"
+            };
+            var signingKey = new SymmetricSecurityKey(new byte[] { 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7 });
+            var service = new TokenService(clientSettings, signingKey, new JwtSecurityTokenHandler());
+
+            service.TryGetIdentity("not a token", out var identity).Should().BeFalse();
+            identity.Should().BeNull();
+        }
     }
 }
