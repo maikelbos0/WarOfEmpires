@@ -40,12 +40,7 @@
             });
 
         if (response.IsSuccessStatusCode) {
-            var token = await response.Content.ReadAsStringAsync();
-
-            if (!string.IsNullOrWhiteSpace(token)) {
-                await AccessControlService.SignIn(token);
-            }
-
+            await AccessControlService.SignOut();
             NavigationManager.NavigateTo("/email-confirmed");
         }
         else if (response.StatusCode == HttpStatusCode.BadRequest) {
