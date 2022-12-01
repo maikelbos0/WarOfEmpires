@@ -15,6 +15,7 @@ namespace WarOfEmpires.Client.Tests.Services;
 public class AccessControlServiceTests {
     private const string validToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0QHRlc3QuY29tIiwibmFtZSI6IlRlc3QiLCJyb2xlcyI6IkFkbWluaXN0cmF0b3IiLCJuYmYiOjE2Njg4NzM3MTUsImV4cCI6NDgyMjQ3MzcxNSwiaWF0IjoxNjY4ODczNzE1fQ.fS3OaNVZqbM4Wgm9qT6MrMjPz9jwD52rMUsclvUdJ3k";
     private const string expiredToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0QHRlc3QuY29tIiwibmFtZSI6IlRlc3QiLCJyb2xlIjoiQWRtaW5pc3RyYXRvciIsIm5iZiI6MTY2ODc2Njc2NywiZXhwIjoxNjY4NzcwMzY3LCJpYXQiOjE2Njg3NjY3Njd9.mxsVQsEVGCXuXJa7hafBzUkLExFGhqCH_nPNhNebBOc";
+    private const string refreshToken = "refresh-token";
 
     [TestMethod]
     public async Task SignIn() {
@@ -25,9 +26,10 @@ public class AccessControlServiceTests {
         storageService.GetItemAsync<string>(Constants.AccessToken).Returns(validToken);
         service.AuthenticationStateChanged += async s => state = await s;
 
-        await service.SignIn(validToken);
+        await service.SignIn(validToken, refreshToken);
 
         await storageService.Received().SetItemAsync(Constants.AccessToken, validToken);
+        await storageService.Received().SetItemAsync(Constants.RefreshToken, refreshToken);
         state.User?.Identity.Should().NotBeNull();
         state.User.Identity.Name.Should().Be("Test");
         state.User.Identity.IsAuthenticated.Should().BeTrue();
@@ -46,6 +48,7 @@ public class AccessControlServiceTests {
         await service.SignOut();
 
         await storageService.Received().RemoveItemAsync(Constants.AccessToken);
+        await storageService.Received().RemoveItemAsync(Constants.RefreshToken);
         state.User?.Identity.Should().NotBeNull();
         state.User.Identity.Name.Should().BeNull();
         state.User.Identity.IsAuthenticated.Should().BeFalse();
