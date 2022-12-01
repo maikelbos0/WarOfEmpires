@@ -73,27 +73,8 @@ public sealed class SecurityController : BaseController {
 
     [AllowAnonymous]
     [HttpPost(nameof(Routing.Security.ConfirmEmail))]
-    public IActionResult ConfirmEmail(ConfirmUserEmailChangeModel model) {
-        var email = messageService.Dispatch(new GetUserNewEmailQuery(model.Email));
-        var result = messageService.Dispatch(new ConfirmUserEmailChangeCommand(model.Email, model.ConfirmationCode));
-
-        ModelState.Merge(result);
-
-        if (ModelState.IsValid) {
-            if (identityService.IsAuthenticated) {
-                var viewModel = messageService.Dispatch(new GetUserClaimsQuery(email, Guid.NewGuid()));
-
-                // TODO we're issuing a new token and circumventing lifetime. Perhaps do this in a more secure way, perhaps using refresh token somehow.
-                return Ok(tokenService.CreateToken(viewModel));
-            }
-            else {
-                return Ok();
-            }
-        }
-        else {
-            return BadRequest(new ValidationProblemDetails(ModelState));
-        }
-    }
+    public IActionResult ConfirmEmail(ConfirmUserEmailChangeModel model)
+        => ExecuteCommand(new ConfirmUserEmailChangeCommand(model.Email, model.ConfirmationCode));
 
     [HttpPost(nameof(Routing.Security.ChangePassword))]
     public IActionResult ChangePassword(ChangeUserPasswordModel model)
