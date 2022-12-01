@@ -30,14 +30,16 @@ public sealed class AccessControlService : AuthenticationStateProvider, IAccessC
         }
     }
 
-    public async Task SignIn(string token) {
-        await storageService.SetItemAsync(Constants.AccessToken, token);
+    public async Task SignIn(string accessToken, string refreshToken) {
+        await storageService.SetItemAsync(Constants.AccessToken, accessToken);
+        await storageService.SetItemAsync(Constants.RefreshToken, refreshToken);
 
         NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
     }
 
     public async Task SignOut() {
         await storageService.RemoveItemAsync(Constants.AccessToken);
+        await storageService.RemoveItemAsync(Constants.RefreshToken);
 
         isTimerStarted = false;
         NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());

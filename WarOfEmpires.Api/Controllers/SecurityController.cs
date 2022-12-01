@@ -60,7 +60,10 @@ public sealed class SecurityController : BaseController {
 
             var viewModel = messageService.Dispatch(new GetUserClaimsQuery(model.Email, requestId));
 
-            return Ok(tokenService.CreateToken(viewModel));
+            return Ok(new UserTokenModel() {
+                AccessToken = tokenService.CreateToken(viewModel),
+                RefreshToken = viewModel.RefreshToken
+            });
         }
         else {
             return BadRequest(new ValidationProblemDetails(ModelState));

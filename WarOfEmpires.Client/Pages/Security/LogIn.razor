@@ -27,9 +27,9 @@
     LogInUserModel model = new();
 
     public async Task<bool> StoreAccessToken(HttpResponseMessage response) {
-        var token = await response.Content.ReadAsStringAsync() ?? throw new InvalidOperationException("Missing token in response content");
+        var model = await response.Content.ReadFromJsonAsync<UserTokenModel>() ?? throw new InvalidOperationException("Missing token in response content");
 
-        await AccessControlService.SignIn(token);
+        await AccessControlService.SignIn(model.AccessToken, model.RefreshToken);
 
         return false;
     }
