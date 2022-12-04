@@ -14,7 +14,7 @@ namespace WarOfEmpires.Api.Tests.Extensions {
         }
 
         [TestMethod]
-        public void Merge_Merges_Property_Error() {
+        public void ModelStateDictionaryExtensions_Merge_Merges_Property_Error() {
             var modelState = new ModelStateDictionary();
             var commandResult = new CommandResult<TestCommand>();
 
@@ -26,7 +26,7 @@ namespace WarOfEmpires.Api.Tests.Extensions {
         }
 
         [TestMethod]
-        public void Merge_Merges_Model_Error() {
+        public void ModelStateDictionaryExtensions_Merge_Merges_Model_Error() {
             var modelState = new ModelStateDictionary();
             var commandResult = new CommandResult<TestCommand>();
 
