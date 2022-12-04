@@ -12,7 +12,7 @@ namespace WarOfEmpires.Api.Tests.Services {
     [TestClass]
     public class TokenServiceTests {
         [TestMethod]
-        public void CreateToken_Returns_Valid_Token() {
+        public void TokenService_CreateToken_Returns_Valid_Token() {
             var clientSettings = new ClientSettings() {
                 TokenAudience = "Audience",
                 TokenIssuer = "Issuer",
@@ -53,7 +53,7 @@ namespace WarOfEmpires.Api.Tests.Services {
         }
 
         [TestMethod]
-        public void CreateToken_Returns_Token_With_Name_For_DisplayName() {
+        public void TokenService_CreateToken_Returns_Token_With_Name_For_DisplayName() {
             var signingKey = new SymmetricSecurityKey(new byte[] { 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7 });
             var service = new TokenService(new ClientSettings() { TokenExpirationTimeInMinutes = 60 }, signingKey, new JwtSecurityTokenHandler());
 
@@ -68,7 +68,7 @@ namespace WarOfEmpires.Api.Tests.Services {
         }
 
         [TestMethod]
-        public void CreateToken_Returns_Token_With_Administrator_Role_For_Administrators() {
+        public void TokenService_CreateToken_Returns_Token_With_Administrator_Role_For_Administrators() {
             var signingKey = new SymmetricSecurityKey(new byte[] { 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7 });
             var service = new TokenService(new ClientSettings() { TokenExpirationTimeInMinutes = 60 }, signingKey, new JwtSecurityTokenHandler());
 
@@ -83,7 +83,7 @@ namespace WarOfEmpires.Api.Tests.Services {
         }
 
         [TestMethod]
-        public void CreateToken_Returns_Token_Without_Administrator_Role_For_Normal_User() {
+        public void TokenService_CreateToken_Returns_Token_Without_Administrator_Role_For_Normal_User() {
             var signingKey = new SymmetricSecurityKey(new byte[] { 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7 });
             var service = new TokenService(new ClientSettings() { TokenExpirationTimeInMinutes = 60 }, signingKey, new JwtSecurityTokenHandler());
 
@@ -98,7 +98,7 @@ namespace WarOfEmpires.Api.Tests.Services {
         }
 
         [TestMethod]
-        public void CreateToken_Returns_Token_With_Player_Role_For_Player() {
+        public void TokenService_CreateToken_Returns_Token_With_Player_Role_For_Player() {
             var signingKey = new SymmetricSecurityKey(new byte[] { 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7 });
             var service = new TokenService(new ClientSettings() { TokenExpirationTimeInMinutes = 60 }, signingKey, new JwtSecurityTokenHandler());
 
@@ -113,7 +113,7 @@ namespace WarOfEmpires.Api.Tests.Services {
         }
 
         [TestMethod]
-        public void CreateToken_Returns_Token_Without_Player_Role_For_New_User() {
+        public void TokenService_CreateToken_Returns_Token_Without_Player_Role_For_New_User() {
             var signingKey = new SymmetricSecurityKey(new byte[] { 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7 });
             var service = new TokenService(new ClientSettings() { TokenExpirationTimeInMinutes = 60 }, signingKey, new JwtSecurityTokenHandler());
 
@@ -128,7 +128,7 @@ namespace WarOfEmpires.Api.Tests.Services {
         }
 
         [TestMethod]
-        public void TryGetIdentity_Returns_True_When_Identity_Found_In_Expired_Token() {
+        public void TokenService_TryGetIdentity_Returns_True_When_Identity_Found_In_Expired_Token() {
             var clientSettings = new ClientSettings() {
                 TokenAudience = "Audience",
                 TokenIssuer = "Issuer"
@@ -141,7 +141,7 @@ namespace WarOfEmpires.Api.Tests.Services {
         }
 
         [TestMethod]
-        public void TryGetIdentity_Returns_False_When_Identity_Not_Found() {
+        public void TokenService_TryGetIdentity_Returns_False_When_Identity_Not_Found() {
             var clientSettings = new ClientSettings() {
                 TokenAudience = "Audience",
                 TokenIssuer = "Issuer"
@@ -154,7 +154,7 @@ namespace WarOfEmpires.Api.Tests.Services {
         }
 
         [TestMethod]
-        public void TryGetIdentity_Returns_False_When_Signature_Invalid() {
+        public void TokenService_TryGetIdentity_Returns_False_When_Signature_Invalid() {
             var clientSettings = new ClientSettings() {
                 TokenAudience = "Audience",
                 TokenIssuer = "Issuer"
@@ -167,7 +167,7 @@ namespace WarOfEmpires.Api.Tests.Services {
         }
 
         [TestMethod]
-        public void TryGetIdentity_Returns_False_When_Token_Is_Invalid() {
+        public void TokenService_TryGetIdentity_Returns_False_When_Token_Is_Invalid() {
             var clientSettings = new ClientSettings() {
                 TokenAudience = "Audience",
                 TokenIssuer = "Issuer"

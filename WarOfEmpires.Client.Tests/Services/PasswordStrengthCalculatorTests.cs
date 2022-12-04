@@ -16,7 +16,7 @@ public sealed class PasswordStrengthCalculatorTests {
     [DataRow("aBcDeFgHi!", PasswordStrength.Medium)]
     [DataRow("aBcDeFgH1!", PasswordStrength.Strong)]
     [DataRow("aB1! aaaaa", PasswordStrength.Strongest)]
-    public void Calculate(string password, PasswordStrength expectedStrength) {
+    public void PasswordStrengthCalculator_Calculate_Succeeds(string password, PasswordStrength expectedStrength) {
         var calculator = new PasswordStrengthCalculator();
 
         calculator.Calculate(password).Should().Be(expectedStrength);

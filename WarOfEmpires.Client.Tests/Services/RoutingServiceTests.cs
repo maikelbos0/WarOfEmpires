@@ -11,7 +11,7 @@ public sealed class RoutingServiceTests {
     }
 
     [TestMethod]
-    public void GetRoute_Succeeds() {
+    public void RoutingService_GetRoute_Succeeds() {
         var service = new RoutingService();
 
         service.GetRoute(Test.Route).Should().Be("Test/Route");

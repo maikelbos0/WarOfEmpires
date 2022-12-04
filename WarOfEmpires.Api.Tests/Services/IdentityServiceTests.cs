@@ -14,7 +14,7 @@ public class IdentityServiceTests {
     [DataTestMethod]
     [DataRow(true, true)]
     [DataRow(false, false)]
-    public void IsAuthenticated(bool identityIsAuthenticated, bool expectedIsAuthenticated) {
+    public void IdentityService_IsAuthenticated_Returns_Correct_Value(bool identityIsAuthenticated, bool expectedIsAuthenticated) {
         var contextAccessor = Substitute.For<IHttpContextAccessor>();
         var context = Substitute.For<HttpContext>();
         var user = Substitute.For<ClaimsPrincipal>();
@@ -30,7 +30,7 @@ public class IdentityServiceTests {
     }
 
     [TestMethod]
-    public void IsAuthenticated_Returns_False_For_Missing_Identity() {
+    public void IdentityService_IsAuthenticated_Returns_False_For_Missing_Identity() {
         var contextAccessor = Substitute.For<IHttpContextAccessor>();
         var context = Substitute.For<HttpContext>();
         var user = Substitute.For<ClaimsPrincipal>();
@@ -44,7 +44,7 @@ public class IdentityServiceTests {
     }
 
     [TestMethod]
-    public void IsAuthenticated_Throws_Exception_For_Missing_HttpContext() {
+    public void IdentityService_IsAuthenticated_Throws_Exception_For_Missing_HttpContext() {
         var contextAccessor = Substitute.For<IHttpContextAccessor>();
         var service = new IdentityService(contextAccessor);
 
@@ -55,7 +55,7 @@ public class IdentityServiceTests {
     }
 
     [TestMethod]
-    public void Identity() {
+    public void IdentityService_Identity_Returns_Correct_Value() {
         var contextAccessor = Substitute.For<IHttpContextAccessor>();
         var context = Substitute.For<HttpContext>();
         var user = Substitute.For<ClaimsPrincipal>();
@@ -72,7 +72,7 @@ public class IdentityServiceTests {
     }
 
     [TestMethod]
-    public void Identity_Throws_Exception_For_Missing_HttpContext() {
+    public void IdentityService_Identity_Throws_Exception_For_Missing_HttpContext() {
         var contextAccessor = Substitute.For<IHttpContextAccessor>();
         var service = new IdentityService(contextAccessor);
 
@@ -83,7 +83,7 @@ public class IdentityServiceTests {
     }
 
     [TestMethod]
-    public void Identity_Throws_Exception_For_Missing_Subject() {
+    public void IdentityService_Identity_Throws_Exception_For_Missing_Subject() {
         var contextAccessor = Substitute.For<IHttpContextAccessor>();
         var context = Substitute.For<HttpContext>();
         var user = Substitute.For<ClaimsPrincipal>();

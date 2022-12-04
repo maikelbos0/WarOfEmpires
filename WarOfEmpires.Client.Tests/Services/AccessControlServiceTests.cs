@@ -18,7 +18,7 @@ public class AccessControlServiceTests {
     private const string refreshToken = "refresh-token";
 
     [TestMethod]
-    public async Task SignIn() {
+    public async Task AccessControlService_SignIn_Succeeds() {
         var storageService = Substitute.For<ILocalStorageService>();
         var service = new AccessControlService(storageService, Substitute.For<ITimerService>(), new JwtSecurityTokenHandler());
         AuthenticationState state = null;
@@ -37,7 +37,7 @@ public class AccessControlServiceTests {
     }
 
     [TestMethod]
-    public async Task SignOut() {
+    public async Task AccessControlService_SignOut_Succeeds() {
         var storageService = Substitute.For<ILocalStorageService>();
         var service = new AccessControlService(storageService, Substitute.For<ITimerService>(), new JwtSecurityTokenHandler());
         AuthenticationState state = null;
@@ -56,7 +56,7 @@ public class AccessControlServiceTests {
     }
 
     [TestMethod]
-    public async Task GetAccessControlState_With_Valid_Token() {
+    public async Task AccessControlService_GetAccessControlState_With_Valid_Token_Succeeds() {
         var storageService = Substitute.For<ILocalStorageService>();
         var timerService = Substitute.For<ITimerService>();
         var service = new AccessControlService(storageService, timerService, new JwtSecurityTokenHandler());
@@ -73,7 +73,7 @@ public class AccessControlServiceTests {
     }
 
     [TestMethod]
-    public async Task GetAccessControlState_With_Expired_Token() {
+    public async Task AccessControlService_GetAccessControlState_With_Expired_Token_Succeeds() {
         var storageService = Substitute.For<ILocalStorageService>();
         var timerService = Substitute.For<ITimerService>();
         var service = new AccessControlService(storageService, Substitute.For<ITimerService>(), new JwtSecurityTokenHandler());
@@ -91,7 +91,7 @@ public class AccessControlServiceTests {
     }
 
     [TestMethod]
-    public async Task GetAccessControlState_Without_Token() {
+    public async Task AccessControlService_GetAccessControlState_Without_Token_Succeeds() {
         var storageService = Substitute.For<ILocalStorageService>();
         var timerService = Substitute.For<ITimerService>();
         var service = new AccessControlService(storageService, Substitute.For<ITimerService>(), new JwtSecurityTokenHandler());
