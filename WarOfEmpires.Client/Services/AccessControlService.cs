@@ -68,7 +68,7 @@ public sealed class AccessControlService : AuthenticationStateProvider, IAccessC
     }
 
     private async Task<JwtSecurityToken?> AcquireNewAccessToken(UserTokenModel tokens) {
-        var newTokens = await httpService.PostAsync<UserTokenModel, UserTokenModel>(Security.AcquireToken, tokens);
+        var newTokens = await httpService.PostAsync<UserTokenModel, UserTokenModel>(Security.AcquireNewTokens, tokens);
 
         if (newTokens != null) {
             await storageService.SetItemAsync(Constants.Tokens, newTokens);

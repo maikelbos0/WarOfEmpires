@@ -71,8 +71,8 @@ public sealed class SecurityController : BaseController {
     }
 
     [AllowAnonymous]
-    [HttpPost(nameof(Routing.Security.AcquireToken))]
-    public IActionResult AcquireToken(UserTokenModel model) {
+    [HttpPost(nameof(Routing.Security.AcquireNewTokens))]
+    public IActionResult AcquireNewTokens(UserTokenModel model) {
         if (tokenService.TryGetIdentity(model.AccessToken, out var email)) {
             var requestId = Guid.NewGuid();
             var tokenResult = messageService.Dispatch(new RotateUserRefreshTokenCommand(email, requestId, model.RefreshToken));

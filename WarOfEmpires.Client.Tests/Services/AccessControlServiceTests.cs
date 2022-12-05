@@ -78,7 +78,7 @@ public class AccessControlServiceTests {
         var tokens = new UserTokenModel() { AccessToken = expiredToken, RefreshToken = refreshToken };
         var newTokens = new UserTokenModel() { AccessToken = validToken, RefreshToken = refreshToken };
 
-        httpService.PostAsync<UserTokenModel, UserTokenModel>(Security.AcquireToken, tokens).Returns(newTokens);
+        httpService.PostAsync<UserTokenModel, UserTokenModel>(Security.AcquireNewTokens, tokens).Returns(newTokens);
         storageService.GetItemAsync<UserTokenModel>(Constants.Tokens).Returns(tokens);
 
         var state = await service.GetAuthenticationStateAsync();
@@ -97,7 +97,7 @@ public class AccessControlServiceTests {
         var tokens = new UserTokenModel() { AccessToken = expiredToken, RefreshToken = refreshToken };
         AuthenticationState notifiedState = null;
 
-        httpService.PostAsync<UserTokenModel, UserTokenModel>(Security.AcquireToken, tokens).Returns((UserTokenModel)null);
+        httpService.PostAsync<UserTokenModel, UserTokenModel>(Security.AcquireNewTokens, tokens).Returns((UserTokenModel)null);
         storageService.GetItemAsync<UserTokenModel>(Constants.Tokens).Returns(tokens);
         service.AuthenticationStateChanged += async s => notifiedState = await s;
 
