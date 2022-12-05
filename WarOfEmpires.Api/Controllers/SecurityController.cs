@@ -70,6 +70,29 @@ public sealed class SecurityController : BaseController {
         }
     }
 
+    [AllowAnonymous]
+    [HttpPost(nameof(Routing.Security.AcquireToken))]
+    public IActionResult AcquireToken(UserTokenModel model) {
+        if (tokenService.TryGetIdentity(model.AccessToken, out var email)) {
+            var requestId = Guid.NewGuid();
+            var tokenResult = messageService.Dispatch(new RotateUserRefreshTokenCommand(email, requestId, model.RefreshToken));
+
+            if (!tokenResult.Success) {
+                throw new InvalidOperationException("Failed to generate token");
+            }
+
+            var viewModel = messageService.Dispatch(new GetUserClaimsQuery(email, requestId));
+
+            return Ok(new UserTokenModel() {
+                AccessToken = tokenService.CreateToken(viewModel),
+                RefreshToken = viewModel.RefreshToken
+            });
+        }
+        else {
+            return BadRequest(new ValidationProblemDetails(ModelState));
+        }
+    }
+
     [HttpPost(nameof(Routing.Security.ChangeEmail))]
     public IActionResult ChangeEmail(ChangeUserEmailModel model)
         => ExecuteCommand(new ChangeUserEmailCommand(identityService.Identity, model.Password, model.NewEmail));
