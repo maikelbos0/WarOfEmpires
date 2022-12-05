@@ -7,7 +7,7 @@ public enum Security {
     ForgotPassword,
     ResetPassword,
     LogIn,
-    AcquireToken,
+    AcquireNewTokens,
     ChangeEmail,
     ConfirmEmail,
     ChangePassword,
