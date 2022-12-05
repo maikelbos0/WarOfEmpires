@@ -4,67 +4,79 @@ using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using WarOfEmpires.Api.Routing;
+using WarOfEmpires.Models.Security;
 
 namespace WarOfEmpires.Client.Services;
 
 public sealed class AccessControlService : AuthenticationStateProvider, IAccessControlService {
     private readonly ILocalStorageService storageService;
     private readonly JwtSecurityTokenHandler jwtSecurityTokenHandler;
-    private readonly ITimerService timerService;
-    private bool isTimerStarted = false;
+    private readonly IHttpService httpService;
 
-    public AccessControlService(ILocalStorageService storageService, ITimerService timerService, JwtSecurityTokenHandler jwtSecurityTokenHandler) {
+    public AccessControlService(ILocalStorageService storageService, JwtSecurityTokenHandler jwtSecurityTokenHandler, IHttpService httpService) {
         this.storageService = storageService;
-        this.timerService = timerService;
         this.jwtSecurityTokenHandler = jwtSecurityTokenHandler;
+        this.httpService = httpService;
     }
 
     public override async Task<AuthenticationState> GetAuthenticationStateAsync() {
-        var accessToken = await GetValidToken();
+        var accessToken = await GetAccessToken();
 
         if (accessToken == null) {
-            return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()));
+            return GetUnauthenticatedState();
         }
         else {
-            return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity(accessToken.Claims, Constants.AuthenticationScheme, JwtRegisteredClaimNames.Name, Api.Routing.Roles.ClaimName)));
+            return GetAuthenticatedState(accessToken);
         }
     }
 
-    public async Task SignIn(string accessToken, string refreshToken) {
-        await storageService.SetItemAsync(Constants.AccessToken, accessToken);
-        await storageService.SetItemAsync(Constants.RefreshToken, refreshToken);
+    public async Task SignIn(UserTokenModel tokens) {
+        var accessToken = jwtSecurityTokenHandler.ReadJwtToken(tokens.AccessToken);
 
-        NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
+        await storageService.SetItemAsync(Constants.Tokens, tokens);
+
+        NotifyAuthenticationStateChanged(Task.FromResult(GetAuthenticatedState(accessToken)));
     }
 
     public async Task SignOut() {
-        await storageService.RemoveItemAsync(Constants.AccessToken);
-        await storageService.RemoveItemAsync(Constants.RefreshToken);
+        await storageService.RemoveItemAsync(Constants.Tokens);
 
-        isTimerStarted = false;
-        NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
+        NotifyAuthenticationStateChanged(Task.FromResult(GetUnauthenticatedState()));
     }
 
-    private async Task<JwtSecurityToken?> GetValidToken() {
-        var token = await storageService.GetItemAsync<string?>(Constants.AccessToken);
+    private static AuthenticationState GetUnauthenticatedState() 
+        => new(new ClaimsPrincipal(new ClaimsIdentity()));
 
-        if (token == null) {
+    private static AuthenticationState GetAuthenticatedState(JwtSecurityToken accessToken)
+        => new(new ClaimsPrincipal(new ClaimsIdentity(accessToken.Claims, Constants.AuthenticationScheme, JwtRegisteredClaimNames.Name, Roles.ClaimName)));
+
+    private async Task<JwtSecurityToken?> GetAccessToken() {
+        var tokens = await storageService.GetItemAsync<UserTokenModel?>(Constants.Tokens);
+
+        if (tokens == null) {
             return null;
         }
 
-        var accessToken = jwtSecurityTokenHandler.ReadJwtToken(token);
+        var accessToken = jwtSecurityTokenHandler.ReadJwtToken(tokens.AccessToken);
 
         if (accessToken.ValidTo < DateTime.UtcNow) {
-            await storageService.RemoveItemAsync(Constants.AccessToken);
-
-            return null;
-        }
-
-        if (!isTimerStarted) {
-            isTimerStarted = true;
-            timerService.ExecuteAfter(SignOut, accessToken.ValidTo - DateTime.UtcNow);
+            return await AcquireNewAccessToken(tokens);
         }
 
         return accessToken;
+    }
+
+    private async Task<JwtSecurityToken?> AcquireNewAccessToken(UserTokenModel tokens) {
+        var newTokens = await httpService.PostAsync<UserTokenModel, UserTokenModel>(Security.AcquireToken, tokens);
+
+        if (newTokens != null) {
+            await storageService.SetItemAsync(Constants.Tokens, newTokens);
+            return jwtSecurityTokenHandler.ReadJwtToken(newTokens.AccessToken);
+        }
+
+        await storageService.RemoveItemAsync(Constants.Tokens);
+        NotifyAuthenticationStateChanged(Task.FromResult(GetUnauthenticatedState()));
+        return null;
     }
 }

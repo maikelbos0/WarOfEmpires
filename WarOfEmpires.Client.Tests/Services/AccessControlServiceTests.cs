@@ -3,11 +3,11 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 using System.IdentityModel.Tokens.Jwt;
 using System.Threading.Tasks;
-using System;
 using WarOfEmpires.Client.Services;
 using Microsoft.AspNetCore.Components.Authorization;
 using FluentAssertions;
 using WarOfEmpires.Api.Routing;
+using WarOfEmpires.Models.Security;
 
 namespace WarOfEmpires.Client.Tests.Services;
 
@@ -20,90 +20,113 @@ public class AccessControlServiceTests {
     [TestMethod]
     public async Task AccessControlService_SignIn_Succeeds() {
         var storageService = Substitute.For<ILocalStorageService>();
-        var service = new AccessControlService(storageService, Substitute.For<ITimerService>(), new JwtSecurityTokenHandler());
-        AuthenticationState state = null;
+        var service = new AccessControlService(storageService, new JwtSecurityTokenHandler(), Substitute.For<IHttpService>());
+        var tokens = new UserTokenModel() { AccessToken = validToken, RefreshToken = refreshToken };
+        AuthenticationState notifiedState = null;
 
-        storageService.GetItemAsync<string>(Constants.AccessToken).Returns(validToken);
-        service.AuthenticationStateChanged += async s => state = await s;
+        storageService.GetItemAsync<string>(Constants.Tokens).Returns(validToken);
+        service.AuthenticationStateChanged += async s => notifiedState = await s;
 
-        await service.SignIn(validToken, refreshToken);
+        await service.SignIn(tokens);
 
-        await storageService.Received().SetItemAsync(Constants.AccessToken, validToken);
-        await storageService.Received().SetItemAsync(Constants.RefreshToken, refreshToken);
-        state.User?.Identity.Should().NotBeNull();
-        state.User.Identity.Name.Should().Be("Test");
-        state.User.Identity.IsAuthenticated.Should().BeTrue();
-        state.User.IsInRole(Roles.Administrator).Should().BeTrue();
+        await storageService.Received().SetItemAsync(Constants.Tokens, tokens);
+        notifiedState?.User?.Identity.Should().NotBeNull();
+        notifiedState.User.Identity.Name.Should().Be("Test");
+        notifiedState.User.Identity.IsAuthenticated.Should().BeTrue();
+        notifiedState.User.IsInRole(Roles.Administrator).Should().BeTrue();
     }
 
     [TestMethod]
     public async Task AccessControlService_SignOut_Succeeds() {
         var storageService = Substitute.For<ILocalStorageService>();
-        var service = new AccessControlService(storageService, Substitute.For<ITimerService>(), new JwtSecurityTokenHandler());
-        AuthenticationState state = null;
+        var service = new AccessControlService(storageService, new JwtSecurityTokenHandler(), Substitute.For<IHttpService>());
+        AuthenticationState notifiedState = null;
 
-        storageService.GetItemAsync<string>(Constants.AccessToken).Returns((string)null);
-        service.AuthenticationStateChanged += async s => state = await s;
+        storageService.GetItemAsync<string>(Constants.Tokens).Returns((string)null);
+        service.AuthenticationStateChanged += async s => notifiedState = await s;
 
         await service.SignOut();
 
-        await storageService.Received().RemoveItemAsync(Constants.AccessToken);
-        await storageService.Received().RemoveItemAsync(Constants.RefreshToken);
-        state.User?.Identity.Should().NotBeNull();
-        state.User.Identity.Name.Should().BeNull();
-        state.User.Identity.IsAuthenticated.Should().BeFalse();
-        state.User.IsInRole(Roles.Administrator).Should().BeFalse();
+        await storageService.Received().RemoveItemAsync(Constants.Tokens);
+        notifiedState?.User?.Identity.Should().NotBeNull();
+        notifiedState.User.Identity.Name.Should().BeNull();
+        notifiedState.User.Identity.IsAuthenticated.Should().BeFalse();
+        notifiedState.User.IsInRole(Roles.Administrator).Should().BeFalse();
     }
 
     [TestMethod]
     public async Task AccessControlService_GetAccessControlState_With_Valid_Token_Succeeds() {
         var storageService = Substitute.For<ILocalStorageService>();
-        var timerService = Substitute.For<ITimerService>();
-        var service = new AccessControlService(storageService, timerService, new JwtSecurityTokenHandler());
+        var service = new AccessControlService(storageService, new JwtSecurityTokenHandler(), Substitute.For<IHttpService>());
+        var tokens = new UserTokenModel() { AccessToken = validToken, RefreshToken = refreshToken };
 
-        storageService.GetItemAsync<string>(Constants.AccessToken).Returns(validToken);
+        storageService.GetItemAsync<UserTokenModel>(Constants.Tokens).Returns(tokens);
 
         var state = await service.GetAuthenticationStateAsync();
 
-        state.User?.Identity.Should().NotBeNull();
+        state?.User?.Identity.Should().NotBeNull();
         state.User.Identity.Name.Should().Be("Test");
         state.User.Identity.IsAuthenticated.Should().BeTrue();
         state.User.IsInRole(Roles.Administrator).Should().BeTrue();
-        timerService.Received().ExecuteAfter(service.SignOut, Arg.Is<TimeSpan>(timeSpan => timeSpan > (new DateTime(2122, 10, 26) - DateTime.UtcNow) && timeSpan < (new DateTime(2122, 10, 27) - DateTime.UtcNow)));
     }
 
     [TestMethod]
     public async Task AccessControlService_GetAccessControlState_With_Expired_Token_Succeeds() {
         var storageService = Substitute.For<ILocalStorageService>();
-        var timerService = Substitute.For<ITimerService>();
-        var service = new AccessControlService(storageService, Substitute.For<ITimerService>(), new JwtSecurityTokenHandler());
+        var httpService = Substitute.For<IHttpService>();
+        var service = new AccessControlService(storageService, new JwtSecurityTokenHandler(), httpService);
+        var tokens = new UserTokenModel() { AccessToken = expiredToken, RefreshToken = refreshToken };
+        var newTokens = new UserTokenModel() { AccessToken = validToken, RefreshToken = refreshToken };
 
-        storageService.GetItemAsync<string>(Constants.AccessToken).Returns(expiredToken);
+        httpService.PostAsync<UserTokenModel, UserTokenModel>(Security.AcquireToken, tokens).Returns(newTokens);
+        storageService.GetItemAsync<UserTokenModel>(Constants.Tokens).Returns(tokens);
 
         var state = await service.GetAuthenticationStateAsync();
 
-        state.User?.Identity.Should().NotBeNull();
+        state?.User.Identity.Name.Should().Be("Test");
+        state.User.Identity.IsAuthenticated.Should().BeTrue();
+        state.User.IsInRole(Roles.Administrator).Should().BeTrue();
+        await storageService.Received().SetItemAsync(Constants.Tokens, newTokens);
+    }
+
+    [TestMethod]
+    public async Task AccessControlService_GetAccessControlState_With_Expired_Token_And_No_New_Token_Succeeds() {
+        var storageService = Substitute.For<ILocalStorageService>();
+        var httpService = Substitute.For<IHttpService>();
+        var service = new AccessControlService(storageService, new JwtSecurityTokenHandler(), httpService);
+        var tokens = new UserTokenModel() { AccessToken = expiredToken, RefreshToken = refreshToken };
+        AuthenticationState notifiedState = null;
+
+        httpService.PostAsync<UserTokenModel, UserTokenModel>(Security.AcquireToken, tokens).Returns((UserTokenModel)null);
+        storageService.GetItemAsync<UserTokenModel>(Constants.Tokens).Returns(tokens);
+        service.AuthenticationStateChanged += async s => notifiedState = await s;
+
+        var state = await service.GetAuthenticationStateAsync();
+
+        state?.User?.Identity.Should().NotBeNull();
         state.User.Identity.Name.Should().BeNull();
         state.User.Identity.IsAuthenticated.Should().BeFalse();
         state.User.IsInRole(Roles.Administrator).Should().BeFalse();
-        await storageService.Received().RemoveItemAsync(Constants.AccessToken);
-        timerService.DidNotReceiveWithAnyArgs().ExecuteAfter(default, default);
+
+        notifiedState?.User?.Identity.Should().NotBeNull();
+        notifiedState.User.Identity.Name.Should().BeNull();
+        notifiedState.User.Identity.IsAuthenticated.Should().BeFalse();
+        notifiedState.User.IsInRole(Roles.Administrator).Should().BeFalse();
+        await storageService.Received().RemoveItemAsync(Constants.Tokens);
     }
 
     [TestMethod]
     public async Task AccessControlService_GetAccessControlState_Without_Token_Succeeds() {
         var storageService = Substitute.For<ILocalStorageService>();
-        var timerService = Substitute.For<ITimerService>();
-        var service = new AccessControlService(storageService, Substitute.For<ITimerService>(), new JwtSecurityTokenHandler());
+        var service = new AccessControlService(storageService, new JwtSecurityTokenHandler(), Substitute.For<IHttpService>());
 
-        storageService.GetItemAsync<string>(Constants.AccessToken).Returns((string)null);
+        storageService.GetItemAsync<UserTokenModel>(Constants.Tokens).Returns((UserTokenModel)null);
 
         var state = await service.GetAuthenticationStateAsync();
 
-        state.User?.Identity.Should().NotBeNull();
+        state?.User?.Identity.Should().NotBeNull();
         state.User.Identity.Name.Should().BeNull();
         state.User.Identity.IsAuthenticated.Should().BeFalse();
         state.User.IsInRole(Roles.Administrator).Should().BeFalse();
-        timerService.DidNotReceiveWithAnyArgs().ExecuteAfter(default, default);
     }
 }
