@@ -4,7 +4,7 @@
 
 <Title>Register</Title>
 
-<Form Route="Security.Register" Model="model" OnSuccess="/" SuccessMessage="You have registered successfully. An email has been sent to the provided email address with an activation link.">
+<Form Route="Security.Register" RequireAuthorization="false"  Model="model" OnSuccess="/" SuccessMessage="You have registered successfully. An email has been sent to the provided email address with an activation link.">
     <div class="form-field">
         <Label For="() => model.Email" />
         <InputText @bind-Value="model.Email" />

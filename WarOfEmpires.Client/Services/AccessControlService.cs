@@ -12,12 +12,12 @@ namespace WarOfEmpires.Client.Services;
 public sealed class AccessControlService : AuthenticationStateProvider, IAccessControlService {
     private readonly ILocalStorageService storageService;
     private readonly JwtSecurityTokenHandler jwtSecurityTokenHandler;
-    private readonly IHttpService httpService;
+    private readonly ITokenService tokenService;
 
-    public AccessControlService(ILocalStorageService storageService, JwtSecurityTokenHandler jwtSecurityTokenHandler, IHttpService httpService) {
+    public AccessControlService(ILocalStorageService storageService, JwtSecurityTokenHandler jwtSecurityTokenHandler, ITokenService tokenService) {
         this.storageService = storageService;
         this.jwtSecurityTokenHandler = jwtSecurityTokenHandler;
-        this.httpService = httpService;
+        this.tokenService = tokenService;
     }
 
     public override async Task<AuthenticationState> GetAuthenticationStateAsync() {
@@ -32,11 +32,9 @@ public sealed class AccessControlService : AuthenticationStateProvider, IAccessC
     }
 
     public async Task SignIn(UserTokenModel tokens) {
-        var accessToken = jwtSecurityTokenHandler.ReadJwtToken(tokens.AccessToken);
-
         await storageService.SetItemAsync(Constants.Tokens, tokens);
 
-        NotifyAuthenticationStateChanged(Task.FromResult(GetAuthenticatedState(accessToken)));
+        NotifyAuthenticationStateChanged(Task.FromResult(GetAuthenticatedState(tokens.AccessToken)));
     }
 
     public async Task SignOut() {
@@ -48,10 +46,10 @@ public sealed class AccessControlService : AuthenticationStateProvider, IAccessC
     private static AuthenticationState GetUnauthenticatedState() 
         => new(new ClaimsPrincipal(new ClaimsIdentity()));
 
-    private static AuthenticationState GetAuthenticatedState(JwtSecurityToken accessToken)
-        => new(new ClaimsPrincipal(new ClaimsIdentity(accessToken.Claims, Constants.AuthenticationScheme, JwtRegisteredClaimNames.Name, Roles.ClaimName)));
+    private AuthenticationState GetAuthenticatedState(string accessToken)
+        => new(new ClaimsPrincipal(new ClaimsIdentity(jwtSecurityTokenHandler.ReadJwtToken(accessToken).Claims, Constants.AuthenticationScheme, JwtRegisteredClaimNames.Name, Roles.ClaimName)));
 
-    private async Task<JwtSecurityToken?> GetAccessToken() {
+    public async Task<string?> GetAccessToken() {
         var tokens = await storageService.GetItemAsync<UserTokenModel?>(Constants.Tokens);
 
         if (tokens == null) {
@@ -60,19 +58,19 @@ public sealed class AccessControlService : AuthenticationStateProvider, IAccessC
 
         var accessToken = jwtSecurityTokenHandler.ReadJwtToken(tokens.AccessToken);
 
-        if (accessToken.ValidTo < DateTime.UtcNow) {
-            return await AcquireNewAccessToken(tokens);
+        if (accessToken.ValidTo < DateTime.UtcNow.AddSeconds(5)) {
+            return await AcquireNewTokens(tokens);
         }
 
-        return accessToken;
+        return tokens.AccessToken;
     }
 
-    private async Task<JwtSecurityToken?> AcquireNewAccessToken(UserTokenModel tokens) {
-        var newTokens = await httpService.PostAsync<UserTokenModel, UserTokenModel>(Security.AcquireNewTokens, tokens);
+    private async Task<string?> AcquireNewTokens(UserTokenModel tokens) {
+        var newTokens = await tokenService.AcquireNewTokens(tokens);
 
         if (newTokens != null) {
             await storageService.SetItemAsync(Constants.Tokens, newTokens);
-            return jwtSecurityTokenHandler.ReadJwtToken(newTokens.AccessToken);
+            return newTokens.AccessToken;
         }
 
         await storageService.RemoveItemAsync(Constants.Tokens);

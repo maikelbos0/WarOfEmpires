@@ -4,7 +4,7 @@
 
 <Title>Send activation link</Title>
 
-<Form Route="Security.SendActivation" Model="model" OnSuccess="/" SuccessMessage="An email has been sent to the provided email address with an activation link.">
+<Form Route="Security.SendActivation" RequireAuthorization="false"  Model="model" OnSuccess="/" SuccessMessage="An email has been sent to the provided email address with an activation link.">
     <div class="form-field">
         <Label For="() => model.Email" />
         <InputText @bind-Value="model.Email" />
