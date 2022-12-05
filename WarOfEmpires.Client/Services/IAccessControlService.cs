@@ -8,5 +8,6 @@ namespace WarOfEmpires.Client.Services {
         Task<AuthenticationState> GetAuthenticationStateAsync();
         Task SignIn(UserTokenModel tokens);
         Task SignOut();
+        Task<string?> GetAccessToken();
     }
 }

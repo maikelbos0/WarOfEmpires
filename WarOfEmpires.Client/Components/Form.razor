@@ -2,7 +2,7 @@
 
 @*TODO make this work for different types of form layouts*@
 
-<EditForm EditContext="editContext" OnValidSubmit="Submit" disabled="@isSubmitting">
+<EditForm EditContext="editContext" OnValidSubmit="Submit">
     <DataAnnotationsValidator />
 
     <div class="form-group">
@@ -22,7 +22,7 @@
     </div>
 
     <div class="form-button-group">
-        <button type="submit">Submit</button>
+        <button type="submit" disabled="@isSubmitting">Submit</button>
     </div>
 </EditForm>
 
@@ -40,7 +40,7 @@
     private ValidationMessageStore validationMessageStore = null!;
 
     [Inject]
-    public HttpClient HttpClient { get; set; } = null!;
+    public IHttpClientFactory HttpClientFactory { get; set; } = null!;
 
     [Inject]
     public IRoutingService RoutingService { get; set; } = null!;
@@ -54,6 +54,9 @@
     [Parameter]
     [EditorRequired]
     public Enum Route { get; set; } = default!;
+
+    [Parameter]
+    public bool RequireAuthorization { get; set; } = true;
 
     [Parameter]
     [EditorRequired]
@@ -83,7 +86,8 @@
     private async Task Submit() {
         isSubmitting = true;
 
-        var response = await HttpClient.PostAsJsonAsync(RoutingService.GetRoute(Route), Model);
+        var httpClient = HttpClientFactory.CreateClient(RequireAuthorization ? Constants.AuthenticatedClient : Constants.UnauthenticatedClient);
+        var response = await httpClient.PostAsJsonAsync(RoutingService.GetRoute(Route), Model);
 
         if (response.IsSuccessStatusCode) {
             var responseIsHandled = await (ResponseMessageHandler ?? HandleResponseMessage)(response);

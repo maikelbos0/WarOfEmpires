@@ -6,7 +6,7 @@
 
 @*TODO: navigate to either previously requested page or to empire overview*@
 
-<Form Route="Security.LogIn" Model="model" ResponseMessageHandler="StoreAccessToken" OnSuccess="/" SuccessMessage="You have logged in successfully.">
+<Form Route="Security.LogIn" RequireAuthorization="false" Model="model" ResponseMessageHandler="StoreAccessToken" OnSuccess="/" SuccessMessage="You have logged in successfully.">
     <div class="form-field">
         <Label For="() => model.Email" />
         <InputText @bind-Value="model.Email" />
