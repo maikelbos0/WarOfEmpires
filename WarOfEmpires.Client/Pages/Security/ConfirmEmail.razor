@@ -11,7 +11,7 @@
 
 @code {
     [Inject]
-    public IHttpClientFactory HttpClientFactory { get; set; } = null!;
+    public IHttpClientProvider HttpClientProvider { get; set; } = null!;
 
     [Inject]
     public IRoutingService RoutingService { get; set; } = null!;
@@ -34,7 +34,7 @@
     public string? Email { get; set; }
 
     protected override async Task OnInitializedAsync() {
-        var httpClient = HttpClientFactory.ProvideAnonymousClient();
+        var httpClient = HttpClientProvider.ProvideAnonymousClient();
         var response = await httpClient.PostAsJsonAsync(RoutingService.GetRoute(Security.ConfirmEmail), new ConfirmUserEmailChangeModel() {
                 ConfirmationCode = ConfirmationCode,
                 Email = Email

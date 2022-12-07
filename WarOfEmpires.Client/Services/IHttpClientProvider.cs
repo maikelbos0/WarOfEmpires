@@ -1,10 +1,11 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace WarOfEmpires.Client.Services;
 
-public interface IHttpClientFactory {
-    Task<HttpClient> ProvideClient(bool requireAuthentication);
+public interface IHttpClientProvider : IDisposable {
+    Task<HttpClient> Provide(bool requireAuthentication);
 
     HttpClient ProvideAnonymousClient();
 
