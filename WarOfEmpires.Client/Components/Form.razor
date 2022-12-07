@@ -40,7 +40,7 @@
     private ValidationMessageStore validationMessageStore = null!;
 
     [Inject]
-    public IHttpClientFactory HttpClientFactory { get; set; } = null!;
+    public IHttpClientProvider HttpClientProvider { get; set; } = null!;
 
     [Inject]
     public IRoutingService RoutingService { get; set; } = null!;
@@ -86,7 +86,7 @@
     private async Task Submit() {
         isSubmitting = true;
 
-        var httpClient = await HttpClientFactory.ProvideClient(RequireAuthorization);
+        var httpClient = await HttpClientProvider.Provide(RequireAuthorization);
         var response = await httpClient.PostAsJsonAsync(RoutingService.GetRoute(Route), Model);
 
         if (response.IsSuccessStatusCode) {
