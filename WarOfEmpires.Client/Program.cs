@@ -22,6 +22,7 @@ builder.Services.AddSingleton<AuthenticationStateProvider, AccessControlService>
 builder.Services.AddSingleton<IAccessControlService, AccessControlService>(provider => provider.GetRequiredService<AccessControlService>());
 builder.Services.AddSingleton<IHttpClientFactory, HttpClientFactory>(); 
 builder.Services.AddSingleton<IAnonymousHttpClientProvider, AnonymousHttpClientProvider>();
+builder.Services.AddSingleton<IAuthenticatedHttpClientProvider, AuthenticatedHttpClientProvider>();
 builder.Services.AddSingleton<IRoutingService, RoutingService>();
 builder.Services.AddSingleton<IPasswordStrengthCalculator, PasswordStrengthCalculator>();
 
