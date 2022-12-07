@@ -17,7 +17,7 @@ public sealed class TokenService : ITokenService {
     }
 
     public async Task<UserTokenModel?> AcquireNewTokens(UserTokenModel tokens) {
-        var httpClient = httpClientFactory.CreateClient(Constants.UnauthenticatedClient);
+        var httpClient = httpClientFactory.ProvideAnonymousClient();
         var response = await httpClient.PostAsJsonAsync(routingService.GetRoute(Security.AcquireNewTokens), tokens);
 
         if (response.IsSuccessStatusCode) {

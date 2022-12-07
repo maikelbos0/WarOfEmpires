@@ -86,7 +86,7 @@
     private async Task Submit() {
         isSubmitting = true;
 
-        var httpClient = HttpClientFactory.CreateClient(RequireAuthorization ? Constants.AuthenticatedClient : Constants.UnauthenticatedClient);
+        var httpClient = await HttpClientFactory.ProvideClient(RequireAuthorization);
         var response = await httpClient.PostAsJsonAsync(RoutingService.GetRoute(Route), Model);
 
         if (response.IsSuccessStatusCode) {
