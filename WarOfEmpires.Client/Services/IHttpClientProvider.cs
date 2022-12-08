@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace WarOfEmpires.Client.Services;
 
-public interface IHttpClientProvider : IDisposable {
+public interface IHttpClientProvider {
     Task<HttpClient> Provide(bool requireAuthentication);
 
     HttpClient ProvideAnonymousClient();
