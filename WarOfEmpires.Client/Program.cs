@@ -20,7 +20,6 @@ builder.Services.AddSingleton<ITokenService, TokenService>();
 builder.Services.AddSingleton<AccessControlService, AccessControlService>();
 builder.Services.AddSingleton<AuthenticationStateProvider, AccessControlService>(provider => provider.GetRequiredService<AccessControlService>());
 builder.Services.AddSingleton<IAccessControlService, AccessControlService>(provider => provider.GetRequiredService<AccessControlService>());
-builder.Services.AddSingleton<IHttpClientProvider, HttpClientProvider>(); 
 builder.Services.AddSingleton<IAnonymousHttpClientProvider, AnonymousHttpClientProvider>();
 builder.Services.AddSingleton<IAuthenticatedHttpClientProvider, AuthenticatedHttpClientProvider>();
 builder.Services.AddSingleton<IRoutingService, RoutingService>();
