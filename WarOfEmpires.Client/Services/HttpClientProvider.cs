@@ -26,9 +26,4 @@ public sealed class HttpClientProvider : IHttpClientProvider {
 
     // TODO remove
     public Task<HttpClient> ProvideAuthenticatedClient() => authenticatedHttpClientProvider.Provide();
-
-    public void Dispose() {
-        authenticatedHttpClientProvider.Dispose();
-        anonymousHttpClientProvider.Dispose();
-    }
 }
