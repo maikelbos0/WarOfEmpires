@@ -20,10 +20,4 @@ public sealed class HttpClientProvider : IHttpClientProvider {
             return anonymousHttpClientProvider.Provide();
         }
     }
-
-    // TODO remove
-    public HttpClient ProvideAnonymousClient() => anonymousHttpClientProvider.Provide();
-
-    // TODO remove
-    public Task<HttpClient> ProvideAuthenticatedClient() => authenticatedHttpClientProvider.Provide();
 }
