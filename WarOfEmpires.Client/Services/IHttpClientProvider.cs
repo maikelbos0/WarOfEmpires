@@ -6,8 +6,4 @@ namespace WarOfEmpires.Client.Services;
 
 public interface IHttpClientProvider {
     Task<HttpClient> Provide(bool requireAuthentication);
-
-    HttpClient ProvideAnonymousClient();
-
-    Task<HttpClient> ProvideAuthenticatedClient();
 }

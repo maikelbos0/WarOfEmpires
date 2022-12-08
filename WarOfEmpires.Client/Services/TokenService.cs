@@ -7,16 +7,16 @@ using WarOfEmpires.Models.Security;
 namespace WarOfEmpires.Client.Services;
 
 public sealed class TokenService : ITokenService {
-    private readonly IHttpClientProvider httpClientProvider;
+    private readonly IAnonymousHttpClientProvider anonymousHttpClientProvider;
     private readonly IRoutingService routingService;
 
-    public TokenService(IHttpClientProvider httpClientProvider, IRoutingService routingService) {
-        this.httpClientProvider = httpClientProvider;
+    public TokenService(IAnonymousHttpClientProvider anonymousHttpClientProvider, IRoutingService routingService) {
+        this.anonymousHttpClientProvider = anonymousHttpClientProvider;
         this.routingService = routingService;
     }
 
     public async Task<UserTokenModel?> AcquireNewTokens(UserTokenModel tokens) {
-        var httpClient = httpClientProvider.ProvideAnonymousClient();
+        var httpClient = anonymousHttpClientProvider.Provide();
         var response = await httpClient.PostAsJsonAsync(routingService.GetRoute(Security.AcquireNewTokens), tokens);
 
         if (response.IsSuccessStatusCode) {
