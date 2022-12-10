@@ -19,6 +19,7 @@ public sealed class AuthenticatedHttpClientProvider : IAuthenticatedHttpClientPr
     public async Task<HttpClient> Provide() => client ??= new HttpClient() {
         BaseAddress = new Uri(apiSettings.BaseUrl),
         DefaultRequestHeaders = {
+            // TODO figure out what happens if this token expires
             Authorization = new AuthenticationHeaderValue(Constants.AuthenticationScheme, await accessControlService.GetAccessToken())
         }
     };
