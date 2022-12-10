@@ -14,12 +14,11 @@ namespace WarOfEmpires.CommandHandlers.Security {
             var result = new CommandResult<RotateUserRefreshTokenCommand>();
             var user = _repository.GetActiveByEmail(command.Email);
 
-            if (user.RotateRefreshToken(command.RequestId, Convert.FromBase64String(command.RefreshToken))) {
-                _repository.SaveChanges();
-            }
-            else {
+            if (!user.RotateRefreshToken(command.RequestId, Convert.FromBase64String(command.RefreshToken))) {
                 result.AddError("Invalid refresh token");
             }
+
+            _repository.SaveChanges();
 
             return result;
         }
