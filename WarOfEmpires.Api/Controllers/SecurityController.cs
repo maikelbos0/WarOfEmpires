@@ -55,7 +55,7 @@ public sealed class SecurityController : BaseController {
             var tokenResult = messageService.Dispatch(new GenerateUserRefreshTokenCommand(model.Email, requestId));
 
             if (!tokenResult.Success) {
-                throw new InvalidOperationException("Failed to generate token");
+                throw new InvalidOperationException("Failed to generate refresh token");
             }
 
             var viewModel = messageService.Dispatch(new GetUserClaimsQuery(model.Email, requestId));
@@ -78,7 +78,7 @@ public sealed class SecurityController : BaseController {
             var tokenResult = messageService.Dispatch(new RotateUserRefreshTokenCommand(email, requestId, model.RefreshToken));
 
             if (!tokenResult.Success) {
-                throw new InvalidOperationException("Failed to generate token");
+                throw new InvalidOperationException("Failed to generate refresh token");
             }
 
             var viewModel = messageService.Dispatch(new GetUserClaimsQuery(email, requestId));
