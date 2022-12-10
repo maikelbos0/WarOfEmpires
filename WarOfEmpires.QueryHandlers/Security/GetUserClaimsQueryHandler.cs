@@ -35,7 +35,7 @@ namespace WarOfEmpires.QueryHandlers.Security {
             var refreshToken = user.RefreshTokenFamilies.SingleOrDefault(f => f.RequestId == query.RequestId)?.CurrentToken;
 
             if (refreshToken != null) {
-                result.RefreshToken = Convert.ToBase64String(user.RefreshTokenFamilies.Single(f => f.RequestId == query.RequestId).CurrentToken);
+                result.RefreshToken = Convert.ToBase64String(refreshToken);
             }
 
             if (player?.Alliance != null) {
