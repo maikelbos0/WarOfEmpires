@@ -324,7 +324,10 @@ form {
                 box-shadow: 0 0 $default-sizing / 4 $default-sizing / 4 rgba($site-dark-purple, 0.25);
             }
 
-            // TODO disabled style
+            &:disabled {
+                pointer-events: none;
+                opacity: 0.65;
+            }
         }
     }
 }

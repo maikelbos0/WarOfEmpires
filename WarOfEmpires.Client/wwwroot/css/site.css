@@ -268,3 +268,7 @@ form .form-button-group button:focus {
   outline: 0;
   box-shadow: 0 0 0.25rem 0.25rem rgba(83, 58, 113, 0.25);
 }
+form .form-button-group button:disabled {
+  pointer-events: none;
+  opacity: 0.65;
+}
