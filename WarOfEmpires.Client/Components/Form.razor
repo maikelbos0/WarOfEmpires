@@ -89,8 +89,7 @@
     private async Task Submit() {
         isSubmitting = true;
 
-        var httpClient = await GetHttpClient();
-        var response = await httpClient.PostAsJsonAsync(RoutingService.GetRoute(Route), Model);
+        var response = await GetHttpClient().PostAsJsonAsync(RoutingService.GetRoute(Route), Model);
 
         if (response.IsSuccessStatusCode) {
             var responseIsHandled = await (ResponseMessageHandler ?? HandleResponseMessage)(response);
@@ -119,9 +118,9 @@
         isSubmitting = false;
     }
 
-    private async Task<HttpClient> GetHttpClient() {
+    private HttpClient GetHttpClient() {
         if (RequireAuthorization) {
-            return await AuthenticatedHttpClientProvider.Provide();
+            return AuthenticatedHttpClientProvider.Provide();
         }
         else {
             return AnonymousHttpClientProvider.Provide();
