@@ -58,7 +58,7 @@ public sealed class AccessControlService : AuthenticationStateProvider, IAccessC
 
         var accessToken = jwtSecurityTokenHandler.ReadJwtToken(tokens.AccessToken);
 
-        if (accessToken.ValidTo < DateTime.UtcNow.AddSeconds(5)) {
+        if (accessToken.ValidTo < DateTime.UtcNow) {
             return await AcquireNewTokens(tokens);
         }
 
