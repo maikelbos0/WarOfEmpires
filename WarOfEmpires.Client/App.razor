@@ -5,8 +5,9 @@
         <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
             <NotAuthorized>
                 @{
-                    // TODO add redirect url
-                    NavigationManager.NavigateTo("/log-in");
+                    var redirectUrl = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
+
+                    NavigationManager.NavigateTo($"/log-in?redirectUrl={WebUtility.UrlEncode(redirectUrl)}");
                 }
             </NotAuthorized>
         </AuthorizeRouteView>
