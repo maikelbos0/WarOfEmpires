@@ -4,9 +4,11 @@
 
 <Title>Log in</Title>
 
-@*TODO: navigate to either previously requested page or to empire overview*@
+@* TODO navigate to empire overview if no redirecUrl was found *@
 
-<Form Route="Security.LogIn" RequireAuthorization="false" Model="model" ResponseMessageHandler="StoreAccessToken" OnSuccess="/" SuccessMessage="You have logged in successfully.">
+@* TODO add message about being logged out if redirect url is present? *@
+
+<Form Route="Security.LogIn" RequireAuthorization="false" Model="model" ResponseMessageHandler="StoreAccessToken" OnSuccess="@(RedirectUrl ?? "/")" SuccessMessage="You have logged in successfully.">
     <div class="form-field">
         <Label For="() => model.Email" />
         <InputText @bind-Value="model.Email" />
@@ -23,6 +25,10 @@
 @code {
     [Inject]
     public IAccessControlService AccessControlService { get; set; } = null!;
+
+    [Parameter]
+    [SupplyParameterFromQuery(Name = "redirectUrl")]
+    public string? RedirectUrl { get; set; }
 
     LogInUserModel model = new();
 
