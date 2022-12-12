@@ -112,6 +112,29 @@ p {
   margin-bottom: 1rem;
 }
 
+ol, ul {
+  margin: 0;
+  padding: 0;
+}
+ol > li, ul > li {
+  list-style: none;
+}
+ol > li:last-child, ul > li:last-child {
+  margin-bottom: 1rem;
+}
+
+.text-error {
+  color: #dc3545;
+}
+
+.text-warning {
+  color: #DD5500;
+}
+
+.text-muted {
+  color: #777777;
+}
+
 .popup-message-container {
   position: absolute;
   bottom: 0;
@@ -155,6 +178,13 @@ form {
   display: flex;
   flex-wrap: wrap;
 }
+form .validation-summary {
+  color: #dc3545;
+}
+form .validation-message {
+  color: #dc3545;
+  font-size: 0.875rem;
+}
 form .form-group {
   width: 100%;
 }
@@ -164,17 +194,6 @@ form .form-group {
     margin-left: 25%;
     margin-right: 25%;
   }
-}
-form .form-group ul.validation-errors {
-  margin: 0;
-  padding: 0;
-}
-form .form-group ul.validation-errors > li {
-  list-style: none;
-  color: #dc3545;
-}
-form .form-group ul.validation-errors > li:last-child {
-  margin-bottom: 1rem;
 }
 form .form-group .form-field {
   margin-bottom: 1rem;
@@ -231,10 +250,6 @@ form .form-group .form-field input.password-strength-strongest {
 }
 form .form-group .form-field input.password-strength-strongest:focus {
   box-shadow: 0 0 0.25rem 0.25rem rgba(83, 58, 113, 0.25), 0 -0.25rem 0 0 #33EE33 inset;
-}
-form .form-group .form-field .validation-message {
-  color: #dc3545;
-  font-size: 0.875rem;
 }
 form .form-button-group {
   width: 100%;

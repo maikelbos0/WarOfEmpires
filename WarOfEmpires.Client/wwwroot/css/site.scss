@@ -154,6 +154,31 @@ p {
     margin-bottom: $default-sizing;
 }
 
+ol, ul {
+    margin: 0;
+    padding: 0;
+
+    > li {
+        list-style: none;
+
+        &:last-child {
+            margin-bottom: $default-sizing;
+        }
+    }
+}
+
+.text-error {
+    color: $site-red;
+}
+
+.text-warning {
+    color: $site-dark-orange;
+}
+
+.text-muted {
+    color: $site-dark-grey;
+}
+
 .popup-message-container {
     position: absolute;
     bottom: 0;
@@ -204,6 +229,15 @@ form {
     display: flex;
     flex-wrap: wrap;
 
+    .validation-summary {
+        color: $site-red;
+    }
+
+    .validation-message {
+        color: $site-red;
+        font-size: $default-sizing * 0.875;
+    }
+
     .form-group {
         width: 100%;
 
@@ -211,20 +245,6 @@ form {
             width: 50%;
             margin-left: 25%;
             margin-right: 25%;
-        }
-
-        ul.validation-errors {
-            margin: 0;
-            padding: 0;
-
-            > li {
-                list-style: none;
-                color: $site-red;
-
-                &:last-child {
-                    margin-bottom: $default-sizing;
-                }
-            }
         }
 
         .form-field {
@@ -283,11 +303,6 @@ form {
                 &.password-strength-strongest {
                     @include password-strength($password-strength-strongest);
                 }
-            }
-
-            .validation-message {
-                color: $site-red;
-                font-size: $default-sizing * 0.875;
             }
         }
     }
