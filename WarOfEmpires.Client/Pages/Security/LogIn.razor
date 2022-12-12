@@ -4,9 +4,13 @@
 
 <Title>Log in</Title>
 
-@* TODO navigate to empire overview if no redirecUrl was found *@
+@* TODO navigate to empire overview if no redirectUrl was found *@
 
-@* TODO add message about being logged out if redirect url is present? *@
+@if (!string.IsNullOrEmpty(RedirectUrl)) {
+    <ul>
+        <li class="text-warning">You have been automatically logged out because your session expired or was invalid. Please re-enter your login details below.</li>
+    </ul>
+}
 
 <Form Route="Security.LogIn" RequireAuthorization="false" Model="model" ResponseMessageHandler="StoreAccessToken" OnSuccess="@(RedirectUrl ?? "/")" SuccessMessage="You have logged in successfully.">
     <div class="form-field">
