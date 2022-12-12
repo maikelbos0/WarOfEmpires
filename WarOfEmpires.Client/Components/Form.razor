@@ -10,7 +10,7 @@
             var validationMessages = context.GetValidationMessages(context.Field(string.Empty)).ToList();
 
             if (validationMessages.Any()) {
-                <ul class="validation-errors">
+                <ul class="validation-summary">
                     @foreach (var message in validationMessages) {
                         <li>@message</li>
                     }
@@ -48,11 +48,11 @@
     [Inject]
     public IRoutingService RoutingService { get; set; } = null!;
 
-    [CascadingParameter]
-    public NotificationManager NotificationManager { get; set; } = null!;
-
     [Inject]
     public NavigationManager NavigationManager { get; set; } = null!;
+
+    [CascadingParameter]
+    public NotificationManager NotificationManager { get; set; } = null!;
 
     [Parameter]
     [EditorRequired]
