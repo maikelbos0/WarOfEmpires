@@ -110,6 +110,33 @@ public class SecurityControllerTests {
             tokenService.CreateToken(Arg.Any<UserClaimsViewModel>());
         });
     }
+    
+
+    [TestMethod]
+    public void SecurityController_AcquireNewTokens_Succeeds() {
+        var messageService = Substitute.For<IMessageService>();
+        var tokenService = Substitute.For<ITokenService>();
+        var controller = new SecurityController(messageService, Substitute.For<IIdentityService>(), tokenService);
+        var requestId = Guid.Empty;
+
+        messageService.Dispatch(Arg.Do<RotateUserRefreshTokenCommand>(c => requestId = c.RequestId)).Returns(new CommandResult<RotateUserRefreshTokenCommand>());
+        messageService.Dispatch(Arg.Any<GetUserClaimsQuery>()).Returns(new UserClaimsViewModel() { RefreshToken = "12345" });
+        tokenService.TryGetIdentity(Arg.Any<string>(), out Arg.Any<string>()).Returns(x => { x[1] = "test@test.com"; return true; });
+        tokenService.CreateToken(Arg.Any<UserClaimsViewModel>()).Returns("token");
+
+        var response = controller.AcquireNewTokens(new UserTokenModel() { AccessToken = "old", RefreshToken = "01234" });
+
+        var model = response.Should().BeOfType<OkObjectResult>().Which.Value.Should().BeOfType<UserTokenModel>().Subject;
+        model.AccessToken.Should().Be("token");
+        model.RefreshToken.Should().Be("12345");
+
+        Received.InOrder(() => {
+            tokenService.TryGetIdentity("old", out Arg.Any<string>());
+            messageService.Dispatch(Arg.Is<RotateUserRefreshTokenCommand>(c => c.Email == "test@test.com" && c.RefreshToken == "01234"));
+            messageService.Dispatch(Arg.Is<GetUserClaimsQuery>(c => c.Email == "test@test.com" && c.RequestId == requestId));
+            tokenService.CreateToken(Arg.Any<UserClaimsViewModel>());
+        });
+    }
 
     [TestMethod]
     public void SecurityController_ChangeEmail_Succeeds() {
