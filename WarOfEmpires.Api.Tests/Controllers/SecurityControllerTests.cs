@@ -1,11 +1,15 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using EllipticCurve;
+using FluentAssertions;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
+using System;
 using WarOfEmpires.Api.Controllers;
 using WarOfEmpires.Api.Services;
 using WarOfEmpires.CommandHandlers;
 using WarOfEmpires.Commands.Security;
 using WarOfEmpires.Models.Security;
+using WarOfEmpires.Queries.Security;
 
 namespace WarOfEmpires.Api.Tests.Controllers;
 
@@ -20,7 +24,7 @@ public class SecurityControllerTests {
 
         var response = controller.Register(new RegisterUserModel() { Email = "test@test.com", Password = "password" });
 
-        Assert.IsInstanceOfType(response, typeof(OkObjectResult));
+        response.Should().BeOfType<OkObjectResult>();
 
         messageService.Received().Dispatch(Arg.Is<RegisterUserCommand>(c => c.Email == "test@test.com" && c.Password == "password"));
     }
@@ -34,7 +38,7 @@ public class SecurityControllerTests {
 
         var response = controller.Activate(new ActivateUserModel() { Email = "test@test.com", ActivationCode = "12345" });
 
-        Assert.IsInstanceOfType(response, typeof(OkObjectResult));
+        response.Should().BeOfType<OkObjectResult>();
 
         messageService.Received().Dispatch(Arg.Is<ActivateUserCommand>(c => c.Email == "test@test.com" && c.ActivationCode == "12345"));
     }
@@ -48,7 +52,7 @@ public class SecurityControllerTests {
 
         var response = controller.SendActivation(new SendUserActivationModel() { Email = "test@test.com" });
 
-        Assert.IsInstanceOfType(response, typeof(OkObjectResult));
+        response.Should().BeOfType<OkObjectResult>();
 
         messageService.Received().Dispatch(Arg.Is<SendUserActivationCommand>(c => c.Email == "test@test.com"));
     }
@@ -62,7 +66,7 @@ public class SecurityControllerTests {
 
         var response = controller.ForgotPassword(new ForgotUserPasswordModel() { Email = "test@test.com" });
 
-        Assert.IsInstanceOfType(response, typeof(OkObjectResult));
+        response.Should().BeOfType<OkObjectResult>();
 
         messageService.Received().Dispatch(Arg.Is<ForgotUserPasswordCommand>(c => c.Email == "test@test.com"));
     }
@@ -76,9 +80,35 @@ public class SecurityControllerTests {
 
         var response = controller.ResetPassword(new ResetUserPasswordModel() { Email = "test@test.com", NewPassword = "password", PasswordResetToken = "12345" });
 
-        Assert.IsInstanceOfType(response, typeof(OkObjectResult));
+        response.Should().BeOfType<OkObjectResult>();
 
         messageService.Received().Dispatch(Arg.Is<ResetUserPasswordCommand>(c => c.Email == "test@test.com" && c.NewPassword == "password" && c.PasswordResetToken == "12345"));
+    }
+
+    [TestMethod]
+    public void SecurityController_LogIn_Succeeds() {
+        var messageService = Substitute.For<IMessageService>();
+        var tokenService = Substitute.For<ITokenService>();
+        var controller = new SecurityController(messageService, Substitute.For<IIdentityService>(), tokenService);
+        var requestId = Guid.Empty;
+
+        messageService.Dispatch(Arg.Any<LogInUserCommand>()).Returns(new CommandResult<LogInUserCommand>());
+        messageService.Dispatch(Arg.Do<GenerateUserRefreshTokenCommand>(c => requestId = c.RequestId)).Returns(new CommandResult<GenerateUserRefreshTokenCommand>());
+        messageService.Dispatch(Arg.Any<GetUserClaimsQuery>()).Returns(new UserClaimsViewModel() { RefreshToken = "12345" });
+        tokenService.CreateToken(Arg.Any<UserClaimsViewModel>()).Returns("token");
+
+        var response = controller.LogIn(new LogInUserModel() { Email = "test@test.com", Password = "password" });
+
+        var model = response.Should().BeOfType<OkObjectResult>().Which.Value.Should().BeOfType<UserTokenModel>().Subject;
+        model.AccessToken.Should().Be("token");
+        model.RefreshToken.Should().Be("12345");
+
+        Received.InOrder(() => {
+            messageService.Dispatch(Arg.Is<LogInUserCommand>(c => c.Email == "test@test.com" && c.Password == "password"));
+            messageService.Dispatch(Arg.Is<GenerateUserRefreshTokenCommand>(c => c.Email == "test@test.com"));
+            messageService.Dispatch(Arg.Is<GetUserClaimsQuery>(c => c.Email == "test@test.com" && c.RequestId == requestId));
+            tokenService.CreateToken(Arg.Any<UserClaimsViewModel>());
+        });
     }
 
     [TestMethod]
@@ -92,7 +122,7 @@ public class SecurityControllerTests {
 
         var response = controller.ChangeEmail(new ChangeUserEmailModel() { Password = "password", NewEmail = "new@test.com" });
 
-        Assert.IsInstanceOfType(response, typeof(OkObjectResult));
+        response.Should().BeOfType<OkObjectResult>();
 
         messageService.Received().Dispatch(Arg.Is<ChangeUserEmailCommand>(c => c.CurrentEmail == "test@test.com" && c.Password == "password" && c.NewEmail == "new@test.com"));
     }
@@ -106,7 +136,7 @@ public class SecurityControllerTests {
 
         var response = controller.ConfirmEmail(new ConfirmUserEmailChangeModel() { Email = "test@test.com", ConfirmationCode = "12345" });
 
-        Assert.IsInstanceOfType(response, typeof(OkObjectResult));
+        response.Should().BeOfType<OkObjectResult>();
 
         messageService.Received().Dispatch(Arg.Is<ConfirmUserEmailChangeCommand>(c => c.Email == "test@test.com" && c.ConfirmationCode == "12345"));
     }
@@ -122,7 +152,7 @@ public class SecurityControllerTests {
 
         var response = controller.ChangePassword(new ChangeUserPasswordModel() { CurrentPassword = "old", NewPassword = "password" });
 
-        Assert.IsInstanceOfType(response, typeof(OkObjectResult));
+        response.Should().BeOfType<OkObjectResult>();
 
         messageService.Received().Dispatch(Arg.Is<ChangeUserPasswordCommand>(c => c.Email == "test@test.com" && c.CurrentPassword == "old" && c.NewPassword == "password"));
     }
@@ -138,7 +168,7 @@ public class SecurityControllerTests {
 
         var response = controller.Deactivate(new DeactivateUserModel() { Password = "password" });
 
-        Assert.IsInstanceOfType(response, typeof(OkObjectResult));
+        response.Should().BeOfType<OkObjectResult>();
 
         messageService.Received().Dispatch(Arg.Is<DeactivateUserCommand>(c => c.Email == "test@test.com" && c.Password == "password"));
     }
