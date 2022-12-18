@@ -24,11 +24,28 @@ $popup-message-error: $site-light-apricot;
 $popup-message-warning-background: #DD8800;
 $popup-message-warning: $site-light-apricot;
 
-$password-strength-weakest: #EE3333;
-$password-strength-weak: #EE8833;
-$password-strength-medium: #EEEE33;
-$password-strength-strong: #88EE33;
-$password-strength-strongest: #33EE33;
+$icons: ( 
+    "gold": "two-coins.svg", 
+    "food": "shiny-apple.svg", 
+    "wood": "pine-tree.svg", 
+    "stone": "stone-block.svg", 
+    "ore": "ore.svg", 
+    "attack": "high-shot.svg",
+    "bank": "locked-chest.svg",
+    "siege": "claw-hammer.svg",
+    "market": "old-wagon.svg",
+    "university": "book-cover.svg", 
+    "menu": "open-book.svg", 
+    "search": "magnifying-glass.svg"
+);
+
+$password-strengths: ( 
+    "weakest": #EE3333,
+    "weak": #EE8833,
+    "medium": #EEEE33,
+    "strong": #88EE33,
+    "strongest": #33EE33
+);
 
 *, *::before, *::after {
     box-sizing: border-box;
@@ -77,7 +94,7 @@ nav {
     }
 
     .nav-menu > .nav-link a::after {
-        content: '';
+        content: "";
         border-top: $default-sizing / 2 solid;
         border-bottom: 0;
         display: inline-block;
@@ -225,6 +242,25 @@ ol, ul {
     }
 }
 
+.si {
+    &:after {
+        display: inline-block;
+        vertical-align: top;
+        margin-top: 2px;
+        height: 20px;
+        width: 20px;
+        content: "";
+        background-size: contain;
+    }
+
+
+    @each $name, $file-name in $icons {
+        &.si-#{$name}::after {
+            background-image: url("icons/#{$file-name}");
+        }
+    }
+}
+
 form {
     display: flex;
     flex-wrap: wrap;
@@ -276,32 +312,14 @@ form {
                     background-color: $site-light-apricot;
                 }
 
-                @mixin password-strength($color) {
-                    box-shadow: 0 $default-sizing / -4 0 0 $color inset;
+                @each $name, $color in $password-strengths {
+                    &.password-strength-#{$name} {
+                        box-shadow: 0 $default-sizing / -4 0 0 $color inset;
 
-                    &:focus {
-                        box-shadow: 0 0 $default-sizing / 4 $default-sizing / 4 rgba($site-dark-purple, 0.25), 0 $default-sizing / -4 0 0 $color inset;
+                        &:focus {
+                            box-shadow: 0 0 $default-sizing / 4 $default-sizing / 4 rgba($site-dark-purple, 0.25), 0 $default-sizing / -4 0 0 $color inset;
+                        }
                     }
-                }
-
-                &.password-strength-weakest {
-                    @include password-strength($password-strength-weakest);
-                }
-
-                &.password-strength-weak {
-                    @include password-strength($password-strength-weak);
-                }
-
-                &.password-strength-medium {
-                    @include password-strength($password-strength-medium);
-                }
-
-                &.password-strength-strong {
-                    @include password-strength($password-strength-strong);
-                }
-
-                &.password-strength-strongest {
-                    @include password-strength($password-strength-strongest);
                 }
             }
         }

@@ -174,6 +174,52 @@ ol > li:last-child, ul > li:last-child {
   margin-right: -0.25rem;
 }
 
+.si:after {
+  display: inline-block;
+  vertical-align: top;
+  margin-top: 2px;
+  height: 20px;
+  width: 20px;
+  content: "";
+  background-size: contain;
+}
+.si.si-gold::after {
+  background-image: url("icons/two-coins.svg");
+}
+.si.si-food::after {
+  background-image: url("icons/shiny-apple.svg");
+}
+.si.si-wood::after {
+  background-image: url("icons/pine-tree.svg");
+}
+.si.si-stone::after {
+  background-image: url("icons/stone-block.svg");
+}
+.si.si-ore::after {
+  background-image: url("icons/ore.svg");
+}
+.si.si-attack::after {
+  background-image: url("icons/high-shot.svg");
+}
+.si.si-bank::after {
+  background-image: url("icons/locked-chest.svg");
+}
+.si.si-siege::after {
+  background-image: url("icons/claw-hammer.svg");
+}
+.si.si-market::after {
+  background-image: url("icons/old-wagon.svg");
+}
+.si.si-university::after {
+  background-image: url("icons/book-cover.svg");
+}
+.si.si-menu::after {
+  background-image: url("icons/open-book.svg");
+}
+.si.si-search::after {
+  background-image: url("icons/magnifying-glass.svg");
+}
+
 form {
   display: flex;
   flex-wrap: wrap;
