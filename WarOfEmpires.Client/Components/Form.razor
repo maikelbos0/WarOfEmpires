@@ -27,14 +27,6 @@
 </EditForm>
 
 @code {
-    private sealed class ValidationProblemDetails {
-        public IDictionary<string, string[]> Errors { get; }
-
-        public ValidationProblemDetails(IDictionary<string, string[]> errors) {
-            Errors = errors;
-        }
-    }
-
     private bool isSubmitting = false;
     private EditContext editContext = null!;
     private ValidationMessageStore validationMessageStore = null!;
