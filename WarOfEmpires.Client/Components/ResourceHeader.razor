@@ -1,0 +1,72 @@
+﻿@using WarOfEmpires.Models.Empires
+@using WarOfEmpires.Models.Formatting
+
+@if (model != null) {
+
+    <div>
+        <div>
+            @*TODO expand/collapse with button*@
+            <button>
+                <div><icon type="Menu" /></div>
+            </button>
+            <div>
+                <div>
+                    <div>
+                        <div>@model.Resources.Gold.ToString(StringFormat.Integer)</div>
+                        <div>@model.BankedResources.Gold.ToString(StringFormat.Integer)</div>
+                    </div>
+                    <div><icon type="Gold" /></div>
+                </div>
+                <div>
+                    <div>
+                        <div>@model.Resources.Food.ToString(StringFormat.Integer)</div>
+                        <div>@model.BankedResources.Food.ToString(StringFormat.Integer)</div>
+                    </div>
+                    <div><icon type="Food" /></div>
+                </div>
+                <div>
+                    <div>
+                        <div>@model.Resources.Wood.ToString(StringFormat.Integer)</div>
+                        <div>@model.BankedResources.Wood.ToString(StringFormat.Integer)</div>
+                    </div>
+                    <div><icon type="Wood" /></div>
+                </div>
+                <div>
+                    <div>
+                        <div>@model.Resources.Stone.ToString(StringFormat.Integer)</div>
+                        <div>@model.BankedResources.Stone.ToString(StringFormat.Integer)</div>
+                    </div>
+                    <div><icon type="Stone" /></div>
+                </div>
+                <div>
+                    <div>
+                        <div>@model.Resources.Ore.ToString(StringFormat.Integer)</div>
+                        <div>@model.BankedResources.Ore.ToString(StringFormat.Integer)</div>
+                    </div>
+                    <div><icon type="Ore" /></div>
+                </div>
+                <div>@model.AttackTurns.ToString(StringFormat.Integer) <icon type="Attack" /></div>
+                <div>@model.BankTurns.ToString(StringFormat.Integer) <icon type="Bank" /></div>
+            </div>
+        </div>
+    </div>
+
+}
+
+@code {
+    private ResourceHeaderViewModel? model;
+
+    [Inject]
+    public IAuthenticatedHttpClientProvider AuthenticatedHttpClientProvider { get; set; } = null!;
+
+    [Inject]
+    public IRoutingService RoutingService { get; set; } = null!;
+
+    protected override async Task OnInitializedAsync() {
+        await Refresh();
+    }
+
+    private async Task Refresh() {
+        model = await AuthenticatedHttpClientProvider.Provide().GetFromJsonAsync<ResourceHeaderViewModel>(RoutingService.GetRoute(Empire.ResourceHeader));
+    }
+}
