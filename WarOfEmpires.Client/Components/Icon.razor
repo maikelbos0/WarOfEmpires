@@ -1,0 +1,8 @@
+﻿
+<span class="si si-@Type.ToString().ToLower()"></span>
+
+@code {
+    [Parameter]
+    [EditorRequired]
+    public IconType Type { get; set; } = default!;
+}
