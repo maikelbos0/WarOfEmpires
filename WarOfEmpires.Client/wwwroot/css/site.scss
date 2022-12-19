@@ -125,6 +125,46 @@ nav {
     }
 }
 
+.resource-header {
+    display: flex;
+    justify-content: flex-end;
+    background-color: $site-apricot;
+    padding: 0 $default-sizing;
+    margin: $default-sizing;
+    border-radius: $default-sizing / 4;
+
+    .content {
+        display: flex;
+        align-items: center;
+
+        > * {
+            margin: 0 $default-sizing / 4;
+        }
+
+        .resources {
+            display: flex;
+            align-items: center;
+            padding: $default-sizing / 4;
+
+            > * {
+                padding: $default-sizing / 4;
+            }
+
+            .open {
+                color: $site-dark-orange;
+            }
+
+            .banked {
+                color: $site-dark-grey;
+            }
+        }
+
+        .turns {
+            padding: $default-sizing / 2;
+        }
+    }
+}
+
 main {
     background-color: $site-apricot;
     padding: $default-sizing;

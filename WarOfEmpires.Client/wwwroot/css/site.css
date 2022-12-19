@@ -67,6 +67,39 @@ nav .nav-menu > .nav-menu-content > .nav-divider {
   border-top: 1px solid #533A71;
 }
 
+.resource-header {
+  display: flex;
+  justify-content: flex-end;
+  background-color: #F5E0B7;
+  padding: 0 1rem;
+  margin: 1rem;
+  border-radius: 0.25rem;
+}
+.resource-header .content {
+  display: flex;
+  align-items: center;
+}
+.resource-header .content > * {
+  margin: 0 0.25rem;
+}
+.resource-header .content .resources {
+  display: flex;
+  align-items: center;
+  padding: 0.25rem;
+}
+.resource-header .content .resources > * {
+  padding: 0.25rem;
+}
+.resource-header .content .resources .open {
+  color: #DD5500;
+}
+.resource-header .content .resources .banked {
+  color: #777777;
+}
+.resource-header .content .turns {
+  padding: 0.5rem;
+}
+
 main {
   background-color: #F5E0B7;
   padding: 1rem;
