@@ -24,29 +24,9 @@ $popup-message-error: $site-light-apricot;
 $popup-message-warning-background: #DD8800;
 $popup-message-warning: $site-light-apricot;
 
-$icons: ( 
-    "gold": "two-coins.svg",
-    "food": "shiny-apple.svg",
-    "wood": "pine-tree.svg",
-    "stone": "stone-block.svg",
-    "ore": "ore.svg",
-    "attack": "high-shot.svg",
-    "bank": "locked-chest.svg",
-    "siege": "claw-hammer.svg",
-    "market": "old-wagon.svg",
-    "university": "book-cover.svg",
-    "resources": "open-book.svg",
-    "search": "magnifying-glass.svg",    
-    "menu": "menu.svg", 
-);
+$icons: ( "gold": "two-coins.svg", "food": "shiny-apple.svg", "wood": "pine-tree.svg", "stone": "stone-block.svg", "ore": "ore.svg", "attack": "high-shot.svg", "bank": "locked-chest.svg", "siege": "claw-hammer.svg", "market": "old-wagon.svg", "university": "book-cover.svg", "resources": "open-book.svg", "search": "magnifying-glass.svg", "menu": "menu.svg", );
 
-$password-strengths: ( 
-    "weakest": #EE3333,
-    "weak": #EE8833,
-    "medium": #EEEE33,
-    "strong": #88EE33,
-    "strongest": #33EE33
-);
+$password-strengths: ( "weakest": #EE3333, "weak": #EE8833, "medium": #EEEE33, "strong": #88EE33, "strongest": #33EE33 );
 
 *, *::before, *::after {
     box-sizing: border-box;
@@ -67,12 +47,38 @@ body {
     margin-left: auto;
 }
 
+.display-toggle {
+    .display-toggle-toggle {
+        display: none;
+    }
+
+    @media (max-width: 48 * $default-sizing) {
+        display: flex;
+
+        .display-toggle-content {
+            display: none;
+
+            &.active {
+                display: block;
+            }
+        }
+
+        .display-toggle-toggle {
+            display: block;
+        }
+    }
+}
+
 nav {
     display: flex;
     background-color: $site-medium-blue;
     font-weight: bold;
     margin: $default-sizing;
     border-radius: $default-sizing / 4;
+
+    .content {
+        display: flex;
+    }
 
     > .nav-brand {
         flex-grow: 1;
