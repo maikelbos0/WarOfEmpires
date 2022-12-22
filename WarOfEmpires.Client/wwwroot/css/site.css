@@ -246,11 +246,14 @@ ol > li:last-child, ul > li:last-child {
 .si.si-university::after {
   background-image: url("icons/book-cover.svg");
 }
-.si.si-menu::after {
+.si.si-resources::after {
   background-image: url("icons/open-book.svg");
 }
 .si.si-search::after {
   background-image: url("icons/magnifying-glass.svg");
+}
+.si.si-menu::after {
+  background-image: url("icons/menu.svg");
 }
 
 form {

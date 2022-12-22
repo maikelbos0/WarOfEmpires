@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <g class="" transform="translate(0,0)" style="touch-action: none;">
+    <rect fill="#000" x="0" y="48" width="512" height="80"/>
+    <rect fill="#000" x="0" y="216" width="512" height="80"/>
+    <rect fill="#000" x="0" y="384" width="512" height="80"/>
+  </g>
+</svg>

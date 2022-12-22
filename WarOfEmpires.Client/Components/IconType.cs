@@ -11,6 +11,7 @@ public enum IconType {
     Siege,
     Market,
     University,
-    Menu,
-    Search
+    Resources,
+    Search,
+    Menu
 }
