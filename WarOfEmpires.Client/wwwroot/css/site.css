@@ -17,12 +17,33 @@ body {
   margin-left: auto;
 }
 
+.display-toggle .display-toggle-toggle {
+  display: none;
+}
+@media (max-width: 48rem) {
+  .display-toggle {
+    display: flex;
+  }
+  .display-toggle .display-toggle-content {
+    display: none;
+  }
+  .display-toggle .display-toggle-content.active {
+    display: block;
+  }
+  .display-toggle .display-toggle-toggle {
+    display: block;
+  }
+}
+
 nav {
   display: flex;
   background-color: #6184D8;
   font-weight: bold;
   margin: 1rem;
   border-radius: 0.25rem;
+}
+nav .content {
+  display: flex;
 }
 nav > .nav-brand {
   flex-grow: 1;

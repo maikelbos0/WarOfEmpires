@@ -3,48 +3,52 @@
 
 @if (model != null) {
     <div class="resource-header">
-        <div class="content">
-            <div class="resources">
-                <div>
-                    <div class="open">@model.Resources.Gold.ToString(StringFormat.Integer)</div>
-                    <div class="banked">@model.BankedResources.Gold.ToString(StringFormat.Integer)</div>
+        <DisplayToggle>
+            <ChildContent>
+                <div class="content">
+                    <div class="resources">
+                        <div>
+                            <div class="open">@model.Resources.Gold.ToString(StringFormat.Integer)</div>
+                            <div class="banked">@model.BankedResources.Gold.ToString(StringFormat.Integer)</div>
+                        </div>
+                        <div><Icon Type="Gold" /></div>
+                    </div>
+                    <div class="resources">
+                        <div>
+                            <div class="open">@model.Resources.Food.ToString(StringFormat.Integer)</div>
+                            <div class="banked">@model.BankedResources.Food.ToString(StringFormat.Integer)</div>
+                        </div>
+                        <div><Icon Type="Food" /></div>
+                    </div>
+                    <div class="resources">
+                        <div>
+                            <div class="open">@model.Resources.Wood.ToString(StringFormat.Integer)</div>
+                            <div class="banked">@model.BankedResources.Wood.ToString(StringFormat.Integer)</div>
+                        </div>
+                        <div><Icon Type="Wood" /></div>
+                    </div>
+                    <div class="resources">
+                        <div>
+                            <div class="open">@model.Resources.Stone.ToString(StringFormat.Integer)</div>
+                            <div class="banked">@model.BankedResources.Stone.ToString(StringFormat.Integer)</div>
+                        </div>
+                        <div><Icon Type="Stone" /></div>
+                    </div>
+                    <div class="resources">
+                        <div>
+                            <div class="open">@model.Resources.Ore.ToString(StringFormat.Integer)</div>
+                            <div class="banked">@model.BankedResources.Ore.ToString(StringFormat.Integer)</div>
+                        </div>
+                        <div><Icon Type="Ore" /></div>
+                    </div>
+                    <div class="turns">@model.AttackTurns.ToString(StringFormat.Integer) <Icon Type="Attack" /></div>
+                    <div class="turns">@model.BankTurns.ToString(StringFormat.Integer) <Icon Type="Bank" /></div>
                 </div>
-                <div><Icon Type="Gold" /></div>
-            </div>
-            <div class="resources">
-                <div>
-                    <div class="open">@model.Resources.Food.ToString(StringFormat.Integer)</div>
-                    <div class="banked">@model.BankedResources.Food.ToString(StringFormat.Integer)</div>
-                </div>
-                <div><Icon Type="Food" /></div>
-            </div>
-            <div class="resources">
-                <div>
-                    <div class="open">@model.Resources.Wood.ToString(StringFormat.Integer)</div>
-                    <div class="banked">@model.BankedResources.Wood.ToString(StringFormat.Integer)</div>
-                </div>
-                <div><Icon Type="Wood" /></div>
-            </div>
-            <div class="resources">
-                <div>
-                    <div class="open">@model.Resources.Stone.ToString(StringFormat.Integer)</div>
-                    <div class="banked">@model.BankedResources.Stone.ToString(StringFormat.Integer)</div>
-                </div>
-                <div><Icon Type="Stone" /></div>
-            </div>
-            <div class="resources">
-                <div>
-                    <div class="open">@model.Resources.Ore.ToString(StringFormat.Integer)</div>
-                    <div class="banked">@model.BankedResources.Ore.ToString(StringFormat.Integer)</div>
-                </div>
-                <div><Icon Type="Ore" /></div>
-            </div>
-            <div class="turns">@model.AttackTurns.ToString(StringFormat.Integer) <Icon Type="Attack" /></div>
-            <div class="turns">@model.BankTurns.ToString(StringFormat.Integer) <Icon Type="Bank" /></div>
-        </div>
-        <button>
-            <div><Icon Type="Resources" /></div>
-        </button>
+            </ChildContent>
+            <ToggleContent>
+                <div><Icon Type="Resources" /></div>
+            </ToggleContent>
+        </DisplayToggle>
     </div>
 }
 

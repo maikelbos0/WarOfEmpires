@@ -1,0 +1,25 @@
+﻿<div class="display-toggle">
+    <div class="@CssClass">
+        @ChildContent
+    </div>
+
+    <a class="display-toggle-toggle" @onclick="Toggle">
+        @ToggleContent
+    </a>
+</div>
+
+@code {
+    private bool isActive = false;
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; } = null!;
+
+    [Parameter]
+    public RenderFragment ToggleContent { get; set; } = null!;
+
+    public string CssClass => isActive ? "display-toggle-content active" : "display-toggle-content";
+
+    private void Toggle() {
+        isActive = !isActive;
+    }
+}

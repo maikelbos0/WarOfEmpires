@@ -5,75 +5,104 @@
         <NavLink href="" Match="NavLinkMatch.All">War of Empires</NavLink>
     </div>
 
-    <AuthorizeView>
-        <Authorized>
-            <NavMenuDropdown Title="@(context.User?.Identity?.Name ?? "Account")">
-                <AuthorizeView Roles="@Roles.Player" Context="_">
+    <DisplayToggle>
+        <ChildContent>
+            <div class="content">
+                <AuthorizeView>
                     <Authorized>
                         <div class="nav-link">
-                            <NavLink href="edit-profile">Edit profile</NavLink>
+                            <NavLink href="placeholder">Placeholder</NavLink>
                         </div>
+
+                        <div class="nav-link">
+                            <NavLink href="placeholder">Placeholder</NavLink>
+                        </div>
+
+                        <div class="nav-link">
+                            <NavLink href="placeholder">Placeholder</NavLink>
+                        </div>
+
+                        <div class="nav-link">
+                            <NavLink href="placeholder">Placeholder</NavLink>
+                        </div>
+
+                        <div class="nav-link">
+                            <NavLink href="placeholder">Placeholder</NavLink>
+                        </div>
+
+                        <NavMenuDropdown Title="@(context.User?.Identity?.Name ?? "Account")">
+                            <AuthorizeView Roles="@Roles.Player" Context="_">
+                                <Authorized>
+                                    <div class="nav-link">
+                                        <NavLink href="edit-profile">Edit profile</NavLink>
+                                    </div>
+                                </Authorized>
+
+                                <NotAuthorized>
+                                    <div class="nav-link">
+                                        <NavLink href="create-player">Create player</NavLink>
+                                    </div>
+                                </NotAuthorized>
+                            </AuthorizeView>
+
+                            <div class="nav-link">
+                                <NavLink href="change-email">Change email address</NavLink>
+                            </div>
+
+                            <div class="nav-link">
+                                <NavLink href="change-password">Change password</NavLink>
+                            </div>
+
+                            <AuthorizeView Roles="@Roles.Administrator" Context="_">
+                                <div class="nav-divider"></div>
+
+                                <div class="nav-link">
+                                    <NavLink href="admin-tools">Administration tools</NavLink>
+                                </div>
+
+                                <div class="nav-link">
+                                    <NavLink href="admin-users">Users</NavLink>
+                                </div>
+                            </AuthorizeView>
+
+                            <div class="nav-divider"></div>
+
+                            <div class="nav-link">
+                                <NavLink href="deactivate">Deactivate account</NavLink>
+                            </div>
+
+                            <div class="nav-link">
+                                <NavLink @onclick="SignOut">Log out</NavLink>
+                            </div>
+                        </NavMenuDropdown>
                     </Authorized>
 
                     <NotAuthorized>
                         <div class="nav-link">
-                            <NavLink href="create-player">Create player</NavLink>
+                            <NavLink href="log-in">Log in</NavLink>
                         </div>
+
+                        <div class="nav-link">
+                            <NavLink href="register">Register</NavLink>
+                        </div>
+
+                        <NavMenuDropdown Title="Options">
+                            <div class="nav-link">
+                                <NavLink href="send-activation">Send activation</NavLink>
+                            </div>
+
+                            <div class="nav-link">
+                                <NavLink href="forgot-password">Forgot password</NavLink>
+                            </div>
+                        </NavMenuDropdown>
                     </NotAuthorized>
                 </AuthorizeView>
-
-                <div class="nav-link">
-                    <NavLink href="change-email">Change email address</NavLink>
-                </div>
-
-                <div class="nav-link">
-                    <NavLink href="change-password">Change password</NavLink>
-                </div>
-
-                <AuthorizeView Roles="@Roles.Administrator" Context="_">
-                    <div class="nav-divider"></div>
-
-                    <div class="nav-link">
-                        <NavLink href="admin-tools">Administration tools</NavLink>
-                    </div>
-
-                    <div class="nav-link">
-                        <NavLink href="admin-users">Users</NavLink>
-                    </div>
-                </AuthorizeView>
-
-                <div class="nav-divider"></div>
-
-                <div class="nav-link">
-                    <NavLink href="deactivate">Deactivate account</NavLink>
-                </div>
-
-                <div class="nav-link">
-                    <NavLink @onclick="SignOut">Log out</NavLink>
-                </div>
-            </NavMenuDropdown>
-        </Authorized>
-
-        <NotAuthorized>
-            <div class="nav-link">
-                <NavLink href="log-in">Log in</NavLink>
             </div>
-
-            <div class="nav-link">
-                <NavLink href="register">Register</NavLink>
-            </div>
-
-            <NavMenuDropdown Title="Options">
-                <div class="nav-link">
-                    <NavLink href="send-activation">Send activation</NavLink>
-                </div>
-
-                <div class="nav-link">
-                    <NavLink href="forgot-password">Forgot password</NavLink>
-                </div>
-            </NavMenuDropdown>
-        </NotAuthorized>
-    </AuthorizeView>
+        </ChildContent>
+        <ToggleContent>
+            <div><Icon Type="Menu" /></div>
+        </ToggleContent>
+    </DisplayToggle>
 </nav>
 
 @code {
