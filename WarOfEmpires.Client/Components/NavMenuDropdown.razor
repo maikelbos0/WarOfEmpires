@@ -1,4 +1,5 @@
-﻿
+﻿@implements IDisposable
+
 <GlobalEventHandler OnClick="TryClose" />
 
 <div class="nav-menu" @onclick="PreventClosing">
@@ -18,11 +19,24 @@
     private bool isOpen = false;
     private bool shouldPreventClosing = false;
 
+    [Inject]
+    public NavigationManager NavigationManager { get; set; } = null!;
+
     [Parameter]
     public string? Title { get; set; }
 
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
+
+    protected override void OnInitialized() {
+        base.OnInitialized();
+
+        NavigationManager.LocationChanged += Close;
+    }
+
+    public void Dispose() {
+        NavigationManager.LocationChanged -= Close;
+    }
 
     private void Toggle() {
         isOpen = !isOpen;
@@ -37,6 +51,11 @@
             isOpen = false;
         }
 
+        shouldPreventClosing = false;
+    }
+
+    private void Close(object? sender, LocationChangedEventArgs e) {
+        isOpen = false;
         shouldPreventClosing = false;
     }
 }
