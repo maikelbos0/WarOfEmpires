@@ -1,11 +1,11 @@
 ﻿<div class="display-toggle">
-    <div class="@CssClass">
-        @ChildContent
-    </div>
-
     <a class="display-toggle-toggle" @onclick="Toggle">
         @ToggleContent
     </a>
+
+    <div class="@CssClass">
+        @ChildContent
+    </div>
 </div>
 
 @code {
