@@ -1,13 +1,13 @@
 ﻿@using Microsoft.AspNetCore.Components.Authorization
 
 <nav>
-    <div class="nav-brand">
-        <NavLink href="" Match="NavLinkMatch.All">War of Empires</NavLink>
-    </div>
-
     <DisplayToggle>
         <ChildContent>
             <div class="content">
+                <div class="nav-brand">
+                    <NavLink href="" Match="NavLinkMatch.All">War of Empires</NavLink>
+                </div>
+
                 <AuthorizeView>
                     <Authorized>
                         <div class="nav-link">
@@ -100,7 +100,7 @@
             </div>
         </ChildContent>
         <ToggleContent>
-            <div><Icon Type="Menu" /></div>
+            <div class="toggler"><Icon Type="Menu" /></div>
         </ToggleContent>
     </DisplayToggle>
 </nav>

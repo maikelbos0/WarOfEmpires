@@ -53,7 +53,10 @@ body {
     }
 
     @media (max-width: 48 * $default-sizing) {
-        display: flex;
+        .display-toggle-toggle {
+            display: block;
+            float: right;
+        }
 
         .display-toggle-content {
             display: none;
@@ -62,86 +65,102 @@ body {
                 display: block;
             }
         }
-
-        .display-toggle-toggle {
-            display: block;
-        }
     }
 }
 
 nav {
-    display: flex;
     background-color: $site-medium-blue;
     font-weight: bold;
     margin: $default-sizing;
     border-radius: $default-sizing / 4;
 
+    .toggler {
+        padding: $default-sizing / 2;
+        background-color: $site-medium-blue;
+        margin: $default-sizing / 2;
+        border-radius: $default-sizing / 4;
+    }
+
     .content {
         display: flex;
-    }
+        flex-wrap: wrap;
 
-    > .nav-brand {
-        flex-grow: 1;
-    }
+        .nav-brand {
+            flex-grow: 1;
+        }
 
-    .nav-brand, .nav-link, .nav-menu-content {
-        padding: $default-sizing;
-    }
+        .nav-brand, .nav-link, .nav-menu-content {
+            padding: $default-sizing;
+        }
 
-    a {
-        color: $site-dark-blue;
-        text-decoration: none;
-        border-top-color: $site-dark-blue;
-        cursor: pointer;
-    }
+        a {
+            color: $site-dark-blue;
+            text-decoration: none;
+            border-top-color: $site-dark-blue;
+            cursor: pointer;
+        }
 
-    a:hover, a:focus {
-        color: $site-light-blue;
-        border-top-color: $site-light-blue;
-    }
+        a:hover, a:focus {
+            color: $site-light-blue;
+            border-top-color: $site-light-blue;
+        }
 
-    .nav-menu > .nav-link a::after {
-        content: "";
-        border-top: $default-sizing / 2 solid;
-        border-bottom: 0;
-        display: inline-block;
-        margin-left: $default-sizing / 2.5;
-        margin-right: $default-sizing / 2.5;
-        border-right: $default-sizing / 2.5 solid transparent;
-        border-left: $default-sizing / 2.5 solid transparent;
-    }
+        .nav-menu > .nav-link a::after {
+            content: "";
+            border-top: $default-sizing / 2 solid;
+            border-bottom: 0;
+            display: inline-block;
+            margin-left: $default-sizing / 2.5;
+            margin-right: $default-sizing / 2.5;
+            border-right: $default-sizing / 2.5 solid transparent;
+            border-left: $default-sizing / 2.5 solid transparent;
+        }
 
-    .nav-menu > .nav-menu-content {
-        position: absolute;
-        background-color: $site-medium-blue;
-        border: 1px solid $site-dark-purple;
+        .nav-menu > .nav-menu-content {
+            position: absolute;
+            background-color: $site-medium-blue;
+            border: 1px solid $site-dark-purple;
+            padding-top: $default-sizing / 2;
 
-        > .nav-link {
-            padding: 0;
-
-            &:not(:first-child) {
+            > .nav-link {
+                padding: 0;
                 margin-top: $default-sizing / 2;
+            }
+
+            > .nav-divider {
+                height: 0;
+                margin: $default-sizing / 2 0;
+                border-top: 1px solid $site-dark-purple;
             }
         }
 
-        > .nav-divider {
-            height: 0;
-            margin: $default-sizing / 2 0;
-            border-top: 1px solid $site-dark-purple;
+        @media (max-width: 48 * $default-sizing) {
+            display: block;
+            padding-top: $default-sizing;
+
+            .nav-brand, .nav-link, .nav-menu-content {
+                padding-top: 0;
+            }
         }
     }
 }
 
 .resource-header {
-    display: flex;
-    justify-content: flex-end;
     background-color: $site-apricot;
     padding: 0 $default-sizing;
     margin: $default-sizing;
     border-radius: $default-sizing / 4;
 
+    .toggler {
+        padding-top: $default-sizing;
+        padding-left: $default-sizing;
+        padding-bottom: $default-sizing;
+    }
+
     .content {
         display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-end;
         align-items: center;
 
         > * {
@@ -168,6 +187,30 @@ nav {
 
         .turns {
             padding: $default-sizing / 2;
+        }
+
+        @media (max-width: 48 * $default-sizing) {
+            display: block;
+            padding: $default-sizing / 2 0;
+
+            .resources {
+                margin: 0;
+                padding: $default-sizing / 2 0;
+
+                * {
+                    padding: 0;
+                    display: inline;
+                }
+
+                .open, .banked {
+                    padding-right: $default-sizing / 2;
+                }
+            }
+
+            .turns {
+                margin: 0;
+                padding: $default-sizing / 2 0;
+            }
         }
     }
 }
