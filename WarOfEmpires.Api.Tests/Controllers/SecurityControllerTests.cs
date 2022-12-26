@@ -110,7 +110,6 @@ public class SecurityControllerTests {
         });
     }
     
-
     [TestMethod]
     public void SecurityController_AcquireNewTokens_Succeeds() {
         var messageService = Substitute.For<IMessageService>();

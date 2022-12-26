@@ -10,26 +10,6 @@
 
                 <AuthorizeView>
                     <Authorized>
-                        <div class="nav-link">
-                            <NavLink href="placeholder">Placeholder</NavLink>
-                        </div>
-
-                        <div class="nav-link">
-                            <NavLink href="placeholder">Placeholder</NavLink>
-                        </div>
-
-                        <div class="nav-link">
-                            <NavLink href="placeholder">Placeholder</NavLink>
-                        </div>
-
-                        <div class="nav-link">
-                            <NavLink href="placeholder">Placeholder</NavLink>
-                        </div>
-
-                        <div class="nav-link">
-                            <NavLink href="placeholder">Placeholder</NavLink>
-                        </div>
-
                         <NavMenuDropdown Title="@(context.User?.Identity?.Name ?? "Account")">
                             <AuthorizeView Roles="@Roles.Player" Context="_">
                                 <Authorized>
